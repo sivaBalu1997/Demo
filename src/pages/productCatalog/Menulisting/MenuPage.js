@@ -1474,7 +1474,7 @@ export const MenuPage = () => {
                                                                   : "50%",
                                                               width:
                                                                 dynamicWidth,
-                                                              padding: "0 22px",
+                                                              // padding: "0 22px",
                                                               textAlign:
                                                                 "center",
                                                               display: "flex",
@@ -1547,7 +1547,7 @@ export const MenuPage = () => {
                                                               left: "1rem",
                                                               width:
                                                                 dynamicWidth,
-                                                              padding: "0 22px",
+                                                              // padding: "0 22px",
                                                               textAlign:
                                                                 "center",
                                                               display: "flex",
@@ -1694,7 +1694,7 @@ export const MenuPage = () => {
                                                         //   1
 
                                                         width: dynamicWidth,
-                                                        padding: "0 22px",
+                                                        // padding: "0 22px",
                                                         textAlign: "center",
                                                         display: "flex",
                                                         justifyContent:
@@ -1759,7 +1759,7 @@ export const MenuPage = () => {
                                                         left: "1rem",
                                                         cursor:"pointer",
                                                         width: dynamicWidth,
-                                                        padding: "0 22px",
+                                                        // padding: "0 22px",
                                                         textAlign: "center",
                                                         display: "flex",
                                                         justifyContent:
