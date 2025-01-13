@@ -177,9 +177,17 @@ const ItemCustomizations: React.FC<any> = () => {
 
   console.log({itemCustomizationData})
 
+  useEffect(()=>{
+    if(itemCustomizationData?.length > 0)
+    {
+      setShowModifiers(!showModifiers);
+    }
+
+  },[itemCustomizationData])
+
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
-      setShowModifiers(!showModifiers);
+      // setShowModifiers(!showModifiers);
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
@@ -484,11 +492,6 @@ const ItemCustomizations: React.FC<any> = () => {
       return newModifier;
     });
   };
-  useEffect(() => {
-    if (modifications.length > 0) {
-      setShowModifiers(true);
-    }
-  }, [modifications]);
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -948,95 +951,117 @@ const ItemCustomizations: React.FC<any> = () => {
   };
 
   const validateModifiers = (modifications: any[]) => {
-    const errors = [...customizationerrors];
+    // Initialize errors array
+    const errors = [customizationerrors];
+  
+    console.log({showModifiers});
+    // Perform validation only if showModifiers is true
+    if (showModifiers) {
 
-    modifications?.forEach((modifier, index) => {
-      const {
-        modifierName,
-        modifierId,
-        modifierOptions,
-        selectedValue,
-        selectionType,
-      } = modifier;
-
-      let modifierErrors: any = {
-        modifierNameError: modifierName.trim() ? "" : ``,
-        id: modifierId || "",
-        errormsgforselectedvalues: "",
-        options: [],
-      };
-
-      if (!modifierName.trim()) {
-        modifierErrors.modifierNameError = `Modifier Name is required`;
-      }
-      if (atleastOnestream && selectedValue?.length === 0) {
-        modifierErrors.errormsgforselectedvalues =
-          "Available service streams required";
-      }
-
-      if (Array.isArray(modifierOptions)) {
-        modifierOptions.forEach((option: any, optIndex: number) => {
-          let optionErrors: any = {
-            optionName: option.modifierOptionName || "",
-            optionId: option.modifierOptionId || "",
-            optionNameError: "",
-            optionPrice: option.cost || 0,
-            optionPriceError: "",
-          };
-
-          const nameRegex = /^[a-zA-Z0-9\s]+$/;
-          if (!option.modifierOptionName.trim()) {
-            optionErrors.optionNameError = `Option Name is required`;
-          }
-          // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
-          //   optionErrors.optionNameError = `Option Name must not contain special characters`;
-          // }
-
-          if (isNaN(option.cost) || option.cost <= 0) {
-            optionErrors.optionPriceError = `Price field is required`;
-          }
-
-          modifierErrors.options.push(optionErrors);
-        });
-      } else {
-        modifierErrors.options.push({
-          optionNameError: `Options must be an array`,
-        });
-      }
-
-      if (
-        modifierErrors.modifierNameError ||
-        modifierErrors.errormsgforselectedvalues ||
-        modifierErrors.options.some(
-          (opt: any) => opt.optionNameError || opt.optionPriceError
-        )
-      ) {
-        errors[index] = modifierErrors;
-      } else {
-        errors[index] = null;
-      }
-    });
-
+      
+      modifications?.forEach((modifier, index) => {
+        const {
+          modifierName,
+          modifierId,
+          modifierOptions,
+          selectedValue,
+        } = modifier;
+  
+        let modifierErrors: any = {
+          modifierNameError: "",
+          id: modifierId || "",
+          errormsgforselectedvalues: "",
+          options: [],
+        };
+  
+        // Validate Modifier Name
+        if (!modifierName.trim() && showModifiers) {
+          modifierErrors.modifierNameError = `Modifier Name is required`;
+        }
+  
+        // Validate Selected Values
+        if (atleastOnestream && (!selectedValue || selectedValue.length === 0) && showModifiers) {
+          modifierErrors.errormsgforselectedvalues = `Available service streams required`;
+        }
+  
+        // Validate Modifier Options
+        if (Array.isArray(modifierOptions)) {
+          modifierOptions.forEach((option: any) => {
+            let optionErrors: any = {
+              optionName: option.modifierOptionName || "",
+              optionId: option.modifierOptionId || "",
+              optionNameError: "",
+              optionPrice: option.cost || 0,
+              optionPriceError: "",
+            };
+  
+            // Validate Option Name
+            if (!option.modifierOptionName.trim() &&showModifiers) {
+              optionErrors.optionNameError = `Option Name is required`;
+            }
+  
+            // Validate Option Price
+            if ((isNaN(option.cost) || option.cost <= 0) &&showModifiers) {
+              optionErrors.optionPriceError = `Price field is required`;
+            }
+  
+            modifierErrors.options.push(optionErrors);
+          });
+        } else {
+          modifierErrors.options.push({
+            optionNameError: `Options must be an array`,
+          });
+        }
+  
+        // Add errors if any are present
+        if (
+          modifierErrors.modifierNameError ||
+          modifierErrors.errormsgforselectedvalues ||
+          modifierErrors.options.some(
+            (opt: any) => opt.optionNameError || opt.optionPriceError
+          )
+        ) {
+          errors[index] = modifierErrors;
+        } else {
+          errors[index] = null;
+        }
+      });
+    }
+    
+    // Update customization errors state
     setcustomizationerrors(errors);
-
+  
+    // Validate all errors to return final result
     const validateCustomizationErrors = () => {
-      return errors.every((error) => {
+      return errors?.every((error) => {
         if (!error) return true;
         const hasNoTopLevelErrors =
           error.modifierNameError === "" &&
           error.errormsgforselectedvalues === "";
-        const hasNoOptionErrors = error.options.every(
+        const hasNoOptionErrors = error?.options?.every(
           (option: any) =>
             option.optionNameError === "" && option.optionPriceError === ""
         );
 
+        console.log(hasNoTopLevelErrors && hasNoOptionErrors);
+        
+  
         return hasNoTopLevelErrors && hasNoOptionErrors;
       });
     };
-
-    return validateCustomizationErrors();
+  
+    if(showModifiers)
+    {
+      return validateCustomizationErrors();
+    }
+    else
+    {
+      return true;
+    }
+    // Return validation result
+   
   };
-
+  
   const handleBlur = (
     e: ChangeEvent<HTMLInputElement>,
     modIndex: number,
@@ -1362,7 +1387,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
                             <div className="modifiers-to-select">
                               {modifier?.modifierOptions &&
-                                modifier?.modifierOptions.map(
+                                modifier?.modifierOptions?.map(
                                   (option, optIndex) => (
                                     <div
                                       key={optIndex}
@@ -1430,12 +1455,12 @@ const ItemCustomizations: React.FC<any> = () => {
                                           //   validateModifiers(modifications);
                                           // }}
                                         />
-                                        {customizationerrors[modIndex]?.options[
+                                        { customizationerrors &&  customizationerrors[modIndex]&&customizationerrors[modIndex]?.options &&customizationerrors[modIndex]?.options[
                                           optIndex
                                         ]?.optionNameError !== "" && (
                                           <span className="nameErrormsg optionNameErrormsg">
                                             {
-                                              customizationerrors[modIndex]
+                                              customizationerrors && customizationerrors[modIndex]&& customizationerrors[modIndex]
                                                 ?.options[optIndex]
                                                 ?.optionNameError
                                             }
@@ -1517,12 +1542,12 @@ const ItemCustomizations: React.FC<any> = () => {
                                           // }}
                                         />
 
-                                        {customizationerrors[modIndex]?.options[
+                                        {customizationerrors &&customizationerrors[modIndex]&&customizationerrors[modIndex]?.options && customizationerrors[modIndex]?.options[
                                           optIndex
                                         ]?.optionPriceError !== "" && (
                                           <span className="nameErrormsg optionpriceerrormsg">
                                             {
-                                              customizationerrors[modIndex]
+                                            customizationerrors &&  customizationerrors[modIndex]
                                                 ?.options[optIndex]
                                                 ?.optionPriceError
                                             }
