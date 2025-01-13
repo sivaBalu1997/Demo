@@ -756,21 +756,21 @@ const ItemCustomizations: React.FC<any> = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "ArrowDown") {
-      setHighlightedIndex((prevIndex) => {
-        const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
-        setSearchQuery(ModifierList[newIndex]?.modifierName);
-        return newIndex;
-      });
-    }
+    // if (e.key === "ArrowDown") {
+    //   setHighlightedIndex((prevIndex) => {
+    //     const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
+    //     setSearchQuery(ModifierList[newIndex]?.modifierName);
+    //     return newIndex;
+    //   });
+    // }
 
-    if (e.key === "ArrowUp") {
-      setHighlightedIndex((prevIndex) => {
-        const newIndex = Math.max(0, prevIndex - 1);
-        setSearchQuery(ModifierList[newIndex]?.modifierName);
-        return newIndex;
-      });
-    }
+    // if (e.key === "ArrowUp") {
+    //   setHighlightedIndex((prevIndex) => {
+    //     const newIndex = Math.max(0, prevIndex - 1);
+    //     setSearchQuery(ModifierList[newIndex]?.modifierName);
+    //     return newIndex;
+    //   });
+    // }
   };
 
   const handleMouseEnter = (index: number) => {
@@ -1065,6 +1065,7 @@ const ItemCustomizations: React.FC<any> = () => {
   return (
     <div
       style={{
+        width:"100%",
         display: "flex",
         height: "99vh",
         overflowY: "hidden",
@@ -1118,7 +1119,7 @@ const ItemCustomizations: React.FC<any> = () => {
                   className="searchBox-input"
                   type="text"
                   value={searchQuery}
-                  onKeyDown={handleKeyDown}
+                  // onKeyDown={handleKeyDown}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
                     if (e.target.value === "") {
@@ -1127,11 +1128,11 @@ const ItemCustomizations: React.FC<any> = () => {
                       setShowSearchList(true);
                     }
                   }}
-                  // onKeyDown={(e) => {
-                  //   if (e.key === "Enter") {
-                  //     handleSearchChange();
-                  //   }
-                  // }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSearchChange();
+                    }
+                  }}
                 ></input>
                 <img
                   src={Serachicon}
