@@ -300,14 +300,30 @@ const SearchBox = () => {
                         isExpanded
                           ? "list-of-item-name-expand"
                           : "list-of-item-name"
-                      }`}
+                      }
+
+                      
+                      
+                      `}
                     >
                       <div
-                        className={
+                        className=
+                        {`
+                         ${
                           isExpanded
                             ? "MLSearch-Container-options1-items"
                             : "MLSearch-Container-options-items"
                         }
+  
+                        ${
+                          index === highlightedIndex 
+                            ? "list-of-item-name-padding"
+                            : ""
+                        }
+                        
+                        `}
+                        
+                       
                       >
                         {option.itemName}{" "}
                         {option.itemCode !== "" &&

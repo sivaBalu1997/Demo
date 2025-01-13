@@ -69,11 +69,11 @@
         &:hover {
           width: 30vw;
           margin-left: -18px;
-          padding-left: 18px;
-          background-color: lightgray;
+          padding-left: 20px;
+          background-color: rgba(0, 0, 0, 0.1);
           border-top-right-radius: 50px;
           border-bottom-right-radius: 50px; 
-          border-left: 5px solid #67833E;
+          // border-left: 5px solid #67833E;
 
         }
       }
@@ -99,6 +99,22 @@
         }
       }
     }
+  }
+
+  .MLhighlighted
+  {
+    width: 30vw;
+    margin-left: -18px;
+    // padding-left: -30px;
+    background-color: lightgray;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px; 
+    border-left: 5px solid #67833E;
+  }
+  .list-of-item-name-padding
+  {
+    padding-left: 15px;
+    // margin-left: 2rem;
   }
 
   .MLSearch-Container-options1{
@@ -135,7 +151,7 @@
           background-color: lightgray;
           border-top-right-radius: 50px;
           border-bottom-right-radius: 50px; 
-          border-left: 5px solid #67833E;
+          // border-left: 5px solid #67833E;
         }
       }
 
