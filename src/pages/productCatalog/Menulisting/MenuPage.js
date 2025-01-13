@@ -1034,7 +1034,9 @@ export const MenuPage = () => {
               isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
             }`}
           >
-            <div>
+            <div  className={`${
+              isExpanded ? "header-with-body-container-expand" : "header-with-body-container"
+            }`}>
               <div className="header-container">
                 <div  className={`${
                     isExpanded ? "first-div-header-expand" : "first-div-header"
