@@ -31,9 +31,11 @@ const CheckIn: React.FC = () => {
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
+  const [totalPageNoCurrentPageRepeatCustomers, setTotalPageNoCurrentPageRepeatCustomers] = useState<number>(5)
   const [currentPageRepeatCustomers, setCurrentPageRepeatCustomers] = useState<number>(1);
   console.log({ currentPageRepeatCustomers })
 
+  const [totalPageNoCurrentPageDailyCheckInDetails, setTotalPageNoCurrentPageDailyCheckInDetails] = useState<number>(5)
   const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
   console.log({ currentPageDailyCheckInDetails })
 
@@ -363,6 +365,7 @@ const CheckIn: React.FC = () => {
             viewType="full"
             recordsPerPage={9}
             Heading="Repeat Customers"
+            totalpageNo={totalPageNoCurrentPageRepeatCustomers}
           />
         </div>
         <div className="daily-checkin-table-container">
@@ -373,6 +376,7 @@ const CheckIn: React.FC = () => {
             viewType="full"
             recordsPerPage={11}
             Heading="Daily CheckIn Details"
+            totalpageNo={totalPageNoCurrentPageDailyCheckInDetails}
           />
         </div>
       </div>

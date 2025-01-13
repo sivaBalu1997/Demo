@@ -60,6 +60,7 @@
   overflow-y: hidden;
   // border: 1px solid red;
   height: 86vh;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -367,9 +368,8 @@ display: flex;
   @media (max-width: 1536px) {
  
     height:73.3vh;
-      // border: 1px solid green;
-     
-     }
+      // border: 1px solid green;   
+    }
 
   .categoryName-data-firstbody{
 
@@ -440,6 +440,11 @@ display: flex;
   overflow-y: scroll;
   overflow-x: hidden;
   margin-top: 1rem;
+
+  @media(max-width: 1536px){
+    // background-color: palegreen;
+    height: 77.3vh;
+  }
 
   @media (max-width: 1440px){
     height: 77.5vh !important;

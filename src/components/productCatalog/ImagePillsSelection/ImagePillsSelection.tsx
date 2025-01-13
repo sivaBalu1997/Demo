@@ -34,7 +34,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
 
   console.log({ selectedImages });
 
-  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
 
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
@@ -126,9 +126,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                 {selectedImages?.map((image) => (
                   <li key={image.id} className="Selected-Image-Item">
                     <img
-                      src={`${baseImageUrl}${image?.media?.imageId}.${
-                        image?.media?.imageType?.split("/")[1]
-                      }`}
+                      src={`${baseImageUrl}${image?.media?.imageId}.${image?.media?.imageType?.split("/")[1]
+                        }`}
                       alt="img"
                     />
 
@@ -146,29 +145,27 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
           )}
         </div>
         <div>
-        <ul className="AllergensImage">
-      {filteredimages?.length > 0 ? (
-        filteredimages?.map((option) => (
-          <li
-            key={option.id}
-            onClick={() => handleSelectedImage(option)}
-            className={`Item-Selection-option ${
-              clickedId === option.id ? "clicked" : ""
-            }`}
-          >
-            <img
-              src={`${baseImageUrl}${option?.media?.imageId}.${
-                option?.media?.imageType?.split("/")[1]
-              }`}
-              alt="img"
-            />
-            <span className="optionName">{option?.name}</span>
-          </li>
-        ))
-      ) : (
-        <li className="Item-Selection-no-options">No options found</li>
-      )}
-    </ul>
+          <ul className="AllergensImage">
+            {filteredimages?.length > 0 ? (
+              filteredimages?.map((option) => (
+                <li
+                  key={option.id}
+                  onClick={() => handleSelectedImage(option)}
+                  className={`Item-Selection-option ${clickedId === option.id ? "clicked" : ""
+                    }`}
+                >
+                  <img
+                    src={`${baseImageUrl}${option?.media?.imageId}.${option?.media?.imageType?.split("/")[1]
+                      }`}
+                    alt="img"
+                  />
+                  <span className="optionName">{option?.name}</span>
+                </li>
+              ))
+            ) : (
+              <li className="Item-Selection-no-options">No options found</li>
+            )}
+          </ul>
         </div>
       </div>
     </div>

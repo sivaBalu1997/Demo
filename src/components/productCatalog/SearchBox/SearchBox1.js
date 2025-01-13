@@ -5,6 +5,7 @@ import NotFound from "../../../assets/svg/NotFound copy.svg";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  getMenuRequest,
   searchForItem,
   storeMockDataFilteredRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -28,7 +29,7 @@ const SearchBox = () => {
       ?.flatMap((item) => item?.itemResponseList)
       .map((item) => item?.itemName);
 
-    setOrgData(itemNames); // Set original data when it is available
+    setOrgData(itemNames); 
   }, [data]);
   useEffect(() => {
     if (searchTerm == "") {
@@ -38,9 +39,19 @@ const SearchBox = () => {
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setCloseModal(false); // Close the popup
+      setCloseModal(false);
     }
   };
+
+  const selectedBranch = useSelector(
+    (state) => state.auth.selectedBranch || null
+  );
+
+  useEffect(() => {
+    if (searchTerm === '') {
+      dispatch(getMenuRequest(selectedBranch?.id));
+    }
+  },[selectedBranch?.id])
 
   useEffect(() => {
     if (closeModal) {
@@ -64,6 +75,7 @@ const SearchBox = () => {
       setSearchTerm("");
     }
   }, [menuData]);
+
   const [placeholder, setplaceholder] = useState("");
 
   const handleSearch = (e) => {

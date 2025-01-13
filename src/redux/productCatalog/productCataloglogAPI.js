@@ -17,6 +17,9 @@ export const getMenuDataApi = (locationId) => {
   return API({
     method: "get",
     url: `/api/v1/menu-items?locationId=${locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
@@ -170,7 +173,7 @@ export function updateMenuItem(data) {
     url: `/api/v1/menu-items/edit`,
     data: data,
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type":  "application/json",
       Authorization: "bearer " + token,
     },
   });
