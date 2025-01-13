@@ -1429,7 +1429,7 @@ const PrimaryPage = () => {
                               e.preventDefault();
                             }
                           }}
-                          placeholder="cal"
+                          placeholder="Calorie Point"
                         />
                       )}
                     />
@@ -1474,9 +1474,10 @@ const PrimaryPage = () => {
                               e.preventDefault(); // Block these keys
                             }
                           }}
-                          placeholder={
-                            portionInfo?.type || "portion(count) / grams/ml"
-                          }
+                          placeholder="Portion Size"
+                        //   placeholder={
+                        //     portionInfo?.type || "portion(count) / grams/ml"
+                        //   }
                         />
                       )}
                     />
