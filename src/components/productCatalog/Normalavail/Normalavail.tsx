@@ -618,7 +618,8 @@ console.log("bnpm",mealTypes);
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
-        console.log({ dineIndetails });
+        const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
+        console.log({prizingDetail});
 
         setformNormal({
           PickuppriceNormal:
@@ -673,7 +674,7 @@ console.log("bnpm",mealTypes);
         const updatedField = {
           DineInPrice: dineIndetails?.price,
           Enabled:
-            dineIndetails?.Enabled && dineIndetails?.Enabled === true
+          dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
               ? true
               : false,
           DineInMealType:
@@ -2097,10 +2098,14 @@ console.log("DayThird",DayThird);
                                 const text = entry?.showDay
                                   ? "Default Day"
                                   : "Choose Day";
-                                addDay(index, text);
+                                  if(entry?.Enabled)
+                                  {
+                                    addDay(index, text);
+                                  }
+                               
                               }}
                             >
-                              {entry?.showDay ? "Default Day" : "Choose Day"}
+                              {entry?.showDay  ? "Default Day" : "Choose Day"}
                             </h3>
                           </div>
                           <div className="DaysCheckbox-container-Dinein">
@@ -2324,9 +2329,17 @@ console.log("DayThird",DayThird);
                             {showDayPickup ? (
                               <h3 className="pickupChooseDayContainer-chooseheading1">
                                 <span
-                                  onClick={() => setShowDayPickup(false)}
-                                    
+                                 onClick={()=>{
 
+                                  if(pickupDetails?.Enabled){
+                                    setShowDayPickup(false)
+                                  }
+                                  
+
+                                }
+                                 
+                                    
+                              }
                                    
                                   
                                 >
@@ -2336,10 +2349,14 @@ console.log("DayThird",DayThird);
                             ) : (
                               <h3
                                 className="pickupChooseDayContainer-chooseheading2"
-                                onClick={
-                                  addDayPickup
+                                onClick={()=>{
 
+                                  if(pickupDetails?.Enabled){
+                                    addDayPickup()
+                                  }
                                   
+
+                                }
                                 }
                               >
                                 Choose Day
@@ -2554,7 +2571,11 @@ console.log("DayThird",DayThird);
                               <h3
                                 className="deliveryChooseDayContainer-chooseheading"
                                 onClick={() => {
-                                  addDayDeliveryfalse();
+
+
+                                  if(deliveryDetails?.Enabled)
+                                  {
+                                    addDayDeliveryfalse();
 
                                   const validationErrors = { ...errors };
 
@@ -2563,6 +2584,9 @@ console.log("DayThird",DayThird);
                                   ];
 
                                   setErrors(validationErrors);
+
+                                  }
+                                  
                                 }}
                               >
                                 Default day
@@ -2570,7 +2594,13 @@ console.log("DayThird",DayThird);
                             ) : (
                               <h3
                                 className="deliveryChooseDayContainer-chooseheading"
-                                onClick={addDayDelivery}
+                                onClick={()=>{
+                                  if(deliveryDetails?.Enabled)
+                                  {
+                                    addDayDelivery()
+                                  }
+                                  
+                                  }}
                               >
                                 Choose Day
                               </h3>

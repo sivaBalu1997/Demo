@@ -198,23 +198,23 @@ const SearchBox = () => {
 
   const highlightedRef = useRef(null);
   const handleKeyDown = (e) => {
-    // if (e.key === "ArrowDown") {
-    //   setHighlightedIndex((prevIndex) => {
-    //     const newIndex = Math.min(filteredOptions.length - 1, prevIndex + 1);
-    //     setSearchTerm(filteredOptions[newIndex]?.itemName);
-    //     setDisplayTerm(filteredOptions[newIndex]);
-    //     return newIndex;
-    //   });
-    // }
+    if (e.key === "ArrowDown") {
+      setHighlightedIndex((prevIndex) => {
+        const newIndex = Math.min(filteredOptions.length - 1, prevIndex + 1);
+        setSearchTerm(filteredOptions[newIndex]?.itemName);
+        setDisplayTerm(filteredOptions[newIndex]);
+        return newIndex;
+      });
+    }
 
-    // if (e.key === "ArrowUp") {
-    //   setHighlightedIndex((prevIndex) => {
-    //     const newIndex = Math.max(0, prevIndex - 1);
-    //     setSearchTerm(filteredOptions[newIndex]?.itemName);
-    //     setDisplayTerm(filteredOptions[newIndex]?.itemName);
-    //     return newIndex;
-    //   });
-    // }
+    if (e.key === "ArrowUp") {
+      setHighlightedIndex((prevIndex) => {
+        const newIndex = Math.max(0, prevIndex - 1);
+        setSearchTerm(filteredOptions[newIndex]?.itemName);
+        setDisplayTerm(filteredOptions[newIndex]?.itemName);
+        return newIndex;
+      });
+    }
 
     if (e.key === "Enter") {
       if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {

@@ -17,13 +17,14 @@
   .Add-Item-Container{
     display: flex;
     justify-content: space-between;
-    width: 88px;
+    width: 100px;
+    height: 44px;
     font-size: 15px;
     background-color: #67833E;
     color: white;
     align-items: center;
     padding: 0 20px;
-    border-radius: 7px;
+    border-radius: 4px;
     cursor: pointer;
     margin-right: 20px;
 
@@ -58,13 +59,14 @@
   .Add-Item-Container1{
     display: flex;
     justify-content: space-between;
-    width: 88px;
+    width: 100px;
+    height: 44px;
     font-size: 15px;
     background-color: #67833E;
     color: white;
     align-items: center;
     padding: 0 20px;
-    border-radius: 7px;
+    border-radius: 4px;
     cursor: pointer;
     margin-right: 20px;
 
@@ -78,4 +80,18 @@
       font-weight: light;
     }
   }
+}
+
+
+.Add-Item-Heading-header
+{
+  font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
+
 }

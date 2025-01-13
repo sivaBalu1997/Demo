@@ -588,21 +588,49 @@ const ItemCustomizations: React.FC<any> = () => {
     //   });
     // }
   };
-
+  const [isDragging, setIsDragging] = useState(false);
   const onDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.dataTransfer.setData("index", index.toString());
+    setIsDragging(true);
+  };
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+
+    const scrollableContainer = document.querySelector(".modifiersitem");
+    if (!scrollableContainer) return;
+
+    const scrollThreshold = 200; // Adjust as needed
+    const scrollSpeed = 10;
+
+    const containerRect = scrollableContainer.getBoundingClientRect();
+    const mouseY = e.clientY;
+
+    // Scroll up if near the top of the container
+    if (mouseY < containerRect.top + scrollThreshold) {
+      scrollableContainer.scrollTop -= scrollSpeed;
+    }
+
+    // Scroll down if near the bottom of the container
+    if (mouseY > containerRect.bottom - scrollThreshold) {
+      scrollableContainer.scrollTop += scrollSpeed;
+    }
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    e.preventDefault();
     const draggedIndex = parseInt(e.dataTransfer.getData("index"), 10);
+
     if (draggedIndex !== index) {
+      // Update the modifications array
       const newModifications = [...modifications];
       const [draggedItem] = newModifications.splice(draggedIndex, 1);
       newModifications.splice(index, 0, draggedItem);
       setModifications(newModifications);
     }
-  };
 
+    setIsDragging(false);
+  };
   const clearAll = () => {
     setModifications((prevModifications: any) =>
       prevModifications.map((modification: any) => ({
@@ -1205,11 +1233,16 @@ const ItemCustomizations: React.FC<any> = () => {
                         {showModifiers && (
                           <div className="AddModifiersMainInputSection">
                             <div className="AddModifiersInputSection">
-                              {/* <img
+                              <img
                                 className="dotedimageItemCustomizations"
                                 src={dotted}
                                 alt="dotted"
-                              /> */}
+                                draggable
+                                onDragStart={(e) => onDragStart(e, modIndex)}
+                                onDrag={handleDrag}
+                                onDrop={(e) => onDrop(e, modIndex)}
+                                onDragOver={(e) => e.preventDefault()}
+                              />
                               <h3 className="paraItemCustomizations">
                                 {modIndex + 1}.
                               </h3>
@@ -1399,7 +1432,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         {customizationerrors[modIndex]?.options[
                                           optIndex
                                         ]?.optionNameError !== "" && (
-                                          <span className="nameErrormsg">
+                                          <span className="nameErrormsg optionNameErrormsg">
                                             {
                                               customizationerrors[modIndex]
                                                 ?.options[optIndex]
@@ -1486,7 +1519,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         {customizationerrors[modIndex]?.options[
                                           optIndex
                                         ]?.optionPriceError !== "" && (
-                                          <span className="nameErrormsg">
+                                          <span className="nameErrormsg optionpriceerrormsg">
                                             {
                                               customizationerrors[modIndex]
                                                 ?.options[optIndex]

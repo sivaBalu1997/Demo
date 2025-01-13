@@ -67,7 +67,10 @@
   margin-left: -20px;
  
 }
-
+.down-arrow-price
+{
+  rotate: 180deg;
+}
 .duration{
   width: 240px;
   display: flex;
@@ -184,7 +187,12 @@ tr.completedtsTabletr:nth-child(odd) {
   position: relative;
   left: -1.5rem;
 }
-
+.completedtsTabletd
+{
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+}
 td.completedtsTabletd:nth-child(4) {
   padding-right: 30px;
   width: 450px;

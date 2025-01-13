@@ -334,7 +334,7 @@ function* addMenuItemSaga(action) {
     const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
     if (addApi.status === 200) {
-      showSuccessToast(addApiresponse.message);
+      showSuccessToast("Item added successfully");
       yield put(addMenuItemSuccess(addApiresponse));
     } else {
       showErrorToast(addApiresponse.message);
@@ -453,7 +453,7 @@ function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
-      showSuccessToast(response.data.message);
+      showSuccessToast("Menu updated successfully");
       yield put(updateMenuItemSuccess(response.data));
       yield put(removeDataRequest());
     } else {

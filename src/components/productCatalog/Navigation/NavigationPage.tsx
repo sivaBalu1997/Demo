@@ -91,22 +91,22 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory) {
       const isFormValid = await triggerValidation(formData);
       const valiadtesubcategorynn= valiadtesubCategory()
-      setNavigate(true)
+     
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      } else {
+        if(valiadtesubcategorynn){
+          setNavigate(true)
           dispatch(primarypost(formData));
           isFormValid && setCurrentPage(category);
           history.push(`/productCatalog/${path}`, { pagename: category });
-      // if (!isFormValid) {
-      //   window.scrollTo({
-      //     top: 0,
-      //     behavior: "smooth",
-      //   });
-      //   return;
-      // } else {
-      //   if(valiadtesubcategorynn){
-          
-      //   }
+        }
        
-      // }
+      }
     } 
     
     else if (
@@ -156,25 +156,25 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       }
 
 
-      // if(category==="Primary Details")
-      // {
-      //   dispatch(PricingDetailRequest(PricingDetails));
-      //   setNavigate(true)
-      //   setCurrentPage(category);
-      //   history.push(`/productCatalog/${path}`, { pagename: category });
-      // }
-      // else{
-      //   if (category==="Item customizations" &&isValid) {
-      //     dispatch(PricingDetailRequest(PricingDetails));
-      //     setNavigate(true)
-      //     setCurrentPage(category);
-      //     history.push(`/productCatalog/${path}`, { pagename: category });
-      //   }
-      // }
-      dispatch(PricingDetailRequest(PricingDetails));
+      if(category==="Primary Details")
+      {
+        dispatch(PricingDetailRequest(PricingDetails));
+        setNavigate(true)
+        setCurrentPage(category);
+        history.push(`/productCatalog/${path}`, { pagename: category });
+      }
+      else{
+        if (category==="Item customizations" &&isValid) {
+          dispatch(PricingDetailRequest(PricingDetails));
           setNavigate(true)
           setCurrentPage(category);
           history.push(`/productCatalog/${path}`, { pagename: category });
+        }
+      }
+      // dispatch(PricingDetailRequest(PricingDetails));
+      //     setNavigate(true)
+      //     setCurrentPage(category);
+      //     history.push(`/productCatalog/${path}`, { pagename: category });
      
     }
     
