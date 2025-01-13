@@ -619,6 +619,8 @@ console.log("bnpm",mealTypes);
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
+
+
         console.log({prizingDetail});
 
         setformNormal({
@@ -673,7 +675,7 @@ console.log("bnpm",mealTypes);
 
         const updatedField = {
           DineInPrice: dineIndetails?.price,
-          Enabled:
+          Enabled:dineIndetails  ? dineIndetails.Enabled:
           dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
               ? true
               : false,
