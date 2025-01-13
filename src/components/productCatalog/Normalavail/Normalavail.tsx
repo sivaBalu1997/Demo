@@ -619,6 +619,8 @@ console.log("bnpm",mealTypes);
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
+
+
         console.log({prizingDetail});
 
         setformNormal({
@@ -673,10 +675,11 @@ console.log("bnpm",mealTypes);
 
         const updatedField = {
           DineInPrice: dineIndetails?.price,
-          Enabled:
-          dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
-              ? true
-              : false,
+          // Enabled:dineIndetails  ? dineIndetails.Enabled:
+          // dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
+          //     ? true
+          //     : false,
+          Enabled:true,
           DineInMealType:
             dineIndetails?.availabilities &&
             dineIndetails?.availabilities[0]?.sessions,
@@ -706,7 +709,8 @@ console.log("bnpm",mealTypes);
           return {
             ...prevData,
             price: updatedField?.DineInPrice,
-            Enabled: updatedField?.Enabled,
+            // Enabled: updatedField?.Enabled,
+            Enabled:true,
             availabilities: updatedAvailabilities,
           };
         });
@@ -727,7 +731,8 @@ console.log("bnpm",mealTypes);
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
-            Enabled: pickupDetails?.Enabled === true ? true : false,
+            // Enabled: pickupDetails?.Enabled === true ? true : false,
+            Enabled:true,
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
@@ -748,7 +753,8 @@ console.log("bnpm",mealTypes);
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
-            Enabled: deliveryDetails?.Enabled,
+            Enabled:true,
+            // Enabled: deliveryDetails?.Enabled,
             price: deliveryDetails?.price || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
@@ -882,14 +888,15 @@ console.log("bnpm",mealTypes);
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
-            Enabled:
-              (pickupDetails?.availabilityEnabled &&
-              pickupDetails?.availabilityEnabled === true
-                ? true
-                : false) &&
-              (pickupDetails?.isNotHide && pickupDetails?.isNotHide === 1
-                ? true
-                : false),
+            Enabled:true,
+            // Enabled:
+            //   (pickupDetails?.availabilityEnabled &&
+            //   pickupDetails?.availabilityEnabled === true
+            //     ? true
+            //     : false) &&
+            //   (pickupDetails?.isNotHide && pickupDetails?.isNotHide === 1
+            //     ? true
+            //     : false),
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
@@ -930,14 +937,15 @@ console.log("bnpm",mealTypes);
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
-            Enabled:
-              (deliveryDetails?.availabilityEnabled &&
-              deliveryDetails?.availabilityEnabled === true
-                ? true
-                : false) &&
-              (deliveryDetails?.isNotHide && deliveryDetails?.isNotHide === 1
-                ? true
-                : false),
+            Enabled:true,
+            // Enabled:
+            //   (deliveryDetails?.availabilityEnabled &&
+            //   deliveryDetails?.availabilityEnabled === true
+            //     ? true
+            //     : false) &&
+            //   (deliveryDetails?.isNotHide && deliveryDetails?.isNotHide === 1
+            //     ? true
+            //     : false),
 
             price: deliveryDetails?.price || 0,
             typeName: deliveryDetails?.typeName || "",
@@ -964,12 +972,13 @@ console.log("bnpm",mealTypes);
             typeId: detail.typeId || "",
             price: detail.price || 0,
             typeName: detail.typeName || "",
-            Enabled:
-              (detail?.availabilityEnabled &&
-              detail?.availabilityEnabled === true
-                ? true
-                : false) &&
-              (detail?.isNotHide && detail?.isNotHide === 1 ? true : false),
+            Enabled:true,
+            // Enabled:
+            //   (detail?.availabilityEnabled &&
+            //   detail?.availabilityEnabled === true
+            //     ? true
+            //     : false) &&
+            //   (detail?.isNotHide && detail?.isNotHide === 1 ? true : false),
             typeGroup: detail.typeGroup || "T",
             availabilities: [
               {
@@ -1011,14 +1020,15 @@ console.log("bnpm",mealTypes);
 
         const updatedField = {
           DineInPrice: dineIndetail?.price,
-          Enabled:
-            (dineIndetail?.availabilityEnabled &&
-            dineIndetail?.availabilityEnabled === true
-              ? true
-              : false) &&
-            (dineIndetail?.isNotHide && dineIndetail?.isNotHide === 1
-              ? true
-              : false),
+          Enabled:true,
+          // Enabled:
+          //   (dineIndetail?.availabilityEnabled &&
+          //   dineIndetail?.availabilityEnabled === true
+          //     ? true
+          //     : false) &&
+          //   (dineIndetail?.isNotHide && dineIndetail?.isNotHide === 1
+          //     ? true
+          //     : false),
           DineInMealType:
             (dineIndetail &&
               dineIndetail?.availabilities &&
@@ -1045,7 +1055,8 @@ console.log("bnpm",mealTypes);
           return {
             ...prevData,
             price: updatedField && updatedField?.DineInPrice,
-            Enabled: updatedField && updatedField?.Enabled,
+            // Enabled: updatedField && updatedField?.Enabled,
+            Enabled:true,
             availabilities: updatedAvailabilities && updatedAvailabilities,
           };
         });
@@ -2034,13 +2045,13 @@ console.log("DayThird",DayThird);
                               type="number"
                               name="DineInPrice"
                               value={entry.DineInPrice}
-                              style={{
-                                opacity: entry?.Enabled ? "100%" : "50%",
-                              }}
+                              // style={{
+                              //   opacity: entry?.Enabled ? "100%" : "50%",
+                              // }}
                               className="DineInprice-input-field"
-                              disabled={!entry?.Enabled}
+                              // disabled={!entry?.Enabled}
                               onChange={(e) => {
-                                handleChange(index, e, entry?.Enabled);
+                                handleChange(index, e, true);
                               }}
                               onInput={(e) => {
                                 const inputElement =
@@ -2057,7 +2068,7 @@ console.log("DayThird",DayThird);
                           <div className="DineInMealType-input-field">
                             <DropDown
                               validatedineMealType={validatedineMealType}
-                              EnabledOrNot={entry?.Enabled}
+                              EnabledOrNot={true}
                               selectedValues={
                                 selectedValuesmealtype[index] || ""
                               }
@@ -2098,10 +2109,9 @@ console.log("DayThird",DayThird);
                                 const text = entry?.showDay
                                   ? "Default Day"
                                   : "Choose Day";
-                                  if(entry?.Enabled)
-                                  {
+                                 
                                     addDay(index, text);
-                                  }
+                                  
                                
                               }}
                             >
@@ -2205,12 +2215,12 @@ console.log("DayThird",DayThird);
                               <input
                                 type="number"
                                 step="any"
-                                disabled={!pickupDetails?.Enabled}
-                                style={{
-                                  opacity: pickupDetails?.Enabled
-                                    ? "100%"
-                                    : "50%",
-                                }}
+                                // disabled={!pickupDetails?.Enabled}
+                                // style={{
+                                //   opacity: pickupDetails?.Enabled
+                                //     ? "100%"
+                                //     : "50%",
+                                // }}
                                 className="PriceInput1Normal-input"
                                 value={pickupDetails.price || ""}
                                 onKeyDown={(e) => {
@@ -2237,7 +2247,7 @@ console.log("DayThird",DayThird);
                                   }
                                 }}
                                 onChange={(e) => {
-                                  if (pickupDetails?.Enabled) {
+                                 
                                     const inputValue = e.target.value;
 
                                     if (inputValue === "") {
@@ -2263,7 +2273,7 @@ console.log("DayThird",DayThird);
                                         numericValue,
                                         pickupDetails?.Enabled
                                       );
-                                    }
+                                    
                                   }
                                 }}
                               />
@@ -2274,7 +2284,7 @@ console.log("DayThird",DayThird);
                                 selectedValues={
                                   pickupDetails.availabilities[0].sessions
                                 }
-                                EnabledOrNot={pickupDetails?.Enabled}
+                                EnabledOrNot={true}
                                 onSelect={(selectedMealTypes) =>
                                   setPickUpDetails((prevDetails) => ({
                                     ...prevDetails,
@@ -2331,9 +2341,9 @@ console.log("DayThird",DayThird);
                                 <span
                                  onClick={()=>{
 
-                                  if(pickupDetails?.Enabled){
+                                 
                                     setShowDayPickup(false)
-                                  }
+                                  
                                   
 
                                 }
@@ -2351,9 +2361,9 @@ console.log("DayThird",DayThird);
                                 className="pickupChooseDayContainer-chooseheading2"
                                 onClick={()=>{
 
-                                  if(pickupDetails?.Enabled){
+                                  // if(pickupDetails?.Enabled){
                                     addDayPickup()
-                                  }
+                                  // }
                                   
 
                                 }
@@ -2440,12 +2450,12 @@ console.log("DayThird",DayThird);
                               <input
                                 type="number"
                                 className="DeliveryInput1Normal"
-                                style={{
-                                  opacity: deliveryDetails?.Enabled
-                                    ? "100%"
-                                    : "50%",
-                                }}
-                                disabled={!deliveryDetails?.Enabled}
+                                // style={{
+                                //   opacity: deliveryDetails?.Enabled
+                                //     ? "100%"
+                                //     : "50%",
+                                // }}
+                                // disabled={!deliveryDetails?.Enabled}
                                 value={deliveryDetails?.price || ""}
                                 onInput={(e) => {
                                   const inputElement =
@@ -2471,7 +2481,7 @@ console.log("DayThird",DayThird);
                                   }
                                 }}
                                 onChange={(e) => {
-                                  if (deliveryDetails?.Enabled) {
+                                  // if (deliveryDetails?.Enabled) {
                                     const inputValue = e.target.value;
 
                                     if (inputValue === "") {
@@ -2505,7 +2515,7 @@ console.log("DayThird",DayThird);
                                           deliveryDetails?.Enabled
                                         );
                                       }
-                                    }
+                                    // }
                                   }
                                 }}
                               />
@@ -2518,7 +2528,7 @@ console.log("DayThird",DayThird);
                                 selectedValues={
                                   deliveryDetails.availabilities[0].sessions
                                 }
-                                EnabledOrNot={deliveryDetails?.Enabled}
+                                EnabledOrNot={true}
                                 onSelect={(selectedMealTypes) => {
                                   setDeliveryDetails((prevDetails) => ({
                                     ...prevDetails,
@@ -2573,8 +2583,8 @@ console.log("DayThird",DayThird);
                                 onClick={() => {
 
 
-                                  if(deliveryDetails?.Enabled)
-                                  {
+                                  // if(deliveryDetails?.Enabled)
+                                  // {
                                     addDayDeliveryfalse();
 
                                   const validationErrors = { ...errors };
@@ -2587,7 +2597,8 @@ console.log("DayThird",DayThird);
 
                                   }
                                   
-                                }}
+                                }
+                              // }
                               >
                                 Default day
                               </h3>
@@ -2677,12 +2688,12 @@ console.log("DayThird",DayThird);
                                   <input
                                     className="swiggyZomato-input"
                                     type="number"
-                                    style={{
-                                      opacity: priceInfo[index]?.Enabled
-                                        ? "100%"
-                                        : "50%",
-                                    }}
-                                    disabled={!priceInfo[index]?.Enabled}
+                                    // style={{
+                                    //   opacity: priceInfo[index]?.Enabled
+                                    //     ? "100%"
+                                    //     : "50%",
+                                    // }}
+                                    // disabled={!priceInfo[index]?.Enabled}
                                     value={priceInfo[index]?.price || ""}
                                     onKeyDown={(e) => {
                                       if (
@@ -2699,8 +2710,7 @@ console.log("DayThird",DayThird);
                                       if (
                                         /^\d{0,4}(\.\d{0,2})?$/.test(
                                           inputValue
-                                        ) &&
-                                        priceInfo[index]?.Enabled
+                                        ) 
                                       ) {
                                         const updatedData = [...priceInfo].map(
                                           (item, idx) =>
@@ -2726,9 +2736,9 @@ console.log("DayThird",DayThird);
                                   className={`Third${option}  thridparties-dropdown `}
                                   style={{
                                     zIndex: dropdownopened ? "-1" : "",
-                                    opacity: priceInfo[index]?.Enabled
-                                      ? "100%"
-                                      : "70%",
+                                    // opacity: priceInfo[index]?.Enabled
+                                    //   ? "100%"
+                                    //   : "70%",
                                   }}
                                 >
 
@@ -2736,7 +2746,7 @@ console.log("DayThird",DayThird);
                                   <DropDown 
                                   validatedineMealType={validateThirdPartyMealType}
                                     selectedValues={mealTypes[option] || []}
-                                    EnabledOrNot={priceInfo[index]?.Enabled}
+                                    EnabledOrNot={true}
                                     onSelect={(selected) =>
                                       handleMealTypeChange(
                                         option,

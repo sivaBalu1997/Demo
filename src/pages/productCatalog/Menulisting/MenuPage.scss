@@ -58,6 +58,7 @@
 .header-with-body-container
 {
   overflow-y: hidden;
+  // border: 1px solid red;
   height: 86vh;
 
   &::-webkit-scrollbar {
@@ -67,6 +68,7 @@
 .header-with-body-container-expand
 {
   overflow-y: hidden;
+  // border: 1px solid red;
   height: 88vh;
   &::-webkit-scrollbar {
     display: none;
@@ -1229,7 +1231,8 @@ margin-top: 1rem;
   overflow-y: hidden;
   // border: 1px solid red;
   .columnselectedText {
-    margin-left: 4.5rem;
+    
+   
   }
 }
 
