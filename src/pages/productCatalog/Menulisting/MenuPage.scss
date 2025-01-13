@@ -439,6 +439,11 @@ display: flex;
   overflow-x: hidden;
   margin-top: 1rem;
 
+  @media(max-width: 1536px){
+    // background-color: palegreen;
+    height: 77.3vh;
+  }
+
   @media (max-width: 1440px){
     height: 77.5vh !important;
   }
