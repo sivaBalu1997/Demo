@@ -1309,9 +1309,10 @@ console.log({Modifiers});
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   onInput={(e) => {
                                     const input = e.target as HTMLInputElement;
-                                    const regex = /^[a-zA-Z\s\W]*$/;                                    
+                                    // const regex = /^[a-zA-Z\s\W]*$/; 
+                                    const regex = /^[a-zA-Z\s]*$/;                                   
                                     if (!regex.test(input.value)) {
-                                      input.value = input.value.replace(/[^a-zA-Z\s\W]/g, "");
+                                      input.value = input.value.replace(/[^a-zA-Z\s]/g, "");
                                     }
                                   }}
                                   
@@ -1428,9 +1429,9 @@ console.log({Modifiers});
                                           }}
                                           onInput={(e) => {
                                             const input = e.target as HTMLInputElement;
-                                            const regex = /^[a-zA-Z\s\W]*$/;                                    
+                                            const regex = /^[a-zA-Z\s]*$/;                                      
                                             if (!regex.test(input.value)) {
-                                              input.value = input.value.replace(/[^a-zA-Z\s\W]/g, "");
+                                              input.value = input.value.replace(/[^a-zA-Z\s]/g, "");
                                             }
                                           }}
                                           disabled={
