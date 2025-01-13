@@ -12,6 +12,7 @@ import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import noResultsfound from "../../../assets/images/NoResultsFound.png";
 import { FaArrowDown } from "react-icons/fa";
 import { FaArrowUp } from "react-icons/fa";
+import arrow from '../../../assets/svg/arrow-down.svg'
 
 const Table = () => {
   const { isExpanded } = useContext(Contextpagejs);
@@ -259,15 +260,19 @@ const Table = () => {
                           className="OffrtsTabletd"
                           style={{
                             opacity: row.isEnabled === 0 ? "50%" : "100%",
+                            display:"flex",
+                            justifyContent:"left",
+                            alignItems:"center",
+                            gap:"0.5rem"
                           }}
                         >
                           {row.type === "PERCENT" && (
                             <>
                               {`${row?.value}%`}
                               {row.specialType === "HAPPY HOUR" ? (
-                                <FaArrowUp />
+                                <img src={arrow} alt="" />
                               ) : (
-                                <FaArrowDown />
+                                <img src={arrow} alt="" className="down-arrow-price"/>
                               )}
                             </>
                           )}
@@ -276,9 +281,9 @@ const Table = () => {
                               {countryC === "US" ? "$" : "RS"}
                               {row.value}
                               {row.specialType === "HAPPY HOUR" ? (
-                                <FaArrowUp />
+                               <img src={arrow} alt="" />
                               ) : (
-                                <FaArrowDown />
+                                <img src={arrow} alt="" className="down-arrow-price"/>
                               )}
                             </>
                           )}

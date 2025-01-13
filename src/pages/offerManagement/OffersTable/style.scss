@@ -16,7 +16,10 @@
   display: flex;
   justify-content: center;
 }
-
+.down-arrow-price
+{
+  rotate: 180deg;
+}
 .table-container {
   width: 166%; 
   height: 80vh;

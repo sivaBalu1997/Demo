@@ -1157,13 +1157,17 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
+             
                 className={`${
                   isExpanded && !menuDataLoading && "body-container-expand"
                 } ${!isExpanded && !menuDataLoading && "body-container"}`}
                 // className={`${isExpanded ? "body-container-expand" : "body-container"
                 //   }`}
               >
-                <div className={`${
+                <div
+             
+                
+                className={`${
                     isExpanded ? "first-div-body-expand" : "first-div-body"
                   }`} ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
@@ -1320,10 +1324,14 @@ export const MenuPage = () => {
                       !menuDataFailed &&
                       !showColumns &&
                       "second-div-body"
-                    }`}
+                    }
+                    
+                    
+                    
+                    `}
                     ref={mergeRefs(ref2, bodyRef)}
                     style={{
-                      height: menuDataLoading ? "39.5rem" : "",
+                      height: menuDataLoading ? "39.5rem" : "" ,
                       overflowX:
                         !menuDataLoading && itemList?.length <= 0
                           ? "hidden"
