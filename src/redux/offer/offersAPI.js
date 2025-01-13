@@ -112,7 +112,7 @@ export const getOfferListdata = (payload) => {
  
   return API({
     method: "GET",
-    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}&categoryId=${payload.catagoryId}`,
+    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}`,
   });
 };
 
