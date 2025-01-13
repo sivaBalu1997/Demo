@@ -64,7 +64,7 @@ const InputComponent: React.FC<InputFieldInterface> = ({
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
-        className="Input-Filed"
+        className="spInput-Filed"
         style={{ height: height, width: width }}
       />
         <span className="placeholder">{subtext}</span>
