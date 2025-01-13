@@ -32,7 +32,7 @@ const SidePanel = () => {
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;
   const menuOptions = ["Items", "Product Catalog"];
   const reportInsightsOptions = ['Reports & Insights', 'Chart JS'];
-  const offerMenuOptions = ["Offers", "Special Price"];
+  const offerMenuOptions = ["Offers"];
 
   const history = useHistory();
 
