@@ -188,6 +188,8 @@ const ItemCustomizations: React.FC<any> = () => {
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       // setShowModifiers(!showModifiers);
+      console.log({itemCustomizationData});
+      
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
@@ -200,12 +202,14 @@ const ItemCustomizations: React.FC<any> = () => {
         );
 
         if (item?.options) {
+          console.log("edit1");
+          
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
             isModifierChanged: false,
             isEnabled: item.isEnabled,
-            selectionType: "Mandatory",
+            
 
             modifierOptions:
               item?.options?.length > 0
@@ -223,9 +227,15 @@ const ItemCustomizations: React.FC<any> = () => {
             maxSelection: item.maxSelection || 0,
             freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
+            selectionType: item.minSelection===0?"Optional":"Mandatory",
             // selectionType: item?.selectionType || "Mandatory",
           };
         } else if (item?.modifierOptions) {
+
+
+
+          console.log("edit");
+          
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
@@ -243,11 +253,11 @@ const ItemCustomizations: React.FC<any> = () => {
                     isEnabled: option?.isEnabled,
                   }))
                 : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minSelection || 0,
-            maxSelection: item.maxSelection || 0,
+            minSelection: item.minCount || 0,
+            maxSelection: item.maxCount || 0,
             freeCustomization: item?.freeCustomization || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item?.selectionType || "Mandatory",
+            selectionType: item.minCount===0?"Optional":"Mandatory",
             // selectionType:  "Mandatory",
           };
         }
@@ -716,12 +726,14 @@ const ItemCustomizations: React.FC<any> = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
+console.log({Modifiers});
 
     const updatedModifiers = {
       ...Modifiers,
       freeCustomization: Modifiers?.noFreeCustomization,
       maxSelection: Modifiers?.maxAllowed,
       minSelection: Modifiers?.minRequired,
+      selectionType: Modifiers?.minRequired===0?"Optional":"Mandatory",
       isEnabled: true,
       modifierOptions:
         Modifiers.modifierOptions.length > 0
