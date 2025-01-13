@@ -21,9 +21,6 @@ const SearchBox = () => {
   const [closeModal, setCloseModal] = useState(false);
 
   const data = useSelector((state) => state.storeMockDataReducer.data);
-  const selectedBranch = useSelector(
-    (state) => state.auth.selectedBranch || null
-  )
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
   const popupRef = useRef(null);
@@ -34,24 +31,27 @@ const SearchBox = () => {
 
     setOrgData(itemNames); 
   }, [data]);
-
   useEffect(() => {
     if (searchTerm == "") {
       dispatch(searchForItem({}));
     }
   }, []);
 
-  useEffect(() => {
-   if(searchTerm === ''){
-    dispatch(getMenuRequest(selectedBranch?.id));
-   }
-  },[searchTerm])
-
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setCloseModal(false);
     }
   };
+
+  const selectedBranch = useSelector(
+    (state) => state.auth.selectedBranch || null
+  );
+
+  // useEffect(() => {
+  //   if (searchTerm === '') {
+  //     dispatch(getMenuRequest(selectedBranch?.id));
+  //   }
+  // },[selectedBranch?.id])
 
   useEffect(() => {
     if (closeModal) {
@@ -75,6 +75,7 @@ const SearchBox = () => {
       setSearchTerm("");
     }
   }, [menuData]);
+
   const [placeholder, setplaceholder] = useState("");
 
   const handleSearch = (e) => {
