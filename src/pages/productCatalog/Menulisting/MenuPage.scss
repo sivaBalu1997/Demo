@@ -59,6 +59,7 @@
 {
   overflow-y: hidden;
   height: 86vh;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -365,9 +366,8 @@ display: flex;
   @media (max-width: 1536px) {
  
     height:73.3vh;
-      // border: 1px solid green;
-     
-     }
+      // border: 1px solid green;   
+    }
 
   .categoryName-data-firstbody{
 
