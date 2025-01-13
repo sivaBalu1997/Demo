@@ -173,7 +173,7 @@ export function updateMenuItem(data) {
     url: `/api/v1/menu-items/edit`,
     data: data,
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type":  "application/json",
       Authorization: "bearer " + token,
     },
   });
@@ -200,7 +200,7 @@ export function deleteMenuItem(payload) {
     url: `/api/v1/menu-items/delete`,
     data:{itemId:payload},
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
       Authorization: "bearer " + token,
     },
 
