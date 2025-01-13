@@ -85,6 +85,12 @@ const Sales: React.FC = () => {
   const [showNetSalesTwo, setShowNetSalesTwo] = useState<boolean>(false)
   const [showTaxTwo, setShowTaxTwo] = useState<boolean>(false)
 
+  const selectedBranch = useSelector(
+    (state: any) => state.auth?.selectedBranch || null
+  );
+
+  console.log("location name", selectedBranch?.locationName)
+
   const salesSummaryStatusAPIRedux = useSelector((state: any) => state?.newReports?.salesSummaryStatus)
   console.log({ salesSummaryStatusAPIRedux })
 
@@ -717,7 +723,7 @@ const Sales: React.FC = () => {
           </div>
         )}
         <div className="s-name-board-two">
-          <h1>Maghil Restaurant, Parsippany</h1>
+          <h1>{selectedBranch?.locationName}</h1>
         </div>
         <div className="s-overall-summary">
           <div className="s-overall-summary-inner-wrap">

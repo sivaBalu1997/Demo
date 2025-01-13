@@ -23,6 +23,12 @@ interface SalesData {
 
 const CustomerInsights = () => {
 
+  const selectedBranch = useSelector(
+    (state: any) => state.auth?.selectedBranch || null
+  );
+
+  console.log("location name", selectedBranch?.locationName)
+
   const [showLiveNetSaleTooltip, setShowLiveNetSaleTooltip] = useState<boolean>(false);
   // const [showLiveNetSaleTooltip, setShowLiveNetSaleTooltip] = useState<boolean>(false)
 
@@ -169,7 +175,7 @@ const CustomerInsights = () => {
           </div>
         </div>
         <div className="location-name">
-          <h1>Maghil Restaurant, Parsippany</h1>
+          <h1>{selectedBranch?.locationName}</h1>
         </div>
         <div className="l-live-boxes-container">
           <div className={isExpanded ? "l-live-inner-box-expanded" : "l-live-inner-box"}>
