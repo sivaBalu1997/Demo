@@ -53,6 +53,8 @@ export const MenuPage = () => {
   const [itemList, setItemList] = useState([]);
   // console.log("SearchedmenuItem", SearchedmenuItem);
 
+  console.log({itemList})
+
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
@@ -882,7 +884,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 
@@ -1156,7 +1158,6 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
-
                 className={`${isExpanded && !menuDataLoading && "body-container-expand"
                   } ${!isExpanded && !menuDataLoading && "body-container"}`}
               // className={`${isExpanded ? "body-container-expand" : "body-container"

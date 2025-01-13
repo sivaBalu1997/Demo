@@ -47,11 +47,11 @@ const SearchBox = () => {
     (state) => state.auth.selectedBranch || null
   );
 
-  // useEffect(() => {
-  //   if (searchTerm === '') {
-  //     dispatch(getMenuRequest(selectedBranch?.id));
-  //   }
-  // },[selectedBranch?.id])
+  useEffect(() => {
+    if (searchTerm === '') {
+      dispatch(getMenuRequest(selectedBranch?.id));
+    }
+  },[selectedBranch?.id])
 
   useEffect(() => {
     if (closeModal) {
