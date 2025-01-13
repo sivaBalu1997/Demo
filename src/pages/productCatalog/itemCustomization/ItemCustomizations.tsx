@@ -1874,6 +1874,7 @@ console.log({Modifiers});
                                   }
                                   options={listOfStreams}
                                   width="Drop1"
+                                  color="#979797"
                                   validation={validationState.items}
                                   label={`Available Service Stream${
                                     atleastOnestream ? "*" : ""

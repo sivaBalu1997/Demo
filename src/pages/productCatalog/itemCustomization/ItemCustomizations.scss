@@ -154,13 +154,16 @@ margin-left: 2.3%;
   margin-bottom: 1.25rem;
 }
 .labelItemCustomizations {
-  font-size: 0.775rem;
+  
 
  
   line-height: 1.313rem;
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
   color: #979797;
+
+  font-size: 14px;
+  
 }
 .labelItemCustomizations-disable{
   font-size: 0.775rem;
@@ -173,12 +176,15 @@ margin-left: 2.3%;
 }
 
 .label1ItemCustomizations {
-  font-size: 0.775rem;
+
   line-height: 1.313rem;
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
   color: #979797;
-  width: 10rem;
+  width: 10.9rem;
+  font-weight: 400;
+  font-size: 14px;
+  
 }
 
 .radioItemCustomizations {

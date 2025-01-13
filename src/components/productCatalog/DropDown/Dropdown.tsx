@@ -22,6 +22,7 @@ interface DropdownProps {
   toggleOnorOff?: boolean;
   EnabledOrNot?: boolean;
   validatepickupdelivery?: any;
+  color?:string
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -32,6 +33,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   validation,
   width,
   onBlur,
+  color,
   EnabledOrNot ,
   handleValidate,
   placeHolder,
@@ -92,7 +94,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
-      <label className="droplabelPricing">{label}</label>
+      <label className="droplabelPricing" style={{color:color?`${color}`:"#666666"}}>{label}</label>
       <div
         className="dropdownPricingList"
         style={{ width: width === "Drop1" ? "300px" : "100px" }}
