@@ -17,9 +17,11 @@ const CustIns: React.FC = () => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
+  const [totalPageNoCurrentPageCustomerOrderDetails, setTotalPageNoCurrentPageCustomerOrderDetails] = useState<number>(5)
   const [currentPageCustomerOrderDetails, setCurrentPageCustomerOrderDetails] = useState<number>(1);
   console.log({ currentPageCustomerOrderDetails });
 
+  const [totalPageNoCurrentPageDineInInsights, setTotalPageNoCurrentPageDineInInsights] = useState<number>(5)
   const [currentPageDineInInsights, setCurrentPageDineInInsights] = useState<number>(1);
   console.log({ currentPageDineInInsights });
 
@@ -138,6 +140,7 @@ const CustIns: React.FC = () => {
             tableData={custIn["Customer order details"]}
             viewType="full"
             recordsPerPage={6}
+            totalpageNo={totalPageNoCurrentPageCustomerOrderDetails}
           />
         </div>
         <div
@@ -154,6 +157,7 @@ const CustIns: React.FC = () => {
             tableData={custIn["DineIn Insights"]}
             viewType="full"
             recordsPerPage={6}
+            totalpageNo={totalPageNoCurrentPageDineInInsights}
           />
         </div>
       </div>

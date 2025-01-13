@@ -59,6 +59,7 @@
     &.t-active {
       color: var(--t-table-text);
       font-weight: bold !important;
+      padding-left: 2vw;
     }
 
     &:hover {

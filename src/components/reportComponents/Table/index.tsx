@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import arrow from "../../../assets/images/san.svg";
 import blackarrow from "../../../assets/svg/blacksan.svg";
@@ -13,6 +13,8 @@ interface TableProps {
   recordsPerPage: number;
   currentPage: number,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  totalpageNo: number;
+  tabledataLoading?: any;
 }
 
 interface SortConfig {
@@ -34,50 +36,78 @@ const Table = ({
   recordsPerPage = 10,
   Heading,
   currentPage,
-  setCurrentPage
+  setCurrentPage,
+  totalpageNo,
+  tabledataLoading
 }: TableProps) => {
+
+  console.log({ Heading, tableData })
   // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: null,
     direction: null,
   });
+  // console.log({ totalpageNo })
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
+  // const lastIndex = currentPage * recordsPerPage;
+  // const firstIndex = lastIndex - recordsPerPage;
+
+
+
+  const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
+
+
+  console.log({ Heading, records })
+
+  useEffect(() => {
+    setRecords(tableData)
+  }, [tableData])
 
   const handleSort = (key: string) => {
     let direction: "ascending" | "descending" = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
     }
+
     setSortConfig({ key, direction });
+
+    const recordData = Array.isArray(tableData) && tableData?.length > 0
+
+      ? [...tableData].sort((a: Row, b: Row) => {
+        if (direction) {
+          const aValue = a[key];
+          const bValue = b[key];
+
+          if (typeof aValue === "number" && typeof bValue === "number") {
+            return direction === "ascending"
+              ? aValue - bValue
+              : bValue - aValue;
+          }
+
+          if (typeof aValue === "string" && typeof bValue === "string") {
+            return direction === "ascending"
+              ? aValue.localeCompare(bValue)
+              : bValue.localeCompare(aValue);
+          }
+        }
+        return 0;
+      })
+      : tableData;
+
+    setRecords(recordData)
   };
 
-  const sortedData = Array.isArray(tableData)
-    ? [...tableData].sort((a: Row, b: Row) => {
-      if (sortConfig.key) {
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
 
-        if (typeof aValue === "number" && typeof bValue === "number") {
-          return sortConfig.direction === "ascending"
-            ? aValue - bValue
-            : bValue - aValue;
-        }
 
-        if (typeof aValue === "string" && typeof bValue === "string") {
-          return sortConfig.direction === "ascending"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        }
-      }
-      return 0;
-    })
-    : [];
+  // const records = tableData
+  // console.log({ records })
 
-  const records = sortedData.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(sortedData.length / recordsPerPage);
+  // const totalpageNo = Math.ceil(sortedData.length / recordsPerPage);
+
+  // console.log('from table comp', { currentPage })
+  // console.log({ lastIndex }, { firstIndex }, "sortedDataLength: ", sortedData?.length)
+
 
   const prePage = () => {
     if (currentPage > 1) {
@@ -86,21 +116,24 @@ const Table = ({
   };
 
   const nextPage = () => {
-    if (currentPage < nPage) {
+    if (currentPage < totalpageNo) {
       setCurrentPage(currentPage + 1);
     }
   };
 
   const tableHeader =
-    tableData.length > 0
+    tableData?.length > 0
       ? Object.keys(tableData[0]).filter((header) => header !== "drop down")
       : [];
+
+  // console.log({ tableHeader })
 
   const formatItemDetails = (
     details: Array<{ itemName: string; quantity: number }>
   ) => {
-    return details
-      .map((item) => `${item.itemName} x${item.quantity}`)
+    console.log({ details })
+    return details && details
+      ?.map((item) => `${item.itemName} x${item.quantity}`)
       .join(", ");
   };
 
@@ -146,7 +179,14 @@ const Table = ({
     }
   };
 
-  const hasDropDown = tableData?.some((row) => "drop down" in row);
+  const hasDropDown = tableData && tableData?.some((row) => "drop down" in row);
+
+  function camelCaseToSpaceSeparated(camelCaseString: string) {
+    // Add space before each uppercase letter, and capitalize the first word
+    return camelCaseString
+      .replace(/([A-Z])/g, ' $1') // Add space before each uppercase letter
+      .replace(/^./, str => str.toUpperCase()); // Capitalize the first letter
+  }
 
   return (
     <>
@@ -164,27 +204,29 @@ const Table = ({
                 </span>
               </div>
             )}
-            <div className="t-export-container">
-              <img
-                src={downloadVector}
-                alt="download-file-svg"
-                onClick={toggleExportDropDown}
-              />
-              {openDownloadDropDown && (
-                <div className="t-export-drop-down">
-                  <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
-                  <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
-                  <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
-                </div>
-              )}
-            </div>
+            {records?.length > 0 &&
+              <div className="t-export-container">
+                <img
+                  src={downloadVector}
+                  alt="download-file-svg"
+                  onClick={toggleExportDropDown}
+                />
+                {openDownloadDropDown && (
+                  <div className="t-export-drop-down">
+                    <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
+                    <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
+                    <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
+                  </div>
+                )}
+              </div>
+            }
           </div>
         </div>
         <div className="t-table-wrapper">
           <table className="t-table">
             <thead className="t-tableHeader">
               <tr className="t-tableRowHead">
-                {tableHeader.map((header, index) => {
+                {tableHeader?.map((header, index) => {
                   const isNumeric = typeof tableData[0][header] === "number";
                   return (
                     <th
@@ -193,7 +235,7 @@ const Table = ({
                       key={index}
                       onClick={() => handleSort(header)}
                     >
-                      {header}
+                      {camelCaseToSpaceSeparated(header)}
                       <span className="t-sort-icon">
                         {sortConfig.key === header &&
                           sortConfig.direction === "ascending"
@@ -205,68 +247,74 @@ const Table = ({
                 })}
               </tr>
             </thead>
-            <tbody className="t-tableBody">
-              {records.map((row: Row, rowIndex: number) => (
-                <React.Fragment key={rowIndex}>
-                  <tr
-                    className="t-mainRow"
-                    onClick={() => toggleRowExpansion(rowIndex)}
-                  >
-                    {tableHeader.map((header, cellIndex) => (
-                      <td
-                        className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
-                          }`}
-                        key={cellIndex}
-                      >
-                        {Array.isArray(row[header])
-                          ? formatItemDetails(row[header])
-                          : row[header]}
-                      </td>
-                    ))}
-                  </tr>
-                  {expandedRows.includes(rowIndex) && row["drop down"] && (
-                    <tr className="t-expandedRow">
-                      <td colSpan={tableHeader.length}>
-                        <table className="t-nestedTable">
-                          <thead>
-                            <tr>
-                              {Object.keys(row["drop down"][0]).map(
-                                (nestedHeader, nestedIndex) => (
-                                  <th
-                                    key={nestedIndex}
-                                    className="t-nestedHeader"
-                                  >
-                                    {nestedHeader}
-                                  </th>
+            {!tabledataLoading && records?.length > 0 ?
+              <tbody className="t-tableBody">
+                {records?.map((row: Row, rowIndex: number) => (
+                  <React.Fragment key={rowIndex}>
+                    <tr
+                      className="t-mainRow"
+                      onClick={() => toggleRowExpansion(rowIndex)}
+                    >
+                      {tableHeader.map((header, cellIndex) => (
+                        <td
+                          className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
+                            }`}
+                          key={cellIndex}
+                        >
+                          {Array.isArray(row[header]) ? (
+                            formatItemDetails(row[header])
+                          ) : (
+                            row[header]
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                    {expandedRows.includes(rowIndex) && row["drop down"] && (
+                      <tr className="t-expandedRow">
+                        <td colSpan={tableHeader.length}>
+                          <table className="t-nestedTable">
+                            <thead>
+                              <tr>
+                                {Object.keys(row["drop down"][0]).map(
+                                  (nestedHeader, nestedIndex) => (
+                                    <th
+                                      key={nestedIndex}
+                                      className="t-nestedHeader"
+                                    >
+                                      {nestedHeader}
+                                    </th>
+                                  )
+                                )}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {row["drop down"].map(
+                                (
+                                  nestedRow: NestedRow,
+                                  nestedRowIndex: number
+                                ) => (
+                                  <tr key={nestedRowIndex}>
+                                    {Object.values(nestedRow).map(
+                                      (nestedValue, nestedValueIndex) => (
+                                        <td key={nestedValueIndex}>
+                                          {nestedValue ? nestedValue : "NA"}
+                                        </td>
+                                      )
+                                    )}
+                                  </tr>
                                 )
                               )}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {row["drop down"].map(
-                              (
-                                nestedRow: NestedRow,
-                                nestedRowIndex: number
-                              ) => (
-                                <tr key={nestedRowIndex}>
-                                  {Object.values(nestedRow).map(
-                                    (nestedValue, nestedValueIndex) => (
-                                      <td key={nestedValueIndex}>
-                                        {nestedValue ? nestedValue : "NA"}
-                                      </td>
-                                    )
-                                  )}
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+              :
+              <div className="r-table-no-data">No Data Found!</div>
+            }
           </table>
         </div>
         <div className="t-paginationCursor">
@@ -291,9 +339,9 @@ const Table = ({
               </li>
             )}
             <li>
-              Page {currentPage} of {nPage}
+              Page {currentPage} of {totalpageNo}
             </li>
-            {currentPage < nPage && (
+            {currentPage < totalpageNo && (
               <li className="t-page-item">
                 {isDarkTheme ? (
                   <img

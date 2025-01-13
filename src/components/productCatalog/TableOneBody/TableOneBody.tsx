@@ -261,9 +261,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
               onDrop={() => handleRowDragEnd(object.categoryId, index)}
-              className={`itemdetails-row ${
-                draggedRowIndex?.index === index ? "selected" : ""
-              } ${index === 0 ? "removebottomrowline" : ""}`}
+              className={`itemdetails-row ${draggedRowIndex?.index === index ? "selected" : ""
+                } ${index === 0 ? "removebottomrowline" : ""}`}
             >
               <span className="itemimage2">
                 {/* <img src={dots} alt="" className="draggableimg" /> */}

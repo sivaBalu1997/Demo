@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import Table from "../../../components/reportComponents/Table";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import DatePicker from "react-datepicker";
+import Table from "../../../components/reportComponents/Table";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const EmployeeInsights: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
@@ -16,9 +16,11 @@ const EmployeeInsights: React.FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
+  const [totalPageNoCurrentPageEmployeeTipsFeeSummary, setTotalPageNoCurrentPageEmployeeTipsFeeSummary] = useState<number>(5);
   const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
   console.log({ currentPageEmployeeTipsFeeSummary });
 
+  const [totalPageNoCurrentPageSalesByEmployeeDetails, setTotalPageNoCurrentPageSalesByEmployeeDetails] = useState<number>(5)
   const [currentPageSalesByEmployeeDetails, setCurrentPageSalesByEmployeeDetails] = useState<number>(1);
   console.log({ currentPageSalesByEmployeeDetails });
 
@@ -147,6 +149,7 @@ const EmployeeInsights: React.FC = () => {
             tableData={EmployeeD["Table one"]}
             viewType="full"
             recordsPerPage={6}
+            totalpageNo={totalPageNoCurrentPageEmployeeTipsFeeSummary}
           />
         </div>
         <div className="employee-details-container">
@@ -157,6 +160,7 @@ const EmployeeInsights: React.FC = () => {
             tableData={EmployeeD["Sales By Employee"]}
             viewType="full"
             recordsPerPage={6}
+            totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
           />
         </div>
       </div>

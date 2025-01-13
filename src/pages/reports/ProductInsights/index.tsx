@@ -33,6 +33,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const [openCustomDateRange, setOpenCustomDateRange] =
     useState<boolean>(false);
 
+  const [totalPageNoCurrentPageProductSummary, setTotalPageNoCurrentPageProductSummary] = useState<number>(5)
   const [currentPageProductSummary, setCurrentPageProductSummary] = useState<number>(1);
   console.log({ currentPageProductSummary })
 
@@ -402,6 +403,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
           tableData={ProdI["Product Summary US"]}
           viewType="full"
           recordsPerPage={24}
+          totalpageNo={totalPageNoCurrentPageProductSummary}
         />
       </div>
     </div>

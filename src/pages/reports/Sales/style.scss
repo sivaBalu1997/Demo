@@ -5,6 +5,7 @@
   --table-text: #333333;
   --chart-bg: #ffffff;
   --screen-bg: #404d66;
+  --new-bg:#ccc;
 }
 
 .sales-dark-theme {
@@ -16,6 +17,7 @@
   --screen-bg: #2e3a4f;
   --cchart-bg: #222b3c;
   --cchart-border: #ffffff;
+  --new-bg: #404d66;
 }
 
 .sales-light-theme {
@@ -27,6 +29,7 @@
   --screen-bg: #ffffff;
   --cchart-bg: #ffffff;
   --cchart-border: #000000;
+  --new-bg: #ccc;
 }
 
 .s-expanded-width-sales {  
@@ -263,6 +266,7 @@
       align-items: center;
       color: var(--table-text);
       border: 1px solid;
+      position: relative;
 
       // @media(max-width: 1536px){
       //   height: 20vh;
@@ -301,6 +305,108 @@
           font-size: x-small;
         }
       }
+      .label-tooltip-container {
+        display: flex;
+        align-items: center;
+        gap: 1vw;
+    
+        .s-tooltip-wrapper {
+          position: relative;
+          display: inline-block;
+          // background-color: orange;
+          height: 2.9vh;
+          border-radius: 1vw;
+    
+          .s-tool-tip-image {
+            cursor: pointer;
+            height: 2.8vh;
+            // background-color: pink;
+            border-radius: 1vw;
+          }
+    
+          .tool-tip-content {
+            position: absolute;
+            top: 120%; // Adjust to position the tooltip below the icon
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f9f9f9;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 0.5rem;
+            width: max-content;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            font-size: 0.9rem;
+            text-align: center;
+            white-space: nowrap;
+            opacity: 0; // Hidden by default
+            visibility: hidden; // Prevent interaction when hidden
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            @media (max-width: 800px) {
+              top: 110%; 
+              font-size: 0.8rem; 
+              padding: 0.4rem; 
+              max-width: 60vw; 
+              white-space: normal;
+              text-align: left;
+            }
+          }
+    
+          &:hover .tool-tip-content {
+            opacity: 1; // Show tooltip on hover
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
+
+  .s-summary-no-data{
+    background-color: var(--new-bg);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+
+
+  .loader-container-s-box{
+    height: 8rem;
+    width: 11.8rem;
+    border-radius: 1rem;
+    background-color: var(--table-bg);
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: var(--table-text);
+    border: 1px solid;
+    position: absolute;
+    z-index: 1000; /* Overlay on .s-box */
+  }
+
+  .loader {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--table-text);
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute; /* Overlay on .s-box */
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 
@@ -418,6 +524,61 @@
         @media(max-width: 800px){
           // background-color: lightseagreen;
           font-size: small;
+        }
+      }
+      .label-tooltip-container {
+        display: flex;
+        align-items: center;
+        gap: 0.1vw;
+    
+        .s-tooltip-wrapper {
+          position: relative;
+          display: inline-block;
+          // background-color: orange;
+          height: 2.9vh;
+          border-radius: 1vw;
+    
+          .s-tool-tip-image {
+            cursor: pointer;
+            height: 2.8vh;
+            // background-color: pink;
+            border-radius: 1vw;
+          }
+    
+          .tool-tip-content {
+            position: absolute;
+            top: 120%; // Adjust to position the tooltip below the icon
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f9f9f9;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 0.5rem;
+            width: max-content;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            font-size: 0.9rem;
+            text-align: center;
+            white-space: nowrap;
+            opacity: 0; // Hidden by default
+            visibility: hidden; // Prevent interaction when hidden
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            @media (max-width: 800px) {
+              top: 110%; 
+              font-size: 0.8rem; 
+              padding: 0.4rem; 
+              max-width: 60vw; 
+              white-space: normal;
+              text-align: left; 
+              left: -50%; 
+            }
+          }
+    
+          &:hover .tool-tip-content {
+            opacity: 1; // Show tooltip on hover
+            visibility: visible;
+          }
         }
       }
     }
