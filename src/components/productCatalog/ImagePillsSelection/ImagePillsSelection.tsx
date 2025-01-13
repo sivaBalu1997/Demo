@@ -47,7 +47,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   const filteredimages = options?.filter((option) =>
     option.name.toLowerCase().includes(searchImage.toLowerCase())
   );
-
+  const [clickedId, setClickedId] = useState(null);
   const handleSelectedImage = (image: ImageOptions) => {
     const isSelected = selectedImages.some(
       (selected) => selected.id === image.id
@@ -60,6 +60,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
       const selectedIds = newSelectedImages.map((img) => img.id);
       setValue(name, selectedIds);
     }
+    setTimeout(() => setClickedId(null), 300);
   };
 
   const handleDeletingImage = (image: ImageOptions) => {
@@ -150,17 +151,10 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                 <li
                   key={option.id}
                   onClick={() => handleSelectedImage(option)}
-                  className={`Item-Selection-option ${selectedImages?.some(
-                    (selected) => selected.id === option.id
-                  )
-                      ? ""
-                      : ""
+                  className={`Item-Selection-option ${clickedId === option.id ? "clicked" : ""
                     }`}
                 >
                   <img
-                    // src={`/assets/${option.imageId}.${
-                    //   option.imageType && option.imageType.split("/")[1]
-                    // }`}
                     src={`${baseImageUrl}${option?.media?.imageId}.${option?.media?.imageType?.split("/")[1]
                       }`}
                     alt="img"

@@ -7,6 +7,7 @@ import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png";
 import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
+import arrow from '../../../assets/svg/arrow-down.svg'
 import {
   SPOfferListRequest,
   SPOfferListDelete,
@@ -304,26 +305,34 @@ const [loading,setLoding]=useState(false)
                                                   className="completedtsTabletd"
                                                   style={{
                                                     opacity: row.isEnabled === 0 ? "50%" : "100%",
+                                                    display:"flex",
+                                                    justifyContent:"left",
+                                                    alignItems:"center",
+                                                    gap:"0.5rem"
                                                   }}
                                                 >
                                                   {row.type === "PERCENT" && (
                                                     <>
-                                                      {`${row?.value}%`}
+                                                     <span style={{marginTop:"3px"}}>{`${row?.value}%`}</span> 
                                                       {row.specialType === "HAPPY HOUR" ? (
-                                                        <FaArrowUp />
+                                                        // <FaArrowUp />
+                                                        <img src={arrow} alt="" />
                                                       ) : (
-                                                        <FaArrowDown />
+                                                        <img src={arrow} alt="" className="down-arrow-price"/>
+                                                        // <FaArrowDown />
                                                       )}
                                                     </>
                                                   )}
                                                   {row.type === "FLATFEE" && (
                                                     <>
+                                                      <span>
                                                       {countryC === "US" ? "$" : "RS"}
                                                       {row.value}
+                                                      </span>
                                                       {row.specialType === "HAPPY HOUR" ? (
-                                                                                      <FaArrowUp />
+                                                                                      <img src={arrow} alt="" />
                                                                                     ) : (
-                                                                                      <FaArrowDown />
+                                                                                      <img src={arrow} alt="" className="down-arrow-price"/>
                                                                                     )}
 
                                                     </>

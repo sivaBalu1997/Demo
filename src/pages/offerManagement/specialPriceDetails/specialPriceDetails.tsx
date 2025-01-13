@@ -18,6 +18,7 @@ import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import CancelPopup from "../../../components/offerManagement/cancelPopup/index"
 
 import {
   createSpecialOfferRequest,
@@ -246,7 +247,7 @@ const SpecialPriceDetails = () => {
       );
     }
     const payload = {
-      locationId: locationid,
+      locationId: locationid && locationid,
       offerId: !duplicateOffer ? editOfferData?.offerId || null : null,
       offerName: values?.offerName,
       channel: selectedChannal?.map((item: any) => item.id),
@@ -555,7 +556,9 @@ const SpecialPriceDetails = () => {
   const closeOverlapPopUp = () => {
     setOverlapShow(false);
   };
-
+  const closeCancelPopup = () => {
+    setcancelPopup(false);
+  };
   useEffect(() => {
     if (
       selectedradiowatch?.specialType &&
@@ -689,7 +692,7 @@ const SpecialPriceDetails = () => {
         setSelectedCatagory([editOfferData?.category]);
         setParentId(editOfferData?.category?.id);
           const payloadsub = {
-                      locationId: locationid,
+                      locationId: locationid && locationid,
                       type: "SUB_CATEGORY",
                       parentId: editOfferData?.category?.id,
                     };
@@ -1040,7 +1043,7 @@ const SpecialPriceDetails = () => {
   const itemlistfunction = () => {
     setShowlistOfItems(true);
     const payload = {
-      locationId: locationid,
+      locationId: locationid && locationid,
       catagoryId:
         subCatagoryId.length > 0
           ? subCatagoryId.map((opt) => opt).join(",")
@@ -1072,7 +1075,7 @@ const SpecialPriceDetails = () => {
   const restaurantDetails = useSelector(
     (state: any) => state?.auth.restaurantDetails
   );
-
+const [cancelPopup,setcancelPopup]=useState<boolean>(false);
   const Pricesymbol = `${restaurantDetails?.country === "US" ? "$" : "Rs."}`;
   const handleKeyDown = (e: any) => {
     if (e.key === "ArrowDown") {
@@ -1144,10 +1147,11 @@ const SpecialPriceDetails = () => {
                           const inputValue = e.target.value;
 
                           if (
-                            (inputValue === "" || inputValue[0] !== " ") &&
+                            /^[a-zA-Z0-9 ]*$/.test(inputValue) && 
+                            (inputValue === "" || inputValue[0] !== " ") && 
                             inputValue.length <= 12
                           ) {
-                            onChange(inputValue);
+                            onChange(inputValue); 
                           }
                         }}
                         onBlur={onBlur}
@@ -1331,7 +1335,7 @@ const SpecialPriceDetails = () => {
 
             <div className="items-details">
               <h3>Items</h3>
-              <div className="category-details">
+              {/* <div className="category-details">
                 <div>
                   <Controller
                     name="category"
@@ -1406,7 +1410,7 @@ const SpecialPriceDetails = () => {
                     )}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="select-offerfooditems" ref={listpopupRef}>
                 <div className="seraching-for-items">
@@ -1547,6 +1551,7 @@ const SpecialPriceDetails = () => {
               </div>
 
               {overlapShow && <Overlap onclose={closeOverlapPopUp} />}
+              {cancelPopup && <CancelPopup  onclose={closeCancelPopup}/> }
 
               {selectedFoodItems.length > 0 && (
                 <div className="list-of-offeritems">
@@ -2098,7 +2103,13 @@ const SpecialPriceDetails = () => {
           >
             <button
               className="cancel-btn"
-              onClick={() => history.push("/Offers/active")}
+              onClick={() => {
+                // history.push("/Offers/active")
+                setcancelPopup(true)
+              }
+              
+            
+            }
             >
               Cancel
             </button>

@@ -542,14 +542,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       (item.options &&
         item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
-  console.log({modifierData});
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  console.log({thirdPartyDetails});
   
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
@@ -561,37 +559,73 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editDetails = editData[0]?.orderTypes;
   const removePricing = [];
   const addPricing = [];
+  const normalDays = prizingDetail?.normalForm?.Normaldays;
 
-  console.log("pickup", pickupDetails && pickupDetails);
+  const DineIndays = prizingDetail?.normalForm?.DineIn;
+  const stringNormalDays = Array.isArray(normalDays)
+    ? normalDays.map(String)
+    : [];
+    const stringDineInDays = Array.isArray(DineIndays)
+    ? DineIndays.map(String)
+    : [];
+  const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
+  const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
+  const combinedDetails: Detail[] = [
+    dineInDetails && {
+      ...dineInDetails,
+      availabilities: dineInDetails.availabilities.map((availability: any) => ({
+        ...availability,
+        availabilityDays:
+          availability.availabilityDays && availability.availabilityDays.length === 0 && Dineinresult.length===0 
+            ? result
+            : Dineinresult,
+      })),
+    },
+    pickupDetails && {
+      ...pickupDetails,
+      availabilities: pickupDetails.availabilities.map((availability: any) => ({
+        ...availability,
+        availabilityDays:
+          availability.availabilityDays && availability.availabilityDays.length === 0
+            ? result
+            : availability.availabilityDays,
+      })),
+    },
+    deliveryDetails && {
+      ...deliveryDetails,
+      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
+        ...availability,
+        availabilityDays:
+          availability.availabilityDays && availability.availabilityDays.length === 0
+            ? result
+            : availability.availabilityDays,
+      })),
+    },
+  
+    // Process thirdPartyDetails
+    ...(Array.isArray(thirdPartyDetails)
+      ? thirdPartyDetails.map((detail) => ({
+          ...detail,
+          availabilities: detail.availabilities.map((availability: any) => ({
+            ...availability,
+            availabilityDays:
+              availability.availabilityDays && availability.availabilityDays.length === 0
+                ? result
+                : availability.availabilityDays,
+          })),
+        }))
+      : []),
+  ].filter(Boolean);
+  
+  
   // const combinedDetails: Detail[] = [
-  //   dineInDetails && {
-  //     ...dineInDetails,
-  //     availabilities: dineInDetails.availabilities.map((availability) => ({
-  //       ...availability,
-  //       availabilityDays:
-  //         availability.availabilityDays && availability.availabilityDays.length === 0
-  //           ? result
-  //           : availability.availabilityDays,
-  //     })),
-  //   },
+  //   dineInDetails && dineInDetails,
   //   pickupDetails && pickupDetails,
   //   deliveryDetails && deliveryDetails,
   //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   // ].filter(Boolean);
-  
-  const combinedDetails: Detail[] = [
-    dineInDetails && dineInDetails,
-    pickupDetails && pickupDetails,
-    deliveryDetails && deliveryDetails,
-    ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
-  ].filter(Boolean);
 
-  const normalDays = prizingDetail?.normalForm?.Normaldays;
-
-  const stringNormalDays = Array.isArray(normalDays)
-    ? normalDays.map(String)
-    : [];
-  const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
+ 
 
   const taxData =
     typeof primarydata?.tax === "string"
@@ -828,8 +862,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
-      <div style={{ display: "flex", flexDirection: "column", width:'86.5vw' }}>
-        <div className="reviewheading">
+      <div style={{ display: "flex", flexDirection: "column"}} className="reviewpage-whole-container">
+        <div  className={isExpanded ? "reviewheading-Expanded" : "reviewheading"}>
           <p>
             Review menu item -{" "}
             {primarypagedetails.primarypage.data?.itemName || "N/A"}
@@ -839,11 +873,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <div className="reviewpagebody">
             <div className="primaryreview">
               <div
-                style={{ display: "flex", borderBottom: "1px solid #c4c4c4" }}
+                style={{ display: "flex", borderBottom: "1px solid #c4c4c4",width:isExpanded?"78vw":"83vw" }}
               >
                 <div className="primaryreviewdetailspart1">
                   <div className="primaryreviewheading">
-                    <div className="promari-and-edit-heading">
+                    <div className={isExpanded ? "primary-and-edit-heading-extended" : "primary-and-edit-heading"}>
                     <p>Step 1: Primary Details</p>
                     <Link
                       to="/productCatalog/PrimaryDetails"
@@ -855,11 +889,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <img
                         src={edit}
                         alt=""
-                        className="step3-Review-Container-heading-EditImage"
+                        className="step3-Review-Container-heading-EditImage-primary"
                         width={15}
                         height={15}
                       />
-                      <h3 className="Edit-heading">Edit</h3></Link></div>
+
+                      <span className="edit-primary-data">Edit</span>
+                      </Link></div>
                    
                   </div>
                   <div className="primaryreviews">
@@ -1254,6 +1290,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         <div
           className={isExpanded ? "saveandnextreview" : "saveandnextreview1"}
         >
+
+          <div  className={isExpanded ? "save-and-next-button-extended" : "save-and-next-button"}>
           <button
             className={`${isExpanded ? "clearall1" : "clearall"}`}
             onClick={() => history.push("/productCatalog/menuListing")}
@@ -1271,6 +1309,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
               "Publish"
             )}
           </button>
+          </div>
+
+
+
+         
         </div>
       </div>
     </div>

@@ -91,6 +91,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory) {
       const isFormValid = await triggerValidation(formData);
       const valiadtesubcategorynn= valiadtesubCategory()
+     
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -170,6 +171,10 @@ const Navigationpage: React.FC<NavButtonProps> = ({
           history.push(`/productCatalog/${path}`, { pagename: category });
         }
       }
+      // dispatch(PricingDetailRequest(PricingDetails));
+      //     setNavigate(true)
+      //     setCurrentPage(category);
+      //     history.push(`/productCatalog/${path}`, { pagename: category });
      
     }
     
@@ -213,7 +218,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
   return (
     <>
-      <div className={"navigation"}>
+      <div className={isExpanded ? "navigationExpanded" : "navigation"}>
         <h1 className="Mainheading">
           {editData?.length >= 1 ? "Edit Item" : "Creating new menu item"}
         </h1>
@@ -226,7 +231,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
             {categories.map((category, index) => (
               <li
                 key={category}
-                className={isExpanded ? "listsExpanded" : "lists"}
+                className={isExpanded ? "listsExpanded-navigation" : "lists-navigation"}
                 onClick={() => handleCategoryClick(category)}
               >
                 <h1

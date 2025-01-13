@@ -96,8 +96,6 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: State) => state.itemCustomizationsReducer1
   );
 
-  console.log({Check},{itemCustomizationData})
-
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
@@ -130,7 +128,7 @@ const ItemCustomizations: React.FC<any> = () => {
     );
 
     setModifierList(filtered);
-  }, [ListOfmodifier]);
+  }, [ListOfmodifier, searchQuery]);
 
   const initialModificationValue = [
     {
@@ -159,8 +157,6 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -178,15 +174,12 @@ const ItemCustomizations: React.FC<any> = () => {
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
-console.log({itemCustomizationData});
 
   console.log({itemCustomizationData})
 
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
-      setShowModifiers(true);
-     
-      
+      setShowModifiers(!showModifiers);
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
@@ -198,17 +191,13 @@ console.log({itemCustomizationData});
           }
         );
 
-        console.log('iiii',item?.noFreeCustomization)
-        console.log('iiii',item?.freeCustomization)
-
         if (item?.options) {
-          console.log("mod1");
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
             isModifierChanged: false,
             isEnabled: item.isEnabled,
-            
+            selectionType: "Mandatory",
 
             modifierOptions:
               item?.options?.length > 0
@@ -222,16 +211,13 @@ console.log({itemCustomizationData});
                     isEnabled: option?.isEnabled,
                   }))
                 : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minCount ,
-            maxSelection: item.maxCount ,
-            
+            minSelection: item.minSelection || 0,
+            maxSelection: item.maxSelection || 0,
             freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item.minCount===0? "Optional":"Mandatory",
             // selectionType: item?.selectionType || "Mandatory",
           };
         } else if (item?.modifierOptions) {
-          console.log("mod2");
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
@@ -253,7 +239,7 @@ console.log({itemCustomizationData});
             maxSelection: item.maxSelection || 0,
             freeCustomization: item?.freeCustomization || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item.minSelection===0? "Optional":"Mandatory",
+            selectionType: item?.selectionType || "Mandatory",
             // selectionType:  "Mandatory",
           };
         }
@@ -327,7 +313,6 @@ console.log({itemCustomizationData});
         ...currentModifier,
 
         [name]: value,
-        minSelection: selectionType === "Optional" ? 0 : updated[modIndex]?.minSelection,
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
       };
@@ -359,7 +344,6 @@ console.log({itemCustomizationData});
       updated[modIndex] = {
         ...currentModifier,
         selectionType: selectionType ? selectionType : "Mandatory",
-        minSelection: selectionType === "Optional" ? 0 : updated[modIndex]?.minSelection,
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
       };
@@ -445,39 +429,39 @@ console.log({itemCustomizationData});
             (opt: any, optIdx: number) => {
               if (optIdx === optIndex) {
                 const currentValue = opt[e.target.name];
-                let newValue = e.target.value;
-  
-                // Restrict to 4 digits before the decimal and up to 2 digits after
-                if (e.target.name === "cost") {
-                  const regex = /^\d{0,4}(\.\d{0,2})?$/;
-                  if (!regex.test(newValue)) {
-                    newValue = currentValue; // If invalid, retain the previous value
-                  }
-                }
-  
+                const newValue =
+                  e.target.name === "cost"
+                    ? parseFloat(
+                        e.target.value.replace(/^(\d+)(\.\d{0,2})?.*$/, "$1$2")
+                      ) ||
+                      0 ||
+                      0 ||
+                      0
+                    : e.target.value;
+
                 const isOptionChanged =
                   mod.modifierId !== "" &&
                   currentValue !== undefined &&
                   currentValue !== null &&
                   currentValue !== "" &&
                   currentValue !== newValue;
-  
+
                 return {
                   ...opt,
-                  [e.target.name]: newValue, // Ensure newValue is always a string
+                  [e.target.name]: newValue,
                   isModifierOptionChanged: isOptionChanged,
                 };
               }
               return opt;
             }
           );
-  
+
           const isModifierChanged =
             mod.modifierId !== "" &&
             updatedModifierOptions.some(
               (opt: any) => opt.isModifierOptionChanged
             );
-  
+
           return {
             ...mod,
             modifierOptions: updatedModifierOptions,
@@ -486,7 +470,7 @@ console.log({itemCustomizationData});
         }
         return mod;
       });
-  
+
       const updatedModifierId = newModifier[modIndex]?.modifierId;
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
@@ -496,17 +480,15 @@ console.log({itemCustomizationData});
           return prevIds;
         });
       }
-  
+
       return newModifier;
     });
   };
-  
-  
-  // useEffect(() => {
-  //   if (modifications.length > 0) {
-  //     setShowModifiers(true);
-  //   }
-  // }, [modifications]);
+  useEffect(() => {
+    if (modifications.length > 0) {
+      setShowModifiers(true);
+    }
+  }, [modifications]);
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -606,21 +588,49 @@ console.log({itemCustomizationData});
     //   });
     // }
   };
-
+  const [isDragging, setIsDragging] = useState(false);
   const onDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.dataTransfer.setData("index", index.toString());
+    setIsDragging(true);
+  };
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+
+    const scrollableContainer = document.querySelector(".modifiersitem");
+    if (!scrollableContainer) return;
+
+    const scrollThreshold = 200; // Adjust as needed
+    const scrollSpeed = 10;
+
+    const containerRect = scrollableContainer.getBoundingClientRect();
+    const mouseY = e.clientY;
+
+    // Scroll up if near the top of the container
+    if (mouseY < containerRect.top + scrollThreshold) {
+      scrollableContainer.scrollTop -= scrollSpeed;
+    }
+
+    // Scroll down if near the bottom of the container
+    if (mouseY > containerRect.bottom - scrollThreshold) {
+      scrollableContainer.scrollTop += scrollSpeed;
+    }
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    e.preventDefault();
     const draggedIndex = parseInt(e.dataTransfer.getData("index"), 10);
+
     if (draggedIndex !== index) {
+      // Update the modifications array
       const newModifications = [...modifications];
       const [draggedItem] = newModifications.splice(draggedIndex, 1);
       newModifications.splice(index, 0, draggedItem);
       setModifications(newModifications);
     }
-  };
 
+    setIsDragging(false);
+  };
   const clearAll = () => {
     setModifications((prevModifications: any) =>
       prevModifications.map((modification: any) => ({
@@ -699,63 +709,7 @@ console.log({itemCustomizationData});
   }, [searchQuery, modifications]);
 
   const [selectedModifiers, setSelectedModifiers] = useState<Modification>();
-  // const handleSelecteModifiers = (Modifiers: Modification) => {
-  //   setSearchQuery("");
-  
-  //   const updatedModifiers = {
-  //     ...Modifiers,
-  //     freeCustomization: Modifiers?.noFreeCustomization,
-  //     maxSelection: Modifiers?.maxAllowed,
-  //     minSelection: Modifiers?.minRequired,
-  //     isEnabled: true,
-  //     modifierOptions:
-  //       Modifiers.modifierOptions.length > 0
-  //         ? Modifiers?.modifierOptions.map((option: any) => ({
-  //             modifierOptionId:
-  //               option?.optionId || option?.modifierOptionId || null,
-  //             modifierOptionName:
-  //               option?.name || option?.modifierOptionName || "",
-  //             cost: option?.cost || 0,
-  //             isModifierOptionChanged: false,
-  //             isEnabled: true,
-  //           }))
-  //         : [
-  //             {
-  //               modifierOptionId: "",
-  //               modifierOptionName: "",
-  //               cost: 0,
-  //               isModifierOptionChanged: false,
-  //               isEnabled: true,
-  //             },
-  //           ],
-  //   };
-  
-  //   setModifications((prevModifications: Modification[]) => {
-  //     const existingModifierIndex = prevModifications.findIndex(
-  //       (modifier) =>
-  //         modifier.modifierName === updatedModifiers.modifierName && // Check if modifier name matches
-  //         modifier.modifierOptions.length === updatedModifiers.modifierOptions.length && // Check if option lengths match
-  //         modifier.modifierOptions.every(
-  //           (option, index) =>
-  //             option.modifierOptionName ===
-  //               updatedModifiers.modifierOptions[index].modifierOptionName &&
-  //             option.cost === updatedModifiers.modifierOptions[index].cost
-  //         ) &&
-  //         (!modifier.availableStreams || modifier.availableStreams.length === 0) // Check if streams are empty
-  //     );
-  
-  //     if (existingModifierIndex !== -1) {
-  //       // Replace the existing modifier
-  //       const updatedList = [...prevModifications];
-  //       updatedList[existingModifierIndex] = updatedModifiers;
-  //       return updatedList;
-  //     }
-  
-  //     // Add the new modifier
-  //     return [...prevModifications, updatedModifiers];
-  //   });
-  // };
-  
+
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
@@ -802,21 +756,21 @@ console.log({itemCustomizationData});
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "ArrowDown") {
-      setHighlightedIndex((prevIndex) => {
-        const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
-        setSearchQuery(ModifierList[newIndex]?.modifierName);
-        return newIndex;
-      });
-    }
+    // if (e.key === "ArrowDown") {
+    //   setHighlightedIndex((prevIndex) => {
+    //     const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
+    //     setSearchQuery(ModifierList[newIndex]?.modifierName);
+    //     return newIndex;
+    //   });
+    // }
 
-    if (e.key === "ArrowUp") {
-      setHighlightedIndex((prevIndex) => {
-        const newIndex = Math.max(0, prevIndex - 1);
-        setSearchQuery(ModifierList[newIndex]?.modifierName);
-        return newIndex;
-      });
-    }
+    // if (e.key === "ArrowUp") {
+    //   setHighlightedIndex((prevIndex) => {
+    //     const newIndex = Math.max(0, prevIndex - 1);
+    //     setSearchQuery(ModifierList[newIndex]?.modifierName);
+    //     return newIndex;
+    //   });
+    // }
   };
 
   const handleMouseEnter = (index: number) => {
@@ -994,77 +948,77 @@ console.log({itemCustomizationData});
   };
 
   const validateModifiers = (modifications: any[]) => {
-    const errors = showModifiers ? [...customizationerrors] : [];
-  
+    const errors = [...customizationerrors];
+
     modifications?.forEach((modifier, index) => {
       const {
         modifierName,
         modifierId,
         modifierOptions,
         selectedValue,
+        selectionType,
       } = modifier;
-  
+
       let modifierErrors: any = {
-        modifierNameError: "",
+        modifierNameError: modifierName.trim() ? "" : ``,
         id: modifierId || "",
         errormsgforselectedvalues: "",
         options: [],
       };
-  
-      if (showModifiers) {
-        if (!modifierName.trim()) {
-          modifierErrors.modifierNameError = `Modifier Name is required`;
-        }
-        if (atleastOnestream && selectedValue?.length === 0) {
-          modifierErrors.errormsgforselectedvalues =
-            "Available service streams required";
-        }
-  
-        if (Array.isArray(modifierOptions)) {
-          modifierOptions.forEach((option: any) => {
-            let optionErrors: any = {
-              optionName: option.modifierOptionName || "",
-              optionId: option.modifierOptionId || "",
-              optionNameError: "",
-              optionPrice: option.cost || 0,
-              optionPriceError: "",
-            };
-  
-            if (!option.modifierOptionName.trim()) {
-              optionErrors.optionNameError = `Option Name is required`;
-            }
-  
-            if (isNaN(option.cost) || option.cost <= 0) {
-              optionErrors.optionPriceError = `Price field is required`;
-            }
-  
-            modifierErrors.options.push(optionErrors);
-          });
-        } else {
-          modifierErrors.options.push({
-            optionNameError: `Options must be an array`,
-          });
-        }
-  
-        if (
-          modifierErrors.modifierNameError ||
-          modifierErrors.errormsgforselectedvalues ||
-          modifierErrors.options.some(
-            (opt: any) => opt.optionNameError || opt.optionPriceError
-          )
-        ) {
-          errors[index] = modifierErrors;
-        } else {
-          errors[index] = null;
-        }
+
+      if (!modifierName.trim()) {
+        modifierErrors.modifierNameError = `Modifier Name is required`;
+      }
+      if (atleastOnestream && selectedValue?.length === 0) {
+        modifierErrors.errormsgforselectedvalues =
+          "Available service streams required";
+      }
+
+      if (Array.isArray(modifierOptions)) {
+        modifierOptions.forEach((option: any, optIndex: number) => {
+          let optionErrors: any = {
+            optionName: option.modifierOptionName || "",
+            optionId: option.modifierOptionId || "",
+            optionNameError: "",
+            optionPrice: option.cost || 0,
+            optionPriceError: "",
+          };
+
+          const nameRegex = /^[a-zA-Z0-9\s]+$/;
+          if (!option.modifierOptionName.trim()) {
+            optionErrors.optionNameError = `Option Name is required`;
+          }
+          // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
+          //   optionErrors.optionNameError = `Option Name must not contain special characters`;
+          // }
+
+          if (isNaN(option.cost) || option.cost <= 0) {
+            optionErrors.optionPriceError = `Price field is required`;
+          }
+
+          modifierErrors.options.push(optionErrors);
+        });
       } else {
-        // Clear all error messages when showModifiers is false
+        modifierErrors.options.push({
+          optionNameError: `Options must be an array`,
+        });
+      }
+
+      if (
+        modifierErrors.modifierNameError ||
+        modifierErrors.errormsgforselectedvalues ||
+        modifierErrors.options.some(
+          (opt: any) => opt.optionNameError || opt.optionPriceError
+        )
+      ) {
+        errors[index] = modifierErrors;
+      } else {
         errors[index] = null;
       }
     });
-  
+
     setcustomizationerrors(errors);
-  
+
     const validateCustomizationErrors = () => {
       return errors.every((error) => {
         if (!error) return true;
@@ -1075,14 +1029,14 @@ console.log({itemCustomizationData});
           (option: any) =>
             option.optionNameError === "" && option.optionPriceError === ""
         );
-  
+
         return hasNoTopLevelErrors && hasNoOptionErrors;
       });
     };
-  
+
     return validateCustomizationErrors();
   };
-  
+
   const handleBlur = (
     e: ChangeEvent<HTMLInputElement>,
     modIndex: number,
@@ -1111,6 +1065,7 @@ console.log({itemCustomizationData});
   return (
     <div
       style={{
+        width:"100%",
         display: "flex",
         height: "99vh",
         overflowY: "hidden",
@@ -1164,7 +1119,7 @@ console.log({itemCustomizationData});
                   className="searchBox-input"
                   type="text"
                   value={searchQuery}
-                  onKeyDown={handleKeyDown}
+                  // onKeyDown={handleKeyDown}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
                     if (e.target.value === "") {
@@ -1173,11 +1128,11 @@ console.log({itemCustomizationData});
                       setShowSearchList(true);
                     }
                   }}
-                  // onKeyDown={(e) => {
-                  //   if (e.key === "Enter") {
-                  //     handleSearchChange();
-                  //   }
-                  // }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSearchChange();
+                    }
+                  }}
                 ></input>
                 <img
                   src={Serachicon}
@@ -1279,11 +1234,16 @@ console.log({itemCustomizationData});
                         {showModifiers && (
                           <div className="AddModifiersMainInputSection">
                             <div className="AddModifiersInputSection">
-                              {/* <img
+                              <img
                                 className="dotedimageItemCustomizations"
                                 src={dotted}
                                 alt="dotted"
-                              /> */}
+                                draggable
+                                onDragStart={(e) => onDragStart(e, modIndex)}
+                                onDrag={handleDrag}
+                                onDrop={(e) => onDrop(e, modIndex)}
+                                onDragOver={(e) => e.preventDefault()}
+                              />
                               <h3 className="paraItemCustomizations">
                                 {modIndex + 1}.
                               </h3>
@@ -1473,7 +1433,7 @@ console.log({itemCustomizationData});
                                         {customizationerrors[modIndex]?.options[
                                           optIndex
                                         ]?.optionNameError !== "" && (
-                                          <span className="nameErrormsg">
+                                          <span className="nameErrormsg optionNameErrormsg">
                                             {
                                               customizationerrors[modIndex]
                                                 ?.options[optIndex]
@@ -1523,7 +1483,7 @@ console.log({itemCustomizationData});
                                             const value = e.target.value;
 
                                             // Restrict to 4 digits
-                                            if (value.length <= 5) {
+                                            if (value.length <= 4) {
                                               addOptionChange(
                                                 modIndex,
                                                 optIndex,
@@ -1560,7 +1520,7 @@ console.log({itemCustomizationData});
                                         {customizationerrors[modIndex]?.options[
                                           optIndex
                                         ]?.optionPriceError !== "" && (
-                                          <span className="nameErrormsg">
+                                          <span className="nameErrormsg optionpriceerrormsg">
                                             {
                                               customizationerrors[modIndex]
                                                 ?.options[optIndex]

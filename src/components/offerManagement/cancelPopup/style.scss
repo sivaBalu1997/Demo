@@ -1,0 +1,97 @@
+.cancelpopup-special-offer{
+
+position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  font-family: "Poppins", sans-serif;
+  .cancel-popup-containe-sp
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 35vw;
+height: 20vh;
+
+border-radius: 9px;
+
+
+    background-color:white ;
+}
+
+  .cancel-and-delete-button
+  {
+    display: flex;
+    gap: 1rem;
+    
+  }
+  .cancel-button-sp
+  {
+    width: 138.83px;
+height: 46.28px;
+display: flex;
+   cursor: pointer;
+    justify-content: center;
+    align-items: center;
+border-radius: 3.47px;
+
+border: 0.58px solid #5F5F5F;
+font-family: "Poppins",sans-serif;
+font-size: 16.2px;
+font-weight: 400;
+line-height: 24.3px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #5F5F5F;
+background: none;
+
+
+  }
+  .delete-button-sp
+  {
+    width: 138.83px;
+height: 46.28px;
+display: flex;
+cursor: pointer;
+    justify-content: center;
+    align-items: center;
+border-radius: 3.47px;
+
+background-color: #E52333;
+font-family: "Poppins",sans-serif;
+font-size: 16.2px;
+font-weight: 400;
+line-height: 24.3px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: white;
+border: none;
+outline: none;
+
+
+
+  }
+}
+
+.cancel-text-sp
+{
+    font-family: "Poppins",sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 31.12px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    
+}

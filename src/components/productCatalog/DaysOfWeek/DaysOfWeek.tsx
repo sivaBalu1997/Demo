@@ -26,7 +26,7 @@ const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays ,Marginprese
     : [];
 
   return (
-    <ul className="DaysOfWeek" style={{marginLeft:Marginpresent?"21px":"0.1rem"}}>
+    <ul className="DaysOfWeek" style={{marginLeft:Marginpresent?"21px":"1.8rem"}}>
       {daysOfWeek.map((day, index) => (
         <li
           key={index}

@@ -104,7 +104,7 @@ export const MenuPage = () => {
     return data.reduce((acc, category) => {
       category?.itemResponseList?.forEach((item) => {
         item.orderTypes?.forEach((orderType) => {
-          if (orderType.typeGroup !== "I") { 
+          if (orderType.typeGroup !== "I") {
             acc[orderType.typeName] = true;
           }
         });
@@ -112,7 +112,7 @@ export const MenuPage = () => {
       return acc;
     }, {});
   };
-  
+
 
 
   const initializeListingObject = (uniqueNames) => {
@@ -139,7 +139,6 @@ export const MenuPage = () => {
   };
 
   const [listingobject, setlistingobject] = useState();
-  console.log("Adit", listingobject)
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -594,9 +593,9 @@ export const MenuPage = () => {
     }
   }, [selectedBranch?.id]);
 
-  // useEffect(() => {
-  //   dispatch(getMenuRequest(locationid));
-  // }, []);
+  useEffect(() => {
+    dispatch(getMenuRequest(locationid));
+  }, []);
 
   useEffect(() => {
     if (deleteMenuItemSuccess) {
@@ -883,7 +882,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 
@@ -994,9 +993,6 @@ export const MenuPage = () => {
     const { width, height } = element.getBoundingClientRect();
 
     setWidthForCategoryBorder(width);
-
-    console.log(`Class Name: ${element.className}`);
-    console.log(`Width: ${width}px, Height: ${height}px`);
   };
 
   useEffect(() => {
@@ -1006,8 +1002,6 @@ export const MenuPage = () => {
     if (element) {
       const { width } = element.getBoundingClientRect();
       setWidthForCategoryBorder(width);
-
-      console.log(`Updated Width: ${width}px`);
     }
   }, [listingobject, menuData]);
   return (
@@ -1160,14 +1154,17 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
+
                 className={`${isExpanded && !menuDataLoading && "body-container-expand"
                   } ${!isExpanded && !menuDataLoading && "body-container"}`}
               // className={`${isExpanded ? "body-container-expand" : "body-container"
               //   }`}
               >
-                <div></div>
-                <div className={`${isExpanded ? "first-div-body-expand" : "first-div-body"
-                  }`} ref={ref1}>
+                <div
+
+
+                  className={`${isExpanded ? "first-div-body-expand" : "first-div-body"
+                    }`} ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.subCategoryResponseList &&
@@ -1198,7 +1195,7 @@ export const MenuPage = () => {
                                       (item, index) => (
                                         <div
                                           key={index}
-                                          className="item-name-code-data"
+                                          className={"item-name-code-data"}
                                         >
                                           <p>
                                             <span className="itemimage2">
@@ -1256,7 +1253,7 @@ export const MenuPage = () => {
                                 {data?.itemResponseList.map((item, index) => (
                                   <div
                                     key={index}
-                                    className="item-name-code-data"
+                                    className={isExpanded ? "item-name-code-data-Expanded" : "item-name-code-data"}
                                   >
                                     <p>
                                       <span className="itemimage2">
@@ -1315,7 +1312,11 @@ export const MenuPage = () => {
                       !menuDataFailed &&
                       !showColumns &&
                       "second-div-body"
-                      }`}
+                      }
+                    
+                    
+                    
+                    `}
                     ref={mergeRefs(ref2, bodyRef)}
                     style={{
                       height: menuDataLoading ? "39.5rem" : "",
