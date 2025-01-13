@@ -209,7 +209,7 @@ const CustomerInsights = () => {
                   <img className="l-tool-tip-image" src={ToolTip} alt="tool-tip" />
                   {showLiveNetSaleTooltip && (
                     <div className="l-tool-tip-content">
-                      Net Sales = Item Total - Discount
+                      Item Total - Discount
                     </div>
                   )}
                 </div>
