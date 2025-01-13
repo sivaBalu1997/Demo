@@ -1047,9 +1047,9 @@ export const MenuPage = () => {
                       className="addbtn-menupage"
                       onClick={() => {
                         if (
-                          itemList.length > 0 &&
+                          itemList?.length > 0 &&
                           itemList?.some(
-                            (item) => item?.itemResponseList.length > 0
+                            (item) => item?.itemResponseList?.length > 0
                           ) &&
                           !menuDataLoading &&
                           !menuDataFailed
