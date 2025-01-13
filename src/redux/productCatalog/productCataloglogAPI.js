@@ -17,6 +17,9 @@ export const getMenuDataApi = (locationId) => {
   return API({
     method: "get",
     url: `/api/v1/menu-items?locationId=${locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
