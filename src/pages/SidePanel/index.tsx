@@ -61,7 +61,7 @@ const SidePanel = () => {
     else if (location?.pathname?.includes('/old-reports')) {
       setShowOptions('report')
     }
-    else if (location?.pathname?.includes('Offers/active')) {
+    else if (location?.pathname?.includes('Offers/active') ||location?.pathname?.includes('offer/special') ) {
       setShowOfferOptions('MenuOptions')
       setSelectedSub('Special Price')
     }
