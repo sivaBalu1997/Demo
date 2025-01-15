@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-// import "./Toggle.scss";
+import "./Toggle.scss";
 
 interface ToggleProps {
   toggle: boolean;
@@ -28,7 +28,7 @@ const Toggle: React.FC<ToggleProps> = ({
     <div>
       <button
         type="button"
-        className={`toggleBtn${toggle ? " Toggled" : ""}`}
+        className={`sptoggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
           if(name=='Date')
           {
@@ -40,7 +40,7 @@ setToggle((pre:any)=>!pre)
          
         }}
       >
-        <div className="thumb"></div>
+        <div className="spthumb"></div>
       </button>
     </div>
   );

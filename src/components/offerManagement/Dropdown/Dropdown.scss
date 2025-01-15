@@ -22,7 +22,7 @@
 
 .cPdropdown-arrow {
   position: relative;
-  left: -10%;
+  margin-left: -10%;
   opacity: 60%;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .cPdropdown-search {
-  width: 20vw;
+  width: 308px;
   height: 2.5rem;
   font-family: "Poppins", sans-serif;
   font-size: 0.875rem;
@@ -71,7 +71,7 @@
   position: relative;
   .cPdropdownbody {
     position: absolute;
-    width: 19.8vw;
+    width: 308px;
     // height: 10.8rem;
     z-index: 5;
     background: #ffffff;

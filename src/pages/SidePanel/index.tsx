@@ -49,6 +49,7 @@ const SidePanel = () => {
   const [routeTo, setRouteTo] = useState({});
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
+  const [SelectSub,setSelectedSub]=useState('')
 
   console.log({ showOptions })
 
@@ -60,12 +61,15 @@ const SidePanel = () => {
     else if (location?.pathname?.includes('/old-reports')) {
       setShowOptions('reportOptions')
     }
-    else if (location?.pathname?.includes('/live-reports')) {
-      setShowOptions('reportOptions')
+    else if (location?.pathname?.includes('Offers/active') ||location?.pathname?.includes('offer/special') ) {
+      setShowOfferOptions('MenuOptions')
+      setSelectedSub('Special Price')
     }
-    // }, [showOptions, location?.pathname, history]);
-    // the above line is commented because it was causing infinite loop
-  }, [location?.pathname]);
+    else if (location?.pathname?.includes('/Offer')) {
+      setShowOfferOptions('MenuOptions')
+      setSelectedSub('Offers')
+    }
+  }, [showOptions, location?.pathname, history]);
 
 
   const restaurantDetails = useSelector(
@@ -418,17 +422,19 @@ const SidePanel = () => {
           <ul className="menu-items-list">
             {showOfferOptions === "MenuOptions"
               ? offerMenuOptions.map((option) => (
-                <li>
-                  <span
-                    className="d-inline-block m-t-20"
-                    onClick={() => {
-                      option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
-                    }}
-                  >
-                    {option}
-                  </span>
-                </li>
-              ))
+                    <li>
+                      <span
+                        className="d-inline-block m-t-20"
+                       style={{color:SelectSub==option?"#67833E":'#000000'}}
+                        onClick={() => {
+                          option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
+                          setSelectedSub(option)
+                        }}
+                      >
+                        {option}
+                      </span>
+                    </li>
+                ))
               : null}
           </ul>
           {/* Report ==================================================================== */}

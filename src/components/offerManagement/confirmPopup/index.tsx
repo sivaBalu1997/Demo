@@ -3,20 +3,18 @@ import './style.scss'
 import { useHistory } from "react-router-dom";
 interface cancelpopup{
     onclose:any
-    onDelete:any
-    id:any
 
 }
-const Index:React.FC<cancelpopup> = ({onclose,onDelete,id}) => {
+const Index:React.FC<cancelpopup> = ({onclose}) => {
 
      const history = useHistory();
     return (
         <div className='cancelpopup-special-offer'>
             <div className='cancel-popup-containe-sp'>
-            <div><p className='cancel-text-sp'>Are you sure ? you want to delete the item from the listing</p></div>
+            <div><p className='cancel-text-sp'>Unsaved changes will be lost. Do you want to continue?</p></div>
   <div className='cancel-and-delete-button'>
-    <button className='cancel-button-sp' onClick={()=>onclose()}>Cancel</button>
-    <button className='delete-button-sp' onClick={()=>  onDelete(id)}>Delete</button>
+    <button className='cancel-button-sp' onClick={()=>onclose()}>Back</button>
+    <button className='proceed-button-sp' onClick={()=>  history.push("/Offers/active")}>Proceed</button>
   </div>
             </div>
   

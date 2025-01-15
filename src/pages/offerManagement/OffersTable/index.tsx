@@ -263,6 +263,8 @@ const Table = () => {
                             display:"flex",
                             justifyContent:"left",
                             alignItems:"center",
+                            position:'absolute',
+                            marginTop:"10px",
                             gap:"0.5rem"
                           }}
                         >
@@ -270,9 +272,9 @@ const Table = () => {
                             <>
                               {`${row?.value}%`}
                               {row.specialType === "HAPPY HOUR" ? (
-                                <img src={arrow} alt="" />
+                                <img src={arrow} alt="" className="down-arrow-price" />
                               ) : (
-                                <img src={arrow} alt="" className="down-arrow-price"/>
+                                <img src={arrow} alt="" />
                               )}
                             </>
                           )}
@@ -281,15 +283,15 @@ const Table = () => {
                               {countryC === "US" ? "$" : "RS"}
                               {row.value}
                               {row.specialType === "HAPPY HOUR" ? (
-                               <img src={arrow} alt="" />
+                               <img src={arrow} alt="" className="down-arrow-price"/>
                               ) : (
-                                <img src={arrow} alt="" className="down-arrow-price"/>
+                                <img src={arrow} alt="" />
                               )}
                             </>
                           )}
                         </td>
                         <td className="OffrtsTabletd">
-                          <div className="action-container" ref={componentRef}>
+                          <div className={isExpanded?"spaction-container1":"spaction-container"} ref={componentRef}>
                             <div
                               className="action-icon-container"
                               onClick={() => handleOfferDropdown(index)}
