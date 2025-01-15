@@ -654,7 +654,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           // dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
           //     ? true
           //     : false,
-          Enabled:dineIndetails?.Enabled,
+          Enabled: true,
           DineInMealType:
             dineIndetails?.availabilities &&
             dineIndetails?.availabilities[0]?.sessions,
@@ -685,7 +685,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             ...prevData,
             price: updatedField?.DineInPrice,
             // Enabled: updatedField?.Enabled,
-            Enabled:updatedField?.Enabled,
+            Enabled: true,
             availabilities: updatedAvailabilities,
           };
         });
@@ -705,8 +705,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
-            Enabled: pickupDetails?.Enabled === 1 ? true : false,
-           
+            // Enabled: pickupDetails?.Enabled === true ? true : false,
+            Enabled: true,
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
@@ -727,8 +727,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
-         
-            Enabled: deliveryDetails?.Enabled===1?true:false,
+            Enabled: true,
+            // Enabled: deliveryDetails?.Enabled,
             price: deliveryDetails?.price || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
@@ -861,7 +861,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
-            Enabled:pickupDetails?.isEnabled,
+            Enabled: true,
             // Enabled:
             //   (pickupDetails?.availabilityEnabled &&
             //   pickupDetails?.availabilityEnabled === true
@@ -906,7 +906,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
-            Enabled:deliveryDetails?.isEnabled,
+            Enabled: true,
             // Enabled:
             //   (deliveryDetails?.availabilityEnabled &&
             //   deliveryDetails?.availabilityEnabled === true
@@ -940,7 +940,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeId: detail.typeId || "",
             price: detail.price || 0,
             typeName: detail.typeName || "",
-            Enabled:detail.isEnabled,
+            Enabled: true,
             // Enabled:
             //   (detail?.availabilityEnabled &&
             //   detail?.availabilityEnabled === true
@@ -986,7 +986,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         const updatedField = {
           DineInPrice: dineIndetail?.price,
-          Enabled:dineIndetail?.Enabled===1?true:false,
+          Enabled: true,
           // Enabled:
           //   (dineIndetail?.availabilityEnabled &&
           //   dineIndetail?.availabilityEnabled === true

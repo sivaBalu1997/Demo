@@ -570,43 +570,33 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
-
-  console.log({dineInDetails});
-  
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
-      isEnabled: dineInDetails.Enabled===true||dineInDetails.Enabled===1?1:0, 
-      availabilities: dineInDetails.availabilities.map((availability: any) => ({
+      availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability.availabilityDays &&
-          availability.availabilityDays.length === 0 &&
-          Dineinresult.length === 0
+          availability.availabilityDays && availability.availabilityDays.length === 0 && Dineinresult.length===0 
             ? result
             : Dineinresult,
       })),
     },
     pickupDetails && {
       ...pickupDetails,
-      isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, // Rename key and handle undefined
-      availabilities: pickupDetails.availabilities.map((availability: any) => ({
+      availabilities: pickupDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability.availabilityDays &&
-          availability.availabilityDays.length === 0
+          availability?.availabilityDays && availability?.availabilityDays?.length === 0
             ? result
             : availability?.availabilityDays,
       })),
     },
     deliveryDetails && {
       ...deliveryDetails,
-      isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, // Rename key and handle undefined
-      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
+      availabilities: deliveryDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability.availabilityDays &&
-          availability.availabilityDays.length === 0
+          availability?.availabilityDays && availability?.availabilityDays?.length === 0
             ? result
             : availability?.availabilityDays,
       })),
@@ -616,22 +606,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails.map((detail) => ({
           ...detail,
-          isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, // Rename key and handle undefined
-          availabilities: detail.availabilities.map((availability: any) => ({
+          availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
             availabilityDays:
-              availability.availabilityDays &&
-              availability.availabilityDays.length === 0
+              availability?.availabilityDays && availability?.availabilityDays?.length === 0
                 ? result
                 : availability?.availabilityDays,
           })),
         }))
       : []),
-  ]
-    .filter(Boolean)
-    .map(({ Enabled, ...rest }) => rest); // Remove the `enabled` key from the final output
-  
-  
+  ].filter(Boolean);
   
   
   // const combinedDetails: Detail[] = [
