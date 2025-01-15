@@ -447,11 +447,19 @@ const DropDownList: React.FC<DropdownProps> = ({
       //   setValue("subCategory", "");
       // }
       if (dropDownType === "CATEGORY") {
+        let subcategorydatapayload = {
+          locationId: locationid,
+          type: "SUB_CATEGORY",
+          parentId: option?.id,
+        };
+
+        dispatch(fetchDropDownRequest(subcategorydataforApi));
         if (parentId === option?.id) {
           setCategoryChange(false);
         } else {
           setParentId(option?.id);
           setCategoryChange(true);
+
         }
         setValue("subCategory", "");
       }

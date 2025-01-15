@@ -439,6 +439,7 @@ export const MenulistingPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
+  
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -976,49 +977,971 @@ export const MenulistingPage = () => {
         });
       };
 
-  const UploadImageImageID = useSelector(
-    (state) => state.productCatalog.successImageId
-  );
-  const handleRemoveIcon = () => {
+
+  const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
+
+  const [removeiconclciked,setRemoveiconclciked]=useState();
+ 
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const element = document.querySelector(".second-part-data-row");
+      if (element) {
+        const { width } = element.getBoundingClientRect();
+        setWidthForCategoryBorder(width);
+        console.log({ width });
+      }
+    };
+  
+    // Call it initially to set the width
+    updateWidth();
+  
+    // Add the event listener for window resize
+    window.addEventListener("resize", updateWidth);
+  
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, [listingobject, menuData, menudatalist, showColumns, removeiconclciked]);
+  
+ 
+
+const handleRemoveIcon = (value) => {
     const allFalse =
       listingobject &&
       Object.values(listingobject).every((value) => value === false);
     if (allFalse) {
       setShowColumns(allFalse);
     }
+    setRemoveiconclciked(value)
   };
-
-  const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
-
-  const handleClick = (event) => {
-    const element = event.currentTarget;
-    const { width, height } = element.getBoundingClientRect();
-
-    setWidthForCategoryBorder(width);
-  };
+   const [widthForEachRow, setWidthForEachRow] = useState();
 
   useEffect(() => {
+  
+      const element = document.querySelector(".orderTypes");
+  
+      if (element) {
+        const { width } = element.getBoundingClientRect();
+        setWidthForEachRow(width);
+      }
+    }, [listingobject, menuData,menudatalist]);
 
-    const element = document.querySelector(".table-two-row");
-
-    if (element) {
-      const { width } = element.getBoundingClientRect();
-      setWidthForCategoryBorder(width);
-    }
-  }, [listingobject, menuData]);
   return (
-   <div className="MenuPage-new-container">
+   <div   className="MenuPage-new-container">
 
-    <div className="MenuPage-new-container-Sidebar"></div>
-    <div className="MenuPage-new-container-body">
+   
+          <SidePanel />
+    
+    <div  className={`${isExpanded ? "MenuPage-new-container-body-expand" : "MenuPage-new-container-body"}`}>
         <div className="MenuPage-new-container-header">
-
+        <Header />
         </div>
-        <div className="MenuPage-new-container-menuBody">
+        <InsertColumnList
+            listingobject={listingobject}
+            setlistingobject={setlistingobject}
+            insertlists={insertlists2}
+            showheadinglist={showheadinglist}
+            setshowheadinglist={setshowheadinglist}
+            closeicon={closeicon}
+            dollaricon={dollaricon}
+            toggleround={toggleround}
+            togglebtns={calendericon}
+            Outsideref={Outsideref}
+            uniqueOrderTypeNames={uniqueOrderTypeNames}
+          />
+        <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
+            <div className="first-part-data">
+                <div className="first-part-header">
+                <p className="image-style">Image</p>
+                  <p className="name-item-style">ItemName</p>
+                  <p className="item-code-style">
+                    <span> Code </span>
+                    <button
+                      className="addbtn-menupage"
+                      onClick={() => {
+                        if (
+                          itemList?.length > 0 &&
+                          itemList?.some(
+                            (item) => item?.itemResponseList?.length > 0
+                          ) &&
+                          !menuDataLoading &&
+                          !menuDataFailed
+                        ) {
+                          setshowheadinglist(true);
+                        }
+                      }}
+                    >
+                      <span className="Menupage-insert-column-span">+</span>
+                    </button>
+                  </p>
+
+
+
+
+                </div>
+                <div className="first-part-body" ref={ref1}>
+                    <div>
+
+                    {menudatalist?.map((data, parentIndex) => (
+                    <React.Fragment key={parentIndex}>
+                      {data?.subCategoryResponseList &&
+                        data?.subCategoryResponseList?.length > 0 ? (
+                        data?.subCategoryResponseList?.length > 0 &&
+                        data.categoryName !== "" && (
+                          <>
+                            {data?.subCategoryResponseList?.map(
+                              (subCategory, index) => (
+                                <>
+                                  {subCategory?.itemResponseList?.length >
+                                    0 && (
+                                      <div 
+                                      className="categoryName-data-bg"
+                                      >
+                                        <p>
+                                          {data.categoryName}-{" "}
+                                          <span>
+                                            {subCategory.subCategoryName}
+                                          </span>{" "}
+                                          ({subCategory?.itemResponseList?.length}
+                                          )
+                                        </p>
+                                      </div>
+                                    )}
+
+                                  {data?.subCategoryResponseList?.length > 0 &&
+                                    subCategory?.itemResponseList?.length > 0 &&
+                                    subCategory?.itemResponseList.map(
+                                      (item, index) => (
+                                        <div
+                                          key={index}
+                                          className="fist-part-data-itemname-code"
+                                        >
+                                          <p>
+                                            <span className="imgae-styel2">
+                                              <img
+                                                src={`${baseImageUrl}${item?.mediaResponseList[0]
+                                                    ?.imageId
+                                                  }.${item?.mediaResponseList[0]?.imageType.split(
+                                                    "/"
+                                                  )[1]
+                                                  }`}
+                                                alt="No Image"
+                                                className="foodimage"
+                                              />
+                                            </span>
+                                          </p>
+                                          <p>
+                                            <span
+                                              className="name-style2"
+                                              onClick={() =>
+                                                handlemodal(item.itemId)
+                                              }
+                                            >
+                                              <HoverText
+                                                text={item?.itemName}
+                                                lengthvale={14}
+                                              />
+                                            </span>
+                                          </p>
+                                          <p>
+                                            <span className="code-style2">
+                                              {item?.itemCode}
+                                            </span>
+                                          </p>
+                                        </div>
+                                      )
+                                    )}
+                                </>
+                              )
+                            )}
+                          </>
+                        )
+                      ) : (
+                        <>
+                          {data?.itemResponseList &&
+                            data?.itemResponseList?.length > 0
+                            ? data?.itemResponseList?.length > 0 &&
+                            data.categoryName !== "" && (
+                              <>
+                                <div className="categoryName-data-bg">
+                                  <p>
+                                    {data.categoryName} (
+                                    {data?.itemResponseList?.length})
+                                  </p>
+                                </div>
+                                {data?.itemResponseList.map((item, index) => (
+                                  <div
+                                    key={index}
+                                    className={isExpanded ? "fist-part-data-itemname-code" : "fist-part-data-itemname-code"}
+                                  >
+                                    <p>
+                                      <span className="imgae-styel2">
+                                        <img
+                                          src={`${baseImageUrl}${item?.mediaResponseList[0]
+                                              ?.imageId
+                                            }.${item?.mediaResponseList[0]?.imageType.split(
+                                              "/"
+                                            )[1]
+                                            }`}
+                                          alt="No Image"
+                                          className="foodimage"
+                                        />
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <span
+                                        className={`${isExpanded ? "name-style2-expand" : "name-style2"
+                                          }`}
+
+                                        onClick={() =>
+                                          handlemodal(item.itemId)
+                                        }
+                                      >
+                                        <HoverText
+                                          text={item?.itemName}
+                                          lengthvale={14}
+                                        />
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <span className="code-style2">
+                                        {item?.itemCode}
+                                      </span>
+                                    </p>
+                                  </div>
+                                ))}
+                              </>
+                            )
+                            : null}
+                        </>
+                      )}
+                    </React.Fragment>
+                  ))}
+                    </div>
+
+               
+                </div>
+
+                
+            </div>
+
+
+            <div className="second-part-data">
+                <div  ref={headerRef} className={`${isExpanded ? "second-part-header-expand" : "second-part-header"}`}>
+                {!menuDataLoading &&
+                      !menuDataFailed &&
+                      itemList?.length > 0 &&
+                      itemList?.some(
+                        (item) => item?.itemResponseList?.length > 0
+                      ) &&
+                      firstRowTable.map((header, index) => {
+                        const headerName = header.label.substring(
+                          0,
+                          header.label.length - 1
+                        );
+
+                        if (
+                          (header.label === "Customize1" ||
+                            nameOfOrderTypes?.includes(headerName)) &&
+                          header.label !== "Instore1" &&
+                          header.label !== "Instore2"
+                        ) {
+
+                            const dynamicWidth = `${headerName.length * 1.3
+                            }vw`;
+                          return (
+                            <>
+                              {listingobject && listingobject[header.label] && (
+                                <p
+                                  style={{
+                                    display: "flex",
+                                    gap: "20px",
+                                    height: "1rem",
+                                  }}
+                                >
+                                  <span
+                                    className="orderTypes"
+                                    style={{
+                                        width:dynamicWidth,
+                                      padding: "0",
+                                      
+
+                                      height: "1.6rem",
+                                    }}
+                                  >
+                                    {header.label !== "Inventory1" &&
+                                      header.label !== "Customize1" && (
+                                        <span className="dollar">
+                                          {header.label.charAt(
+                                            header.label.length - 1
+                                          ) === "2" ? (
+                                            <img src={calendericon} alt="" className="header-img"/>
+                                          ) : (
+                                            <img src={dollar} alt="" className="header-img"/>
+                                          )}
+                                        </span>
+                                      )}
+                                    <span
+                                     className="spanheadertext"
+                                     >
+                                      {headerName}
+                                    </span>
+                                    <span
+                                      className="removeicon"
+                                      onClick={() => {
+                                        setlistingobject({
+                                          ...listingobject,
+                                          [header.label]: false,
+                                        });
+                                        handleRemoveIcon(headerName);
+                                      }}
+                                    >
+                                      <img
+                                        src={removeicon}
+                                        // className="removeicon-img"
+                                        alt=""
+                                        onClick={() =>
+                                          setlistingobject({
+                                            ...listingobject,
+                                            [header.label]: false,
+                                          })
+                                        }
+                                      />
+                                    </span>
+                                  </span>
+                                </p>
+                              )}
+                            </>
+                          );
+                        }
+                        return null;
+                      })}
+                </div>
+                <div  className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
+                ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
+                `  } ref={mergeRefs(ref2, bodyRef)}>
+                <div >
+                    {menuDataLoading ? (
+                      <div className="Menu-noOptions">
+                        <Loader
+                          className="imgLoader2"
+                          height="100px"
+                          width="100px"
+                          style={{
+                            filter:
+                              "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                          }}
+                        />
+                      </div>
+                    ) : menuDataFailed ? (
+                      <div className="NoDataFoundContainer-menupage">
+                        <img
+                          className="columnselected-menupage"
+                          src={noResultsfound}
+                          alt="noResultFound"
+                        />
+                        <h2 className="columnselectedText">No Results Found</h2>
+                      </div>
+                    ) : (
+                      <>
+                        {showColumns ? (
+                          <div
+                            className={`${isExpanded
+                                ? "no-colunms-menu-page-expanded"
+                                : "no-colunms-menu-page"
+                              }`}
+                          >
+                            {" "}
+                            No columns  Selected
+                          </div>
+                        ) : (
+                          menudatalist?.map((data, parentIndex) => (
+                            <React.Fragment key={parentIndex}>
+                              {data?.subCategoryResponseList &&
+                                data?.subCategoryResponseList?.length > 0 ? (
+                                <>
+                                  {data?.subCategoryResponseList?.map(
+                                    (subCategory, index) => (
+                                      <React.Fragment key={index}>
+                                        {subCategory?.itemResponseList?.length >
+                                          0 &&
+                                          data.categoryName !== "" && (
+                                            <>
+                                              <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                              <div
+                                                // className="categoryName-data"
+             
+
+                                                className="categoryName-data-bg-forsecondpart"
+
+                                              >
+                                                <p></p>
+                                              </div>
+                                            </>
+                                          )}
+
+                                        {subCategory?.itemResponseList?.length >
+                                          0 &&
+                                          data.categoryName !== "" &&
+                                          subCategory?.itemResponseList.map(
+                                            (item, index) => (
+                                              <div
+
+                                                key={index}
+                                                className="second-part-data-row"
+                                              >
+                                                <p 
+                                    
+                                    
+                                style={{display:"flex",gap:"1rem"}}
+                                       >
+                                                  {orderTypesToShow2?.map(
+                                                    (
+                                                      typeName,
+                                                      ordertypeindex
+                                                    ) => {
+                                                      if (
+                                                        !nameOfOrderTypes?.includes(
+                                                          typeName
+                                                        )
+                                                      )
+                                                        return null;
+
+                                                      const shouldDisplayType =
+                                                        listingobject &&
+                                                        listingobject[
+                                                        `${typeName}1`
+                                                        ];
+
+                                                      if (!shouldDisplayType)
+                                                        return null;
+
+                                                      const orderType =
+                                                        item.orderTypes?.find(
+                                                          (ot) =>
+                                                            ot.typeName ===
+                                                            typeName
+                                                        );
+                                                        
+
+                                                      const price = orderType
+                                                        ? orderType.price
+                                                          .toFixed(2)
+                                                          .padStart(5, "0")
+                                                        : "";
+
+                                                        const dynamicWidth = `${typeName.length * 1.3
+                                                        }vw`;
+
+                                                      if (
+                                                        orderType.typeGroup !==
+                                                        "I"
+                                                      ) {
+                                                        return (
+                                                          <span
+                                                            key={typeName}
+                                                           
+                                                            className="orderTypes-price"
+     
+                                                            style={{
+                                                             cursor: "pointer",
+                                                             width:dynamicWidth,
+                                                             display:"flex",
+                                                             gap:"1rem",
+                                                                padding: "0",
+                                                                //    paddingLeft: "20px",
+                                                                //    paddingRight: "20px",
+                                                                 
+                                                             // marginLeft:"1rem"
+                                                            
+                                                             // paddingLeft:"20px",
+                                                             // paddingRight:"20px"
+     
+     
+                                                            }}
+                                                            onClick={() =>
+                                                              handlesidbarhandling(
+                                                                `${typeName}1`,
+                                                                item.itemId
+                                                              )
+                                                            }
+                                                          >
+                                                            {restaurantDetails?.country ===
+                                                              "US"
+                                                              ? "$"
+                                                              : "Rs."}{" "}
+                                                            {price !== ""
+                                                              ? price
+                                                              : "0"}
+                                                          </span>
+                                                        );
+                                                      }
+                                                    }
+                                                  )}
+                                                </p>
+
+                                                <p       style={{display:"flex",gap:"1rem"}}>
+                                                  {orderTypesToShow2?.map(
+                                                    (typeName) => {
+                                                      if (
+                                                        !nameOfOrderTypes?.includes(
+                                                          typeName
+                                                        )
+                                                      )
+                                                        return null;
+
+                                                      const shouldDisplayType =
+                                                        listingobject &&
+                                                        listingobject[
+                                                        `${typeName}2`
+                                                        ];
+
+                                                      if (!shouldDisplayType)
+                                                        return null;
+
+                                                      const orderType =
+                                                        item.orderTypes?.find(
+                                                          (ot) =>
+                                                            ot.typeName ===
+                                                            typeName
+                                                        );
+
+                                                        const dynamicWidth = `${typeName.length * 1.3
+                                                        }vw`;
+                                                      if (
+                                                        orderType.typeGroup !==
+                                                        "I"
+                                                      ) {
+                                                        return (
+                                                          <span
+                                                          key={typeName}
+                                                          className="orderTypes-price"
+   
+                                                          style={{
+                                                           cursor: "pointer",
+                                                           width:dynamicWidth,
+                                                           opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
+
+                                                           display:"flex",
+                                                           // gap:"1rem",
+                                                              padding: "0",
+                                                                //  paddingLeft: "20px",
+                                                                //  paddingRight: "20px",
+                                                           // marginLeft:"1rem"
+                                                          
+                                                           // paddingLeft:"20px",
+                                                           // paddingRight:"20px"
+   
+   
+                                                          }}
+                                                            onClick={() =>
+                                                              handlesidbarhandling(
+                                                                `${typeName}2`,
+                                                                item.itemId
+                                                              )
+                                                            }
+                                                          >
+                                                            <Toggle
+                                                              toggle={
+                                                                orderType &&
+                                                                orderType.availabilityEnabled ===
+                                                                true &&
+                                                                orderType.isNotHide ===
+                                                                1
+                                                                //    &&
+                                                                // orderType.isEnabled ===
+                                                                //   1
+                                                              }
+                                                            />
+                                                          </span>
+                                                        );
+                                                      }
+                                                    }
+                                                  )}
+                                                </p>
+
+                                                <p  style={{display:"flex",gap:"1rem"}}>
+                                                  {item?.modifiers &&
+                                                    Array.isArray(
+                                                      item.modifiers
+                                                    ) &&
+                                                    listingobject &&
+                                                    listingobject.Customize1 ? (
+                                                    <span
+                                                    //   className="Customizedata"
+                                                      onClick={() =>
+                                                        handlesidbarhandling(
+                                                          "Customize1",
+                                                          item.itemId
+                                                        )
+                                                      }
+                                                    >
+                                                      <span  
+                                                   
+                                                     className="orderTypes-price"
+
+                                                     style={{
+                                                      cursor: "pointer",
+                                                      width:"12vw",
+                                                      display:"flex",
+                                                      // gap:"1rem",
+                                                         padding: "0",
+                                                            // paddingLeft: "20px",
+                                                            // paddingRight: "20px",
+                                                      // marginLeft:"1rem"
+                                                     
+                                                      // paddingLeft:"20px",
+                                                      // paddingRight:"20px"
+
+
+                                                     }}
+                                                              >
+                                                        {item.modifiers.length}
+                                                      </span>
+                                                    </span>
+                                                  ) : (
+                                                    listingobject &&
+                                                    listingobject.Customize1 && (
+                                                      <span 
+                                                  
+                                                     className="orderTypes-price"
+
+                                                     style={{
+                                                      cursor: "pointer",
+                                                      width:"12vw",
+                                                      display:"flex",
+                                                      // gap:"1rem",
+                                                         padding: "0",
+                                                            // paddingLeft: "20px",
+                                                            // paddingRight: "20px",
+                                                      // marginLeft:"1rem"
+                                                     
+                                                      // paddingLeft:"20px",
+                                                      // paddingRight:"20px"
+
+
+                                                     }}
+                                                    //   className="Customizedata"
+                                                      >
+                                                        <span>
+                                                          No Modifiers Available
+                                                        </span>
+                                                      </span>
+                                                    )
+                                                  )}
+                                                </p>
+                                              </div>
+                                            )
+                                          )}
+                                      </React.Fragment>
+                                    )
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  {data?.itemResponseList?.length > 0 &&
+                                    data.categoryName !== "" && (
+                                      <>
+                                         <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                              <div
+                                                // className="categoryName-data"
+
+
+                                                className="categoryName-data-bg-forsecondpart"
+                                         >
+                                          <p></p>
+                                        </div>
+                                      </>
+                                    )}
+
+                                  {data?.itemResponseList?.length > 0 &&
+                                    data.categoryName !== "" &&
+                                    data?.itemResponseList.map(
+                                      (item, index) => (
+                                        <div
+                                          key={index}
+                                          className="second-part-data-row"
+                                        >
+                                          <p  style={{display:"flex",gap:"1rem"}}>
+                                            {orderTypesToShow2?.map(
+                                              (typeName, ordertypeindex) => {
+                                                if (
+                                                  !nameOfOrderTypes?.includes(
+                                                    typeName
+                                                  )
+                                                )
+                                                  return null;
+
+                                                const shouldDisplayType =
+                                                  listingobject &&
+                                                  listingobject[`${typeName}1`];
+
+                                                if (!shouldDisplayType)
+                                                  return null;
+
+                                                const orderType =
+                                                  item.orderTypes?.find(
+                                                    (ot) =>
+                                                      ot.typeName === typeName
+                                                  );
+
+                                                const price = orderType
+                                                  ? orderType.price
+                                                    .toFixed(2)
+                                                    .padStart(5, "0")
+                                                  : "";
+
+                                                  const dynamicWidth = `${typeName.length * 1.3
+                                                  }vw`;
+                                                if (
+                                                  orderType.typeGroup !== "I"
+                                                ) {
+                                                  return (<>
+                                                  {/* <style>{`.orderTypes-price { width: ${widthForEachRow}px !important; }`}</style> */}
+                                                  <span
+                                                      key={typeName}
+                                                       className="orderTypes-price"
+
+                                                       style={{
+                                                        cursor: "pointer",
+                                                        width:dynamicWidth,
+                                                        opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
+                                                          
+                                                        display:"flex",
+                                                        // gap:"1rem",
+                                                           padding: "0",
+                                                            //   paddingLeft: "20px",
+                                                            //   paddingRight: "20px",
+                                                        // marginLeft:"1rem"
+                                                       
+                                                        // paddingLeft:"20px",
+                                                        // paddingRight:"20px"
+
+
+                                                       }}
+                                                            // style={{
+                                                            //   padding: "0",
+                                                            //   paddingLeft: "20px",
+                                                            //   paddingRight: "20px",
+                        
+                                                            //   height: "1.6rem",}}
+                                                    //   style={{
+                                                    //     cursor: "pointer",
+                                                    //     opacity:
+                                                    //       orderType &&
+                                                    //         orderType.availabilityEnabled ===
+                                                    //         true &&
+                                                    //         orderType.isNotHide ===
+                                                    //         1
+                                                    //         ? "100%"
+                                                    //         : "50%",
+                                                        //  &&
+                                                        // orderType.isEnabled ===
+                                                        //   1
+
+                                                    //     width: dynamicWidth,
+                                                    //     padding: "0 22px",
+                                                    //     textAlign: "center",
+                                                    //     display: "flex",
+                                                    //     justifyContent:
+                                                    //       "center",
+                                                    //     alignItems: "center",
+                                                    //   }}
+                                                      onClick={() =>
+                                                        handlesidbarhandling(
+                                                          `${typeName}1`,
+                                                          item.itemId
+                                                        )
+                                                      }
+                                                    >
+                                                      {restaurantDetails?.country ===
+                                                        "US"
+                                                        ? "$"
+                                                        : "Rs."}{" "}
+                                                      {price !== ""
+                                                        ? price
+                                                        : "0"}
+                                                    </span>
+                                                  
+                                                  </>
+                                                   
+                                                  );
+                                                }
+                                              }
+                                            )}
+                                          </p>
+
+                                          <p  style={{display:"flex",gap:"1rem"}}>
+                                            {orderTypesToShow2?.map(
+                                              (typeName) => {
+                                                if (
+                                                  !nameOfOrderTypes?.includes(
+                                                    typeName
+                                                  )
+                                                )
+                                                  return null;
+
+                                                const shouldDisplayType =
+                                                  listingobject &&
+                                                  listingobject[`${typeName}2`];
+
+                                                if (!shouldDisplayType)
+                                                  return null;
+
+                                                const orderType =
+                                                  item.orderTypes?.find(
+                                                    (ot) =>
+                                                      ot.typeName === typeName
+                                                  );
+
+                                                const dynamicWidth = `${typeName.length * 1.3
+                                                  }vw`;
+                                                if (
+                                                  orderType.typeGroup !== "I"
+                                                ) {
+                                                  return (
+                                                    <span
+                                                    key={typeName}
+                                                    className="orderTypes-price"
+
+                                                    style={{
+                                                     cursor: "pointer",
+                                                     width:dynamicWidth,
+                                                     display:"flex",
+                                                     
+                                                     // gap:"1rem",
+                                                        padding: "0",
+                                                        //    paddingLeft: "20px",
+                                                        //    paddingRight: "20px",
+                                                     // marginLeft:"1rem"
+                                                    
+                                                     // paddingLeft:"20px",
+                                                     // paddingRight:"20px"
+
+
+                                                    }}
+                                                      onClick={() =>
+                                                        handlesidbarhandling(
+                                                          `${typeName}2`,
+                                                          item.itemId
+                                                        )
+                                                      }
+                                                    >
+                                                      <Toggle
+                                                        toggle={
+                                                          orderType &&
+                                                          orderType.availabilityEnabled ===
+                                                          true &&
+                                                          orderType.isNotHide ===
+                                                          1
+                                                          //   &&
+                                                          // orderType.isEnabled ===
+                                                          //   1
+                                                        }
+                                                      />
+                                                    </span>
+                                                  );
+                                                }
+                                              }
+                                            )}
+                                          </p>
+
+                                          <p  style={{display:"flex",gap:"1rem"}}>
+                                            {item?.modifiers &&
+                                              Array.isArray(item.modifiers) &&
+                                              listingobject &&
+                                              listingobject.Customize1 ? (
+                                              <span
+                                             
+                                              className="orderTypes-price"
+
+                                              style={{
+                                               cursor: "pointer",
+                                               width:"12vw",
+                                               display:"flex",
+                                               // gap:"1rem",
+                                                  padding: "0",
+                                                  //  border:"1px solid red",
+                                                    //  paddingLeft: "20px",
+                                                    //  paddingRight: "20px",
+                                               // marginLeft:"1rem"
+                                              
+                                               // paddingLeft:"20px",
+                                               // paddingRight:"20px"
+
+
+                                              }}
+                                                onClick={() =>
+                                                  handlesidbarhandling(
+                                                    "Customize1",
+                                                    item.itemId
+                                                  )
+                                                }
+                                              >
+                                                <span>
+                                                  {item.modifiers.length}
+                                                </span>
+                                              </span>
+                                            ) : (
+                                              listingobject &&
+                                              listingobject.Customize1 && (
+                                                <span 
+                                              
+                                                className="orderTypes-price"
+
+                                                style={{
+                                                 cursor: "pointer",
+                                                 width:"12vw",
+                                                 display:"flex",
+                                                //  border:"1px solid red",
+                                                 // gap:"1rem",
+                                                    padding: "0",
+                                                      //  paddingLeft: "20px",
+                                                      //  paddingRight: "20px",
+                                                 // marginLeft:"1rem"
+                                                
+                                                 // paddingLeft:"20px",
+                                                 // paddingRight:"20px"
+
+
+                                                }}
+                                                >
+                                                  <span>
+                                                    No Modifiers Available
+                                                  </span>
+                                                </span>
+                                              )
+                                            )}
+                                          </p>
+                                        </div>
+                                      )
+                                    )}
+                                </>
+                              )}
+                            </React.Fragment>
+                          ))
+                        )
+                        
+                        }
+                      </>
+                    )}
+                  </div>
+                </div>
+            </div>
 
         </div>
 
     </div>
+
+    {modal && (
+                  <Slider
+                    sidebartext={sidebartext}
+                    SideBarData={SideBarData}
+                    onclose={() => setmodal(false)}
+                  />
+                )}
 
    </div>
   );

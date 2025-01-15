@@ -824,7 +824,7 @@ const PrimaryPage = () => {
     } else {
       setShowAsterisk(false);
     }
-  }, [getValues, categoryList, subCategoryData]);
+  }, [getValues, categoryList, subcategoryList,subCategoryData,categoriesdata]);
 
   return (
     <div style={{ display: "flex" }}>
