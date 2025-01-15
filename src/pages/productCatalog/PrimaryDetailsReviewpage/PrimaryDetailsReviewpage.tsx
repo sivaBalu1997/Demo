@@ -570,52 +570,70 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
+
+
+  console.log({dineInDetails}, {editData})
+
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
-      availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
+      isEnabled: dineInDetails.Enabled===true||dineInDetails.Enabled===1?1:0, 
+      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide,
+      availabilities: dineInDetails.availabilities.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability.availabilityDays && availability.availabilityDays.length === 0 && Dineinresult.length===0 
+          availability.availabilityDays &&
+          availability.availabilityDays.length === 0 &&
+          Dineinresult.length === 0
             ? result
             : Dineinresult,
       })),
     },
     pickupDetails && {
       ...pickupDetails,
-      availabilities: pickupDetails?.availabilities?.map((availability: any) => ({
+      isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
+      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide,
+      availabilities: pickupDetails.availabilities.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability?.availabilityDays && availability?.availabilityDays?.length === 0
+          availability.availabilityDays &&
+          availability.availabilityDays.length === 0
             ? result
-            : availability?.availabilityDays,
+            : availability.availabilityDays,
       })),
     },
     deliveryDetails && {
       ...deliveryDetails,
-      availabilities: deliveryDetails?.availabilities?.map((availability: any) => ({
+      isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
+      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'S' )?.isNotHide,
+      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability?.availabilityDays && availability?.availabilityDays?.length === 0
+          availability.availabilityDays &&
+          availability.availabilityDays.length === 0
             ? result
-            : availability?.availabilityDays,
+            : availability.availabilityDays,
       })),
     },
   
-    // Process thirdPartyDetails
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails.map((detail) => ({
           ...detail,
-          availabilities: detail.availabilities?.map((availability: any) => ({
+          isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
+          isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'T' )?.isNotHide,
+          availabilities: detail.availabilities.map((availability: any) => ({
             ...availability,
             availabilityDays:
-              availability?.availabilityDays && availability?.availabilityDays?.length === 0
+              availability.availabilityDays &&
+              availability.availabilityDays.length === 0
                 ? result
-                : availability?.availabilityDays,
+                : availability.availabilityDays,
           })),
         }))
       : []),
-  ].filter(Boolean);
+  ]
+    .filter(Boolean)
+    .map(({ Enabled, ...rest }) => rest); 
   
   
   // const combinedDetails: Detail[] = [

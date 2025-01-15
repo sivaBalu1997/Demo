@@ -7,9 +7,7 @@ import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogAct
 import { useSelector } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 
-
-
-const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
+const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
   const data1 = useSelector((state) => state?.selectedMockDataReducer?.data);
   const Dinein = data1[0]?.orderTypes?.find(
     (orderType) => orderType.typeName === "DineIn"
@@ -21,21 +19,17 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
   const failed = useSelector(
     (state) => state?.addMockDataHiddenReducer?.failed
   );
-  console.log({failed});
-  
+
   const [data, setData] = useState([]);
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
 
-  console.log({availabilityOrderTypes});
-  
-
   useEffect(() => {
     const tempOnPremarray = data1[0]?.orderTypes?.filter((data, index) => {
-      return data?.typeGroup === "D" &&data?.typeGroup !== "I";
+      return data?.typeGroup === "D" && data?.typeGroup !== "I";
     });
     const tempOffPremarray = data1[0]?.orderTypes?.filter((data, index) => {
-      return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
+      return data?.typeGroup !== "D" && data?.typeGroup !== "I";
     });
 
     const allIsNotHideOnPrem = tempOnPremarray.every(
@@ -44,7 +38,6 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
     const allIsNotHideOffPrem = tempOffPremarray.every(
       (item) => item.isNotHide === 0
     );
-
 
     // const isOnPremEnabledCount =
     //   tempOnPremarray?.filter((data, index) => {
@@ -77,37 +70,27 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
       },
     ];
 
-const allTrue = tempOrderTypeAvailabilityArray.every(
+    const allTrue = tempOrderTypeAvailabilityArray.every(
       (item) => item.isNotHide
     );
-    setToggleState(allTrue)
+    setToggleState(allTrue);
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data1[0]?.orderTypes]);
 
- 
-
   const allSelected = data.every((item) => item.isChecked);
 
-
-  
-
-  
-
   const hidePayload = {
-    itemId: data1[0].itemId,
+    itemId: data1[0]?.itemId,
     isEnabled: false,
-    itemOrderTypeStatuses: availabilityOrderTypes.flatMap((section) =>
+    itemOrderTypeStatuses: availabilityOrderTypes?.flatMap((section) =>
       section.types.map((subItem) => ({
-        orderTypeId: subItem.typeId,
-        isEnabled: subItem.isNotHide,
+        orderTypeId: subItem?.typeId,
+        isEnabled: subItem?.isNotHide,
       }))
     ),
   };
 
- 
-
   const dispatch = useDispatch();
-
 
   const eyemodalRef = useRef();
   const EyeClose = (e) => {
@@ -132,10 +115,6 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
       onclose();
     }
   }, [successMsg, onEyeclose, onclose]);
-
- 
-
- 
 
   const handleParentHide = (index) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
@@ -184,15 +163,15 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
 
   // Function to handle toggle behavior for all
   const handleToggleAll = () => {
-      // Check if all parents and children are `isEnabled`
-      const allEnabled = availabilityOrderTypes.some(
-        (parent) =>
-          parent.isEnabled && parent.types.some((child) => child.isEnabled)
-      );
-      if (!allEnabled) {
-        console.log("Not all items are enabled. Toggle action aborted.");
-        return;
-      }
+    // Check if all parents and children are `isEnabled`
+    const allEnabled = availabilityOrderTypes.some(
+      (parent) =>
+        parent.isEnabled && parent.types.some((child) => child.isEnabled)
+    );
+    if (!allEnabled) {
+      console.log("Not all items are enabled. Toggle action aborted.");
+      return;
+    }
 
     const updatedOrderTypes = availabilityOrderTypes.map((parent) => {
       // Toggle isNotHide based on toggleState
@@ -201,7 +180,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
         isNotHide: !toggleState,
         types: parent.types.map((child) => ({
           ...child,
-          isNotHide: child.isEnabled ? toggleState : child.isNotHide
+          isNotHide: child.isEnabled ? toggleState : child.isNotHide,
         })),
       };
 
@@ -215,16 +194,12 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
     setToggleState(!toggleState);
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const allTypesHidden = availabilityOrderTypes.every((orderType) =>
       orderType.types.every((type) => type.isNotHide === 0)
     );
-    setEyeIconOpenClose(allTypesHidden)
-  },[availabilityOrderTypes])
- 
- 
-
+    setEyeIconOpenClose(allTypesHidden);
+  }, [availabilityOrderTypes]);
 
   return (
     <div ref={eyemodalRef} onClick={EyeClose} className="EyeModal-Container">
@@ -245,7 +220,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isEnabled &&elem.isNotHide}
+                    checked={elem.isEnabled && elem.isNotHide}
                     onChange={() => handleParentHide(parentIndex)}
                     disabled={elem.isEnabled === false}
                   />
@@ -275,7 +250,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
             </button>
 
             <button className="SavebtnEye" onClick={handleChange}>
-              {showLoader && !failed? (
+              {showLoader && !failed ? (
                 <span>
                   <Loader
                     className="Hide-Loader"
