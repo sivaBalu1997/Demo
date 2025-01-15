@@ -61,15 +61,12 @@ const SidePanel = () => {
     else if (location?.pathname?.includes('/old-reports')) {
       setShowOptions('reportOptions')
     }
-    else if (location?.pathname?.includes('Offers/active') ||location?.pathname?.includes('offer/special') ) {
-      setShowOfferOptions('MenuOptions')
-      setSelectedSub('Special Price')
+    else if (location?.pathname?.includes('/live-reports')) {
+      setShowOptions('reportOptions')
     }
-    else if (location?.pathname?.includes('/Offer')) {
-      setShowOfferOptions('MenuOptions')
-      setSelectedSub('Offers')
-    }
-  }, [showOptions, location?.pathname, history]);
+    // }, [showOptions, location?.pathname, history]);
+    // the above line is commented because it was causing infinite loop
+  }, [location?.pathname]);
 
 
   const restaurantDetails = useSelector(
