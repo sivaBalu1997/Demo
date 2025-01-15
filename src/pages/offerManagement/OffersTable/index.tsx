@@ -291,7 +291,7 @@ const Table = () => {
                           )}
                         </td>
                         <td className="OffrtsTabletd">
-                          <div className="action-container" ref={componentRef}>
+                          <div className={isExpanded?"spaction-container1":"spaction-container"} ref={componentRef}>
                             <div
                               className="action-icon-container"
                               onClick={() => handleOfferDropdown(index)}

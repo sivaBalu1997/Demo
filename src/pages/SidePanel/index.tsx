@@ -49,6 +49,7 @@ const SidePanel = () => {
   const [routeTo, setRouteTo] = useState({});
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
+  const [SelectSub,setSelectedSub]=useState('')
 
   console.log({ showOptions })
 
@@ -60,9 +61,14 @@ const SidePanel = () => {
     else if (location?.pathname?.includes('/old-reports')) {
       setShowOptions('report')
     }
-    // else if (location?.pathname?.includes('/live-reports')) {
-    //   setShowOptions('reportOptions')
-    // }
+    else if (location?.pathname?.includes('Offers/active')) {
+      setShowOfferOptions('MenuOptions')
+      setSelectedSub('Special Price')
+    }
+    else if (location?.pathname?.includes('/Offer')) {
+      setShowOfferOptions('MenuOptions')
+      setSelectedSub('Offers')
+    }
   }, [showOptions, location?.pathname, history]);
 
 
@@ -419,8 +425,10 @@ const SidePanel = () => {
                     <li>
                       <span
                         className="d-inline-block m-t-20"
+                       style={{color:SelectSub==option?"#67833E":'#000000'}}
                         onClick={() => {
                           option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
+                          setSelectedSub(option)
                         }}
                       >
                         {option}

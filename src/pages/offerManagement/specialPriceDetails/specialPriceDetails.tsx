@@ -1487,7 +1487,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                 </div>
                 {validationErrors[0]?.selectedItems &&
                   selectedFoodItems.length === 0 && (
-                    <span className="time-error-message">
+                    <span style={{color:'white'}}>
                       {validationErrors[0]?.selectedItems}
                     </span>
                   )}
@@ -1565,7 +1565,12 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                         </div>
                       )}
                     </div>
-                  
+                    {validationErrors[0]?.selectedItems &&
+                  selectedFoodItems.length === 0 && (
+                    <span className="time-error-message-item">
+                      {validationErrors[0]?.selectedItems}
+                    </span>
+                  )}
                 </div>
               </div>
 

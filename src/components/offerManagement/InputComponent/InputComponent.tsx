@@ -71,7 +71,7 @@ const InputComponent: React.FC<InputFieldInterface> = ({
       {name === "itemCode" && message && value && value.length === 4 && (
         <p className="itemCode-Success">{message}</p>
       )}
-      {error && <p className="Input-Field-Error-message">{error.message}</p>}
+      {error && <p className="spInput-Field-Error-message">{error.message}</p>}
     </div>
   );
 };
