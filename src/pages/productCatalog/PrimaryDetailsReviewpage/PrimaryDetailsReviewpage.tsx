@@ -573,7 +573,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
-      availabilities: dineInDetails.availabilities.map((availability: any) => ({
+      availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays && availability.availabilityDays.length === 0 && Dineinresult.length===0 
@@ -583,22 +583,22 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
     pickupDetails && {
       ...pickupDetails,
-      availabilities: pickupDetails.availabilities.map((availability: any) => ({
+      availabilities: pickupDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability.availabilityDays && availability.availabilityDays.length === 0
+          availability?.availabilityDays && availability?.availabilityDays?.length === 0
             ? result
-            : availability.availabilityDays,
+            : availability?.availabilityDays,
       })),
     },
     deliveryDetails && {
       ...deliveryDetails,
-      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
+      availabilities: deliveryDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
-          availability.availabilityDays && availability.availabilityDays.length === 0
+          availability?.availabilityDays && availability?.availabilityDays?.length === 0
             ? result
-            : availability.availabilityDays,
+            : availability?.availabilityDays,
       })),
     },
   
@@ -606,12 +606,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails.map((detail) => ({
           ...detail,
-          availabilities: detail.availabilities.map((availability: any) => ({
+          availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
             availabilityDays:
-              availability.availabilityDays && availability.availabilityDays.length === 0
+              availability?.availabilityDays && availability?.availabilityDays?.length === 0
                 ? result
-                : availability.availabilityDays,
+                : availability?.availabilityDays,
           })),
         }))
       : []),

@@ -200,7 +200,7 @@ export function deleteMenuItem(payload) {
     url: `/api/v1/menu-items/delete`,
     data:{itemId:payload},
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
       Authorization: "bearer " + token,
     },
 
