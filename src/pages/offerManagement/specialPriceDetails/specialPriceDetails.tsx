@@ -1134,7 +1134,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
         >
           <div className="specialoffer-heading">
             {editOfferData?.offerId && !duplicateOffer ? (
-              <h1>Edit offer</h1>
+              <h1>Edit Special Price Details</h1>
             ) : (
               <h1>Create Special Price Details</h1>
             )}
