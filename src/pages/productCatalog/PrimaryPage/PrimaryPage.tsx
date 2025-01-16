@@ -824,7 +824,7 @@ const PrimaryPage = () => {
     } else {
       setShowAsterisk(false);
     }
-  }, [getValues, categoryList, subcategoryList,subCategoryData,categoriesdata]);
+  }, [getValues, categoryList,subCategoryData,categoriesdata]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -852,7 +852,7 @@ const PrimaryPage = () => {
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
                   {" "}
-                  <LableComponent lable="ItemName *" />
+                  <LableComponent lable="Item Name *" />
                   <Controller
                     name="itemName"
                     control={control}
