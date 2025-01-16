@@ -14,7 +14,10 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
   );
   const location = useSelector((state) => state?.auth?.selectedBranch?.id);
   const successMsg = useSelector(
-    (state) => state?.addMockDataHiddenReducer?.data
+    (state) => state?.addMockDataHiddenReducer?.success
+  );
+  const successLoading = useSelector(
+    (state) => state?.addMockDataHiddenReducer?.loading
   );
   const failed = useSelector(
     (state) => state?.addMockDataHiddenReducer?.failed
@@ -32,11 +35,11 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
       return data?.typeGroup !== "D" && data?.typeGroup !== "I";
     });
 
-    const allIsNotHideOnPrem = tempOnPremarray.every(
-      (item) => item.isNotHide === 0
+    const allIsNotHideOnPrem = tempOnPremarray?.every(
+      (item) => item?.isNotHide === 0
     );
-    const allIsNotHideOffPrem = tempOffPremarray.every(
-      (item) => item.isNotHide === 0
+    const allIsNotHideOffPrem = tempOffPremarray?.every(
+      (item) => item?.isNotHide === 0
     );
 
     // const isOnPremEnabledCount =
@@ -70,20 +73,20 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
       },
     ];
 
-    const allTrue = tempOrderTypeAvailabilityArray.every(
-      (item) => item.isNotHide
+    const allTrue = tempOrderTypeAvailabilityArray?.every(
+      (item) => item?.isNotHide
     );
     setToggleState(allTrue);
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data1[0]?.orderTypes]);
 
-  const allSelected = data.every((item) => item.isChecked);
+  const allSelected = data?.every((item) => item?.isChecked);
 
   const hidePayload = {
     itemId: data1[0]?.itemId,
     isEnabled: false,
     itemOrderTypeStatuses: availabilityOrderTypes?.flatMap((section) =>
-      section.types.map((subItem) => ({
+      section?.types?.map((subItem) => ({
         orderTypeId: subItem?.typeId,
         isEnabled: subItem?.isNotHide,
       }))
@@ -110,7 +113,7 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
   };
 
   useEffect(() => {
-    if (successMsg === "Menu item updated visibility successfully") {
+    if (successMsg) {
       onEyeclose();
       onclose();
     }
@@ -126,10 +129,10 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
 
     // Update isNotHide for child types based on isEnabled
     if (Array.isArray(updatedOrderTypes[index].types)) {
-      updatedOrderTypes[index].types = updatedOrderTypes[index].types.map(
+      updatedOrderTypes[index].types = updatedOrderTypes[index].types?.map(
         (type) => ({
           ...type,
-          isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide,
+          isNotHide: type.isEnabled ? !updateNotHide : type?.isNotHide,
         })
       );
     }
@@ -144,11 +147,11 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
     // Toggle the isNotHide for the selected child
     updatedOrderTypes[parentIndex].types[childIndex] = {
       ...updatedOrderTypes[parentIndex].types[childIndex],
-      isNotHide: !updatedOrderTypes[parentIndex].types[childIndex].isNotHide,
+      isNotHide: !updatedOrderTypes[parentIndex].types[childIndex]?.isNotHide,
     };
 
     // Check if all the children have isNotHide set to true
-    const allChildrenHidden = updatedOrderTypes[parentIndex].types.every(
+    const allChildrenHidden = updatedOrderTypes[parentIndex]?.types?.every(
       (child) => child.isNotHide === false
     );
 
@@ -173,12 +176,12 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
       return;
     }
 
-    const updatedOrderTypes = availabilityOrderTypes.map((parent) => {
+    const updatedOrderTypes = availabilityOrderTypes?.map((parent) => {
       // Toggle isNotHide based on toggleState
       const updatedParent = {
         ...parent,
         isNotHide: !toggleState,
-        types: parent.types.map((child) => ({
+        types: parent.types?.map((child) => ({
           ...child,
           isNotHide: child.isEnabled ? toggleState : child.isNotHide,
         })),
@@ -195,8 +198,8 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
   };
 
   useEffect(() => {
-    const allTypesHidden = availabilityOrderTypes.every((orderType) =>
-      orderType.types.every((type) => type.isNotHide === 0)
+    const allTypesHidden = availabilityOrderTypes?.every((orderType) =>
+      orderType?.types?.every((type) => type?.isNotHide === 0)
     );
     setEyeIconOpenClose(allTypesHidden);
   }, [availabilityOrderTypes]);
@@ -226,17 +229,17 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
                   />
                 </div>
 
-                {elem.types.map((subItem, subIndex) => (
-                  <div key={subItem.name} className="Radio-sub-Items-Flex">
+                {elem?.types?.map((subItem, subIndex) => (
+                  <div key={subItem?.name} className="Radio-sub-Items-Flex">
                     <h1 className="Radio-sub-Items-Heading">
-                      {subItem.typeName || "s"}:
+                      {subItem?.typeName || "s"}:
                     </h1>
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={subItem.isEnabled && !subItem.isNotHide}
+                      checked={subItem.isEnabled && !subItem?.isNotHide}
                       onChange={() => handleChildHide(parentIndex, subIndex)}
-                      disabled={subItem.isEnabled === 0}
+                      disabled={subItem?.isEnabled === 0}
                     />
                   </div>
                 ))}
