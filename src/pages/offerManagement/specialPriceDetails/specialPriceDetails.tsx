@@ -1156,7 +1156,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                     name="offerName"
                     control={control}
                     rules={{
-                      required: "Offer is required",
+                      required: "Offer name is required",
                       validate: (value) =>
                         value.trimStart() === value ||
                         "Offer name cannot start with a space",
@@ -1204,7 +1204,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          validation={{ required: "offerChannel is required" }}
+                          validation={{ required: "Offer channel is required" }}
                           error={errors.offerChannel}
                           dropdownopen={DropdownOpen.channel}
                           onToggle={() => handleDropdownToggle("channel")}
@@ -1238,7 +1238,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "offerToVisible is required" }}
+                        validation={{ required: "offer visible to is required" }}
                         error={errors?.offerToVisible}
                         dropdownopen={DropdownOpen.ordertype}
                         onToggle={() => handleDropdownToggle("ordertype")}
@@ -1318,7 +1318,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                   name="specialTypeValue"
                   control={control}
                   rules={{
-                    required: "Special type value is required",
+                    required: "Value is required",
                     validate: (value) =>
                       /^\d{0,4}(\.\d{0,2})?$/.test(value) ||
                       "Only up to 4 digits with up to 2 decimal places are allowed",
