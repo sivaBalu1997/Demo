@@ -53,8 +53,6 @@ export const MenuPage = () => {
   const [itemList, setItemList] = useState([]);
   // console.log("SearchedmenuItem", SearchedmenuItem);
 
-  console.log({itemList})
-
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);

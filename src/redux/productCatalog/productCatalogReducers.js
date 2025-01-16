@@ -1137,7 +1137,9 @@ export const addMockDataReducer = (state = mockDataFiltered, action) => {
 };
 const addMockHiddenData = {
   data: [],
-  failed:false
+  failed:false,
+  loading:false,
+  success:false,
 };
 
 export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
@@ -1168,6 +1170,7 @@ export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
         return{
           ...state,
         loading: false,
+        success:false,
         failed:false,
         error: action.payload,
         data:[]
