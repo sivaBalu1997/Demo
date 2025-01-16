@@ -215,7 +215,7 @@ const Sales: React.FC = () => {
   const [currentPageForActualThirdPartySales, setCurrentPageForActualThirdPartySales] = useState<number>(1);
   console.log({ currentPageForActualThirdPartySales });
 
-  const [totalPageNumberCurrentPageSalesByItemCategory, setTotalPageNumberCurrentPageSalesByItemCategory] = useState<number>(salesByItemCategoryAPIReduxTotalPageNo || 1)
+  const [totalPageNumberCurrentPageSalesByItemCategory, setTotalPageNumberCurrentPageSalesByItemCategory] = useState<number>(salesByItemCategoryAPIReduxTotalPageNo ? salesByItemCategoryAPIReduxTotalPageNo : 1)
   const [currentPageSalesByItemCategory, setCurrentPageSalesByItemCategory] = useState<number>(1);
   console.log({ currentPageSalesByItemCategory });
 
@@ -223,7 +223,7 @@ const Sales: React.FC = () => {
   const [currentPageSalesByRevenueClass, setCurrentPageSalesByRevenueClass] = useState<number>(1);
   console.log({ currentPageSalesByRevenueClass })
 
-  const [totalPageNumberCurrentPageDiscountSummary, setTotalPageNumberCurrentPageDiscountSummary] = useState<number>(discountSummaryPageNo || 1)
+  const [totalPageNumberCurrentPageDiscountSummary, setTotalPageNumberCurrentPageDiscountSummary] = useState<number>(discountSummaryPageNo ? discountSummaryPageNo : 1)
   const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
   console.log({ currentPageDiscountSummary });
 
@@ -610,6 +610,10 @@ const Sales: React.FC = () => {
 
 
   console.log({ showNetSaleToolTip })
+
+
+  console.log("From API", { salesByItemCategoryAPIReduxTotalPageNo, discountSummaryPageNo }, "N", { totalPageNumberCurrentPageDiscountSummary, totalPageNumberCurrentPageSalesByItemCategory })
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
@@ -943,7 +947,7 @@ const Sales: React.FC = () => {
               tableData={segregatedDataForMaghilSales && segregatedDataForMaghilSales?.length > 0 && segregatedDataForMaghilSales}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={totalPageNumberDirectStoreOnlineSalesMaghil}
+              totalpageNo={segregatedDataForMaghilSalesTotalPageNo ? segregatedDataForMaghilSalesTotalPageNo : 1}
             />
             <Table
               currentPage={currentPageForActualThirdPartySales}
@@ -952,7 +956,7 @@ const Sales: React.FC = () => {
               tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 && segregatedDataForThirdPartySales}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={totalPageNumberCurrentPageForActualThirdPartySales}
+              totalpageNo={segregatedDataForThirdPartySalesTotalPageNo ? segregatedDataForThirdPartySalesTotalPageNo : 1}
             />
 
           </div>
@@ -1055,7 +1059,7 @@ const Sales: React.FC = () => {
               tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 && salesByItemCategoryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={totalPageNumberCurrentPageSalesByItemCategory}
+              totalpageNo={salesByItemCategoryAPIReduxTotalPageNo ? salesByItemCategoryAPIReduxTotalPageNo : 1}
             />
             <Table
               currentPage={currentPageSalesByRevenueClass}
@@ -1064,7 +1068,7 @@ const Sales: React.FC = () => {
               tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 && salesByRevenueClassAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={totalPageNumberCurrentPageSalesByRevenueClass}
+              totalpageNo={revenueClassTotalPageNo ? revenueClassTotalPageNo : 1}
             />
           </div>
         </div>
@@ -1077,7 +1081,7 @@ const Sales: React.FC = () => {
               tableData={discountSummaryAPIRedux && discountSummaryAPIRedux?.length > 0 && discountSummaryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={totalPageNumberCurrentPageDiscountSummary}
+              totalpageNo={discountSummaryPageNo ? discountSummaryPageNo : 1}
             />
             <Table
               currentPage={currentPageCancellationSummary}
@@ -1086,7 +1090,7 @@ const Sales: React.FC = () => {
               tableData={cancellationSummaryAPIRedux?.length > 0 ? cancellationSummaryAPIRedux : []}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={cancellationSummaryTotalPageNo ?? 1}
+              totalpageNo={cancellationSummaryTotalPageNo ? cancellationSummaryTotalPageNo : 1}
               tabledataLoading={cancellationSummaryAPIReduxLoading}
             />
           </div>

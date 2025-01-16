@@ -231,7 +231,7 @@ const CustomerInsights = () => {
             tableData={liveOrderDateTransformed && liveOrderDateTransformed}
             viewType="full"
             recordsPerPage={RECORDS_PER_PAGE_LIMIT}
-            totalpageNo={totalPageNoCurrentPageLiveOrders}
+            totalpageNo={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
           />
         </div>
         <div className="live-orders-non-dine-in">
@@ -241,7 +241,7 @@ const CustomerInsights = () => {
             Heading="Live Orders (Non-Dine-In)"
             tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 && liveOrderNonDineInAPIRedux}
             viewType="full" recordsPerPage={RECORDS_PER_PAGE_LIMIT}
-            totalpageNo={totalPageNoCurrentPageLiveOrdersNonDineIn}
+            totalpageNo={liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1}
           />
 
         </div>
