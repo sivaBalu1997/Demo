@@ -528,7 +528,7 @@ const AddEmployee = () => {
       nickName: formValues.nickName?.trim(),
       email: formValues.email || null,
       mobileNumber: formValues?.mobileNumber && formValues?.mobileNumber?.length > 0 ? removeDashes(formValues.mobileNumber) : "" ,
-      address: `${formValues.address1} ${formValues.address2}` || null,
+      address: formValues.address1 || formValues.address2 ? `${formValues.address1 || ""} ${formValues.address2 || ""}`.trim() : null,
       dateOfBirth: selectedDate,
       education: formValues.education,
       merchantId: credentials?.merchantId,
@@ -564,11 +564,14 @@ const AddEmployee = () => {
        history.goBack();
     }
 
-    if (params?.id?.length) {
-      dispatch(updateEmployeeRequest(formValues));
-    } else {
-      dispatch(addEmployee(formValues));
-    }
+    // if (params?.id?.length) {
+    //   dispatch(updateEmployeeRequest(formValues));
+    // } else {
+    //   dispatch(addEmployee(formValues));
+    // }
+
+  console.log({formValues})
+
   };
 
   const splitAddress = (address:string) => {
@@ -789,7 +792,7 @@ if(!!params?.id?.length && dataFetching)  {
                   <label className="inputLabel">Last Name</label>
                   <Controller
                      control={control}
-                      name="LastName"
+                      name="lastName"
                       render={({ onChange, value, name }) => (
                     <TextInput
                       type="text"
