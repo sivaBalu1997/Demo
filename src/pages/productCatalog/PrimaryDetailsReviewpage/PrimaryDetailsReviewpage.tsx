@@ -501,7 +501,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
-    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+    (state: any) =>state.auth?.restaurantDetails?.branch && state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
   const getOrderTypeId = (value: any) => {
@@ -521,7 +521,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     maxCount: item?.maxSelection,
     minCount: item?.minSelection,
     noFreeCustomization: item?.freeCustomization,
-    orderTypeIds: (item?.selectedValue || []).map((value) =>
+    orderTypeIds: (item?.selectedValue || [])?.map((value) =>
       getOrderTypeId(value)
     ),
     options:
@@ -532,10 +532,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           cost: option.cost || option.price || 0,
           isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
         }))
-        .map(({ modifierOptionName, ...rest }) => rest) || [],
+        ?.map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
 
-  const hasData = modifierData.some(
+  const hasData = modifierData?.some(
     (item) =>
       item.modifierName !== null ||
       (item.orderTypeIds && item.orderTypeIds?.length > 0) ||
@@ -577,7 +577,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     dineInDetails && {
       ...dineInDetails,
       isEnabled: dineInDetails.Enabled===true||dineInDetails.Enabled===1?1:0, 
-      availabilities: dineInDetails.availabilities.map((availability: any) => ({
+      availabilities: dineInDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -590,7 +590,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     pickupDetails && {
       ...pickupDetails,
       isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, // Rename key and handle undefined
-      availabilities: pickupDetails.availabilities.map((availability: any) => ({
+      availabilities: pickupDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -602,7 +602,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     deliveryDetails && {
       ...deliveryDetails,
       isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, // Rename key and handle undefined
-      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
+      availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -614,10 +614,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   
     // Process thirdPartyDetails
     ...(Array.isArray(thirdPartyDetails)
-      ? thirdPartyDetails.map((detail) => ({
+      ? thirdPartyDetails?.map((detail) => ({
           ...detail,
           isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, // Rename key and handle undefined
-          availabilities: detail.availabilities.map((availability: any) => ({
+          availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
             availabilityDays:
               availability.availabilityDays &&

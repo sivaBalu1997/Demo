@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import deleteIcon from "../../../assets/images/delete copy.png";
+// import deleteIcon from "../../../assets/images/delete copy.png";
+import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg"
 import Searchicon from "../../../assets/images/searchicon.png";
 import "./ImagePillsSelection.scss";
 
@@ -119,13 +120,14 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
       </div>
 
       <div className="Item-selction-itemset">
-        <div>
+        <div className="selected-items-div">
           {selectedImages.length > 0 && (
             <div>
               <ul className="Selected-Images">
                 {selectedImages?.map((image) => (
                   <li key={image.id} className="Selected-Image-Item">
                     <img
+                     className="item-image-class"
                       src={`${baseImageUrl}${image?.media?.imageId}.${image?.media?.imageType?.split("/")[1]
                         }`}
                       alt="img"
@@ -136,6 +138,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                       src={deleteIcon}
                       alt=""
                       onClick={() => handleDeletingImage(image)}
+                      style={{width:"12px",height:"12px"}}
                       className="Selected-Image-Item-Deletion"
                     />
                   </li>
@@ -144,7 +147,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
             </div>
           )}
         </div>
-        <div>
+        <div className="items-to-select-div">
           <ul className="AllergensImage">
             {filteredimages?.length > 0 ? (
               filteredimages?.map((option) => (
@@ -155,6 +158,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                     }`}
                 >
                   <img
+                  style={{width:"21px",height:"21px"}}
+                  className="item-image-class"
                     src={`${baseImageUrl}${option?.media?.imageId}.${option?.media?.imageType?.split("/")[1]
                       }`}
                     alt="img"

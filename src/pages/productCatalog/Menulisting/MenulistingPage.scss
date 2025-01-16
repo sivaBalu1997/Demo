@@ -114,7 +114,7 @@ align-items: center;
 .fist-part-data-itemname-code
 {
     display: flex;
- height:9vh;
+ height:8vh;
 justify-content: left;
 align-items: center;
 border-right: 1px solid #b3b3b3;
@@ -169,6 +169,7 @@ line-height: 24px;
 // text-align: center;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
+color: #000000;
 
 
 .header-img {
@@ -202,7 +203,7 @@ text-decoration-skip-ink: none;
     display: flex;
     // padding-left: 1rem;
     // padding-right: 1rem;
-    height: 9vh;
+    height: 8vh;
     gap: 1rem !important;
     border-right: 1px solid #b3b3b3;
 border-bottom: 1px solid #b3b3b3;

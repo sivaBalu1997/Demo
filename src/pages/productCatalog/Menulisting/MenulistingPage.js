@@ -519,15 +519,18 @@ export const MenulistingPage = () => {
 
   const showsidebar = (key) => {
     if (key === "DineIn1" || key === "Pickup1" || key === "Delivery1") {
-      handlemodal();
       setSideBarText("Pricing");
-    } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
+      
+    } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       setSideBarText("Availability");
+      handlemodal();
+    
     } else if (key === "Customize1") {
+      setSideBarText("Customize");
       handlemodal();
 
-      setSideBarText("Customize");
+      
     }
   };
 
@@ -926,13 +929,18 @@ export const MenulistingPage = () => {
     const headerElement = headerRef.current;
     const bodyElement = bodyRef.current;
 
-    headerElement.addEventListener("scroll", handleHeaderScroll);
-    bodyElement.addEventListener("scroll", handleBodyScroll);
+    if(headerElement && bodyElement)
+    {
+      headerElement?.addEventListener("scroll", handleHeaderScroll);
+      bodyElement?.addEventListener("scroll", handleBodyScroll);
+  
+      return () => {
+        headerElement?.removeEventListener("scroll", handleHeaderScroll);
+        bodyElement?.removeEventListener("scroll", handleBodyScroll);
+      };
+    }
 
-    return () => {
-      headerElement.removeEventListener("scroll", handleHeaderScroll);
-      bodyElement.removeEventListener("scroll", handleBodyScroll);
-    };
+   
   }, []);
 
   useEffect(() => {
@@ -951,16 +959,16 @@ export const MenulistingPage = () => {
       }
     };
 
-    const headerElement = ref1.current;
-    const bodyElement = ref2.current;
+    const headerElement = ref1?.current;
+    const bodyElement = ref2?.current;
 
     if (headerElement && bodyElement) {
-      headerElement.addEventListener("scroll", handleHeaderScroll);
-      bodyElement.addEventListener("scroll", handleBodyScroll);
+      headerElement?.addEventListener("scroll", handleHeaderScroll);
+      bodyElement?.addEventListener("scroll", handleBodyScroll);
 
       return () => {
-        headerElement.removeEventListener("scroll", handleHeaderScroll);
-        bodyElement.removeEventListener("scroll", handleBodyScroll);
+        headerElement?.removeEventListener("scroll", handleHeaderScroll);
+        bodyElement?.removeEventListener("scroll", handleBodyScroll);
       };
     }
   }, []);
@@ -1321,7 +1329,11 @@ const handleRemoveIcon = (value) => {
                 </div>
                 <div  className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
                 ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
-                `  } ref={mergeRefs(ref2, bodyRef)}>
+                `  }
+
+                style={{height: menudatalist.length===1?"15vh":"78.6vh"  ,overflowY:menudatalist.length===1?"hidden":"auto"}}
+                
+                ref={mergeRefs(ref2, bodyRef)}>
                 <div >
                     {menuDataLoading ? (
                       <div className="Menu-noOptions">
