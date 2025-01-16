@@ -564,14 +564,11 @@ const AddEmployee = () => {
        history.goBack();
     }
 
-    // if (params?.id?.length) {
-    //   dispatch(updateEmployeeRequest(formValues));
-    // } else {
-    //   dispatch(addEmployee(formValues));
-    // }
-
-  console.log({formValues})
-
+    if (params?.id?.length) {
+      dispatch(updateEmployeeRequest(formValues));
+    } else {
+      dispatch(addEmployee(formValues));
+    }
   };
 
   const splitAddress = (address:string) => {
