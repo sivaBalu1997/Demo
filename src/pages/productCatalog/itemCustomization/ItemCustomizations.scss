@@ -76,9 +76,10 @@
 // height: auto;
 // margin-top: 2%;
 // padding: 0;
-// border: 1px solid red;
+
 padding-bottom: 3rem;
-margin-left: 2.3%;
+padding-left: 3rem;
+// margin-left: 2.3%;
 
 }
 .option1-errormsg
@@ -106,6 +107,10 @@ margin-left: 2.3%;
   display: flex;
   justify-content: start;
   gap: 0.625rem;
+  
+  margin-left: -4rem;
+
+  // border: 1px solid red;
 }
 
 .dotedimageItemCustomizations {
@@ -210,7 +215,8 @@ margin-left: 2.3%;
 }
 .modifiers-to-select
 {
-  margin-left: 5%;
+
+  // margin-left: 4vw;
   margin-bottom: 0;
   padding: 0;
 }
@@ -327,7 +333,7 @@ text-decoration-skip-ink: none;
 .Spinner-input-ItemCustomizations {
   display: flex;
   justify-content: start;
-  margin-left: 4rem;
+  // margin-left: 4rem;
   gap: 1.25rem;
   width: 850px;
   height: auto;
@@ -580,7 +586,7 @@ input[type="number"] {
   justify-content: start;
   gap: 1.25rem;
   margin-bottom: 1rem;
-  margin-left: 3.125rem;
+  // margin-left: 3.125rem;
   width: 20rem;
   // margin-top: 0.5rem;
 }
@@ -679,7 +685,7 @@ width: 100%;
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-left: 10px;
+  // margin-left: 10px;
 }
 
 .checkbox-container {
@@ -1072,7 +1078,7 @@ margin-top: -0.1rem;
 
   display: flex;
   justify-content: start;
-  margin-left: 4rem;
+  // margin-left: 4rem;
   gap: 1.25rem;
   width: 80vw;
   height: 40vh;

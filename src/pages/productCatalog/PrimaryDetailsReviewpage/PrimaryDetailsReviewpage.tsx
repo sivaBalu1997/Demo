@@ -501,7 +501,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
-    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+    (state: any) =>state.auth?.restaurantDetails?.branch && state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
   const getOrderTypeId = (value: any) => {
@@ -521,7 +521,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     maxCount: item?.maxSelection,
     minCount: item?.minSelection,
     noFreeCustomization: item?.freeCustomization,
-    orderTypeIds: (item?.selectedValue || []).map((value) =>
+    orderTypeIds: (item?.selectedValue || [])?.map((value) =>
       getOrderTypeId(value)
     ),
     options:
@@ -532,10 +532,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           cost: option.cost || option.price || 0,
           isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
         }))
-        .map(({ modifierOptionName, ...rest }) => rest) || [],
+        ?.map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
 
-  const hasData = modifierData.some(
+  const hasData = modifierData?.some(
     (item) =>
       item.modifierName !== null ||
       (item.orderTypeIds && item.orderTypeIds?.length > 0) ||
@@ -617,7 +617,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
   
     ...(Array.isArray(thirdPartyDetails)
-      ? thirdPartyDetails.map((detail) => ({
+      ? thirdPartyDetails?.map((detail) => ({
           ...detail,
           isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
           isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'T' )?.isNotHide,

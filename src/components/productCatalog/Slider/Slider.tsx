@@ -10,7 +10,8 @@ import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
 // import eyeOpenimg from '../../../assets/svg/eyeopenIcon.svg';
-import eyeOpenimg from "../../../assets/images/eyeopenNewicon.png";
+import eyeOpenimg from '../../../assets/svg/eyeimg.svg'; 
+
 import {
   addMockDataHiddenRequest,
   resetSuccessMessage,
