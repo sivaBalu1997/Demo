@@ -81,11 +81,11 @@ const Slider: React.FC<SliderProps> = ({
       return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
     });
 
-    const allIsNotHideOnPrem = tempOnPremarray.every(
-      (item:any) => item.isNotHide === 0
+    const allIsNotHideOnPrem = tempOnPremarray?.every(
+      (item:any) => item?.isNotHide === 0
     );
-    const allIsNotHideOffPrem = tempOnPremarray.every(
-      (item:any) => item.isNotHide === 0
+    const allIsNotHideOffPrem = tempOnPremarray?.every(
+      (item:any) => item?.isNotHide === 0
     );
 
 
@@ -120,12 +120,12 @@ const Slider: React.FC<SliderProps> = ({
       },
     ];
 
-const allTrue = tempOrderTypeAvailabilityArray.every(
-      (item) => item.isNotHide
+const allTrue = tempOrderTypeAvailabilityArray?.every(
+      (item) => item?.isNotHide
     );
   
-    const allTypesHidden = tempOrderTypeAvailabilityArray.every((orderType:any) =>
-      orderType.types.every((type:any) => type.isNotHide === 0)
+    const allTypesHidden = tempOrderTypeAvailabilityArray?.every((orderType:any) =>
+      orderType?.types?.every((type:any) => type?.isNotHide === 0)
     );
     setEyeIconOpenClose(allTypesHidden)
   }, [data1[0]?.orderTypes]);
@@ -210,7 +210,6 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
   };
 
   useEffect(() => {
-    // dispatch(selectedMockDataRequest(SideBarData));
     dispatch(resetSuccessMessage());
   }, [dispatch]);
 
