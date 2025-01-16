@@ -96,7 +96,7 @@ const Offerdetails = (props) => {
       dispatch(
         getOfferList({
          // locationId: credentials.locationId,
-         locationId: selectedBranch.id,
+         locationId: selectedBranch?.id,
           status: offerStatus,
         })
       );
