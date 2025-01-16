@@ -984,11 +984,17 @@ export const MenulistingPage = () => {
           }
         });
       };
+      const [hasScrollbar, setHasScrollbar] = useState(false);
 
-
+      const checkScrollbar = () => {
+        if (bodyRef.current) {
+          setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+        }
+      };
   const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
 
   const [removeiconclciked,setRemoveiconclciked]=useState();
+ console.log({hasScrollbar});
  
 
   useEffect(() => {
@@ -1001,15 +1007,14 @@ export const MenulistingPage = () => {
       }
     };
   
-    // Call it initially to set the width
     updateWidth();
-  
-    // Add the event listener for window resize
+    checkScrollbar();
     window.addEventListener("resize", updateWidth);
+    window.addEventListener("resize", checkScrollbar);
   
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", updateWidth);
+      window.addEventListener("resize", checkScrollbar);
     };
   }, [listingobject, menuData, menudatalist, showColumns, removeiconclciked]);
   
@@ -1022,9 +1027,22 @@ const handleRemoveIcon = (value) => {
     if (allFalse) {
       setShowColumns(allFalse);
     }
+  if (bodyRef.current) {
+          setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+        }
     setRemoveiconclciked(value)
   };
    const [widthForEachRow, setWidthForEachRow] = useState();
+console.log({removeiconclciked});
+const bodyrefwidthclient= bodyRef.current.clientWidth;
+const bodyrefwidthscroll= bodyRef.current.scrollWidth;
+
+
+useEffect(()=>{
+  if (bodyRef.current) {
+    setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+  }
+},[removeiconclciked,bodyrefwidthclient,bodyrefwidthscroll])
 
   useEffect(() => {
   
@@ -1089,7 +1107,7 @@ const handleRemoveIcon = (value) => {
 
 
                 </div>
-                <div className="first-part-body" ref={ref1}>
+                <div className="first-part-body" ref={ref1}  style={{height:hasScrollbar?"77vh":"77vh"}}>
                     <div>
 
                     {menudatalist?.map((data, parentIndex) => (
@@ -1327,13 +1345,16 @@ const handleRemoveIcon = (value) => {
                         return null;
                       })}
                 </div>
+
                 <div  className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
                 ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
                 `  }
 
-                style={{height: menudatalist.length===1?"15vh":"78.6vh"  ,overflowY:menudatalist.length===1?"hidden":"auto"}}
+                style={{height: menudatalist.length===1?"15vh":hasScrollbar?"78.6vh":"77vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
                 
                 ref={mergeRefs(ref2, bodyRef)}>
+
+
                 <div >
                     {menuDataLoading ? (
                       <div className="Menu-noOptions">

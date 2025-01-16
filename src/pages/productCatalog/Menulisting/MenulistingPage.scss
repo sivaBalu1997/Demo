@@ -213,6 +213,7 @@ width: fit-content;
 {
   overflow-y: hidden;
   overflow-x: hidden;
+
   &::-webkit-scrollbar{
     display: none;
   }
@@ -226,7 +227,7 @@ width: fit-content;
     // border: 1px solid brown;
     // padding-left: 1rem;
     // padding-right: 1rem;
-    
+    // padding-bottom: 20px;
     height: 78.6vh;
     overflow-y: scroll;
     &::-webkit-scrollbar {
