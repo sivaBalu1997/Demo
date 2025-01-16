@@ -1034,8 +1034,8 @@ const handleRemoveIcon = (value) => {
   };
    const [widthForEachRow, setWidthForEachRow] = useState();
 console.log({removeiconclciked});
-const bodyrefwidthclient= bodyRef.current.clientWidth;
-const bodyrefwidthscroll= bodyRef.current.scrollWidth;
+const bodyrefwidthclient= bodyRef?.current?.clientWidth;
+const bodyrefwidthscroll= bodyRef?.current?.scrollWidth;
 
 
 useEffect(()=>{
