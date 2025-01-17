@@ -41,6 +41,7 @@ const CustomerInsights = () => {
 
   const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
 
+
   const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
 
   const liveRefundsAPIRedux = useSelector((state: any) => state?.newReports?.liveRefundsSuccess)
@@ -100,6 +101,7 @@ const CustomerInsights = () => {
 
   const formattedContent = formatOrderDates(content);
   const liveOrderDateTransformed = formatOrderDates(liveOrdersAPIRedux)
+  console.log({ liveOrdersAPIRedux, liveOrderDateTransformed })
 
 
   const dispatch = useDispatch();
@@ -149,10 +151,10 @@ const CustomerInsights = () => {
   //<p className='s-live-no-data'>No data found !</p>
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'100%'} :  {width:'94%'}}
+        style={isExpanded ? { width: '100%' } : { width: '94%' }}
         className={`live-reports ${isDarkTheme ? "dark-theme" : "light-theme"
           } ${isExpanded ? "l-expanded-width-sales" : ""}`}
       >
@@ -216,7 +218,9 @@ const CustomerInsights = () => {
             currentPage={currentPageLiveOrders}
             setCurrentPage={setCurrentPageLiveOrders}
             Heading="Live Orders"
-            tableData={liveOrderDateTransformed && liveOrderDateTransformed}
+            // tableData={liveOrderDateTransformed && liveOrderDateTransformed}
+            tableData={liveOrdersAPIRedux && liveOrdersAPIRedux}
+            // liveOrdersAPIRedux
             viewType="full"
             recordsPerPage={RECORDS_PER_PAGE_LIMIT}
             totalpageNo={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
