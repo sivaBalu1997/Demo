@@ -1307,26 +1307,20 @@ console.log({Modifiers});
                                       : "50%",
                                   }}
                                   disabled={!modifications[modIndex]?.isEnabled}
-                                  onInput={(e) => {
-                                    const input = e.target as HTMLInputElement;
-                                    // const regex = /^[a-zA-Z\s\W]*$/; 
-                                    const regex = /^[a-zA-Z\s]*$/;                                   
-                                    if (!regex.test(input.value)) {
-                                      input.value = input.value.replace(/[^a-zA-Z\s]/g, "");
-                                    }
-                                  }}
                                   
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
 
-                                    if (!/\d/.test(inputValue)) {
+                                    if ((inputValue === "" || /^[a-zA-Z\s]*$/.test(inputValue)) && !inputValue.startsWith(" ") ) {
                                       handleModifierChange(
                                         modIndex,
                                         e,
                                         modifier.selectionType
                                       );
-                                    }
-                                    valiadteModifierName(modIndex, e);
+                                      valiadteModifierName(modIndex, e)
+                                   }
+                                  
+                                    //valiadteModifierName(modIndex, e);
                                   }}
                                   // onBlur={(e) => handleBlur(e, modIndex)}
                                 />
@@ -1343,9 +1337,9 @@ console.log({Modifiers});
 
                               <div
                                 className="deleteModiferContainer"
-                                onClick={() => handleDeleteModifier(modIndex)}
+                               
                               >
-                                <a className="Delete-text">
+                                <a  onClick={() => handleDeleteModifier(modIndex)} className="Delete-text">
                                   <span className="SpanDelete"><img src={minus} alt="" /></span>Delete
                                 </a>
                               </div>
@@ -1427,13 +1421,7 @@ console.log({Modifiers});
                                               ? "100%"
                                               : "50%",
                                           }}
-                                          onInput={(e) => {
-                                            const input = e.target as HTMLInputElement;
-                                            const regex = /^[a-zA-Z\s]*$/;                                      
-                                            if (!regex.test(input.value)) {
-                                              input.value = input.value.replace(/[^a-zA-Z\s]/g, "");
-                                            }
-                                          }}
+                                        
                                           disabled={
                                             !modifications[modIndex]
                                               ?.modifierOptions[optIndex]
@@ -1451,17 +1439,19 @@ console.log({Modifiers});
                                           }
                                           onChange={(e) => {
                                             const value = e.target.value;
-
-                                            addOptionChange(
-                                              modIndex,
-                                              optIndex,
-                                              e
-                                            );
-                                            valiadteModifierOptions(
-                                              modIndex,
-                                              optIndex,
-                                              e
-                                            );
+                                            if ((value === "" || /^[a-zA-Z\s]*$/.test(value)) && !value.startsWith(" ") ){
+                                              addOptionChange(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              );
+                                              valiadteModifierOptions(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              );
+                                            }
+                                        
                                           }}
                                           // onBlur={(e) => {
                                           //   handleBlur(e, modIndex, optIndex);

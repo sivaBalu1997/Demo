@@ -19,7 +19,9 @@ const SearchBox = () => {
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
   const [orgData, setOrgData] = useState([]);
   const [closeModal, setCloseModal] = useState(false);
-
+ const menuDataLoading = useSelector(
+    (state) => state.productCatalog?.menuDataLoading
+  );
   const data = useSelector((state) => state.storeMockDataReducer.data);
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
@@ -267,6 +269,7 @@ const SearchBox = () => {
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           type="text"
+          readOnly={menuDataLoading}
         />
         <img
           className={`${
