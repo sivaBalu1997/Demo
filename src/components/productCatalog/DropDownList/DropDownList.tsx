@@ -143,6 +143,13 @@ const DropDownList: React.FC<DropdownProps> = ({
     ? options.map((elem: any) => elem.name)
     : [];
 
+
+    let subcategorydataforApi = {
+      locationId: locationid,
+      type: "SUB_CATEGORY",
+      parentId: parentId,
+    };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -162,6 +169,13 @@ const DropDownList: React.FC<DropdownProps> = ({
         setEditList(false);
         setShowselectedOption(true);
       }
+      
+    if (
+      dropDownType === "CATEGORY" &&
+      subcategorydataforApi.parentId !== ""
+    ) {
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -231,11 +245,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setOptions(filteredOptions);
   };
 
-  let subcategorydataforApi = {
-    locationId: locationid,
-    type: "SUB_CATEGORY",
-    parentId: parentId,
-  };
+  
 
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
@@ -408,6 +418,9 @@ const DropDownList: React.FC<DropdownProps> = ({
     
     setManuallySelected(true)
 
+
+   
+
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
@@ -441,6 +454,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
+      subcategorydataforApi.parentId=option?.id
 
       // if (dropDownType === "CATEGORY") {
       //   setParentId(option?.id);
@@ -453,7 +467,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           parentId: option?.id,
         };
 
-        dispatch(fetchDropDownRequest(subcategorydataforApi));
+        // dispatch(fetchDropDownRequest(subcategorydataforApi));
         if (parentId === option?.id) {
           setCategoryChange(false);
         } else {
@@ -619,6 +633,13 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleAboveArrowdropdown = () => {
     onToggle();
+   
+    if (
+      dropDownType === "CATEGORY" &&
+      subcategorydataforApi.parentId !== ""
+    ) {
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
     setShowselectedOption(true);
     // if (dropDownType !== "SUB_CATEGORY") {
     //   dispatch(fetchDropDownRequest(payload));
@@ -640,7 +661,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
 
     if (
-      dropDownType === "SUB_CATEGORY" &&
+      dropDownType === "SUB_CATEGORY" &&name === "subCategory"&&
       subcategorydataforApi.parentId !== ""
     ) {
       dispatch(fetchDropDownRequest(subcategorydataforApi));

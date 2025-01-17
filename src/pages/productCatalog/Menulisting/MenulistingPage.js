@@ -1038,11 +1038,13 @@ const bodyrefwidthclient= bodyRef?.current?.clientWidth;
 const bodyrefwidthscroll= bodyRef?.current?.scrollWidth;
 
 
+
+
 useEffect(()=>{
   if (bodyRef.current) {
     setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
   }
-},[removeiconclciked,bodyrefwidthclient,bodyrefwidthscroll])
+},[removeiconclciked,bodyRef?.current?.clientWidth,bodyRef?.current?.scrollWidth])
 
   useEffect(() => {
   
