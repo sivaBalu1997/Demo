@@ -157,10 +157,11 @@ const SearchBox = () => {
         const suggestion = firstMatch?.itemName?.slice(input.length);
         setDisplayTerm(input + suggestion);
 
-        setHighlightedIndex(0);
+       
       } else {
         setDisplayTerm(input);
       }
+      setHighlightedIndex(0);
     } else {
       setDisplayTerm(input);
     }
