@@ -80,13 +80,13 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data1[0]?.orderTypes]);
 
-  const allSelected = data.every((item) => item.isChecked);
+  const allSelected = data?.every((item) => item?.isChecked);
 
   const hidePayload = {
     itemId: data1[0]?.itemId,
     isEnabled: false,
     itemOrderTypeStatuses: availabilityOrderTypes?.flatMap((section) =>
-      section.types?.map((subItem) => ({
+      section?.types?.map((subItem) => ({
         orderTypeId: subItem?.typeId,
         isEnabled: subItem?.isNotHide,
       }))
@@ -132,7 +132,7 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
       updatedOrderTypes[index].types = updatedOrderTypes[index].types?.map(
         (type) => ({
           ...type,
-          isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide,
+          isNotHide: type.isEnabled ? !updateNotHide : type?.isNotHide,
         })
       );
     }
@@ -147,11 +147,11 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
     // Toggle the isNotHide for the selected child
     updatedOrderTypes[parentIndex].types[childIndex] = {
       ...updatedOrderTypes[parentIndex].types[childIndex],
-      isNotHide: !updatedOrderTypes[parentIndex].types[childIndex].isNotHide,
+      isNotHide: !updatedOrderTypes[parentIndex].types[childIndex]?.isNotHide,
     };
 
     // Check if all the children have isNotHide set to true
-    const allChildrenHidden = updatedOrderTypes[parentIndex].types?.every(
+    const allChildrenHidden = updatedOrderTypes[parentIndex]?.types?.every(
       (child) => child.isNotHide === false
     );
 
@@ -176,12 +176,12 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
       return;
     }
 
-    const updatedOrderTypes = availabilityOrderTypes.map((parent) => {
+    const updatedOrderTypes = availabilityOrderTypes?.map((parent) => {
       // Toggle isNotHide based on toggleState
       const updatedParent = {
         ...parent,
         isNotHide: !toggleState,
-        types: parent.types.map((child) => ({
+        types: parent.types?.map((child) => ({
           ...child,
           isNotHide: child.isEnabled ? toggleState : child.isNotHide,
         })),

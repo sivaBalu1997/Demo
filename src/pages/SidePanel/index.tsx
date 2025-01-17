@@ -358,12 +358,12 @@ const SidePanel = () => {
             {showOfferOptions === "MenuOptions" ? (
               <Uparrow
                 className="dropdown-arrow"
-                style={{ marginLeft: "15px" }}
+                style={{ marginLeft: "15px" ,paddingTop:"2.5rem"}}
               />
             ) : (
               <Downarrow
                 className="dropdown-arrow"
-                style={{ marginLeft: "15px" }}
+                style={{ marginLeft: "15px",paddingTop:"2.5rem" }}
               />
             )}
           </div>
@@ -494,9 +494,9 @@ const SidePanel = () => {
 
             <Fragment>
               {showOptions === "reportOptions" ? (
-                <Uparrow className="dropdown-arrow" />
+                <Uparrow className="dropdown-arrow"   style={{  paddingTop:"2.5rem"}}/>
               ) : (
-                <Downarrow className="dropdown-arrow" />
+                <Downarrow className="dropdown-arrow" style={{  paddingTop:"2.5rem"}}/>
               )}{" "}
             </Fragment>
           </div>

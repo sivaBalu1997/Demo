@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   top: 2px;
-  left: -10px;
+  /* left: -10px; */
 }
 
 .thumb {

@@ -15,7 +15,8 @@
     z-index: 9;
     background-color: #fff;
     // min-width: 150px;
-    width: 10vw;
+    width: 6vw;
+  
     padding: 2.5% 1.5%;
     border-right: 1px solid #c4c4c4;
     height: 100vh;
@@ -23,13 +24,14 @@
     position: fixed;
     transition: width 0.6s ease;
     overflow: hidden;
+   
 
     & .magilhub {
       width: 5vw;
     }
 
     &.expanded {
-      width: 23%;
+      width: 18%;
       transition: width 0.6s ease;
       overflow: hidden;
 
@@ -99,6 +101,7 @@
         padding-left: 6px;
         height: 28px;
         width: 28px;
+        padding-top: 2.2rem;
         padding-bottom: 1.9%;
       }
 
@@ -111,6 +114,8 @@
         list-style-type: disc;
         & .menu-items-SVG path {
           fill: #67833e !important;
+
+
           //stroke: #67833E;
         }
       }
@@ -671,6 +676,7 @@ iframe {
   flex-direction: row;
   align-items: center;
   width: 100%;
+  
   @media (max-width: 1024px) {
     flex-direction: column;
   }
@@ -679,6 +685,9 @@ iframe {
 .restaurant-logo {
   width: 60px;
   height: 60px;
+  padding-top: 1rem;
+ 
+
 }
 
 .restaurant-name {
@@ -866,7 +875,7 @@ iframe {
   }
 
   .main-section .menu.expanded {
-    width: 26%;
+    width: 23%;
   }
 
   .main-section {
@@ -908,4 +917,9 @@ iframe {
   .btn-nav1 {
     display: none;
   }
+}
+
+.menu-items-name
+{
+  padding-top: 2.2rem;
 }

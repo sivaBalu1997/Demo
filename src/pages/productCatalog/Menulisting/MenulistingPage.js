@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import Toggle from "components/productCatalog/Toggle/Toggle";
 import HoverText from "../../../components/productCatalog/HoverText/HoverText";
 import placeholderimg from "../../../assets/svg/placeholderimg.svg";
-import "./MenuPage.scss";
+import "./MenulistingPage.scss";
 import dots from "../../../assets/svg/dots.svg";
 import dollar from "../../../assets/svg/dollar.svg";
 import removeicon from "../../../assets/svg/removeicon.svg";
@@ -39,7 +39,7 @@ import {
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
 
-export const MenuPage = () => {
+export const MenulistingPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
   const menuData = useSelector((state) => state.productCatalog?.menuData);
@@ -53,6 +53,8 @@ export const MenuPage = () => {
   const [itemList, setItemList] = useState([]);
   // console.log("SearchedmenuItem", SearchedmenuItem);
 
+  console.log({itemList})
+
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
@@ -65,8 +67,6 @@ export const MenuPage = () => {
     (state) => state.storeMockDataFilteredReducer.data
   );
   const [modal, setmodal] = useState(false);
-
-  console.log({modal})
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
   const tableBodyRef1 = useRef(null);
@@ -439,6 +439,7 @@ export const MenuPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
+  
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -518,15 +519,18 @@ export const MenuPage = () => {
 
   const showsidebar = (key) => {
     if (key === "DineIn1" || key === "Pickup1" || key === "Delivery1") {
-      handlemodal();
       setSideBarText("Pricing");
-    } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
+      
+    } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       setSideBarText("Availability");
+      handlemodal();
+    
     } else if (key === "Customize1") {
+      setSideBarText("Customize");
       handlemodal();
 
-      setSideBarText("Customize");
+      
     }
   };
 
@@ -534,7 +538,7 @@ export const MenuPage = () => {
     const isObjectEmpty = (obj) => {
       return Object?.keys(obj)?.length === 0;
     };
-    
+
     if (isObjectEmpty(SearchedmenuItem)) {
       const allItemResponseLists = menuData
         ?.flatMap((category) =>
@@ -561,8 +565,8 @@ export const MenuPage = () => {
         name: entry.categoryName,
         itemResponseList: entry.itemResponseList || [],
       }));
-      setItemList([...transformedList]);
-      setMenudatalist([...transformedList]);
+
+      setItemList(transformedList);
       setLoading(false);
     } else {
       if (SearchedmenuItem.subCategoryResponseList) {
@@ -588,7 +592,7 @@ export const MenuPage = () => {
       setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
-  
+
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));
@@ -925,13 +929,18 @@ export const MenuPage = () => {
     const headerElement = headerRef.current;
     const bodyElement = bodyRef.current;
 
-    headerElement.addEventListener("scroll", handleHeaderScroll);
-    bodyElement.addEventListener("scroll", handleBodyScroll);
+    if(headerElement && bodyElement)
+    {
+      headerElement?.addEventListener("scroll", handleHeaderScroll);
+      bodyElement?.addEventListener("scroll", handleBodyScroll);
+  
+      return () => {
+        headerElement?.removeEventListener("scroll", handleHeaderScroll);
+        bodyElement?.removeEventListener("scroll", handleBodyScroll);
+      };
+    }
 
-    return () => {
-      headerElement.removeEventListener("scroll", handleHeaderScroll);
-      bodyElement.removeEventListener("scroll", handleBodyScroll);
-    };
+   
   }, []);
 
   useEffect(() => {
@@ -950,16 +959,16 @@ export const MenuPage = () => {
       }
     };
 
-    const headerElement = ref1.current;
-    const bodyElement = ref2.current;
+    const headerElement = ref1?.current;
+    const bodyElement = ref2?.current;
 
     if (headerElement && bodyElement) {
-      headerElement.addEventListener("scroll", handleHeaderScroll);
-      bodyElement.addEventListener("scroll", handleBodyScroll);
+      headerElement?.addEventListener("scroll", handleHeaderScroll);
+      bodyElement?.addEventListener("scroll", handleBodyScroll);
 
       return () => {
-        headerElement.removeEventListener("scroll", handleHeaderScroll);
-        bodyElement.removeEventListener("scroll", handleBodyScroll);
+        headerElement?.removeEventListener("scroll", handleHeaderScroll);
+        bodyElement?.removeEventListener("scroll", handleBodyScroll);
       };
     }
   }, []);
@@ -975,49 +984,87 @@ export const MenuPage = () => {
           }
         });
       };
+      const [hasScrollbar, setHasScrollbar] = useState(false);
 
-  const UploadImageImageID = useSelector(
-    (state) => state.productCatalog.successImageId
-  );
-  const handleRemoveIcon = () => {
+      const checkScrollbar = () => {
+        if (bodyRef.current) {
+          setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+        }
+      };
+  const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
+
+  const [removeiconclciked,setRemoveiconclciked]=useState();
+ console.log({hasScrollbar});
+ 
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const element = document.querySelector(".second-part-data-row");
+      if (element) {
+        const { width } = element.getBoundingClientRect();
+        setWidthForCategoryBorder(width);
+        console.log({ width });
+      }
+    };
+  
+    updateWidth();
+    checkScrollbar();
+    window.addEventListener("resize", updateWidth);
+    window.addEventListener("resize", checkScrollbar);
+  
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+      window.addEventListener("resize", checkScrollbar);
+    };
+  }, [listingobject, menuData, menudatalist, showColumns, removeiconclciked]);
+  
+ 
+
+const handleRemoveIcon = (value) => {
     const allFalse =
       listingobject &&
       Object.values(listingobject).every((value) => value === false);
     if (allFalse) {
       setShowColumns(allFalse);
     }
+  if (bodyRef.current) {
+          setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+        }
+    setRemoveiconclciked(value)
   };
+   const [widthForEachRow, setWidthForEachRow] = useState();
+console.log({removeiconclciked});
+const bodyrefwidthclient= bodyRef?.current?.clientWidth;
+const bodyrefwidthscroll= bodyRef?.current?.scrollWidth;
 
-  const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
 
-  const handleClick = (event) => {
-    const element = event.currentTarget;
-    const { width, height } = element.getBoundingClientRect();
-
-    setWidthForCategoryBorder(width);
-  };
+useEffect(()=>{
+  if (bodyRef.current) {
+    setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+  }
+},[removeiconclciked,bodyrefwidthclient,bodyrefwidthscroll])
 
   useEffect(() => {
+  
+      const element = document.querySelector(".orderTypes");
+  
+      if (element) {
+        const { width } = element.getBoundingClientRect();
+        setWidthForEachRow(width);
+      }
+    }, [listingobject, menuData,menudatalist]);
 
-    const element = document.querySelector(".table-two-row");
-
-    if (element) {
-      const { width } = element.getBoundingClientRect();
-      setWidthForCategoryBorder(width);
-    }
-  }, [listingobject, menuData]);
   return (
-    <>
-      <div className="MenuPage-container">
-        <SidePanel />
-        <div
-          className={`${isExpanded ? "MenuPage-Part-expand" : "MenuPage-Part"}`}
-        >
-          <div className="MenuPage-HeaderComponent">
-            {" "}
-            <Header />
-          </div>
-          <InsertColumnList
+   <div   className="MenuPage-new-container">
+
+   
+          <SidePanel />
+    
+    <div  className={`${isExpanded ? "MenuPage-new-container-body-expand" : "MenuPage-new-container-body"}`}>
+        <div className="MenuPage-new-container-header">
+        <Header />
+        </div>
+        <InsertColumnList
             listingobject={listingobject}
             setlistingobject={setlistingobject}
             insertlists={insertlists2}
@@ -1030,20 +1077,12 @@ export const MenuPage = () => {
             Outsideref={Outsideref}
             uniqueOrderTypeNames={uniqueOrderTypeNames}
           />
-
-          <div
-            className={`${isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
-              }`}
-          >
-            <div  className={`${
-              isExpanded ? "header-with-body-container-expand" : "header-with-body-container"
-            }`}>
-              <div className="header-container">
-                <div className={`${isExpanded ? "first-div-header-expand" : "first-div-header"
-                  }`}>
-                  <p className="image">Image</p>
-                  <p className="name-item">ItemName</p>
-                  <p className="item-code">
+        <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
+            <div className="first-part-data">
+                <div className="first-part-header">
+                <p className="image-style">Image</p>
+                  <p className="name-item-style">ItemName</p>
+                  <p className="item-code-style">
                     <span> Code </span>
                     <button
                       className="addbtn-menupage"
@@ -1063,112 +1102,15 @@ export const MenuPage = () => {
                       <span className="Menupage-insert-column-span">+</span>
                     </button>
                   </p>
+
+
+
+
                 </div>
+                <div className="first-part-body" ref={ref1}  style={{height:hasScrollbar?"77vh":"77vh"}}>
+                    <div>
 
-                <div
-                  ref={headerRef}
-                  className={`${isExpanded ? "scroll-container-expand" : "scroll-container"
-                    }`}
-                >
-                  <div className="second-div-header">
-                    {!menuDataLoading &&
-                      !menuDataFailed &&
-                      itemList?.length > 0 &&
-                      itemList?.some(
-                        (item) => item?.itemResponseList?.length > 0
-                      ) &&
-                      firstRowTable.map((header, index) => {
-                        const headerName = header.label.substring(
-                          0,
-                          header.label.length - 1
-                        );
-
-                        if (
-                          (header.label === "Customize1" ||
-                            nameOfOrderTypes?.includes(headerName)) &&
-                          header.label !== "Instore1" &&
-                          header.label !== "Instore2"
-                        ) {
-                          return (
-                            <>
-                              {listingobject && listingobject[header.label] && (
-                                <p
-                                  style={{
-                                    display: "flex",
-                                    gap: "20px",
-                                    height: "1rem",
-                                  }}
-                                >
-                                  <span
-                                    className="borderfor-header"
-                                    style={{
-                                      padding: "0",
-                                      paddingLeft: "20px",
-                                      paddingRight: "20px",
-
-                                      height: "1.6rem",
-                                    }}
-                                  >
-                                    {header.label !== "Inventory1" &&
-                                      header.label !== "Customize1" && (
-                                        <span className="dollar">
-                                          {header.label.charAt(
-                                            header.label.length - 1
-                                          ) === "2" ? (
-                                            <img src={calendericon} alt="" />
-                                          ) : (
-                                            <img src={dollar} alt="" />
-                                          )}
-                                        </span>
-                                      )}
-                                    <span className="spanheadertext">
-                                      {headerName}
-                                    </span>
-                                    <span
-                                      className="removeicon"
-                                      onClick={() => {
-                                        setlistingobject({
-                                          ...listingobject,
-                                          [header.label]: false,
-                                        });
-                                        handleRemoveIcon();
-                                      }}
-                                    >
-                                      <img
-                                        src={removeicon}
-                                        className="removeicon-img"
-                                        alt=""
-                                        onClick={() =>
-                                          setlistingobject({
-                                            ...listingobject,
-                                            [header.label]: false,
-                                          })
-                                        }
-                                      />
-                                    </span>
-                                  </span>
-                                </p>
-                              )}
-                            </>
-                          );
-                        }
-                        return null;
-                      })}
-                  </div>
-                </div>
-              </div>
-              <div
-                className={`${isExpanded && !menuDataLoading && "body-container-expand"
-                  } ${!isExpanded && !menuDataLoading && "body-container"}`}
-              // className={`${isExpanded ? "body-container-expand" : "body-container"
-              //   }`}
-              >
-                <div
-
-
-                  className={`${isExpanded ? "first-div-body-expand" : "first-div-body"
-                    }`} ref={ref1}>
-                  {menudatalist?.map((data, parentIndex) => (
+                    {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.subCategoryResponseList &&
                         data?.subCategoryResponseList?.length > 0 ? (
@@ -1180,7 +1122,9 @@ export const MenuPage = () => {
                                 <>
                                   {subCategory?.itemResponseList?.length >
                                     0 && (
-                                      <div className="categoryName-data-firstbody">
+                                      <div 
+                                      className="categoryName-data-bg"
+                                      >
                                         <p>
                                           {data.categoryName}-{" "}
                                           <span>
@@ -1198,10 +1142,10 @@ export const MenuPage = () => {
                                       (item, index) => (
                                         <div
                                           key={index}
-                                          className={"item-name-code-data"}
+                                          className="fist-part-data-itemname-code"
                                         >
                                           <p>
-                                            <span className="itemimage2">
+                                            <span className="imgae-styel2">
                                               <img
                                                 src={`${baseImageUrl}${item?.mediaResponseList[0]
                                                     ?.imageId
@@ -1216,7 +1160,7 @@ export const MenuPage = () => {
                                           </p>
                                           <p>
                                             <span
-                                              className="itemname2"
+                                              className="name-style2"
                                               onClick={() =>
                                                 handlemodal(item.itemId)
                                               }
@@ -1228,7 +1172,7 @@ export const MenuPage = () => {
                                             </span>
                                           </p>
                                           <p>
-                                            <span className="itemcode2">
+                                            <span className="code-style2">
                                               {item?.itemCode}
                                             </span>
                                           </p>
@@ -1247,7 +1191,7 @@ export const MenuPage = () => {
                             ? data?.itemResponseList?.length > 0 &&
                             data.categoryName !== "" && (
                               <>
-                                <div className="categoryName-data-firstbody">
+                                <div className="categoryName-data-bg">
                                   <p>
                                     {data.categoryName} (
                                     {data?.itemResponseList?.length})
@@ -1256,10 +1200,10 @@ export const MenuPage = () => {
                                 {data?.itemResponseList.map((item, index) => (
                                   <div
                                     key={index}
-                                    className={isExpanded ? "item-name-code-data-Expanded" : "item-name-code-data"}
+                                    className={isExpanded ? "fist-part-data-itemname-code" : "fist-part-data-itemname-code"}
                                   >
                                     <p>
-                                      <span className="itemimage2">
+                                      <span className="imgae-styel2">
                                         <img
                                           src={`${baseImageUrl}${item?.mediaResponseList[0]
                                               ?.imageId
@@ -1274,7 +1218,7 @@ export const MenuPage = () => {
                                     </p>
                                     <p>
                                       <span
-                                        className={`${isExpanded ? "itemname2-expand" : "itemname2"
+                                        className={`${isExpanded ? "name-style2-expand" : "name-style2"
                                           }`}
 
                                         onClick={() =>
@@ -1288,7 +1232,7 @@ export const MenuPage = () => {
                                       </span>
                                     </p>
                                     <p>
-                                      <span className="itemcode2">
+                                      <span className="code-style2">
                                         {item?.itemCode}
                                       </span>
                                     </p>
@@ -1301,38 +1245,117 @@ export const MenuPage = () => {
                       )}
                     </React.Fragment>
                   ))}
+                    </div>
+
+               
                 </div>
 
-                <div className="scroll-container22">
-                  <div
-                    className={`${isExpanded &&
-                      !menuDataLoading &&
+                
+            </div>
+
+
+            <div className="second-part-data">
+                <div  ref={headerRef} className={`${isExpanded ? "second-part-header-expand" : "second-part-header"}`}>
+                {!menuDataLoading &&
                       !menuDataFailed &&
-                      !showColumns &&
-                      "second-div-body-expand"
-                      } ${!isExpanded &&
-                      !menuDataLoading &&
-                      !menuDataFailed &&
-                      !showColumns &&
-                      "second-div-body"
-                      }
-                    
-                    
-                    
-                    `}
-                    ref={mergeRefs(ref2, bodyRef)}
-                    style={{
-                      height: menuDataLoading ? "39.5rem" : "",
-                      overflowX:
-                        !menuDataLoading && itemList?.length <= 0
-                          ? "hidden"
-                          : "auto",
-                      overflowY:
-                        !menuDataLoading && itemList?.length <= 0
-                          ? "hidden"
-                          : "auto",
-                    }}
-                  >
+                      itemList?.length > 0 &&
+                      itemList?.some(
+                        (item) => item?.itemResponseList?.length > 0
+                      ) &&
+                      firstRowTable.map((header, index) => {
+                        const headerName = header.label.substring(
+                          0,
+                          header.label.length - 1
+                        );
+
+                        if (
+                          (header.label === "Customize1" ||
+                            nameOfOrderTypes?.includes(headerName)) &&
+                          header.label !== "Instore1" &&
+                          header.label !== "Instore2"
+                        ) {
+
+                            const dynamicWidth = `${headerName.length * 1.3
+                            }vw`;
+                          return (
+                            <>
+                              {listingobject && listingobject[header.label] && (
+                                <p
+                                  style={{
+                                    display: "flex",
+                                    gap: "20px",
+                                    height: "1rem",
+                                  }}
+                                >
+                                  <span
+                                    className="orderTypes"
+                                    style={{
+                                        width:dynamicWidth,
+                                      padding: "0",
+                                      
+
+                                      height: "1.6rem",
+                                    }}
+                                  >
+                                    {header.label !== "Inventory1" &&
+                                      header.label !== "Customize1" && (
+                                        <span className="dollar">
+                                          {header.label.charAt(
+                                            header.label.length - 1
+                                          ) === "2" ? (
+                                            <img src={calendericon} alt="" className="header-img"/>
+                                          ) : (
+                                            <img src={dollar} alt="" className="header-img"/>
+                                          )}
+                                        </span>
+                                      )}
+                                    <span
+                                     className="spanheadertext"
+                                     >
+                                      {headerName}
+                                    </span>
+                                    <span
+                                      className="removeicon"
+                                      onClick={() => {
+                                        setlistingobject({
+                                          ...listingobject,
+                                          [header.label]: false,
+                                        });
+                                        handleRemoveIcon(headerName);
+                                      }}
+                                    >
+                                      <img
+                                        src={removeicon}
+                                        // className="removeicon-img"
+                                        alt=""
+                                        onClick={() =>
+                                          setlistingobject({
+                                            ...listingobject,
+                                            [header.label]: false,
+                                          })
+                                        }
+                                      />
+                                    </span>
+                                  </span>
+                                </p>
+                              )}
+                            </>
+                          );
+                        }
+                        return null;
+                      })}
+                </div>
+
+                <div  className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
+                ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
+                `  }
+
+                style={{height: menudatalist.length===1?"15vh":hasScrollbar?"78.6vh":"77vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
+                
+                ref={mergeRefs(ref2, bodyRef)}>
+
+
+                <div >
                     {menuDataLoading ? (
                       <div className="Menu-noOptions">
                         <Loader
@@ -1379,9 +1402,12 @@ export const MenuPage = () => {
                                           0 &&
                                           data.categoryName !== "" && (
                                             <>
-                                              <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                              <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
                                               <div
-                                                className="categoryName-data"
+                                                // className="categoryName-data"
+             
+
+                                                className="categoryName-data-bg-forsecondpart"
 
                                               >
                                                 <p></p>
@@ -1397,9 +1423,13 @@ export const MenuPage = () => {
                                               <div
 
                                                 key={index}
-                                                className="table-two-row"
+                                                className="second-part-data-row"
                                               >
-                                                <p>
+                                                <p 
+                                    
+                                    
+                                style={{display:"flex",gap:"1rem"}}
+                                       >
                                                   {orderTypesToShow2?.map(
                                                     (
                                                       typeName,
@@ -1427,6 +1457,7 @@ export const MenuPage = () => {
                                                             ot.typeName ===
                                                             typeName
                                                         );
+                                                        
 
                                                       const price = orderType
                                                         ? orderType.price
@@ -1434,9 +1465,8 @@ export const MenuPage = () => {
                                                           .padStart(5, "0")
                                                         : "";
 
-                                                      const dynamicWidth = `${typeName.length * 10 +
-                                                        20
-                                                        }px`;
+                                                        const dynamicWidth = `${typeName.length * 1.3
+                                                        }vw`;
 
                                                       if (
                                                         orderType.typeGroup !==
@@ -1445,30 +1475,24 @@ export const MenuPage = () => {
                                                         return (
                                                           <span
                                                             key={typeName}
+                                                           
+                                                            className="orderTypes-price"
+     
                                                             style={{
-
-                                                              cursor: "pointer",
-                                                              opacity:
-                                                                orderType &&
-                                                                  orderType.isNotHide ===
-                                                                  1 &&
-                                                                  orderType.availabilityEnabled ===
-                                                                  true
-                                                                  ? // &&
-                                                                  // orderType.isEnabled ===
-                                                                  //   1
-                                                                  "100%"
-                                                                  : "50%",
-                                                              width:
-                                                                dynamicWidth,
-                                                              padding: "0 22px",
-                                                              textAlign:
-                                                                "center",
-                                                              display: "flex",
-                                                              justifyContent:
-                                                                "center",
-                                                              alignItems:
-                                                                "center",
+                                                             cursor: "pointer",
+                                                             width:dynamicWidth,
+                                                             display:"flex",
+                                                             gap:"1rem",
+                                                                padding: "0",
+                                                                //    paddingLeft: "20px",
+                                                                //    paddingRight: "20px",
+                                                                 
+                                                             // marginLeft:"1rem"
+                                                            
+                                                             // paddingLeft:"20px",
+                                                             // paddingRight:"20px"
+     
+     
                                                             }}
                                                             onClick={() =>
                                                               handlesidbarhandling(
@@ -1491,7 +1515,7 @@ export const MenuPage = () => {
                                                   )}
                                                 </p>
 
-                                                <p style={{ display: "flex" }}>
+                                                <p       style={{display:"flex",gap:"1rem"}}>
                                                   {orderTypesToShow2?.map(
                                                     (typeName) => {
                                                       if (
@@ -1517,32 +1541,34 @@ export const MenuPage = () => {
                                                             typeName
                                                         );
 
-                                                      const dynamicWidth = `${typeName.length * 10 +
-                                                        20
-                                                        }px`;
+                                                        const dynamicWidth = `${typeName.length * 1.3
+                                                        }vw`;
                                                       if (
                                                         orderType.typeGroup !==
                                                         "I"
                                                       ) {
                                                         return (
                                                           <span
-                                                            key={typeName}
-                                                            style={{
-                                                              position:
-                                                                "relative",
-                                                              left: "1rem",
-                                                              width:
-                                                                dynamicWidth,
-                                                              padding: "0 22px",
-                                                              textAlign:
-                                                                "center",
-                                                              display: "flex",
-                                                              justifyContent:
-                                                                "center",
-                                                              alignItems:
-                                                                "center",
-                                                              cursor: "pointer",
-                                                            }}
+                                                          key={typeName}
+                                                          className="orderTypes-price"
+   
+                                                          style={{
+                                                           cursor: "pointer",
+                                                           width:dynamicWidth,
+                                                           opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
+
+                                                           display:"flex",
+                                                           // gap:"1rem",
+                                                              padding: "0",
+                                                                //  paddingLeft: "20px",
+                                                                //  paddingRight: "20px",
+                                                           // marginLeft:"1rem"
+                                                          
+                                                           // paddingLeft:"20px",
+                                                           // paddingRight:"20px"
+   
+   
+                                                          }}
                                                             onClick={() =>
                                                               handlesidbarhandling(
                                                                 `${typeName}2`,
@@ -1569,7 +1595,7 @@ export const MenuPage = () => {
                                                   )}
                                                 </p>
 
-                                                <p>
+                                                <p  style={{display:"flex",gap:"1rem"}}>
                                                   {item?.modifiers &&
                                                     Array.isArray(
                                                       item.modifiers
@@ -1577,7 +1603,7 @@ export const MenuPage = () => {
                                                     listingobject &&
                                                     listingobject.Customize1 ? (
                                                     <span
-                                                      className="Customizedata"
+                                                    //   className="Customizedata"
                                                       onClick={() =>
                                                         handlesidbarhandling(
                                                           "Customize1",
@@ -1585,14 +1611,53 @@ export const MenuPage = () => {
                                                         )
                                                       }
                                                     >
-                                                      <span>
+                                                      <span  
+                                                   
+                                                     className="orderTypes-price"
+
+                                                     style={{
+                                                      cursor: "pointer",
+                                                      width:"12vw",
+                                                      display:"flex",
+                                                      // gap:"1rem",
+                                                         padding: "0",
+                                                            // paddingLeft: "20px",
+                                                            // paddingRight: "20px",
+                                                      // marginLeft:"1rem"
+                                                     
+                                                      // paddingLeft:"20px",
+                                                      // paddingRight:"20px"
+
+
+                                                     }}
+                                                              >
                                                         {item.modifiers.length}
                                                       </span>
                                                     </span>
                                                   ) : (
                                                     listingobject &&
                                                     listingobject.Customize1 && (
-                                                      <span className="Customizedata">
+                                                      <span 
+                                                  
+                                                     className="orderTypes-price"
+
+                                                     style={{
+                                                      cursor: "pointer",
+                                                      width:"12vw",
+                                                      display:"flex",
+                                                      // gap:"1rem",
+                                                         padding: "0",
+                                                            // paddingLeft: "20px",
+                                                            // paddingRight: "20px",
+                                                      // marginLeft:"1rem"
+                                                     
+                                                      // paddingLeft:"20px",
+                                                      // paddingRight:"20px"
+
+
+                                                     }}
+                                                    //   className="Customizedata"
+                                                      >
                                                         <span>
                                                           No Modifiers Available
                                                         </span>
@@ -1612,8 +1677,13 @@ export const MenuPage = () => {
                                   {data?.itemResponseList?.length > 0 &&
                                     data.categoryName !== "" && (
                                       <>
-                                        <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
-                                        <div className="categoryName-data">
+                                         <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                              <div
+                                                // className="categoryName-data"
+
+
+                                                className="categoryName-data-bg-forsecondpart"
+                                         >
                                           <p></p>
                                         </div>
                                       </>
@@ -1625,9 +1695,9 @@ export const MenuPage = () => {
                                       (item, index) => (
                                         <div
                                           key={index}
-                                          className="table-two-row"
+                                          className="second-part-data-row"
                                         >
-                                          <p>
+                                          <p  style={{display:"flex",gap:"1rem"}}>
                                             {orderTypesToShow2?.map(
                                               (typeName, ordertypeindex) => {
                                                 if (
@@ -1656,36 +1726,62 @@ export const MenuPage = () => {
                                                     .padStart(5, "0")
                                                   : "";
 
-                                                const dynamicWidth = `${typeName.length * 10 + 20
-                                                  }px`;
+                                                  const dynamicWidth = `${typeName.length * 1.3
+                                                  }vw`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
-                                                  return (
-                                                    <span
+                                                  return (<>
+                                                  {/* <style>{`.orderTypes-price { width: ${widthForEachRow}px !important; }`}</style> */}
+                                                  <span
                                                       key={typeName}
-                                                      style={{
+                                                       className="orderTypes-price"
+
+                                                       style={{
                                                         cursor: "pointer",
-                                                        opacity:
-                                                          orderType &&
-                                                            orderType.availabilityEnabled ===
-                                                            true &&
-                                                            orderType.isNotHide ===
-                                                            1
-                                                            ? "100%"
-                                                            : "50%",
+                                                        width:dynamicWidth,
+                                                        opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
+                                                          
+                                                        display:"flex",
+                                                        // gap:"1rem",
+                                                           padding: "0",
+                                                            //   paddingLeft: "20px",
+                                                            //   paddingRight: "20px",
+                                                        // marginLeft:"1rem"
+                                                       
+                                                        // paddingLeft:"20px",
+                                                        // paddingRight:"20px"
+
+
+                                                       }}
+                                                            // style={{
+                                                            //   padding: "0",
+                                                            //   paddingLeft: "20px",
+                                                            //   paddingRight: "20px",
+                        
+                                                            //   height: "1.6rem",}}
+                                                    //   style={{
+                                                    //     cursor: "pointer",
+                                                    //     opacity:
+                                                    //       orderType &&
+                                                    //         orderType.availabilityEnabled ===
+                                                    //         true &&
+                                                    //         orderType.isNotHide ===
+                                                    //         1
+                                                    //         ? "100%"
+                                                    //         : "50%",
                                                         //  &&
                                                         // orderType.isEnabled ===
                                                         //   1
 
-                                                        width: dynamicWidth,
-                                                        padding: "0 22px",
-                                                        textAlign: "center",
-                                                        display: "flex",
-                                                        justifyContent:
-                                                          "center",
-                                                        alignItems: "center",
-                                                      }}
+                                                    //     width: dynamicWidth,
+                                                    //     padding: "0 22px",
+                                                    //     textAlign: "center",
+                                                    //     display: "flex",
+                                                    //     justifyContent:
+                                                    //       "center",
+                                                    //     alignItems: "center",
+                                                    //   }}
                                                       onClick={() =>
                                                         handlesidbarhandling(
                                                           `${typeName}1`,
@@ -1701,13 +1797,16 @@ export const MenuPage = () => {
                                                         ? price
                                                         : "0"}
                                                     </span>
+                                                  
+                                                  </>
+                                                   
                                                   );
                                                 }
                                               }
                                             )}
                                           </p>
 
-                                          <p style={{ display: "flex" }}>
+                                          <p  style={{display:"flex",gap:"1rem"}}>
                                             {orderTypesToShow2?.map(
                                               (typeName) => {
                                                 if (
@@ -1730,26 +1829,32 @@ export const MenuPage = () => {
                                                       ot.typeName === typeName
                                                   );
 
-                                                const dynamicWidth = `${typeName.length * 10 + 20
-                                                  }px`;
+                                                const dynamicWidth = `${typeName.length * 1.3
+                                                  }vw`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
                                                   return (
                                                     <span
-                                                      key={typeName}
-                                                      style={{
-                                                        position: "relative",
-                                                        left: "1rem",
-                                                        cursor: "pointer",
-                                                        width: dynamicWidth,
-                                                        padding: "0 22px",
-                                                        textAlign: "center",
-                                                        display: "flex",
-                                                        justifyContent:
-                                                          "center",
-                                                        alignItems: "center",
-                                                      }}
+                                                    key={typeName}
+                                                    className="orderTypes-price"
+
+                                                    style={{
+                                                     cursor: "pointer",
+                                                     width:dynamicWidth,
+                                                     display:"flex",
+                                                     
+                                                     // gap:"1rem",
+                                                        padding: "0",
+                                                        //    paddingLeft: "20px",
+                                                        //    paddingRight: "20px",
+                                                     // marginLeft:"1rem"
+                                                    
+                                                     // paddingLeft:"20px",
+                                                     // paddingRight:"20px"
+
+
+                                                    }}
                                                       onClick={() =>
                                                         handlesidbarhandling(
                                                           `${typeName}2`,
@@ -1776,13 +1881,31 @@ export const MenuPage = () => {
                                             )}
                                           </p>
 
-                                          <p>
+                                          <p  style={{display:"flex",gap:"1rem"}}>
                                             {item?.modifiers &&
                                               Array.isArray(item.modifiers) &&
                                               listingobject &&
                                               listingobject.Customize1 ? (
                                               <span
-                                                className="Customizedata"
+                                             
+                                              className="orderTypes-price"
+
+                                              style={{
+                                               cursor: "pointer",
+                                               width:"12vw",
+                                               display:"flex",
+                                               // gap:"1rem",
+                                                  padding: "0",
+                                                  //  border:"1px solid red",
+                                                    //  paddingLeft: "20px",
+                                                    //  paddingRight: "20px",
+                                               // marginLeft:"1rem"
+                                              
+                                               // paddingLeft:"20px",
+                                               // paddingRight:"20px"
+
+
+                                              }}
                                                 onClick={() =>
                                                   handlesidbarhandling(
                                                     "Customize1",
@@ -1797,7 +1920,27 @@ export const MenuPage = () => {
                                             ) : (
                                               listingobject &&
                                               listingobject.Customize1 && (
-                                                <span className="Customizedata">
+                                                <span 
+                                              
+                                                className="orderTypes-price"
+
+                                                style={{
+                                                 cursor: "pointer",
+                                                 width:"12vw",
+                                                 display:"flex",
+                                                //  border:"1px solid red",
+                                                 // gap:"1rem",
+                                                    padding: "0",
+                                                      //  paddingLeft: "20px",
+                                                      //  paddingRight: "20px",
+                                                 // marginLeft:"1rem"
+                                                
+                                                 // paddingLeft:"20px",
+                                                 // paddingRight:"20px"
+
+
+                                                }}
+                                                >
                                                   <span>
                                                     No Modifiers Available
                                                   </span>
@@ -1819,19 +1962,20 @@ export const MenuPage = () => {
                     )}
                   </div>
                 </div>
+            </div>
 
-                {modal && (
+        </div>
+
+    </div>
+
+    {modal && (
                   <Slider
                     sidebartext={sidebartext}
                     SideBarData={SideBarData}
                     onclose={() => setmodal(false)}
                   />
                 )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+
+   </div>
   );
 };
