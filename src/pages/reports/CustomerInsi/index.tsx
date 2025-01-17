@@ -19,11 +19,8 @@ const CustIns: React.FC = () => {
 
   const [totalPageNoCurrentPageCustomerOrderDetails, setTotalPageNoCurrentPageCustomerOrderDetails] = useState<number>(5)
   const [currentPageCustomerOrderDetails, setCurrentPageCustomerOrderDetails] = useState<number>(1);
-  console.log({ currentPageCustomerOrderDetails });
-
   const [totalPageNoCurrentPageDineInInsights, setTotalPageNoCurrentPageDineInInsights] = useState<number>(5)
   const [currentPageDineInInsights, setCurrentPageDineInInsights] = useState<number>(1);
-  console.log({ currentPageDineInInsights });
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -41,9 +38,10 @@ const CustIns: React.FC = () => {
     setOpenFilter(false);
   };
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       <div
+        style={isExpanded ? {width:'85%'} : {width:'94%'}}
         className={`ci-employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
           } ${isExpanded ? "ci-on-expanded" : ""}`
         }

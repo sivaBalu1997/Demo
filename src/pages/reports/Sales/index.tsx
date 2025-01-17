@@ -89,14 +89,10 @@ const Sales: React.FC = () => {
     (state: any) => state.auth?.selectedBranch || null
   );
 
-  console.log("location name", selectedBranch?.locationName)
-
   const salesSummaryStatusAPIRedux = useSelector((state: any) => state?.newReports?.salesSummaryStatus)
-  console.log({ salesSummaryStatusAPIRedux })
 
   //pp
   const salesByItemCategoryAPIReduxTotalPageNo = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.totalPages);
-  console.log({ salesByItemCategoryAPIReduxTotalPageNo })
 
 
   const salesDataFromAPIRedux = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
@@ -108,63 +104,43 @@ const Sales: React.FC = () => {
   const salesByRevenueClassAPIRedux = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
 
   const revenueClassTotalPageNo = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.totalPages)
-  console.log({ revenueClassTotalPageNo })
 
   const actualSalesAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesSuccess);
-  console.log({ actualSalesAPIRedux })
 
   const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualThirdPartySalesSuccess);
 
   const segregatedDataForMaghilSales = actualSalesAPIRedux && actualSalesAPIRedux?.content?.filter((item: any) => item.type === "maghil");
-  console.log({ segregatedDataForMaghilSales });
 
 
   const segregatedDataForMaghilSalesTotalPageNo = segregatedDataForMaghilSales?.totalPages
   //pp
-  console.log({ segregatedDataForMaghilSalesTotalPageNo })
-
-  console.log({ actualSalesThirdPartyAPIRedux })
-
   const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content?.filter((item: any) => item.type === "third party")
-  console.log({ segregatedDataForThirdPartySales });
 
 
   const segregatedDataForThirdPartySalesTotalPageNo = segregatedDataForThirdPartySales?.totalPages
   //pp
-  console.log({ segregatedDataForThirdPartySalesTotalPageNo })
 
   const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
 
   const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux && hourlySalesChartDataFromAPIRedux?.content?.map(({ formattedHour, itemTotal }: transformedhourlySalesChartDataFromAPIReduxType) => ({ formattedHour, itemTotal }));
-  console.log({ transformedhourlySalesChartDataFromAPIRedux });
 
   const hourlyX = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.formattedHour);
 
   const hourlyY = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.itemTotal);
-  console.log('hourly X => ', { hourlyX }, 'hourly Y => ', { hourlyY })
 
   const discountSummaryAPIRedux = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content)
-  console.log({ discountSummaryAPIRedux })
 
   const discountSummaryPageNo = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages)
   //pp
-  console.log({ discountSummaryPageNo })
 
   const cancellationSummaryAPIRedux = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
-  console.log({ cancellationSummaryAPIRedux })
 
   const cancellationSummaryAPIReduxLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
-  console.log({ cancellationSummaryAPIReduxLoading })
 
   const cancellationSummaryTotalPageNo = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages)
   //pp
 
-
-  console.log({ salesDataFromAPIReduxLoader })
-  console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux, discountSummaryAPIRedux, cancellationSummaryAPIRedux })
-
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
-  console.log({ locationid })
   // const locationid = "969c059b-6597-47a8-b175-08658e9bf41c";
 
 
@@ -209,27 +185,21 @@ const Sales: React.FC = () => {
 
   const [totalPageNumberDirectStoreOnlineSalesMaghil, setTotalPageNumberDirectStoreOnlineSalesMaghil] = useState<number>(segregatedDataForMaghilSalesTotalPageNo || 1)
   const [currentPageForDirectStoreOnlineSalesMaghil, setCurrentPageForDirectStoreOnlineSalesMaghil] = useState<number>(1);
-  console.log({ currentPageForDirectStoreOnlineSalesMaghil });
 
   const [totalPageNumberCurrentPageForActualThirdPartySales, setTotalPageNumberCurrentPageForActualThirdPartySales] = useState<number>(segregatedDataForThirdPartySalesTotalPageNo || 1)
   const [currentPageForActualThirdPartySales, setCurrentPageForActualThirdPartySales] = useState<number>(1);
-  console.log({ currentPageForActualThirdPartySales });
 
   const [totalPageNumberCurrentPageSalesByItemCategory, setTotalPageNumberCurrentPageSalesByItemCategory] = useState<number>(salesByItemCategoryAPIReduxTotalPageNo ? salesByItemCategoryAPIReduxTotalPageNo : 1)
   const [currentPageSalesByItemCategory, setCurrentPageSalesByItemCategory] = useState<number>(1);
-  console.log({ currentPageSalesByItemCategory });
 
   const [totalPageNumberCurrentPageSalesByRevenueClass, setTotalPageNumberCurrentPageSalesByRevenueClass] = useState<number>(revenueClassTotalPageNo || 1);
   const [currentPageSalesByRevenueClass, setCurrentPageSalesByRevenueClass] = useState<number>(1);
-  console.log({ currentPageSalesByRevenueClass })
 
   const [totalPageNumberCurrentPageDiscountSummary, setTotalPageNumberCurrentPageDiscountSummary] = useState<number>(discountSummaryPageNo ? discountSummaryPageNo : 1)
   const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
-  console.log({ currentPageDiscountSummary });
 
   const [totalPageNumberCurrentPageCancellationSummary, setTotalPageNumberCurrentPageCancellationSummary] = useState<number>(cancellationSummaryTotalPageNo)
   const [currentPageCancellationSummary, setCurrentPageCancellationSummary] = useState<number>(1);
-  console.log({ currentPageCancellationSummary });
 
 
   const formatNumberIndian = (number: number): string => {
@@ -358,8 +328,6 @@ const Sales: React.FC = () => {
     (state: any) => state?.auth?.restaurantDetails?.country
   );
 
-  console.log("country from sales", countryCode)
-
   const getSalesLocationStartEndDate = useMemo(() => {
     const { selectedPeriod, startDate, endDate } = state;
     let computedStartDate = moment().toDate();
@@ -417,9 +385,6 @@ const Sales: React.FC = () => {
     };
   }, [state, locationid]);
 
-  console.log({ getSalesLocationStartEndDate })
-
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -429,21 +394,18 @@ const Sales: React.FC = () => {
   }, [getSalesLocationStartEndDate]);
 
   useEffect(() => {
-    console.log("Sales Page Mounted");
     if (getSalesLocationStartEndDate) {
       dispatch(salesByItemCategoryRequest({ ...getSalesLocationStartEndDate, tablePageNo: currentPageSalesByItemCategory, tableRecordLimit: TABLE_RECORDS_LIMIT }));
     }
   }, [getSalesLocationStartEndDate, currentPageSalesByItemCategory]);
 
   useEffect(() => {
-    console.log("Sales Page Mounted");
     if (getSalesLocationStartEndDate) {
       dispatch(salesByRevenueClassRequest({ ...getSalesLocationStartEndDate, tablePageNo: currentPageSalesByRevenueClass, tableRecordLimit: TABLE_RECORDS_LIMIT }));
     }
   }, [getSalesLocationStartEndDate, currentPageSalesByRevenueClass]);
 
   useEffect(() => {
-    console.log("Sales Page Mounted");
     if (getSalesLocationStartEndDate) {
       dispatch(
         actualSalesThirdPartyRequest({
@@ -457,7 +419,6 @@ const Sales: React.FC = () => {
 
 
   useEffect(() => {
-    console.log("Sales Page Mounted");
     if (getSalesLocationStartEndDate) {
       dispatch(
         actualSalesRequest({
@@ -470,7 +431,6 @@ const Sales: React.FC = () => {
   }, [getSalesLocationStartEndDate, currentPageForDirectStoreOnlineSalesMaghil]);
 
   useEffect(() => {
-    console.log("Sales Page Mounted");
     if (getSalesLocationStartEndDate) {
       dispatch(
         hourlySalesRequest({
@@ -537,10 +497,6 @@ const Sales: React.FC = () => {
   ];
 
   const formattedContent = formatOrderDates(content);
-  console.log("formattedContent", formattedContent);
-
-
-
 
   // const dataPPP = [
   //   {
@@ -601,24 +557,12 @@ const Sales: React.FC = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  // Example usage
-  console.log('IN', formatCurrency(100000, { locale: 'IN' })); // Output: "1,00,000"
-  console.log('US', formatCurrency(100000, { locale: 'US' })); // Output: "100,000"
-  console.log('DEF', formatCurrency(100000));                  // Output: "100,000" (default to US)
-
-
-
-
-  console.log({ showNetSaleToolTip })
-
-
-  console.log("From API", { salesByItemCategoryAPIReduxTotalPageNo, discountSummaryPageNo }, "N", { totalPageNumberCurrentPageDiscountSummary, totalPageNumberCurrentPageSalesByItemCategory })
-
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
+      style={isExpanded ? {width:'100%'} : {width:'94%'}}
         className={`s-sales-container ${isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
           } ${isExpanded ? "s-expanded-width-sales" : ""}`}
       >

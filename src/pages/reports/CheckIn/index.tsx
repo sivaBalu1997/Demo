@@ -33,11 +33,9 @@ const CheckIn: React.FC = () => {
 
   const [totalPageNoCurrentPageRepeatCustomers, setTotalPageNoCurrentPageRepeatCustomers] = useState<number>(5)
   const [currentPageRepeatCustomers, setCurrentPageRepeatCustomers] = useState<number>(1);
-  console.log({ currentPageRepeatCustomers })
 
   const [totalPageNoCurrentPageDailyCheckInDetails, setTotalPageNoCurrentPageDailyCheckInDetails] = useState<number>(5)
   const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
-  console.log({ currentPageDailyCheckInDetails })
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -199,12 +197,11 @@ const CheckIn: React.FC = () => {
     setOpenFilter(false);
   };
 
-  console.log("kaam", isExpanded);
-
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       <div
+        style={isExpanded ? {width:'85%'} : {width:'94%'}}
         className={`checkin-container ${isDarkTheme ? "dark-theme" : "light-theme"
           }`}
       >

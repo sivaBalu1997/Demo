@@ -32,7 +32,7 @@
 }
 
 .p-expanded-width-sales {
-  width: 83% !important;
+  width: 95% !important;
   // margin-left: -1.5rem;
 }
 
@@ -44,9 +44,10 @@
   gap: 0.5rem;
   align-items: center;
   height: 100%;
-  width: 91vw !important;
-  margin-left: -1.5rem;
+  // width: 91vw !important;
+  // margin-left: -1.5rem;
   padding-bottom: 5vh;
+
   @media (max-width: 500px) {
     width: 100vw !important;
     margin-left: 0;

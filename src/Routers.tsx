@@ -312,7 +312,7 @@ const Routers = () => {
               />
             </div>
 
-            <div>
+            <div style={{width:'100%'}}>
               <Route exact path="/live-reports" component={CustomerInsights} />
               <Route exact path="/sales" component={Sales} />
               <Route

@@ -6,6 +6,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const GenAiReports: React.FC = () => {
   const [openJustificationReport, setOpenJustificationReport] = useState(false);
@@ -13,6 +14,7 @@ const GenAiReports: React.FC = () => {
   const supportDocumentRef = useRef<HTMLDivElement>(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("July 2024");
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const openReport = () => {
     setOpenJustificationReport(true);
@@ -37,9 +39,10 @@ const GenAiReports: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       <div
+        style={isExpanded ? {width:'85%'} : {width:'94%'}}
         className={`genai-report ${isDarkTheme ? "dark-theme" : "light-theme"}`}
       >
         <Topnavbar />

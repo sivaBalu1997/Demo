@@ -18,11 +18,9 @@ const EmployeeInsights: React.FC = () => {
 
   const [totalPageNoCurrentPageEmployeeTipsFeeSummary, setTotalPageNoCurrentPageEmployeeTipsFeeSummary] = useState<number>(5);
   const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
-  console.log({ currentPageEmployeeTipsFeeSummary });
 
   const [totalPageNoCurrentPageSalesByEmployeeDetails, setTotalPageNoCurrentPageSalesByEmployeeDetails] = useState<number>(5)
   const [currentPageSalesByEmployeeDetails, setCurrentPageSalesByEmployeeDetails] = useState<number>(1);
-  console.log({ currentPageSalesByEmployeeDetails });
 
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
@@ -36,11 +34,10 @@ const EmployeeInsights: React.FC = () => {
   const XemployeeNameBar = EmployeeD["Sales By Employee"].map(
     (item) => item["Employee Name"]
   );
-  console.log({ XemployeeNameBar });
+
   const YemployeeSalesBar = EmployeeD["Sales By Employee"].map(
     (item) => item.Sales
   );
-  console.log({ YemployeeSalesBar });
 
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
 
@@ -57,9 +54,10 @@ const EmployeeInsights: React.FC = () => {
   // console.log(EmployeeD["Sales By Employee"]);
   // console.log("is", isExpanded);
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       <div
+        style={isExpanded ? {width:'100%'} : {width:'94%'}}
         className={`employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
           } ${isExpanded ? "e-expanded-width-sales" : ""}`}
       >

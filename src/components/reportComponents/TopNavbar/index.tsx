@@ -36,8 +36,6 @@ const Topnavbar = () => {
     setActive(location.pathname);
   }, [location.pathname]);
 
-  console.log("tp", isExpanded);
-
   return (
     <nav
       className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"} ${isExpanded ? "t-expanded-topnavbar" : ""

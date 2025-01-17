@@ -27,8 +27,6 @@ const CustomerInsights = () => {
     (state: any) => state.auth?.selectedBranch || null
   );
 
-  console.log("location name", selectedBranch?.locationName)
-
   const [showLiveNetSaleTooltip, setShowLiveNetSaleTooltip] = useState<boolean>(false);
   // const [showLiveNetSaleTooltip, setShowLiveNetSaleTooltip] = useState<boolean>(false)
 
@@ -36,47 +34,35 @@ const CustomerInsights = () => {
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
-  console.log("LOC", { locationid })
 
   const liveDiscountDataAPIRedux = useSelector((state: any) => state?.newReports?.liveDiscountSuccess);
-  console.log("liveDiscountDataAPIRedux", liveDiscountDataAPIRedux)
 
   const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
-  console.log({ liveOpenSalesDataAPIRedux })
 
   const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
-  console.log({ liveOrdersAPIRedux })
 
   const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
-  console.log({ liveOrdersTotalPageNo })
 
   const liveRefundsAPIRedux = useSelector((state: any) => state?.newReports?.liveRefundsSuccess)
-  console.log({ liveRefundsAPIRedux })
 
   const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
-  console.log({ liveNetSalesAPIRedux })
 
   const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
-  console.log({ liveOrderNonDineInAPIRedux })
 
   const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
-  console.log({ liveOrderNonDineInTotalPageNo })
 
   const countryCode = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.country
   );
 
-  console.log("country from sales", countryCode)
 
   const RECORDS_PER_PAGE_LIMIT = 15
 
   const [totalPageNoCurrentPageLiveOrders, setTotalPageNoCurrentPageLiveOrders] = useState<number>(liveOrdersTotalPageNo || 1)
   const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
-  console.log({ currentPageLiveOrders })
 
   const [totalPageNoCurrentPageLiveOrdersNonDineIn, setTotalPageNoCurrentPageLiveOrdersNonDineIn] = useState<number>(liveOrderNonDineInTotalPageNo || 1)
   const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
-  console.log({ currentPageLiveOrdersNonDineIn })
 
 
 
@@ -113,9 +99,7 @@ const CustomerInsights = () => {
   ];
 
   const formattedContent = formatOrderDates(content);
-  console.log("formattedContent", formattedContent);
   const liveOrderDateTransformed = formatOrderDates(liveOrdersAPIRedux)
-  console.log("HI", { liveOrderDateTransformed })
 
 
   const dispatch = useDispatch();
@@ -124,7 +108,6 @@ const CustomerInsights = () => {
   // const formattedDate = moment().format('YYYY-MM-DD');
   // setCurrentDate(formattedDate);
   const [currentDate, setCurrentDate] = useState('');
-  console.log({ currentDate })
 
   useEffect(() => {
     dispatch(liveDiscountRequest({ locationid }))
@@ -166,9 +149,10 @@ const CustomerInsights = () => {
   //<p className='s-live-no-data'>No data found !</p>
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       <div
+        style={isExpanded ? {width:'100%'} :  {width:'94%'}}
         className={`live-reports ${isDarkTheme ? "dark-theme" : "light-theme"
           } ${isExpanded ? "l-expanded-width-sales" : ""}`}
       >
