@@ -54,7 +54,7 @@
 
 .completedTablee {
   transform: translateX(20px);
-  width: 63.5%;
+  width: 64.5%;
   border-collapse: collapse;
  
   
@@ -62,7 +62,7 @@
 
 .completedTablee1 {
   transform: translateX(20px);
-  width: 85.5%;
+  width: 88.5%;
   border-collapse: collapse;
   margin-left: -20px;
  
@@ -99,7 +99,7 @@ text-decoration-skip-ink: none;
 }
 
 th.completedtsTableth {
-  background-color: white;
+  background-color: white !important;
   position: relative;
   // border: 1px solid red;
 }
