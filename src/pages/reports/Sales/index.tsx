@@ -558,11 +558,11 @@ const Sales: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
       {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
-      style={isExpanded ? {width:'100%'} : {width:'94%'}}
+        style={isExpanded ? { width: '82%' } : { width: '94%' }}
         className={`s-sales-container ${isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
           } ${isExpanded ? "s-expanded-width-sales" : ""}`}
       >
