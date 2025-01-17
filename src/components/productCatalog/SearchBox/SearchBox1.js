@@ -35,7 +35,7 @@ const SearchBox = () => {
     if (searchTerm == "") {
       dispatch(searchForItem({}));
     }
-  }, []);
+  }, [searchTerm]);
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -88,7 +88,7 @@ const SearchBox = () => {
       !(value.length === 1 && value === " ") &&
       (!/^\d+$/.test(value) || value.length <= 4) // Restrict numeric input to 4 digits
     ) {
-      dispatch(searchForItem({}));
+      //dispatch(searchForItem({}));
       setSearchTerm(value);
       setDisplayTerm(value);
       filterOptions(value);
