@@ -82,18 +82,22 @@ const CustomerInsights = () => {
 
 
   const formatOrderDates = (content: Array<Record<string, any>>): Array<Record<string, any>> => {
-    return content && content?.map(item => {
-      const date = new Date(item.orderDate);
-      const formattedDate = new Intl.DateTimeFormat('en-US', {
-        month: 'long',
-        day: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      }).format(date);
-
-      return { ...item, orderDate: formattedDate };
+    return content?.map(item => {
+      if (item?.orderDate) {
+        const date = new Date(item.orderDate);
+        if (!isNaN(date.getTime())) {
+          const formattedDate = new Intl.DateTimeFormat('en-US', {
+            month: 'long',
+            day: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          }).format(date);
+          return { ...item, orderDate: formattedDate };
+        }
+      }
+      return { ...item, orderDate: null }; // Handle invalid or null dates
     });
   };
 
@@ -111,7 +115,7 @@ const CustomerInsights = () => {
   const formattedContent = formatOrderDates(content);
   console.log("formattedContent", formattedContent);
   const liveOrderDateTransformed = formatOrderDates(liveOrdersAPIRedux)
-  console.log({ liveOrderDateTransformed })
+  console.log("HI", { liveOrderDateTransformed })
 
 
   const dispatch = useDispatch();
