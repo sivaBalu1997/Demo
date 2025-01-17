@@ -34,9 +34,8 @@ import MenuDetials from "pages/menuDetails";
 import MenuCustomization from "pages/menuCustomization";
 import AddCustomizationInput from "pages/menuCustomization/AddCustomizationInput";
 import NotFound from "pages/notFound";
-import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
+import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
 import { MenuPage } from "pages/productCatalog/Menulisting/MenuPage";
-
 // import offers from 'pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import Publish from "pages/productCatalog/Publish/Publish";
 import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
@@ -65,6 +64,7 @@ import OffersHeader from "./components/offerManagement/OffersHeader"
 import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
 import completedTable from "pages/offerManagement/completedTable/completedTable";
 import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
+import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
 
 const Routers = () => {
   const MIN_WIDTH = 800;

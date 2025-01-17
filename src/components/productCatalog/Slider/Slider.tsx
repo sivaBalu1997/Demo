@@ -66,7 +66,6 @@ const Slider: React.FC<SliderProps> = ({
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-  
   const data1 = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -75,20 +74,23 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   useEffect(() => {
-    const tempOnPremarray = data1[0]?.orderTypes?.filter((data:any, index:number) => {
-      return data?.typeGroup === "D" || data?.typeGroup ==="I";
-    });
-    const tempOffPremarray = data1[0]?.orderTypes?.filter((data:any, index:number) => {
-      return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
-    });
-
-    const allIsNotHideOnPrem = tempOnPremarray.every(
-      (item:any) => item.isNotHide === 0
+    const tempOnPremarray = data1[0]?.orderTypes?.filter(
+      (data: any, index: number) => {
+        return data?.typeGroup === "D" || data?.typeGroup === "I";
+      }
     );
-    const allIsNotHideOffPrem = tempOnPremarray.every(
-      (item:any) => item.isNotHide === 0
+    const tempOffPremarray = data1[0]?.orderTypes?.filter(
+      (data: any, index: number) => {
+        return data?.typeGroup !== "D" && data?.typeGroup !== "I";
+      }
     );
 
+    const allIsNotHideOnPrem = tempOnPremarray?.every(
+      (item: any) => item?.isNotHide === 0
+    );
+    const allIsNotHideOffPrem = tempOnPremarray?.every(
+      (item: any) => item?.isNotHide === 0
+    );
 
     // const isOnPremEnabledCount =
     //   tempOnPremarray?.filter((data, index) => {
@@ -100,10 +102,10 @@ const Slider: React.FC<SliderProps> = ({
     //   }).length == 0;
 
     const allChildrenonEnabled = tempOnPremarray?.some(
-      (child:any) => child.isEnabled === 1
+      (child: any) => child.isEnabled === 1
     );
     const allChildrenoffEnabled = tempOnPremarray?.some(
-      (child:any) => child.isEnabled === 1
+      (child: any) => child.isEnabled === 1
     );
 
     const tempOrderTypeAvailabilityArray = [
@@ -121,14 +123,15 @@ const Slider: React.FC<SliderProps> = ({
       },
     ];
 
-const allTrue = tempOrderTypeAvailabilityArray.every(
+    const allTrue = tempOrderTypeAvailabilityArray?.every(
       (item) => item.isNotHide
     );
-  
-    const allTypesHidden = tempOrderTypeAvailabilityArray.every((orderType:any) =>
-      orderType.types.every((type:any) => type.isNotHide === 0)
+
+    const allTypesHidden = tempOrderTypeAvailabilityArray?.every(
+      (orderType: any) =>
+        orderType.types?.every((type: any) => type.isNotHide === 0)
     );
-    setEyeIconOpenClose(allTypesHidden)
+    setEyeIconOpenClose(allTypesHidden);
   }, [data1[0]?.orderTypes]);
   const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
 
@@ -144,7 +147,6 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
     (state: RootState) => state.storeMockDataReducer.data
   );
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
-
 
   const [eyeIconOpenClose, setEyeIconOpenClose] = useState<boolean>();
 
@@ -224,7 +226,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
               <span>
                 {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
               </span>
-              <span>{ data1[0]?.itemCode?"-":""}</span>
+              <span>{data1[0]?.itemCode ? "-" : ""}</span>
               <span>{data1?.length > 0 ? data1[0]?.itemCode : ""}</span>
             </h1>
             <div className="Slider-icons">
@@ -247,7 +249,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
 
               <div className="EyeImage-Section">
                 <img
-                  src={eyeIconOpenClose?eyeOpenimg:Eye}
+                  src={eyeIconOpenClose ? eyeOpenimg : Eye}
                   alt="View"
                   className="EyeImage"
                   onClick={handleEyeClick}
@@ -282,7 +284,11 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
           </div>
 
           {eye && (
-            <EyeModal onEyeclose={() => setEye(false)} onclose={onclose} setEyeIconOpenClose ={setEyeIconOpenClose}/>
+            <EyeModal
+              onEyeclose={() => setEye(false)}
+              onclose={onclose}
+              setEyeIconOpenClose={setEyeIconOpenClose}
+            />
           )}
 
           {trash && (

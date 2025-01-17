@@ -35,7 +35,7 @@ const SearchBox = () => {
     if (searchTerm == "") {
       dispatch(searchForItem({}));
     }
-  }, []);
+  }, [searchTerm]);
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -47,11 +47,11 @@ const SearchBox = () => {
     (state) => state.auth.selectedBranch || null
   );
 
-  useEffect(() => {
-    if (searchTerm === '') {
-      dispatch(getMenuRequest(selectedBranch?.id));
-    }
-  },[selectedBranch?.id])
+  // useEffect(() => {
+  //   if (searchTerm === '') {
+  //     dispatch(getMenuRequest(selectedBranch?.id));
+  //   }
+  // },[selectedBranch?.id])
 
   useEffect(() => {
     if (closeModal) {
@@ -88,7 +88,7 @@ const SearchBox = () => {
       !(value.length === 1 && value === " ") &&
       (!/^\d+$/.test(value) || value.length <= 4) // Restrict numeric input to 4 digits
     ) {
-      dispatch(searchForItem({}));
+      //dispatch(searchForItem({}));
       setSearchTerm(value);
       setDisplayTerm(value);
       filterOptions(value);
@@ -127,7 +127,6 @@ const SearchBox = () => {
     );
 
     const allArray = [...allItems, ...allNew];
-    console.log({ allArray });
 
     const everything = allArray?.map((everything) => ({
       itemName: everything?.itemName,
@@ -155,7 +154,6 @@ const SearchBox = () => {
       if (firstMatch?.itemName.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch?.itemName?.slice(input.length);
         setDisplayTerm(input + suggestion);
-        console.log({ firstMatch });
 
         setHighlightedIndex(0);
       } else {
@@ -253,8 +251,7 @@ const SearchBox = () => {
     //   }
     // }
   };
-  console.log({ filteredOptions });
-
+  
   const openSearchModel = () => {
     setCloseModal(true);
     filterOptions(searchTerm);

@@ -53,8 +53,6 @@ export const MenuPage = () => {
   const [itemList, setItemList] = useState([]);
   // console.log("SearchedmenuItem", SearchedmenuItem);
 
-  console.log({itemList})
-
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
@@ -534,7 +532,7 @@ export const MenuPage = () => {
     const isObjectEmpty = (obj) => {
       return Object?.keys(obj)?.length === 0;
     };
-
+    
     if (isObjectEmpty(SearchedmenuItem)) {
       const allItemResponseLists = menuData
         ?.flatMap((category) =>
@@ -561,8 +559,8 @@ export const MenuPage = () => {
         name: entry.categoryName,
         itemResponseList: entry.itemResponseList || [],
       }));
-
-      setItemList(transformedList);
+      setItemList([...transformedList]);
+      setMenudatalist([...transformedList]);
       setLoading(false);
     } else {
       if (SearchedmenuItem.subCategoryResponseList) {
@@ -588,7 +586,7 @@ export const MenuPage = () => {
       setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
-
+  
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));

@@ -571,13 +571,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
 
-  console.log({dineInDetails});
-  
+
+  console.log({dineInDetails}, {editData})
+
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
       isEnabled: dineInDetails.Enabled===true||dineInDetails.Enabled===1?1:0, 
-      availabilities: dineInDetails.availabilities?.map((availability: any) => ({
+      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
+      availabilities: dineInDetails.availabilities.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -589,8 +591,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
     pickupDetails && {
       ...pickupDetails,
-      isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, // Rename key and handle undefined
-      availabilities: pickupDetails.availabilities?.map((availability: any) => ({
+      isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
+      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
+      availabilities: pickupDetails.availabilities.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -601,8 +604,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
     deliveryDetails && {
       ...deliveryDetails,
-      isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, // Rename key and handle undefined
-      availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
+      isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
+      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'S' )?.isNotHide || null,
+      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -612,12 +616,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       })),
     },
   
-    // Process thirdPartyDetails
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails?.map((detail) => ({
           ...detail,
-          isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, // Rename key and handle undefined
-          availabilities: detail.availabilities?.map((availability: any) => ({
+          isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
+          isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'T' )?.isNotHide || null,
+          availabilities: detail.availabilities.map((availability: any) => ({
             ...availability,
             availabilityDays:
               availability.availabilityDays &&
@@ -629,9 +633,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       : []),
   ]
     .filter(Boolean)
-    .map(({ Enabled, ...rest }) => rest); // Remove the `enabled` key from the final output
-  
-  
+    .map(({ Enabled, ...rest }) => rest); 
   
   
   // const combinedDetails: Detail[] = [
