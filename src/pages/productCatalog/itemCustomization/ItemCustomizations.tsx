@@ -1311,7 +1311,7 @@ console.log({Modifiers});
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
 
-                                    if ((inputValue === "" || /^[a-zA-Z\s]*$/.test(inputValue)) && !inputValue.startsWith(" ") ) {
+                                    if ((inputValue === "" || /^[a-zA-Z\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(inputValue)) && !inputValue.startsWith(" ") ) {
                                       handleModifierChange(
                                         modIndex,
                                         e,
@@ -1439,7 +1439,7 @@ console.log({Modifiers});
                                           }
                                           onChange={(e) => {
                                             const value = e.target.value;
-                                            if ((value === "" || /^[a-zA-Z\s]*$/.test(value)) && !value.startsWith(" ") ){
+                                            if ((value === "" || /^[a-zA-Z\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(value)) && !value.startsWith(" ") ){
                                               addOptionChange(
                                                 modIndex,
                                                 optIndex,
