@@ -671,10 +671,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
   const handleOpenDropdown=()=>{
 
-    if(dropdownopen)
-    {
-      
-    }
+    onToggle();
 
   }
 

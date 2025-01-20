@@ -735,7 +735,7 @@ text-decoration-skip-ink: none;
   .NoDataFoundContainer-menupage {
     width: 30rem;
     margin-top: 12%;
-    margin-left: 10%;
+    margin-left: 12vw;
     overflow-x: hidden;
     z-index: 1;
     overflow-y: hidden;
@@ -746,6 +746,19 @@ text-decoration-skip-ink: none;
     }
   }
   
+  .NoDataFoundContainer-menupage1 {
+    width: 30rem;
+    margin-top: 12%;
+    margin-left: 10vw;
+    overflow-x: hidden;
+    z-index: 1;
+    overflow-y: hidden;
+    // border: 1px solid red;
+    .columnselectedText {
+      
+     
+    }
+  }
   .Menu-noOptions{
     position: absolute;
     width: 100px;
