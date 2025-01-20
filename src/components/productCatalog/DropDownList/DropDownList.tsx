@@ -781,6 +781,8 @@ const DropDownList: React.FC<DropdownProps> = ({
         <div className="dropdown-lists-edit">
         <div
             className="Dropdown-lists-and-edit"
+
+            style={{overflowY:filteredOptions?.length>=3?"scroll":"hidden"}}
             onMouseDown={handleOptionMouseDown}
           >
             <ul
