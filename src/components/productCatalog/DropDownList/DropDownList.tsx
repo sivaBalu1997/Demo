@@ -172,12 +172,12 @@ const DropDownList: React.FC<DropdownProps> = ({
         setShowselectedOption(true);
       }
       
-    if (
-      dropDownType === "CATEGORY" &&
-      subcategorydataforApi.parentId !== ""
-    ) {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
+    // if (
+    //   dropDownType === "CATEGORY" &&
+    //   subcategorydataforApi.parentId !== ""
+    // ) {
+    //   dispatch(fetchDropDownRequest(subcategorydataforApi));
+    // }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -636,12 +636,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleAboveArrowdropdown = () => {
     onToggle();
    
-    if (
-      dropDownType === "CATEGORY" &&
-      subcategorydataforApi.parentId !== ""
-    ) {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
+    // if (
+    //   dropDownType === "CATEGORY" &&
+    //   subcategorydataforApi.parentId !== ""
+    // ) {
+    //   dispatch(fetchDropDownRequest(subcategorydataforApi));
+    // }
     setShowselectedOption(true);
     // if (dropDownType !== "SUB_CATEGORY") {
     //   dispatch(fetchDropDownRequest(payload));
