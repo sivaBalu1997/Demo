@@ -76,7 +76,7 @@ type DropdownValidationState = {
 interface DeliveryDetails {
   typeName: string;
   typeId: string;
-  price: number;
+  price: any;
   typeGroup: string;
   availabilities: Availability[];
   inActiveUntil?: any;
