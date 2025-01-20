@@ -1130,7 +1130,7 @@ console.log({allFalseForKeysEndingWith1});
         <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
             <div className="first-part-data">
                 <div className="first-part-header">
-                <p className="image-style">Image</p>
+                <p className="image-style"></p>
                   <p className="name-item-style">ItemName</p>
                   <p className="item-code-style">
                     <span> Code </span>
@@ -1419,7 +1419,7 @@ console.log({allFalseForKeysEndingWith1});
                         />
                       </div>
                     ) : menuDataFailed ? (
-                      <div className="NoDataFoundContainer-menupage">
+                      <div className={`${isExpanded ? "NoDataFoundContainer-menupage1" : "NoDataFoundContainer-menupage"}`} >
                         <img
                           className="columnselected-menupage"
                           src={noResultsfound}
@@ -1544,12 +1544,12 @@ console.log({allFalseForKeysEndingWith1});
      
      
                                                             }}
-                                                            onClick={() =>
-                                                              handlesidbarhandling(
-                                                                `${typeName}1`,
-                                                                item.itemId
-                                                              )
-                                                            }
+                                                            // onClick={() =>
+                                                            //   handlesidbarhandling(
+                                                            //     `${typeName}1`,
+                                                            //     item.itemId
+                                                            //   )
+                                                            // }
                                                           >
                                                             {restaurantDetails?.country ===
                                                               "US"
@@ -1832,12 +1832,12 @@ console.log({allFalseForKeysEndingWith1});
                                                     //       "center",
                                                     //     alignItems: "center",
                                                     //   }}
-                                                      onClick={() =>
-                                                        handlesidbarhandling(
-                                                          `${typeName}1`,
-                                                          item.itemId
-                                                        )
-                                                      }
+                                                      // onClick={() =>
+                                                      //   handlesidbarhandling(
+                                                      //     `${typeName}1`,
+                                                      //     item.itemId
+                                                      //   )
+                                                      // }
                                                     >
                                                       {restaurantDetails?.country ===
                                                         "US"

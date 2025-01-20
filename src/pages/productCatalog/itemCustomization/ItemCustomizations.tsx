@@ -10,6 +10,7 @@ import dotted from "../../../assets/images/dotted.png";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
 import NotFound from "../../../assets/svg/NotFound copy.svg";
+import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg"
 
 import plusicon from "../../../assets/svg/plusIcon.svg";
 import minus from "../../../assets/svg/minusIcon.svg";
@@ -202,7 +203,7 @@ const ItemCustomizations: React.FC<any> = () => {
         );
 
         if (item?.options) {
-          console.log("edit1");
+          console.log("edit1",itemCustomizationData);
           
           return {
             modifierId: item?.id || "",
@@ -223,8 +224,8 @@ const ItemCustomizations: React.FC<any> = () => {
                     isEnabled: option?.isEnabled,
                   }))
                 : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minSelection || 0,
-            maxSelection: item.maxSelection || 0,
+            minSelection: item.minCount || 0,
+            maxSelection: item.maxCount || 0,
             freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
             selectionType: item.minSelection===0?"Optional":"Mandatory",
@@ -234,7 +235,8 @@ const ItemCustomizations: React.FC<any> = () => {
 
 
 
-          console.log("edit");
+          console.log("edit",itemCustomizationData);
+          
           
           return {
             modifierId: item?.id || "",
@@ -253,8 +255,8 @@ const ItemCustomizations: React.FC<any> = () => {
                     isEnabled: option?.isEnabled,
                   }))
                 : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minCount || 0,
-            maxSelection: item.maxCount || 0,
+            minSelection: item.minSelection || 0,
+            maxSelection: item.maxSelection || 0,
             freeCustomization: item?.freeCustomization || 0,
             selectedValue: selectedTypeNames,
             selectionType: item.minCount===0?"Optional":"Mandatory",
@@ -762,10 +764,12 @@ console.log({Modifiers});
       updatedModifiers,
     ]);
   };
+  const [searchClicked,setSearchClicked]=useState(false);
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
       setShowSearchList(true);
+      setSearchClicked(true);
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
     }
   };
@@ -1098,6 +1102,10 @@ console.log({Modifiers});
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
+  const handlesearchclear=()=>{
+    setSearchQuery("");
+    setSearchClicked(false);
+  }
 
   return (
     <div
@@ -1171,12 +1179,28 @@ console.log({Modifiers});
                     }
                   }}
                 ></input>
-                <img
+                {/* <img
                   src={Serachicon}
                   alt=""
                   className="searchIcon"
                   onClick={() => handleSearchChange()}
-                />
+                /> */}
+                {
+                  !searchClicked?
+                  <img
+                  src={Serachicon}
+                  alt=""
+                  className="searchIcon"
+                  onClick={() => handleSearchChange()}
+                />:
+                <img
+                src={deleteIcon}
+                alt=""
+                className="DeleteIcon"
+                onClick={() => handlesearchclear()}
+              />
+                }
+               
               </div>
             )}
             {searchQuery && (

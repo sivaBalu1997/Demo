@@ -511,6 +511,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return orderTypes ? orderTypes?.id : null;
   };
 
+  console.log({itemCustomizationData});
   
   
 

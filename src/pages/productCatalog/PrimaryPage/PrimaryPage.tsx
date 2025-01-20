@@ -1297,7 +1297,9 @@ const PrimaryPage = () => {
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
                     <LableComponent
-                      lable={`Sub Category${showAsterisk ? "*" : ""}`}
+                    lable={`Sub Category*`}
+                      // lable={`Sub Category${showAsterisk ? "*" : ""}`}
+
                     />
                     <Controller
                       name="subCategory"
@@ -1581,6 +1583,7 @@ const PrimaryPage = () => {
                               setValue={setValue}
                               getValues={getValues}
                               inputType="Number"
+                              height="8rem"
 
                               // validation={{ required: "Tax is required" }}
                               // error={errors.tax}
