@@ -643,7 +643,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       dropDownType === "CATEGORY" &&
       subcategorydataforApi.parentId !== ""
     ) {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
+      // dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
     setShowselectedOption(true);
     // if (dropDownType !== "SUB_CATEGORY") {
@@ -787,6 +787,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           <div className="dropdown-lists-edit">
             <div
               className="Dropdown-lists-and-edit"
+              style={{overflowY:filteredOptions?.length>=3?"scroll":"hidden"}}
               onMouseDown={handleOptionMouseDown}
             >
               <ul

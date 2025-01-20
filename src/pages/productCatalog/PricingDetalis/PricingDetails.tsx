@@ -809,7 +809,7 @@ const PricingDetails = () => {
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
-      <div>
+      <div style={{height:'100%'}}>
         <Navigationpage
           getFormData={getValues}
           seletedpage="Pricing"
