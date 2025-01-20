@@ -518,7 +518,7 @@ const AddEmployee = () => {
     formValues = {
       ...formValues,
       firstName: formValues.firstName,
-      fullName: `${formValues.firstName} ${formValues.lastName}`,
+      fullName: `${formValues.firstName} ${(formValues.lastName|| '').trim()}`,
       role: formValues.role,
       businessName: credentials?.businessName,
       userId: formValues.userId ||editEmployee?.userId,
@@ -560,8 +560,6 @@ const AddEmployee = () => {
     formValues.successCB = () => {
        history.goBack();
     }
-
-    console.log({formValues})
 
     if (params?.id?.length) {
       dispatch(updateEmployeeRequest(formValues));
