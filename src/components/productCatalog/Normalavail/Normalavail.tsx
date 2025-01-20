@@ -76,7 +76,7 @@ type DropdownValidationState = {
 interface DeliveryDetails {
   typeName: string;
   typeId: string;
-  price: number;
+  price: any;
   typeGroup: string;
   availabilities: Availability[];
   inActiveUntil?: any;
@@ -731,7 +731,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "S",
             Enabled: true,
             // Enabled: deliveryDetails?.Enabled,
-            price: Number(deliveryDetails?.price).toFixed(2) || "",
+            price: Number(deliveryDetails?.price).toFixed(2) || 0,
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
             ...(editData?.length && {
@@ -751,7 +751,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           }
           const updatedDetails = thirdpartyDetails.map((detail:any) => ({
             ...detail,
-            price: Number(detail.price).toFixed(2), // Convert and format price
+            price: Number(detail.price).toFixed(2), 
           }));
           
 
