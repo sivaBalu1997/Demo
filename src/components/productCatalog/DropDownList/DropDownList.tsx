@@ -669,6 +669,14 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
+  const handleOpenDropdown=()=>{
+
+    if(dropdownopen)
+    {
+      
+    }
+
+  }
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -696,6 +704,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 handleSearch(e);
               }
             }}
+            onClick={()=>handleOpenDropdown()}
             name={name}
             // onBlur={handleBlur}
             onKeyDown={(e) => {
