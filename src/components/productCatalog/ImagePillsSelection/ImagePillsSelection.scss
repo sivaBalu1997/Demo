@@ -75,10 +75,13 @@ height: 100%;
     // }
 
 
-    // @media (max-width:1400px) {
-    //   height: 8rem;
-    // }
+    @media (max-width:1400px) {
+      height: 65%;
+    }
 
+    @media (max-width:1300px) {
+      height: 60%;
+    }
     // background-color: pink;
 
     &::-webkit-scrollbar {

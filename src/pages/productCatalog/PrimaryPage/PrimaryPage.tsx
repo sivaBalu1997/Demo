@@ -820,9 +820,11 @@ const PrimaryPage = () => {
       subcategoryList === "" &&
       (subCategoryData?.length > 0)
     ) {
+    
       setShowAsterisk(true);
     } else {
       setShowAsterisk(false);
+      
     }
   }, [getValues, categoryList,subCategoryData,categoriesdata]);
 
@@ -907,40 +909,6 @@ const PrimaryPage = () => {
                     )}
                   />
                 </div>
-
-                <div className="Primary-page-InputFields">
-                  <LableComponent lable="Cuisine *" />
-                  <Controller
-                    name="cuisine"
-                    control={control}
-                    render={({ field }: any) => (
-                      <Dropdown
-                        options={cuisineData}
-                        type="radio"
-                        setOptions={setDataCuisine}
-                        placeholder="search for option"
-                        register={register}
-                        trigger={trigger}
-                        setValue={setValue}
-                        name="cuisine"
-                        validation={{ required: "Cuisine is required" }}
-                        error={errors.cuisine}
-                        {...field}
-                        getValues={getValues}
-                        dropdownopen={DropdownOpen.cuisine}
-                        onToggle={() => handleDropdownToggle("cuisine")}
-                        setDropdownOpen={setDropdownOpen}
-                        addNew={true}
-                        editValues={true}
-                        dropDownType="CUISINES"
-                        resetSelection={cuisineRef}
-                        parentId={parentId}
-                        setParentId={setParentId}
-                      />
-                    )}
-                  />
-                </div>
-
                 <div className="Primary-page-InputFields">
                   <LableComponent lable="Category*" />
                   <Controller
@@ -975,6 +943,41 @@ const PrimaryPage = () => {
                     )}
                   />
                 </div>
+
+                <div className="Primary-page-InputFields">
+                  <LableComponent lable="Cuisine *" />
+                  <Controller
+                    name="cuisine"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={cuisineData}
+                        type="radio"
+                        setOptions={setDataCuisine}
+                        placeholder="search for option"
+                        register={register}
+                        trigger={trigger}
+                        setValue={setValue}
+                        name="cuisine"
+                        validation={{ required: "Cuisine is required" }}
+                        error={errors.cuisine}
+                        {...field}
+                        getValues={getValues}
+                        dropdownopen={DropdownOpen.cuisine}
+                        onToggle={() => handleDropdownToggle("cuisine")}
+                        setDropdownOpen={setDropdownOpen}
+                        addNew={true}
+                        editValues={true}
+                        dropDownType="CUISINES"
+                        resetSelection={cuisineRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
+                      />
+                    )}
+                  />
+                </div>
+
+                
 
                 <div className="Primary-page-InputFields">
                   <LableComponent lable="Best paired with food items *" />
@@ -1559,6 +1562,13 @@ const PrimaryPage = () => {
                         <Controller
                           name="tax"
                           control={control}
+                          rules={{
+                            
+                            pattern: {
+                              value: /^\d{4}$/, 
+                              message: "Please enter a valid 4-digit number",
+                            },
+                          }}
                           render={({ field }: any) => (
                             <Dropdown
                               options={taxData}
@@ -1570,6 +1580,7 @@ const PrimaryPage = () => {
                               trigger={trigger}
                               setValue={setValue}
                               getValues={getValues}
+                              inputType="Number"
 
                               // validation={{ required: "Tax is required" }}
                               // error={errors.tax}

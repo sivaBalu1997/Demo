@@ -104,13 +104,28 @@ export const MenulistingPage = () => {
   ]);
   const getUniqueOrderTypeNames = (data) => {
     return data.reduce((acc, category) => {
-      category?.itemResponseList?.forEach((item) => {
-        item.orderTypes?.forEach((orderType) => {
-          if (orderType.typeGroup !== "I") {
-            acc[orderType.typeName] = true;
-          }
+      if(category?.subCategoryResponseList){
+        category?.subCategoryResponseList?.forEach((item1) => {
+          item1?.itemResponseList.forEach((item)=>{
+            item.orderTypes?.forEach((orderType) => {
+              if (orderType.typeGroup !== "I") {
+                acc[orderType.typeName] = true;
+              }
+            });
+          })
+       
         });
-      });
+      }
+      else{
+        category?.itemResponseList?.forEach((item) => {
+          item.orderTypes?.forEach((orderType) => {
+            if (orderType.typeGroup !== "I") {
+              acc[orderType.typeName] = true;
+            }
+          });
+        });
+      }
+   
       return acc;
     }, {});
   };
@@ -152,10 +167,21 @@ export const MenulistingPage = () => {
   }, [itemList, menuData]);
 
   const getUniqueOrderTypes = (menuData) => {
-    const orderTypeNames = menuData.flatMap((category) =>
-      category.itemResponseList?.flatMap((item) =>
-        item.orderTypes.map((orderType) => ({ typeName: orderType?.typeName }))
-      )
+    const orderTypeNames = menuData.flatMap((category) =>{
+      if(category?.subCategoryResponseList)
+      {
+        return category?.subCategoryResponseList?.flatMap((item,index) =>
+          item?.itemResponseList[index]?.orderTypes.map((orderType) => ({ typeName: orderType?.typeName }))
+        )
+      }
+      else{
+        return category.itemResponseList?.flatMap((item) =>
+          item.orderTypes.map((orderType) => ({ typeName: orderType?.typeName }))
+        )
+      }
+     
+    }
+     
     );
     // console.log("orderTypeNames",orderTypeNames);
 
@@ -567,29 +593,30 @@ export const MenulistingPage = () => {
       }));
 
       setItemList(transformedList);
+      setMenudatalist(menuData)
       setLoading(false);
     } else {
       if (SearchedmenuItem.subCategoryResponseList) {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
           categoryId: SearchedmenuItem?.categoryId,
-          subCategoryResponseList: SearchedmenuItem.subCategoryResponseList,
+          subCategoryResponseList: SearchedmenuItem?.subCategoryResponseList,
           itemResponseList: null,
         };
-
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
+        setLoading(false)
       } else {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
           categoryId: SearchedmenuItem?.categoryId,
           itemResponseList: SearchedmenuItem?.itemResponseList,
         };
-
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
+        setLoading(false)
       }
-      setLoading(false);
+      //setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
 
@@ -822,17 +849,28 @@ export const MenulistingPage = () => {
   //   setselectefields(filteredList);
   // }, [listingobject]);
 
-  const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
   );
   const getUniqueOrderTypeNamesfortableprice = (menuData) => {
-    const orderTypeNames = menuData.flatMap((category) =>
-      category.itemResponseList?.flatMap((item) =>
-        item.orderTypes.map((orderType) => ({
-          typeName: orderType?.typeName,
-        }))
-      )
+    const orderTypeNames = menuData.flatMap((category) =>{
+      if(category?.subCategoryResponseList){
+        return category?.subCategoryResponseList?.flatMap((item,index) =>
+          item?.itemResponseList[index]?.orderTypes.map((orderType) => ({
+            typeName: orderType?.typeName,
+          }))
+        )
+      }
+      else{
+        return category.itemResponseList?.flatMap((item) =>
+          item.orderTypes.map((orderType) => ({
+            typeName: orderType?.typeName,
+          }))
+        )
+      }
+   
+    }
+     
     );
 
     const uniqueOrderTypeNames = Array.from(
@@ -1038,11 +1076,13 @@ const bodyrefwidthclient= bodyRef?.current?.clientWidth;
 const bodyrefwidthscroll= bodyRef?.current?.scrollWidth;
 
 
+
+
 useEffect(()=>{
   if (bodyRef.current) {
     setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
   }
-},[removeiconclciked,bodyrefwidthclient,bodyrefwidthscroll])
+},[removeiconclciked,bodyRef?.current?.clientWidth,bodyRef?.current?.scrollWidth])
 
   useEffect(() => {
   
@@ -1053,6 +1093,16 @@ useEffect(()=>{
         setWidthForEachRow(width);
       }
     }, [listingobject, menuData,menudatalist]);
+
+    console.log({listingobject});
+    const allFalseForKeysEndingWith1 =listingobject&& Object.keys(listingobject)
+  ?.filter(key => key.endsWith('1') && key !== 'Customize1')
+  ?.every(key => listingobject[key] === false);
+
+  const allFalseForKeysEndingWith2 =listingobject&& Object.keys(listingobject)
+  ?.filter(key => key.endsWith('2'))
+  ?.every(key => listingobject[key] === false);
+console.log({allFalseForKeysEndingWith1});
 
   return (
    <div   className="MenuPage-new-container">
@@ -1089,9 +1139,9 @@ useEffect(()=>{
                       onClick={() => {
                         if (
                           itemList?.length > 0 &&
-                          itemList?.some(
-                            (item) => item?.itemResponseList?.length > 0
-                          ) &&
+                          // itemList?.some(
+                          //   (item) => item?.itemResponseList?.length > 0
+                          // ) &&
                           !menuDataLoading &&
                           !menuDataFailed
                         ) {
@@ -1259,9 +1309,9 @@ useEffect(()=>{
                 {!menuDataLoading &&
                       !menuDataFailed &&
                       itemList?.length > 0 &&
-                      itemList?.some(
-                        (item) => item?.itemResponseList?.length > 0
-                      ) &&
+                      // itemList?.some(
+                      //   (item) => item?.itemResponseList?.length > 0
+                      // ) &&
                       firstRowTable.map((header, index) => {
                         const headerName = header.label.substring(
                           0,
@@ -1276,7 +1326,7 @@ useEffect(()=>{
                         ) {
 
                             const dynamicWidth = `${headerName.length * 1.3
-                            }vw`;
+                            }rem`;
                           return (
                             <>
                               {listingobject && listingobject[header.label] && (
@@ -1466,7 +1516,7 @@ useEffect(()=>{
                                                         : "";
 
                                                         const dynamicWidth = `${typeName.length * 1.3
-                                                        }vw`;
+                                                        }rem`;
 
                                                       if (
                                                         orderType.typeGroup !==
@@ -1482,7 +1532,7 @@ useEffect(()=>{
                                                              cursor: "pointer",
                                                              width:dynamicWidth,
                                                              display:"flex",
-                                                             gap:"1rem",
+                                                             
                                                                 padding: "0",
                                                                 //    paddingLeft: "20px",
                                                                 //    paddingRight: "20px",
@@ -1515,7 +1565,7 @@ useEffect(()=>{
                                                   )}
                                                 </p>
 
-                                                <p       style={{display:"flex",gap:"1rem"}}>
+                                                <p       style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith1?"-1rem":""}}>
                                                   {orderTypesToShow2?.map(
                                                     (typeName) => {
                                                       if (
@@ -1542,7 +1592,7 @@ useEffect(()=>{
                                                         );
 
                                                         const dynamicWidth = `${typeName.length * 1.3
-                                                        }vw`;
+                                                        }rem`;
                                                       if (
                                                         orderType.typeGroup !==
                                                         "I"
@@ -1595,7 +1645,7 @@ useEffect(()=>{
                                                   )}
                                                 </p>
 
-                                                <p  style={{display:"flex",gap:"1rem"}}>
+                                                <p  style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith2?"-1rem":""}}>
                                                   {item?.modifiers &&
                                                     Array.isArray(
                                                       item.modifiers
@@ -1617,7 +1667,7 @@ useEffect(()=>{
 
                                                      style={{
                                                       cursor: "pointer",
-                                                      width:"12vw",
+                                                      width:"12rem",
                                                       display:"flex",
                                                       // gap:"1rem",
                                                          padding: "0",
@@ -1643,7 +1693,7 @@ useEffect(()=>{
 
                                                      style={{
                                                       cursor: "pointer",
-                                                      width:"12vw",
+                                                      width:"12rem",
                                                       display:"flex",
                                                       // gap:"1rem",
                                                          padding: "0",
@@ -1727,7 +1777,7 @@ useEffect(()=>{
                                                   : "";
 
                                                   const dynamicWidth = `${typeName.length * 1.3
-                                                  }vw`;
+                                                  }rem`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
@@ -1806,7 +1856,7 @@ useEffect(()=>{
                                             )}
                                           </p>
 
-                                          <p  style={{display:"flex",gap:"1rem"}}>
+                                          <p  style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith1?"-1rem":""}}>
                                             {orderTypesToShow2?.map(
                                               (typeName) => {
                                                 if (
@@ -1830,7 +1880,7 @@ useEffect(()=>{
                                                   );
 
                                                 const dynamicWidth = `${typeName.length * 1.3
-                                                  }vw`;
+                                                  }rem`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
@@ -1881,7 +1931,7 @@ useEffect(()=>{
                                             )}
                                           </p>
 
-                                          <p  style={{display:"flex",gap:"1rem"}}>
+                                          <p  style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith2?"-1rem":""}}>
                                             {item?.modifiers &&
                                               Array.isArray(item.modifiers) &&
                                               listingobject &&
@@ -1892,7 +1942,7 @@ useEffect(()=>{
 
                                               style={{
                                                cursor: "pointer",
-                                               width:"12vw",
+                                               width:"12rem",
                                                display:"flex",
                                                // gap:"1rem",
                                                   padding: "0",
@@ -1926,7 +1976,7 @@ useEffect(()=>{
 
                                                 style={{
                                                  cursor: "pointer",
-                                                 width:"12vw",
+                                                 width:"12rem",
                                                  display:"flex",
                                                 //  border:"1px solid red",
                                                  // gap:"1rem",

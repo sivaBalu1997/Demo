@@ -116,6 +116,8 @@ interface FormState {
   Zomatomealtype?: string;
   Inventory1: string;
   Inventory2: string;
+  
+
 }
 
 type MainFormSpecial = {
@@ -161,6 +163,7 @@ interface Option {
 interface MainForm {
   form: FormState1;
   kitchenstation: string;
+  dataStored:boolean;
   Preparationtime: {
     hours: string;
     minutes: string;
@@ -285,6 +288,7 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
+      dataStored:false,
       kitchenstation: prizingDetail?.kitchenstation
         ? prizingDetail?.kitchenstation
         : "",
@@ -437,6 +441,7 @@ const PricingDetails = () => {
       Inventory1: "",
       Inventory2: "",
     },
+    dataStored:false,
 
     kitchenstation: prizingDetail?.kitchenstation
       ? prizingDetail?.kitchenstation

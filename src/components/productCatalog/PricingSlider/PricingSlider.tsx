@@ -222,7 +222,7 @@ const PricingSlider: any = ({}) => {
                       }}
                     >
                       {price.price !== 0 && (
-                        <span className="priceSymbol">{Pricesymbol}</span>
+                        <span className="priceSymbol-price">{Pricesymbol}</span>
                       )}
 
                       {/* <input

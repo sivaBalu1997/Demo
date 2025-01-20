@@ -152,18 +152,19 @@ text-decoration-skip-ink: none;
     gap: 0.2rem;
   }
   .AvailCalenderInput1{
-    width:49.08px;
+    width:49px;
     height:32.02px;
     font-family: "Roboto",sans-serif;
 font-size: 18.3px;
 font-weight: 500;
 line-height: 27.45px;
 letter-spacing: 0.0015em;
-text-align: center;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
-
+text-align: center;
     border: 1px solid #B3B3B3;
+    padding: 0 !important;
+   
   }
   .AvailCalenderAm{
     border:1px solid rgba(103, 131, 62, 1);
