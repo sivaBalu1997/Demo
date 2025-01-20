@@ -239,23 +239,20 @@ const AddEmployee = () => {
   };
 
   useEffect(() => {
-    const tempArr: string[] = []; 
+    const tempArr = [];
     if (rolesAndFunctions?.length > 0) {
-      for (let i = 0; i < rolesAndFunctions.length; i++) {
-        const roleFunc = rolesAndFunctions[i];
+      for (let i = 0; i < rolesAndFunctions?.length; i++) {
+        const roleFunc : any = rolesAndFunctions[i];
         
         if (roleFunc?.funtions) { 
           for (let j = 0; j < roleFunc.funtions.length; j++) {
-            const functionName = roleFunc.funtions[j].name; 
-            if (functionName) {
-              tempArr.push(functionName.toLowerCase()); 
-            }
+            tempArr.push(roleFunc.funtions[j].toLowerCase());
           }
         }
       }
     }
     setCheckedFunctions(tempArr);
-  }, [employee, rolesAndFunctions]);
+  }, [employee,rolesAndFunctions]); 
 
   // const useNickname = watch("useNickname", false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -563,6 +560,8 @@ const AddEmployee = () => {
     formValues.successCB = () => {
        history.goBack();
     }
+
+    console.log({formValues})
 
     if (params?.id?.length) {
       dispatch(updateEmployeeRequest(formValues));
