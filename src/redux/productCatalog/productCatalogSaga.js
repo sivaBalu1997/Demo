@@ -66,6 +66,8 @@ import {
   removeDataRequest,
   taxClassSuccess,
   getItemCodeValiadtion,
+  deleteimageSuccess,
+  deleteimageFailure,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -132,6 +134,7 @@ import {
   ADD_MOCK_DATA_HIDDEN_REQUEST,
   ADD_MOCK_DATA_HIDDEN_FALIURE,
   PARTIAL_UPDATE_MENU_SUCCESS,
+  DELETE_IMAGE_REQUEST,
 } from "./productCatalogConstants";
 import { showSuccessToast } from "util/toastUtils";
 import {
@@ -278,7 +281,18 @@ function* getTagClassSaga(action) {
     yield put(getTagClassFailed({ message: "please Try Again" }));
   }
 }
-
+function* deleteimage(action) {
+  try {
+    const response = yield call(getTagClass, action.payload);
+    if (response.status === 200) {
+      yield put(deleteimageSuccess(response.data));
+    } else {
+      yield put(deleteimageFailure({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(deleteimageFailure({ message: "please Try Again" }));
+  }
+}
 function* getModifierSaga(action) {
   try {
     const response = yield call(getModifier, action.payload);
@@ -621,4 +635,6 @@ export default function* productCatalog() {
 
   yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
   yield takeLatest(ADD_MOCK_DATA_HIDDEN_REQUEST, addMockDataHiddenSaga);
+  yield takeLatest(DELETE_IMAGE_REQUEST, deleteimage);
+
 }

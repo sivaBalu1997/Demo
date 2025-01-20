@@ -3,6 +3,8 @@ import "./SearchBox.scss";
 import searchIcon from "../../../assets/svg/searchIcon.svg";
 import NotFound from "../../../assets/svg/NotFound copy.svg";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
+import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg"
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   getMenuRequest,
@@ -13,6 +15,8 @@ import {
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState(""); // User input only
   const [displayTerm, setDisplayTerm] = useState(""); // User input + suggestion for display
+  const [seletctedItem, setSeletctedItem] = useState(""); // User input + suggestion for display
+
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [optionSelected, setOptionSelected] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -24,6 +28,9 @@ const SearchBox = () => {
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
   const popupRef = useRef(null);
+    const locationid = useSelector((state) => state.auth.selectedBranch?.id);
+  
+   
   useEffect(() => {
     const itemNames = menuData
       ?.flatMap((item) => item?.itemResponseList)
@@ -80,15 +87,17 @@ const SearchBox = () => {
 
   const handleSearch = (e) => {
     let value = e.target.value;
-    const regex = /^[a-zA-Z0-9\s]*$/; // Allow letters, numbers, and spaces
+    const regex = /^[a-zA-Z0-9\s]*$/; 
+    
 
-    // Prevent spaces as the first character or standalone and limit numbers to 4 digits
+   
     if (
       regex.test(value) &&
       !(value.length === 1 && value === " ") &&
-      (!/^\d+$/.test(value) || value.length <= 4) // Restrict numeric input to 4 digits
+      (!/^\d+$/.test(value) || value.length <= 4) 
+     
     ) {
-      //dispatch(searchForItem({}));
+    
       setSearchTerm(value);
       setDisplayTerm(value);
       filterOptions(value);
@@ -151,11 +160,13 @@ const SearchBox = () => {
 
     if (filtered.length > 0 && input.length > 0) {
       const firstMatch = filtered[0];
+      setHighlightedIndex(0);
+      
       if (firstMatch?.itemName.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch?.itemName?.slice(input.length);
         setDisplayTerm(input + suggestion);
 
-        setHighlightedIndex(0);
+        
       } else {
         setDisplayTerm(input);
       }
@@ -169,7 +180,7 @@ const SearchBox = () => {
     setDisplayTerm(option);
     setOptionSelected(true);
     setCloseModal(false);
-
+    setSeletctedItem(option)
     let result = null;
 
     menuData?.forEach((category) => {
@@ -257,6 +268,22 @@ const SearchBox = () => {
     filterOptions(searchTerm);
   };
 
+  const deletesearchText=()=>{
+    setCloseModal(false);
+if(seletctedItem==="")
+{
+  setSeletctedItem("")
+  setSearchTerm("")
+  
+}
+else{
+  setSearchTerm("")
+  dispatch(getMenuRequest(locationid));
+  setSeletctedItem("")
+}
+    
+   
+  }
   return (
     <div className="MLSearch-Container">
       <div className="MLsearchbox">
@@ -268,7 +295,9 @@ const SearchBox = () => {
           onKeyDown={handleKeyDown}
           type="text"
         />
-        <img
+
+        {
+          !searchTerm? <img
           className={`${
             isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"
           }`}
@@ -276,7 +305,18 @@ const SearchBox = () => {
           onClick={() => openSearchModel()}
           src={searchIcon}
           alt="Search Icon"
-        />
+        />: <img
+        className={`${
+          isExpanded ? "MLClearIcon-Header1" : "MLClearIcon-Header"
+        }`}
+        // className={"MLSerchIcon-Header1"}
+        onClick={() => deletesearchText()}
+        src={deleteIcon}
+        alt="Clear Icon"
+      />
+        }
+       
+
       </div>
       <div>
         {searchTerm && closeModal && (

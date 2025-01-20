@@ -606,6 +606,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
+        console.log({thirdpartyDetails});
+        
 
         setformNormal({
           PickuppriceNormal:
@@ -649,7 +651,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         const updatedField = {
-          DineInPrice: dineIndetails?.price,
+          DineInPrice: Number(dineIndetails?.price).toFixed(2),
           // Enabled:dineIndetails  ? dineIndetails.Enabled:
           // dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
           //     ? true
@@ -664,7 +666,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         };
 
         setDineInFields([updatedField]);
-        if (updatedField.DineInPrice > 0) {
+        if (Number(updatedField.DineInPrice) > 0) {
           setShowDineIn(true);
           setdineInEnable(true);
         }
@@ -673,7 +675,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         //   setdineInEnable(false);
         // }
 
-        setFormattedDineInData((prevData: DeliveryDetails) => {
+        setFormattedDineInData((prevData: any) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
           updatedAvailabilities[0] = {
@@ -707,7 +709,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "P",
             // Enabled: pickupDetails?.Enabled === true ? true : false,
             Enabled: true,
-            price: pickupDetails?.price || 0,
+            price: Number(pickupDetails?.price).toFixed(2) || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
             ...(editData?.length && {
@@ -729,7 +731,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "S",
             Enabled: true,
             // Enabled: deliveryDetails?.Enabled,
-            price: deliveryDetails?.price || "",
+            price: Number(deliveryDetails?.price).toFixed(2) || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
             ...(editData?.length && {
@@ -747,7 +749,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             setSelectedThirdValues(data);
           }
-          setPriceInfo([...thirdpartyDetails]);
+          const updatedDetails = thirdpartyDetails.map((detail:any) => ({
+            ...detail,
+            price: Number(detail.price).toFixed(2), // Convert and format price
+          }));
+          
+
+
+          setPriceInfo(updatedDetails);
           const object: any = {};
           const item = thirdpartyDetails?.map((item: any) => item);
           item.forEach((element: any) => {
@@ -870,7 +879,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             //   (pickupDetails?.isNotHide && pickupDetails?.isNotHide === 1
             //     ? true
             //     : false),
-            price: pickupDetails?.price || 0,
+            price: Number(pickupDetails?.price).toFixed(2) || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
             ...(editData?.length && {
@@ -916,7 +925,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             //     ? true
             //     : false),
 
-            price: deliveryDetails?.price || 0,
+            price: Number(deliveryDetails?.price).toFixed(2) || 0,
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
             ...(editData?.length && {
@@ -938,7 +947,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
           const mappedPriceInfo = thirdpartyDetails.map((detail: any) => ({
             typeId: detail.typeId || "",
-            price: detail.price || 0,
+            price: Number(detail.price).toFixed(2) || 0,
             typeName: detail.typeName || "",
             Enabled: true,
             // Enabled:
@@ -985,7 +994,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         const updatedField = {
-          DineInPrice: dineIndetail?.price,
+          DineInPrice: Number(dineIndetail?.price).toFixed(2),
           Enabled: true,
           // Enabled:
           //   (dineIndetail?.availabilityEnabled &&
@@ -1010,7 +1019,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         };
 
         setDineInFields([updatedField]);
-        setFormattedDineInData((prevData: DeliveryDetails) => {
+        setFormattedDineInData((prevData: any) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
           updatedAvailabilities[0] = {
@@ -2626,16 +2635,24 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           })}
 
                           <div className="ThirdPartyChooseDayContainer">
-                            {showDayThird ? (
-                              <h3 className="ThirdPartyChooseDayContainerHeading">
-                                Back to Default days
-                              </h3>
-                            ) : (
-                              <h3 className="ThirdPartyChooseDayContainerHeading">
-                                Setup for specific days?
-                              </h3>
-                            )}
-                            {showDayThird ? (
+
+                            {
+                              selectedthirdvalues.length>0 &&
+                              <>{
+                                showDayThird ? (
+                                  <h3 className="ThirdPartyChooseDayContainerHeading">
+                                    Back to Default days
+                                  </h3>
+                                ) : (
+                                  <h3 className="ThirdPartyChooseDayContainerHeading">
+                                    Setup for specific days?
+                                  </h3>
+                                )}</>
+                            }
+                            
+                            {
+                              selectedthirdvalues.length>0 &&<>
+                               {showDayThird ? (
                               <h3
                                 className="ThirdPartyChooseDayContainer-chooseheading"
                                 onClick={addDayThirdfalse}
@@ -2650,6 +2667,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 Choose Day
                               </h3>
                             )}
+                              </>
+                            }
+                           
                           </div>
 
                           <div>

@@ -1562,6 +1562,13 @@ const PrimaryPage = () => {
                         <Controller
                           name="tax"
                           control={control}
+                          rules={{
+                            
+                            pattern: {
+                              value: /^\d{4}$/, 
+                              message: "Please enter a valid 4-digit number",
+                            },
+                          }}
                           render={({ field }: any) => (
                             <Dropdown
                               options={taxData}
@@ -1573,6 +1580,7 @@ const PrimaryPage = () => {
                               trigger={trigger}
                               setValue={setValue}
                               getValues={getValues}
+                              inputType="Number"
 
                               // validation={{ required: "Tax is required" }}
                               // error={errors.tax}

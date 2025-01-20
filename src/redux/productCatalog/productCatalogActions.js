@@ -156,6 +156,9 @@ import {
   TAXCLASS_SUCCESS,
   TAXCLASS_FAILURE,
   GET_ITEM_CODE_VaLIDATION_ERROR,
+  DELETE_IMAGE_FAILURE,
+  DELETE_IMAGE_SUCCESS,
+  DELETE_IMAGE_REQUEST,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -952,3 +955,21 @@ export const updateModifierData = (data) => ({
   type: UPDATE_MODIFIER_REQUEST,
   payload: data
 })
+
+
+//delete image
+
+export const deleteimageRequest = (data) => ({
+  type: DELETE_IMAGE_REQUEST,
+  payload: data,
+});
+
+export const deleteimageSuccess = (response) => ({
+  type: DELETE_IMAGE_SUCCESS,
+  payload: response,
+});
+
+export const deleteimageFailure = (error) => ({
+  type: DELETE_IMAGE_FAILURE,
+  payload: error,
+});

@@ -218,7 +218,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                    cost: option?.price || 0,
+                    cost: Number(option?.price).toFixed(2) || 0,
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
@@ -248,7 +248,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                    cost: option?.cost || 0,
+                    cost: Number(option?.cost).toFixed(2) || 0,
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
@@ -1123,7 +1123,7 @@ console.log({Modifiers});
           reset={clearAll}
           modifications={showModifiers ? modifications : []}
           validateModifiers={validateModifiers}
-          handleValidate={validateModifiers}
+        
         />
         <div
           className={
@@ -1370,7 +1370,7 @@ console.log({Modifiers});
                                     )
                                   }
                                 />
-                                <label className="labelItemCustomizations">
+                                <label className="labelItemCustomizations-radio">
                                   Mandatory
                                 </label>
                               </div>
@@ -1392,7 +1392,7 @@ console.log({Modifiers});
                                     )
                                   }
                                 />
-                                <label className="labelItemCustomizations">
+                                <label className="labelItemCustomizations-radio">
                                   Optional
                                 </label>
                               </div>
@@ -1414,7 +1414,10 @@ console.log({Modifiers});
                                       //   ]?.optionPriceError !== "" ?"5.2rem":"3rem"
                                       // }}
                                     >
-                                      <div className="option-name-errormsg">
+
+                                      <div className="input-fields-of-modifiers-options">
+
+                                        <div>
                                         <input
                                           placeholder="Option (Item)*"
                                           className="input-option-name-field"
@@ -1468,30 +1471,8 @@ console.log({Modifiers});
                                           //   validateModifiers(modifications);
                                           // }}
                                         />
-                                        { customizationerrors &&  customizationerrors[modIndex]&&customizationerrors[modIndex]?.options &&customizationerrors[modIndex]?.options[
-                                          optIndex
-                                        ]?.optionNameError !== "" && (
-                                          <span className="nameErrormsg optionNameErrormsg">
-                                            {
-                                              customizationerrors && customizationerrors[modIndex]&& customizationerrors[modIndex]
-                                                ?.options[optIndex]
-                                                ?.optionNameError
-                                            }
-                                          </span>
-                                        )}
-
-                                        {/* {modificationError[modIndex]?.options?.[optIndex]?.modifierOptionName && (
-                                          <div className="error-message1">
-                                            {
-                                              modificationError[modIndex]
-                                                ?.options?.[optIndex]
-                                                ?.modifierOptionName
-                                            }
-                                          </div>
-                                        )} */}
-                                      </div>
-
-                                      <div className="option-price-errormsg">
+                                        </div>
+                                        <div>
                                         <input
                                           placeholder="Price*"
                                           className="input-option-price-field"
@@ -1555,20 +1536,9 @@ console.log({Modifiers});
                                           // }}
                                         />
 
-                                        {customizationerrors &&customizationerrors[modIndex]&&customizationerrors[modIndex]?.options && customizationerrors[modIndex]?.options[
-                                          optIndex
-                                        ]?.optionPriceError !== "" && (
-                                          <span className="nameErrormsg optionpriceerrormsg">
-                                            {
-                                            customizationerrors &&  customizationerrors[modIndex]
-                                                ?.options[optIndex]
-                                                ?.optionPriceError
-                                            }
-                                          </span>
-                                        )}
-                                      </div>
-
-                                      <div
+                                        </div>
+                                        <div>
+                                        <div
                                         className={
                                           modifier?.modifierOptions.length -
                                             1 >=
@@ -1586,7 +1556,7 @@ console.log({Modifiers});
                                                 ? "btn-ItemCustomizations"
                                                 : "btn-ItemCustomizations2"
                                             }
-                                            onClick={() => addOption(modIndex)}
+                                            
                                           >
                                             <span
                                               className={
@@ -1599,7 +1569,7 @@ console.log({Modifiers});
                                               }
                                             >
                                              <img src={plusicon} alt="" />
-                                              <span className="spanadd" >
+                                              <span className="spanadd" onClick={() => addOption(modIndex)}>
                                                 Add
                                               </span>{" "}
                                             </span>
@@ -1616,6 +1586,232 @@ console.log({Modifiers});
                                           </a>
                                         )}
                                       </div>
+                                        </div>
+
+                                      </div>
+                                      
+
+                                      <div className="input-fields-errors-of-modifiers-options">
+                                      <div className="optionname-errormgs">
+                                      { customizationerrors &&  customizationerrors[modIndex]&&customizationerrors[modIndex]?.options &&customizationerrors[modIndex]?.options[
+                                          optIndex
+                                        ]?.optionNameError !== "" && (
+                                          <span className="nameErrormsg optionNameErrormsg">
+                                            {
+                                              customizationerrors && customizationerrors[modIndex]&& customizationerrors[modIndex]
+                                                ?.options[optIndex]
+                                                ?.optionNameError
+                                            }
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div className="optionprice-errormgs">
+                                      {customizationerrors &&customizationerrors[modIndex]&&customizationerrors[modIndex]?.options && customizationerrors[modIndex]?.options[
+                                          optIndex
+                                        ]?.optionPriceError !== "" && (
+                                          <span className="nameErrormsg optionpriceerrormsg">
+                                            {
+                                            customizationerrors &&  customizationerrors[modIndex]
+                                                ?.options[optIndex]
+                                                ?.optionPriceError
+                                            }
+                                          </span>
+                                        )}
+
+                                      </div>
+
+                                      </div>
+
+
+                                      {/* <div className="option-name-errormsg">
+                                        <input
+                                          placeholder="Option (Item)*"
+                                          className="input-option-name-field"
+                                          name="modifierOptionName"
+                                          type="text"
+                                          style={{
+                                            opacity: modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.isEnabled
+                                              ? "100%"
+                                              : "50%",
+                                          }}
+                                          onInput={(e) => {
+                                            const input = e.target as HTMLInputElement;
+                                            const regex = /^[a-zA-Z\s]*$/;                                      
+                                            if (!regex.test(input.value)) {
+                                              input.value = input.value.replace(/[^a-zA-Z\s]/g, "");
+                                            }
+                                          }}
+                                          disabled={
+                                            !modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.isEnabled ||
+                                            !modifications[modIndex]?.isEnabled
+                                          }
+                                          value={
+                                            modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.modifierOptionName ||
+                                            modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.modifierName ||
+                                            ""
+                                          }
+                                          onChange={(e) => {
+                                            const value = e.target.value;
+
+                                            addOptionChange(
+                                              modIndex,
+                                              optIndex,
+                                              e
+                                            );
+                                            valiadteModifierOptions(
+                                              modIndex,
+                                              optIndex,
+                                              e
+                                            );
+                                          }}
+                                          
+                                        />
+                                        { customizationerrors &&  customizationerrors[modIndex]&&customizationerrors[modIndex]?.options &&customizationerrors[modIndex]?.options[
+                                          optIndex
+                                        ]?.optionNameError !== "" && (
+                                          <span className="nameErrormsg optionNameErrormsg">
+                                            {
+                                              customizationerrors && customizationerrors[modIndex]&& customizationerrors[modIndex]
+                                                ?.options[optIndex]
+                                                ?.optionNameError
+                                            }
+                                          </span>
+                                        )}
+
+                                        
+                                      </div> */}
+{/* 
+                                      <div className="option-price-errormsg">
+                                        <input
+                                          placeholder="Price*"
+                                          className="input-option-price-field"
+                                          name="cost"
+                                          type="number"
+                                          style={{
+                                            opacity: modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.isEnabled
+                                              ? "100%"
+                                              : "50%",
+                                          }}
+                                          disabled={
+                                            !modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.isEnabled ||
+                                            !modifications[modIndex]?.isEnabled
+                                          }
+                                          value={
+                                            modifier.modifierOptions[optIndex]
+                                              .cost ||
+                                            modifier.modifierOptions[optIndex]
+                                              .sellPrice ||
+                                            ""
+                                          }
+                                          onChange={(e) => {
+                                            const value = e.target.value;
+
+                                            // Restrict to 4 digits
+                                            if (value.length <= 4) {
+                                              addOptionChange(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              );
+                                              valiadteModifieroptionsprice(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              );
+                                            }
+                                          }}
+                                          onKeyDown={(
+                                            e: React.KeyboardEvent<HTMLInputElement>
+                                          ) => {
+                                            const input =
+                                              e.target as HTMLInputElement;
+                                            if (
+                                              ["e", "E", "+", "-"].includes(
+                                                e.key
+                                              ) ||
+                                              (e.key === "." &&
+                                                input.value.includes("."))
+                                            ) {
+                                              e.preventDefault();
+                                            }
+                                          }}
+                                          
+                                        />
+
+                                        {customizationerrors &&customizationerrors[modIndex]&&customizationerrors[modIndex]?.options && customizationerrors[modIndex]?.options[
+                                          optIndex
+                                        ]?.optionPriceError !== "" && (
+                                          <span className="nameErrormsg optionpriceerrormsg">
+                                            {
+                                            customizationerrors &&  customizationerrors[modIndex]
+                                                ?.options[optIndex]
+                                                ?.optionPriceError
+                                            }
+                                          </span>
+                                        )}
+                                      </div> */}
+                                      {/* add  delete btns*/}
+
+                                      {/* <div
+                                        className={
+                                          modifier?.modifierOptions.length -
+                                            1 >=
+                                          1
+                                            ? "btn1"
+                                            : "btn2"
+                                        }
+                                      >
+                                        {optIndex === 0 && (
+                                          <a
+                                            className={
+                                              modifier?.modifierOptions.length -
+                                                1 >=
+                                              1
+                                                ? "btn-ItemCustomizations"
+                                                : "btn-ItemCustomizations2"
+                                            }
+                                            
+                                          >
+                                            <span
+                                              className={
+                                                modifier?.modifierOptions
+                                                  .length -
+                                                  1 >=
+                                                1
+                                                  ? "spanOption-button2"
+                                                  : "spanOption-button"
+                                              }
+                                            >
+                                             <img src={plusicon} alt="" />
+                                              <span className="spanadd" onClick={() => addOption(modIndex)}>
+                                                Add
+                                              </span>{" "}
+                                            </span>
+                                          </a>
+                                        )}
+                                        {optIndex > 0 && (
+                                          <a
+                                            className="btn-ItemCustomizations-del"
+                                            onClick={() =>
+                                              deleteOption(modIndex, optIndex)
+                                            }
+                                          >
+                                            <img src={minus} alt="" /> Delete
+                                          </a>
+                                        )}
+                                      </div> */}
                                     </div>
                                   )
                                 )}
@@ -1804,7 +2000,7 @@ console.log({Modifiers});
                                 <input
                                   placeholder=""
                                   type="number"
-                                  className="input3ItemCustomizations"
+                                  className="input3ItemCustomizations-free"
                                   name="freeCustomization"
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   value={
@@ -1830,7 +2026,7 @@ console.log({Modifiers});
                                     }
                                   }}
                                 />
-                                <div className="polydiv-ItemCustomizations">
+                                <div className="polydiv-ItemCustomizations-free">
                                   <img
                                     className="polyimg-ItemCustomizations"
                                     src={Polygon1}
@@ -1844,8 +2040,9 @@ console.log({Modifiers});
                                       )
                                     }
                                   />
+                                  {/* <div className="border-line"></div> */}
                                   <img
-                                    className="polyimg-ItemCustomizations"
+                                    className="polyimg-ItemCustomizations "
                                     src={Polygon2}
                                     alt=""
                                     onClick={() =>

@@ -148,7 +148,7 @@ border-bottom: 1px solid #b3b3b3;
     // border: 1px solid green;
     gap: 1rem;
     // padding-left: 1rem;
-    // padding-right: 1rem;
+    padding-right: 1rem;
 
     &::-webkit-scrollbar{
         display: none;
@@ -203,6 +203,8 @@ color: #000000;
     display: flex;
     // padding-left: 1rem;
     // padding-right: 1rem;
+    padding: 0;
+    margin: 0;
     height: 8vh;
     gap: 1rem !important;
     border-right: 1px solid #b3b3b3;
@@ -295,6 +297,7 @@ font-size: 14px;
 font-weight: 400;
 line-height: 21px;
 text-align: left;
+// border: 1px solid red;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
 

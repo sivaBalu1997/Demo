@@ -11,6 +11,7 @@ import {
 } from "redux/productCatalog/productCatalogActions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { showErrorToast } from "util/toastUtils";
 
 interface LocationState {
   pagename: string;
@@ -60,6 +61,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
+ 
+  
   const editData = useSelector((state: any) => state.productCatalog.editData);
   const { setValiadtePriceFields } = useContext(Contextpagejs);
 
@@ -87,8 +90,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
   const handleclick = async (category: any) => {
     const path = category.replace(/\s+/g, "");
-
-    if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory) {
+    let PricingDetails = { ...mainForm };
+    if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory ) {
       const isFormValid = await triggerValidation(formData);
       const valiadtesubcategorynn= valiadtesubCategory()
      
@@ -99,12 +102,26 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         });
         return;
       } else {
-        if(valiadtesubcategorynn){
-          setNavigate(true)
-          dispatch(primarypost(formData));
-          isFormValid && setCurrentPage(category);
-          history.push(`/productCatalog/${path}`, { pagename: category });
+        if(valiadtesubcategorynn ){
+          const isValid = handleValidate && handleValidate()
+
+          if((category==="Item customizations"))
+          {
+            console.log({isValid});
+            showErrorToast("Please fill out the step2 details");
+          }
+          else
+          {
+            console.log({prizingDetail});
+            
+            setNavigate(true)
+            dispatch(primarypost(formData));
+            isFormValid && setCurrentPage(category);
+            history.push(`/productCatalog/${path}`, { pagename: category });
+          }
+         
         }
+       
        
       }
     } 
@@ -116,7 +133,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       setKitchenError(true)
       const isValid = handleValidate && handleValidate();
       setNavigate(true)
-      let PricingDetails = { ...mainForm };
+      let PricingDetails:any = { ...mainForm };
       const formData = getFormData();
 
      
@@ -158,12 +175,21 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
       if(category==="Primary Details")
       {
+
+        PricingDetails = {
+          ...PricingDetails,
+         dataStored:true
+        };
         dispatch(PricingDetailRequest(PricingDetails));
         setNavigate(true)
         setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
       else{
+        PricingDetails = {
+          ...PricingDetails,
+         dataStored:true
+        };
         if (category==="Item customizations" &&isValid) {
           dispatch(PricingDetailRequest(PricingDetails));
           setNavigate(true)
@@ -178,7 +204,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
      
     }
     
-    else if (currentPage === "Item customizations") {
+    else if (currentPage === "Item customizations"  && !(currentPage===category)) {
       const isValid = validateModifiers && validateModifiers(modifications);
       setNavigate(true)
       const modificationArray = modifications?.map((modifier) => {

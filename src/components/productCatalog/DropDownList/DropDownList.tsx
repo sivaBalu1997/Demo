@@ -60,6 +60,7 @@ interface DropdownProps {
   setCategoryChange?: any;
   kitchenError?: boolean;
   height?: string;
+  inputType?:string
 
 }
 
@@ -93,7 +94,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   categoryChange,
   setCategoryChange,
   kitchenError,
-  height
+  height,
+  inputType
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -688,6 +690,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                   : selectedOptions[0]?.name || ""
                 : ""
             }
+            maxLength={inputType==="Number"&&4}
             onChange={(e) => {
               if (dropdownopen) {
                 handleSearch(e);

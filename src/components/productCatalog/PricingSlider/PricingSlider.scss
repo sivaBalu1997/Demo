@@ -86,12 +86,24 @@
 }
 
 .Priceing-input-field {
-  border: 1px solid red;
+  // border: 1px solid red;
   outline: none;
-  margin-top: 0.25rem;
-  width: 70px;
+  // margin-top: 0.25rem;
+  width: 80px;
+
+  background: transparent;
+  // position: relative;
+  // left: -0.7rem;
+  // top: 0.05rem;
+  // text-align: left ;
+  // display: flex;
+  // justify-content: left;
   height: 24px;
-  margin-left: -0.9rem;
+  z-index: 1;
+ 
+  
+  // padding-left: -1rem !important;
+  // margin-left: -0.9rem;
   border: none;
   // background-color: lightgreen;
   // border: none;
@@ -99,7 +111,7 @@
   font-size: 16px;
   // border: 1px solid red;
   &::placeholder {
-    text-align: center;
+    // text-align: center;
     // background-color: #00b71d;
     // margin-right: 7px;
   }
@@ -145,14 +157,18 @@
   width: 5rem;
 }
 
-.priceSymbol {
+.priceSymbol-price {
   width: 20px;
   font-size: 16px;
   font-weight: 400;
-  // border: 1px solid red;
+  z-index: 0;
   position: relative;
+  left: 0.7rem;
+  // top: -0.7px;
+  // border: 1px solid red;
+  // position: relative;
   // left: 25%;
-  top: 5%;
+  // top: 5%;
 }
 
 .OrderType-Name {
@@ -187,6 +203,8 @@
   border: 1px solid #000000;
   width: 90px;
   text-align: center;
+  justify-content: left;
+  align-items: center;
   height: 28px;
   border-radius: 3.18px;
   padding-left: 8.07px;
