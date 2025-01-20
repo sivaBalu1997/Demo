@@ -74,22 +74,18 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   useEffect(() => {
-    const tempOnPremarray = data1[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup === "D" || data?.typeGroup === "I";
-      }
-    );
-    const tempOffPremarray = data1[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup !== "D" && data?.typeGroup !== "I";
-      }
-    );
+    const tempOnPremarray = data1[0]?.orderTypes?.filter((data:any, index:number) => {
+      return data?.typeGroup === "D" || data?.typeGroup ==="I";
+    });
+    const tempOffPremarray = data1[0]?.orderTypes?.filter((data:any, index:number) => {
+      return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
+    });
 
     const allIsNotHideOnPrem = tempOnPremarray?.every(
-      (item: any) => item?.isNotHide === 0
+      (item:any) => item?.isNotHide === 0
     );
     const allIsNotHideOffPrem = tempOnPremarray?.every(
-      (item: any) => item?.isNotHide === 0
+      (item:any) => item?.isNotHide === 0
     );
 
     // const isOnPremEnabledCount =
@@ -213,7 +209,6 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   useEffect(() => {
-    // dispatch(selectedMockDataRequest(SideBarData));
     dispatch(resetSuccessMessage());
   }, [dispatch]);
 

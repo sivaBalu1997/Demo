@@ -415,7 +415,7 @@ export default function productCatalogReducer(
         break;
       case SUBCATEGORY_DATA_SUCCESS:
         draft.subCategoryData = action.payload;
-        draft.getSubCategoryLoading = false; 
+        draft.getSubCategoryLoading = false;
         draft.getDataLoading = false;
         draft.getCategorySuccess = true;
         draft.dropDownLoading = false;
@@ -495,7 +495,7 @@ export default function productCatalogReducer(
       case ALLERGENS_FAILURE:
         draft.allergens = [];
         draft.allergensLoading = false;
-        draft.allergensSuccess = false
+        draft.allergensSuccess = false;
         break;
 
       case INGREDIENTS_REQUEST:
@@ -527,7 +527,7 @@ export default function productCatalogReducer(
       case ALLERGENS_FAILURE:
         draft.allergens = [];
         draft.allergensLoading = false;
-        draft.allergensSuccess = false
+        draft.allergensSuccess = false;
         break;
 
       case INGREDIENTS_REQUEST:
@@ -551,13 +551,13 @@ export default function productCatalogReducer(
         draft.getTaxClassLoading = true;
         draft.getTaxClassSuccess = false;
         break;
-      
+
       case TAXCLASS_SUCCESS:
         draft.taxClass = action.payload;
         draft.getTaxClassLoading = false;
         draft.getTaxClassSuccess = true;
         break;
-      
+
       case TAXCLASS_FAILURE:
         draft.taxClass = action.payload;
         draft.getTaxClassLoading = false;
@@ -747,7 +747,7 @@ export default function productCatalogReducer(
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
-        console.log('From reducer',action.payload)
+        console.log("From reducer", action.payload);
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
@@ -763,7 +763,7 @@ export default function productCatalogReducer(
         break;
 
       // Update Menu Item
-      case UPDATE_MENU_ITEM_REQUEST:        
+      case UPDATE_MENU_ITEM_REQUEST:
         draft.updatedPayload = action.payload;
         draft.updateMenuItemLoading = true;
         draft.updateMenuItemFailed = false;
@@ -933,9 +933,9 @@ export default function productCatalogReducer(
       case SELECTED_MOCKDATA_REQUEST:
         draft.editData = action.payload;
         break;
-      case REMOVE_DATA_REQUEST: 
+      case REMOVE_DATA_REQUEST:
         draft.editData = [];
-        draft.successImageId = '';
+        draft.successImageId = "";
         break;
 
       default:
@@ -964,7 +964,7 @@ export const primarypagereducer = (state = primarypagedata, action) => {
         ...state,
         data: [],
       };
-      case Remove_Primary_Data_Request:
+    case Remove_Primary_Data_Request:
       return {
         ...state,
         data: [],
@@ -983,14 +983,14 @@ const initialState = {
 export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
-      console.log('IC payload',action.payload)
+      console.log("IC payload", action.payload);
       return { ...state, itemData: action.payload };
     case REMOVE_DATA_REQUEST:
       return {
         ...state,
         itemData: [],
       };
-      case Remove_ItemCust_Data_Request:
+    case Remove_ItemCust_Data_Request:
       return {
         ...state,
         itemData: [],
@@ -1015,7 +1015,7 @@ export const PricingDetailReducer = (state = PricingDetailPage, action) => {
         ...state,
         prizingData: [],
       };
-      case Remove_Pricing_Data_Request:
+    case Remove_Pricing_Data_Request:
       return {
         ...state,
         prizingData: [],
@@ -1161,9 +1161,9 @@ export const addMockDataReducer = (state = mockDataFiltered, action) => {
 };
 const addMockHiddenData = {
   data: [],
-  failed:false,
-  loading:false,
-  success:false,
+  failed: false,
+  loading: false,
+  success: false,
 };
 
 export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
@@ -1173,35 +1173,36 @@ export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
         ...state,
         loading: true,
         error: null,
-        failed:false
+        failed: false,
+        success: false
       };
     case ADD_MOCK_DATA_HIDDEN_SUCCESS:
       return {
         ...state,
         loading: false,
         data: action.payload,
-        failed:false
+        failed: false,
+        success: true,
       };
     case ADD_MOCK_DATA_HIDDEN_FALIURE:
       return {
         ...state,
         loading: false,
         error: action.payload,
-        failed:true
+        failed: true,
+        success: false,
       };
 
-      case RESET_SUCCESS_MESSAGE:
-        return{
-          ...state,
+    case RESET_SUCCESS_MESSAGE:
+      return {
+        ...state,
         loading: false,
-        success:false,
-        failed:false,
+        failed: false,
+        success: false,
         error: action.payload,
-        data:[]
+        data: [],
+      };
 
-        }
-        
-      
     default:
       return state;
   }
@@ -1211,9 +1212,8 @@ const itemCode = {
   itemCode: null,
   loading: false,
   error: null,
-  success:null,
-  errormsg:null
-  
+  success: null,
+  errormsg: null,
 };
 
 export const getItemCodeReducer = (state = initialState, action) => {
@@ -1231,35 +1231,33 @@ export const getItemCodeReducer = (state = initialState, action) => {
         itemCode: action.payload,
         errormsg: null,
       };
-      
+
     case GET_ITEM_CODE_VaLIDATION_ERROR:
-      return{
+      return {
         ...state,
         loading: false,
         errormsg: action.payload,
-
-      } ;
+      };
     case GET_ITEM_CODE_FAILURE:
       return {
         ...state,
         loading: false,
         itemCode: action.payload,
-
       };
-      case REMOVE_DATA_REQUEST: 
-        return {
-          ...state,
-          itemCode: null,
-          loading: false,
-          error: null,
-        };
-        case REMOVE_CODE_REQUEST: 
-        return {
-          ...state,
-          itemCode: null,
-          loading: false,
-          error: null,
-        };
+    case REMOVE_DATA_REQUEST:
+      return {
+        ...state,
+        itemCode: null,
+        loading: false,
+        error: null,
+      };
+    case REMOVE_CODE_REQUEST:
+      return {
+        ...state,
+        itemCode: null,
+        loading: false,
+        error: null,
+      };
     default:
       return state;
   }
@@ -1307,11 +1305,11 @@ export const selectedMockDataReducer = (state = selectedMockData, action) => {
         ...state,
         data: action?.payload,
       };
-      case REMOVE_DATA_REQUEST:
-        return {
-          ...state,
-          data: [],
-        };
+    case REMOVE_DATA_REQUEST:
+      return {
+        ...state,
+        data: [],
+      };
     default:
       return state;
   }

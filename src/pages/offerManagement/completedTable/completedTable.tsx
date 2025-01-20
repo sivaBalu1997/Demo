@@ -308,17 +308,20 @@ const [loading,setLoding]=useState(false)
                                                     display:"flex",
                                                     justifyContent:"left",
                                                     alignItems:"center",
-                                                    gap:"0.5rem"
+                                                    position:'absolute',
+                                                    marginTop:"10px",
+                                                    gap:"0.5rem",
                                                   }}
                                                 >
+                                                  
                                                   {row.type === "PERCENT" && (
                                                     <>
                                                      <span style={{marginTop:"3px"}}>{`${row?.value}%`}</span> 
                                                       {row.specialType === "HAPPY HOUR" ? (
                                                         // <FaArrowUp />
-                                                        <img src={arrow} alt="" />
+                                                        <img src={arrow} alt="" className="down-arrow-price" />
                                                       ) : (
-                                                        <img src={arrow} alt="" className="down-arrow-price"/>
+                                                        <img src={arrow} alt="" />
                                                         // <FaArrowDown />
                                                       )}
                                                     </>
@@ -330,13 +333,14 @@ const [loading,setLoding]=useState(false)
                                                       {row.value}
                                                       </span>
                                                       {row.specialType === "HAPPY HOUR" ? (
-                                                                                      <img src={arrow} alt="" />
-                                                                                    ) : (
                                                                                       <img src={arrow} alt="" className="down-arrow-price"/>
+                                                                                    ) : (
+                                                                                      <img src={arrow} alt="" />
                                                                                     )}
 
                                                     </>
                                                   )}
+                                                  
                                                 </td>
                         {/* <td className="OffrtsTabletd">
                           <div className="action-container" ref={componentRef}>

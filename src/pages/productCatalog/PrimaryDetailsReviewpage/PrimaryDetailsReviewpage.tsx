@@ -578,9 +578,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
-      isEnabled: dineInDetails.Enabled===true||dineInDetails.Enabled===1?1:0, 
+      isEnabled: dineInDetails?.Enabled===true||dineInDetails?.Enabled===1?1:0, 
       isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
-      availabilities: dineInDetails.availabilities.map((availability: any) => ({
+      availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -594,7 +594,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       ...pickupDetails,
       isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
       isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
-      availabilities: pickupDetails.availabilities.map((availability: any) => ({
+      availabilities: pickupDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -607,7 +607,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       ...deliveryDetails,
       isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
       isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'S' )?.isNotHide || null,
-      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
+      availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
           availability.availabilityDays &&
@@ -622,7 +622,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           ...detail,
           isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
           isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'T' )?.isNotHide || null,
-          availabilities: detail.availabilities.map((availability: any) => ({
+          availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
             availabilityDays:
               availability.availabilityDays &&

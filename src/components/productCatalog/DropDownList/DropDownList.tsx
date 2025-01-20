@@ -107,7 +107,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
-  const [manuallySelected, setManuallySelected] = useState(false)
+  const [manuallySelected, setManuallySelected] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -254,7 +254,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   useEffect(() => {
-    if (!manuallySelected && ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
+    if (
+      !manuallySelected &&
+      ItemsPrimaryDetails?.DietaryType &&
+      name === "DietaryType"
+    ) {
       const dietName = ItemsPrimaryDetails?.DietaryType;
 
       const normalizedDietName = Array.isArray(dietName)
@@ -279,7 +283,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") {
+    if (!manuallySelected && ItemsPrimaryDetails?.bestPair && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
 
       const normalizedBestPair = Array.isArray(bestPairName)
@@ -417,8 +421,8 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-    
-    setManuallySelected(true)
+
+    setManuallySelected(true);
 
 
    
@@ -475,7 +479,6 @@ const DropDownList: React.FC<DropdownProps> = ({
         } else {
           setParentId(option?.id);
           setCategoryChange(true);
-
         }
         setValue("subCategory", "");
       }
@@ -497,7 +500,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         );
 
         let updatedSelected;
-        setManuallySelected(true)
+        setManuallySelected(true);
 
         if (isAlreadySelected !== -1) {
           updatedSelected = prevSelected?.filter(
@@ -777,107 +780,111 @@ const DropDownList: React.FC<DropdownProps> = ({
       </div>
 
       {dropdownopen && (
-        <div className="dropdown-body" style={{height:height?height:'10.8rem'}}>	
-        <div className="dropdown-lists-edit">
         <div
-            className="Dropdown-lists-and-edit"
-
-            style={{overflowY:filteredOptions?.length>=3?"scroll":"hidden"}}
-            onMouseDown={handleOptionMouseDown}
-          >
-            <ul
-              className="dropdown-options"
+          className="dropdown-body"
+          style={{ height: height ? height : "10.8rem" }}
+        >
+          <div className="dropdown-lists-edit">
+            <div
+              className="Dropdown-lists-and-edit"
+              style={{overflowY:filteredOptions?.length>=3?"scroll":"hidden"}}
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading ? (
-                <div className="dropdown-no-options">
-                  <Loader
-                    className="imgLoader1"
-                    height="300px"
-                    width="300px"
-                    style={{
-                      filter:
-                        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-                      height: "70px",
-                      width: "70px",
-                    }}
-                  />
-                </div>
-              ) : (
-                <div>
-                  {filteredOptions?.length > 0 ? (
-                    filteredOptions?.map((option, index) => {
-                      return (
-                        <div className="dropdown-option-list" key={index}>
-                          <li className="dropdown-option">
-                            <input
-                              type={type}
-                              checked={selectedOptions?.some(
-                                (opt) => opt?.id === option?.id
-                              )}
-                              className="dropdon-option-inputfield"
-                              onChange={() => handleCheckboxChange(option)}
-                            />
-                            <span
-                              className="dropdon-option-label"
-                              onClick={() => handleSelect(option)}
-                            >
-                              {option.name}
-                            </span>
-                          </li>
-                          <div>
-                            {editList && (
+              <ul
+                className="dropdown-options"
+                onMouseDown={handleOptionMouseDown}
+              >
+                {dropDownLoading ? (
+                  <div className="dropdown-no-options">
+                    <Loader
+                      className="imgLoader1"
+                      height="300px"
+                      width="300px"
+                      style={{
+                        filter:
+                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                        height: "70px",
+                        width: "70px",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    {filteredOptions?.length > 0 ? (
+                      filteredOptions?.map((option, index) => {
+                        return (
+                          <div className="dropdown-option-list" key={index}>
+                            <li className="dropdown-option">
+                              <input
+                                type={type}
+                                checked={selectedOptions?.some(
+                                  (opt) => opt?.id === option?.id
+                                )}
+                                className="dropdon-option-inputfield"
+                                onChange={() => handleCheckboxChange(option)}
+                              />
                               <span
-                                className={`dropdown-option-delete`}
-                                onClick={() =>
-                                  option?.canDelete
-                                    ? handledeletion(option.id)
-                                    : null
-                                }
-                                style={
-                                  !option?.canDelete
-                                    ? { pointerEvents: "none", opacity: "50%" }
-                                    : {}
-                                }
+                                className="dropdon-option-label"
+                                onClick={() => handleSelect(option)}
                               >
-                                -Delete
+                                {option.name}
                               </span>
-                            )}
+                            </li>
+                            <div>
+                              {editList && (
+                                <span
+                                  className={`dropdown-option-delete`}
+                                  onClick={() =>
+                                    option?.canDelete
+                                      ? handledeletion(option.id)
+                                      : null
+                                  }
+                                  style={
+                                    !option?.canDelete
+                                      ? {
+                                          pointerEvents: "none",
+                                          opacity: "50%",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  -Delete
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                      searchTerm == ""
-                        ? name === "kitchenstation"
-                          ? false
-                          : Loading
-                        : true
-                    ) ? (
-                    <div className="dropdown-no-options">
-                      No options available
-                    </div>
-                  ) : (
-                    <div className="dropdown-no-options">
-                      <Loader
-                        className="imgLoader1"
-                        height="300px"
-                        width="300px"
-                        style={{
-                          filter:
-                            "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-                          height: "70px",
-                          width: "70px",
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-            </ul>
-            
-          </div>
-          <div className="edititem" onMouseDown={handleOptionMouseDown}>
+                        );
+                      })
+                    ) : (
+                        searchTerm == ""
+                          ? name === "kitchenstation"
+                            ? false
+                            : Loading
+                          : true
+                      ) ? (
+                      <div className="dropdown-no-options">
+                        No options available
+                      </div>
+                    ) : (
+                      <div className="dropdown-no-options">
+                        <Loader
+                          className="imgLoader1"
+                          height="300px"
+                          width="300px"
+                          style={{
+                            filter:
+                              "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                            height: "70px",
+                            width: "70px",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </ul>
+            </div>
+            <div className="edititem" onMouseDown={handleOptionMouseDown}>
               {!dropDownLoading &&
                 options?.length > 0 &&
                 !editList &&
@@ -892,8 +899,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                   </p>
                 )}
             </div>
-        </div>
-        
+          </div>
 
           {
             <div
@@ -901,62 +907,54 @@ const DropDownList: React.FC<DropdownProps> = ({
               onMouseDown={handleOptionMouseDown}
             >
               <div className="">
-              {addNew && addNewButton && (
-<div className="dropdown-input-and-addnewbtn">
-<div className="addnew-open-dropdown">
-  <div>
-  <input
-                      type="text"
-                      ref={NewItemref}
-                      maxLength={128}
-                      className="dropdown-addnew-open-input"
-                    />
-  </div>
-  <div>
-  <button
-                  
-                  type="button"
-                  onClick={handleNewItemAdd}
-                  className="dropdown-addnew-button"
+                {addNew && addNewButton && (
+                  <div className="dropdown-input-and-addnewbtn">
+                    <div className="addnew-open-dropdown">
+                      <div>
+                        <input
+                          type="text"
+                          ref={NewItemref}
+                          maxLength={128}
+                          className="dropdown-addnew-open-input"
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={handleNewItemAdd}
+                          className="dropdown-addnew-button"
+                          style={{ cursor: "pointer" }}
+                        >
+                          +Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
 
-                  style={{cursor:"pointer"}}
-                >
-                  +Add
-                </button>
-  </div>
-</div>
-</div>
+                  //   <div className="dropdown-addnew">
+                  //     <div className="dropdown-addnew-input-and-button">
+                  //   <input
+                  //   type="text"
+                  //   ref={NewItemref}
+                  //   maxLength={128}
+                  //   className="dropdown-addnew-open-input"
+                  // />
+                  //     <button
 
+                  //       type="button"
+                  //         onClick={handleNewItemAdd}
+                  //         className="dropdown-addnew-button"
 
-
-
-
-              //   <div className="dropdown-addnew">
-              //     <div className="dropdown-addnew-input-and-button">
-              //   <input
-              //   type="text"
-              //   ref={NewItemref}
-              //   maxLength={128}
-              //   className="dropdown-addnew-open-input"
-              // />
-              //     <button
-                  
-              //       type="button"
-              //         onClick={handleNewItemAdd}
-              //         className="dropdown-addnew-button"
-
-              //        style={{cursor:"pointer"}}
-              //      >
-              //         +Add
-              //   </button>
-              //   </div>
-              //   </div>
-              )}
+                  //        style={{cursor:"pointer"}}
+                  //      >
+                  //         +Add
+                  //   </button>
+                  //   </div>
+                  //   </div>
+                )}
               </div>
-             
 
               <div className="Addnew-edit-fields dropdown-input-and-addnewbtn">
-               
                 <div className="dropdown-edit-button">
                   {editList && editValues && !addNewButton && (
                     <p
@@ -971,27 +969,21 @@ const DropDownList: React.FC<DropdownProps> = ({
                   )}
                 </div>
                 <div>
-                {(!Loading || filteredOptions?.length === 0) &&
-                  addNew &&
-                  !addNewButton && (
-                    <button
-                      className="dropdown-addbutton"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleNewItemAddition();
-                      }}
-                    >
-                      Add new
-                    </button>
-                  )}
+                  {(!Loading || filteredOptions?.length === 0) &&
+                    addNew &&
+                    !addNewButton && (
+                      <button
+                        className="dropdown-addbutton"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNewItemAddition();
+                        }}
+                      >
+                        Add new
+                      </button>
+                    )}
                 </div>
-             
-                
-                
               </div>
-
-
-
             </div>
           }
         </div>

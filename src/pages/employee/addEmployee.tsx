@@ -239,23 +239,20 @@ const AddEmployee = () => {
   };
 
   useEffect(() => {
-    const tempArr: string[] = []; 
+    const tempArr = [];
     if (rolesAndFunctions?.length > 0) {
-      for (let i = 0; i < rolesAndFunctions.length; i++) {
-        const roleFunc = rolesAndFunctions[i];
+      for (let i = 0; i < rolesAndFunctions?.length; i++) {
+        const roleFunc : any = rolesAndFunctions[i];
         
         if (roleFunc?.funtions) { 
           for (let j = 0; j < roleFunc.funtions.length; j++) {
-            const functionName = roleFunc.funtions[j].name; 
-            if (functionName) {
-              tempArr.push(functionName.toLowerCase()); 
-            }
+            tempArr.push(roleFunc.funtions[j].toLowerCase());
           }
         }
       }
     }
     setCheckedFunctions(tempArr);
-  }, [employee, rolesAndFunctions]);
+  }, [employee,rolesAndFunctions]); 
 
   // const useNickname = watch("useNickname", false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -521,14 +518,14 @@ const AddEmployee = () => {
     formValues = {
       ...formValues,
       firstName: formValues.firstName,
-      fullName: `${formValues.firstName} ${formValues.lastName}`,
+      fullName: `${formValues.firstName} ${(formValues.lastName|| '').trim()}`,
       role: formValues.role,
       businessName: credentials?.businessName,
       userId: formValues.userId ||editEmployee?.userId,
       nickName: formValues.nickName?.trim(),
       email: formValues.email || null,
       mobileNumber: formValues?.mobileNumber && formValues?.mobileNumber?.length > 0 ? removeDashes(formValues.mobileNumber) : "" ,
-      address: `${formValues.address1} ${formValues.address2}` || null,
+      address: formValues.address1 || formValues.address2 ? `${formValues.address1 || ""} ${formValues.address2 || ""}`.trim() : null,
       dateOfBirth: selectedDate,
       education: formValues.education,
       merchantId: credentials?.merchantId,
@@ -789,7 +786,7 @@ if(!!params?.id?.length && dataFetching)  {
                   <label className="inputLabel">Last Name</label>
                   <Controller
                      control={control}
-                      name="LastName"
+                      name="lastName"
                       render={({ onChange, value, name }) => (
                     <TextInput
                       type="text"

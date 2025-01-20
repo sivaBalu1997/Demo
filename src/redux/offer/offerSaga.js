@@ -249,53 +249,6 @@ function* createSpecialOfferSaga(action) {
     console.log("vb", action.payload);
 
     if (response.status === 200) {
-      const resdata = {
-        headers: {},
-        body: [
-          {
-            offerId: "cefb0ef2-65ff-44e5-861b-3633c0e23c94",
-            offerName: "Diwali201overlap",
-            offerPrice: 20.0,
-            offerStartTime: "12:30:00",
-            offerEndTime: "13:30:00",
-            itemId: "0193aad5-cfe3-7afd-8db0-1e5e4c632557",
-            itemName: "heqe",
-            currentOfferName: "Offertest34",
-            currentOfferPrice: 25.0,
-            currentOfferStartTime: "00:00:00",
-            currentOfferEndTime: "12:35:00",
-          },
-          {
-            offerId: "cefb0ef2-65ff-44e5-861b-3633c0e23c94",
-            offerName: "Diwali201overlap",
-            offerPrice: 20.0,
-            offerStartTime: "12:30:00",
-            offerEndTime: "13:30:00",
-            itemId: "0193aafb-a8f3-77d4-b45f-e2faaba5788c",
-            itemName: "heqe",
-            currentOfferName: "Offertest34",
-            currentOfferPrice: 25.0,
-            currentOfferStartTime: "00:00:00",
-            currentOfferEndTime: "12:35:00",
-          },
-          {
-            offerId: "cefb0ef2-65ff-44e5-861b-3633c0e23c94",
-            offerName: "Diwali201overlap",
-            offerPrice: 20.0,
-            offerStartTime: "12:30:00",
-            offerEndTime: "13:30:00",
-            itemId: "0193ab90-1165-79c1-82b7-a688a44027e2",
-            itemName: "kasbjndk",
-            currentOfferName: "Offertest34",
-            currentOfferPrice: 25.0,
-            currentOfferStartTime: "00:00:00",
-            currentOfferEndTime: "12:35:00",
-          },
-        ],
-        statusCode: "CONFLICT",
-        statusCodeValue: 409,
-      };
-
       if(response.data.statusCodeValue===409)
       {
         yield put(createSpecialOfferOverlapData(response.data.body));
@@ -303,7 +256,7 @@ function* createSpecialOfferSaga(action) {
       }
       else{
         yield put(createSpecialOfferSuccess(response.data.message));
-        showSuccessToast(response.data.message);
+        showSuccessToast("Offer added successfully");
         yield put({
           type: SP_OFFER_LIST_VIEW_REQUEST,
           payload: action?.payload?.locationId,
@@ -348,7 +301,7 @@ export function* updateSpOfferSaga(action) {
         }
         else{
    
-          showSuccessToast(response.data.message);
+          showSuccessToast("Offer updated successfully");
          
 
           yield put(updateSpecialOfferSuccess(response.data));

@@ -65,6 +65,8 @@ export const MenuPage = () => {
     (state) => state.storeMockDataFilteredReducer.data
   );
   const [modal, setmodal] = useState(false);
+
+  console.log({modal})
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
   const tableBodyRef1 = useRef(null);

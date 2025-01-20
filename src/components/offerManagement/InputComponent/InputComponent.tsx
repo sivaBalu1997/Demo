@@ -64,14 +64,14 @@ const InputComponent: React.FC<InputFieldInterface> = ({
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
-        className="Input-Filed"
+        className="spInput-Filed"
         style={{ height: height, width: width }}
       />
         <span className="placeholder">{subtext}</span>
       {name === "itemCode" && message && value && value.length === 4 && (
         <p className="itemCode-Success">{message}</p>
       )}
-      {error && <p className="Input-Field-Error-message">{error.message}</p>}
+      {error && <p className="spInput-Field-Error-message">{error.message}</p>}
     </div>
   );
 };

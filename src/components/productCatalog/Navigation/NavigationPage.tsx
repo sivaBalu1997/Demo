@@ -105,20 +105,20 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         if(valiadtesubcategorynn ){
           const isValid = handleValidate && handleValidate()
 
-          if((category==="Item customizations"))
-          {
-            console.log({isValid});
-            showErrorToast("Please fill out the step2 details");
-          }
-          else
-          {
+          // if((category==="Item customizations"))
+          // {
+          //   console.log({isValid});
+          //   // showErrorToast("Please fill out the step2 details");
+          // }
+          // else
+          // {
             console.log({prizingDetail});
             
             setNavigate(true)
             dispatch(primarypost(formData));
             isFormValid && setCurrentPage(category);
             history.push(`/productCatalog/${path}`, { pagename: category });
-          }
+          // }
          
         }
        

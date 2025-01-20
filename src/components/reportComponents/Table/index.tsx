@@ -58,7 +58,7 @@ const Table = ({
   const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
 
 
-  console.log({ Heading, records })
+  console.log("H", { Heading, records })
 
   useEffect(() => {
     setRecords(tableData)
@@ -264,7 +264,7 @@ const Table = ({
                           {Array.isArray(row[header]) ? (
                             formatItemDetails(row[header])
                           ) : (
-                            row[header]
+                            row[header] === null ? "-" : row[header]
                           )}
                         </td>
                       ))}

@@ -420,6 +420,7 @@ flex-direction: column;
 }
 .OnlineSectionNormal {
   display: flex;
+  height: 100%;
   flex-direction: column;
   margin-left: 1.875rem;
   padding-bottom: 100px;
@@ -736,7 +737,7 @@ height: 3rem;
 
   // border: 1px solid red;
   margin-top: -0.75rem;
-  cursor: pointer;
+  //cursor: pointer;
   width: 400px;
   // height: 2rem;
   align-items: center;
@@ -796,6 +797,7 @@ height: 3rem;
   // width: 200px;
   height: 2rem;
   text-align: left;
+  z-index: 1;
   margin-top: 22px;
   // margin-top: 22px;
   // border: 1px solid red;
@@ -821,7 +823,7 @@ height: 3rem;
   gap: 0.313rem;
   position: relative;
   // bottom: 0.5rem;
-  cursor: pointer;
+  //cursor: pointer;
   width: 400px;
   height: 2rem;
   align-items: center;
@@ -860,10 +862,9 @@ height: 3rem;
   font-size: 0.875rem;
 
   color: #67833e;
-  margin-top: 0.8rem;
+  margin-top: 0.2rem;
   cursor: pointer;
-  width: 200px;
-  height: 2rem;
+  height: 1.5rem;
   text-align: left;
   // border: 1px solid red;
 }
@@ -917,7 +918,7 @@ height: 3rem;
   color: #67833e;
   margin-top: 106px;
   cursor: pointer;
-  width: 200px;
+  //width: 200px;
   height: 2rem;
   text-align: left;
   margin-bottom: 70px;
@@ -1075,7 +1076,7 @@ text-decoration-skip-ink: none;
   }
   .defult-and-chooseday-dineIn
   {
-    width: 250px;
+    //width: 250px;
     // border: 1px solid red;
     font-family: "Poppins",sans-serif;
     font-size: 14px;
@@ -1174,6 +1175,7 @@ margin-top: 0.5rem;
 
 .pricing-section
 {
+  height: 100%;
   margin-left: 10px;
   margin-top: -0.7rem;
 }

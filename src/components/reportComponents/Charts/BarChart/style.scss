@@ -15,16 +15,17 @@
 
 .c-bar-chart-container {
   position: relative;
-  width: 100%;
+  width: 100% !important;
   height: fit-content;
+  height: 100 !important;
 
   @media (max-width: 500px) {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
   }
   canvas {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     background-color: var(--cchart-bg);
     border-radius: 1rem;
     border: 1px solid var(--cchart-border);

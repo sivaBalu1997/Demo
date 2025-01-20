@@ -53,8 +53,6 @@ export const MenulistingPage = () => {
   const [itemList, setItemList] = useState([]);
   // console.log("SearchedmenuItem", SearchedmenuItem);
 
-  console.log({itemList})
-
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
@@ -1032,7 +1030,6 @@ export const MenulistingPage = () => {
   const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
 
   const [removeiconclciked,setRemoveiconclciked]=useState();
- console.log({hasScrollbar});
  
 
   useEffect(() => {
@@ -1041,7 +1038,6 @@ export const MenulistingPage = () => {
       if (element) {
         const { width } = element.getBoundingClientRect();
         setWidthForCategoryBorder(width);
-        console.log({ width });
       }
     };
   
@@ -1129,7 +1125,7 @@ console.log({allFalseForKeysEndingWith1});
           />
         <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
             <div className="first-part-data">
-                <div className="first-part-header">
+                {!menuDataLoading && <div className="first-part-header">
                 <p className="image-style"></p>
                   <p className="name-item-style">ItemName</p>
                   <p className="item-code-style">
@@ -1156,7 +1152,7 @@ console.log({allFalseForKeysEndingWith1});
 
 
 
-                </div>
+                </div>}
                 <div className="first-part-body" ref={ref1}  style={{height:hasScrollbar?"77vh":"77vh"}}>
                     <div>
 
@@ -1532,7 +1528,7 @@ console.log({allFalseForKeysEndingWith1});
                                                              cursor: "pointer",
                                                              width:dynamicWidth,
                                                              display:"flex",
-                                                             
+                                                             opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
                                                                 padding: "0",
                                                                 //    paddingLeft: "20px",
                                                                 //    paddingRight: "20px",
@@ -1605,7 +1601,7 @@ console.log({allFalseForKeysEndingWith1});
                                                           style={{
                                                            cursor: "pointer",
                                                            width:dynamicWidth,
-                                                           opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
+                                                          //  opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
 
                                                            display:"flex",
                                                            // gap:"1rem",

@@ -11,14 +11,16 @@ import DaysCheck from "../../../components/offerManagement/DaysCheckin/DaysCheck
 import Bin from "../../../assets/images/trash-2.png";
 import Input from "components/common/input";
 import Toggle from "components/offerManagement/Toggle/Toggle";
-import dropdown from "../../../assets/images/dropdown.png";
+import searchIcon from "../../../assets/svg/Vector.svg";
+import searchCancelIcon from "../../../assets/svg/x_1.svg";
 import { useDispatch } from "react-redux";
 import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
-import CancelPopup from "../../../components/offerManagement/cancelPopup/index"
+import CancelPopup from "../../../components/offerManagement/confirmPopup/index"
+import DeletePopup from "../../../components/offerManagement/cancelPopup/index"
 
 import {
   createSpecialOfferRequest,
@@ -116,7 +118,7 @@ const SpecialPriceDetails = () => {
     (state: any) => state.offer.updateSpecialOfferSuccess
   );
 
-  const OfferlistData = useSelector(
+  const OfferlistData1= useSelector(
     (state: any) => state.offer.getOfferListData
   );
   const [selectedDate, setSelectedDate] = useState<any>(null);
@@ -143,7 +145,7 @@ const SpecialPriceDetails = () => {
   ) => {
     setValue(radioname, value);
   };
-
+  const[OfferlistData,setOfferlistData]=useState<any>([])
   const [channal, setChannal] = useState<any>([]);
   const [vissibleTo, setvissibleTo] = useState([]);
   const [terms, setterms] = useState<any>([]);
@@ -224,7 +226,11 @@ const SpecialPriceDetails = () => {
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId, setParentId] = useState("");
   const [subCatagoryId, setSubCatagoryId] = useState([]);
-
+useEffect(()=>{
+if(OfferlistData1.length>0){
+  setOfferlistData(OfferlistData1)
+}
+},[OfferlistData1])
   const handleonclick = async () => {
     const values = getValues();
     const fromTiming = getValues("fromTime");
@@ -258,10 +264,10 @@ const SpecialPriceDetails = () => {
       type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
       value: values?.specialTypeValue,
 
-      category: {
-        id: SelectedCatagory && SelectedCatagory[0]?.id,
-      },
-      subCategory: SelectedsubCatagory?.map((item: any) => ({ id: item.id })),
+      // category: {
+      //   id: SelectedCatagory && SelectedCatagory[0]?.id,
+      // },
+      // subCategory: SelectedsubCatagory?.map((item: any) => ({ id: item.id })),
       items: selectedFoodItems?.map((item) => {
         return {
           itemId: item?.itemId,
@@ -392,13 +398,8 @@ const SpecialPriceDetails = () => {
   const [showlistOfItems, setShowlistOfItems] = useState(false);
   const [overlapShow, setOverlapShow] = useState(false);
   const [highlighted, setHighlighted] = useState<number>(0);
-
+  const [searchValue,setSearchValue]=useState<any>('')
   const selectedValue = watch("specialType");
-  useEffect(() => {
-    if (DropdownOpen.category || DropdownOpen.subCategory) {
-      setShowlistOfItems(false);
-    }
-  }, [DropdownOpen.category, DropdownOpen.subCategory]);
 
   const handleItemClick = (index: number, item: any) => {
     setHighlighted(index);
@@ -559,6 +560,9 @@ const SpecialPriceDetails = () => {
   const closeCancelPopup = () => {
     setcancelPopup(false);
   };
+  const closeDeletePopup = () => {
+    setDeletePopup(false);
+  };
   useEffect(() => {
     if (
       selectedradiowatch?.specialType &&
@@ -600,12 +604,13 @@ const SpecialPriceDetails = () => {
       datePickerRef1.current.setOpen(true);
     }
   };
-
+const [deleteId,setDeleteId]=useState('')
   const [dateShow, setDateShow] = useState(false);
 
   const handleDelete = (id: any) => {
     const data = selectedFoodItems.filter((item: any) => item?.itemId !== id);
     setselectedFoodItems(data);
+    setDeletePopup(false)
   };
   const [validationErrors, setValidationErrors] = useState<any>([
     {
@@ -1044,10 +1049,6 @@ const SpecialPriceDetails = () => {
     setShowlistOfItems(true);
     const payload = {
       locationId: locationid && locationid,
-      catagoryId:
-        subCatagoryId.length > 0
-          ? subCatagoryId.map((opt) => opt).join(",")
-          : parentId,
     };
     dispatch(getOfferItemsRequest(payload));
   };
@@ -1071,11 +1072,15 @@ const SpecialPriceDetails = () => {
       setOverlapShow(true);
     }
   }, [createSpecialOfferOverlap]);
+  useEffect(()=>{
+    itemlistfunction();
+  },[])
 
   const restaurantDetails = useSelector(
     (state: any) => state?.auth.restaurantDetails
   );
 const [cancelPopup,setcancelPopup]=useState<boolean>(false);
+const [deletePopup,setDeletePopup]=useState<boolean>(false);
   const Pricesymbol = `${restaurantDetails?.country === "US" ? "$" : "Rs."}`;
   const handleKeyDown = (e: any) => {
     if (e.key === "ArrowDown") {
@@ -1099,6 +1104,22 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
       );
     }
   };
+   const handleSearch = (input:any) => {
+      let value = input;
+      const regex = /^[a-zA-Z0-9\s]*$/;
+      if (
+        regex.test(value) &&
+        !(value.length === 1 && value === " ") &&
+        (!/^\d+$/.test(value) || value.length <= 4) 
+      ) {
+        const filtered = OfferlistData1?.filter(
+          (item:any) =>
+            item?.itemName?.toLowerCase().includes(value?.toLowerCase()) ||
+            item?.itemCode?.toLowerCase().includes(value?.toLowerCase())
+        );
+        setOfferlistData([...filtered])
+      }
+    };
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
@@ -1113,7 +1134,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
         >
           <div className="specialoffer-heading">
             {editOfferData?.offerId && !duplicateOffer ? (
-              <h1>Edit offer</h1>
+              <h1>Edit Special Price Details</h1>
             ) : (
               <h1>Create Special Price Details</h1>
             )}
@@ -1135,7 +1156,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                     name="offerName"
                     control={control}
                     rules={{
-                      required: "Offer is required",
+                      required: "Offer name is required",
                       validate: (value) =>
                         value.trimStart() === value ||
                         "Offer name cannot start with a space",
@@ -1183,7 +1204,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          validation={{ required: "offerChannel is required" }}
+                          validation={{ required: "Offer channel is required" }}
                           error={errors.offerChannel}
                           dropdownopen={DropdownOpen.channel}
                           onToggle={() => handleDropdownToggle("channel")}
@@ -1217,7 +1238,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "offerToVisible is required" }}
+                        validation={{ required: "offer visible to is required" }}
                         error={errors?.offerToVisible}
                         dropdownopen={DropdownOpen.ordertype}
                         onToggle={() => handleDropdownToggle("ordertype")}
@@ -1297,7 +1318,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                   name="specialTypeValue"
                   control={control}
                   rules={{
-                    required: "Special type value is required",
+                    required: "Value is required",
                     validate: (value) =>
                       /^\d{0,4}(\.\d{0,2})?$/.test(value) ||
                       "Only up to 4 digits with up to 2 decimal places are allowed",
@@ -1423,57 +1444,55 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                           type="text"
                           name="selectedFooditems"
                           placeholder="Select Food Items"
+                          value={searchValue}
                           className="selectedFooditems"
-                          readOnly
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+  
+                            if (
+                              /^[a-zA-Z0-9 ]*$/.test(inputValue) && 
+                              (inputValue === "" || inputValue[0] !== " ") && 
+                              inputValue.length <= 12
+                            ) {
+                              handleSearch(inputValue); 
+                              setSearchValue(inputValue)
+                            }
+                          }}
+                         
                         />
                       )}
                     />
                   </div>
-                  {showlistOfItems ? (
+                  {searchValue.length>0 ? (
                     <div className="dropdownimage">
                       <img
-                        src={dropdown}
+                        src={searchCancelIcon}
                         alt="dropdown"
-                        style={{ rotate: "180deg" }}
+                        style={{color:'rgba(149, 149, 149, 1)' }}
                         onClick={() => {
-                          setShowlistOfItems(false);
+                          setSearchValue('')
+                          setOfferlistData(OfferlistData1)
                         }}
                       />
                     </div>
                   ) : (
                     <div className="dropdownimage">
                       <img
-                        src={dropdown}
+                        src={searchIcon}
                         alt="dropdown"
-                        onClick={() => {
-                          const category = getValues("category");
-                          const subcategory = getValues("subCategory");
-
-                          if (subCatagoryOption?.length > 0) {
-                            if (!subcategory) {
-                              return;
-                            }
-                          }
-                          if (
-                            category !== "" &&
-                            (subcategory !== "" ||
-                              subCatagoryOption?.length === 0)
-                          ) {
-                            itemlistfunction();
-                          }
-                        }}
+                        style={{color:'rgba(149, 149, 149, 1)'}}
                       />
                     </div>
                   )}
                 </div>
                 {validationErrors[0]?.selectedItems &&
                   selectedFoodItems.length === 0 && (
-                    <span className="time-error-message">
+                    <span style={{color:'white'}}>
                       {validationErrors[0]?.selectedItems}
                     </span>
                   )}
                 <div>
-                  {showlistOfItems && (
+                   
                     <div
                       className="searched-items-listed"
                       style={{
@@ -1521,7 +1540,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                           style={{ border: "none", outline: "none" }}
                         >
                           <ul className="listing-selected-items">
-                            {OfferlistData?.map((item: any, index: number) => (
+                            {OfferlistData?.length>0 &&OfferlistData?.map((item: any, index: number) => (
                               <li
                                 key={index}
                                 className={`selectedlist ${
@@ -1539,18 +1558,24 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                                   handleItemClick(index, item);
                                 }}
                               >
-                                {item.itemName}
+                                {item.itemName} {item?.itemCode?' - '+item.itemCode:''}
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
                     </div>
+                    {validationErrors[0]?.selectedItems &&
+                  selectedFoodItems.length === 0 && (
+                    <span className="time-error-message-item">
+                      {validationErrors[0]?.selectedItems}
+                    </span>
                   )}
                 </div>
               </div>
 
               {overlapShow && <Overlap onclose={closeOverlapPopUp} />}
+              {deletePopup && <DeletePopup  onclose={closeDeletePopup} onDelete={handleDelete} id={deleteId}/>  }
               {cancelPopup && <CancelPopup  onclose={closeCancelPopup}/> }
 
               {selectedFoodItems.length > 0 && (
@@ -1605,7 +1630,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
                               src={Bin}
                               alt="Delete"
                               className="deletebinImage"
-                              onClick={() => handleDelete(item?.itemId)}
+                              onClick={() =>(setDeleteId(item?.itemId),setDeletePopup(true))}
                             />
                           </td>
                           {editOfferData?.offerId && (
@@ -1637,7 +1662,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
 
                 <div className="Date-available">
                   <h3>Date </h3>
-                  <span>
+                  <span style={{marginTop:5}}>
                     <Toggle
                       name="Date"
                       toggle={dateShow}
@@ -2114,7 +2139,7 @@ const [cancelPopup,setcancelPopup]=useState<boolean>(false);
               Cancel
             </button>
             <button className="save-btn" onClick={handleonclick}>
-              {!createLoading ? "Save" : <div className="reviewLoaders"></div>}
+              {!createLoading ? "Save" : <div className="spreviewLoaders"></div>}
             </button>
           </div>
           {/* <button onClick={handleonclick}>click</button> */}

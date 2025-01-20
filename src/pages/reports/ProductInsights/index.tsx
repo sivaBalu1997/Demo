@@ -11,6 +11,7 @@ import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import "./style.scss";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface TopVoidedItem {
   name: string;
@@ -27,7 +28,6 @@ interface ProductInsightsProps {
 
 const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  console.log({ isDarkTheme });
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openCustomDateRange, setOpenCustomDateRange] =
@@ -35,7 +35,8 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
 
   const [totalPageNoCurrentPageProductSummary, setTotalPageNoCurrentPageProductSummary] = useState<number>(5)
   const [currentPageProductSummary, setCurrentPageProductSummary] = useState<number>(1);
-  console.log({ currentPageProductSummary })
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
 
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
@@ -151,9 +152,10 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
       <SidePanel />
       <div
+        style={isExpanded ? {width:'100%'} : {width:'94%'}}
         className={`p-product-insights-container ${isDarkTheme ? "p-dark-theme" : "p-light-theme"
           }`}
       >

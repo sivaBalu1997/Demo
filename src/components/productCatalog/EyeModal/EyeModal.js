@@ -113,11 +113,11 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
   };
 
   useEffect(() => {
-    if (successMsg) {
+    if (successMsg && !successLoading) {
       onEyeclose();
       onclose();
     }
-  }, [successMsg, onEyeclose, onclose]);
+  }, [successMsg, successLoading]);
 
   const handleParentHide = (index) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
@@ -225,7 +225,7 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
                     type="checkbox"
                     checked={elem.isEnabled && elem.isNotHide}
                     onChange={() => handleParentHide(parentIndex)}
-                    disabled={elem.isEnabled === false}
+                    disabled={elem?.isEnabled === false}
                   />
                 </div>
 

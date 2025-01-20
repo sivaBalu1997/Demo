@@ -41,13 +41,13 @@
   justify-content: center;
   align-items: center;
   width: 91vw;
-  margin-left: -1.5rem;
   padding-bottom: 5vh;
+
   @media (max-width: 500px) {
     width: 104vw !important;
   }
   @media(max-width: 400px){
-    width: 112vw !important;
+    width: 100vw !important;
   }
   // .liveHeader {
   //   font-size: 21px;

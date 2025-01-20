@@ -2237,11 +2237,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               </h3>
                             )}
                             {showDayPickup ? (
-                              <h3 className="pickupChooseDayContainer-chooseheading1">
+                              <h3  onClick={() => {
+                                setShowDayPickup(false);
+                              }} className="pickupChooseDayContainer-chooseheading1">
                                 <span
-                                  onClick={() => {
-                                    setShowDayPickup(false);
-                                  }}
+                                 
                                 >
                                   Default day
                                 </span>
@@ -2633,7 +2633,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
                             return null;
                           })}
-
+                          {console.log("lll",selectedthirdvalues)}
+{selectedthirdvalues.length>0 &&
                           <div className="ThirdPartyChooseDayContainer">
 
                             {
@@ -2671,6 +2672,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             }
                            
                           </div>
+  }
 
                           <div>
                             <div>
