@@ -134,7 +134,8 @@ const CustomerInsights = () => {
   useEffect(() => {
     const formattedDate = moment().format('YYYY-MM-DD');
     setCurrentDate(formattedDate);
-    currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
+    currentDate && dispatch(liveOrderNonDineInRequest({ locationid }))
+    // currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
   }, [locationid, currentPageLiveOrdersNonDineIn, currentDate])
 
 
