@@ -141,13 +141,13 @@ const Sales: React.FC = () => {
 
   const reorderedData = cancellationSummaryAPIRedux?.map((item: any) => ({
     orderNo: item.orderNo, // Place `orderNo` first
-    reason: item.reason,
-    time: item.time,
     steward: item.steward,
     orderType: item.orderType,
     itemName: item.itemName,
     refundedQuantity: item.refundedQuantity,
-    amount: item.amount
+    amount: item.amount,
+    reason: item.reason,
+    time: item.time,
   }));
 
 
