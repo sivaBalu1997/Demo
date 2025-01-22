@@ -1426,7 +1426,8 @@ console.log({ItemsPrimaryDetails});
                   Other Details
                 </h3>
                 <div className="Primary-Page-Other-Detail">
-                  <div>
+                  <div className="Primary-Page-Other-Detail-colorie">
+                  <div className="Primary-Page-Other-Detail-input" style={{width:"22vw"}}>
                     <Controller
                       name="coloriePoint"
                       control={control}
@@ -1469,10 +1470,13 @@ console.log({ItemsPrimaryDetails});
                       register={register}
                     />
                   </div>
+                  </div>
+                  
                 </div>
 
-                <div className="Primary-Page-Other-Detail">
-                  <div className="Primary-Page-inputfiled-and-tooltip">
+                <div className="Primary-Page-Other-Detailss">
+                  <div className="Primary-Page-inputfiled-and-tooltip-portionsize">
+                    <div style={{width:"22vw"}}>
                     <Controller
                       name="portionSize"
                       control={control}
@@ -1504,10 +1508,8 @@ console.log({ItemsPrimaryDetails});
                         />
                       )}
                     />
-                    {/* Tooltip component can go here */}
-                  </div>
-
-                  <div className="Primary-Page-inputfiled-and-tooltip-portion">
+                    </div>
+                    <div className="Primary-Page-inputfiled-and-tooltip-portion">
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
@@ -1548,6 +1550,12 @@ console.log({ItemsPrimaryDetails});
                       </TooltipMsg>
                     </div>
                   </div>
+
+                   
+                    {/* Tooltip component can go here */}
+                  </div>
+
+                  
                 </div>
 
                 <div className="Primary-Page-Other-Detail">
@@ -1579,6 +1587,7 @@ console.log({ItemsPrimaryDetails});
                         )}
                       /> */}
                       <div className="tax-with-tooltip">
+                        <div>
                         <Controller
                           name="tax"
                           control={control}
@@ -1618,9 +1627,8 @@ console.log({ItemsPrimaryDetails});
                             />
                           )}
                         />
-                      </div>
-
-                      <div className="tool-tip-tax-class">
+                        </div>
+                        <div className="tool-tip-tax-class">
                         <TooltipMsg
                           message="Create or select a tax amount to associate with this item"
                           styles={{
@@ -1654,6 +1662,10 @@ console.log({ItemsPrimaryDetails});
                           </div>
                         </TooltipMsg>
                       </div>
+                        
+                      </div>
+
+                      
 
 
                     </div>

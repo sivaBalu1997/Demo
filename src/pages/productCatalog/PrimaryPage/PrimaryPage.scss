@@ -34,29 +34,39 @@
    }
  
   @media (max-width: 2305px) {
-    height: 80vh;
-    // border: 1px solid violet;
+    height: 70vh;
+    // border: 3px solid pink;
    
    }
    @media (max-width:1920px) {
    
-    height: 75vh;
+    height: 68vh;
     // border: 1px solid brown;
   }
 
   @media (max-width: 1710px) {
-    height: 70vh;
+    height: 67vh;
     // border: 1px solid blue;
    
    }
    @media (max-width: 1536px) {
-   height: 63vh;
+   height: 64vh;
     // border: 1px solid green;
    
    }
   @media (max-width: 1400px) {
     height: 23rem;
     // border: 1px solid red;
+    padding-bottom: 4rem;
+    
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  }
+  @media (max-width: 1300px) {
+    height: 20rem;
+    // border: 1px solid goldenrod;
     padding-bottom: 4rem;
     
   &::-webkit-scrollbar {
@@ -71,36 +81,47 @@
     opacity: 40%;
     border: none;
     outline: none;
-    @media (min-width: 1700px) and (max-width: 1706.67px) {
-      // border: 1px solid darkred;
-    }
+    // @media (min-width: 1700px) and (max-width: 1706.67px) {
+    //   // border: 1px solid darkred;
+    // }
   }
-  .Tool-tax-class {
-    transform: translateY(22px);
+
+  .Tool-tax-class
+  {
     opacity: 40%;
-    border: none;
+       border: none;
     outline: none;
-
-    @media (min-width: 1599px) and (max-width: 1600px) {
-      transform: translate(28px, 20px);
-      // border: 1px solid darkslategrey;
-    }
-
-    @media (min-width: 1700px) and (max-width: 1706.67px) {
-      transform: translate(-20px, 20px);
-      // border: 1px solid darkslategrey;
-    }
-    @media (min-width: 1900px) and (max-width: 1920px) {
-      transform: translate(5vw, 20px);
-      // border: 1px solid darkslategrey;
-      // background-color: darkorange;
-    }
-    @media (min-width: 2000px) and (max-width: 2048px) {
-      transform: translate(6vw, 20px);
-      // border: 1px solid darkslategrey;
-      // background-color: darkorange;
-    }
+    margin-top: 0.7rem;
+    margin-left: -0.3rem;
   }
+  
+  // .Tool-tax-class {
+  //   transform: translateY(22px);
+  //   opacity: 40%;
+  //   border: none;
+  //   outline: none;
+
+  //   @media (min-width: 1599px) and (max-width: 1600px) {
+  //     transform: translate(28px, 20px);
+  //     // border: 1px solid darkslategrey;
+  //   }
+
+  //   @media (min-width: 1700px) and (max-width: 1706.67px) {
+  //     transform: translate(-20px, 20px);
+  //     // border: 1px solid darkslategrey;
+  //   }
+  //   @media (min-width: 1900px) and (max-width: 1920px) {
+  //     transform: translate(5vw, 20px);
+  //     // border: 1px solid darkslategrey;
+  //     // background-color: darkorange;
+  //   }
+  //   @media (min-width: 2000px) and (max-width: 2048px) {
+  //     transform: translate(6vw, 20px);
+  //     // border: 1px solid darkslategrey;
+  //     // background-color: darkorange;
+  //   }
+  // }
+ 
   .Tool-item-code {
     transform: translateY(22px);
     opacity: 40%;
@@ -421,39 +442,54 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     // background-color: pink;
     margin-top: 2rem;
-    @media (max-width: 2000px) {
-    position: relative;
-    top: -1rem;
-    // border: 1px solid red;
+    @media (max-width: 3100px) {
+      margin-top: -20rem;
+      // border: 1px solid red;
      
      }
-    //  @media (max-width: 1900px) {
-    //   // margin-left: 4.5rem;
-    //   position: relative;
-    //   top: 5rem;
-    //  border: 1px solid blue;
-    //  }
-     @media (max-width: 1770px) {
-      position: relative;
-      top: -1.5rem;
-      //  border: 1px solid black;
+   
+    @media (max-width: 2305px) {
+      margin-top: -6rem;
+      border: 1px solid blue;
+     
+     }
+     @media (max-width: 2048px) {
+      margin-top: 2rem;
+      border: 1px solid blueviolet; 
+     
+     }
+     @media (max-width:1920px) {
+     
+      margin-top: 2rem;
+      border: 1px solid green;
+    }
+  
+    @media (max-width: 1710px) {
+      margin-top: 2rem;
+      border: 1px solid black;
+     
+     }
+     @media (max-width: 1536px) {
+      margin-top: 2rem;
+     
+     }
+    @media (max-width: 1400px) {
+      margin-top: 2rem;
       
-      }
-     @media (max-width: 1600px) {
-      position: relative;
-      top: -1rem;
-      //  border: 1px solid red;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
+    }
+    @media (max-width: 1300px) {
+      margin-top: 2rem;
       
-      }
-    @media (max-width: 1525px) {
-      position: relative;
-      top: -3rem;
-      // border: 1px solid green;
-         
-          
-       
-        
-        }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
+    }
+    
   }
   .Primary-page-ingredients-selection1 {
     width: 45vw;
@@ -535,28 +571,15 @@
         gap: 5vw;
       }
       .Caloriepointradio {
-        position: relative;
-        left: 1%;
-        // border: 1px solid black;
-        //hehe
-        @media (min-width: 1700px) and (max-width: 1706.67px) {
-          // border: 1px solid darkorchid;
-        }
+        // position: relative;
+        // left: 1%;
+        // // border: 1px solid black;
+        // //hehe
+        // @media (min-width: 1700px) and (max-width: 1706.67px) {
+        //   // border: 1px solid darkorchid;
+        // }
       }
-      .Primary-Page-inputfiled-and-tooltip-portion {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        align-items: center;
-        width: fit-content;
-        margin-left: 0.45rem;
-        .tool-tip-portion-cont {
-          margin-left: -0.3rem;
-          width: 30px;
-          height: 50px;
-          margin-top: -0.5rem;
-        }
-      }
+     
     }
   }
 
@@ -604,6 +627,12 @@
 // }
 
 
+.tax-with-tooltip
+{
+  display: flex;
+  align-items: center;
+  // gap: 0.1rem;
+}
 .Primary-Page-inputfiled-and-tooltip-taxclass
 {
   display: flex;
@@ -612,24 +641,120 @@
   width: 100%;
   .tool-tip-tax-class
   {
-    margin-top: -1.8rem;
-    margin-left: -8rem;
+    // margin-top: -1.8rem;
+    // margin-left: -8rem;
     width: 20px;
     height: 20px;
     // border: 1px solid red;
 
-    @media (max-width:2000px) {
-      margin-left: -6.5rem;
-      
-    }
-    @media (max-width: 1800px) {
-      margin-left: 0.6rem;
+    // @media (max-width: 3100px) {
+   
+    //   border: 1px solid red;
+    //   margin-left: 0.1rem;
      
-     }
-     @media (max-width: 1600px) {
-    margin-left: -0.5rem;
+    //  }
+    //  @media (max-width: 2305px) {
       
-      }
+    //   border: 1px solid blue;
+    //   margin-left: 0.1rem;
+     
+    //  }
+    //  @media (max-width: 2048px) {
+   
+    //   border: 1px solid blueviolet; 
+    //   margin-left: -8rem;
+     
+    //  }
+    //  @media (max-width:1920px) {
+     
+      
+    //   border: 1px solid green;
+    //   margin-left: -6rem;
+    // }
+  
+    // @media (max-width: 1710px) {
+   
+    //   border: 1px solid black;
+    //   margin-left: -6rem;
+     
+    //  }
+    //  @media (max-width: 1536px) {
+    
+    //   border: 1px solid brown;
+    //   margin-left: -6rem;
+    //  }
+    // @media (max-width: 1400px) {
+     
+      
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
+    
+    // }
+    // @media (max-width: 1300px) {
+    //   margin-top: 2rem;
+      
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
+    
+    // }
+
+  // @media (max-width:2305px) {
+  //     margin-left: -6.5rem;
+  //      border: 1px solid red;
+      
+  //   }
+  //   @media (max-width:2048px) {
+  //     margin-left: -6.5rem;
+  //      border: 1px solid red;
+      
+  //   }
+  //   @media (max-width: 1800px) {
+  //     margin-left: 0.6rem;
+     
+  //    }
+  //    @media (max-width: 1600px) {
+  //   margin-left: -0.5rem;
+      
+  //     }
   }
  
+}
+
+.Primary-Page-inputfiled-and-tooltip-portionsize
+{
+  display: flex;
+  width: 90vw;
+// gap: 6rem;
+align-items: center;
+  // border: 1px solid red;
+}
+
+.Primary-Page-inputfiled-and-tooltip-portion {
+  display: flex;
+  flex-direction: row;
+  // gap: 10px;
+  // border: 1px solid blue;
+  align-items: center;
+  width: fit-content;
+  // margin-left: 8rem;
+  // margin-top: 0.3rem !important;
+  .tool-tip-portion-cont {
+    // margin-left: -0.3rem;
+    width: 30px;
+    height: 50px;
+    margin-top: -0.2rem;
+  }
+}
+
+.Primary-Page-Other-Detail-colorie
+{
+  width: 90vw;
+  display:flex ;
+  // border: 1px solid red;
+}
+.Caloriepointradio
+{
+  margin-top: 0.6rem;
 }
