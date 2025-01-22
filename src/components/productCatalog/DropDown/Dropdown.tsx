@@ -138,7 +138,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               </label>
             ))
           ) : (
-            <div className="No-Option-Availble-dropdown">
+            <div className="No-Option-Availble-dropdown" style={{zIndex:"2"}}>
               No options available
             </div>
           )}

@@ -233,11 +233,16 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
-      setKitchenError(true)
+      setKitchenError(true);
+
+
+      console.log("coming",mainForm);
+      
       const isValid = handleValidate();
       const valid=setValiadtePriceFields
 
       let PricingDetails = { ...mainForm };
+
       const formData = getFormData();
 
       
@@ -279,7 +284,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-      if (isValid) {
+      if (isValid &&( PricingDetails.kitchenstation!=="" && PricingDetails.kitchenstation!==undefined)) {
         dispatch(PricingDetailRequest(PricingDetails));
         history.push({
           pathname: `/productCatalog/Itemcustomizations`,

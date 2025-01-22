@@ -651,6 +651,7 @@ export const MenulistingPage = () => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
+        itemId:editData[0]?.itemId ?? "",
         description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,
@@ -1125,7 +1126,7 @@ console.log({allFalseForKeysEndingWith1});
           />
         <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
             <div className="first-part-data">
-                {!menuDataLoading && <div className="first-part-header">
+                {!menuDataLoading &&!menuDataFailed &&  itemList?.length > 0 && <div className="first-part-header">
                 <p className="image-style"></p>
                   <p className="name-item-style">ItemName</p>
                   <p className="item-code-style">

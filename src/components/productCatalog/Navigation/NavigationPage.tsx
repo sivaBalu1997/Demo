@@ -4,6 +4,8 @@ import "./Navigation.scss";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useLocation, useHistory } from "react-router-dom";
 import { MainForm, Modification } from "../Savenextbutton/SaveAndNext";
+import { IoIosArrowBack } from "react-icons/io";
+
 import {
   PricingDetailRequest,
   itemCustomizationPost,
@@ -190,7 +192,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
           ...PricingDetails,
          dataStored:true
         };
-        if (category==="Item customizations" &&isValid) {
+        if (category==="Item customizations" &&isValid && ( PricingDetails.kitchenstation!=="" && PricingDetails.kitchenstation!==undefined)) {
           dispatch(PricingDetailRequest(PricingDetails));
           setNavigate(true)
           setCurrentPage(category);
@@ -218,9 +220,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         return modifier;
       });
 
-      if(isValid){
-       
-      }
+     
      
       setCurrentPage(category);
         dispatch(itemCustomizationPost(modificationArray));
@@ -246,6 +246,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     <>
       <div className={isExpanded ? "navigationExpanded" : "navigation"}>
         <h1 className="Mainheading">
+           <IoIosArrowBack onClick={() => history.goBack()} />{" "}
           {editData?.length >= 1 ? "Edit Item" : "Creating new menu item"}
         </h1>
         <nav className="nav">

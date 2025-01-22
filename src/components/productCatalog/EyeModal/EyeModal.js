@@ -23,6 +23,9 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
     (state) => state?.addMockDataHiddenReducer?.failed
   );
 
+  console.log({data1});
+  
+
   const [data, setData] = useState([]);
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -223,7 +226,7 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isEnabled && elem.isNotHide}
+                    checked={ elem.isNotHide}
                     onChange={() => handleParentHide(parentIndex)}
                     disabled={elem?.isEnabled === false}
                   />
@@ -237,7 +240,7 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={subItem.isEnabled && !subItem?.isNotHide}
+                      checked={!subItem?.isNotHide}
                       onChange={() => handleChildHide(parentIndex, subIndex)}
                       disabled={subItem?.isEnabled === 0}
                     />

@@ -27,6 +27,7 @@ import {
   bestPairDataRequest,
   catogoryDataRequest,
   cuisineDataRequest,
+  deleteimageRequest,
   dietdatarequest,
   fetchDropDownRequest,
   getIngredientsRequest,
@@ -80,6 +81,7 @@ interface FormData {
   tax: string;
   masterCode: string;
   popularItem: boolean;
+  itemId:string;
 }
 interface Category {
   id: string;
@@ -229,11 +231,14 @@ const PrimaryPage = () => {
       selectedPortion: "Portion(count)",
       tax: "",
       masterCode: "",
+      itemId:""
     },
   });
 
   const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
+    // const editData = useSelector((state: any) => state.productCatalog.editData);
+  
 
   const [calorieInfo, setCalorieInfo] = useState<any>({
     type: "per 100 grams",
@@ -304,8 +309,9 @@ const PrimaryPage = () => {
   );
 
   const ItemsPrimaryDetails = useSelector(
-    (state: primarypage) => state.primarypage?.data
+    (state: any) => state.primarypage?.data
   );
+console.log({ItemsPrimaryDetails});
 
   const [images, setImages] = useState<ImageFile[]>([]);
 
@@ -313,6 +319,7 @@ const PrimaryPage = () => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
+      setValue("itemId",ItemsPrimaryDetails?.itemId)
       if (ItemsPrimaryDetails?.description) {
         setCharCount(ItemsPrimaryDetails?.description.length);
       }
@@ -467,6 +474,8 @@ const PrimaryPage = () => {
   };
 
   const [isImageDeleted, setIsImageDeleted] = useState(false);
+  console.log({images});
+  
 
   const handleImageDeletion = (index: number) => {
     setImages((prevImages) => {
@@ -478,6 +487,13 @@ const PrimaryPage = () => {
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });
+    if(editData.length&& ItemsPrimaryDetails && ItemsPrimaryDetails.imageUrls && ItemsPrimaryDetails.imageUrls.length>0)
+    {
+         dispatch(deleteimageRequest(ItemsPrimaryDetails.imageUrls[index]?.imageId
+          ))
+    }
+      
+    
   };
   const [restrictToAdd, setRestrictToAdd] = useState(true);
 
@@ -563,6 +579,8 @@ const PrimaryPage = () => {
   ];
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
+  console.log({editData});
+  
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
