@@ -101,7 +101,7 @@ const CustomerInsights = () => {
 
   const formattedContent = formatOrderDates(content);
   const liveOrderDateTransformed = formatOrderDates(liveOrdersAPIRedux)
-  console.log({ liveOrdersAPIRedux, liveOrderDateTransformed })
+  // console.log("live details", { liveOrdersAPIRedux, liveOrderDateTransformed })
 
 
   const dispatch = useDispatch();
@@ -219,8 +219,8 @@ const CustomerInsights = () => {
             currentPage={currentPageLiveOrders}
             setCurrentPage={setCurrentPageLiveOrders}
             Heading="Live Orders"
-            // tableData={liveOrderDateTransformed && liveOrderDateTransformed}
-            tableData={liveOrdersAPIRedux && liveOrdersAPIRedux}
+            tableData={liveOrderDateTransformed && liveOrderDateTransformed}
+            // tableData={liveOrdersAPIRedux && liveOrdersAPIRedux}
             // liveOrdersAPIRedux
             viewType="full"
             recordsPerPage={RECORDS_PER_PAGE_LIMIT}

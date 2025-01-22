@@ -264,7 +264,7 @@ const Table = ({
                           {Array.isArray(row[header]) ? (
                             formatItemDetails(row[header])
                           ) : (
-                            row[header] === null ? "-" : row[header]
+                            row[header] === null || row[header] === "" ? "-" : row[header]
                           )}
                         </td>
                       ))}
