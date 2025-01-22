@@ -228,7 +228,7 @@ const ItemCustomizations: React.FC<any> = () => {
             maxSelection: item.maxCount || 0,
             freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item.minSelection===0?"Optional":"Mandatory",
+            selectionType: item.minCount===0?"Optional":"Mandatory",
             // selectionType: item?.selectionType || "Mandatory",
           };
         } else if (item?.modifierOptions) {
@@ -259,7 +259,7 @@ const ItemCustomizations: React.FC<any> = () => {
             maxSelection: item.maxSelection || 0,
             freeCustomization: item?.freeCustomization || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item.minCount===0?"Optional":"Mandatory",
+            selectionType: item.selectionType,
             // selectionType:  "Mandatory",
           };
         }
@@ -355,6 +355,7 @@ const ItemCustomizations: React.FC<any> = () => {
     selectionType?: string
   ) => {
     const { name, value } = e.target;
+console.log({modifications});
 
     setModifications((prev: any) => {
       const updated = [...prev];
@@ -364,6 +365,8 @@ const ItemCustomizations: React.FC<any> = () => {
       updated[modIndex] = {
         ...currentModifier,
         selectionType: selectionType ? selectionType : "Mandatory",
+        minSelection: selectionType === "Optional" ? 0 : prev.minSelection,
+
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
       };
@@ -728,6 +731,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
+    setSearchClicked(false);
 console.log({Modifiers});
 
     const updatedModifiers = {
@@ -1363,7 +1367,7 @@ console.log({Modifiers});
                                 className="deleteModiferContainer"
                                
                               >
-                                <a  onClick={() => handleDeleteModifier(modIndex)} className="Delete-text">
+                                <a  onClick={() => handleDeleteModifier(modIndex)} className="Delete-text" style={{zIndex:"0"}}>
                                   <span className="SpanDelete"><img src={minus} alt="" /></span>Delete
                                 </a>
                               </div>
@@ -1402,6 +1406,7 @@ console.log({Modifiers});
                                   checked={
                                     modifier.selectionType === "Optional"
                                   }
+                                  
                                   onChange={(e) =>
                                     handleModifierChangeforradio(
                                       modIndex,

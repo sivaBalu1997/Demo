@@ -292,3 +292,18 @@ export function hideMockData(payload) {
     },
   });
 }
+
+export function deleteImage(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+console.log({payload});
+
+  return API({
+    method: "delete",
+    url: `/api/v1/menu-items/remove?imageId=${payload}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "bearer " + token,
+    },
+
+  });
+}

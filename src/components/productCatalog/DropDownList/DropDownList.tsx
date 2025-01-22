@@ -172,12 +172,12 @@ const DropDownList: React.FC<DropdownProps> = ({
         setShowselectedOption(true);
       }
       
-    if (
-      dropDownType === "CATEGORY" &&
-      subcategorydataforApi.parentId !== ""
-    ) {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
+    // if (
+    //   dropDownType === "CATEGORY" &&
+    //   subcategorydataforApi.parentId !== ""
+    // ) {
+    //   dispatch(fetchDropDownRequest(subcategorydataforApi));
+    // }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -639,12 +639,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleAboveArrowdropdown = () => {
     onToggle();
    
-    if (
-      dropDownType === "CATEGORY" &&
-      subcategorydataforApi.parentId !== ""
-    ) {
-      // dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
+    // if (
+    //   dropDownType === "CATEGORY" &&
+    //   subcategorydataforApi.parentId !== ""
+    // ) {
+    //   dispatch(fetchDropDownRequest(subcategorydataforApi));
+    // }
     setShowselectedOption(true);
     // if (dropDownType !== "SUB_CATEGORY") {
     //   dispatch(fetchDropDownRequest(payload));
@@ -682,6 +682,9 @@ const DropDownList: React.FC<DropdownProps> = ({
     
 
   }
+
+  console.log("kk", kitchenError);
+  
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -770,8 +773,8 @@ const DropDownList: React.FC<DropdownProps> = ({
 
         <div style={{ margin: 0 }}>
           {dropDownType === "KITCHEN_STATION" &&
-            selectedOptions[0]?.name === undefined &&
-            kitchenError && (
+            (selectedOptions[0]?.name === undefined||selectedOptions[0]?.name === '' ) &&
+            (kitchenError) && (
               <p className="Dropdown-Error-message">
                 Kitchen Station is required
               </p>

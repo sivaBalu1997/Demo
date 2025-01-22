@@ -805,6 +805,8 @@ const PricingDetails = () => {
   //     fetchDropDownRequest(kitchenpayload)
   //   }
   // },[])
+  console.log({kitchenError});
+  
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -906,7 +908,7 @@ const PricingDetails = () => {
                         type="text"
                         name="hours"
                         placeholder="00"
-                        value={value}
+                        value={value === "00" ? "" : value}
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
                           const inputValue = e.target.value;
@@ -943,7 +945,7 @@ const PricingDetails = () => {
                       <input
                         type="text"
                         name="minutes"
-                        value={value}
+                        value={value === "00" ? "" : value}
                         placeholder="00"
                         className="Prepartiontime-input-mins"
                         onChange={(e) => {
@@ -1142,6 +1144,7 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
                 getValues={getValues}
                 setValue={setValue}
+                setKitchenError={setKitchenError}
                 setValidationFunction={setValidationFunction}
               />
             ) : (
