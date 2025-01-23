@@ -142,7 +142,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       }, [checkedItems]);
 
   return (
-    <div>
+   
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
           const isChecked = checkedItems?.includes(index);
@@ -161,7 +161,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
           );
         })}
       </div>
-    </div>
+    
   );
 };
 
