@@ -608,6 +608,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
+        console.log({thirdpartyDetails});
         
 
         setformNormal({
@@ -2635,7 +2636,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
                             return null;
                           })}
-{selectedthirdvalues.length>0 &&
+                          {console.log("lll",selectedthirdvalues)}
+{/* {selectedthirdvalues.length>0 &&
                           <div className="ThirdPartyChooseDayContainer">
 
                             {
