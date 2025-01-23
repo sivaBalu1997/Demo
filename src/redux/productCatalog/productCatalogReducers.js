@@ -713,6 +713,7 @@ export default function productCatalogReducer(
         draft.uploadImageLoading = true;
         draft.imageUploadsuccessemsg = false;
         draft.addMenuLoading = true;
+        
         break;
 
       case UPLOAD_IMAGE_SUCCESS:

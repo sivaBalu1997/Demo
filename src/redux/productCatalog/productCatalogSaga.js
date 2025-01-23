@@ -394,18 +394,28 @@ const convertImageToBinaryString = (imageFile) => {
   });
 };
 
-function* imageUploadSaga(action) {
+function* imageUploadSaga (action) {
   const images = action.payload?.imageUrls;
-  let itemId = "";
+  console.log("aa",action.payload);
+  
+
+  let itemId = action.payload.itemId;
   const failureArray = [];
 
   try {
     const firstImage = images[0];
+    console.log("image",firstImage);
+    console.log("imageon",itemId);
+    
+    
     const response = yield call(uploadImageApi, firstImage, itemId);
     if (response.data && response.data.itemId) {
+      // console.log();
+      
       itemId = response.data.itemId;
     }
-    yield put(imageUploadSuccess(itemId));
+
+    // yield put(imageUploadSuccess(itemId));
   } catch (error) {
     failureArray.push({
       file: images[0].file,
@@ -440,8 +450,9 @@ function* imageUploadSaga(action) {
 
 export const uploadImageApi = async (image, itemId) => {
   const formData = new FormData();
-  const binaryString = await convertImageToBinaryString(image.file);
+  // const binaryString = await convertImageToBinaryString(image.file);
   // console.log("blog image",binaryString);
+console.log("imageuploading");
 
   formData.append("image", image.file);
   formData.append("itemId", itemId);

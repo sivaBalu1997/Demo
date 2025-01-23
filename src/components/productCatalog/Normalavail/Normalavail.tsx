@@ -1574,21 +1574,21 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               validationErrors[`DineInPrice-${index}`] = "Price is empty";
             }
 
-            if (
-              (showDineIn && !field?.DineInMealType) ||
-              field?.DineInMealType?.length === 0
-            ) {
-              validationErrors[`DineInMealType-${index}`] =
-                "Meal type is empty";
-            }
+            // if (
+            //   (showDineIn && !field?.DineInMealType) ||
+            //   field?.DineInMealType?.length === 0
+            // ) {
+            //   validationErrors[`DineInMealType-${index}`] =
+            //     "Meal type is empty";
+            // }
 
-            if (field?.showDay && dineInDates1[0]?.length === 0) {
+            // if (field?.showDay && dineInDates1[0]?.length === 0) {
 
-              validationErrors[`DineInAvailableDays-${index}`] =
-                "Please enter available days for dinein";
-            } else {
-              delete validationErrors[`DineInAvailableDays-${index}`];
-            }
+            //   validationErrors[`DineInAvailableDays-${index}`] =
+            //     "Please enter available days for dinein";
+            // } else {
+            //   delete validationErrors[`DineInAvailableDays-${index}`];
+            // }
           }
         }
       });
@@ -1599,40 +1599,39 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           // Check if the price is empty
           if (!item.price && item?.Enabled) {
             validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
-          } else {
-          }
+          } 
           // Check if sessions are empty
-          if (item?.availabilities) {
-            if (
-              item.availabilities?.some(
-                (availability) => availability.sessions.length === 0
-              ) &&
-              item?.Enabled
-            ) {
-              validationErrors[`ThirdPartyMealType-${index}`] =
-                "Sessions are empty";
-            } else {
-              delete validationErrors[`ThirdPartyMealType-${index}`];
-            }
-          } else {
-            if (item?.Enabled) {
-              validationErrors[`ThirdPartyMealType-${index}`] =
-                "Sessions are empty";
-            }
-          }
+          // if (item?.availabilities) {
+          //   if (
+          //     item.availabilities?.some(
+          //       (availability) => availability.sessions.length === 0
+          //     ) &&
+          //     item?.Enabled
+          //   ) {
+          //     validationErrors[`ThirdPartyMealType-${index}`] =
+          //       "Sessions are empty";
+          //   } else {
+          //     delete validationErrors[`ThirdPartyMealType-${index}`];
+          //   }
+          // } else {
+          //   if (item?.Enabled) {
+          //     validationErrors[`ThirdPartyMealType-${index}`] =
+          //       "Sessions are empty";
+          //   }
+          // }
         });
       }
 
-      if (
-        selectedthirdvalues.length > 0 &&
-        showDayThird &&
-        DayThird?.length === 0
-      ) {
-        validationErrors[`ThirdPartyAvailableDays`] =
-          "Please enter available days for ThirdParty";
-      } else {
-        delete validationErrors[`ThirdPartyAvailableDays`];
-      }
+      // if (
+      //   selectedthirdvalues.length > 0 &&
+      //   showDayThird &&
+      //   DayThird?.length === 0
+      // ) {
+      //   validationErrors[`ThirdPartyAvailableDays`] =
+      //     "Please enter available days for ThirdParty";
+      // } else {
+      //   delete validationErrors[`ThirdPartyAvailableDays`];
+      // }
 
       if (pickupDetails?.Enabled) {
         if (pickup) {
@@ -1641,9 +1640,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           }
           const Pickupsessions =
             pickupDetails?.availabilities[0]?.sessions || [];
-          if (pickup && Pickupsessions?.length === 0) {
-            validationErrors.pickupmealTypeSessions = "Meal type is empty";
-          }
+          // if (pickup && Pickupsessions?.length === 0) {
+          //   validationErrors.pickupmealTypeSessions = "Meal type is empty";
+          // }
         }
       }
 
@@ -1655,16 +1654,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
           const deliverysessions =
             deliveryDetails?.availabilities[0]?.sessions || [];
-          if (deliverysessions?.length === 0) {
-            validationErrors.deliverymealTypeSessions = "Meal type is empty";
-          }
+          // if (deliverysessions?.length === 0) {
+          //   validationErrors.deliverymealTypeSessions = "Meal type is empty";
+          // }
         }
       }
 
-      if (showDayDelivery && DayDelivery.length === 0) {
-        validationErrors.deliveryAvailableDays =
-          "Please enter available days for delivery";
-      }
+      // if (showDayDelivery && DayDelivery.length === 0) {
+      //   validationErrors.deliveryAvailableDays =
+      //     "Please enter available days for delivery";
+      // }
       if (!showDineIn && !pickup && !delivery) {
         validationErrors.atleastOneOrderType =
           "Please select at least one order type.";
@@ -1673,50 +1672,50 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         delete validationErrors.atleastOneOrderType;
       }
 
-      if (
-        pickupDetails?.Enabled &&
-        pickup &&
-        showDayPickup &&
-        DayPickup.length === 0
-      ) {
-        validationErrors.pickupAvailableDays =
-          "Please enter available days for pickup";
-      }
+      // if (
+      //   pickupDetails?.Enabled &&
+      //   pickup &&
+      //   showDayPickup &&
+      //   DayPickup.length === 0
+      // ) {
+      //   validationErrors.pickupAvailableDays =
+      //     "Please enter available days for pickup";
+      // }
 
-      if (showDineIn && !dineinfields[0].showDay) {
-        if (Normaldays.length === 0) {
-          validationErrors["daysCheck"] = "Please select Available days";
-        }
-        if (Normaldays && Normaldays.length > 0) {
-          delete validationErrors["daysCheck"];
-        }
-      }
-      if (pickup && !showDayPickup) {
-        if (Normaldays.length === 0) {
-          validationErrors["daysCheck"] = "Please select Available days";
-        }
-        if (Normaldays && Normaldays.length > 0) {
-          delete validationErrors["daysCheck"];
-        }
-      }
+      // if (showDineIn && !dineinfields[0].showDay) {
+      //   if (Normaldays.length === 0) {
+      //     validationErrors["daysCheck"] = "Please select Available days";
+      //   }
+      //   if (Normaldays && Normaldays.length > 0) {
+      //     delete validationErrors["daysCheck"];
+      //   }
+      // }
+      // if (pickup && !showDayPickup) {
+      //   if (Normaldays.length === 0) {
+      //     validationErrors["daysCheck"] = "Please select Available days";
+      //   }
+      //   if (Normaldays && Normaldays.length > 0) {
+      //     delete validationErrors["daysCheck"];
+      //   }
+      // }
 
-      if (delivery && !showDayDelivery) {
-        if (Normaldays.length === 0) {
-          validationErrors["daysCheck"] = "Please select Available days";
-        }
-        if (Normaldays && Normaldays.length > 0) {
-          delete validationErrors["daysCheck"];
-        }
-      }
+      // if (delivery && !showDayDelivery) {
+      //   if (Normaldays.length === 0) {
+      //     validationErrors["daysCheck"] = "Please select Available days";
+      //   }
+      //   if (Normaldays && Normaldays.length > 0) {
+      //     delete validationErrors["daysCheck"];
+      //   }
+      // }
 
-      if (priceInfo[0].typeId !== "" && !showDayThird) {
-        if (Normaldays.length === 0) {
-          validationErrors["daysCheck"] = "Please select Available days";
-        }
-        if (Normaldays && Normaldays.length > 0) {
-          delete validationErrors["daysCheck"];
-        }
-      }
+      // if (priceInfo[0].typeId !== "" && !showDayThird) {
+      //   if (Normaldays.length === 0) {
+      //     validationErrors["daysCheck"] = "Please select Available days";
+      //   }
+      //   if (Normaldays && Normaldays.length > 0) {
+      //     delete validationErrors["daysCheck"];
+      //   }
+      // }
 
       setErrors(validationErrors);
       
@@ -1837,9 +1836,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     return (
       <div>
         <div className="AvailDaycheck">
-          <div className="AvailDaycheck-Heading">
-            <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-            {/* <button onClick={handleSubmit}>Validate</button> */}
+           {/* <button onClick={handleSubmit}>Validate</button> */}
             {/* <div className="tooltip">
               <TooltipMsg
                 message="Select the default days this item is available for both on-premise and off-premise services."
@@ -1869,9 +1866,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 </div>
               </TooltipMsg>
             </div> */}
-          </div>
+          {/* <div className="AvailDaycheck-Heading">
+            <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+           
+          </div> */}
 
-          <div className="dayschecking">
+          {/* <div className="dayschecking">
             <div>
               <DaysCheck
                 checkedItems={Normaldays}
@@ -1894,7 +1894,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 specific day options are enabled
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
         {/* DineIn Related */}
@@ -1935,7 +1935,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     <div className="">
                       <div
                         className="dine-In-Container"
-                        style={{ height: entry?.showDay ? "11rem" : "7rem" }}
+                        style={{ height: entry?.showDay ? "11rem" : "6rem" }}
                       >
                         <div className="dine-In-inputprice-and-mealType">
                           <div className="DineInPrice-input-field-and-errormsg">
@@ -1966,7 +1966,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             />
                           </div>
 
-                          <div className="DineInMealType-input-field">
+                          {/* <div className="DineInMealType-input-field">
                             <DropDown
                               validatedineMealType={validatedineMealType}
                               EnabledOrNot={true}
@@ -1982,7 +1982,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               onBlur={() => validateDineinFields()}
                               width="Drop1"
                             />
-                          </div>
+                          </div> */}
                         </div>
                         <div className="Error-row-of-dineIn">
                           <div style={{ width: "11.7rem" }}>
@@ -1991,13 +1991,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             </span>
                           </div>
                           <div>
-                            <span className="mealTypeError">
+                            {/* <span className="mealTypeError">
                               {errors[`DineInMealType-${index}`]}
-                            </span>
+                            </span> */}
                           </div>
                         </div>
 
-                        <div className="ChooseDay-DaysCheckbox-Dinein">
+                        {/* <div className="ChooseDay-DaysCheckbox-Dinein">
                           <div className="ChooseDay-container-Dinein">
                             <h3 className="Back-and-default-dineIn">
                               {entry?.showDay
@@ -2044,7 +2044,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               {errors[`DineInAvailableDays-${index}`] || ""}
                             </span>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </>
@@ -2098,9 +2098,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       className="PickupSectionNormal"
                       style={{
                         height: showDayPickup
-                          ? "9.5rem"
+                          ? "4rem"
                           : pickup
-                          ? "7rem"
+                          ? "5rem"
                           : "0rem",
                       }}
                     >
@@ -2175,7 +2175,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               />
                             </div>
 
-                            <div className="PrizeD">
+                            {/* <div className="PrizeD">
                               <DropDown
                                 selectedValues={
                                   pickupDetails.availabilities[0].sessions
@@ -2203,7 +2203,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 width="Drop1"
                                 // onBlur={() => validatepickupdelivery()}
                               />
-                            </div>
+                            </div> */}
                           </div>
 
                           <div className="error-msg-container-pickup">
@@ -2213,14 +2213,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               </span>
                             </div>
 
-                            <div>
+                            {/* <div>
                               <span className="Errormsg pickuperrormsgmealType">
                                 {errors.pickupmealTypeSessions}
                               </span>
-                            </div>
+                            </div> */}
                           </div>
 
-                          <div
+                          {/* <div
                             className="PickupChooseDayContainer"
                             style={{
                               marginTop:
@@ -2261,8 +2261,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 Choose Day
                               </h3>
                             )}
-                          </div>
-                          <div className="dayspick-pickup">
+                          </div> */}
+                          {/* <div className="dayspick-pickup">
                             {showDayPickup ? (
                               <DaysCheck
                                 normalDays={Normaldays}
@@ -2285,7 +2285,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             <span className="pickupdays-errormsg">
                               {errors.pickupAvailableDays}
                             </span>
-                          </div>
+                          </div> */}
                           {/* <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
                     {" "}
                     + Add entry
@@ -2323,7 +2323,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     </div>
 
                     <div
-                      style={{ height: showDayDelivery ? "11rem" : "9rem" }}
+                      style={{ height: showDayDelivery ? "6rem" : "7rem" }}
                       className={
                         online
                           ? "DeliverySectionNormal"
@@ -2407,7 +2407,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               />
                             </div>
 
-                            <div className="DeliveryD">
+                            {/* <div className="DeliveryD">
                               <DropDown
                                 selectedValues={
                                   deliveryDetails.availabilities[0].sessions
@@ -2431,7 +2431,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 label="Meal Type*"
                                 width="Drop1"
                               />
-                            </div>
+                            </div> */}
                           </div>
                           <div className="error-msg-delivey">
                             <div style={{ width: "11.8rem" }}>
@@ -2439,13 +2439,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 {errors.deliveryprice}
                               </span>
                             </div>
-                            <div>
+                            {/* <div>
                               <span className="Errormsg deliverymealtypeerrormsg">
                                 {errors.deliverymealTypeSessions}
                               </span>
-                            </div>
+                            </div> */}
                           </div>
-                          <div className="deliveryChooseDayContainer">
+                          {/* <div className="deliveryChooseDayContainer">
                             {showDayDelivery ? (
                               <h3 className="deliveryChooseDayContainerHeading">
                                 Back to default days?
@@ -2487,8 +2487,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 Choose Day
                               </h3>
                             )}
-                          </div>
-                          <div className="dayspickup-normal">
+                          </div> */}
+                          {/* <div className="dayspickup-normal">
                             {showDayDelivery && (
                               <DaysCheck
                                 checkedItems={DayDelivery}
@@ -2507,7 +2507,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             <span className="deliverydays-error">
                               {errors.deliveryAvailableDays}
                             </span>
-                          </div>
+                          </div> */}
                         </div>
                       ) : null}
                     </div>
@@ -2604,7 +2604,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                     //   : "70%",
                                   }}
                                 >
-                                  <DropDown
+                                  {/* <DropDown
                                     validatedineMealType={
                                       validateThirdPartyMealType
                                     }
@@ -2626,10 +2626,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                       )
                                     }
                                     width="Drop1"
-                                  />
-                                  <span className="ErrormsgPrice thirdpartyprice">
+                                  /> */}
+                                  {/* <span className="ErrormsgPrice thirdpartyprice">
                                     {errors[`ThirdPartyMealType-${index}`]}
-                                  </span>
+                                  </span> */}
                                 </div>
                               </div>
                             );
@@ -2637,7 +2637,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             return null;
                           })}
                           {console.log("lll",selectedthirdvalues)}
-{selectedthirdvalues.length>0 &&
+{/* {selectedthirdvalues.length>0 &&
                           <div className="ThirdPartyChooseDayContainer">
 
                             {
@@ -2675,9 +2675,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             }
                            
                           </div>
-  }
+  } */}
 
-                          <div>
+                          {/* <div>
                             <div>
                               {showDayThird && selectedthirdvalues.length>0 &&(
                                 <DaysCheck
@@ -2697,7 +2697,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 {errors[`ThirdPartyAvailableDays`] || ""}
                               </span>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </>
                     )}

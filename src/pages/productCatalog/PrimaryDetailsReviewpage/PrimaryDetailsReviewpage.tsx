@@ -790,6 +790,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //   }
   // };
 
+  console.log("addandeditimage",primarydata?.imageUrls);
+  
+
   const addMenuSuccess = useSelector(
     (state: any) => state.productCatalog.addMenuSuccess
   );
@@ -812,11 +815,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       if(Wholedata?.imageUrls?.length > 0)
       {
         const imageuploadpayload={
-          itemId:primarydata?.itemId,
+          itemId:"",
           imageUrls:primarydata?.imageUrls
   
   
         }
+        console.log("edit1",primarydata?.imageUrls);
         dispatch(startImageUpload(imageuploadpayload));
         if (subsectiondatamsg && UploadImageImageID !== '') {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -830,19 +834,30 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     else if(editData?.length> 0)
       {
         // setButtonClicked(true);
-        console.log("edit1");
+       
+        const isImageFile = (fileName:any) => {
+          // Check if the file name has a valid image extension
+          const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+          const fileExtension = fileName.split('.').pop().toLowerCase();
+          return imageExtensions.includes(fileExtension);
+        };
         
-        console.log({primarydata});
+        const imageFiles = primarydata?.imageUrls?.filter((item, index) => {
+          return item.file && item.file.name && isImageFile(item.file.name);
+        });
+      console.log("imageFiles",imageFiles);
+      
         
-        if(primarydata?.imageUrls?.length > 0)
+        if(primarydata?.imageUrls?.length > 0 && imageFiles.length>0)
         {
           const imageuploadpayload={
-            itemId:primarydata?.itemId,
-            imageUrls:primarydata?.imageUrls
+            itemId: editData[0]?.itemId,
+            imageUrls:imageFiles
     
     
           }
-          console.log("edit2");
+          console.log("edit2",primarydata?.imageUrls);
+
           dispatch(startImageUpload(imageuploadpayload));
           if (subsectiondatamsg && UploadImageImageID !== '') {
             console.log("edit3");
@@ -853,6 +868,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           dispatch(updateMenuItemRequest(editPayload));
            console.log("edit4");
         }
+        setButtonClicked(true);
       }
 
 
@@ -909,7 +925,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondatamsg, UploadImageImageID]);
 
   useEffect(() => {
-    if (buttonClicked) {
+    if (buttonClicked &&(updateMenuItemSuccess||addMenuSuccess )) {
       dispatch(removeDataRequest());
       // dispatch(removeDataRequest(prizingDetail))
       // dispatch(removeDataRequest(itemCustomizationData))
@@ -1416,3 +1432,5 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 };
 
 export default PrimaryDetailsReviewpage;
+
+

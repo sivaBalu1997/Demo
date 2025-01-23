@@ -246,7 +246,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     <>
       <div className={isExpanded ? "navigationExpanded" : "navigation"}>
         <h1 className="Mainheading">
-           <IoIosArrowBack onClick={() => history.goBack()} />{" "}
+           <span style={{color:"black",position:"relative",left:'-1rem',top:"0.3rem",cursor:"pointer"}}><IoIosArrowBack onClick={() => history.goBack()} />{" "}</span>
           {editData?.length >= 1 ? "Edit Item" : "Creating new menu item"}
         </h1>
         <nav className="nav">
