@@ -115,6 +115,7 @@ interface NormalavailProps {
   setValidationFunction: any;
   getValues: any;
   setValue: any;
+  setKitchenError:any;
 }
 
 type MealType1 = string;
@@ -161,6 +162,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setValidationFunction,
       getValues,
       setValue,
+      setKitchenError
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -1716,7 +1718,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       }
 
       setErrors(validationErrors);
-
+      
+      setKitchenError(true);
       return Object.keys(validationErrors).length === 0;
     };
 
@@ -2094,7 +2097,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       className="PickupSectionNormal"
                       style={{
                         height: showDayPickup
-                          ? "11rem"
+                          ? "9.5rem"
                           : pickup
                           ? "7rem"
                           : "0rem",
@@ -2319,7 +2322,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     </div>
 
                     <div
-                      style={{ height: showDayDelivery ? "12.5rem" : "9rem" }}
+                      style={{ height: showDayDelivery ? "11rem" : "9rem" }}
                       className={
                         online
                           ? "DeliverySectionNormal"
@@ -2674,7 +2677,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
                           <div>
                             <div>
-                              {showDayThird && selectedthirdvalues.length > 0 && (
+                              {showDayThird && selectedthirdvalues.length>0 &&(
                                 <DaysCheck
                                   checkedItems={DayThird}
                                   setCheckedItems={setDayThird}

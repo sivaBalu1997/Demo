@@ -218,6 +218,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
+  console.log({primarydata});
+  
 
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
@@ -803,25 +805,99 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
-    if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
-      dispatch(startImageUpload(primarydata?.imageUrls));
-      setButtonClicked(true);
-      if (subsectiondatamsg && UploadImageImageID !== '') {
-        if (editData?.length > 0 && editData[0]) {
-          dispatch(updateMenuItemRequest(editPayload));
-        } else {
+
+    if(editData?.length === 0)
+    {
+     
+      if(Wholedata?.imageUrls?.length > 0)
+      {
+        const imageuploadpayload={
+          itemId:primarydata?.itemId,
+          imageUrls:primarydata?.imageUrls
+  
+  
+        }
+        dispatch(startImageUpload(imageuploadpayload));
+        if (subsectiondatamsg && UploadImageImageID !== '') {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
-    } else {
-      if (editData?.length > 0 && editData[0]) {
-        dispatch(updateMenuItemRequest(editPayload));
-      } else {
+      else{
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       setButtonClicked(true);
     }
+    else if(editData?.length> 0)
+      {
+        // setButtonClicked(true);
+        console.log("edit1");
+        
+        console.log({primarydata});
+        
+        if(primarydata?.imageUrls?.length > 0)
+        {
+          const imageuploadpayload={
+            itemId:primarydata?.itemId,
+            imageUrls:primarydata?.imageUrls
+    
+    
+          }
+          console.log("edit2");
+          dispatch(startImageUpload(imageuploadpayload));
+          if (subsectiondatamsg && UploadImageImageID !== '') {
+            console.log("edit3");
+            dispatch(updateMenuItemRequest(editPayload));
+          }
+        }
+        else{
+          dispatch(updateMenuItemRequest(editPayload));
+           console.log("edit4");
+        }
+      }
+
+
+
+    // if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
+
+    //   const imageuploadpayload={
+    //     itemId:primarydata?.itemId,
+    //     imageUrls:primarydata?.imageUrls
+
+
+    //   }
+    //   dispatch(startImageUpload(imageuploadpayload));
+    //   setButtonClicked(true);
+    //   if (subsectiondatamsg && UploadImageImageID !== '') {
+    //     if (editData?.length > 0 && editData[0]) {
+    //       const imageuploadpayload={
+    //         itemId:primarydata?.itemId,
+    //         imageUrls:primarydata?.imageUrls
+    
+    
+    //       }
+    //       dispatch(startImageUpload(imageuploadpayload));
+    //       dispatch(updateMenuItemRequest(editPayload));
+    //     } else {
+    //       dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    //     }
+    //   }
+    // } else {
+    //   if (editData?.length > 0 && editData[0]) {
+    //     // dispatch(startImageUpload(primarydata?.imageUrls));
+    //     const imageuploadpayload={
+    //       itemId:primarydata?.itemId||"",
+    //       imageUrls:primarydata?.imageUrls
+  
+  
+    //     }
+    //     dispatch(startImageUpload(imageuploadpayload));
+    //     dispatch(updateMenuItemRequest(editPayload));
+    //   } else {
+    //     dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    //   }
+    //   // dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    //   setButtonClicked(true);
+    // }
   };
 
   useEffect(() => {

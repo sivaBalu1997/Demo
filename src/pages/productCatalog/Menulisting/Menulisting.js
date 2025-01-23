@@ -583,6 +583,7 @@ export const Menulisting = () => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
+        itemId:editData[0]?.itemId ?? "",
         description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,

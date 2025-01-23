@@ -98,6 +98,7 @@ import {
   deleteSubSection,
   imageUploadingApi,
   hideMockData,
+  deleteImage,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -283,7 +284,7 @@ function* getTagClassSaga(action) {
 }
 function* deleteimage(action) {
   try {
-    const response = yield call(getTagClass, action.payload);
+    const response = yield call(deleteImage, action.payload);
     if (response.status === 200) {
       yield put(deleteimageSuccess(response.data));
     } else {
@@ -394,7 +395,7 @@ const convertImageToBinaryString = (imageFile) => {
 };
 
 function* imageUploadSaga(action) {
-  const images = action.payload;
+  const images = action.payload?.imageUrls;
   let itemId = "";
   const failureArray = [];
 
