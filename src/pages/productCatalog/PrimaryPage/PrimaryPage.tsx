@@ -1586,7 +1586,7 @@ console.log({ItemsPrimaryDetails});
                           />
                         )}
                       /> */}
-                      <div className="tax-with-tooltip">
+                      {/* <div className="tax-with-tooltip">
                         <div>
                         <Controller
                           name="tax"
@@ -1663,7 +1663,7 @@ console.log({ItemsPrimaryDetails});
                         </TooltipMsg>
                       </div>
                         
-                      </div>
+                      </div> */}
 
                       
 
