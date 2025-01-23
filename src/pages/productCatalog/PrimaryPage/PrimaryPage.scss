@@ -514,32 +514,55 @@
     gap: 20px;
     position: relative;
     top: 3%;
-    @media (max-width: 2000px) {
+    @media (max-width: 2305px) {
+      position: relative;
+      top: 3rem;
+      // border: 1px solid blue;
+       
+       }
+    @media (max-width: 2048px) {
       position: relative;
       top: 3rem;
       // border: 1px solid red;
        
        }
+       @media (max-width: 1920px) {
+        position: relative;
+        top: 3rem;
+        // border: 1px solid green;
+         
+         }
        @media (max-width: 1770px) {
        position: relative;
        top: 1rem;
         // border: 1px solid black;
        
        }
-      @media (max-width: 1600px) {
-        position: relative;
-        top: 2rem;
-        // border: 1px solid blue;
+    //   @media (max-width: 1600px) {
+    //     position: relative;
+    //     top: 2rem;
+    //     // border: 1px solid blue;
        
-       }
-    @media (max-width: 1525px) {
-      position: relative;
-      top: -0.5rem;
-      padding-bottom: -15rem;
-          // border: 1px solid red;
+    //    }
+    // @media (max-width: 1525px) {
+    //   position: relative;
+    //   top: -0.5rem;
+    //   padding-bottom: -15rem;
+    //       // border: 1px solid red;
           
        
         
+    //     }
+        @media (max-width: 1536px) {
+          position: relative;
+          top: 2rem;
+          
+          }
+         @media (max-width: 1400px) {
+          position: relative;
+          top: 2rem;
+           
+       
         }
     .Primary-Page-Other-Details-heading {
       font-family: "Poppins", sans-serif;

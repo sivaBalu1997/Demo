@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-// import "./DaysChecking.scss";
+import "./DaysChecking.scss";
 import axios from "axios";
 import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
@@ -144,7 +144,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   return (
     <div>
-      <div className="DaysCheckContainer1">
+      <div className="DaysCheckContainer-offer">
         {Days.map((elem, index) => {
           const isChecked = checkedItems?.includes(index);
           const isEnabled = dateShow ? disabledays?.includes(index) : true;
