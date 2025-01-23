@@ -312,6 +312,9 @@ const ItemCustomizations: React.FC<any> = () => {
     }
   }, [deletedModifierIds]);
 
+  console.log({deletedModifierIds});
+  
+
   useEffect(() => {
     if (updatedModifierIds.length > 0) {
       dispatch(updateModifierData(updatedModifierIds));
@@ -391,7 +394,7 @@ console.log({modifications});
       // Remove the modifier from the array
       updated.splice(modIndex, 1);
 
-      // Handle the deleted ID logic
+      //  deleted ID logic
       if (deletedId) {
         setDeletedModifierIds((prevIds) => {
           if (!prevIds.includes(deletedId)) {
@@ -985,6 +988,7 @@ console.log({Modifiers});
           modifierId,
           modifierOptions,
           selectedValue,
+
         } = modifier;
   
         let modifierErrors: any = {
@@ -1000,7 +1004,7 @@ console.log({Modifiers});
         }
   
         // Validate Selected Values
-        if (atleastOnestream && (!selectedValue || selectedValue.length === 0) && showModifiers) {
+        if (atleastOnestream && (!selectedValue || selectedValue.length === 0) && showModifiers &&modifier.isEnabled) {
           modifierErrors.errormsgforselectedvalues = `Available service streams required`;
         }
   
@@ -1111,6 +1115,29 @@ console.log({Modifiers});
     setSearchClicked(false);
   }
 
+  const handleRemoveAllmodifiers=()=>{
+    setModifications((prev: any) => {
+      const updated = [...prev];
+    
+    
+      const allModifierIds = updated
+        .filter((item) => item.modifierId) 
+        .map((item) => item.modifierId);
+    
+    
+      setDeletedModifierIds((prevIds) => {
+        const uniqueIds = new Set([...prevIds, ...allModifierIds]); 
+        return Array.from(uniqueIds);
+      });
+    
+      
+      return [];
+    });
+    
+  }
+
+
+
   return (
     <div
       style={{
@@ -1149,7 +1176,7 @@ console.log({Modifiers});
               <div>
                 <h3 className="headingItemCustomizations">Add Modifiers</h3>
               </div>
-              <div>
+              <div onClick={handleRemoveAllmodifiers}>
                 <Toggle toggle={showModifiers} setToggle={setShowModifiers} />
               </div>
               {showModifiers && (
@@ -1367,7 +1394,7 @@ console.log({Modifiers});
                                 className="deleteModiferContainer"
                                
                               >
-                                <a  onClick={() => handleDeleteModifier(modIndex)} className="Delete-text" style={{zIndex:"0"}}>
+                                <a  onClick={() => handleDeleteModifier(modIndex)} className="Delete-text">
                                   <span className="SpanDelete"><img src={minus} alt="" /></span>Delete
                                 </a>
                               </div>

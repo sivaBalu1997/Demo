@@ -621,6 +621,7 @@ export const MenulistingPage = () => {
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));
+      dispatch(itemCustomizationPost([]))
     }
   }, [selectedBranch?.id]);
 

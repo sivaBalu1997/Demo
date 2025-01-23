@@ -1112,7 +1112,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
         !(value.length === 1 && value === " ") &&
         (!/^\d+$/.test(value) || value.length <= 4) 
       ) {
-        const filtered = OfferlistData1?.filter(
+        const filtered = OfferlistData1?.length>0 && OfferlistData1?.filter(
           (item:any) =>
             item?.itemName?.toLowerCase().includes(value?.toLowerCase()) ||
             item?.itemCode?.toLowerCase().includes(value?.toLowerCase())

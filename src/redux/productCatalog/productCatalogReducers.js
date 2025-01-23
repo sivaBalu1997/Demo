@@ -713,6 +713,7 @@ export default function productCatalogReducer(
         draft.uploadImageLoading = true;
         draft.imageUploadsuccessemsg = false;
         draft.addMenuLoading = true;
+        
         break;
 
       case UPLOAD_IMAGE_SUCCESS:
@@ -990,6 +991,10 @@ export const itemCustomizationsReducer = (state = initialState, action) => {
         ...state,
         itemData: [],
       };
+    
+
+
+
     case Remove_ItemCust_Data_Request:
       return {
         ...state,
