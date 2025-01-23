@@ -884,8 +884,8 @@ cursor: pointer;
 .deleteModiferContainer {
   position: relative;
   left: 640px;
-  top: -3px;
-
+  top: -1px;
+// z-index: 24;
   //cursor: pointer;
 }
 
@@ -899,7 +899,8 @@ cursor: pointer;
   font-weight: 400;
   cursor: pointer;
   position: relative;
-  z-index: -1 !important;
+  margin-top: 7px;
+  // z-index: 0;
 }
 
 .SpanDelete {
