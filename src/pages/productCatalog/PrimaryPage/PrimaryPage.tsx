@@ -255,6 +255,10 @@ const PrimaryPage = () => {
   // const locationid = useSelector(
   //   (state: State) => state.auth.credentials?.locationId
   // );
+   const { categoryIdStore,setCategoryIdStore } = useContext(Contextpagejs);
+  
+
+  
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data
   );
@@ -649,6 +653,11 @@ console.log({ItemsPrimaryDetails});
     type: "KITCHEN_STATION",
     parentId: "",
   };
+  // const subcategorydataforApi = {
+  //   locationId: locationid,
+  //   type: "SUB_CATEGORY",
+  //   parentId: categoryIdStore,
+  // };
 
   useEffect(() => {
     if (editData) {
@@ -657,6 +666,10 @@ console.log({ItemsPrimaryDetails});
       dispatch(fetchDropDownRequest(categoryPayload));
       dispatch(fetchDropDownRequest(bestPairPayload));
       dispatch(fetchDropDownRequest(kitchenpayload));
+
+
+
+
     }
   }, []);
 

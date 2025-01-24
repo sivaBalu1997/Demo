@@ -192,7 +192,7 @@ const NormalStep2 = () => {
             })}
         </div>
 
-        <div>
+        {/* <div>
           <h1 className="Step2DineInServiceheading">Service Time</h1>
 
           {prizingDetail &&
@@ -211,9 +211,9 @@ const NormalStep2 = () => {
                 </>
               );
             })}
-        </div>
+        </div> */}
       </div>
-      <h1 className="AvailDaysheading">Available Days</h1>
+      {/* <h1 className="AvailDaysheading">Available Days</h1>
       {prizingDetail &&
   prizingDetail?.normalForm &&
   (prizingDetail?.normalForm?.DineIn && prizingDetail?.normalForm?.DineIn[0]?.length > 0
@@ -243,7 +243,7 @@ const NormalStep2 = () => {
     )
       
       
-      }
+      } */}
 
       <h1 className="Step2Onlineheading">Online</h1>
       <h1 className="Step2Pickupheading">Pickup</h1>
@@ -273,7 +273,7 @@ const NormalStep2 = () => {
             )}
           </div>
         </div>
-        <div className="Step2SellingPrize2">
+        {/* <div className="Step2SellingPrize2">
           <div>
             <h1 className="Step2SellingPrizeheading2">Service Time</h1>
           </div>
@@ -295,12 +295,11 @@ const NormalStep2 = () => {
                 : "N/A"}
             </h1>
           </div>
-        </div>
+        </div> */}
       </div>
-      <h1 className="AvailDaysheadingPickup">Available Days</h1>
+      {/* <h1 className="AvailDaysheadingPickup">Available Days</h1>
       <div className="DaysPickUp">
-        {/* {prizingDetail?.normalForm &&
-          prizingDetail?.normalForm?.pickupDetails && ( */}
+       
 
 
           {
@@ -310,8 +309,8 @@ const NormalStep2 = () => {
             <DaysOfWeek days={Pickup1} setDays={setPickup1} Marginpresent={true} />
           }
        
-        {/* )} */}
-      </div>
+      
+      </div> */}
       <h1 className="Step2Deliveryheading">Delivery</h1>
       <div className="Step2Delivery">
         <div className="Step2SellingPrize">
@@ -339,7 +338,7 @@ const NormalStep2 = () => {
             )}
           </div>
         </div>
-        <div className="Step2SellingPrize2">
+        {/* <div className="Step2SellingPrize2">
           <div>
             <h1 className="Step2SellingPrizeheading2">Service Time</h1>
           </div>
@@ -354,14 +353,11 @@ const NormalStep2 = () => {
                   "N/A"}
             </h1>
           </div>
-        </div>
+        </div> */}
       </div>
-      <h1 className="AvailDaysheadingdelivery">Available Days</h1>
+      {/* <h1 className="AvailDaysheadingdelivery">Available Days</h1>
       <div className="DaysDelivery">
-        {/* {prizingDetail?.normalForm &&
-          prizingDetail?.normalForm?.deliveryDetails && ( */}
-        {/* <DaysOfWeek days={delivery1} setDays={setDelivery1} /> */}
-        {/* )} */}
+      
 
         {
             Delivery?.length  ? ( <DaysOfWeek days={delivery1} setDays={setDelivery1} Marginpresent={true} />):
@@ -369,7 +365,7 @@ const NormalStep2 = () => {
             prizingDetail?.normalForm?.deliveryDetails?.price >=0  &&  onlineDeliveryFormatted?.length> 0 ? <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDelivery1} Marginpresent={true}/>:
             <DaysOfWeek days={delivery1} setDays={setDelivery1} Marginpresent={true}/>
           }
-      </div>
+      </div> */}
       {thirdPartyDetails?.length > 0 && (
         <>
           <h1 className="Step2ThirdPartyDeliveryheading">
@@ -403,20 +399,22 @@ const NormalStep2 = () => {
                 </div>
               ))}
 
-              <div className="thirdPartyContainers">
+              {/* <div className="thirdPartyContainers">
                 <h1 className="AvailDaysheadingthirparty">Available Days</h1>
                 <div className="DaysThirdDelivery">
-                  {/* {prizingDetail?.normalForm &&
-                    prizingDetail?.normalForm?.thirdpartyDetails && (
-                      <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
-                    )} */}
+                 
 
                       {
              thirdParty?.length > 0 ? ( <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} Marginpresent={true} />):
             <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setThirdParty1} Marginpresent={true} />
           }
                 </div>
-              </div>
+                 
+              </div> */}
+              {/* {prizingDetail?.normalForm &&
+                    prizingDetail?.normalForm?.thirdpartyDetails && (
+                      <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+                    )} */}
             </div>
           </div>
         </>

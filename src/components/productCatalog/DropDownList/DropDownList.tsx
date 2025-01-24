@@ -398,6 +398,9 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
       );
       setParentId(ItemsPrimaryDetails?.categoryId);
       setCategoryIdStore(ItemsPrimaryDetails?.categoryId)
+
+
+
     }
   }, [ItemsPrimaryDetails]);
 
@@ -546,10 +549,23 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
 
   useEffect(() => {
     if (dropDownType === "SUB_CATEGORY" && categoryChange) {
+      // let subcategorydataforApi = {
+      //   locationId: locationid,
+      //   type: "SUB_CATEGORY",
+      //   parentId: categoryIdStore,
+      // };
+  
       setCategoryChange(false);
       setSelectedOptions([]);
     }
   }, [parentId, categoryChange]);
+
+
+  useEffect(()=>{
+    if(editData.length>0){
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
+  },[categoryIdStore])
 
   const payload = {
     locationId: locationid,
