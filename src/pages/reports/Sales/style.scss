@@ -301,7 +301,7 @@
 
       @media (max-width: 500px) {
         width: 85% !important;
-        background-color: pink;
+        // background-color: pink;
       }
 
       h2 {
@@ -465,6 +465,10 @@
       }
       @media(max-width: 800px){
         display: flex;
+        flex-wrap: wrap;
+      }
+      @media(max-width: 500px){
+        display:flex ;
         flex-direction: column;
       }
     }
@@ -524,7 +528,7 @@
       }
 
       @media (max-width: 500px) {
-        width: 85%;
+        width: 85% !important;
         // background-color: pink;
       }
 
