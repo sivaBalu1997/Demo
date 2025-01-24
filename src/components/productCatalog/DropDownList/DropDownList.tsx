@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import "./DropDownList.scss";
 import edit from "../../../assets/images/edit copy.png";
 import dropdown from "../../../assets/images/dropdown.png";
@@ -13,6 +13,7 @@ import {
 } from "redux/productCatalog/productCatalogActions";
 import { cuisine } from "assets/mockData/Moca_data";
 import { iteratorSymbol } from "immer/dist/internal";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 interface media {
   imageId: string;
   imageType: string;
@@ -107,7 +108,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
   const [manuallySelected, setManuallySelected] = useState(false);
-
+ const { categoryIdStore,setCategoryIdStore } = useContext(Contextpagejs);
   const dispatch = useDispatch();
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
@@ -125,6 +126,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage.data
   );
+console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
 
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
@@ -159,6 +161,9 @@ const DropDownList: React.FC<DropdownProps> = ({
     type: "SUB_CATEGORY",
     parentId: parentId || matchedCategory?.id,
   };
+
+    console.log({categoryIdStore});
+    
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -399,6 +404,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         dropDownName === undefined ? dropDown1?.name : dropDownName?.name
       );
       setParentId(ItemsPrimaryDetails?.categoryId);
+      setCategoryIdStore(ItemsPrimaryDetails?.categoryId)
     }
   }, [ItemsPrimaryDetails]);
 
@@ -463,6 +469,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     } else if (type === "radio") {
       setSelectedOptions([option]);
       setValue(name, option.name);
+
       trigger(name);
       subcategorydataforApi.parentId = option?.id;
 
@@ -471,17 +478,12 @@ const DropDownList: React.FC<DropdownProps> = ({
       //   setValue("subCategory", "");
       // }
       if (dropDownType === "CATEGORY") {
-        let subcategorydatapayload = {
-          locationId: locationid,
-          type: "SUB_CATEGORY",
-          parentId: option?.id,
-        };
-
-        // dispatch(fetchDropDownRequest(subcategorydataforApi));
+       
         if (parentId === option?.id) {
           setCategoryChange(false);
         } else {
           setParentId(option?.id);
+          setCategoryIdStore(option?.id)
           setCategoryChange(true);
         }
         setValue("subCategory", "");
@@ -531,6 +533,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           setCategoryChange(false);
         } else {
           setParentId(option?.id);
+          setCategoryIdStore(option?.id)
           setCategoryChange(true);
         }
         setValue("subCategory", "");

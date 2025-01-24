@@ -385,6 +385,9 @@ console.log({ItemsPrimaryDetails});
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
+
+ 
+  
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
@@ -845,6 +848,14 @@ console.log({ItemsPrimaryDetails});
       
     }
   }, [getValues, categoryList,subCategoryData,categoriesdata]);
+
+
+
+
+  useEffect(()=>{
+console.log("catid",ItemsPrimaryDetails);
+
+  },[ItemsPrimaryDetails])
 
   return (
     <div style={{ display: "flex" }}>
@@ -1518,6 +1529,8 @@ console.log({ItemsPrimaryDetails});
                       register={register}
                     />
                     <div className="tool-tip-portion-cont">
+
+                      
                       <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
                         styles={{
