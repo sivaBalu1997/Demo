@@ -78,6 +78,23 @@ interface transformedhourlySalesChartDataFromAPIReduxType {
 
 const Sales: React.FC = () => {
 
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  console.log({ width })
+
 
   const [showNetSaleToolTip, setShowNetSaleToolTip] = useState<boolean>(false)
   const [showTotalSalesToolTip, setShowTotalSalesToolTip] = useState<boolean>(false)
@@ -110,15 +127,15 @@ const Sales: React.FC = () => {
   const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualThirdPartySalesSuccess);
 
   const segregatedDataForMaghilSales = actualSalesAPIRedux?.content
-  ?.filter((item: any) => item.type === "maghil")
-  ?.map(({ type, ...rest }: any) => rest);
+    ?.filter((item: any) => item.type === "maghil")
+    ?.map(({ type, ...rest }: any) => rest);
 
 
   const segregatedDataForMaghilSalesTotalPageNo = segregatedDataForMaghilSales?.totalPages
   //pp
   const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content
-  ?.filter((item: any) => item.type === "third party")
-  ?.map(({type, ...rest}: any) => rest);
+    ?.filter((item: any) => item.type === "third party")
+    ?.map(({ type, ...rest }: any) => rest);
 
 
   const segregatedDataForThirdPartySalesTotalPageNo = segregatedDataForThirdPartySales?.totalPages
@@ -577,6 +594,7 @@ const Sales: React.FC = () => {
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
+      {/* {width <= 900 ? <></> : <SidePanel />} */}
       {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
         style={isExpanded ? { width: '82%' } : { width: '94%' }}
