@@ -114,7 +114,6 @@ const Sales: React.FC = () => {
 
   const salesDataFromAPIRedux = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
 
-  const salesDataFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
 
   const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.content);
 
@@ -125,6 +124,11 @@ const Sales: React.FC = () => {
   const actualSalesAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesSuccess);
 
   const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualThirdPartySalesSuccess);
+
+  const salesDataFromAPIReduxLoading = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
+
+  const cancellationSummaryAPIReduxLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
+
 
   const segregatedDataForMaghilSales = actualSalesAPIRedux?.content
     ?.filter((item: any) => item.type === "maghil")
@@ -168,9 +172,19 @@ const Sales: React.FC = () => {
   }));
 
 
-  const cancellationSummaryAPIReduxLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
-
   const cancellationSummaryTotalPageNo = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages)
+
+  const actualSalesLoading = useSelector((state: any) => state?.newReports?.actualSalesLoading);
+
+  const actualThirdPartySalesLoading = useSelector((state: any) => state?.newReports?.actualThirdPartySalesLoading);
+
+  const salesByItemCatgoryLoading = useSelector((state: any) => state?.newReports?.salesByItemCategoryLoading);
+
+  const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading);
+
+  const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
+
+  const hourlySalesChartDataLoading = useSelector((state: any) => state?.newReports?.hourlySalesLoading);
   //pp
 
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
@@ -927,6 +941,7 @@ const Sales: React.FC = () => {
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={segregatedDataForMaghilSalesTotalPageNo ? segregatedDataForMaghilSalesTotalPageNo : 1}
+              tabledataLoading={actualSalesLoading}
             />
             <Table
               currentPage={currentPageForActualThirdPartySales}
@@ -936,6 +951,7 @@ const Sales: React.FC = () => {
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={segregatedDataForThirdPartySalesTotalPageNo ? segregatedDataForThirdPartySalesTotalPageNo : 1}
+              tabledataLoading={actualThirdPartySalesLoading}
             />
 
           </div>
@@ -974,6 +990,7 @@ const Sales: React.FC = () => {
               xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
               xAxisLabel="Hours"
               yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+              barChartLoading={hourlySalesChartDataLoading}
             />
           </div>
         </div>
@@ -1039,6 +1056,7 @@ const Sales: React.FC = () => {
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={salesByItemCategoryAPIReduxTotalPageNo ? salesByItemCategoryAPIReduxTotalPageNo : 1}
+              tabledataLoading={salesByItemCatgoryLoading}
             />
             <Table
               currentPage={currentPageSalesByRevenueClass}
@@ -1048,6 +1066,7 @@ const Sales: React.FC = () => {
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={revenueClassTotalPageNo ? revenueClassTotalPageNo : 1}
+              tabledataLoading={salesByRevenueClassLoading}
             />
           </div>
         </div>
@@ -1061,6 +1080,7 @@ const Sales: React.FC = () => {
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={discountSummaryPageNo ? discountSummaryPageNo : 1}
+              tabledataLoading={discountSummaryLoading}
             />
             <Table
               currentPage={currentPageCancellationSummary}

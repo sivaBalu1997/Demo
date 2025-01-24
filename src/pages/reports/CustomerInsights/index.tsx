@@ -52,6 +52,11 @@ const CustomerInsights = () => {
 
   const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
 
+  const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
+
+  const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
+
+
   const countryCode = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.country
   );
@@ -151,6 +156,8 @@ const CustomerInsights = () => {
 
   //<p className='s-live-no-data'>No data found !</p>
 
+  console.log({ liveOrderNonDineInTotalPageNo, liveOrdersTotalPageNo })
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -225,6 +232,7 @@ const CustomerInsights = () => {
             viewType="full"
             recordsPerPage={RECORDS_PER_PAGE_LIMIT}
             totalpageNo={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
+            tabledataLoading={liveOrdersLoading}
           />
         </div>
         <div className="live-orders-non-dine-in">
@@ -235,6 +243,7 @@ const CustomerInsights = () => {
             tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 && liveOrderNonDineInAPIRedux}
             viewType="full" recordsPerPage={RECORDS_PER_PAGE_LIMIT}
             totalpageNo={liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1}
+            tabledataLoading={liveOrderNonDineInLoading}
           />
 
         </div>
