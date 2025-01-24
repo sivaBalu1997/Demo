@@ -109,12 +109,16 @@ const Sales: React.FC = () => {
 
   const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualThirdPartySalesSuccess);
 
-  const segregatedDataForMaghilSales = actualSalesAPIRedux && actualSalesAPIRedux?.content?.filter((item: any) => item.type === "maghil");
+  const segregatedDataForMaghilSales = actualSalesAPIRedux?.content
+  ?.filter((item: any) => item.type === "maghil")
+  ?.map(({ type, ...rest }: any) => rest);
 
 
   const segregatedDataForMaghilSalesTotalPageNo = segregatedDataForMaghilSales?.totalPages
   //pp
-  const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content?.filter((item: any) => item.type === "third party")
+  const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content
+  ?.filter((item: any) => item.type === "third party")
+  ?.map(({type, ...rest}: any) => rest);
 
 
   const segregatedDataForThirdPartySalesTotalPageNo = segregatedDataForThirdPartySales?.totalPages
@@ -134,6 +138,18 @@ const Sales: React.FC = () => {
   //pp
 
   const cancellationSummaryAPIRedux = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
+
+  const reorderedData = cancellationSummaryAPIRedux?.map((item: any) => ({
+    orderNo: item.orderNo, // Place `orderNo` first
+    steward: item.steward,
+    orderType: item.orderType,
+    itemName: item.itemName,
+    refundedQuantity: item.refundedQuantity,
+    amount: item.amount,
+    reason: item.reason,
+    time: item.time,
+  }));
+
 
   const cancellationSummaryAPIReduxLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
 
@@ -449,6 +465,7 @@ const Sales: React.FC = () => {
           ...getSalesLocationStartEndDate,
           tablePageNo: currentPageDiscountSummary,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
+          // tableRecordLimit: 200,
         })
       );
     }
@@ -805,7 +822,7 @@ const Sales: React.FC = () => {
                 // <p className="s-summary-no-data">No data found!</p>
                 <h2>0</h2>
               }
-              <h3>Total Orders</h3>
+              <h3>Total Transactions</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalGrossSalesIncludingThirdparty ? <h2>
@@ -1030,8 +1047,9 @@ const Sales: React.FC = () => {
             <Table
               currentPage={currentPageCancellationSummary}
               setCurrentPage={setCurrentPageCancellationSummary}
-              Heading="Cancellation Summary"
-              tableData={cancellationSummaryAPIRedux?.length > 0 ? cancellationSummaryAPIRedux : []}
+              Heading="Cancel Item Tracker"
+              // tableData={cancellationSummaryAPIRedux?.length > 0 ? cancellationSummaryAPIRedux : []}
+              tableData={reorderedData?.length > 0 ? reorderedData : []}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={cancellationSummaryTotalPageNo ? cancellationSummaryTotalPageNo : 1}

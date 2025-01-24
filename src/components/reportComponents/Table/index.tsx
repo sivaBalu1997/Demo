@@ -264,7 +264,7 @@ const Table = ({
                           {Array.isArray(row[header]) ? (
                             formatItemDetails(row[header])
                           ) : (
-                            row[header] === null ? "-" : row[header]
+                            row[header] === null || row[header] === "" ? "-" : row[header]
                           )}
                         </td>
                       ))}
@@ -317,51 +317,52 @@ const Table = ({
             }
           </table>
         </div>
-        <div className="t-paginationCursor">
-          <ul className="t-pagenationContainer">
-            {currentPage > 1 && (
-              <li className="t-page-item">
-                {isDarkTheme ? (
-                  <img
-                    className="t-leftArrow"
-                    src={blackarrow}
-                    alt="previous"
-                    onClick={prePage}
-                  />
-                ) : (
-                  <img
-                    className="t-leftArrow"
-                    src={arrow}
-                    alt="previous"
-                    onClick={prePage}
-                  />
-                )}
+        {records?.length > 0 &&
+          <div className="t-paginationCursor">
+            <ul className="t-pagenationContainer">
+              {currentPage > 1 && (
+                <li className="t-page-item">
+                  {isDarkTheme ? (
+                    <img
+                      className="t-leftArrow"
+                      src={blackarrow}
+                      alt="previous"
+                      onClick={prePage}
+                    />
+                  ) : (
+                    <img
+                      className="t-leftArrow"
+                      src={arrow}
+                      alt="previous"
+                      onClick={prePage}
+                    />
+                  )}
+                </li>
+              )}
+              <li>
+                Page {currentPage} of {totalpageNo}
               </li>
-            )}
-            <li>
-              Page {currentPage} of {totalpageNo}
-            </li>
-            {currentPage < totalpageNo && (
-              <li className="t-page-item">
-                {isDarkTheme ? (
-                  <img
-                    className="t-rightArrow"
-                    src={blackarrow}
-                    alt="next"
-                    onClick={nextPage}
-                  />
-                ) : (
-                  <img
-                    className="t-rightArrow"
-                    src={arrow}
-                    alt="next"
-                    onClick={nextPage}
-                  />
-                )}
-              </li>
-            )}
-          </ul>
-        </div>
+              {currentPage < totalpageNo && (
+                <li className="t-page-item">
+                  {isDarkTheme ? (
+                    <img
+                      className="t-rightArrow"
+                      src={blackarrow}
+                      alt="next"
+                      onClick={nextPage}
+                    />
+                  ) : (
+                    <img
+                      className="t-rightArrow"
+                      src={arrow}
+                      alt="next"
+                      onClick={nextPage}
+                    />
+                  )}
+                </li>
+              )}
+            </ul>
+          </div>}
       </div>
     </>
   );

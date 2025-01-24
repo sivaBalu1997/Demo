@@ -113,9 +113,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
           //   // showErrorToast("Please fill out the step2 details");
           // }
           // else
-          // {
-            console.log({prizingDetail});
-            
+          // {            
             setNavigate(true)
             dispatch(primarypost(formData));
             isFormValid && setCurrentPage(category);

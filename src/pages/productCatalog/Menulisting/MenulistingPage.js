@@ -1266,8 +1266,7 @@ console.log({allFalseForKeysEndingWith1});
                                     </p>
                                     <p>
                                       <span
-                                        className={`${isExpanded ? "name-style2-expand" : "name-style2"
-                                          }`}
+                                        className={"name-style2"}
 
                                         onClick={() =>
                                           handlemodal(item.itemId)
