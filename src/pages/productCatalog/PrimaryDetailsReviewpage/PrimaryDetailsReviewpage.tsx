@@ -836,8 +836,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         // setButtonClicked(true);
        
         const isImageFile = (fileName:any) => {
-          // Check if the file name has a valid image extension
-          const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+          const imageExtensions = ['jpg', 'jpeg', 'png'];
           const fileExtension = fileName.split('.').pop().toLowerCase();
           return imageExtensions.includes(fileExtension);
         };

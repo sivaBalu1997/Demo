@@ -17,6 +17,9 @@ export const Contextpage = ({ children }) => {
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
+
+    const [categoryIdStore,setCategoryIdStore]=useState();
+
     const [duplicateOffer,setDuplicateOffer]=useState(false);
     let storedFunction= null;
 
@@ -109,7 +112,9 @@ export const Contextpage = ({ children }) => {
       valiadtePriceFields,
       setValiadtePriceFields,
       storedFunction,
-      setStoredFunction
+      setStoredFunction,
+      setCategoryIdStore,
+      categoryIdStore
     }}>
       {children}
     </Contextpagejs.Provider>
