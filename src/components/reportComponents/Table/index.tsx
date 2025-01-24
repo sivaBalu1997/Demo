@@ -247,9 +247,11 @@ const Table = ({
                 })}
               </tr>
             </thead>
-            {!tabledataLoading && records?.length > 0 ?
+            {tabledataLoading ? (
+              <div className="reports-table-loader"></div>
+            ) : records?.length > 0 ? (
               <tbody className="t-tableBody">
-                {records?.map((row: Row, rowIndex: number) => (
+                {records.map((row: Row, rowIndex: number) => (
                   <React.Fragment key={rowIndex}>
                     <tr
                       className="t-mainRow"
@@ -289,10 +291,7 @@ const Table = ({
                             </thead>
                             <tbody>
                               {row["drop down"].map(
-                                (
-                                  nestedRow: NestedRow,
-                                  nestedRowIndex: number
-                                ) => (
+                                (nestedRow: NestedRow, nestedRowIndex: number) => (
                                   <tr key={nestedRowIndex}>
                                     {Object.values(nestedRow).map(
                                       (nestedValue, nestedValueIndex) => (
@@ -312,9 +311,9 @@ const Table = ({
                   </React.Fragment>
                 ))}
               </tbody>
-              :
+            ) : (
               <div className="r-table-no-data">No Data Found!</div>
-            }
+            )}
           </table>
         </div>
         {records?.length > 0 &&

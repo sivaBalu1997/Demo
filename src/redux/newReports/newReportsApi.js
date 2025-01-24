@@ -142,7 +142,7 @@ export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}`,
+        url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

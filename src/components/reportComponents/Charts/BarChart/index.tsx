@@ -31,6 +31,7 @@ interface BarchartProps {
   xAxislabelColor?: string;
   BatChartTitle?: string;
   TitleColor?: string;
+  barChartLoading?: any;
 }
 
 const BarChart: React.FC<BarchartProps> = ({
@@ -52,6 +53,7 @@ const BarChart: React.FC<BarchartProps> = ({
   xAxislabelColor = "",
   BatChartTitle = "",
   TitleColor = "",
+  barChartLoading
 }: BarchartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const isDarkTheme = useContext(ThemeContext);
@@ -183,15 +185,23 @@ const BarChart: React.FC<BarchartProps> = ({
       className={`c-bar-chart-container ${isDarkTheme ? "chart-dark-js" : "chart-light-js"
         }`}
     >
-      {hasData ? (
+      {barChartLoading ? (
+        <div className="no-data-found" style={{ textAlign: "center", marginTop: "20px", marginBottom: "20px" }} >
+          <h2 style={{ color: pluginLegendLabelsColor }}>{BatChartTitle}</h2>
+          <div>
+            <div className="bar-chart-loader"></div>
+          </div>
+        </div>
+      ) : hasData ? (
         <canvas ref={chartRef}></canvas>
       ) : (
         <div className="no-data-found" style={{ textAlign: "center", marginTop: "20px" }}>
           <h2 style={{ color: pluginLegendLabelsColor }}>{BatChartTitle}</h2>
           <p style={{ color: pluginLegendLabelsColor }}>No Data Found</p>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 
