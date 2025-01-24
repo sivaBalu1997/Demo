@@ -2535,6 +2535,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               validation={validationState.PickupSwiggy}
                               width="Drop1"
                               placeHolder="Third Party"
+                              zIndex={true}
                             />
                           </div>
 
