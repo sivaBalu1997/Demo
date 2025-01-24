@@ -58,6 +58,7 @@ display: flex;
         justify-content: center;
         align-items: center;
         // border: 1px solid red;
+        padding-top: 1.5vh;
     }
     .item-code-style
     {
@@ -67,18 +68,18 @@ display: flex;
         justify-content: center;
         align-items: center;
         // border: 1px solid red;
+        padding-top: 1.5vh;
         .addbtn-menupage
         {
-           
             width: 25px;
             height: 29px;
            position: relative;
            left: 1rem;
-           top: 0.3rem;
+           top: -0.08rem;
             border-radius: 4px;
             background-color: white;
             border: 0.5px solid #5f5f5f;
-            cursor: pointer;
+            cursor: pointer;;
         }
     }
 
