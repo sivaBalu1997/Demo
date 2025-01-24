@@ -1,9 +1,10 @@
 .nav-menu {
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: #fff;
   padding: 10px;
-  top: 24px;
+  top: 10px;
   position: sticky;
+  // border: 1px solid red;
 }
 .nav-menudark {
   background-color: rgba(0, 0, 0, 0.1);
@@ -47,16 +48,17 @@
   width: 420px;
   border: 0.1px solid #B3B3B3;
   transform: translateY(-2px);
-  height: 1px;
+  height: 0.5px;
+
 }
 .navmenu-container {
   overflow-x: hidden;
-  height: 350px;
+  height: 340px;
   overflow-y: scroll;
   z-index: 0;
   display: flex;
   margin-top: 2%;
-
+// border: 1px solid red;
   flex-direction: column;
 
 

@@ -62,9 +62,9 @@ const NavMenu: React.FC<NavMenuProps> = ({
 
   const scrollToComponent = (item: string) => {
     switch (item) {
-      // case "Pricing":
-      //   pricingRef.current?.scrollIntoView({ behavior: "smooth" });
-      //   break;
+      case "Pricing":
+        pricingRef.current?.scrollIntoView({ behavior: "smooth" });
+        break;
       case "Availability":
         availabilityRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
@@ -91,22 +91,20 @@ const NavMenu: React.FC<NavMenuProps> = ({
       threshold: 0.5, 
     });
 
-    // if (pricingRef.current) observer.observe(pricingRef.current);
+    if (pricingRef.current) observer.observe(pricingRef.current);
     if (availabilityRef.current) observer.observe(availabilityRef.current);
     // if (inventoryRef.current) observer.observe(inventoryRef.current);
     if (customizeRef.current) observer.observe(customizeRef.current);
 
     return () => {
-      // if (pricingRef.current) observer.unobserve(pricingRef.current);
+      if (pricingRef.current) observer.unobserve(pricingRef.current);
       if (availabilityRef.current) observer.unobserve(availabilityRef.current);
       // if (inventoryRef.current) observer.unobserve(inventoryRef.current);
       if (customizeRef.current) observer.unobserve(customizeRef.current);
     };
   }, []);
 
-  const orderTypess = useSelector(
-    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
-  );
+  
   
   return (
     <>
@@ -125,9 +123,9 @@ const NavMenu: React.FC<NavMenuProps> = ({
       </nav>
       <div className="type-div"></div>
       <div className="navmenu-container">
-        {/* <div ref={pricingRef} className="section pricingsection" data-section="Pricing">
+        <div ref={pricingRef} className="section pricingsection" data-section="Pricing">
           <PricingSlider />
-        </div> */}
+        </div>
         <div
           ref={availabilityRef}
           className="section"

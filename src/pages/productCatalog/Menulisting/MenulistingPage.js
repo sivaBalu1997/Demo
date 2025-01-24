@@ -132,7 +132,7 @@ export const MenulistingPage = () => {
 
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
-      acc[`${typeName}1`] = true;
+      acc[`${typeName}1`] = false;
       return acc;
     }, {});
 
@@ -1393,11 +1393,13 @@ console.log({allFalseForKeysEndingWith1});
                       })}
                 </div>
 
-                <div  className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
+                <div 
+                
+                className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
                 ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
                 `  }
 
-                style={{height: menudatalist.length===1?"15vh":hasScrollbar?"78.6vh":"77vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
+                style={{   height: menudatalist.length===1?"15vh":hasScrollbar?"78.6vh":"77vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
                 
                 ref={mergeRefs(ref2, bodyRef)}>
 
@@ -1541,12 +1543,12 @@ console.log({allFalseForKeysEndingWith1});
      
      
                                                             }}
-                                                            // onClick={() =>
-                                                            //   handlesidbarhandling(
-                                                            //     `${typeName}1`,
-                                                            //     item.itemId
-                                                            //   )
-                                                            // }
+                                                            onClick={() =>
+                                                              handlesidbarhandling(
+                                                                `${typeName}1`,
+                                                                item.itemId
+                                                              )
+                                                            }
                                                           >
                                                             {restaurantDetails?.country ===
                                                               "US"
@@ -1829,12 +1831,12 @@ console.log({allFalseForKeysEndingWith1});
                                                     //       "center",
                                                     //     alignItems: "center",
                                                     //   }}
-                                                      // onClick={() =>
-                                                      //   handlesidbarhandling(
-                                                      //     `${typeName}1`,
-                                                      //     item.itemId
-                                                      //   )
-                                                      // }
+                                                      onClick={() =>
+                                                        handlesidbarhandling(
+                                                          `${typeName}1`,
+                                                          item.itemId
+                                                        )
+                                                      }
                                                     >
                                                       {restaurantDetails?.country ===
                                                         "US"
