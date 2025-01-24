@@ -60,8 +60,7 @@ interface DropdownProps {
   setCategoryChange?: any;
   kitchenError?: boolean;
   height?: string;
-  inputType?:string
-
+  inputType?: string;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -95,7 +94,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   setCategoryChange,
   kitchenError,
   height,
-  inputType
+  inputType,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -134,6 +133,16 @@ const DropDownList: React.FC<DropdownProps> = ({
   const clearSelection = () => {
     setSelectedOptions([]);
   };
+  
+  const primarydata = useSelector((state: any) => state.primarypage.data);
+
+  const categoryData = useSelector(
+    (state: any) => state.productCatalog.categoryData.data
+  );
+  
+  const matchedCategory = categoryData?.find(
+    (category: any) => category.name === primarydata?.category
+  );
 
   useEffect(() => {
     if (resetSelection) {
@@ -145,12 +154,11 @@ const DropDownList: React.FC<DropdownProps> = ({
     ? options.map((elem: any) => elem.name)
     : [];
 
-
-    let subcategorydataforApi = {
-      locationId: locationid,
-      type: "SUB_CATEGORY",
-      parentId: parentId,
-    };
+  let subcategorydataforApi = {
+    locationId: locationid,
+    type: "SUB_CATEGORY",
+    parentId: parentId || matchedCategory?.id,
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -171,13 +179,13 @@ const DropDownList: React.FC<DropdownProps> = ({
         setEditList(false);
         setShowselectedOption(true);
       }
-      
-    // if (
-    //   dropDownType === "CATEGORY" &&
-    //   subcategorydataforApi.parentId !== ""
-    // ) {
-    //   dispatch(fetchDropDownRequest(subcategorydataforApi));
-    // }
+
+      // if (
+      //   dropDownType === "CATEGORY" &&
+      //   subcategorydataforApi.parentId !== ""
+      // ) {
+      //   dispatch(fetchDropDownRequest(subcategorydataforApi));
+      // }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -247,8 +255,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     setOptions(filteredOptions);
   };
 
-  
-
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
@@ -283,7 +289,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
   useEffect(() => {
-    if (!manuallySelected && ItemsPrimaryDetails?.bestPair && name === "bestPair") {
+    if (
+      !manuallySelected &&
+      ItemsPrimaryDetails?.bestPair &&
+      name === "bestPair"
+    ) {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
 
       const normalizedBestPair = Array.isArray(bestPairName)
@@ -317,9 +327,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [ItemsPrimaryDetails, isTaxDropDown]);
 
-  const categoryData = useSelector(
-    (state: any) => state.productCatalog.categoryData.data
-  );
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
@@ -424,9 +431,6 @@ const DropDownList: React.FC<DropdownProps> = ({
 
     setManuallySelected(true);
 
-
-   
-
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
@@ -460,7 +464,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
-      subcategorydataforApi.parentId=option?.id
+      subcategorydataforApi.parentId = option?.id;
 
       // if (dropDownType === "CATEGORY") {
       //   setParentId(option?.id);
@@ -638,7 +642,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleAboveArrowdropdown = () => {
     onToggle();
-   
+
     // if (
     //   dropDownType === "CATEGORY" &&
     //   subcategorydataforApi.parentId !== ""
@@ -656,6 +660,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     // }
   };
 
+
   const handleBelowArrowdropdown = () => {
     onToggle();
     setShowselectedOption(false);
@@ -666,25 +671,18 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
 
     if (
-      dropDownType === "SUB_CATEGORY" &&name === "subCategory"&&
+      dropDownType === "SUB_CATEGORY" &&
+      name === "subCategory" &&
       subcategorydataforApi.parentId !== ""
     ) {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
-  const handleOpenDropdown=()=>{
-
-    if(!dropdownopen)
-    {
+  const handleOpenDropdown = () => {
+    if (!dropdownopen) {
       onToggle();
     }
-
-    
-
-  }
-
-  console.log("kk", kitchenError);
-  
+  };
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -706,13 +704,13 @@ const DropDownList: React.FC<DropdownProps> = ({
                   : selectedOptions[0]?.name || ""
                 : ""
             }
-            maxLength={inputType==="Number"&&4}
+            maxLength={inputType === "Number" && 4}
             onChange={(e) => {
               if (dropdownopen) {
                 handleSearch(e);
               }
             }}
-            onClick={()=>handleOpenDropdown()}
+            onClick={() => handleOpenDropdown()}
             name={name}
             // onBlur={handleBlur}
             onKeyDown={(e) => {
@@ -773,8 +771,9 @@ const DropDownList: React.FC<DropdownProps> = ({
 
         <div style={{ margin: 0 }}>
           {dropDownType === "KITCHEN_STATION" &&
-            (selectedOptions[0]?.name === undefined||selectedOptions[0]?.name === '' ) &&
-            (kitchenError) && (
+            (selectedOptions[0]?.name === undefined ||
+              selectedOptions[0]?.name === "") &&
+            kitchenError && (
               <p className="Dropdown-Error-message">
                 Kitchen Station is required
               </p>
@@ -790,7 +789,9 @@ const DropDownList: React.FC<DropdownProps> = ({
           <div className="dropdown-lists-edit">
             <div
               className="Dropdown-lists-and-edit"
-              style={{overflowY:filteredOptions?.length>=3?"scroll":"hidden"}}
+              style={{
+                overflowY: filteredOptions?.length >= 3 ? "scroll" : "hidden",
+              }}
               onMouseDown={handleOptionMouseDown}
             >
               <ul
