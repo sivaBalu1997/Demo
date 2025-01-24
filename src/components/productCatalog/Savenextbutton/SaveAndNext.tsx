@@ -284,7 +284,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-      if (isValid &&( PricingDetails.kitchenstation!=="" && PricingDetails.kitchenstation!==undefined)) {
+      if (isValid &&( formData.kitchenstation!=="" && formData.kitchenstation!==undefined)) {
         dispatch(PricingDetailRequest(PricingDetails));
         history.push({
           pathname: `/productCatalog/Itemcustomizations`,
