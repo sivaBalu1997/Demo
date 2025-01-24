@@ -23,6 +23,7 @@ interface DropdownProps {
   EnabledOrNot?: boolean;
   validatepickupdelivery?: any;
   color?:string
+  zIndex?:boolean
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -40,6 +41,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   validatedineMealType,
   toggleOnorOff,
   validatepickupdelivery,
+  zIndex
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -121,7 +123,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
 
       {isOpen && (
-        <div className="optionsPricing">
+        <div className={zIndex ? "optionsPricingz" : "optionsPricing"}>
           {options.length > 0 ? (
             options.map((option, index) => (
               <label key={index}>
