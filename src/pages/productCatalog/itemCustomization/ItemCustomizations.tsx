@@ -1116,7 +1116,14 @@ console.log({Modifiers});
   }
 
   const handleRemoveAllmodifiers=()=>{
-    setModifications((prev: any) => {
+
+    const hasNonEmptyModifierName = modifications.some(
+      (modification: any) => modification.modifierName.trim() !== ""
+    );
+
+    if(!showModifiers &&hasNonEmptyModifierName)
+    {
+setModifications((prev: any) => {
       const updated = [...prev];
     
     
@@ -1133,6 +1140,30 @@ console.log({Modifiers});
       
       return [];
     });
+    setModifications([
+     
+      {
+        modifierId: "",
+        modifierName: "",
+        isEnabled: true,
+        isModifierChanged: false,
+        modifierOptions: [
+          {
+            modifierOptionName: "",
+            cost: 0,
+            isModifierOptionChanged: false,
+            isEnabled: true,
+          },
+        ],
+        minSelection: 0,
+        maxSelection: 0,
+        freeCustomization: 0,
+        selectedValue: selectedValue,
+        selectionType: "Mandatory",
+      },
+    ]);
+    }
+   
     
   }
 
