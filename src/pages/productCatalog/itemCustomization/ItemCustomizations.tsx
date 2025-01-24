@@ -407,10 +407,10 @@ console.log({modifications});
       return updated;
     });
 
-    // Remove the error for the modifier at the given index
+   
     setcustomizationerrors((prevErrors: any) => {
       const updatedErrors = [...prevErrors];
-      updatedErrors.splice(modIndex, 1); // Remove the corresponding error
+      updatedErrors.splice(modIndex, 1); 
       return updatedErrors;
     });
   };

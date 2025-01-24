@@ -1518,6 +1518,8 @@ console.log({ItemsPrimaryDetails});
                       register={register}
                     />
                     <div className="tool-tip-portion-cont">
+
+                      
                       <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
                         styles={{
