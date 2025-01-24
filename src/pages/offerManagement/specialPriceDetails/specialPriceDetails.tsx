@@ -1468,7 +1468,7 @@ const [deletePopup,setDeletePopup]=useState<boolean>(false);
                       <img
                         src={searchCancelIcon}
                         alt="dropdown"
-                        style={{color:'rgba(149, 149, 149, 1)' }}
+                        style={{color:'rgba(149, 149, 149, 1)',marginTop: "-3px" }}
                         onClick={() => {
                           setSearchValue('')
                           setOfferlistData(OfferlistData1)
