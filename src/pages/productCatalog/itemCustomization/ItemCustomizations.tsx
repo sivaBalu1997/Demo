@@ -219,7 +219,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                    cost: Number(option?.price).toFixed(2) || 0,
+                      cost:((option?.cost!==0)&& Number(option?.cost).toFixed(2)) || 0,
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
@@ -250,7 +250,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                    cost: Number(option?.cost).toFixed(2) || 0,
+                    cost:((option?.cost!==0)&& Number(option?.cost).toFixed(2)) || 0,
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
@@ -774,7 +774,7 @@ console.log({Modifiers});
   const [searchClicked,setSearchClicked]=useState(false);
 
   const handleSearchChange = () => {
-    if (searchQuery.length > 1) {
+    if (searchQuery.length >= 1) {
       setShowSearchList(true);
       setSearchClicked(true);
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
@@ -2138,6 +2138,7 @@ setModifications((prev: any) => {
                                   selectedValues={
                                     modifications[modIndex]?.selectedValue || []
                                   }
+                                  streams={true}
                                   EnabledOrNot={true}
                                   onSelect={(value) =>
                                     handleSelect3(

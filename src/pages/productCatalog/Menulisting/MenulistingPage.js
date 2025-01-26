@@ -33,6 +33,7 @@ import {
   primarypost,
   removeDataRequest,
   selectedCategory,
+  selectedColumnsCarryData,
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -43,6 +44,10 @@ export const MenulistingPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
   const menuData = useSelector((state) => state.productCatalog?.menuData);
+  const listingobject = useSelector((state) => state.productCatalog?.selectedColumns);
+  console.log({listingobject});
+  
+
   const loadingRequest = useSelector(
     (state) => state.productCatalog?.addMenuLoading
   );
@@ -153,7 +158,8 @@ export const MenulistingPage = () => {
     };
   };
 
-  const [listingobject, setlistingobject] = useState();
+  const [listingobjects, setlistingobject] = useState(
+);
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -241,6 +247,13 @@ export const MenulistingPage = () => {
     ...tablefirstrow,
     { label: "Customize1" },
   ]);
+
+
+  useEffect(()=>{
+
+    dispatch(selectedColumnsCarryData(listingobjects));
+
+  },[listingobjects,menuData])
 
   useEffect(() => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
@@ -1080,7 +1093,10 @@ useEffect(()=>{
   if (bodyRef.current) {
     setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
   }
-},[removeiconclciked,bodyRef?.current?.clientWidth,bodyRef?.current?.scrollWidth])
+},[removeiconclciked,bodyRef?.current?.clientWidth,bodyRef?.current?.scrollWidth,menuData])
+
+console.log({hasScrollbar});
+
 
   useEffect(() => {
   
@@ -1115,7 +1131,7 @@ console.log({allFalseForKeysEndingWith1});
         <InsertColumnList
             listingobject={listingobject}
             setlistingobject={setlistingobject}
-            insertlists={insertlists2}
+            insertlist={insertlists2}
             showheadinglist={showheadinglist}
             setshowheadinglist={setshowheadinglist}
             closeicon={closeicon}
@@ -1123,6 +1139,7 @@ console.log({allFalseForKeysEndingWith1});
             toggleround={toggleround}
             togglebtns={calendericon}
             Outsideref={Outsideref}
+            setHasScrollbar={setHasScrollbar}
             uniqueOrderTypeNames={uniqueOrderTypeNames}
           />
         <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
@@ -1155,7 +1172,7 @@ console.log({allFalseForKeysEndingWith1});
 
 
                 </div>}
-                <div className="first-part-body" ref={ref1}  style={{height:hasScrollbar?"77vh":"77vh"}}>
+                <div className= {`${showColumns?"first-part-body-no-column-in-secondbody":"first-part-body"}`}   ref={ref1}  >
                     <div>
 
                     {menudatalist?.map((data, parentIndex) => (
@@ -1302,7 +1319,11 @@ console.log({allFalseForKeysEndingWith1});
 
 
             <div className="second-part-data">
-                <div  ref={headerRef} className={`${isExpanded ? "second-part-header-expand" : "second-part-header"}`}>
+                <div  ref={headerRef} className={`${isExpanded ? "second-part-header-expand" : "second-part-header"}`}
+
+                // style={{width:!hasScrollbar?"fit-content":"67.4vw"}}
+                
+                >
                 {!menuDataLoading &&
                       !menuDataFailed &&
                       itemList?.length > 0 &&
@@ -1397,9 +1418,13 @@ console.log({allFalseForKeysEndingWith1});
                 
                 className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
                 ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
+
+                ${hasScrollbar?"forheight-true":"forheight-false"}
                 `  }
 
-                style={{   height: menudatalist.length===1?"15vh":hasScrollbar?"78.6vh":"77vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
+                style={{
+                  //  width:!hasScrollbar?"fit-content":"67.5vw", 
+                    height: menudatalist.length===1&&"15vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
                 
                 ref={mergeRefs(ref2, bodyRef)}>
 

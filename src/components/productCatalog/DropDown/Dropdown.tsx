@@ -22,7 +22,8 @@ interface DropdownProps {
   toggleOnorOff?: boolean;
   EnabledOrNot?: boolean;
   validatepickupdelivery?: any;
-  color?:string
+  color?:string;
+  streams?:boolean;
   zIndex?:boolean
 }
 
@@ -33,6 +34,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   label,
   validation,
   width,
+  streams=false,
   onBlur,
   color,
   EnabledOrNot ,
@@ -126,7 +128,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <div className={zIndex ? "optionsPricingz" : "optionsPricing"}>
           {options.length > 0 ? (
             options.map((option, index) => (
-              <label key={index}>
+              <label key={index} style={{display:"flex",justifyContent:"left",alignItems:"center",gap:"10px",cursor:"pointer"}}>
                 <input
                   type="checkbox"
                   name={option}
@@ -135,8 +137,9 @@ const Dropdown: React.FC<DropdownProps> = ({
                   onBlur={onBlur}
                   checked={selectedValues.includes(option)}
                   onChange={handleOptionClick}
+                  style={{marginBottom:streams?"0.3rem":"",}}
                 />
-                <p>{option}</p>
+                <p style={{marginTop:streams?"-0.5rem":"",marginBottom:streams?"0.3rem":""}}>{option}</p>
               </label>
             ))
           ) : (
