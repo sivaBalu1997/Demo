@@ -136,14 +136,14 @@ const Sales: React.FC = () => {
 
 
   const segregatedDataForMaghilSalesTotalPageNo = segregatedDataForMaghilSales?.totalPages
-  //pp
+
   const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content
     ?.filter((item: any) => item.type === "third party")
     ?.map(({ type, ...rest }: any) => rest);
 
 
   const segregatedDataForThirdPartySalesTotalPageNo = segregatedDataForThirdPartySales?.totalPages
-  //pp
+
 
   const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
 

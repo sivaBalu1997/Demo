@@ -5,6 +5,7 @@ import blackarrow from "../../../assets/svg/blacksan.svg";
 import exportFromJSON from "export-from-json";
 import downloadVector from "../../../assets/svg/download-svg-2.svg";
 import "./style.scss";
+import { useSelector } from "react-redux";
 
 interface TableProps {
   tableData: Array<Record<string, any>>;
@@ -53,6 +54,9 @@ const Table = ({
   // const lastIndex = currentPage * recordsPerPage;
   // const firstIndex = lastIndex - recordsPerPage;
 
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
 
 
   const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
@@ -228,6 +232,8 @@ const Table = ({
               <tr className="t-tableRowHead">
                 {tableHeader?.map((header, index) => {
                   const isNumeric = typeof tableData[0][header] === "number";
+                  const isMonetary = /sales|amount|price/i.test(header);
+                  const currencySymbol = countryCode === "US" ? "$" : "₹";
                   return (
                     <th
                       className={`t-header ${isNumeric ? "t-align-right" : "t-align-left"
@@ -236,6 +242,7 @@ const Table = ({
                       onClick={() => handleSort(header)}
                     >
                       {camelCaseToSpaceSeparated(header)}
+                      {isMonetary && ` (${currencySymbol})`} {/* Add the dynamic currency symbol */}
                       <span className="t-sort-icon">
                         {sortConfig.key === header &&
                           sortConfig.direction === "ascending"
