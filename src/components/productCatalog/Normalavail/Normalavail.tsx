@@ -653,7 +653,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         const updatedField = {
-          DineInPrice: Number(dineIndetails?.price).toFixed(2),
+          DineInPrice:((dineIndetails?.price!==0)&& Number(dineIndetails?.price).toFixed(2)),
           // Enabled:dineIndetails  ? dineIndetails.Enabled:
           // dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
           //     ? true
@@ -711,7 +711,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "P",
             // Enabled: pickupDetails?.Enabled === true ? true : false,
             Enabled: true,
-            price: Number(pickupDetails?.price).toFixed(2) || 0,
+            price: ((pickupDetails?.price!==0 )&& Number(pickupDetails?.price).toFixed(2)) || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
             ...(editData?.length && {
@@ -733,7 +733,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "S",
             Enabled: true,
             // Enabled: deliveryDetails?.Enabled,
-            price: Number(deliveryDetails?.price).toFixed(2) || 0,
+            price:((deliveryDetails?.price!==0)&& Number(deliveryDetails?.price).toFixed(2)) || 0,
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
             ...(editData?.length && {
@@ -753,7 +753,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           }
           const updatedDetails = thirdpartyDetails.map((detail:any) => ({
             ...detail,
-            price: Number(detail.price).toFixed(2), 
+            price:((detail.price!==0)&& Number(detail.price).toFixed(2)), 
           }));
           
 

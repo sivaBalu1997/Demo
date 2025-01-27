@@ -126,6 +126,7 @@ import {
   DELETE_IMAGE_FAILURE,
   DELETE_IMAGE_SUCCESS,
   DELETE_IMAGE_REQUEST,
+  SELECTED_COLUMNS,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -259,7 +260,8 @@ const initialProductCatalogState = {
 
   deleteimageloading:false,
   deleteimagesuccess:false,
-  deleteimagefailure:false
+  deleteimagefailure:false,
+  selectedColumns:{}
 
 };
 
@@ -285,6 +287,11 @@ export default function productCatalogReducer(
         draft.menuDataLoading = false;
         draft.menuDataFailed = true;
         draft.menuDataSuccess = false;
+        break;
+//selected Columns
+case SELECTED_COLUMNS:
+        draft.selectedColumns = action.payload;
+       
         break;
 
         case DELETE_IMAGE_REQUEST:

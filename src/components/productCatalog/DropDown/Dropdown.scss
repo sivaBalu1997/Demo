@@ -54,6 +54,7 @@
   z-index: 25;
   max-height: 125px;
   overflow-y: auto;
+  // display: flex;
   
 &::-webkit-scrollbar {
   display: none;
@@ -68,8 +69,9 @@
   background: #fff;
   box-shadow: 1px 1px 10px 0px #00000040;
   // z-index: 25;
-  max-height: 125px;
+  max-height: 150px;
   overflow-y: auto;
+  // display: flex;
   
 &::-webkit-scrollbar {
   display: none;
@@ -124,10 +126,11 @@
 .checkboxPricing {
   width: 20px;
   height: 20px;
-  transform: translateY(5px);
+  // transform: translateY(5px);
   accent-color: #779749;
   margin: 0px 0px 0px 10px;
   padding: 0;
+  cursor: pointer;
 }
 
 .valuePricing {

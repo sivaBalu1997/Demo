@@ -6,12 +6,13 @@ interface InsertColumnListProps {
   listingobject: any;
   setlistingobject: (value: any) => void;
   uniqueOrderTypeNames: any;
-  insertlists: {
+  insertlist: {
     Pricing: any;
     Available: any;
 
     Customization: string;
   };
+  setHasScrollbar:any;
   showheadinglist: boolean;
   setshowheadinglist: (value: boolean) => void;
   closeicon: string;
@@ -24,7 +25,7 @@ interface InsertColumnListProps {
 const InsertColumnList: React.FC<InsertColumnListProps> = ({
   listingobject,
   setlistingobject,
-  insertlists,
+  insertlist,
   showheadinglist,
   setshowheadinglist,
   closeicon,
@@ -32,6 +33,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   toggleround,
   togglebtns,
   Outsideref,
+  setHasScrollbar,
   uniqueOrderTypeNames,
 }) => {
   // const [pricing, setPricing] = useState<string | undefined>(
@@ -43,6 +45,31 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
 
   const [pricing, setPricing] = useState<string | undefined>("");
   const [availability, setAvailability] = useState<string | undefined>("");
+
+  const insertlists = {
+    Pricing: {
+      show: listingobject?.showPricing ? "Pricing" : "",
+      ...(listingobject &&
+        Object.keys(listingobject && listingobject)
+          .filter((key) => key.endsWith("1") && key !== "Customize1")
+          .reduce((acc:any, key:any) => {
+            acc[key.replace("1", "")] = key.replace("1", "");
+            return acc;
+          }, {})),
+    },
+    Available: {
+      show: listingobject?.showAvail ? "Available" : "",
+      ...(listingobject &&
+        Object.keys(listingobject)
+          .filter((key) => key.endsWith("2") && key !== "Customize1")
+          .reduce((acc:any, key:any) => {
+            acc[key.replace("2", "")] = key.replace("2", "");
+            return acc;
+          }, {})),
+    },
+
+    Customization: "Customization",
+  };
 
   useEffect(() => {
     if (insertlists?.Pricing?.show !== "") {
@@ -131,6 +158,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   
         const nameOfOrderTypes=orderTypess?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
   
+
 
   return (
     <div className="headaadbtnclass" ref={Outsideref}>

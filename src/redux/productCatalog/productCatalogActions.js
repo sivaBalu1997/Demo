@@ -159,6 +159,7 @@ import {
   DELETE_IMAGE_FAILURE,
   DELETE_IMAGE_SUCCESS,
   DELETE_IMAGE_REQUEST,
+  SELECTED_COLUMNS,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -973,3 +974,11 @@ export const deleteimageFailure = (error) => ({
   type: DELETE_IMAGE_FAILURE,
   payload: error,
 });
+
+
+export const selectedColumnsCarryData = (data) => ({
+  type: SELECTED_COLUMNS,
+  payload: data,
+});
+
+

@@ -1389,7 +1389,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
                 <span
                   className={isExpanded ? "verticalLineExpand" : "verticalLine"}
-                  style={{height:thirdPartyDetails?.length>0?"70rem":"58rem"}}
+                  style={{height:thirdPartyDetails?.length>0?"55rem":"50rem"}}
                 />
 
                 <Step3Review />
