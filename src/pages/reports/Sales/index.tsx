@@ -938,7 +938,7 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil}
               Heading="Direct Store/Online Sales (Maghil)"
               tableData={segregatedDataForMaghilSales && segregatedDataForMaghilSales?.length > 0 && segregatedDataForMaghilSales}
-              viewType="half"
+              viewType="full"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={segregatedDataForMaghilSalesTotalPageNo ? segregatedDataForMaghilSalesTotalPageNo : 1}
               tabledataLoading={actualSalesLoading}
@@ -948,7 +948,7 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageForActualThirdPartySales}
               Heading="Actual 3rd Party Sales"
               tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 && segregatedDataForThirdPartySales}
-              viewType="half"
+              viewType="full"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={segregatedDataForThirdPartySalesTotalPageNo ? segregatedDataForThirdPartySalesTotalPageNo : 1}
               tabledataLoading={actualThirdPartySalesLoading}
@@ -1053,7 +1053,7 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageSalesByItemCategory}
               Heading="Sales By Item Category"
               tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 && salesByItemCategoryAPIRedux}
-              viewType="half"
+              viewType="full"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={salesByItemCategoryAPIReduxTotalPageNo ? salesByItemCategoryAPIReduxTotalPageNo : 1}
               tabledataLoading={salesByItemCatgoryLoading}
@@ -1063,7 +1063,7 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageSalesByRevenueClass}
               Heading="Sales By Revenue Class"
               tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 && salesByRevenueClassAPIRedux}
-              viewType="half"
+              viewType="full"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={revenueClassTotalPageNo ? revenueClassTotalPageNo : 1}
               tabledataLoading={salesByRevenueClassLoading}
@@ -1077,7 +1077,7 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageDiscountSummary}
               Heading="Discount Summary"
               tableData={discountSummaryAPIRedux && discountSummaryAPIRedux?.length > 0 && discountSummaryAPIRedux}
-              viewType="half"
+              viewType="full"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={discountSummaryPageNo ? discountSummaryPageNo : 1}
               tabledataLoading={discountSummaryLoading}
@@ -1088,7 +1088,7 @@ const Sales: React.FC = () => {
               Heading="Cancel Item Tracker"
               // tableData={cancellationSummaryAPIRedux?.length > 0 ? cancellationSummaryAPIRedux : []}
               tableData={reorderedData?.length > 0 ? reorderedData : []}
-              viewType="half"
+              viewType="full"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={cancellationSummaryTotalPageNo ? cancellationSummaryTotalPageNo : 1}
               tabledataLoading={cancellationSummaryAPIReduxLoading}

@@ -258,11 +258,14 @@
         @media(max-width: 576px){
           width: 60vw;
           // background-color: lightsalmon;
+        border-radius: 3vw;
         }
         @media(max-width: 500px){
-          width: 78vw;
+          // width: 78vw;
+          width: 75vw;
           // background-color: palevioletred;
-          font-size: xx-small;
+          font-size: large;
+          border-radius: 3vw;
         }
         h2{
           width: 100%;
@@ -381,10 +384,13 @@
         @media(max-width: 576px){
           width: 30vw;
           // background-color: lightsalmon;
+          border-radius: 3vw;
         }
         @media(max-width: 500px){
-          width: 78vw;
+          width: 75vw;
           // background-color: palevioletred;
+          font-size: large;
+          border-radius: 3vw;
         }
         h2{
           width: 100%;
