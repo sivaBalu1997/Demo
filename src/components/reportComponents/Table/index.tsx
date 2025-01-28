@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { ThemeContext } from "../../../context/ThemeContext";
 import arrow from "../../../assets/images/san.svg";
 import blackarrow from "../../../assets/svg/blacksan.svg";
 import exportFromJSON from "export-from-json";
 import downloadVector from "../../../assets/svg/download-svg-2.svg";
 import "./style.scss";
-import { useSelector } from "react-redux";
 
 interface TableProps {
   tableData: Array<Record<string, any>>;
@@ -231,7 +231,7 @@ const Table = ({
             <thead className="t-tableHeader">
               <tr className="t-tableRowHead">
                 {tableHeader?.map((header, index) => {
-                  const isNumeric = typeof tableData[0][header] === "number";
+                  const isNumeric = typeof tableData[0][header] === "number" && header !== "S.No";
                   const isMonetary = /sales|amount|price/i.test(header);
                   const currencySymbol = countryCode === "US" ? "$" : "₹";
                   return (
@@ -266,7 +266,11 @@ const Table = ({
                     >
                       {tableHeader.map((header, cellIndex) => (
                         <td
-                          className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
+                          className={`t-tableCell ${header === "S.No"
+                              ? "t-align-left"
+                              : typeof row[header] === "number"
+                                ? "t-align-right"
+                                : ""
                             }`}
                           key={cellIndex}
                         >

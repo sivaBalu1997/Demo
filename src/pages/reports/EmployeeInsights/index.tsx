@@ -31,13 +31,13 @@ const EmployeeInsights: React.FC = () => {
   };
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
 
-  const XemployeeNameBar = EmployeeD["Sales By Employee"].map(
-    (item) => item["Employee Name"]
-  );
+  // const XemployeeNameBar = EmployeeD["Sales By Employee"].map(
+  //   (item) => item["Employee Name"]
+  // );
 
-  const YemployeeSalesBar = EmployeeD["Sales By Employee"].map(
-    (item) => item.Sales
-  );
+  // const YemployeeSalesBar = EmployeeD["Sales By Employee"].map(
+  //   (item) => item.Sales
+  // );
 
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
 
@@ -54,10 +54,10 @@ const EmployeeInsights: React.FC = () => {
   // console.log(EmployeeD["Sales By Employee"]);
   // console.log("is", isExpanded);
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'100%'} : {width:'94%'}}
+        style={isExpanded ? { width: '100%' } : { width: '94%' }}
         className={`employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
           } ${isExpanded ? "e-expanded-width-sales" : ""}`}
       >
@@ -143,8 +143,8 @@ const EmployeeInsights: React.FC = () => {
           <Table
             currentPage={currentPageEmployeeTipsFeeSummary}
             setCurrentPage={setCurrentPageEmployeeTipsFeeSummary}
-            Heading="Employee Tips & Fee Summary"
-            tableData={EmployeeD["Table one"]}
+            Heading="Employee Summary"
+            tableData={EmployeeD["Employee Summary"]}
             viewType="full"
             recordsPerPage={6}
             totalpageNo={totalPageNoCurrentPageEmployeeTipsFeeSummary}
@@ -154,8 +154,30 @@ const EmployeeInsights: React.FC = () => {
           <Table
             currentPage={currentPageSalesByEmployeeDetails}
             setCurrentPage={setCurrentPageSalesByEmployeeDetails}
-            Heading="Sales By Employee - Details"
-            tableData={EmployeeD["Sales By Employee"]}
+            Heading="Employee Performance"
+            tableData={EmployeeD["Employee Performance"]}
+            viewType="full"
+            recordsPerPage={6}
+            totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
+          />
+        </div>
+        <div className="employee-details-container">
+          <Table
+            currentPage={currentPageSalesByEmployeeDetails}
+            setCurrentPage={setCurrentPageSalesByEmployeeDetails}
+            Heading="Employee Discount"
+            tableData={EmployeeD["Employee Discount"]}
+            viewType="full"
+            recordsPerPage={6}
+            totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
+          />
+        </div>
+        <div className="employee-details-container">
+          <Table
+            currentPage={currentPageSalesByEmployeeDetails}
+            setCurrentPage={setCurrentPageSalesByEmployeeDetails}
+            Heading="Employee Void Activity"
+            tableData={EmployeeD["Employee Void Activity"]}
             viewType="full"
             recordsPerPage={6}
             totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
