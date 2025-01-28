@@ -3,7 +3,28 @@ export const EmployeeD = {
     "S.No": 1,
     "Tips": 21.23,
     "Gratuity": 70,
-  }],
+  },
+  {
+    "S.No": 2,
+    "Tips": 15.50,
+    "Gratuity": 50
+  },
+  {
+    "S.No": 3,
+    "Tips": 30.75,
+    "Gratuity": 90
+  },
+  {
+    "S.No": 4,
+    "Tips": 18.60,
+    "Gratuity": 60
+  },
+  {
+    "S.No": 5,
+    "Tips": 25.40,
+    "Gratuity": 80
+  }
+  ],
   "Employee Performance": [
     {
       "S.No": 1,
