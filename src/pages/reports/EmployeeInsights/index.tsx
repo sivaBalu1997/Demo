@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -15,6 +15,7 @@ const EmployeeInsights: React.FC = () => {
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openFilter, setOpenFilter] = useState(false);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [totalPageNoCurrentPageEmployeeTipsFeeSummary, setTotalPageNoCurrentPageEmployeeTipsFeeSummary] = useState<number>(5);
   const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
@@ -51,6 +52,20 @@ const EmployeeInsights: React.FC = () => {
     setOpenFilter(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenFilter(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [])
+
   // console.log(EmployeeD["Sales By Employee"]);
   // console.log("is", isExpanded);
   return (
@@ -75,7 +90,7 @@ const EmployeeInsights: React.FC = () => {
                 {selectedPeriod} {/* Display the selected option */}
               </div>
               {openFilter && (
-                <div className="filter-drop-down-options">
+                <div className="filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                   <p onClick={() => handleOptionClickForDate("This Week")}>
                     This Week
