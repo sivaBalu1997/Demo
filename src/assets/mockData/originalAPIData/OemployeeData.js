@@ -141,8 +141,7 @@ export const EmployeeD = {
       "Voided reason": ""
     }
   ]
-}
-  ;
+};
 
 // export const EmployeeD = [
 //   {

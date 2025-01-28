@@ -8,6 +8,45 @@ import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import CanvaPieChart from "components/reportComponents/Charts/CanvaPieChart";
+import BarChart from "components/reportComponents/Charts/BarChart";
+import { ReportsChartDropDown } from "components/reportComponents/ReportsChartDropDown";
+
+
+interface CanvaPieChartOptions {
+  animationEnabled: boolean;
+  exportEnabled: boolean;
+  theme: "light1" | "dark1" | "dark2";
+  title: {
+    text: string;
+    fontSize: number;
+  };
+  data: Array<{
+    type: "pie" | "line" | "doughnut";
+    indexLabel?: string;
+    indexLabelPlacement: string;
+    indexLabelFontSize: number;
+    startAngle: number;
+    dataPoints: Array<{
+      label: string;
+      y: number;
+    }>;
+    toolTipContent?: string;
+    showInLegend?: string;
+    legendText?: string;
+    axisX?: { // Only valid for line charts
+      title: string;
+      titleFontSize: number;
+      labelFontSize: number;
+    };
+    axisY?: { // Only valid for line charts
+      title: string;
+      titleFontSize: number;
+      labelFontSize: number;
+    };
+  }>;
+  backgroundColor: string;
+}
 
 const EmployeeInsights: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
@@ -16,6 +55,8 @@ const EmployeeInsights: React.FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const [chartType, setChartType] = useState<string>("Bar");
 
   const [totalPageNoCurrentPageEmployeeTipsFeeSummary, setTotalPageNoCurrentPageEmployeeTipsFeeSummary] = useState<number>(5);
   const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
@@ -66,8 +107,146 @@ const EmployeeInsights: React.FC = () => {
     };
   }, [])
 
-  // console.log(EmployeeD["Sales By Employee"]);
-  // console.log("is", isExpanded);
+  // Data/Config For Pie Chart start ====================================================
+  const empTips = EmployeeD["Employee Performance"]?.map((items: any) => ({
+    label: items["Employee"],
+    y: items["Tips"]
+  }))
+
+  console.log("qqqq", { empTips })
+  const backgroundEmployeeColorForPieChart = isDarkTheme ? "#222b3c" : "#fff";
+
+  const EmployeeTipsPieOptions: CanvaPieChartOptions = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: isDarkTheme ? "dark1" : "light1",
+    title: {
+      text: "Distribution of Tips by Employee",
+      fontSize: 30,
+    },
+    data: [
+      {
+        type: "pie",
+        indexLabel: "{y}",
+        indexLabelPlacement: "inside",
+        indexLabelFontSize: 14,
+        startAngle: -90,
+        dataPoints: empTips,
+        toolTipContent: "<b>{label}</b>: {y}",
+        showInLegend: "true",
+        legendText: "{label}",
+      },
+    ],
+    backgroundColor: backgroundEmployeeColorForPieChart || "#ffffff",
+  };
+  // Data/Config For Pie Chart end =====================================================
+
+  // Data/Config For Bar Chart start ====================================================
+  const empNameBarX = EmployeeD["Employee Performance"]?.map((items: any) => items["Employee"]);
+  console.log("qqqq", { empNameBarX })
+  const empSalesBarY = EmployeeD["Employee Performance"]?.map((items: any) => items["Orders Handled"]);
+  console.log("qqqq", { empSalesBarY })
+  // Data/Config For Bar Chart end ====================================================
+
+  // Data/Config For Line Chart Start ====================================================
+  const empLineX = EmployeeD["Employee Performance"]?.map((items: any) => ({
+    label: items["Employee"],
+    y: items["Sales"]
+  }));
+  console.log("qqqq", { empLineX })
+  const SalesTrendsByEmployee: CanvaPieChartOptions = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: isDarkTheme ? "dark1" : "light1",
+    title: {
+      text: "Distribution of Tips by Employee",
+      fontSize: 30,
+    },
+    data: [
+      {
+        type: "line",
+        indexLabel: "{y}",
+        indexLabelPlacement: "inside",
+        indexLabelFontSize: 14,
+        startAngle: -90,
+        dataPoints: empLineX,
+        toolTipContent: "<b>{label}</b>: {y}",
+        showInLegend: "true",
+        legendText: "tips",
+        axisX: {
+          title: "Employee", // Label for X-axis
+          titleFontSize: 20, // Optional: You can adjust font size
+          labelFontSize: 14, // Optional: You can adjust label font size for X-axis
+        },
+        axisY: {
+          title: "Sales", // Label for Y-axis
+          titleFontSize: 20, // Optional: You can adjust font size
+          labelFontSize: 14, // Optional: You can adjust label font size for Y-axis
+        },
+      },
+    ],
+    backgroundColor: backgroundEmployeeColorForPieChart || "#ffffff",
+  };
+  // Data/Config For Line Chart End ====================================================
+
+  const handleChartOptionSelect = (selectedOption: string) => {
+    console.log("Selected Option:", selectedOption);
+    setChartType(selectedOption);
+    return selectedOption;
+  };
+
+  const renderChart = () => {
+    switch (chartType) {
+      case "Bar":
+        return <div className="employee-sales-chart">
+          <BarChart
+            BatChartTitle="Orders Handled vs. Employee"
+            TitleColor={isDarkTheme ? "#fff" : "#000"}
+            xAxisData={empNameBarX && empNameBarX}
+            yAxisData={empSalesBarY && empSalesBarY}
+            label="Orders Handled"
+            backgroundColor={[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+            ]}
+            borderColor={[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+            ]}
+            xAxisGridColor={"transparent"}
+            yAxisGridColor={"transparent"}
+            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+            ttTitleColor="#fff"
+            ttBodyColor="#fff"
+            // yAxisLabel="Average Sales per Hour"
+            yAxisLabel="Orders handled"
+            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+            xAxisLabel="Employee"
+            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          // barChartLoading={hourlySalesChartDataLoading}
+          />
+        </div>;
+      case "Pie":
+        return <div className="employee-tips-pie-chart">
+          <CanvaPieChart options={EmployeeTipsPieOptions} />
+        </div>;
+      case "line":
+        return <div className="employee-tips-pie-chart">
+          <CanvaPieChart options={SalesTrendsByEmployee} />
+        </div>;
+      default:
+        return <div>Select a chart type</div>;
+    }
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -198,8 +377,21 @@ const EmployeeInsights: React.FC = () => {
             totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
           />
         </div>
+        <div className="dynamic-chart-container">
+          <div className="chart-options-config-header">
+            <h2>Employee Charts</h2>
+            <div className="rep-label-chart-option-cont">
+              <label>Select Chart Type</label>
+              <ReportsChartDropDown
+                options={["Bar", "Pie", "line"]}
+                onSelect={handleChartOptionSelect}
+              />
+            </div>
+          </div>
+          {renderChart()}
+        </div>
       </div>
-    </div>
+    </div >
   );
 };
 
