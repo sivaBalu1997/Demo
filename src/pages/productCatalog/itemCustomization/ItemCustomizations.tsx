@@ -219,7 +219,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                      cost:((option?.cost!==0)&& Number(option?.cost).toFixed(2)) || 0,
+                      cost:((option?.price!==0)&& Number(option?.price).toFixed(2)) || 0,
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
