@@ -1,8 +1,8 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
-import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure, hourlySalesSuccess, hourlySalesFailure, liveDiscountSuccess, liveDiscountFailure, liveOpenSalesSuccess, liveOpenSalesFailure, liveOrdersSuccess, liveOrdersFailure, liveRefundsSuccess, liveRefundsFailure, liveNetSalesSuccess, liveNetSalesFailure, liveOrderNonDineInSuccess, liveOrderNonDineInFailure, discountSummarySuccess, discountSummaryFailure, cancellationSummarySuccess, cancellationSummaryFailure } from "./newReportsActions";
-import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, CANCELLATION_SUMMARY_REQUEST, DISCOUNT_SUMMARY_REQUEST, HOURLY_SALES_REQUEST, LIVE_DISCOUNT_REQUEST, LIVE_NET_SALES_REQUEST, LIVE_OPEN_SALES_REQUEST, LIVE_ORDER_NON_DINE_IN_REQUEST, LIVE_ORDERS_REQUEST, LIVE_REFUNDS_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
-import { getActualSales, getCancellationSummary, getDiscountSummary, getHourlySalesChart, getLiveDiscount, getLiveNetSales, getLiveOpenSales, getLiveOrderNonDineIn, getLiveOrders, getLiveRefunds, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
+import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure, hourlySalesSuccess, hourlySalesFailure, liveDiscountSuccess, liveDiscountFailure, liveOpenSalesSuccess, liveOpenSalesFailure, liveOrdersSuccess, liveOrdersFailure, liveRefundsSuccess, liveRefundsFailure, liveNetSalesSuccess, liveNetSalesFailure, liveOrderNonDineInSuccess, liveOrderNonDineInFailure, discountSummarySuccess, discountSummaryFailure, cancellationSummarySuccess, cancellationSummaryFailure, employeeStaffTipGratuitySuccess, employeeStaffTipGratuityFailure, employeeStaffDiscountSuccess, employeeStaffDiscountFailure, employeeStaffPerformanceFailure, employeeStaffPerformanceSuccess, employeeStaffActivitySuccess, employeeStaffActivityFailure } from "./newReportsActions";
+import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, CANCELLATION_SUMMARY_REQUEST, DISCOUNT_SUMMARY_REQUEST, EMPLOYEE_STAFF_ACTIVITY_REQUEST, EMPLOYEE_STAFF_DISCOUNT_REQUEST, EMPLOYEE_STAFF_PERFORMANCE_REQUEST, EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, HOURLY_SALES_REQUEST, LIVE_DISCOUNT_REQUEST, LIVE_NET_SALES_REQUEST, LIVE_OPEN_SALES_REQUEST, LIVE_ORDER_NON_DINE_IN_REQUEST, LIVE_ORDERS_REQUEST, LIVE_REFUNDS_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
+import { getActualSales, getCancellationSummary, getDiscountSummary, getEmployeeStaffActivity, getEmployeeStaffDiscount, getEmployeeStaffPerformance, getEmployeeStaffTipGratuity, getHourlySalesChart, getLiveDiscount, getLiveNetSales, getLiveOpenSales, getLiveOrderNonDineIn, getLiveOrders, getLiveRefunds, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 
 export function* salesSummaryRequestSaga(action) {
@@ -251,6 +251,77 @@ export function* cancellationSummaryRequestSaga(action) {
     }
 }
 
+//employeeStaffTipGratuityRequestSaga
+export function* employeeStaffTipGratuityRequestSaga(action) {
+    try {
+        const response = yield call(getEmployeeStaffTipGratuity, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            console.log("response of employeeStaffTipGratuityRequestSaga", { decryptedData })
+            yield put(employeeStaffTipGratuitySuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(employeeStaffTipGratuityFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(employeeStaffTipGratuityFailure(error));
+    }
+}
+
+//employeeStaffDiscountRequestSaga
+export function* employeeStaffDiscountRequestSaga(action) {
+    try {
+        const response = yield call(getEmployeeStaffDiscount, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            console.log("response of employeeStaffDiscountRequestSaga", { decryptedData })
+            yield put(employeeStaffDiscountSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(employeeStaffDiscountFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(employeeStaffDiscountFailure(error));
+    }
+}
+
+//employeeStaffPerformanceRequestSaga
+export function* employeeStaffPerformanceRequestSaga(action) {
+    try {
+        const response = yield call(getEmployeeStaffPerformance, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            console.log("response of employeeStaffPerformanceRequestSaga", { decryptedData })
+            yield put(employeeStaffPerformanceSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(employeeStaffPerformanceFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(employeeStaffPerformanceFailure(error));
+    }
+}
+
+//employeeStaffActivityRequestSaga
+export function* employeeStaffActivityRequestSaga(action) {
+    try {
+        const response = yield call(getEmployeeStaffActivity, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
+            yield put(employeeStaffActivitySuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(employeeStaffActivityFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(employeeStaffActivityFailure(error));
+    }
+}
 
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
@@ -267,4 +338,8 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
     yield takeLatest(DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
     yield takeLatest(CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
+    yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);
+    yield takeLatest(EMPLOYEE_STAFF_DISCOUNT_REQUEST, employeeStaffDiscountRequestSaga);
+    yield takeLatest(EMPLOYEE_STAFF_PERFORMANCE_REQUEST, employeeStaffPerformanceRequestSaga);
+    yield takeLatest(EMPLOYEE_STAFF_ACTIVITY_REQUEST, employeeStaffActivityRequestSaga);
 }

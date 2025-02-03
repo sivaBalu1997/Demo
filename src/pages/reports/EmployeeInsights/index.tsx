@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -11,6 +11,9 @@ import "./style.scss";
 import CanvaPieChart from "components/reportComponents/Charts/CanvaPieChart";
 import BarChart from "components/reportComponents/Charts/BarChart";
 import { ReportsChartDropDown } from "components/reportComponents/ReportsChartDropDown";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { employeeStaffActivityRequest, employeeStaffDiscountRequest, employeeStaffPerformanceRequest, employeeStaffTipGratuityRequest } from "redux/newReports/newReportsActions";
 
 
 interface CanvaPieChartOptions {
@@ -48,30 +51,87 @@ interface CanvaPieChartOptions {
   backgroundColor: string;
 }
 
+interface employeeState {
+  startDate: Date;
+  endDate: Date;
+  openCustomDateRange: boolean;
+  openStartDatePicker: boolean;
+  openEndDatePicker: boolean;
+  openFilter: boolean;
+  selectedPeriod: string;
+}
+
 const EmployeeInsights: React.FC = () => {
+
+  const dispatch = useDispatch();
+
+  const TABLE_RECORDS_LIMIT = 15;
+
+  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+
+  const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
+  const employeeSummaryTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages);
+  const employeeSummaryLoading = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuityLoading);
+
+  const employeePerformanceAPIRedux = useSelector((state: any) => state?.newReports?.employeePerformanceSuccess?.content);
+  const employeePerformanceTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeePerformanceSuccess?.totalPages);
+  const employeePerformanceLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
+
+  const employeeDiscountAPIRedux = useSelector((state: any) => state?.newReports?.employeeDiscountSuccess?.content);
+  const employeeDiscountTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeDiscountSuccess?.totalPages);
+  const employeeDiscountLoading = useSelector((state: any) => state?.newReports?.employeeStaffDiscountLoading);
+
+  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeVoidActivitySuccess?.content);
+  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeVoidActivitySuccess?.totalPages);
+  const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
+
+
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
-  const [openFilter, setOpenFilter] = useState(false);
+  const [state, setState] = useState<employeeState>({
+    startDate: moment().toDate(),
+    endDate: moment().toDate(),
+    openCustomDateRange: false,
+    openStartDatePicker: false,
+    openEndDatePicker: false,
+    openFilter: false,
+    selectedPeriod: "Yesterday",
+  });
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [chartType, setChartType] = useState<string>("Bar");
 
-  const [totalPageNoCurrentPageEmployeeTipsFeeSummary, setTotalPageNoCurrentPageEmployeeTipsFeeSummary] = useState<number>(5);
   const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
+  const [currentPageEmployeePerformance, setCurrentPageEmployeePerformance] = useState<number>(1);
+  const [currentPageEmployeeDiscount, setCurrentPageEmployeeDiscount] = useState<number>(1);
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
 
-  const [totalPageNoCurrentPageSalesByEmployeeDetails, setTotalPageNoCurrentPageSalesByEmployeeDetails] = useState<number>(5)
-  const [currentPageSalesByEmployeeDetails, setCurrentPageSalesByEmployeeDetails] = useState<number>(1);
-
-  const [openStartDatePicker, setOpenStartDatePicker] =
-    useState<boolean>(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
 
   const openFilterDropDown = () => {
-    setOpenFilter((op) => !op);
+    setState((prevState) => ({
+      ...prevState,
+      openFilter: !prevState.openFilter,
+    }));
   };
-  const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
+
+  const handleOptionClickForDate = (option: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      selectedPeriod: option,
+      openCustomDateRange: option === "Custom Range",
+      openStartDatePicker: option === "Custom Range",
+      openEndDatePicker: option === "Custom Range",
+      startDate:
+        option === "Custom Range"
+          ? moment().toDate()
+          : prevState.startDate,
+      endDate:
+        option === "Custom Range"
+          ? moment().toDate()
+          : prevState.endDate,
+      openFilter: false,
+    }));
+  };
 
   // const XemployeeNameBar = EmployeeD["Sales By Employee"].map(
   //   (item) => item["Employee Name"]
@@ -81,31 +141,86 @@ const EmployeeInsights: React.FC = () => {
   //   (item) => item.Sales
   // );
 
-  const [selectedPeriod, setSelectedPeriod] = useState("Today");
+  const getSalesLocationStartEndDate = useMemo(() => {
+    const { selectedPeriod, startDate, endDate } = state;
+    let computedStartDate = moment().toDate();
+    let computedEndDate = moment().toDate();
 
-  const handleOptionClickForDate = (option: string) => {
-    setSelectedPeriod(option);
-    if (option === "Custom Range") {
-      setOpenCustomDateRange(true);
-    } else {
-      setOpenCustomDateRange(false);
+    switch (selectedPeriod) {
+      case "Today":
+        computedStartDate = moment().startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "This Week":
+        computedStartDate = moment().startOf("week").toDate();
+        computedEndDate = moment().endOf("week").toDate();
+        break;
+      case "Last 7 days":
+        computedStartDate = moment().subtract(7, "days").startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "This Month":
+        computedStartDate = moment().startOf("month").toDate();
+        computedEndDate = moment().endOf("month").toDate();
+        break;
+      case "Last Month":
+        computedStartDate = moment().subtract(1, "month").startOf("month").toDate();
+        computedEndDate = moment().subtract(1, "month").endOf("month").toDate();
+        break;
+      case "Last 30 days":
+        computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "Yesterday":
+        computedStartDate = moment().subtract(1, "day").startOf("day").toDate();
+        computedEndDate = moment().subtract(1, "day").endOf("day").toDate();
+        break;
+      case "Custom Range":
+        computedStartDate = startDate;
+        computedEndDate = endDate;
+        break;
+      default:
+        break;
     }
-    setOpenFilter(false);
-  };
+
+    // Validate locationId and date range
+    if (!locationid) {
+      console.error("locationId is missing");
+      return null;
+    }
+
+    return {
+      locationid,
+      startDate: moment(computedStartDate).format("YYYY-MM-DD"),
+      endDate: moment(computedEndDate).format("YYYY-MM-DD"),
+      // tablePageNo: currentPageSalesByItemCategory,
+      // tableRecordLimit: TABLE_RECORDS_LIMIT,
+    };
+  }, [state, locationid]);
+
+  console.log("qqqq22", { getSalesLocationStartEndDate })
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setOpenFilter(false);
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setState((prevState) => ({
+          ...prevState,
+          openFilter: false,
+        }));
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (state.openFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [])
+  }, [state.openFilter]);
 
   // Data/Config For Pie Chart start ====================================================
   const empTips = EmployeeD["Employee Performance"]?.map((items: any) => ({
@@ -113,7 +228,7 @@ const EmployeeInsights: React.FC = () => {
     y: items["Tips"]
   }))
 
-  console.log("qqqq", { empTips })
+  // console.log("qqqq", { empTips })
   const backgroundEmployeeColorForPieChart = isDarkTheme ? "#222b3c" : "#fff";
 
   const EmployeeTipsPieOptions: CanvaPieChartOptions = {
@@ -247,6 +362,54 @@ const EmployeeInsights: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        employeeStaffTipGratuityRequest({
+          ...getSalesLocationStartEndDate,
+          tablePageNo: currentPageEmployeeTipsFeeSummary,
+          tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate, currentPageEmployeeTipsFeeSummary]);
+
+  useEffect(() => {
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        employeeStaffPerformanceRequest({
+          ...getSalesLocationStartEndDate,
+          tablePageNo: currentPageEmployeePerformance,
+          tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate, currentPageEmployeePerformance]);
+
+  useEffect(() => {
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        employeeStaffDiscountRequest({
+          ...getSalesLocationStartEndDate,
+          tablePageNo: currentPageEmployeeDiscount,
+          tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate, currentPageEmployeeDiscount]);
+
+  useEffect(() => {
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        employeeStaffActivityRequest({
+          ...getSalesLocationStartEndDate,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate, currentPageEmployeeVoidActivity]);
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -266,9 +429,9 @@ const EmployeeInsights: React.FC = () => {
             </div>
             <div className="filter-toggle-btn-container">
               <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-                {selectedPeriod} {/* Display the selected option */}
+                {state.selectedPeriod} {/* Display the selected option */}
               </div>
-              {openFilter && (
+              {state.openFilter && (
                 <div className="filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                   <p onClick={() => handleOptionClickForDate("This Week")}>
@@ -298,20 +461,34 @@ const EmployeeInsights: React.FC = () => {
             </div>
           </div>
         </div>
-        {openCustomDateRange && (
+        {state.openCustomDateRange && (
           <div className="e-date-range-style">
             <label className="e-dateLabel" htmlFor="e-start-date">
               From
             </label>
             <DatePicker
               placeholderText="Start Date"
-              selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
+              selected={state.startDate}
+              onChange={(date: Date | null) => {
+                if (date && date > state.endDate) {
+                  alert("Start date cannot be greater than the end date.");
+                } else if (date) {
+                  setState((prevState) => ({ ...prevState, startDate: date }));
+                }
+              }}
               dateFormat="dd MMM yyyy"
               className="e-start-date"
-              onSelect={() => setOpenStartDatePicker(false)}
+              onSelect={() =>
+                setState((prevState) => ({
+                  ...prevState,
+                  openStartDatePicker: false,
+                }))
+              }
               onFocus={() => {
-                setOpenStartDatePicker(true);
+                setState((prevState) => ({
+                  ...prevState,
+                  openStartDatePicker: true,
+                }));
               }}
             />
             <label className="e-dateLabel" htmlFor="e-end-date">
@@ -319,13 +496,27 @@ const EmployeeInsights: React.FC = () => {
             </label>
             <DatePicker
               placeholderText="End Date"
-              selected={endDate}
-              onChange={(date: Date) => setEndDate(date)}
+              selected={state.endDate}
+              onChange={(date: Date | null) => {
+                if (date && date < state.startDate) {
+                  alert("End date cannot be earlier than the start date.");
+                } else if (date) {
+                  setState((prevState) => ({ ...prevState, endDate: date }));
+                }
+              }}
               dateFormat="dd MMM yyyy"
               className="e-end-date"
-              onSelect={() => setOpenEndDatePicker(false)}
+              onSelect={() =>
+                setState((prevState) => ({
+                  ...prevState,
+                  openEndDatePicker: false,
+                }))
+              }
               onFocus={() => {
-                setOpenEndDatePicker(true);
+                setState((prevState) => ({
+                  ...prevState,
+                  openEndDatePicker: true,
+                }));
               }}
             />
           </div>
@@ -338,43 +529,47 @@ const EmployeeInsights: React.FC = () => {
             currentPage={currentPageEmployeeTipsFeeSummary}
             setCurrentPage={setCurrentPageEmployeeTipsFeeSummary}
             Heading="Employee Summary"
-            tableData={EmployeeD["Employee Summary"]}
+            tableData={employeeSummaryAPIRedux && employeeSummaryAPIRedux?.length > 0 && employeeSummaryAPIRedux}
             viewType="full"
-            recordsPerPage={6}
-            totalpageNo={totalPageNoCurrentPageEmployeeTipsFeeSummary}
+            recordsPerPage={TABLE_RECORDS_LIMIT}
+            totalpageNo={employeeSummaryTotalPagesRedux}
+            tabledataLoading={employeeSummaryLoading}
           />
         </div>
         <div className="employee-details-container">
           <Table
-            currentPage={currentPageSalesByEmployeeDetails}
-            setCurrentPage={setCurrentPageSalesByEmployeeDetails}
+            currentPage={currentPageEmployeePerformance}
+            setCurrentPage={setCurrentPageEmployeePerformance}
             Heading="Employee Performance"
-            tableData={EmployeeD["Employee Performance"]}
+            tableData={employeePerformanceAPIRedux}
             viewType="full"
-            recordsPerPage={6}
-            totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
+            recordsPerPage={TABLE_RECORDS_LIMIT}
+            totalpageNo={employeePerformanceTotalPagesRedux}
+            tabledataLoading={employeePerformanceLoading}
           />
         </div>
         <div className="employee-details-container">
           <Table
-            currentPage={currentPageSalesByEmployeeDetails}
-            setCurrentPage={setCurrentPageSalesByEmployeeDetails}
+            currentPage={currentPageEmployeeDiscount}
+            setCurrentPage={setCurrentPageEmployeeDiscount}
             Heading="Employee Discount"
-            tableData={EmployeeD["Employee Discount"]}
+            tableData={employeeDiscountAPIRedux && employeeDiscountAPIRedux?.length > 0 && employeeDiscountAPIRedux}
             viewType="full"
-            recordsPerPage={6}
-            totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
+            recordsPerPage={TABLE_RECORDS_LIMIT}
+            totalpageNo={employeeDiscountTotalPagesRedux}
+            tabledataLoading={employeeDiscountLoading}
           />
         </div>
         <div className="employee-details-container">
           <Table
-            currentPage={currentPageSalesByEmployeeDetails}
-            setCurrentPage={setCurrentPageSalesByEmployeeDetails}
+            currentPage={currentPageEmployeeVoidActivity}
+            setCurrentPage={setCurrentPageEmployeeVoidActivity}
             Heading="Employee Void Activity"
-            tableData={EmployeeD["Employee Void Activity"]}
+            tableData={employeeVoidActivityAPIRedux && employeeVoidActivityAPIRedux?.length > 0 && employeeVoidActivityAPIRedux}
             viewType="full"
-            recordsPerPage={6}
-            totalpageNo={totalPageNoCurrentPageSalesByEmployeeDetails}
+            recordsPerPage={TABLE_RECORDS_LIMIT}
+            totalpageNo={employeeVoidActivityTotalPagesRedux}
+            tabledataLoading={employeeVoidActivityLoading}
           />
         </div>
         <div className="dynamic-chart-container">

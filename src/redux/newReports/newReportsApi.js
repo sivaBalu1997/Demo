@@ -15,17 +15,26 @@ const DISCOUNT_SUMMARY_ENDPOINT = 'https://rptd.gcp.magilhub.com/magilhub-data-s
 
 const CANCELLATION_SUMMARY_ENDPOINT = 'https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/cancelSummary?';
 
-const LIVE_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/discounts?"
+const LIVE_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/discounts?"
 
-const LIVE_OPEN_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/open-sales?"
+const LIVE_OPEN_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/open-sales?"
 
-const LIVE_ORDERS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tables?"
+const LIVE_ORDERS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/tables?"
 
-const LIVE_REFUNDS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/refunds?"
+const LIVE_REFUNDS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/refunds?"
 
-const LIVE_NET_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/net-sales?"
+const LIVE_NET_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/net-sales?"
 
-const LIVE_ORDER_NON_DINE_IN_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tracking?"
+const LIVE_ORDER_NON_DINE_IN_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/tracking?"
+
+const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffTipAndGratuity?"
+
+const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffDiscount?"
+
+const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffPerformance?"
+
+const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffActivity?"
+
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -165,6 +174,50 @@ export const getCancellationSummary = (cancellationSummaryPayload) => {
     return API({
         method: "get",
         url: `${CANCELLATION_SUMMARY_ENDPOINT}locationId=${cancellationSummaryPayload?.locationid}&startDate=${cancellationSummaryPayload?.startDate}&endDate=${cancellationSummaryPayload?.endDate}&page=${cancellationSummaryPayload?.tablePageNo}&size=${cancellationSummaryPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getEmployeeStaffTipGratuity = (employeeStaffTipGratuityPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT}locationId=${employeeStaffTipGratuityPayload?.locationid}&startDate=${employeeStaffTipGratuityPayload?.startDate}&endDate=${employeeStaffTipGratuityPayload?.endDate}&page=${employeeStaffTipGratuityPayload?.tablePageNo}&size=${employeeStaffTipGratuityPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getEmployeeStaffDiscount = (employeeStaffDiscountPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${EMPLOYEE_STAFF_DISCOUNT_ENDPOINT}locationId=${employeeStaffDiscountPayload?.locationid}&startDate=${employeeStaffDiscountPayload?.startDate}&endDate=${employeeStaffDiscountPayload?.endDate}&page=${employeeStaffDiscountPayload?.tablePageNo}&size=${employeeStaffDiscountPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getEmployeeStaffPerformance = (employeeStaffPerformancePayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT}locationId=${employeeStaffPerformancePayload?.locationid}&startDate=${employeeStaffPerformancePayload?.startDate}&endDate=${employeeStaffPerformancePayload?.endDate}&page=${employeeStaffPerformancePayload?.tablePageNo}&size=${employeeStaffPerformancePayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${EMPLOYEE_STAFF_ACTIVITY_ENDPOINT}locationId=${employeeStaffActivityPayload?.locationid}&startDate=${employeeStaffActivityPayload?.startDate}&endDate=${employeeStaffActivityPayload?.endDate}&page=${employeeStaffActivityPayload?.tablePageNo}&size=${employeeStaffActivityPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
