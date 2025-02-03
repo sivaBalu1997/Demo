@@ -93,7 +93,7 @@ const Sales: React.FC = () => {
     };
   }, []);
 
-  console.log({ width })
+  // console.log({ width })
 
 
   const [showNetSaleToolTip, setShowNetSaleToolTip] = useState<boolean>(false)

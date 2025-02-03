@@ -10,7 +10,7 @@ export function* salesSummaryRequestSaga(action) {
         const response = yield call(getSalesSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of salesSummaryRequestSaga", { decryptedData });
+            // console.log("response of salesSummaryRequestSaga", { decryptedData });
             yield put(salesSummarySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -27,7 +27,7 @@ export function* salesByItemCategoryRequestSaga(action) {
         const response = yield call(getSalesByItemCategory, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of salesByItemCategoryRequestSaga", { decryptedData })
+            // console.log("response of salesByItemCategoryRequestSaga", { decryptedData })
             yield put(salesByItemCategorySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -44,7 +44,7 @@ export function* salesByRevenueClassRequestSaga(action) {
         const response = yield call(getSalesByRevenueClass, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of salesByRevenueClassRequestSaga", { decryptedData })
+            // console.log("response of salesByRevenueClassRequestSaga", { decryptedData })
             yield put(salesByRevenueClassSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -61,7 +61,7 @@ export function* actualSalesRequestSaga(action) {
         const response = yield call(getActualSales, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of actualSalesRequestSaga", { decryptedData })
+            // console.log("response of actualSalesRequestSaga", { decryptedData })
             yield put(actualSalesSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -78,7 +78,7 @@ export function* actualSalesThirdPartyRequestSaga(action) {
         const response = yield call(getActualSales, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of actualSalesThirdPartyRequestSaga", { decryptedData })
+            // console.log("response of actualSalesThirdPartyRequestSaga", { decryptedData })
             yield put(actualSalesThirdPartySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -96,7 +96,7 @@ export function* hourlySalesRequestSaga(action) {
         const response = yield call(getHourlySalesChart, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of hourlySalesRequestSaga", { decryptedData })
+            // console.log("response of hourlySalesRequestSaga", { decryptedData })
             yield put(hourlySalesSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -113,7 +113,7 @@ export function* liveDiscountRequestSaga(action) {
         const response = yield call(getLiveDiscount, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveDiscountRequestSaga", { decryptedData })
+            // console.log("response of liveDiscountRequestSaga", { decryptedData })
             yield put(liveDiscountSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -131,7 +131,7 @@ export function* liveOpenSalesRequestSaga(action) {
         const response = yield call(getLiveOpenSales, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveOpenSalesRequestSaga", { decryptedData })
+            // console.log("response of liveOpenSalesRequestSaga", { decryptedData })
             yield put(liveOpenSalesSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -149,7 +149,7 @@ export function* liveOrdersRequestSaga(action) {
         const response = yield call(getLiveOrders, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveOrdersRequestSaga", { decryptedData })
+            // console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -167,7 +167,7 @@ export function* liveRefundsRequestSaga(action) {
         const response = yield call(getLiveRefunds, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveRefundsRequestSaga", { decryptedData })
+            // console.log("response of liveRefundsRequestSaga", { decryptedData })
             yield put(liveRefundsSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -185,7 +185,7 @@ export function* liveNetSalesRequestSaga(action) {
         const response = yield call(getLiveNetSales, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveNetSalesRequestSaga", { decryptedData })
+            // console.log("response of liveNetSalesRequestSaga", { decryptedData })
             yield put(liveNetSalesSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -203,7 +203,7 @@ export function* liveOrderNonDineInRequestSaga(action) {
         const response = yield call(getLiveOrderNonDineIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
+            // console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
             yield put(liveOrderNonDineInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -221,7 +221,7 @@ export function* discountSummaryRequestSaga(action) {
         const response = yield call(getDiscountSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of discountSummaryRequestSaga", { decryptedData })
+            // console.log("response of discountSummaryRequestSaga", { decryptedData })
             yield put(discountSummarySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -239,7 +239,7 @@ export function* cancellationSummaryRequestSaga(action) {
         const response = yield call(getCancellationSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of cancellationSummaryRequestSaga", { decryptedData })
+            // console.log("response of cancellationSummaryRequestSaga", { decryptedData })
             yield put(cancellationSummarySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -257,7 +257,7 @@ export function* employeeStaffTipGratuityRequestSaga(action) {
         const response = yield call(getEmployeeStaffTipGratuity, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of employeeStaffTipGratuityRequestSaga", { decryptedData })
+            // console.log("response of employeeStaffTipGratuityRequestSaga", { decryptedData })
             yield put(employeeStaffTipGratuitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -275,7 +275,7 @@ export function* employeeStaffDiscountRequestSaga(action) {
         const response = yield call(getEmployeeStaffDiscount, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of employeeStaffDiscountRequestSaga", { decryptedData })
+            // console.log("response of employeeStaffDiscountRequestSaga", { decryptedData })
             yield put(employeeStaffDiscountSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -293,7 +293,7 @@ export function* employeeStaffPerformanceRequestSaga(action) {
         const response = yield call(getEmployeeStaffPerformance, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of employeeStaffPerformanceRequestSaga", { decryptedData })
+            // console.log("response of employeeStaffPerformanceRequestSaga", { decryptedData })
             yield put(employeeStaffPerformanceSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -311,7 +311,7 @@ export function* employeeStaffActivityRequestSaga(action) {
         const response = yield call(getEmployeeStaffActivity, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
+            // console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
             yield put(employeeStaffActivitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {

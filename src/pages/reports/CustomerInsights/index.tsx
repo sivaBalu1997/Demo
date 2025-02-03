@@ -156,7 +156,7 @@ const CustomerInsights = () => {
 
   //<p className='s-live-no-data'>No data found !</p>
 
-  console.log({ liveOrderNonDineInTotalPageNo, liveOrdersTotalPageNo })
+  // console.log({ liveOrderNonDineInTotalPageNo, liveOrdersTotalPageNo })
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>

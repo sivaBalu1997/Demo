@@ -198,7 +198,7 @@ const EmployeeInsights: React.FC = () => {
     };
   }, [state, locationid]);
 
-  console.log("qqqq22", { getSalesLocationStartEndDate })
+  // console.log("qqqq22", { getSalesLocationStartEndDate })
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -258,9 +258,9 @@ const EmployeeInsights: React.FC = () => {
 
   // Data/Config For Bar Chart start ====================================================
   const empNameBarX = EmployeeD["Employee Performance"]?.map((items: any) => items["Employee"]);
-  console.log("qqqq", { empNameBarX })
+  // console.log("qqqq", { empNameBarX })
   const empSalesBarY = EmployeeD["Employee Performance"]?.map((items: any) => items["Orders Handled"]);
-  console.log("qqqq", { empSalesBarY })
+  // console.log("qqqq", { empSalesBarY })
   // Data/Config For Bar Chart end ====================================================
 
   // Data/Config For Line Chart Start ====================================================
@@ -268,7 +268,7 @@ const EmployeeInsights: React.FC = () => {
     label: items["Employee"],
     y: items["Sales"]
   }));
-  console.log("qqqq", { empLineX })
+  // console.log("qqqq", { empLineX })
   const SalesTrendsByEmployee: CanvaPieChartOptions = {
     animationEnabled: true,
     exportEnabled: true,
@@ -305,7 +305,7 @@ const EmployeeInsights: React.FC = () => {
   // Data/Config For Line Chart End ====================================================
 
   const handleChartOptionSelect = (selectedOption: string) => {
-    console.log("Selected Option:", selectedOption);
+    // console.log("Selected Option:", selectedOption);
     setChartType(selectedOption);
     return selectedOption;
   };
