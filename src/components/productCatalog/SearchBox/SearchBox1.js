@@ -146,8 +146,8 @@ const SearchBox = () => {
 
     const filtered = everything?.filter(
       (item) =>
-        item?.itemName?.toLowerCase().includes(input?.toLowerCase()) ||
-        item?.itemCode?.toLowerCase().includes(input?.toLowerCase())
+        item?.itemName?.toLowerCase().startsWith(input?.toLowerCase()) ||
+        item?.itemCode?.toLowerCase().startsWith(input?.toLowerCase())
     );
     const startsWithInput = filtered.find((item) =>
       item?.itemName.toLowerCase().startsWith(input.toLowerCase())

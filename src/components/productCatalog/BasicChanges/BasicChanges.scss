@@ -23,11 +23,19 @@
     
   }
   .BasicChangesText{
-    font-size: 14px;
+  
     font-family: "Inter", sans-serif;
     // transform: translateY(10px);
-    display: flex;
-align-items: center; 
+ 
+font-family: "Inter",sans-serif;
+font-size: 14px;
+font-weight: 300;
+line-height: 16.94px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
+
  }
   .BasicChangesImage{
     width: 23px;

@@ -44,10 +44,11 @@ export const MenulistingPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  const listingobject = useSelector((state) => state.productCatalog?.selectedColumns);
-  console.log({listingobject});
+  const listingobjects = useSelector((state) => state.productCatalog?.selectedColumns);
+ 
   
-
+  const [listingobject, setlistingobject] = useState(
+  );
   const loadingRequest = useSelector(
     (state) => state.productCatalog?.addMenuLoading
   );
@@ -137,7 +138,7 @@ export const MenulistingPage = () => {
 
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
-      acc[`${typeName}1`] = false;
+      acc[`${typeName}1`] = true;
       return acc;
     }, {});
 
@@ -158,8 +159,7 @@ export const MenulistingPage = () => {
     };
   };
 
-  const [listingobjects, setlistingobject] = useState(
-);
+ 
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -169,6 +169,10 @@ export const MenulistingPage = () => {
       initializeListingObject(getUniqueOrderTypeNames(itemList))
     );
   }, [itemList, menuData]);
+
+
+  console.log({uniqueOrderTypeNames});
+  
 
   const getUniqueOrderTypes = (menuData) => {
     const orderTypeNames = menuData.flatMap((category) =>{
@@ -251,9 +255,9 @@ export const MenulistingPage = () => {
 
   useEffect(()=>{
 
-    dispatch(selectedColumnsCarryData(listingobjects));
+    dispatch(selectedColumnsCarryData(listingobject));
 
-  },[listingobjects,menuData])
+  },[listingobject,menuData])
 
   useEffect(() => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
@@ -284,6 +288,8 @@ export const MenulistingPage = () => {
     Customization: "Customization",
   };
 
+  console.log({listingobject});
+  
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
@@ -1980,15 +1986,20 @@ console.log({allFalseForKeysEndingWith1});
 
 
                                               }}
-                                                onClick={() =>
+                                                onClick={() =>{
                                                   handlesidbarhandling(
                                                     "Customize1",
                                                     item.itemId
                                                   )
+                                                  console.log("clicked",item.modifiers);
+                                                  
+
+                                                }
+                                                  
                                                 }
                                               >
                                                 <span>
-                                                  {item.modifiers.length}
+                                                  {item.modifiers?.filter((item)=>item.isEnabled)?.length}
                                                 </span>
                                               </span>
                                             ) : (

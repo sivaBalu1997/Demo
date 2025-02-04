@@ -1204,6 +1204,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         src={emptyfoodimg}
                                         alt={``}
                                         className="eerroremptyimage"
+                                        style={{cursor:"none"}}
                                       />
                                       <input
                                         type="file"
@@ -1238,7 +1239,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                             )}
 
                             {selectedImages?.length === 0 && (
-                              <li>
+                              <li className="empty-image">
                                 <img
                                   src={emptyfoodimg}
                                   alt={`No images available`}
@@ -1255,6 +1256,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         <img
                                           src={emptyfoodimg}
                                           alt={``}
+                                          style={{cursor:"none"}}
                                           className="eerroremptyimage"
                                         />
                                         <input
@@ -1266,7 +1268,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                           onChange={(e) =>
                                             handleRetry(e, index + 1)
                                           }
-                                          style={{ display: "none" }}
+                                          style={{ display: "none" ,cursor:"none"}}
                                         />
                                         <span
                                           className="errromsg"
@@ -1279,7 +1281,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                       </div>
                                     ) : (
                                       <img
-                                        className="uploaded-image"
+                                        className="uploaded-image-img"
                                         src={
                                           image.url?.file
                                             ? image.url.preview

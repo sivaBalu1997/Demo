@@ -34,6 +34,8 @@ const Step3Review: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state.itemCustomizationsReducer1.itemData
   );
+  console.log({itemCustomizationData});
+  
 
   const minSelectionArray = Array.isArray(itemCustomizationData) &&
       itemCustomizationData.length > 0 ? (
@@ -45,7 +47,7 @@ const Step3Review: React.FC = () => {
   itemCustomizationData.length > 0 ? (
     itemCustomizationData
       .filter((elem) => elem.modifierName !== "")
-      .map((elem, index) => (elem?.minSelection))):""
+      .map((elem, index) => (elem?.maxSelection))):""
 
   const { setActiveCategory } = useContext(Contextpagejs);
 
@@ -119,7 +121,7 @@ const Step3Review: React.FC = () => {
                     Min Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem.selectionType === "Optional" ? 0 : elem?.minSelection && elem?.minSelection}{!minSelectionArray?.length && "N/A"}
+                    {elem.selectionType === "Optional" ? 0 : elem?.minSelection? elem?.minSelection:1}{!minSelectionArray?.length && "N/A"}
                   </h3>
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">

@@ -319,7 +319,7 @@ const CustomizeSlider = () => {
 <div
                      className="input-subitem"
                       
-                     style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid black":"1px solid #5F5F5F"}}
+                     style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid rgba(0,0,0,0.3)":"1px solid #5F5F5F"}}
 
                     >
                       {subitem.price !== 0 && subitem.price !== undefined&& (
