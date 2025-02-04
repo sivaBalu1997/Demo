@@ -51,10 +51,9 @@ const SidePanel = () => {
   const [isExpand, setIsExpand] = useState(true)
   const [SelectSub,setSelectedSub]=useState('')
 
-  console.log({ showOptions })
-
   useEffect(() => {
-    if (showOptions !== 'Product Catalog' && (location?.pathname?.includes("/productCatalog"))) {
+    if ((location?.pathname?.includes("/productCatalog"))) {
+
       setShowOptions("Product Catalog")
       // history.push("/productCatalog/menuListing");
     }
@@ -302,8 +301,7 @@ const SidePanel = () => {
 
           <div
             className={
-              showOptions === "Product Catalog" &&
-                location.pathname.includes("/productCatalog/menuListing")
+              showOptions === "Product Catalog"
                 ? "active"
                 : "down"
             }

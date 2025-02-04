@@ -1805,6 +1805,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           ],
         }));
       }
+   
 
       const validationErrors = { ...errors };
 
@@ -1831,6 +1832,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       delete validationErrors[`deliveryAvailableDays`];
 
       setErrors(validationErrors);
+    };
+    const handleWheel = (event:any) => {
+      event.target.blur(); // Removes focus to prevent unintended changes
+      event.preventDefault();
     };
 
     return (
@@ -1945,6 +1950,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             <input
                               type="number"
                               name="DineInPrice"
+                              onWheel={handleWheel}
                               value={entry.DineInPrice}
                               // style={{
                               //   opacity: entry?.Enabled ? "100%" : "50%",
@@ -2113,6 +2119,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               </div>
                               <input
                                 type="number"
+                                onWheel={handleWheel}
                                 step="any"
                                 // disabled={!pickupDetails?.Enabled}
                                 // style={{
@@ -2333,12 +2340,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       {delivery && deliveryTypes ? (
                         <div>
                           <div></div>
-                          <p className="LabelPrice-delivery"> Price*</p>
+                          <p className="LabelPrice-delivery"> Price11*</p>
                           <div className="Online-delivery">
                             <div className="delivery-price-errormsg">
                               <input
                                 type="number"
                                 className="DeliveryInput1Normal"
+                                onWheel={handleWheel}
                                 // style={{
                                 //   opacity: deliveryDetails?.Enabled
                                 //     ? "100%"
@@ -2366,10 +2374,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 }}
                                 onKeyDown={(e) => {
                                   if (["-", "+", "e", "E"].includes(e.key)) {
-                                    e.preventDefault();
                                   }
                                 }}
                                 onChange={(e) => {
+                                  e.preventDefault()
                                   // if (deliveryDetails?.Enabled) {
                                   const inputValue = e.target.value;
 
@@ -2553,7 +2561,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   <input
                                     className="swiggyZomato-input"
                                     type="number"
+                                    onWheel={handleWheel}
                                     // style={{
+
                                     //   opacity: priceInfo[index]?.Enabled
                                     //     ? "100%"
                                     //     : "50%",
