@@ -315,11 +315,11 @@ const NormalStep2 = () => {
       <div className="Step2Delivery">
         <div className="Step2SellingPrize">
           <div>
-            <h1 className="Step2SellingPrizeheading">
+            <h1 className="Step2SellingPrizeheading" style={{ marginLeft:"-10px" }}>
               Selling Price
             </h1>
           </div>
-          <div>
+          <div style={{ marginLeft:"-10px" }}>
             {prizingDetail &&
             prizingDetail.normalForm &&
             prizingDetail.normalForm.deliveryDetails &&
@@ -368,14 +368,14 @@ const NormalStep2 = () => {
       </div> */}
       {thirdPartyDetails?.length > 0 && (
         <>
-          <h1 className="Step2ThirdPartyDeliveryheading">
+          <h1 className="Step2ThirdPartyDeliveryheading" >
             Third Party Delivery
           </h1>
 
           <div className="Step2ThirdPartyDelivery">
             <div className="Step2SellingPrize">
               {thirdPartyDetails.map((detail: any) => (
-                <div key={detail.typeId} className="Step2SellingPrize">
+                <div key={detail.typeId} className="Step2SellingPrize" style={{ marginLeft:"-10px" }}>
                   <div>
                     <h1 className="Step2SellingPrizeheading">
                       {detail.typeName} Price Listed

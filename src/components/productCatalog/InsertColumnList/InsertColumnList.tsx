@@ -137,8 +137,12 @@ console.log({pricelist});
    const orderTypess = useSelector(
           (state:any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
         );
+          const selectedBranch = useSelector(
+            (state:any) => state.auth.selectedBranch || null
+          );
+        
   
-        const nameOfOrderTypes=orderTypess?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
+        const nameOfOrderTypes=selectedBranch.orderTypes?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
   console.log({nameOfOrderTypes});
   
   const handleToggle = useCallback(

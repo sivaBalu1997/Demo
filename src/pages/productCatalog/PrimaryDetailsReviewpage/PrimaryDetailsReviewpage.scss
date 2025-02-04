@@ -864,10 +864,10 @@ text-underline-position: from-font;
 text-decoration-skip-ink: none;
 
 }
-// .uploaded-image,.empty-image
-// {
-//   cursor: none;
-// }
+.uploaded-image,.empty-image
+{
+  cursor: context-menu !important;
+}
 .primarypageedit {
    
   display: flex;
