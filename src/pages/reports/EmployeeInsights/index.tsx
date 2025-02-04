@@ -70,19 +70,27 @@ const EmployeeInsights: React.FC = () => {
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
 
   const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
+  // console.log("1111", { employeeSummaryAPIRedux })
   const employeeSummaryTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages);
+  // console.log("1111", { employeeSummaryTotalPagesRedux })
   const employeeSummaryLoading = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuityLoading);
 
-  const employeePerformanceAPIRedux = useSelector((state: any) => state?.newReports?.employeePerformanceSuccess?.content);
-  const employeePerformanceTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeePerformanceSuccess?.totalPages);
+  const employeePerformanceAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.content);
+  // console.log("1111", { employeePerformanceAPIRedux })
+  const employeePerformanceTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.totalPages);
+  // console.log("1111", { employeePerformanceTotalPagesRedux })
   const employeePerformanceLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
 
-  const employeeDiscountAPIRedux = useSelector((state: any) => state?.newReports?.employeeDiscountSuccess?.content);
-  const employeeDiscountTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeDiscountSuccess?.totalPages);
+  const employeeDiscountAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.content);
+  // console.log("1111", { employeeDiscountAPIRedux })
+  const employeeDiscountTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.totalPages);
+  // console.log("1111", { employeeDiscountTotalPagesRedux })
   const employeeDiscountLoading = useSelector((state: any) => state?.newReports?.employeeStaffDiscountLoading);
 
-  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeVoidActivitySuccess?.content);
-  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeVoidActivitySuccess?.totalPages);
+  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.content);
+  // console.log("1111", { employeeVoidActivityAPIRedux })
+  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
+  // console.log("1111", { employeeVoidActivityTotalPagesRedux })
   const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
 
 
