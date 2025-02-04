@@ -162,8 +162,6 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
     type: "SUB_CATEGORY",
     parentId: parentId || matchedCategory?.id,
   };
-
-    console.log({categoryIdStore});
     
 
   useEffect(() => {
@@ -550,6 +548,9 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
         setValue("subCategory", "");
       }
     }
+    if (dropDownType === "SUB_CATEGORY") {
+      valiadtesubCategory();
+    }
   };
 
   useEffect(() => {
@@ -574,7 +575,7 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
 
 
   useEffect(()=>{
-    if(editData.length>0){
+    if(dropDownType === "CATEGORY" && categoryIdStore){
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   },[categoryIdStore])
@@ -839,7 +840,7 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
                 className="dropdown-options"
                 onMouseDown={handleOptionMouseDown}
               >
-                {dropDownLoading ? (
+                {(!(dropDownType === "CATEGORY" && options?.length>0)?dropDownLoading:false) ? (
                   <div className="dropdown-no-options">
                     <Loader
                       className="imgLoader1"

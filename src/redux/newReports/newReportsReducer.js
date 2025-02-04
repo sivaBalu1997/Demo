@@ -42,6 +42,18 @@ import {
     CANCELLATION_SUMMARY_REQUEST,
     CANCELLATION_SUMMARY_SUCCESS,
     CANCELLATION_SUMMARY_FAILURE,
+    EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST,
+    EMPLOYEE_STAFF_TIP_GRATUITY_SUCCESS,
+    EMPLOYEE_STAFF_TIP_GRATUITY_FAILURE,
+    EMPLOYEE_STAFF_DISCOUNT_REQUEST,
+    EMPLOYEE_STAFF_PERFORMANCE_REQUEST,
+    EMPLOYEE_STAFF_PERFORMANCE_SUCCESS,
+    EMPLOYEE_STAFF_DISCOUNT_SUCCESS,
+    EMPLOYEE_STAFF_DISCOUNT_FAILURE,
+    EMPLOYEE_STAFF_PERFORMANCE_FAILURE,
+    EMPLOYEE_STAFF_ACTIVITY_REQUEST,
+    EMPLOYEE_STAFF_ACTIVITY_SUCCESS,
+    EMPLOYEE_STAFF_ACTIVITY_FAILURE,
 } from "../newReports/newReportsConstants";
 
 
@@ -90,6 +102,22 @@ const initialNewReportsState = {
     cancellationSummaryLoading: false,
     cancellationSummarySuccess: [],
     cancellationSummaryFailure: false,
+    // employee staff tip gratuity
+    employeeStaffTipGratuityLoading: false,
+    employeeStaffTipGratuitySuccess: [],
+    employeeStaffTipGratuityFailure: false,
+    // employee staff discount
+    employeeStaffDiscountLoading: false,
+    employeeStaffDiscountSuccess: [],
+    employeeStaffDiscountFailure: false,
+    // employee staff performance
+    employeeStaffPerformanceLoading: false,
+    employeeStaffPerformanceSuccess: [],
+    employeeStaffPerformanceFailure: false,
+    // employee staff activity
+    employeeStaffActivityLoading: false,
+    employeeStaffActivitySuccess: [],
+    employeeStaffActivityFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -321,6 +349,70 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.cancellationSummarySuccess = [];
                 draft.cancellationSummaryLoading = false;
                 draft.cancellationSummaryFailure = true;
+                break;
+            // employee staff tip gratuity success
+            case EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST:
+                draft.employeeStaffTipGratuitySuccess = [];
+                draft.employeeStaffTipGratuityLoading = true;
+                draft.employeeStaffTipGratuityFailure = false;
+                break;
+            case EMPLOYEE_STAFF_TIP_GRATUITY_SUCCESS:
+                draft.employeeStaffTipGratuitySuccess = action.payload;
+                draft.employeeStaffTipGratuityLoading = false;
+                draft.employeeStaffTipGratuityFailure = false
+                break;
+            case EMPLOYEE_STAFF_TIP_GRATUITY_FAILURE:
+                draft.employeeStaffTipGratuitySuccess = [];
+                draft.employeeStaffTipGratuityLoading = false;
+                draft.employeeStaffTipGratuityFailure = true;
+                break;
+            // employee staff discount
+            case EMPLOYEE_STAFF_DISCOUNT_REQUEST:
+                draft.employeeStaffDiscountSuccess = [];
+                draft.employeeStaffDiscountLoading = true;
+                draft.employeeStaffDiscountFailure = false;
+                break;
+            case EMPLOYEE_STAFF_DISCOUNT_FAILURE:
+                draft.employeeStaffDiscountSuccess = [];
+                draft.employeeStaffDiscountLoading = false;
+                draft.employeeStaffDiscountFailure = true;
+                break;
+            case EMPLOYEE_STAFF_DISCOUNT_SUCCESS:
+                draft.employeeStaffDiscountSuccess = action.payload;
+                draft.employeeStaffDiscountLoading = false;
+                draft.employeeStaffDiscountFailure = false
+                break;
+            // employee staff performance
+            case EMPLOYEE_STAFF_PERFORMANCE_REQUEST:
+                draft.employeeStaffPerformanceSuccess = [];
+                draft.employeeStaffPerformanceLoading = true;
+                draft.employeeStaffPerformanceFailure = false;
+                break;
+            case EMPLOYEE_STAFF_PERFORMANCE_FAILURE:
+                draft.employeeStaffPerformanceSuccess = [];
+                draft.employeeStaffPerformanceLoading = false;
+                draft.employeeStaffPerformanceFailure = true;
+                break;
+            case EMPLOYEE_STAFF_PERFORMANCE_SUCCESS:
+                draft.employeeStaffPerformanceSuccess = action.payload;
+                draft.employeeStaffPerformanceLoading = false;
+                draft.employeeStaffPerformanceFailure = false
+                break;
+            // employee staff activity
+            case EMPLOYEE_STAFF_ACTIVITY_REQUEST:
+                draft.employeeStaffActivitySuccess = [];
+                draft.employeeStaffActivityLoading = true;
+                draft.employeeStaffActivityFailure = false;
+                break;
+            case EMPLOYEE_STAFF_ACTIVITY_FAILURE:
+                draft.employeeStaffActivitySuccess = [];
+                draft.employeeStaffActivityLoading = false;
+                draft.employeeStaffActivityFailure = true;
+                break;
+            case EMPLOYEE_STAFF_ACTIVITY_SUCCESS:
+                draft.employeeStaffActivitySuccess = action.payload;
+                draft.employeeStaffActivityLoading = false;
+                draft.employeeStaffActivityFailure = false
                 break;
             default:
                 break;

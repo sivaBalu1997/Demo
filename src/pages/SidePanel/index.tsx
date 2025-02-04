@@ -49,12 +49,11 @@ const SidePanel = () => {
   const [routeTo, setRouteTo] = useState({});
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
-  const [SelectSub,setSelectedSub]=useState('')
-
-  console.log({ showOptions })
+  const [SelectSub, setSelectedSub] = useState('')
 
   useEffect(() => {
-    if (showOptions !== 'Product Catalog' && (location?.pathname?.includes("/productCatalog"))) {
+    if ((location?.pathname?.includes("/productCatalog"))) {
+
       setShowOptions("Product Catalog")
       // history.push("/productCatalog/menuListing");
     }
@@ -64,7 +63,7 @@ const SidePanel = () => {
     else if (location?.pathname?.includes('/live-reports')) {
       setShowOptions('reportOptions')
     }
-    else if (location?.pathname?.includes('Offers/active') ||location?.pathname?.includes('offer/special') ||location?.pathname?.includes('Offers/completed')) {
+    else if (location?.pathname?.includes('Offers/active') || location?.pathname?.includes('offer/special') || location?.pathname?.includes('Offers/completed')) {
       setShowOfferOptions('MenuOptions')
       setSelectedSub('Special Price')
     }
@@ -302,8 +301,7 @@ const SidePanel = () => {
 
           <div
             className={
-              showOptions === "Product Catalog" &&
-                location.pathname.includes("/productCatalog/menuListing")
+              showOptions === "Product Catalog"
                 ? "active"
                 : "down"
             }
@@ -425,19 +423,19 @@ const SidePanel = () => {
           <ul className="menu-items-list">
             {showOfferOptions === "MenuOptions"
               ? offerMenuOptions.map((option) => (
-                    <li>
-                      <span
-                        className="d-inline-block m-t-20"
-                       style={{color:SelectSub==option?"#67833E":'#000000'}}
-                        onClick={() => {
-                          option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
-                          setSelectedSub(option)
-                        }}
-                      >
-                        {option}
-                      </span>
-                    </li>
-                ))
+                <li>
+                  <span
+                    className="d-inline-block m-t-20"
+                    style={{ color: SelectSub == option ? "#67833E" : '#000000' }}
+                    onClick={() => {
+                      option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
+                      setSelectedSub(option)
+                    }}
+                  >
+                    {option}
+                  </span>
+                </li>
+              ))
               : null}
           </ul>
           {/* Report ==================================================================== */}

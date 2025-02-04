@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { ThemeContext } from "../../../context/ThemeContext";
 import arrow from "../../../assets/images/san.svg";
 import blackarrow from "../../../assets/svg/blacksan.svg";
@@ -53,6 +54,9 @@ const Table = ({
   // const lastIndex = currentPage * recordsPerPage;
   // const firstIndex = lastIndex - recordsPerPage;
 
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
 
 
   const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
@@ -227,7 +231,9 @@ const Table = ({
             <thead className="t-tableHeader">
               <tr className="t-tableRowHead">
                 {tableHeader?.map((header, index) => {
-                  const isNumeric = typeof tableData[0][header] === "number";
+                  const isNumeric = typeof tableData[0][header] === "number" && header !== "S.No";
+                  const isMonetary = /sales|amount|price/i.test(header);
+                  const currencySymbol = countryCode === "US" ? "$" : "₹";
                   return (
                     <th
                       className={`t-header ${isNumeric ? "t-align-right" : "t-align-left"
@@ -236,6 +242,7 @@ const Table = ({
                       onClick={() => handleSort(header)}
                     >
                       {camelCaseToSpaceSeparated(header)}
+                      {isMonetary && ` (${currencySymbol})`} {/* Add the dynamic currency symbol */}
                       <span className="t-sort-icon">
                         {sortConfig.key === header &&
                           sortConfig.direction === "ascending"
@@ -247,9 +254,11 @@ const Table = ({
                 })}
               </tr>
             </thead>
-            {!tabledataLoading && records?.length > 0 ?
+            {tabledataLoading ? (
+              <div className="reports-table-loader"></div>
+            ) : records?.length > 0 ? (
               <tbody className="t-tableBody">
-                {records?.map((row: Row, rowIndex: number) => (
+                {records.map((row: Row, rowIndex: number) => (
                   <React.Fragment key={rowIndex}>
                     <tr
                       className="t-mainRow"
@@ -257,14 +266,19 @@ const Table = ({
                     >
                       {tableHeader.map((header, cellIndex) => (
                         <td
-                          className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
+                          className={`t-tableCell ${header === "S.No"
+                            ? "t-align-left"
+                            : typeof row[header] === "number"
+                              ? "t-align-right"
+                              : ""
                             }`}
                           key={cellIndex}
                         >
                           {Array.isArray(row[header]) ? (
                             formatItemDetails(row[header])
                           ) : (
-                            row[header] === null || row[header] === "" ? "-" : row[header]
+                            row[header] === null || row[header] === "" || row[header] === undefined ? "-" : row[header]
+                            // row?.[header] ? row[header] : "-"
                           )}
                         </td>
                       ))}
@@ -289,10 +303,7 @@ const Table = ({
                             </thead>
                             <tbody>
                               {row["drop down"].map(
-                                (
-                                  nestedRow: NestedRow,
-                                  nestedRowIndex: number
-                                ) => (
+                                (nestedRow: NestedRow, nestedRowIndex: number) => (
                                   <tr key={nestedRowIndex}>
                                     {Object.values(nestedRow).map(
                                       (nestedValue, nestedValueIndex) => (
@@ -312,9 +323,9 @@ const Table = ({
                   </React.Fragment>
                 ))}
               </tbody>
-              :
+            ) : (
               <div className="r-table-no-data">No Data Found!</div>
-            }
+            )}
           </table>
         </div>
         {records?.length > 0 &&

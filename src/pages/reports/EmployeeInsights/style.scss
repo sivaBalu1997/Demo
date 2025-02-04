@@ -207,4 +207,51 @@
       width: 70%;
     }
   }
+  .dynamic-chart-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    // border: 1px solid black;
+    gap: 2vh;
+    .employee-tips-pie-chart{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--chart-bg);
+      width: 71%;
+      border: 1px solid var(--table-text);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    .employee-sales-chart{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 71%;
+    }
+    .chart-options-config-header{
+      display: flex;
+      // background-color: pink;
+      width: 71%;
+      align-items: center;
+      justify-content: space-between;
+      h2{
+        color: var(--table-text);
+        // background-color: pink;
+      }
+      label{
+        color: var(--table-text);
+        font-weight: 600;
+      }
+      .rep-label-chart-option-cont{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1vw;
+        // background-color: palegreen;
+      }
+    }
+  }
 }
