@@ -44,6 +44,7 @@ const Report = (props) => {
   const [selectValue, setSelectValue] = useState(
     location.state ? location.state : reportCategory[0].option
   );
+  console.log("qqqq8", { selectValue })
   const [reportData, setReportData] = useState([]);
   const [singleBranchId, setSingleBranchId] = useState(
     restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id
@@ -52,27 +53,31 @@ const Report = (props) => {
 
   useEffect(() => {
     getReportData(branchDetails?.id);
+    console.log("qqqq4")
   }, []);
 
   useEffect(() => {
     if (outlets.length == 0 && credentials) {
       setBranchId(credentials?.locationId);
+      console.log("qqqq5")
     }
   }, [outlets]);
 
   useEffect(() => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
+      console.log("qqqq6")
     }
   }, [credentials]);
 
   useEffect(() => {
     if (reportId !== "") {
       fetchData();
+      console.log("qqqq7")
     }
   }, [reportId, branchId]);
 
-  const fetchData = async() =>  {
+  const fetchData = async () => {
     setLoading(true);
     const token = credentials?.accessToken;
     API({
@@ -110,18 +115,18 @@ const Report = (props) => {
       restaurantDetails.country == "US" && location.pathname === "report/32"
         ? 41
         : restaurantDetails.country == "IN" && location.pathname === "report/32"
-        ? 32
-        : location.pathname === "/report/51"
-        ? 51
-        : location.pathname === "/report/57"
-        ? 57
-        : location.pathname === "/report/63"
-        ? 63
-        : location.pathname === "/report/67"
-        ? 67
-        : location.pathname === "/report/82"
-        ? 82
-        : 2;
+          ? 32
+          : location.pathname === "/report/51"
+            ? 51
+            : location.pathname === "/report/57"
+              ? 57
+              : location.pathname === "/report/63"
+                ? 63
+                : location.pathname === "/report/67"
+                  ? 67
+                  : location.pathname === "/report/82"
+                    ? 82
+                    : 2;
     API({
       method: "get",
       url:
@@ -156,43 +161,43 @@ const Report = (props) => {
   };
 
   return (
-    <div style={{display:'flex', flexDirection:'row'}}>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
       <SidePanel />
       <div className="menu-items">
-      <div className="header">
-        <p
-          className="logout-user"
-          onClick={logoutUser}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            whiteSpace: "nowrap",
-            cursor: "pointer",
-          }}
+        <div className="header">
+          <p
+            className="logout-user"
+            onClick={logoutUser}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
+            }}
+          >
+            <img src={logout} alt="Logout" height="20" />
+            &nbsp; Log Out
+          </p>
+        </div>
+        <div
+          className="report-checkin-dropDown"
+          style={{ width: "100%", marginTop: "30px" }}
         >
-          <img src={logout} alt="Logout" height="20" />
-          &nbsp; Log Out
-        </p>
-      </div>
-      <div
-        className="report-checkin-dropDown"
-        style={{ width: "100%", marginTop: "30px" }}
-      >
-        {/* <Dropdown
+          {/* <Dropdown
           color={"#979797"}
           data={reportCategory}
           selectValue={selectValue}
           handleSelect={handleSelect}
         /> */}
-      </div>
+        </div>
 
-      <div
-        className="header-menu"
-        style={{
-          justifyContent: "space-between",
-        }}
-      >
-        {/* <div>
+        <div
+          className="header-menu"
+          style={{
+            justifyContent: "space-between",
+          }}
+        >
+          {/* <div>
           <Stats className="menu-items-SVG" />
           <h2
             style={{
@@ -200,28 +205,26 @@ const Report = (props) => {
             }}
           >{`Reports & Insights  >   ${props.title}`}</h2>
         </div> */}
-        <div>
-          {selectValue === "Sales" && (
-            <div
-              className={`${
-                location.pathname === "/report/32" ? "selected" : "unselected"
-              }`}
-              onClick={() => history.push("/report/32", "Sales")}
-            >
-              Sales Report
-            </div>
-          )}
-          {selectValue === "Sales" && (
-            <div
-              className={`tab ${
-                location.pathname === "/report/82" ? "selected" : "unselected"
-              }`}
-              onClick={() => history.push("/report/82", "Sales")}
-            >
-              Category Report
-            </div>
-          )}
-          {/* {
+          <div>
+            {selectValue === "Sales" && (
+              <div
+                className={`${location.pathname === "/report/32" ? "selected" : "unselected"
+                  }`}
+                onClick={() => history.push("/report/32", "Sales")}
+              >
+                Sales Report
+              </div>
+            )}
+            {selectValue === "Sales" && (
+              <div
+                className={`tab ${location.pathname === "/report/82" ? "selected" : "unselected"
+                  }`}
+                onClick={() => history.push("/report/82", "Sales")}
+              >
+                Category Report
+              </div>
+            )}
+            {/* {
             <div
               className={` ${
                 location.pathname === "/report/32"
@@ -234,66 +237,61 @@ const Report = (props) => {
             </div>
           } */}
 
-          {restaurantDetails.vertical == IS_SPORT_DOMAIN && (
-            <div
-              className={`tab ${
-                location.pathname === "/management/report/67"
+            {restaurantDetails.vertical == IS_SPORT_DOMAIN && (
+              <div
+                className={`tab ${location.pathname === "/management/report/67"
                   ? "selected"
                   : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/67", "Sales")}
-            >
-              Enrolment tracker
-            </div>
-          )}
-          {selectValue === "Sales" && (
-            <div
-              className={` ${
-                location.pathname === "/report/57" ? "selected" : "unselected"
-              }`}
-              onClick={() => history.push("/report/57", "Sales")}
-            >
-              Product Insights
-            </div>
-          )}
-
-          {
-            <div
-              className={`tab ${
-                location.pathname === "/report/2" ? "selected" : "unselected"
-              }`}
-              onClick={() => history.push("/report/2", "Sales")}
-            >
-              Check-In Report
-            </div>
-          }
-
-          {selectValue === "Sales" && (
-            <div
-              className={` ${
-                location.pathname === "/report/51" ? "selected" : "unselected"
-              }`}
-              onClick={() => history.push("/report/51", "Sales")}
-            >
-              Customer Insights
-            </div>
-          )}
-          {branchDetails.cusine != null &&
-            branchDetails.cusine[0] != null &&
-            branchDetails.cusine[0] == IS_SPORT_VERTICAL &&
-            selectValue === "Sales" && (
-              <div
-                className={` ${
-                  location.pathname === "/management/report/63"
-                    ? "selected"
-                    : "unselected"
-                }`}
-                onClick={() => history.push("/management/report/63", "Sales")}
+                  }`}
+                onClick={() => history.push("/management/report/67", "Sales")}
               >
-                Consolidated Report
+                Enrolment tracker
               </div>
             )}
-          {/* {selectValue === "Sales" && (
+            {selectValue === "Sales" && (
+              <div
+                className={` ${location.pathname === "/report/57" ? "selected" : "unselected"
+                  }`}
+                onClick={() => history.push("/report/57", "Sales")}
+              >
+                Product Insights
+              </div>
+            )}
+
+            {
+              <div
+                className={`tab ${location.pathname === "/report/2" ? "selected" : "unselected"
+                  }`}
+                onClick={() => history.push("/report/2", "Sales")}
+              >
+                Check-In Report
+              </div>
+            }
+
+            {selectValue === "Sales" && (
+              <div
+                className={` ${location.pathname === "/report/51" ? "selected" : "unselected"
+                  }`}
+                onClick={() => history.push("/report/51", "Sales")}
+              >
+                Customer Insights
+              </div>
+            )}
+            {branchDetails.cusine != null &&
+              branchDetails.cusine[0] != null &&
+              branchDetails.cusine[0] == IS_SPORT_VERTICAL &&
+              selectValue === "Sales" && (
+                <div
+                  className={` ${location.pathname === "/management/report/63"
+                    ? "selected"
+                    : "unselected"
+                    }`}
+                  onClick={() => history.push("/management/report/63", "Sales")}
+                >
+                  Consolidated Report
+                </div>
+              )}
+            {/* {selectValue === "Sales" && (
             <div
               className={`tab ${
                 location.pathname === "/management/report/4"
@@ -305,7 +303,7 @@ const Report = (props) => {
               Order insights
             </div>
           )} */}
-          {/* {selectValue === "Sales" && (
+            {/* {selectValue === "Sales" && (
             <div
               className={`tab ${
                 location.pathname === "/management/report/12"
@@ -317,7 +315,7 @@ const Report = (props) => {
               Sales insights
             </div>
           )} */}
-          {/* <div
+            {/* <div
             className={`tab ${
               location.pathname === "/management/report/4"
                 ? "selected"
@@ -337,8 +335,8 @@ const Report = (props) => {
           >
             Weekly Report
           </div> */}
-        </div>
-        {/* <CustomDropdown
+          </div>
+          {/* <CustomDropdown
           options={Array.from(
             outlets,
             (outlet) => outlet.locationName.split(",")[1]
@@ -357,74 +355,74 @@ const Report = (props) => {
           controlClassName={"report-dropdown"}
           arrowClassName={"report-dropdown-arrow"}
         /> */}
+        </div>
+        {reportData ? (
+          <iframe
+            className="reportData-deskTop"
+            src={reportData}
+            frameBorder="0"
+            width="1000"
+            height="5000"
+            allowtransparency="true"
+            scrolling="no"
+          ></iframe>
+        ) : loading ? (
+          <p
+            className="menu-list"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "25%",
+            }}
+          >
+            Loading, Please Wait!!!
+          </p>
+        ) : error !== "" ? (
+          <p
+            className="menu-list"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "25%",
+            }}
+          >
+            {error}
+          </p>
+        ) : null}
+        {reportData && window.innerWidth <= 575 ? (
+          <iframe
+            className="reportData-mobile"
+            src={reportData}
+            frameBorder="0"
+            width="1000"
+            height="5000"
+            allowtransparency="true"
+            scrolling="no"
+          ></iframe>
+        ) : loading ? (
+          <p
+            className="menu-list"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "25%",
+            }}
+          >
+            Loading, Please Wait!!!
+          </p>
+        ) : error !== "" ? (
+          <p
+            className="menu-list"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "25%",
+            }}
+          >
+            {error}
+          </p>
+        ) : null}
       </div>
-      {reportData ? (
-        <iframe
-          className="reportData-deskTop"
-          src={reportData}
-          frameBorder="0"
-          width="1000"
-          height="5000"
-          allowtransparency="true"
-          scrolling="no"
-        ></iframe>
-      ) : loading ? (
-        <p
-          className="menu-list"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "25%",
-          }}
-        >
-          Loading, Please Wait!!!
-        </p>
-      ) : error !== "" ? (
-        <p
-          className="menu-list"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "25%",
-          }}
-        >
-          {error}
-        </p>
-      ) : null}
-      {reportData && window.innerWidth <= 575 ? (
-        <iframe
-          className="reportData-mobile"
-          src={reportData}
-          frameBorder="0"
-          width="1000"
-          height="5000"
-          allowtransparency="true"
-          scrolling="no"
-        ></iframe>
-      ) : loading ? (
-        <p
-          className="menu-list"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "25%",
-          }}
-        >
-          Loading, Please Wait!!!
-        </p>
-      ) : error !== "" ? (
-        <p
-          className="menu-list"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "25%",
-          }}
-        >
-          {error}
-        </p>
-      ) : null}
-    </div>
     </div>
   );
 };

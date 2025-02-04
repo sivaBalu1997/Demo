@@ -190,7 +190,7 @@ const Routers = () => {
             />
 
             <div
-              style={{ width: "100%"}}
+              style={{ width: "100%" }}
               className="landingpage"
             >
               {/* {belowMinWidth ? (
@@ -237,7 +237,7 @@ const Routers = () => {
               <Route exact path="/old-reports" component={Report} />
               <Route
                 exact
-                path="report/32"
+                path="/report/32"
                 component={() => <Report id={"32"} title={"Sales Report"} />}
               />
               <Route
@@ -312,7 +312,7 @@ const Routers = () => {
               />
             </div>
 
-            <div style={{width:'100%'}}>
+            <div style={{ width: '100%' }}>
               <Route exact path="/live-reports" component={CustomerInsights} />
               <Route exact path="/sales" component={Sales} />
               <Route
