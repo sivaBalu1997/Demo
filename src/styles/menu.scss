@@ -7,6 +7,9 @@
   .menu-items-list{
     padding: 0;
     margin: 0;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
     span{
       padding: 0;
       margin: 0;
