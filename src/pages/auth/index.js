@@ -12,9 +12,11 @@ const Auth = () => {
 
   useEffect(() => {
     const credentails = JSON.parse(localStorage.getItem(CREDENTIALS));
+    console.log("qqqq1", { credentails })
     // console.log("Credentials:", credentails);
     if (credentails) {
       dispatch(storeCredentials(credentails));
+      console.log("qqqq2", { credentails })
       // if (window.innerWidth <= 575) {
       //   history.push("/report/32");
       // } else {

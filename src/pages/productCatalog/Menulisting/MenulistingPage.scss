@@ -52,18 +52,22 @@ display: flex;
         // border: 1px solid red;
     }
     .name-item-style{
-        width: 16vw;
+        // width: 16vw;
+        // width: 9vw;
+        width: 13vw;
         display: flex;
-        justify-content: center;
+        // justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         
     }
     .item-code-style
     {
-        width: 10vw;
+        // width: 8.5vw;
+        width: 5.5vw;
         display: flex;
-        display: flex;
-        justify-content: center;
+        // justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
         // border: 1px solid red;
         padding-top: 1.5vh;

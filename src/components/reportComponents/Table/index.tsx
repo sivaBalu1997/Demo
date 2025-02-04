@@ -267,17 +267,18 @@ const Table = ({
                       {tableHeader.map((header, cellIndex) => (
                         <td
                           className={`t-tableCell ${header === "S.No"
-                              ? "t-align-left"
-                              : typeof row[header] === "number"
-                                ? "t-align-right"
-                                : ""
+                            ? "t-align-left"
+                            : typeof row[header] === "number"
+                              ? "t-align-right"
+                              : ""
                             }`}
                           key={cellIndex}
                         >
                           {Array.isArray(row[header]) ? (
                             formatItemDetails(row[header])
                           ) : (
-                            row[header] === null || row[header] === "" ? "-" : row[header]
+                            row[header] === null || row[header] === "" || row[header] === undefined ? "-" : row[header]
+                            // row?.[header] ? row[header] : "-"
                           )}
                         </td>
                       ))}
