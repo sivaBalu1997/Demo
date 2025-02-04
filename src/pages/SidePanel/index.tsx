@@ -200,7 +200,7 @@ const SidePanel = () => {
             )}
           </div>
         </div>
-        <ul>
+        <ul className="menu-items-sidebar" >
           <div
             className={
               showOptions === "employees" &&
@@ -356,12 +356,12 @@ const SidePanel = () => {
             {showOfferOptions === "MenuOptions" ? (
               <Uparrow
                 className="dropdown-arrow"
-                style={{ marginLeft: "15px" ,paddingTop:"2.5rem"}}
+                style={{ marginLeft: "15px" }}
               />
             ) : (
               <Downarrow
                 className="dropdown-arrow"
-                style={{ marginLeft: "15px",paddingTop:"2.5rem" }}
+                style={{ marginLeft: "15px" }}
               />
             )}
           </div>
@@ -492,9 +492,9 @@ const SidePanel = () => {
 
             <Fragment>
               {showOptions === "reportOptions" ? (
-                <Uparrow className="dropdown-arrow"   style={{  paddingTop:"2.5rem"}}/>
+                <Uparrow className="dropdown-arrow"   style={{ }}/>
               ) : (
-                <Downarrow className="dropdown-arrow" style={{  paddingTop:"2.5rem"}}/>
+                <Downarrow className="dropdown-arrow" style={{ }}/>
               )}{" "}
             </Fragment>
           </div>

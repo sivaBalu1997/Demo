@@ -173,7 +173,9 @@ export const MenulistingPage = () => {
 
   console.log({uniqueOrderTypeNames});
   
-
+  const selectedBranch = useSelector(
+    (state) => state.auth.selectedBranch || null
+  );
   const getUniqueOrderTypes = (menuData) => {
     const orderTypeNames = menuData.flatMap((category) =>{
       if(category?.subCategoryResponseList)
@@ -207,7 +209,7 @@ export const MenulistingPage = () => {
     (state) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
-  const nameOfOrderTypes = orderTypess
+  const nameOfOrderTypes = selectedBranch.orderTypes
     ?.filter((item) => item.isEnabled)
     .map((item) => item.typeName);
 
@@ -350,10 +352,10 @@ export const MenulistingPage = () => {
     dispatch(removeDataRequest());
   }, []);
 
-  const selectedBranch = useSelector(
-    (state) => state.auth.selectedBranch || null
-  );
+ 
 
+ 
+  
   const locationid = useSelector((state) => state.auth.selectedBranch?.id);
 
   const deleteMenuItemSuccess = useSelector(

@@ -173,6 +173,9 @@ const ItemCustomizations: React.FC<any> = () => {
   //     setFilteredModifications(editData[0]?.modifiers);
   //   }
   // }, [editData]);
+   const selectedBranch = useSelector(
+      (state:any) => state.auth.selectedBranch || null
+    );
 
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
@@ -200,7 +203,7 @@ console.log({orderTypes});
         
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
-            const orderType = orderTypes?.find(
+            const orderType = selectedBranch.orderTypes?.find(
               (type: any) => type.id === selectedId
             );
             return orderType?.typeName || selectedId;
