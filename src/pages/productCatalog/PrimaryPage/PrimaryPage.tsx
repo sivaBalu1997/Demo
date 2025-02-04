@@ -315,7 +315,6 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
-console.log({ItemsPrimaryDetails});
 
   const [images, setImages] = useState<ImageFile[]>([]);
 
@@ -407,7 +406,6 @@ console.log({ItemsPrimaryDetails});
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-
   const [categories, setCategories] = useState<Category[]>([]);
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
@@ -481,7 +479,6 @@ console.log({ItemsPrimaryDetails});
   };
 
   const [isImageDeleted, setIsImageDeleted] = useState(false);
-  console.log({images});
   
 
   const handleImageDeletion = (index: number) => {
@@ -586,7 +583,6 @@ console.log({ItemsPrimaryDetails});
   ];
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
-  console.log({editData});
   
 
   const cuisineData = useSelector(
@@ -606,7 +602,6 @@ console.log({ItemsPrimaryDetails});
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
-  console.log({ categoryData });
 
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
@@ -862,13 +857,6 @@ console.log({ItemsPrimaryDetails});
     }
   }, [getValues, categoryList,subCategoryData,categoriesdata]);
 
-
-
-
-  useEffect(()=>{
-console.log("catid",ItemsPrimaryDetails);
-
-  },[ItemsPrimaryDetails])
 
   return (
     <div style={{ display: "flex" }}>
@@ -1335,11 +1323,10 @@ console.log("catid",ItemsPrimaryDetails);
                     {popularItemlimit} )
                   </span>
                 </div>
-
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
                     <LableComponent
-                    lable={`Sub Category*`}
+                    lable={subCategoryData?.length>0?'Sub Category*':'Sub Category'}
                       // lable={`Sub Category${showAsterisk ? "*" : ""}`}
 
                     />
@@ -1360,7 +1347,7 @@ console.log("catid",ItemsPrimaryDetails);
                           // validation={{ required: "subCategory is required" }}
                           // error={errors.subCategory}
                           valiadtesubCategory={
-                            editData[0]?.length > 0 ? "" : valiadtesubCategory
+                            subCategoryData?.length > 0 ? valiadtesubCategory : ''
                           }
                           errormsg={subcategortError}
                           categoryChange={categoryChange}
