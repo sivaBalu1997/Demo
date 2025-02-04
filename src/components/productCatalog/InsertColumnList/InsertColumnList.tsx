@@ -80,30 +80,11 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
     }
   }, [insertlists?.Pricing?.show, insertlists?.Available?.show]);
 
-  const handleToggle = useCallback(
-    (
-      key: keyof typeof listingobject,
-      dependentKeys?: (keyof typeof listingobject)[]
-    ) => {
-      setlistingobject((prev: any) => {
-        const isParentChecked = prev[key];
-
-        const updatedState = {
-          ...prev,
-          [key]: !isParentChecked,
-        };
-
-        if (dependentKeys) {
-          dependentKeys.forEach((depKey) => {
-            updatedState[depKey] = !isParentChecked;
-          });
-        }
-
-        return updatedState;
-      });
-    },
-    [setlistingobject]
-  );
+ 
+  
+ 
+  
+  
 
   const handlecheckbox = (
     key: any,
@@ -142,14 +123,15 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   const pricelist = uniqueKeys?.map(
     (item: any) => `${item}1` as keyof typeof insertlists.Pricing
   );
-  const aviallist = uniqueKeys?.map(
+  const availlist = uniqueKeys?.map(
     (item: any) => `${item}2` as keyof typeof insertlists.Available
   );
+console.log({pricelist});
 
   const isAllPricingChecked = pricelist?.every(
     (key: any) => listingobject[key]
   );
-  const isAllAvailabilityChecked = aviallist?.every(
+  const isAllAvailabilityChecked = availlist?.every(
     (key: any) => listingobject[key]
   );
    const orderTypess = useSelector(
@@ -157,8 +139,38 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
         );
   
         const nameOfOrderTypes=orderTypess?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
+  console.log({nameOfOrderTypes});
   
-
+  const handleToggle = useCallback(
+    (key: keyof typeof listingobject, dependentKeys?: (keyof typeof listingobject)[]) => {
+      setlistingobject((prev: any) => {
+        const isParentChecked = prev[key];
+  
+        // Update the parent key
+        const updatedState = {
+          ...prev,
+          [key]: !isParentChecked,
+        };
+  
+        // Update dependent keys only if provided
+        if (dependentKeys?.length) {
+          dependentKeys.forEach((depKey) => {
+            updatedState[depKey] = !isParentChecked;
+          });
+        }
+  
+        return updatedState;
+      });
+    },
+    [setlistingobject]
+  );
+  useEffect(() => {
+    setlistingobject((prev:any) => ({
+      ...prev,
+      showPricing: isAllPricingChecked, 
+    }));
+  }, [isAllPricingChecked, setlistingobject]);
+        // const nameOfOrderTypes=orderTypess?.map((item:any)=>item.typeName)
 
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
@@ -224,9 +236,9 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   <input
                     type="checkbox"
                     checked={isAllAvailabilityChecked}
-                    onChange={() => handleToggle("showAvail", aviallist)}
+                    onChange={() => handleToggle("showAvail", availlist)}
                   />
-               <span onClick={() => handleToggle("showAvail", aviallist)}>
+               <span onClick={() => handleToggle("showAvail", availlist)}>
                     {availability}
                     {/* <img src={toggleround} alt="" /> */}
                     <img
@@ -237,7 +249,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {aviallist?.filter((list: any) =>
+                  {availlist?.filter((list: any) =>
       nameOfOrderTypes?.includes(list.replace("2", "")) 
     ).map((key: any) => (
                     <li key={key}>
@@ -246,12 +258,12 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                           type="checkbox"
                           checked={listingobject[key]}
                           onChange={() =>
-                            handlecheckbox(key, "showAvail", aviallist)
+                            handlecheckbox(key, "showAvail", availlist)
                           }
                         />
                         <span 
                           onClick={() =>
-                            handlecheckbox(key, "showAvail", aviallist)
+                            handlecheckbox(key, "showAvail", availlist)
                           }
                         className="sub-texts-fileds">
                           {

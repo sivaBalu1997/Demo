@@ -205,13 +205,14 @@ const PricingSlider: any = ({}) => {
                   : "";
 
                 return (
-                  <div className="ordertypes-price">
+                  <div className="ordertypes-prices">
                     <h3
                       className="OrderType-Name"
                       style={{ opacity: enableOrNot ? "100%" : "50%" }}
                     >
                       {price.typeName}:
                     </h3>
+                    
                     <div
                       className="SectionA-Input"
                       style={{
@@ -224,6 +225,7 @@ const PricingSlider: any = ({}) => {
                       {price.price !== 0 && (
                         <span className="priceSymbol-price">{Pricesymbol}</span>
                       )}
+                    
 
                       {/* <input
                         type="number"
