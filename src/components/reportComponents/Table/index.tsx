@@ -42,7 +42,7 @@ const Table = ({
   tabledataLoading
 }: TableProps) => {
 
-  console.log({ Heading, tableData })
+  // console.log({ Heading, tableData })
   // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: null,
