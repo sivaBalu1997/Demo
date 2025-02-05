@@ -88,12 +88,12 @@ const EmployeeInsights: React.FC = () => {
   const employeePerformanceLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
 
   const employeeDiscountAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.content);
-  console.log("1111", { employeeDiscountAPIRedux })
+  // console.log("1111", { employeeDiscountAPIRedux })
 
-  // const employeeDisountMappped = employeeDiscountAPIRedux?.map((data: any) => ({
-  //   EmployeeName: data?.fullName,
-  //   Discount: data?.total
-  // }))
+  const employeeDisountMappped = employeeDiscountAPIRedux?.map((data: any) => ({
+    EmployeeName: data?.fullName,
+    Discount: data?.tip
+  }))
 
   // console.log("1111", { employeeDisountMappped })
   const employeeDiscountTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.totalPages);
@@ -576,8 +576,8 @@ const EmployeeInsights: React.FC = () => {
             currentPage={currentPageEmployeeDiscount}
             setCurrentPage={setCurrentPageEmployeeDiscount}
             Heading="Employee Discount"
-            tableData={employeeDiscountAPIRedux && employeeDiscountAPIRedux?.length > 0 && employeeDiscountAPIRedux}
-            // tableData={employeeDisountMappped && employeeDisountMappped?.length > 0 && employeeDisountMappped}
+            // tableData={employeeDiscountAPIRedux && employeeDiscountAPIRedux?.length > 0 && employeeDiscountAPIRedux}
+            tableData={employeeDisountMappped && employeeDisountMappped?.length > 0 && employeeDisountMappped}
             viewType="full"
             recordsPerPage={TABLE_RECORDS_LIMIT}
             totalpageNo={employeeDiscountTotalPagesRedux}
