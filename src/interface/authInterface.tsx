@@ -33,7 +33,6 @@ export interface Credentials {
   topicToSubscribe: string
   userAccessInfoList: string
   userId: string
-  credentialsSuccess?: boolean
 }
 
 //Auth Reducer Type
@@ -245,7 +244,6 @@ export interface AuthType {
   signUpMessage: string;
   user: any; 
   userID: string | null;
-  credentialsSuccess: boolean
 }
 
 export interface AuthAction {

@@ -84,10 +84,6 @@ const SidePanel = () => {
     (state: RootState) => state.auth.credentials && state.auth?.credentials?.locationId
   );
 
-  const locationSuccess = useSelector(
-    (state: RootState) => state.auth.credentials && state.auth?.credentials?.credentialsSuccess
-  );
-
   const branchDetails = useSelector((state: RootState) => state.auth?.selectedBranch);
 
   const getImageURL = useCallback(
@@ -117,7 +113,7 @@ const SidePanel = () => {
   );
 
   useEffect(() => {
-    if (locationId && locationSuccess) {
+    if (locationId) {
       dispatch(getRestaurantRequest(locationId));
     }
   }, []);

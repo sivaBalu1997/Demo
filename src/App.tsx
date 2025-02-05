@@ -45,7 +45,6 @@ interface Credentials {
   topicToSubscribe: string;
   userAccessInfoList: string;
   userId: string;
-  credentialsSuccess?: boolean
 }
 
 const Loader = () => {
