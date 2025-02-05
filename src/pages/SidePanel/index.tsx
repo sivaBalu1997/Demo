@@ -285,7 +285,7 @@ const SidePanel = () => {
                   )}
                 </div>
 
-                <div>
+                <div style={{cursor:"pointer"}}>
                   {showOfferOptions === "MenuOptions" ? (
                     <Uparrow
                     // className="dropdown-arrow"
@@ -358,7 +358,7 @@ const SidePanel = () => {
                   )}
                 </div>
 
-                <div>
+                <div style={{cursor:"pointer"}}>
                   {showOptions === "reportOptions" ? (
                     <Uparrow
                     // className="dropdown-arrow"
