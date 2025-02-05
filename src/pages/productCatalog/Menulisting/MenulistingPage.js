@@ -138,7 +138,7 @@ export const MenulistingPage = () => {
 
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
-      acc[`${typeName}1`] = true;
+      acc[`${typeName}1`] = false;
       return acc;
     }, {});
 
