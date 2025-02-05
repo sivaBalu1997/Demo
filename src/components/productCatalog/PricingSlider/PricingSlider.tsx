@@ -183,7 +183,7 @@ const PricingSlider: any = ({}) => {
   };
 
   return (
-    <div className="PricingSlider-Container">
+    <div className="PricingSlider-Container" >
       <h3 className="PricingSlider-Heading">Pricing </h3>
       {availabilityOrderTypes.map((item: any, index: number) => (
         <div key={index} className="Onprem-Ofprem">

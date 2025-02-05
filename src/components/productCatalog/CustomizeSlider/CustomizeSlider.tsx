@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./CustomizeSlider.scss";
 import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail";
 import { useSelector, useDispatch } from "react-redux";
@@ -278,8 +278,22 @@ const CustomizeSlider = () => {
     restaurantDetails?.country === "US" ? "$" : "Rs."
   }`;
 
+    const customizeRefHeight = useRef<any>(null);
+  const [customizeHeight, setCustomizeHeight] = useState(0);
+
+  useEffect(() => {
+    // Use timeout to let the DOM update before measuring height
+    setTimeout(() => {
+      if (customizeRefHeight.current) {
+        setCustomizeHeight(customizeRefHeight.current.getBoundingClientRect().height);
+      }
+    }, 100); // Small delay to ensure accurate measurement
+  }, []); //
+  console.log({customizeHeight});
+  
+
   return (
-    <div className="customize-container">
+    <div className="customize-container" ref={customizeRefHeight} style={{height:customizeHeight<=509?"52vh":customizeHeight}}>
       <h3 className="customize-heading">Customize</h3>
 
       <div className="items-container">

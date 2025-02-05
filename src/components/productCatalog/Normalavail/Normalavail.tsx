@@ -824,6 +824,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
+        console.log({dineIndetail});
+        
         // setValue("kitchenstation",prizingDetail?.kitchenstation)
 
         const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
@@ -900,7 +902,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               setDelivery(true));
 
           (deliveryDetails?.price > 0 && setOnline(true)) ||
-            (thirdpartyDetails &&
+            (thirdpartyDetails &&  thirdpartyDetails[0]&&
               thirdpartyDetails[0]?.price > 0 &&
               setOnline(true));
           // if (
@@ -1008,12 +1010,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           //     : false),
           DineInMealType:
             (dineIndetail &&
-              dineIndetail?.availabilities &&
+              dineIndetail?.availabilities && dineIndetail?.availabilities?.length>0&&
               dineIndetail?.availabilities[0]?.sessions) ||
-            [],
+            [], 
           showDay:
             dineIndetail &&
-            dineIndetail?.availabilities &&
+            dineIndetail?.availabilities &&prizingDetail.normalForm.DineIn&&
             prizingDetail.normalForm.DineIn[0]?.length > 0
               ? true
               : false,
@@ -1326,6 +1328,20 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         },
       }));
     };
+
+    const validateThridPrice = (
+      index: number,
+      price: number,
+      Enable: boolean
+    ): void => {
+      const validationErrors = { ...errors };
+      if ((!price || price <= 0) && !Enable) {
+        validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
+      } else {
+        delete validationErrors[`ThirdPartyPrice-${index}`];
+      }
+      setErrors(validationErrors);
+    };
     const [thirdPartiesSelected, setThirdPartiesSelected] = useState(false);
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
@@ -1342,6 +1358,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         return updatedMealTypes;
       });
       validateDropdown(value, "ThirdDeliverySwiggyZomato");
+
+      
+
 
       setPriceInfo(
         dineinfields.map((dinein: any, index: number) => ({
@@ -1362,10 +1381,36 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 "."
               )[0] || null,
           }),
-        }))
+
+
+         
+        })
+      
+      
+      )
       );
+
+     
+
+
+
+
     };
 
+
+
+    useEffect(() => {
+     
+      priceInfo.map((item,index)=>{
+
+        return  validateThridPrice(index, item.price, item.Enabled)
+
+      })
+
+
+    },[priceInfo]
+  
+  )
     const clearSelection = () => {
       setMealTypes({});
       setPriceInfo([
@@ -1537,19 +1582,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
-    const validateThridPrice = (
-      index: number,
-      price: number,
-      Enable: boolean
-    ): void => {
-      const validationErrors = { ...errors };
-      if ((!price || price <= 0) && !Enable) {
-        validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
-      } else {
-        delete validationErrors[`ThirdPartyPrice-${index}`];
-      }
-      setErrors(validationErrors);
-    };
+    
     //   useEffect(()=>{
 
     //  if(!online)
@@ -2340,7 +2373,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       {delivery && deliveryTypes ? (
                         <div>
                           <div></div>
-                          <p className="LabelPrice-delivery"> Price11*</p>
+                          <p className="LabelPrice-delivery"> Price*</p>
                           <div className="Online-delivery">
                             <div className="delivery-price-errormsg">
                               <input
@@ -2647,7 +2680,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
                             return null;
                           })}
-                          {console.log("lll",selectedthirdvalues)}
+                          
 {/* {selectedthirdvalues.length>0 &&
                           <div className="ThirdPartyChooseDayContainer">
 
