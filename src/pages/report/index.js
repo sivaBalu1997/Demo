@@ -44,7 +44,7 @@ const Report = (props) => {
   const [selectValue, setSelectValue] = useState(
     location.state ? location.state : reportCategory[0].option
   );
-  console.log("qqqq8", { selectValue })
+  // console.log("qqqq8", { selectValue })
   const [reportData, setReportData] = useState([]);
   const [singleBranchId, setSingleBranchId] = useState(
     restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id
@@ -53,27 +53,23 @@ const Report = (props) => {
 
   useEffect(() => {
     getReportData(branchDetails?.id);
-    console.log("qqqq4")
   }, []);
 
   useEffect(() => {
     if (outlets.length == 0 && credentials) {
       setBranchId(credentials?.locationId);
-      console.log("qqqq5")
     }
   }, [outlets]);
 
   useEffect(() => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
-      console.log("qqqq6")
     }
   }, [credentials]);
 
   useEffect(() => {
     if (reportId !== "") {
       fetchData();
-      console.log("qqqq7")
     }
   }, [reportId, branchId]);
 
