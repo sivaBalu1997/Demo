@@ -196,6 +196,7 @@ console.log({pricelist});
               <li>
                 <div className="headtext-fieldsselection pricingheadtext">
                   <input
+                  style={{cursor:'pointer'}}
                     type="checkbox"
                     checked={isAllPricingChecked}
                     onChange={() => handleToggle("showPricing", pricelist)}

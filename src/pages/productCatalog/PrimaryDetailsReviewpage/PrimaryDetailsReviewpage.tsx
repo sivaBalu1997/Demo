@@ -1207,7 +1207,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         src={emptyfoodimg}
                                         alt={``}
                                         className="eerroremptyimage"
-                                        style={{cursor:"none"}}
+                                        style={{cursor:"context-menu"}}
                                       />
                                       <input
                                         type="file"
@@ -1216,7 +1216,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" }}
+                                        style={{ display: "none" ,cursor:"context-menu"}}
                                       />
                                       <span
                                         className="errromsg"
@@ -1246,7 +1246,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               <li className="empty-image">
                                 <img
                                   src={emptyfoodimg}
+                                  style={{cursor:"context-menu"}}
                                   alt={`No images available`}
+                                  
                                 />
                               </li>
                             )}
