@@ -650,6 +650,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   // ].filter(Boolean);
 
  
+  const formatFirstNameUppercase = (fullName: string) => {
+    if (!fullName.trim()) return ''; // Handle empty input gracefully
+
+    const [firstName, ...rest] = fullName.split(' ');
+    return [firstName.toUpperCase(), ...rest].join(' ');
+  };
 
   const taxData =
     typeof primarydata?.tax === "string"
