@@ -74,6 +74,8 @@ const EmployeeInsights: React.FC = () => {
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
 
   const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
+  const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(({ total, ...rest }: any) => rest);
+  // console.log("2222222222", { updatedEmployeeSummary })
   // console.log("1111", { employeeSummaryAPIRedux })
   const employeeSummaryTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages);
   // console.log("1111", { employeeSummaryTotalPagesRedux })
@@ -548,7 +550,9 @@ const EmployeeInsights: React.FC = () => {
             currentPage={currentPageEmployeeTipsFeeSummary}
             setCurrentPage={setCurrentPageEmployeeTipsFeeSummary}
             Heading="Employee Summary"
-            tableData={employeeSummaryAPIRedux && employeeSummaryAPIRedux?.length > 0 && employeeSummaryAPIRedux}
+            // tableData={employeeSummaryAPIRedux && employeeSummaryAPIRedux?.length > 0 && employeeSummaryAPIRedux}
+            tableData={updatedEmployeeSummary && updatedEmployeeSummary?.length > 0 && updatedEmployeeSummary}
+            //updatedEmployeeSummary
             viewType="full"
             recordsPerPage={TABLE_RECORDS_LIMIT}
             totalpageNo={employeeSummaryTotalPagesRedux}
