@@ -9,6 +9,8 @@ import NavSlider from "../NavSlider/NavSlider";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
+import Basic from "../../../assets/svg/BasicChangesImg.svg";
+
 // import eyeOpenimg from '../../../assets/svg/eyeopenIcon.svg';
 import eyeOpenimg from '../../../assets/svg/eyeopenIcon2.svg'; 
 
@@ -17,9 +19,12 @@ import {
   resetSuccessMessage,
   selectedMockDataRequest,
   storeMockDataRequest,
+  partialUpdateMenuRequest,
+  removeDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useHistory } from "react-router-dom";
+
 
 interface PricingDetails {
   Dinein1: string[];
@@ -133,17 +138,17 @@ const Slider: React.FC<SliderProps> = ({
 
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
   const [active, setActive] = useState("Pricing");
   const modelref = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const data = useSelector(
-    (state: RootState) => state.storeMockDataReducer.data
-  );
+  // const data = useSelector(
+  //   (state: RootState) => state.storeMockDataReducer.data
+  // );
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
-
+  const dispatch = useDispatch();
   const [eyeIconOpenClose, setEyeIconOpenClose] = useState<boolean>();
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {};
@@ -211,6 +216,83 @@ const Slider: React.FC<SliderProps> = ({
   useEffect(() => {
     dispatch(resetSuccessMessage());
   }, [dispatch]);
+  const locationid = useSelector(
+      (state: any) => state.auth.credentials?.locationId
+    );
+  
+    const [showModal, setShowModal] = useState(false);
+    const { patchedData, setPatchedData, partialData, setPartialData } =
+      useContext(Contextpagejs);
+    const partaldatasending = useSelector(
+      (state: any) => state.productCatalog.partialDataSendingLoading
+    );
+    const partaldatasendingsuccessmsg = useSelector(
+      (state: any) => state.productCatalog?.partialDataSendingsuccess
+    );
+    const partaldatasendingfailuremsg= useSelector(
+      (state: any) => state.productCatalog?.partialDataSendingfaliure
+    );
+    
+    useEffect(() => {
+      // console.log({partaldatasending});
+  
+      if (!partaldatasending && showModal) {
+        onclose();
+        setShowModal(false);
+      }
+    }, [partaldatasending]);
+  
+    const data = useSelector(
+      (state: any) => state?.selectedMockDataReducer?.data
+    );
+  
+    const ordertypesdata = data &&data[0]?.orderTypes;
+  
+   
+  
+    const handleCancelButton = () => {
+      dispatch(removeDataRequest());
+      setPartialData((prev: any) => ({
+        ...prev,
+        pricing: [],
+        modifierInfo: [],
+        itemAvailabilityInfo: [],
+      }));
+      if (!partaldatasending) {
+        onclose();
+      }
+    };
+  
+    useEffect(() => {}, [partaldatasending, dispatch]);
+  
+    const [hasTrue, setHasTrue] = useState(false);
+  
+    const isPartialDataValid = () => {
+      const { itemId, pricing, modifierInfo, itemAvailabilityInfo } = partialData;
+  
+      if (pricing.length || modifierInfo.length || itemAvailabilityInfo.length) {
+        return true;
+      }
+  
+      return false;
+    };
+  
+    const handledispatchforpartilChange = () => {
+      setHasTrue(true);
+  
+      if (isPartialDataValid()) {
+        dispatch(partialUpdateMenuRequest(partialData, locationid));
+        setShowModal(true);
+        setPartialData((prev: any) => ({
+          ...prev,
+          pricing: [],
+          modifierInfo: [],
+          itemAvailabilityInfo: [],
+        }));
+      }
+  
+      //  onclose();
+    };
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
@@ -293,7 +375,7 @@ const Slider: React.FC<SliderProps> = ({
             />
           )}
         </div>
-
+       
         <div className="NavSlider-Component">
           <NavSlider
             eye={eye}
@@ -301,12 +383,56 @@ const Slider: React.FC<SliderProps> = ({
             sidebartext={sidebartext}
             SideBarData={SideBarData}
           />
+            <div className="change-and-cancel">
+      <div className="BasicChangesImage-editText" >
+          <img src={Basic} className="BasicChangesImage" alt="Basic" />
+          <p className="BasicChangesText">
+            Edit basic settings here. Click the edit icon to view all options.
+          </p>
         </div>
-        <div className="Basic-Component">
-          <BasicChanges onclose={onclose} />
+        <div className="CancelChange">
+          <button 
+            className="CancelBtn" 
+            onClick={handleCancelButton}
+          >
+            Cancel
+          </button>
+          <button
+            className="ChangeBtn"
+            style={{
+              opacity: isPartialDataValid() ? "100%" : "60%",
+            }}
+            onClick={handledispatchforpartilChange}
+            disabled={!isPartialDataValid()}
+          >
+            {!partaldatasending  ? (
+              "Update"
+            ) : (
+              <div className="reviewLoaders"></div>
+            )}
+          </button>
+          {/* <button className="ChangeBtn"style={{
+         
+          opacity: isPartialDataValid() ? '100%' : '60%',
+          
+        }} onClick={handledispatchforpartilChange} disabled={!isPartialDataValid()}>
+            Change
+          </button> */}
         </div>
+     </div>
+        </div>
+
+      
+        
+     
+        
       </div>
-    </div>
+      
+        {/* <div className="Basic-Component">
+          <BasicChanges onclose={onclose} />
+        </div> */}
+      </div>
+   
   );
 };
 

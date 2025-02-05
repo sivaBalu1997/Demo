@@ -505,9 +505,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const orderTypess = useSelector(
     (state: any) =>state.auth?.restaurantDetails?.branch && state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
+  const selectedBranch = useSelector(
+    (state:any) => state.auth.selectedBranch || null
+  );
+
 
   const getOrderTypeId = (value: any) => {
-    const orderTypes = orderTypess?.find(
+    const orderTypes = selectedBranch?.orderTypes?.find(
       (item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase()
     );
     return orderTypes ? orderTypes?.id : null;
@@ -515,8 +519,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   console.log({itemCustomizationData});
   
-  
-
+   
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
@@ -1204,6 +1207,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         src={emptyfoodimg}
                                         alt={``}
                                         className="eerroremptyimage"
+                                        style={{cursor:"none"}}
                                       />
                                       <input
                                         type="file"
@@ -1224,6 +1228,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   ) : (
                                     <img
                                       className="uploaded-image"
+                                      style={{cursor:"context-menu"}}
                                       src={
                                         selectedImages[0]?.url?.file
                                           ? selectedImages[0].url.preview
@@ -1238,7 +1243,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                             )}
 
                             {selectedImages?.length === 0 && (
-                              <li>
+                              <li className="empty-image">
                                 <img
                                   src={emptyfoodimg}
                                   alt={`No images available`}
@@ -1251,10 +1256,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                 selectedImages.slice(1).map((image, index) => (
                                   <li key={index + 1}>
                                     {imagecheck(selectedImages[index + 1]) ? (
-                                      <div className="imagewitherror">
+                                      <div className="imagewitherror"   style={{cursor:"context-menu"}}>
                                         <img
                                           src={emptyfoodimg}
                                           alt={``}
+                                          style={{cursor:"context-menu"}}
                                           className="eerroremptyimage"
                                         />
                                         <input
@@ -1266,7 +1272,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                           onChange={(e) =>
                                             handleRetry(e, index + 1)
                                           }
-                                          style={{ display: "none" }}
+                                          style={{ display: "none" ,cursor:"context-menu"}}
                                         />
                                         <span
                                           className="errromsg"
@@ -1279,7 +1285,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                       </div>
                                     ) : (
                                       <img
-                                        className="uploaded-image"
+                                        className="uploaded-image-img"
+                                        style={{cursor:"context-menu"}}
                                         src={
                                           image.url?.file
                                             ? image.url.preview
@@ -1296,6 +1303,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   <li key={selectedImages?.length + index + 1}>
                                     {typeof emptyfoodimg === "string" ? (
                                       <img
+                                      style={{cursor:"context-menu"}}
                                         src={emptyfoodimg}
                                         alt={`empty ${index}`}
                                       />

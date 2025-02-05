@@ -4,12 +4,7 @@
   align-items: flex-start;
   // background-color: greenyellow;
 
-  .menu-items-list{
-    span{
-      padding: 0;
-      margin: 0;
-    }
-  }
+  
 
   & .menu {
     z-index: 9;
@@ -51,7 +46,7 @@
         // padding-top: 1rem;
         height: 20px;
         width: 20px;
-        padding-bottom: 1.1%;
+        // padding-bottom: 1.1%;
       }
     }
 
@@ -102,18 +97,20 @@
         padding-left: 6px;
         height: 28px;
         width: 28px;
-        padding-top: 2rem;
-        padding-bottom: 1rem ;
+        // padding-top: 2rem;
+        // padding-bottom: 1rem ;
         // border: 1px solid red;
       }
 
-      & .menu-items-SVG path {
-        fill: #5f5f5f !important;
-      }
+      // & .menu-items-SVG path {
+      //   fill: black !important;
+      // }
 
       & .active {
         color: #67833e;
         list-style-type: disc;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
         & .menu-items-SVG path {
           fill: #67833e !important;
           height: 28px;
@@ -680,7 +677,10 @@ iframe {
   flex-direction: row;
   align-items: center;
   width: 100%;
-  
+  margin-top: -3vh;
+
+
+
   @media (max-width: 1024px) {
     flex-direction: column;
   }
@@ -925,5 +925,108 @@ iframe {
 
 .menu-items-name
 {
-  padding-top: 2rem;
+  // padding-top: 2rem;
+}
+
+.menu-items-sidebar
+{
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 2.3rem !important;
+
+}
+.activePath
+{
+  display: flex;
+  gap: 1rem;
+}
+
+.not-active{
+  display: flex;
+  gap: 1rem;
+
+}
+.menu-items-icon{
+  width: 24px;
+height: 20px;
+cursor: pointer;
+
+
+}
+.menu-items-name
+{
+  font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+color: #000000;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+cursor: pointer;
+
+}
+.not-active .menu-items-name{
+  color: #000000 !important;
+ 
+}
+.activePath .menu-items-name{
+  color: #67833e !important;
+
+}
+
+
+.not-active .menu-items-icon path{
+  fill: #000000 !important;
+ 
+}
+.activePath .menu-items-icon path{
+  fill: #67833e !important;
+
+}
+.offers-nav-list
+{
+  margin: 0;
+  padding: 0;
+  height: auto !important;
+  width: 90%;
+  position: relative;
+  
+
+
+
+}
+
+.menu-items-list
+{
+  padding: 0 ;
+  margin: 0 ;
+  display: flex;
+  flex-direction: column;
+
+}
+.menuList-offers-sub-category
+{
+  padding: 0;
+  margin: 0;
+  width: 4rem;
+  display: flex;
+flex-wrap: wrap;
+display: flex;
+white-space: normal; /* Allows wrapping of text */
+word-break: break-word; /* Breaks words when they're too long */
+display: inline-block;
+flex-wrap: wrap;
+ 
+
+}
+
+.reports-categories
+{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+
 }

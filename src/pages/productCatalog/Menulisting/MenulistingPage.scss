@@ -39,7 +39,6 @@ display: flex;
 .first-part-header
 {
     display: flex;
-    // border: 1px solid green;
     padding: 0;
     margin: 0;
     height: 49.6px;
@@ -60,8 +59,7 @@ display: flex;
         // justify-content: center;
         justify-content: flex-start;
         align-items: center;
-        // border: 1px solid red;
-        padding-top: 1.5vh;
+        
     }
     .item-code-style
     {

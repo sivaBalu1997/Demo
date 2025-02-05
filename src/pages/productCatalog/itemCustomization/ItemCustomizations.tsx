@@ -162,6 +162,8 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
+  // console.log({modifications});
+  
   const [filteredModifications, setFilteredModifications] = useState<
     Modification[]
   >([]);
@@ -171,10 +173,14 @@ const ItemCustomizations: React.FC<any> = () => {
   //     setFilteredModifications(editData[0]?.modifiers);
   //   }
   // }, [editData]);
+   const selectedBranch = useSelector(
+      (state:any) => state.auth.selectedBranch || null
+    );
 
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
+console.log({orderTypes});
 
   console.log({itemCustomizationData})
 
@@ -193,9 +199,11 @@ const ItemCustomizations: React.FC<any> = () => {
       
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
+        console.log("itemId",item?.selectedValue);
+        
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
-            const orderType = orderTypes?.find(
+            const orderType = selectedBranch.orderTypes?.find(
               (type: any) => type.id === selectedId
             );
             return orderType?.typeName || selectedId;
@@ -236,6 +244,15 @@ const ItemCustomizations: React.FC<any> = () => {
 
 
           console.log("edit",itemCustomizationData);
+          // const selectedTypeNames = (item?.orderTypeIds || []).map(
+          //   (selectedId: string) => {
+          //     const orderType = orderTypes?.find(
+          //       (type: any) => type.id === selectedId
+          //     );
+          //     return orderType?.typeName || selectedId;
+          //   }
+          // );
+  
           
           
           return {
@@ -364,11 +381,14 @@ console.log({modifications});
       const updated = [...prev];
       const currentModifier = updated[modIndex];
       const isCurrentValueEmpty = currentModifier[name] === "";
+      // console.log("hh",currentModifier.maxSelection);
+      
 
       updated[modIndex] = {
         ...currentModifier,
         selectionType: selectionType ? selectionType : "Mandatory",
         minSelection: selectionType === "Optional" ? 0 : prev.minSelection,
+        maxSelection:  currentModifier.maxSelection>1?currentModifier.maxSelection:1,
 
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
@@ -720,7 +740,9 @@ console.log({modifications});
   const ordertypesdetails = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData
   );
-  // console.log({ordertypesdetails})
+
+
+  console.log({ordertypesdetails})
 
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
@@ -840,9 +862,18 @@ console.log({Modifiers});
       streams.push(ordertypesdetails?.normalForm.deliveryDetails?.typeName);
     }
 
-    if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
-      streams.push(ordertypesdetails?.normalForm.thirdpartyDetails.typeName);
+    if (ordertypesdetails?.normalForm?.thirdpartyDetails?.length) {
+      const noPriceDetails = ordertypesdetails.normalForm.thirdpartyDetails.filter(
+        (detail:any) => detail.price || parseFloat(detail.price) > 0
+      );
+      console.log({noPriceDetails});
+      
+    
+      if (noPriceDetails.length > 0) {
+        streams.push(noPriceDetails[0].typeName);
+      }
     }
+    
     setListOfStreams(streams);
 
     if (streams.length > 0) {

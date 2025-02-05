@@ -14,6 +14,7 @@ import {
 import { cuisine } from "assets/mockData/Moca_data";
 import { iteratorSymbol } from "immer/dist/internal";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import {showErrorToast} from "../../../util/toastUtils";
 interface media {
   imageId: string;
   imageType: string;
@@ -161,8 +162,6 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
     type: "SUB_CATEGORY",
     parentId: parentId || matchedCategory?.id,
   };
-
-    console.log({categoryIdStore});
     
 
   useEffect(() => {
@@ -457,7 +456,9 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
         trigger(name);
       } else {
         if (currentSelectedOptions.length >= 5) {
+          showErrorToast("You can select only 5 best pairs");
           return;
+         
         }
 
         const updatedOptions = [...currentSelectedOptions, option];
@@ -517,8 +518,13 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
           );
         } else {
           if (bestpair && prevSelected.length >= 5) {
+            showErrorToast("You can select only 5 best pairs");
             return prevSelected;
+
+       
+
           }
+
           updatedSelected = [...prevSelected, option];
         }
 
@@ -541,6 +547,9 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
         }
         setValue("subCategory", "");
       }
+    }
+    if (dropDownType === "SUB_CATEGORY") {
+      valiadtesubCategory();
     }
   };
 
@@ -566,7 +575,7 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
 
 
   useEffect(()=>{
-    if(editData.length>0){
+    if(dropDownType === "CATEGORY" && categoryIdStore){
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   },[categoryIdStore])
@@ -700,6 +709,20 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
   const handleOpenDropdown = () => {
     if (!dropdownopen) {
       onToggle();
+      
+    // if (dropDownType !== "SUB_CATEGORY" && name !== "subCategory") {
+    //   dispatch(fetchDropDownRequest(payload));
+    // }
+
+    if (
+      dropDownType === "SUB_CATEGORY" &&
+      name === "subCategory" &&
+      subcategorydataforApi.parentId !== ""
+    ) {
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
+
+
     }
   };
 
@@ -817,7 +840,7 @@ console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
                 className="dropdown-options"
                 onMouseDown={handleOptionMouseDown}
               >
-                {dropDownLoading ? (
+                {(!(dropDownType === "CATEGORY" && options?.length>0)?dropDownLoading:false) ? (
                   <div className="dropdown-no-options">
                     <Loader
                       className="imgLoader1"
