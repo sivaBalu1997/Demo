@@ -26,6 +26,7 @@ import {
 const initialAuthState : AuthType = {
   // Auth Credential
   credentials: null,
+  credentialsSuccess: false,
 
   // SignIn
   signedIn: false,
@@ -63,6 +64,7 @@ export default function authReducer(state = initialAuthState, action:AuthAction)
       // Credential Reducer
       case CREDENTIALS_STORE:
         draft.credentials = action.payload;
+        draft.credentialsSuccess = true
         break;
       // SignUp Reducers
       case SIGNUP_REQUEST:
