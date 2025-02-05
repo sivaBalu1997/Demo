@@ -73,6 +73,7 @@ const Report = (props) => {
     }
   }, [reportId, branchId]);
 
+
   const fetchData = async () => {
     setLoading(true);
     const token = credentials?.accessToken;
