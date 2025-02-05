@@ -12,7 +12,7 @@ import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from "../../../assets/svg/availableTickFigMenu.svg";
 import dollaricon from "../../../assets/svg/dollarFigMenu.svg";
-import Slider from "../../../components/productCatalog/Slider/Slider";
+import Slider from "../../../components/productCatalog/Slider/SliderUpdated";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
 import TableFirstHeader from "../../../components/productCatalog/TableFirstHeader/TableFirstHeader";

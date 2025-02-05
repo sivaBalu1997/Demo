@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./CustomizeSlider.scss";
 import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,6 +36,7 @@ const CustomizeSlider = () => {
 
   const [customData, setCustomData] = useState<any>([]);
 
+ console.log({datafromRedux});
  
   
   useEffect(() => {
@@ -48,7 +49,7 @@ const CustomizeSlider = () => {
           id:opt.optionId,
           name: opt.name,
           price: Number(opt.price).toFixed(2),
-          isEnabled: opt.isEnabled,
+          isEnabled:modifier.isEnabled===1? opt.isEnabled:modifier.isEnabled,
         })),
       }))
     );
@@ -278,8 +279,22 @@ const CustomizeSlider = () => {
     restaurantDetails?.country === "US" ? "$" : "Rs."
   }`;
 
+    const customizeRefHeight = useRef<any>(null);
+  const [customizeHeight, setCustomizeHeight] = useState(0);
+
+  useEffect(() => {
+    // Use timeout to let the DOM update before measuring height
+    setTimeout(() => {
+      if (customizeRefHeight.current) {
+        setCustomizeHeight(customizeRefHeight.current.getBoundingClientRect().height);
+      }
+    }, 100); // Small delay to ensure accurate measurement
+  }, []); //
+  console.log({customizeHeight});
+  
+
   return (
-    <div className="customize-container">
+    <div className="customize-container" ref={customizeRefHeight} style={{height:customizeHeight<=509?"52vh":customizeHeight}}>
       <h3 className="customize-heading">Customize</h3>
 
       <div className="items-container">
@@ -306,7 +321,7 @@ const CustomizeSlider = () => {
                   key={subindex}
                 >
                   <div className="subitems-toggle-container-flex">
-                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":"",width:"70px"}}>{subitem.name}</div>
+                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":""}}>{subitem.name}</div>
                     <div className="subItemToggle">
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}

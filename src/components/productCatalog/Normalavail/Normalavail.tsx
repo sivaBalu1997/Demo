@@ -115,7 +115,7 @@ interface NormalavailProps {
   setValidationFunction: any;
   getValues: any;
   setValue: any;
-  setKitchenError:any;
+  setKitchenError: any;
 }
 
 type MealType1 = string;
@@ -162,7 +162,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setValidationFunction,
       getValues,
       setValue,
-      setKitchenError
+      setKitchenError,
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -608,8 +608,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
-        console.log({thirdpartyDetails});
-        
+        console.log({ thirdpartyDetails });
 
         setformNormal({
           PickuppriceNormal:
@@ -653,7 +652,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         const updatedField = {
-          DineInPrice:((dineIndetails?.price!==0)&& Number(dineIndetails?.price).toFixed(2)),
+          DineInPrice:
+            dineIndetails?.price !== 0 &&
+            Number(dineIndetails?.price).toFixed(2),
           // Enabled:dineIndetails  ? dineIndetails.Enabled:
           // dineIndetailsField && dineIndetailsField[0]?.Enabled && dineIndetailsField[0]?.Enabled === true
           //     ? true
@@ -711,7 +712,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "P",
             // Enabled: pickupDetails?.Enabled === true ? true : false,
             Enabled: true,
-            price: ((pickupDetails?.price!==0 )&& Number(pickupDetails?.price).toFixed(2)) || 0,
+            price:
+              (pickupDetails?.price !== 0 &&
+                Number(pickupDetails?.price).toFixed(2)) ||
+              0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
             ...(editData?.length && {
@@ -733,7 +737,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "S",
             Enabled: true,
             // Enabled: deliveryDetails?.Enabled,
-            price:((deliveryDetails?.price!==0)&& Number(deliveryDetails?.price).toFixed(2)) || 0,
+            price:
+              (deliveryDetails?.price !== 0 &&
+                Number(deliveryDetails?.price).toFixed(2)) ||
+              0,
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
             ...(editData?.length && {
@@ -751,12 +758,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             setSelectedThirdValues(data);
           }
-          const updatedDetails = thirdpartyDetails.map((detail:any) => ({
+          const updatedDetails = thirdpartyDetails.map((detail: any) => ({
             ...detail,
-            price:((detail.price!==0)&& Number(detail.price).toFixed(2)), 
+            price: detail.price !== 0 && Number(detail.price).toFixed(2),
           }));
-          
-
 
           setPriceInfo(updatedDetails);
           const object: any = {};
@@ -824,6 +829,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
+        console.log({ dineIndetail });
+
         // setValue("kitchenstation",prizingDetail?.kitchenstation)
 
         const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
@@ -901,6 +908,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
           (deliveryDetails?.price > 0 && setOnline(true)) ||
             (thirdpartyDetails &&
+              thirdpartyDetails[0] &&
               thirdpartyDetails[0]?.price > 0 &&
               setOnline(true));
           // if (
@@ -1009,11 +1017,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           DineInMealType:
             (dineIndetail &&
               dineIndetail?.availabilities &&
+              dineIndetail?.availabilities?.length > 0 &&
               dineIndetail?.availabilities[0]?.sessions) ||
             [],
           showDay:
             dineIndetail &&
             dineIndetail?.availabilities &&
+            prizingDetail.normalForm.DineIn &&
             prizingDetail.normalForm.DineIn[0]?.length > 0
               ? true
               : false,
@@ -1326,6 +1336,20 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         },
       }));
     };
+
+    const validateThridPrice = (
+      index: number,
+      price: number,
+      Enable: boolean
+    ): void => {
+      const validationErrors = { ...errors };
+      if ((!price || price <= 0) && !Enable) {
+        validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
+      } else {
+        delete validationErrors[`ThirdPartyPrice-${index}`];
+      }
+      setErrors(validationErrors);
+    };
     const [thirdPartiesSelected, setThirdPartiesSelected] = useState(false);
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
@@ -1366,6 +1390,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       );
     };
 
+    useEffect(() => {
+      priceInfo.map((item, index) => {
+        return validateThridPrice(index, item.price, item.Enabled);
+      });
+    }, [priceInfo]);
     const clearSelection = () => {
       setMealTypes({});
       setPriceInfo([
@@ -1537,19 +1566,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
-    const validateThridPrice = (
-      index: number,
-      price: number,
-      Enable: boolean
-    ): void => {
-      const validationErrors = { ...errors };
-      if ((!price || price <= 0) && !Enable) {
-        validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
-      } else {
-        delete validationErrors[`ThirdPartyPrice-${index}`];
-      }
-      setErrors(validationErrors);
-    };
     //   useEffect(()=>{
 
     //  if(!online)
@@ -1599,7 +1615,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           // Check if the price is empty
           if (!item.price && item?.Enabled) {
             validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
-          } 
+          }
           // Check if sessions are empty
           // if (item?.availabilities) {
           //   if (
@@ -1718,7 +1734,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       // }
 
       setErrors(validationErrors);
-      
+
       setKitchenError(true);
       return Object.keys(validationErrors).length === 0;
     };
@@ -1805,7 +1821,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           ],
         }));
       }
-   
 
       const validationErrors = { ...errors };
 
@@ -1833,7 +1848,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       setErrors(validationErrors);
     };
-    const handleWheel = (event:any) => {
+    const handleWheel = (event: any) => {
       event.target.blur(); // Removes focus to prevent unintended changes
       event.preventDefault();
     };
@@ -1841,8 +1856,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     return (
       <div>
         <div className="AvailDaycheck">
-           {/* <button onClick={handleSubmit}>Validate</button> */}
-            {/* <div className="tooltip">
+          {/* <button onClick={handleSubmit}>Validate</button> */}
+          {/* <div className="tooltip">
               <TooltipMsg
                 message="Select the default days this item is available for both on-premise and off-premise services."
                 styles={{
@@ -2340,7 +2355,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       {delivery && deliveryTypes ? (
                         <div>
                           <div></div>
-                          <p className="LabelPrice-delivery"> Price11*</p>
+                          <p className="LabelPrice-delivery"> Price*</p>
                           <div className="Online-delivery">
                             <div className="delivery-price-errormsg">
                               <input
@@ -2377,7 +2392,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   }
                                 }}
                                 onChange={(e) => {
-                                  e.preventDefault()
+                                  e.preventDefault();
                                   // if (deliveryDetails?.Enabled) {
                                   const inputValue = e.target.value;
 
@@ -2647,8 +2662,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
                             return null;
                           })}
-                          {console.log("lll",selectedthirdvalues)}
-{/* {selectedthirdvalues.length>0 &&
+
+                          {/* {selectedthirdvalues.length>0 &&
                           <div className="ThirdPartyChooseDayContainer">
 
                             {

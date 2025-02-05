@@ -1,0 +1,367 @@
+.Slider-Container-Updated
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1); 
+   
+    display: flex;
+    justify-content: flex-end;
+    transition: 0.3s ease-out;
+    z-index: 1000; 
+   
+}
+
+.Slider-Window-Updated
+{
+    position: fixed;
+    width: 27vw;
+    // height: 848px;
+    height: 89vh;
+    // overflow-y: hidden;
+    // border: 1px solid red;
+    margin-top: 5.5%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+.Slider-options-icons
+{
+    display: flex;
+   
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+
+}
+
+
+
+
+
+
+
+.PenImage-icon {
+    // width: 20px;
+    // height: 20px;
+    position: relative;
+    cursor: pointer;
+
+    .PenTool-updated {
+        position: absolute;
+        visibility: hidden;
+        top: 15px;
+        right: 10px;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        
+    
+        .PenTool-box-updated {
+          width: fit-content;
+          height: fit-content;
+          border-radius: 8px;
+          // padding: 4px;
+          padding-top: 4px;
+          padding-bottom: 4px;
+          padding-left: 5px;
+          padding-right: 5px;
+          background-color: rgba(103, 131, 62, 1);
+          color: white;
+          transform: translate(25px, 1px);
+          font-size: small;
+        }
+    
+        .ArrowHoverPen-updated {
+          width: 10px;
+          height: 10px;
+          transform: translate(25px, 4px);
+          position: relative;
+          left: 30%;
+        }
+        
+      }
+
+
+      &:hover .PenTool-updated {
+        visibility: visible;
+        opacity: 1;
+      }
+   
+  }
+
+
+  .slider-heading-optins
+  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0rem;
+   
+    height: 10vh;
+    // border: 1px solid red;
+  
+  }
+  .nav-for-headings
+  {
+    display: flex;
+    padding-left: 10px;
+    justify-content: left;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #B3B3B3;
+    .texts
+    {
+        background:none;
+        border: none;
+        color: #000000;
+        font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 41px;
+text-align: center;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+cursor: pointer;
+
+    }
+  }
+
+  .name-of-item-slider-heading
+  {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+   
+  
+    display: flex;
+    
+  }
+
+  .scroll-headeing-and-scroll
+  {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 59vh;
+   
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .each-section
+  {
+    width: 100%;
+    height: auto;
+    overflow-y: auto;
+   
+    position: relative;
+  }
+
+  .change-and-cancel{
+   
+    
+    height: 20vh;
+
+.BasicChangesImage
+{
+    width: 24px;
+height: 24px;
+
+
+}
+    .BasicChangesText
+    {
+        font-family: "Inter",sans-serif;
+font-size: 14px;
+font-weight: 300;
+line-height: 16.94px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #000000;
+
+    }
+  }
+
+
+  .BasicChangesImage-editText
+  {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0;
+    gap: 0.3rem;
+    padding-left: 0.2rem;
+   
+   
+
+  }
+
+  .CancelChange{
+   
+    display: flex;
+
+   gap: 2rem;
+   align-items: center;
+   justify-content: center;
+   margin-top: 1rem;
+  }
+    .CancelBtn{
+    width: 138.83px;
+    height: 46.28px;
+    border-radius: 3.47px;
+    padding: 10px;
+    font-size: 16px;
+    color: #5F5F5F;
+    background-color:white;
+    border: 1px solid #5F5F5F;
+    cursor: pointer;
+  }
+  .ChangeBtn{
+    width: 138.83px;
+    height: 46.28px;
+    border-radius: 3.47px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color:#67833E;
+    border: 1px solid #5F5F5F;
+    
+    cursor: pointer;
+  }
+
+  .scrollable-container
+  {
+    &::-webkit-scrollbar {
+        width: 11px !important;
+        height: 10px !important;
+      }
+    
+      &::-webkit-scrollbar-track {
+        background-color: #b3b3b3;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: #5f5f5f;
+        border-radius: 1rem;
+      }
+    
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+      }
+  }
+
+
+  
+  .EyeImage-icon {
+    position: relative;
+    cursor: pointer;
+
+    .EyeImage-updated {
+      width: 20px;
+      height: 20px;
+     
+    }
+
+    .EyeTool-updated {
+      position: absolute;
+      visibility: hidden;
+      top: 15px;
+      right: 0;
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+      .EyeTool-box-updated {
+        width: fit-content;
+        height: fit-content;
+        border-radius: 8px;
+        padding: 4px;
+        background-color: rgba(103, 131, 62, 1);
+        color: white;
+        transform: translate(38px, 1px);
+        font-size: small;
+      }
+
+      .ArrowHoverEye-updated {
+        width: 10px;
+        height: 10px;
+        transform: translate(25px, 4px);
+        position: relative;
+        left: 60%;
+      }
+    }
+
+    &:hover .EyeTool-updated {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+
+  .BinImage-icon {
+    position: relative;
+    cursor: pointer;
+
+    .BinImage-updated {
+      width: 20px;
+      height: 20px;
+     
+    }
+
+    .DelTool-updated {
+      position: absolute;
+      visibility: hidden;
+      top: 20px;
+      right: 0;
+      // left: 1%;
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      // background-color: pink;
+
+      .DelTool-box-updated {
+        width: fit-content;
+        height: fit-content;
+        border-radius: 8px;
+        // padding: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        background-color: rgba(103, 131, 62, 1);
+        color: white;
+        font-size: small;
+        margin-bottom: 0;
+      }
+
+      .ArrowHoverDel-updated {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+
+        width: 10px;
+        height: 10px;
+        top: 3px;
+        // background-color: lightcoral;
+        left: 67%;
+        // margin-bottom: 2px;
+      }
+    }
+
+    &:hover .DelTool-updated {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
