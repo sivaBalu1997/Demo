@@ -74,7 +74,7 @@ const EmployeeInsights: React.FC = () => {
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
 
   const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
-  const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(({ total, ...rest }: any) => rest);
+  const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(({ total, date, ...rest }: any) => rest);
   // console.log("2222222222", { updatedEmployeeSummary })
   // console.log("1111", { employeeSummaryAPIRedux })
   const employeeSummaryTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages);
@@ -105,6 +105,7 @@ const EmployeeInsights: React.FC = () => {
   const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
   // console.log("1111", { employeeVoidActivityTotalPagesRedux })
   const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
+
 
 
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
