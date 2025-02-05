@@ -36,6 +36,7 @@ const CustomizeSlider = () => {
 
   const [customData, setCustomData] = useState<any>([]);
 
+ console.log({datafromRedux});
  
   
   useEffect(() => {
@@ -48,7 +49,7 @@ const CustomizeSlider = () => {
           id:opt.optionId,
           name: opt.name,
           price: Number(opt.price).toFixed(2),
-          isEnabled: opt.isEnabled,
+          isEnabled:modifier.isEnabled===1? opt.isEnabled:modifier.isEnabled,
         })),
       }))
     );
@@ -320,7 +321,7 @@ const CustomizeSlider = () => {
                   key={subindex}
                 >
                   <div className="subitems-toggle-container-flex">
-                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":"",width:"70px"}}>{subitem.name}</div>
+                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":""}}>{subitem.name}</div>
                     <div className="subItemToggle">
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}
