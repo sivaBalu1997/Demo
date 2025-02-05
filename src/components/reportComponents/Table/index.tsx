@@ -231,7 +231,15 @@ const Table = ({
             <thead className="t-tableHeader">
               <tr className="t-tableRowHead">
                 {tableHeader?.map((header, index) => {
-                  const isNumeric = typeof tableData[0][header] === "number" && header !== "S.No";
+                  const firstRowValue = tableData && tableData?.[0]?.[header];
+                  // const isNumeric = (!isNaN(firstRowValue) && firstRowValue !== null && firstRowValue !== "") && header !== "S.No";
+                  const isNumeric = (!isNaN(firstRowValue) &&
+                    firstRowValue !== null &&
+                    firstRowValue !== "" &&
+                    typeof firstRowValue !== "boolean" &&
+                    !/^0\d+$/.test(firstRowValue) &&  // Prevents leading-zero numbers like "005444"
+                    header !== "S.No" &&
+                    !/orderNo/i.test(header));
                   const isMonetary = /sales|amount|price/i.test(header);
                   const currencySymbol = countryCode === "US" ? "$" : "₹";
                   return (
@@ -264,13 +272,25 @@ const Table = ({
                       className="t-mainRow"
                       onClick={() => toggleRowExpansion(rowIndex)}
                     >
-                      {tableHeader.map((header, cellIndex) => (
+                      {tableHeader?.map((header, cellIndex) => (
                         <td
+                          // className={`t-tableCell ${header === "S.No"
+                          //   ? "t-align-left"
+                          //   : typeof row[header] === "number"
+                          //     ? "t-align-right"
+                          //     : ""
+                          //   }`}
+                          // className={`t-tableCell ${header === "S.No"
+                          //   ? "t-align-left"
+                          //   : (!isNaN(row[header]) && typeof row[header] === "string") || typeof row[header] === "number"
+                          //     ? "t-align-right"
+                          //     : "t-align-left"
+                          //   }`}
                           className={`t-tableCell ${header === "S.No"
                             ? "t-align-left"
-                            : typeof row[header] === "number"
+                            : (typeof row[header] === "number" || (!isNaN(row[header]) && typeof row[header] === "string" && !/^0\d+/.test(row[header])))
                               ? "t-align-right"
-                              : ""
+                              : "t-align-left"
                             }`}
                           key={cellIndex}
                         >
