@@ -1004,6 +1004,10 @@ console.log({Modifiers});
     setcustomizationerrors(errors);
   };
 
+
+
+  
+
   const validateModifiers = (modifications: any[]) => {
     // Initialize errors array
     const errors = [customizationerrors];
@@ -1028,9 +1032,9 @@ console.log({Modifiers});
           errormsgforselectedvalues: "",
           options: [],
         };
-  
+        console.log({modifierOptions});
         // Validate Modifier Name
-        if (!modifierName.trim() && showModifiers) {
+        if (!modifierName.trim() && showModifiers &&modifier.isEnabled) {
           modifierErrors.modifierNameError = `Modifier Name is required`;
         }
   
@@ -1043,6 +1047,7 @@ console.log({Modifiers});
         if (Array.isArray(modifierOptions)) {
           modifierOptions.forEach((option: any) => {
             let optionErrors: any = {
+              isEnabled:option.isEnabled,
               optionName: option.modifierOptionName || "",
               optionId: option.modifierOptionId || "",
               optionNameError: "",
@@ -1051,13 +1056,14 @@ console.log({Modifiers});
             };
   
             // Validate Option Name
-            if (!option.modifierOptionName.trim() &&showModifiers) {
+            if (!option.modifierOptionName.trim() &&showModifiers &&modifier.isEnabled && option.isEnabled) {
               optionErrors.optionNameError = `Option Name is required`;
             }
   
             // Validate Option Price
-            if ((isNaN(option.cost) || option.cost <= 0) &&showModifiers) {
+            if ((isNaN(option.cost) || option.cost <= 0) &&showModifiers && modifier.isEnabled && option.isEnabled) {
               optionErrors.optionPriceError = `Price field is required`;
+             
             }
   
             modifierErrors.options.push(optionErrors);
