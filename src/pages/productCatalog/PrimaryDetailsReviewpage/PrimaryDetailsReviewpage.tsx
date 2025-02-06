@@ -584,7 +584,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     dineInDetails && {
       ...dineInDetails,
       isEnabled: dineInDetails?.Enabled===true||dineInDetails?.Enabled===1?1:0, 
-      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
+      isNotHide:dineInDetails && dineInDetails?.price && parseFloat(dineInDetails?.price) > 0.00 ? 1 : 0,
+      // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
       availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
@@ -598,7 +599,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     pickupDetails && {
       ...pickupDetails,
       isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
-      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
+      isNotHide: pickupDetails && pickupDetails?.price && parseFloat(pickupDetails?.price) > 0.00 ? 1 : 0,
+      // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
       availabilities: pickupDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
@@ -611,7 +613,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     deliveryDetails && {
       ...deliveryDetails,
       isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
-      isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'S' )?.isNotHide || null,
+      isNotHide:  deliveryDetails && deliveryDetails?.price && parseFloat(deliveryDetails?.price) > 0.00 ? 1 : 0,
       availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
@@ -626,7 +628,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       ? thirdPartyDetails?.map((detail) => ({
           ...detail,
           isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
-          isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'T' )?.isNotHide || null,
+          isNotHide:detail && detail?.price && parseFloat(detail?.price) > 0.00 ? 1 : 0,
           availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
             availabilityDays:
