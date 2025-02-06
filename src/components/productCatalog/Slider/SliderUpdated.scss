@@ -25,6 +25,15 @@
     margin-top: 5.5%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: white;
+
+    @media (max-width: 1397px) {
+     
+      width: 29vw !important;
+      // border: 1px solid red !important;
+    }
+
+
+
 }
 .Slider-options-icons
 {
