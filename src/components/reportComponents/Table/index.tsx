@@ -240,7 +240,8 @@ const Table = ({
                     !/^0\d+$/.test(firstRowValue) &&  // Prevents leading-zero numbers like "005444"
                     header !== "S.No" &&
                     !/orderNo/i.test(header));
-                  const isMonetary = /sales|amount|price/i.test(header);
+                  const isMonetary = /sales|amount|price|tip|tips|service\s?fee|fee|gratuity|discount|order\s?total/i.test(header) &&
+                    !/discount\s?name/i.test(header);
                   const currencySymbol = countryCode === "US" ? "$" : "₹";
                   return (
                     <th
