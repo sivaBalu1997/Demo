@@ -1186,8 +1186,12 @@ console.log({allFalseForKeysEndingWith1});
                     {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.subCategoryResponseList &&
-                        data?.subCategoryResponseList?.length > 0 ? (
-                        data?.subCategoryResponseList?.length > 0 &&
+                        data?.subCategoryResponseList?.length > 0 ? 
+                        
+                        (
+                          <>
+
+                   {data?.subCategoryResponseList?.length > 0 &&
                         data.categoryName !== "" && (
                           <>
                             {data?.subCategoryResponseList?.map(
@@ -1257,6 +1261,9 @@ console.log({allFalseForKeysEndingWith1});
                             )}
                           </>
                         )
+                          
+                       } </>
+                       
                       ) : (
                         <>
                           {data?.itemResponseList &&

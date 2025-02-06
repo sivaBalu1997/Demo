@@ -296,7 +296,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
       //  onclose();
     };
 
-    const [activeSection, setActiveSection] = useState<string | null>("pricing");
+    const [activeSection, setActiveSection] = useState<string | null>("Pricing");
     const sections = ["Pricing", "Availability", "Customize"];
   const containerRef:any = useRef(null);
   const sectionRefs:any = {
