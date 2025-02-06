@@ -455,6 +455,7 @@ const EmployeeInsights: React.FC = () => {
               </div>
               {state.openFilter && (
                 <div className="filter-drop-down-options" ref={dropdownRef}>
+                  <p onClick={() => handleOptionClickForDate("Yesterday")}>Yesterday</p>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                   <p onClick={() => handleOptionClickForDate("This Week")}>
                     This Week
