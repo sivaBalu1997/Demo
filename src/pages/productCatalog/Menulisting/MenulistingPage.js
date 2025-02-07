@@ -44,11 +44,11 @@ export const MenulistingPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  const listingobjects = useSelector((state) => state.productCatalog?.selectedColumns);
- 
-  
-  const [listingobject, setlistingobject] = useState(
+  const listingobjects = useSelector(
+    (state) => state.productCatalog?.selectedColumns
   );
+
+  const [listingobject, setlistingobject] = useState();
   const loadingRequest = useSelector(
     (state) => state.productCatalog?.addMenuLoading
   );
@@ -108,19 +108,17 @@ export const MenulistingPage = () => {
   ]);
   const getUniqueOrderTypeNames = (data) => {
     return data.reduce((acc, category) => {
-      if(category?.subCategoryResponseList){
+      if (category?.subCategoryResponseList) {
         category?.subCategoryResponseList?.forEach((item1) => {
-          item1?.itemResponseList.forEach((item)=>{
+          item1?.itemResponseList.forEach((item) => {
             item.orderTypes?.forEach((orderType) => {
               if (orderType.typeGroup !== "I") {
                 acc[orderType.typeName] = true;
               }
             });
-          })
-       
+          });
         });
-      }
-      else{
+      } else {
         category?.itemResponseList?.forEach((item) => {
           item.orderTypes?.forEach((orderType) => {
             if (orderType.typeGroup !== "I") {
@@ -129,12 +127,10 @@ export const MenulistingPage = () => {
           });
         });
       }
-   
+
       return acc;
     }, {});
   };
-
-
 
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
@@ -159,7 +155,6 @@ export const MenulistingPage = () => {
     };
   };
 
- 
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -170,29 +165,27 @@ export const MenulistingPage = () => {
     );
   }, [itemList, menuData]);
 
+  console.log({ uniqueOrderTypeNames });
 
-  console.log({uniqueOrderTypeNames});
-  
   const selectedBranch = useSelector(
     (state) => state.auth.selectedBranch || null
   );
   const getUniqueOrderTypes = (menuData) => {
-    const orderTypeNames = menuData.flatMap((category) =>{
-      if(category?.subCategoryResponseList)
-      {
-        return category?.subCategoryResponseList?.flatMap((item,index) =>
-          item?.itemResponseList[index]?.orderTypes.map((orderType) => ({ typeName: orderType?.typeName }))
-        )
-      }
-      else{
+    const orderTypeNames = menuData.flatMap((category) => {
+      if (category?.subCategoryResponseList) {
+        return category?.subCategoryResponseList?.flatMap((item, index) =>
+          item?.itemResponseList[index]?.orderTypes.map((orderType) => ({
+            typeName: orderType?.typeName,
+          }))
+        );
+      } else {
         return category.itemResponseList?.flatMap((item) =>
-          item.orderTypes.map((orderType) => ({ typeName: orderType?.typeName }))
-        )
+          item.orderTypes.map((orderType) => ({
+            typeName: orderType?.typeName,
+          }))
+        );
       }
-     
-    }
-     
-    );
+    });
     // console.log("orderTypeNames",orderTypeNames);
 
     const uniqueOrderTypeNames = Array.from(
@@ -254,12 +247,9 @@ export const MenulistingPage = () => {
     { label: "Customize1" },
   ]);
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     dispatch(selectedColumnsCarryData(listingobject));
-
-  },[listingobject,menuData])
+  }, [listingobject, menuData]);
 
   useEffect(() => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
@@ -290,8 +280,8 @@ export const MenulistingPage = () => {
     Customization: "Customization",
   };
 
-  console.log({listingobject});
-  
+  console.log({ listingobject });
+
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
@@ -352,10 +342,6 @@ export const MenulistingPage = () => {
     dispatch(removeDataRequest());
   }, []);
 
- 
-
- 
-  
   const locationid = useSelector((state) => state.auth.selectedBranch?.id);
 
   const deleteMenuItemSuccess = useSelector(
@@ -484,7 +470,6 @@ export const MenulistingPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
-  
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -566,16 +551,12 @@ export const MenulistingPage = () => {
     if (key === "DineIn1" || key === "Pickup1" || key === "Delivery1") {
       setSideBarText("Pricing");
       handlemodal();
-      
     } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       setSideBarText("Availability");
       handlemodal();
-    
     } else if (key === "Customize1") {
       setSideBarText("Customize");
       handlemodal();
-
-      
     }
   };
 
@@ -612,7 +593,7 @@ export const MenulistingPage = () => {
       }));
 
       setItemList(transformedList);
-      setMenudatalist(menuData)
+      setMenudatalist(menuData);
       setLoading(false);
     } else {
       if (SearchedmenuItem.subCategoryResponseList) {
@@ -624,7 +605,7 @@ export const MenulistingPage = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
-        setLoading(false)
+        setLoading(false);
       } else {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
@@ -633,7 +614,7 @@ export const MenulistingPage = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
-        setLoading(false)
+        setLoading(false);
       }
       //setLoading(false);
     }
@@ -642,7 +623,7 @@ export const MenulistingPage = () => {
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));
-      dispatch(itemCustomizationPost([]))
+      dispatch(itemCustomizationPost([]));
     }
   }, [selectedBranch?.id]);
 
@@ -673,7 +654,7 @@ export const MenulistingPage = () => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
-        itemId:editData[0]?.itemId ?? "",
+        itemId: editData[0]?.itemId ?? "",
         description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,
@@ -809,14 +790,11 @@ export const MenulistingPage = () => {
 
   const [showColumns, setShowColumns] = useState(false);
 
-
-
-
   useEffect(() => {
     const allFalse =
       listingobject &&
       Object.entries(listingobject)
-        .filter(([key]) => key !== 'showAvail' && key !== 'showPricing')
+        .filter(([key]) => key !== "showAvail" && key !== "showPricing")
         .every(([, value]) => value === false);
 
     setShowColumns(allFalse);
@@ -874,25 +852,21 @@ export const MenulistingPage = () => {
     (state) => state.auth.restaurantDetails
   );
   const getUniqueOrderTypeNamesfortableprice = (menuData) => {
-    const orderTypeNames = menuData.flatMap((category) =>{
-      if(category?.subCategoryResponseList){
-        return category?.subCategoryResponseList?.flatMap((item,index) =>
+    const orderTypeNames = menuData.flatMap((category) => {
+      if (category?.subCategoryResponseList) {
+        return category?.subCategoryResponseList?.flatMap((item, index) =>
           item?.itemResponseList[index]?.orderTypes.map((orderType) => ({
             typeName: orderType?.typeName,
           }))
-        )
-      }
-      else{
+        );
+      } else {
         return category.itemResponseList?.flatMap((item) =>
           item.orderTypes.map((orderType) => ({
             typeName: orderType?.typeName,
           }))
-        )
+        );
       }
-   
-    }
-     
-    );
+    });
 
     const uniqueOrderTypeNames = Array.from(
       new Map(
@@ -988,18 +962,15 @@ export const MenulistingPage = () => {
     const headerElement = headerRef.current;
     const bodyElement = bodyRef.current;
 
-    if(headerElement && bodyElement)
-    {
+    if (headerElement && bodyElement) {
       headerElement?.addEventListener("scroll", handleHeaderScroll);
       bodyElement?.addEventListener("scroll", handleBodyScroll);
-  
+
       return () => {
         headerElement?.removeEventListener("scroll", handleHeaderScroll);
         bodyElement?.removeEventListener("scroll", handleBodyScroll);
       };
     }
-
-   
   }, []);
 
   useEffect(() => {
@@ -1034,26 +1005,27 @@ export const MenulistingPage = () => {
 
   const mergeRefs =
     (...refs) =>
-      (element) => {
-        refs.forEach((ref) => {
-          if (typeof ref === "function") {
-            ref(element);
-          } else if (ref && typeof ref === "object") {
-            ref.current = element;
-          }
-        });
-      };
-      const [hasScrollbar, setHasScrollbar] = useState(false);
-
-      const checkScrollbar = () => {
-        if (bodyRef.current) {
-          setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
+    (element) => {
+      refs.forEach((ref) => {
+        if (typeof ref === "function") {
+          ref(element);
+        } else if (ref && typeof ref === "object") {
+          ref.current = element;
         }
-      };
+      });
+    };
+  const [hasScrollbar, setHasScrollbar] = useState(false);
+
+  const checkScrollbar = () => {
+    if (bodyRef.current) {
+      setHasScrollbar(
+        bodyRef.current.scrollWidth > bodyRef.current.clientWidth
+      );
+    }
+  };
   const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
 
-  const [removeiconclciked,setRemoveiconclciked]=useState();
- 
+  const [removeiconclciked, setRemoveiconclciked] = useState();
 
   useEffect(() => {
     const updateWidth = () => {
@@ -1063,428 +1035,473 @@ export const MenulistingPage = () => {
         setWidthForCategoryBorder(width);
       }
     };
-  
+
     updateWidth();
     checkScrollbar();
     window.addEventListener("resize", updateWidth);
     window.addEventListener("resize", checkScrollbar);
-  
+
     return () => {
       window.removeEventListener("resize", updateWidth);
       window.addEventListener("resize", checkScrollbar);
     };
   }, [listingobject, menuData, menudatalist, showColumns, removeiconclciked]);
-  
- 
 
-const handleRemoveIcon = (value) => {
+  const handleRemoveIcon = (value) => {
     const allFalse =
       listingobject &&
       Object.values(listingobject).every((value) => value === false);
     if (allFalse) {
       setShowColumns(allFalse);
     }
-  if (bodyRef.current) {
-          setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
-        }
-    setRemoveiconclciked(value)
+    if (bodyRef.current) {
+      setHasScrollbar(
+        bodyRef.current.scrollWidth > bodyRef.current.clientWidth
+      );
+    }
+    setRemoveiconclciked(value);
   };
-   const [widthForEachRow, setWidthForEachRow] = useState();
-console.log({removeiconclciked});
-const bodyrefwidthclient= bodyRef?.current?.clientWidth;
-const bodyrefwidthscroll= bodyRef?.current?.scrollWidth;
-
-
-
-
-useEffect(()=>{
-  if (bodyRef.current) {
-    setHasScrollbar(bodyRef.current.scrollWidth > bodyRef.current.clientWidth);
-  }
-},[removeiconclciked,bodyRef?.current?.clientWidth,bodyRef?.current?.scrollWidth,menuData])
-
-console.log({hasScrollbar});
-
+  const [widthForEachRow, setWidthForEachRow] = useState();
+  console.log({ removeiconclciked });
+  const bodyrefwidthclient = bodyRef?.current?.clientWidth;
+  const bodyrefwidthscroll = bodyRef?.current?.scrollWidth;
 
   useEffect(() => {
-  
-      const element = document.querySelector(".orderTypes");
-  
-      if (element) {
-        const { width } = element.getBoundingClientRect();
-        setWidthForEachRow(width);
-      }
-    }, [listingobject, menuData,menudatalist]);
+    if (bodyRef.current) {
+      setHasScrollbar(
+        bodyRef.current.scrollWidth > bodyRef.current.clientWidth
+      );
+    }
+  }, [
+    removeiconclciked,
+    bodyRef?.current?.clientWidth,
+    bodyRef?.current?.scrollWidth,
+    menuData,
+  ]);
 
-    console.log({listingobject});
-    const allFalseForKeysEndingWith1 =listingobject&& Object.keys(listingobject)
-  ?.filter(key => key.endsWith('1') && key !== 'Customize1')
-  ?.every(key => listingobject[key] === false);
+  console.log({ hasScrollbar });
 
-  const allFalseForKeysEndingWith2 =listingobject&& Object.keys(listingobject)
-  ?.filter(key => key.endsWith('2'))
-  ?.every(key => listingobject[key] === false);
-console.log({allFalseForKeysEndingWith1});
+  useEffect(() => {
+    const element = document.querySelector(".orderTypes");
+
+    if (element) {
+      const { width } = element.getBoundingClientRect();
+      setWidthForEachRow(width);
+    }
+  }, [listingobject, menuData, menudatalist]);
+
+  console.log({ listingobject });
+  const allFalseForKeysEndingWith1 =
+    listingobject &&
+    Object.keys(listingobject)
+      ?.filter((key) => key.endsWith("1") && key !== "Customize1")
+      ?.every((key) => listingobject[key] === false);
+
+  const allFalseForKeysEndingWith2 =
+    listingobject &&
+    Object.keys(listingobject)
+      ?.filter((key) => key.endsWith("2"))
+      ?.every((key) => listingobject[key] === false);
+  console.log({ allFalseForKeysEndingWith1 });
 
   return (
-   <div   className="MenuPage-new-container">
+    <div className="MenuPage-new-container">
+      <SidePanel />
 
-   
-          <SidePanel />
-    
-    <div  className={`${isExpanded ? "MenuPage-new-container-body-expand" : "MenuPage-new-container-body"}`}>
+      <div
+        className={`${
+          isExpanded
+            ? "MenuPage-new-container-body-expand"
+            : "MenuPage-new-container-body"
+        }`}
+      >
         <div className="MenuPage-new-container-header">
-        <Header />
+          <Header />
         </div>
         <InsertColumnList
-            listingobject={listingobject}
-            setlistingobject={setlistingobject}
-            insertlist={insertlists2}
-            showheadinglist={showheadinglist}
-            setshowheadinglist={setshowheadinglist}
-            closeicon={closeicon}
-            dollaricon={dollaricon}
-            toggleround={toggleround}
-            togglebtns={calendericon}
-            Outsideref={Outsideref}
-            setHasScrollbar={setHasScrollbar}
-            uniqueOrderTypeNames={uniqueOrderTypeNames}
-          />
-        <div  className={`${isExpanded ? "MenuPage-new-container-menuBody-expand" : "MenuPage-new-container-menuBody"}`}>
-            <div className="first-part-data">
-                {!menuDataLoading &&!menuDataFailed &&  itemList?.length > 0 && <div className="first-part-header">
+          listingobject={listingobject}
+          setlistingobject={setlistingobject}
+          insertlist={insertlists2}
+          showheadinglist={showheadinglist}
+          setshowheadinglist={setshowheadinglist}
+          closeicon={closeicon}
+          dollaricon={dollaricon}
+          toggleround={toggleround}
+          togglebtns={calendericon}
+          Outsideref={Outsideref}
+          setHasScrollbar={setHasScrollbar}
+          uniqueOrderTypeNames={uniqueOrderTypeNames}
+        />
+        <div
+          className={`${
+            isExpanded
+              ? "MenuPage-new-container-menuBody-expand"
+              : "MenuPage-new-container-menuBody"
+          }`}
+        >
+          <div className="first-part-data">
+            {!menuDataLoading && !menuDataFailed && itemList?.length > 0 && (
+              <div className="first-part-header">
                 <p className="image-style"></p>
-                  <p className="name-item-style">ItemName</p>
-                  <p className="item-code-style">
-                    <span> Code </span>
-                    <button
-                      className="addbtn-menupage"
-                      onClick={() => {
-                        if (
-                          itemList?.length > 0 &&
-                          // itemList?.some(
-                          //   (item) => item?.itemResponseList?.length > 0
-                          // ) &&
-                          !menuDataLoading &&
-                          !menuDataFailed
-                        ) {
-                          setshowheadinglist(true);
-                        }
-                      }}
-                    >
-                      <span className="Menupage-insert-column-span">+</span>
-                    </button>
-                  </p>
+                <p className="name-item-style">ItemName</p>
+                <p className="item-code-style">
+                  <span> Code </span>
+                  <button
+                    className="addbtn-menupage"
+                    onClick={() => {
+                      if (
+                        itemList?.length > 0 &&
+                        // itemList?.some(
+                        //   (item) => item?.itemResponseList?.length > 0
+                        // ) &&
+                        !menuDataLoading &&
+                        !menuDataFailed
+                      ) {
+                        setshowheadinglist(true);
+                      }
+                    }}
+                  >
+                    <span className="Menupage-insert-column-span">+</span>
+                  </button>
+                </p>
+              </div>
+            )}
+            <div
+              className={`${
+                showColumns
+                  ? "first-part-body-no-column-in-secondbody"
+                  : "first-part-body"
+              }`}
+              ref={ref1}
+            >
+              <div>
+                {menudatalist?.map((data, parentIndex) => (
+                  <React.Fragment key={parentIndex}>
 
 
-
-
-                </div>}
-                <div className= {`${showColumns?"first-part-body-no-column-in-secondbody":"first-part-body"}`}   ref={ref1}  >
-                    <div>
-
-                    {menudatalist?.map((data, parentIndex) => (
-                    <React.Fragment key={parentIndex}>
-                      {data?.subCategoryResponseList &&
-                        data?.subCategoryResponseList?.length > 0 ? 
-                        
-                        (
-                          <>
-
-                   {data?.subCategoryResponseList?.length > 0 &&
-                        data.categoryName !== "" && (
-                          <>
-                            {data?.subCategoryResponseList?.map(
-                              (subCategory, index) => (
-                                <>
-                                  {subCategory?.itemResponseList?.length >
-                                    0 && (
-                                      <div 
-                                      className="categoryName-data-bg"
-                                      >
-                                        <p>
-                                          {data.categoryName}-{" "}
-                                          <span>
-                                            {subCategory.subCategoryName}
-                                          </span>{" "}
-                                          ({subCategory?.itemResponseList?.length}
-                                          )
-                                        </p>
-                                      </div>
-                                    )}
-
-                                  {data?.subCategoryResponseList?.length > 0 &&
-                                    subCategory?.itemResponseList?.length > 0 &&
-                                    subCategory?.itemResponseList.map(
-                                      (item, index) => (
-                                        <div
-                                          key={index}
-                                          className="fist-part-data-itemname-code"
-                                        >
-                                          <p>
-                                            <span className="imgae-styel2">
-                                              <img
-                                                src={`${baseImageUrl}${item?.mediaResponseList[0]
-                                                    ?.imageId
-                                                  }.${item?.mediaResponseList[0]?.imageType.split(
-                                                    "/"
-                                                  )[1]
-                                                  }`}
-                                                alt="No Image"
-                                                className="foodimage"
-                                              />
-                                            </span>
-                                          </p>
-                                          <p>
-                                            <span
-                                              className="name-style2"
-                                              onClick={() =>
-                                                handlemodal(item.itemId)
-                                              }
-                                            >
-                                              <HoverText
-                                                text={item?.itemName}
-                                                lengthvale={14}
-                                              />
-                                            </span>
-                                          </p>
-                                          <p>
-                                            <span className="code-style2">
-                                              {item?.itemCode}
-                                            </span>
-                                          </p>
-                                        </div>
-                                      )
-                                    )}
-                                </>
-                              )
-                            )}
-                          </>
-                        )
-                          
-                       } </>
-                       
-                      ) : (
-                        <>
-                          {data?.itemResponseList &&
-                            data?.itemResponseList?.length > 0
-                            ? data?.itemResponseList?.length > 0 &&
+<>
+                          {data?.subCategoryResponseList &&
+                      data?.subCategoryResponseList?.length > 0 &&
                             data.categoryName !== "" && (
                               <>
-                                <div className="categoryName-data-bg">
-                                  <p>
-                                    {data.categoryName} (
-                                    {data?.itemResponseList?.length})
-                                  </p>
-                                </div>
-                                {data?.itemResponseList.map((item, index) => (
-                                  <div
-                                    key={index}
-                                    className={isExpanded ? "fist-part-data-itemname-code" : "fist-part-data-itemname-code"}
-                                  >
-                                    <p>
-                                      <span className="imgae-styel2">
-                                        <img
-                                          src={`${baseImageUrl}${item?.mediaResponseList[0]
-                                              ?.imageId
-                                            }.${item?.mediaResponseList[0]?.imageType.split(
-                                              "/"
-                                            )[1]
-                                            }`}
-                                          alt="No Image"
-                                          className="foodimage"
-                                        />
-                                      </span>
-                                    </p>
-                                    <p>
-                                      <span
-                                        className={"name-style2"}
+                                {data?.subCategoryResponseList?.map(
+                                  (subCategory, index) => (
+                                    <>
+                                      {subCategory?.itemResponseList?.length >
+                                        0 && (
+                                        <div className="categoryName-data-bg">
+                                          <p>
+                                            {data.categoryName}-{" "}
+                                            <span>
+                                              {subCategory.subCategoryName}
+                                            </span>{" "}
+                                            (
+                                            {
+                                              subCategory?.itemResponseList
+                                                ?.length
+                                            }
+                                            )
+                                          </p>
+                                        </div>
+                                      )}
 
-                                        onClick={() =>
-                                          handlemodal(item.itemId)
-                                        }
-                                      >
-                                        <HoverText
-                                          text={item?.itemName}
-                                          lengthvale={14}
-                                        />
-                                      </span>
-                                    </p>
+                                      {data?.subCategoryResponseList?.length >
+                                        0 &&
+                                        subCategory?.itemResponseList?.length >
+                                          0 &&
+                                        subCategory?.itemResponseList.map(
+                                          (item, index) => (
+                                            <div
+                                              key={index}
+                                              className="fist-part-data-itemname-code"
+                                            >
+                                              <p>
+                                                <span className="imgae-styel2">
+                                                  <img
+                                                    src={`${baseImageUrl}${
+                                                      item?.mediaResponseList[0]
+                                                        ?.imageId
+                                                    }.${
+                                                      item?.mediaResponseList[0]?.imageType.split(
+                                                        "/"
+                                                      )[1]
+                                                    }`}
+                                                    alt="No Image"
+                                                    className="foodimage"
+                                                  />
+                                                </span>
+                                              </p>
+                                              <p>
+                                                <span
+                                                  className="name-style2"
+                                                  onClick={() =>
+                                                    handlemodal(item.itemId)
+                                                  }
+                                                >
+                                                  <HoverText
+                                                    text={item?.itemName}
+                                                    lengthvale={14}
+                                                  />
+                                                </span>
+                                              </p>
+                                              <p>
+                                                <span className="code-style2">
+                                                  {item?.itemCode}
+                                                </span>
+                                              </p>
+                                            </div>
+                                          )
+                                        )}
+                                    </>
+                                  )
+                                )}
+                              </>
+                            )}{" "}
+                        </>
+
+                        <>
+                          {data?.itemResponseList &&
+                          data?.itemResponseList?.length > 0
+                            ? data?.itemResponseList?.length > 0 &&
+                              data.categoryName !== "" && (
+                                <>
+                                  <div className="categoryName-data-bg">
                                     <p>
-                                      <span className="code-style2">
-                                        {item?.itemCode}
-                                      </span>
+                                      {data.categoryName} (
+                                      {data?.itemResponseList?.length})
                                     </p>
                                   </div>
-                                ))}
-                              </>
-                            )
+                                  {data?.itemResponseList.map((item, index) => (
+                                    <div
+                                      key={index}
+                                      className={
+                                        isExpanded
+                                          ? "fist-part-data-itemname-code"
+                                          : "fist-part-data-itemname-code"
+                                      }
+                                    >
+                                      <p>
+                                        <span className="imgae-styel2">
+                                          <img
+                                            src={`${baseImageUrl}${
+                                              item?.mediaResponseList[0]
+                                                ?.imageId
+                                            }.${
+                                              item?.mediaResponseList[0]?.imageType.split(
+                                                "/"
+                                              )[1]
+                                            }`}
+                                            alt="No Image"
+                                            className="foodimage"
+                                          />
+                                        </span>
+                                      </p>
+                                      <p>
+                                        <span
+                                          className={"name-style2"}
+                                          onClick={() =>
+                                            handlemodal(item.itemId)
+                                          }
+                                        >
+                                          <HoverText
+                                            text={item?.itemName}
+                                            lengthvale={14}
+                                          />
+                                        </span>
+                                      </p>
+                                      <p>
+                                        <span className="code-style2">
+                                          {item?.itemCode}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  ))}
+                                </>
+                              )
                             : null}
                         </>
-                      )}
-                    </React.Fragment>
-                  ))}
-                    </div>
+                    {/* {data?.subCategoryResponseList &&
+                      data?.subCategoryResponseList?.length > 0 &&
+                      (<>
+                       
+                       
+                      </>)()} */}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
 
-               
-                </div>
+          <div className="second-part-data">
+            <div
+              ref={headerRef}
+              className={`${
+                isExpanded ? "second-part-header-expand" : "second-part-header"
+              }`}
 
-                
+              // style={{width:!hasScrollbar?"fit-content":"67.4vw"}}
+            >
+              {!menuDataLoading &&
+                !menuDataFailed &&
+                itemList?.length > 0 &&
+                // itemList?.some(
+                //   (item) => item?.itemResponseList?.length > 0
+                // ) &&
+                firstRowTable.map((header, index) => {
+                  const headerName = header.label.substring(
+                    0,
+                    header.label.length - 1
+                  );
+
+                  if (
+                    (header.label === "Customize1" ||
+                      nameOfOrderTypes?.includes(headerName)) &&
+                    header.label !== "Instore1" &&
+                    header.label !== "Instore2"
+                  ) {
+                    const dynamicWidth = `${headerName.length * 1.3}rem`;
+                    return (
+                      <>
+                        {listingobject && listingobject[header.label] && (
+                          <p
+                            style={{
+                              display: "flex",
+                              gap: "20px",
+                              height: "1rem",
+                            }}
+                          >
+                            <span
+                              className="orderTypes"
+                              style={{
+                                width: dynamicWidth,
+                                padding: "0",
+
+                                height: "1.6rem",
+                              }}
+                            >
+                              {header.label !== "Inventory1" &&
+                                header.label !== "Customize1" && (
+                                  <span className="dollar">
+                                    {header.label.charAt(
+                                      header.label.length - 1
+                                    ) === "2" ? (
+                                      <img
+                                        src={calendericon}
+                                        alt=""
+                                        className="header-img"
+                                      />
+                                    ) : (
+                                      <img
+                                        src={dollar}
+                                        alt=""
+                                        className="header-img"
+                                      />
+                                    )}
+                                  </span>
+                                )}
+                              <span className="spanheadertext">
+                                {headerName}
+                              </span>
+                              <span
+                                className="removeicon"
+                                onClick={() => {
+                                  setlistingobject({
+                                    ...listingobject,
+                                    [header.label]: false,
+                                  });
+                                  handleRemoveIcon(headerName);
+                                }}
+                              >
+                                <img
+                                  src={removeicon}
+                                  // className="removeicon-img"
+                                  alt=""
+                                  onClick={() =>
+                                    setlistingobject({
+                                      ...listingobject,
+                                      [header.label]: false,
+                                    })
+                                  }
+                                />
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </>
+                    );
+                  }
+                  return null;
+                })}
             </div>
 
+            <div
+              className={`${
+                isExpanded ? "second-part-body-expand" : "second-part-body"
+              }  
+                ${
+                  menuDataLoading || menuDataFailed || menudatalist.length === 0
+                    ? "second-part-body-overflow-none"
+                    : ""
+                }
 
-            <div className="second-part-data">
-                <div  ref={headerRef} className={`${isExpanded ? "second-part-header-expand" : "second-part-header"}`}
-
-                // style={{width:!hasScrollbar?"fit-content":"67.4vw"}}
-                
-                >
-                {!menuDataLoading &&
-                      !menuDataFailed &&
-                      itemList?.length > 0 &&
-                      // itemList?.some(
-                      //   (item) => item?.itemResponseList?.length > 0
-                      // ) &&
-                      firstRowTable.map((header, index) => {
-                        const headerName = header.label.substring(
-                          0,
-                          header.label.length - 1
-                        );
-
-                        if (
-                          (header.label === "Customize1" ||
-                            nameOfOrderTypes?.includes(headerName)) &&
-                          header.label !== "Instore1" &&
-                          header.label !== "Instore2"
-                        ) {
-
-                            const dynamicWidth = `${headerName.length * 1.3
-                            }rem`;
-                          return (
-                            <>
-                              {listingobject && listingobject[header.label] && (
-                                <p
-                                  style={{
-                                    display: "flex",
-                                    gap: "20px",
-                                    height: "1rem",
-                                  }}
-                                >
-                                  <span
-                                    className="orderTypes"
-                                    style={{
-                                        width:dynamicWidth,
-                                      padding: "0",
-                                      
-
-                                      height: "1.6rem",
-                                    }}
-                                  >
-                                    {header.label !== "Inventory1" &&
-                                      header.label !== "Customize1" && (
-                                        <span className="dollar">
-                                          {header.label.charAt(
-                                            header.label.length - 1
-                                          ) === "2" ? (
-                                            <img src={calendericon} alt="" className="header-img"/>
-                                          ) : (
-                                            <img src={dollar} alt="" className="header-img"/>
-                                          )}
-                                        </span>
-                                      )}
-                                    <span
-                                     className="spanheadertext"
-                                     >
-                                      {headerName}
-                                    </span>
-                                    <span
-                                      className="removeicon"
-                                      onClick={() => {
-                                        setlistingobject({
-                                          ...listingobject,
-                                          [header.label]: false,
-                                        });
-                                        handleRemoveIcon(headerName);
-                                      }}
-                                    >
-                                      <img
-                                        src={removeicon}
-                                        // className="removeicon-img"
-                                        alt=""
-                                        onClick={() =>
-                                          setlistingobject({
-                                            ...listingobject,
-                                            [header.label]: false,
-                                          })
-                                        }
-                                      />
-                                    </span>
-                                  </span>
-                                </p>
-                              )}
-                            </>
-                          );
-                        }
-                        return null;
-                      })}
-                </div>
-
-                <div 
-                
-                className={`${isExpanded ? "second-part-body-expand" : "second-part-body"}  
-                ${menuDataLoading||menuDataFailed||menudatalist.length===0 ? "second-part-body-overflow-none" : ""}
-
-                ${hasScrollbar?"forheight-true":"forheight-false"}
-                `  }
-
-                style={{
-                  //  width:!hasScrollbar?"fit-content":"67.5vw", 
-                    height: menudatalist.length===1&&"15vh"  ,overflowY:menudatalist.length===1?"hidden":"auto",overflowX:showColumns===true?"hidden":"auto"}}
-                
-                ref={mergeRefs(ref2, bodyRef)}>
-
-
-                <div >
-                    {menuDataLoading ? (
-                      <div className="Menu-noOptions">
-                        <Loader
-                          className="imgLoader2"
-                          height="100px"
-                          width="100px"
-                          style={{
-                            filter:
-                              "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-                          }}
-                        />
-                      </div>
-                    ) : menuDataFailed ? (
-                      <div className={`${isExpanded ? "NoDataFoundContainer-menupage1" : "NoDataFoundContainer-menupage"}`} >
-                        <img
-                          className="columnselected-menupage"
-                          src={noResultsfound}
-                          alt="noResultFound"
-                        />
-                        <h2 className="columnselectedText">No Results Found</h2>
+                ${hasScrollbar ? "forheight-true" : "forheight-false"}
+                `}
+              style={{
+                //  width:!hasScrollbar?"fit-content":"67.5vw",
+                height: menudatalist.length === 1 && "15vh",
+                overflowY: menudatalist.length === 1 ? "hidden" : "auto",
+                overflowX: showColumns === true ? "hidden" : "auto",
+              }}
+              ref={mergeRefs(ref2, bodyRef)}
+            >
+              <div>
+                {menuDataLoading ? (
+                  <div className="Menu-noOptions">
+                    <Loader
+                      className="imgLoader2"
+                      height="100px"
+                      width="100px"
+                      style={{
+                        filter:
+                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                      }}
+                    />
+                  </div>
+                ) : menuDataFailed ? (
+                  <div
+                    className={`${
+                      isExpanded
+                        ? "NoDataFoundContainer-menupage1"
+                        : "NoDataFoundContainer-menupage"
+                    }`}
+                  >
+                    <img
+                      className="columnselected-menupage"
+                      src={noResultsfound}
+                      alt="noResultFound"
+                    />
+                    <h2 className="columnselectedText">No Results Found</h2>
+                  </div>
+                ) : (
+                  <>
+                    {showColumns ? (
+                      <div
+                        className={`${
+                          isExpanded
+                            ? "no-colunms-menu-page-expanded"
+                            : "no-colunms-menu-page"
+                        }`}
+                      >
+                        {" "}
+                        No columns Selected
                       </div>
                     ) : (
-                      <>
-                        {showColumns ? (
-                          <div
-                            className={`${isExpanded
-                                ? "no-colunms-menu-page-expanded"
-                                : "no-colunms-menu-page"
-                              }`}
-                          >
-                            {" "}
-                            No columns  Selected
-                          </div>
-                        ) : (
-                          menudatalist?.map((data, parentIndex) => (
-                            <React.Fragment key={parentIndex}>
-                              {data?.subCategoryResponseList &&
-                                data?.subCategoryResponseList?.length > 0 ? (
-                                <>
-                                  {data?.subCategoryResponseList?.map(
+                      menudatalist?.map((data, parentIndex) => (
+                        <React.Fragment key={parentIndex}>
+
+<>
+                                  { data?.subCategoryResponseList &&
+                            data?.subCategoryResponseList?.length > 0 && data?.subCategoryResponseList?.map(
                                     (subCategory, index) => (
                                       <React.Fragment key={index}>
                                         {subCategory?.itemResponseList?.length >
@@ -1494,10 +1511,8 @@ console.log({allFalseForKeysEndingWith1});
                                               <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
                                               <div
                                                 // className="categoryName-data"
-             
 
                                                 className="categoryName-data-bg-forsecondpart"
-
                                               >
                                                 <p></p>
                                               </div>
@@ -1510,15 +1525,15 @@ console.log({allFalseForKeysEndingWith1});
                                           subCategory?.itemResponseList.map(
                                             (item, index) => (
                                               <div
-
                                                 key={index}
                                                 className="second-part-data-row"
                                               >
-                                                <p 
-                                    
-                                    
-                                style={{display:"flex",gap:"1rem"}}
-                                       >
+                                                <p
+                                                  style={{
+                                                    display: "flex",
+                                                    gap: "1rem",
+                                                  }}
+                                                >
                                                   {orderTypesToShow2?.map(
                                                     (
                                                       typeName,
@@ -1534,7 +1549,7 @@ console.log({allFalseForKeysEndingWith1});
                                                       const shouldDisplayType =
                                                         listingobject &&
                                                         listingobject[
-                                                        `${typeName}1`
+                                                          `${typeName}1`
                                                         ];
 
                                                       if (!shouldDisplayType)
@@ -1546,16 +1561,16 @@ console.log({allFalseForKeysEndingWith1});
                                                             ot.typeName ===
                                                             typeName
                                                         );
-                                                        
 
                                                       const price = orderType
                                                         ? orderType.price
-                                                          .toFixed(2)
-                                                          .padStart(5, "0")
+                                                            .toFixed(2)
+                                                            .padStart(5, "0")
                                                         : "";
 
-                                                        const dynamicWidth = `${typeName.length * 1.3
-                                                        }rem`;
+                                                      const dynamicWidth = `${
+                                                        typeName.length * 1.3
+                                                      }rem`;
 
                                                       if (
                                                         orderType.typeGroup !==
@@ -1564,24 +1579,28 @@ console.log({allFalseForKeysEndingWith1});
                                                         return (
                                                           <span
                                                             key={typeName}
-                                                           
                                                             className="orderTypes-price"
-     
                                                             style={{
-                                                             cursor: "pointer",
-                                                             width:dynamicWidth,
-                                                             display:"flex",
-                                                             opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
-                                                                padding: "0",
-                                                                //    paddingLeft: "20px",
-                                                                //    paddingRight: "20px",
-                                                                 
-                                                             // marginLeft:"1rem"
-                                                            
-                                                             // paddingLeft:"20px",
-                                                             // paddingRight:"20px"
-     
-     
+                                                              cursor: "pointer",
+                                                              width:
+                                                                dynamicWidth,
+                                                              display: "flex",
+                                                              opacity:
+                                                                orderType &&
+                                                                orderType.availabilityEnabled ===
+                                                                  true &&
+                                                                orderType.isNotHide ===
+                                                                  1
+                                                                  ? "100%"
+                                                                  : "50%",
+                                                              padding: "0",
+                                                              //    paddingLeft: "20px",
+                                                              //    paddingRight: "20px",
+
+                                                              // marginLeft:"1rem"
+
+                                                              // paddingLeft:"20px",
+                                                              // paddingRight:"20px"
                                                             }}
                                                             onClick={() =>
                                                               handlesidbarhandling(
@@ -1591,7 +1610,7 @@ console.log({allFalseForKeysEndingWith1});
                                                             }
                                                           >
                                                             {restaurantDetails?.country ===
-                                                              "US"
+                                                            "US"
                                                               ? "$"
                                                               : "Rs."}{" "}
                                                             {price !== ""
@@ -1604,7 +1623,16 @@ console.log({allFalseForKeysEndingWith1});
                                                   )}
                                                 </p>
 
-                                                <p       style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith1?"-1rem":""}}>
+                                                <p
+                                                  style={{
+                                                    display: "flex",
+                                                    gap: "1rem",
+                                                    marginLeft:
+                                                      allFalseForKeysEndingWith1
+                                                        ? "-1rem"
+                                                        : "",
+                                                  }}
+                                                >
                                                   {orderTypesToShow2?.map(
                                                     (typeName) => {
                                                       if (
@@ -1617,7 +1645,7 @@ console.log({allFalseForKeysEndingWith1});
                                                       const shouldDisplayType =
                                                         listingobject &&
                                                         listingobject[
-                                                        `${typeName}2`
+                                                          `${typeName}2`
                                                         ];
 
                                                       if (!shouldDisplayType)
@@ -1630,34 +1658,33 @@ console.log({allFalseForKeysEndingWith1});
                                                             typeName
                                                         );
 
-                                                        const dynamicWidth = `${typeName.length * 1.3
-                                                        }rem`;
+                                                      const dynamicWidth = `${
+                                                        typeName.length * 1.3
+                                                      }rem`;
                                                       if (
                                                         orderType.typeGroup !==
                                                         "I"
                                                       ) {
                                                         return (
                                                           <span
-                                                          key={typeName}
-                                                          className="orderTypes-price"
-   
-                                                          style={{
-                                                           cursor: "pointer",
-                                                           width:dynamicWidth,
-                                                          //  opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
+                                                            key={typeName}
+                                                            className="orderTypes-price"
+                                                            style={{
+                                                              cursor: "pointer",
+                                                              width:
+                                                                dynamicWidth,
+                                                              //  opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
 
-                                                           display:"flex",
-                                                           // gap:"1rem",
+                                                              display: "flex",
+                                                              // gap:"1rem",
                                                               padding: "0",
-                                                                //  paddingLeft: "20px",
-                                                                //  paddingRight: "20px",
-                                                           // marginLeft:"1rem"
-                                                          
-                                                           // paddingLeft:"20px",
-                                                           // paddingRight:"20px"
-   
-   
-                                                          }}
+                                                              //  paddingLeft: "20px",
+                                                              //  paddingRight: "20px",
+                                                              // marginLeft:"1rem"
+
+                                                              // paddingLeft:"20px",
+                                                              // paddingRight:"20px"
+                                                            }}
                                                             onClick={() =>
                                                               handlesidbarhandling(
                                                                 `${typeName}2`,
@@ -1669,9 +1696,9 @@ console.log({allFalseForKeysEndingWith1});
                                                               toggle={
                                                                 orderType &&
                                                                 orderType.availabilityEnabled ===
-                                                                true &&
+                                                                  true &&
                                                                 orderType.isNotHide ===
-                                                                1
+                                                                  1
                                                                 //    &&
                                                                 // orderType.isEnabled ===
                                                                 //   1
@@ -1684,15 +1711,24 @@ console.log({allFalseForKeysEndingWith1});
                                                   )}
                                                 </p>
 
-                                                <p  style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith2?"-1rem":""}}>
+                                                <p
+                                                  style={{
+                                                    display: "flex",
+                                                    gap: "1rem",
+                                                    marginLeft:
+                                                      allFalseForKeysEndingWith2
+                                                        ? "-1rem"
+                                                        : "",
+                                                  }}
+                                                >
                                                   {item?.modifiers &&
-                                                    Array.isArray(
-                                                      item.modifiers
-                                                    ) &&
-                                                    listingobject &&
-                                                    listingobject.Customize1 ? (
+                                                  Array.isArray(
+                                                    item.modifiers
+                                                  ) &&
+                                                  listingobject &&
+                                                  listingobject.Customize1 ? (
                                                     <span
-                                                    //   className="Customizedata"
+                                                      //   className="Customizedata"
                                                       onClick={() =>
                                                         handlesidbarhandling(
                                                           "Customize1",
@@ -1700,52 +1736,44 @@ console.log({allFalseForKeysEndingWith1});
                                                         )
                                                       }
                                                     >
-                                                      <span  
-                                                   
-                                                     className="orderTypes-price"
+                                                      <span
+                                                        className="orderTypes-price"
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          width: "12rem",
+                                                          display: "flex",
+                                                          // gap:"1rem",
+                                                          padding: "0",
+                                                          // paddingLeft: "20px",
+                                                          // paddingRight: "20px",
+                                                          // marginLeft:"1rem"
 
-                                                     style={{
-                                                      cursor: "pointer",
-                                                      width:"12rem",
-                                                      display:"flex",
-                                                      // gap:"1rem",
-                                                         padding: "0",
-                                                            // paddingLeft: "20px",
-                                                            // paddingRight: "20px",
-                                                      // marginLeft:"1rem"
-                                                     
-                                                      // paddingLeft:"20px",
-                                                      // paddingRight:"20px"
-
-
-                                                     }}
-                                                              >
+                                                          // paddingLeft:"20px",
+                                                          // paddingRight:"20px"
+                                                        }}
+                                                      >
                                                         {item.modifiers.length}
                                                       </span>
                                                     </span>
                                                   ) : (
                                                     listingobject &&
                                                     listingobject.Customize1 && (
-                                                      <span 
-                                                  
-                                                     className="orderTypes-price"
+                                                      <span
+                                                        className="orderTypes-price"
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          width: "12rem",
+                                                          display: "flex",
+                                                          // gap:"1rem",
+                                                          padding: "0",
+                                                          // paddingLeft: "20px",
+                                                          // paddingRight: "20px",
+                                                          // marginLeft:"1rem"
 
-                                                     style={{
-                                                      cursor: "pointer",
-                                                      width:"12rem",
-                                                      display:"flex",
-                                                      // gap:"1rem",
-                                                         padding: "0",
-                                                            // paddingLeft: "20px",
-                                                            // paddingRight: "20px",
-                                                      // marginLeft:"1rem"
-                                                     
-                                                      // paddingLeft:"20px",
-                                                      // paddingRight:"20px"
-
-
-                                                     }}
-                                                    //   className="Customizedata"
+                                                          // paddingLeft:"20px",
+                                                          // paddingRight:"20px"
+                                                        }}
+                                                        //   className="Customizedata"
                                                       >
                                                         <span>
                                                           No Modifiers Available
@@ -1761,18 +1789,17 @@ console.log({allFalseForKeysEndingWith1});
                                     )
                                   )}
                                 </>
-                              ) : (
+
                                 <>
                                   {data?.itemResponseList?.length > 0 &&
                                     data.categoryName !== "" && (
                                       <>
-                                         <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
-                                              <div
-                                                // className="categoryName-data"
+                                        <style>{`.categoryName-data-bg-forsecondpart { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                        <div
+                                          // className="categoryName-data"
 
-
-                                                className="categoryName-data-bg-forsecondpart"
-                                         >
+                                          className="categoryName-data-bg-forsecondpart"
+                                        >
                                           <p></p>
                                         </div>
                                       </>
@@ -1786,7 +1813,12 @@ console.log({allFalseForKeysEndingWith1});
                                           key={index}
                                           className="second-part-data-row"
                                         >
-                                          <p  style={{display:"flex",gap:"1rem"}}>
+                                          <p
+                                            style={{
+                                              display: "flex",
+                                              gap: "1rem",
+                                            }}
+                                          >
                                             {orderTypesToShow2?.map(
                                               (typeName, ordertypeindex) => {
                                                 if (
@@ -1811,91 +1843,104 @@ console.log({allFalseForKeysEndingWith1});
 
                                                 const price = orderType
                                                   ? orderType.price
-                                                    .toFixed(2)
-                                                    .padStart(5, "0")
+                                                      .toFixed(2)
+                                                      .padStart(5, "0")
                                                   : "";
 
-                                                  const dynamicWidth = `${typeName.length * 1.3
-                                                  }rem`;
+                                                const dynamicWidth = `${
+                                                  typeName.length * 1.3
+                                                }rem`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
-                                                  return (<>
-                                                  {/* <style>{`.orderTypes-price { width: ${widthForEachRow}px !important; }`}</style> */}
-                                                  <span
-                                                      key={typeName}
-                                                       className="orderTypes-price"
+                                                  return (
+                                                    <>
+                                                      {/* <style>{`.orderTypes-price { width: ${widthForEachRow}px !important; }`}</style> */}
+                                                      <span
+                                                        key={typeName}
+                                                        className="orderTypes-price"
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          width: dynamicWidth,
+                                                          opacity:
+                                                            orderType &&
+                                                            orderType.availabilityEnabled ===
+                                                              true &&
+                                                            orderType.isNotHide ===
+                                                              1
+                                                              ? "100%"
+                                                              : "50%",
 
-                                                       style={{
-                                                        cursor: "pointer",
-                                                        width:dynamicWidth,
-                                                        opacity:orderType && orderType.availabilityEnabled ===true && orderType.isNotHide ===1?"100%":"50%",
-                                                          
-                                                        display:"flex",
-                                                        // gap:"1rem",
-                                                           padding: "0",
-                                                            //   paddingLeft: "20px",
-                                                            //   paddingRight: "20px",
-                                                        // marginLeft:"1rem"
-                                                       
-                                                        // paddingLeft:"20px",
-                                                        // paddingRight:"20px"
+                                                          display: "flex",
+                                                          // gap:"1rem",
+                                                          padding: "0",
+                                                          //   paddingLeft: "20px",
+                                                          //   paddingRight: "20px",
+                                                          // marginLeft:"1rem"
 
+                                                          // paddingLeft:"20px",
+                                                          // paddingRight:"20px"
+                                                        }}
+                                                        // style={{
+                                                        //   padding: "0",
+                                                        //   paddingLeft: "20px",
+                                                        //   paddingRight: "20px",
 
-                                                       }}
-                                                            // style={{
-                                                            //   padding: "0",
-                                                            //   paddingLeft: "20px",
-                                                            //   paddingRight: "20px",
-                        
-                                                            //   height: "1.6rem",}}
-                                                    //   style={{
-                                                    //     cursor: "pointer",
-                                                    //     opacity:
-                                                    //       orderType &&
-                                                    //         orderType.availabilityEnabled ===
-                                                    //         true &&
-                                                    //         orderType.isNotHide ===
-                                                    //         1
-                                                    //         ? "100%"
-                                                    //         : "50%",
+                                                        //   height: "1.6rem",}}
+                                                        //   style={{
+                                                        //     cursor: "pointer",
+                                                        //     opacity:
+                                                        //       orderType &&
+                                                        //         orderType.availabilityEnabled ===
+                                                        //         true &&
+                                                        //         orderType.isNotHide ===
+                                                        //         1
+                                                        //         ? "100%"
+                                                        //         : "50%",
                                                         //  &&
                                                         // orderType.isEnabled ===
                                                         //   1
 
-                                                    //     width: dynamicWidth,
-                                                    //     padding: "0 22px",
-                                                    //     textAlign: "center",
-                                                    //     display: "flex",
-                                                    //     justifyContent:
-                                                    //       "center",
-                                                    //     alignItems: "center",
-                                                    //   }}
-                                                      onClick={() =>
-                                                        handlesidbarhandling(
-                                                          `${typeName}1`,
-                                                          item.itemId
-                                                        )
-                                                      }
-                                                    >
-                                                      {restaurantDetails?.country ===
+                                                        //     width: dynamicWidth,
+                                                        //     padding: "0 22px",
+                                                        //     textAlign: "center",
+                                                        //     display: "flex",
+                                                        //     justifyContent:
+                                                        //       "center",
+                                                        //     alignItems: "center",
+                                                        //   }}
+                                                        onClick={() =>
+                                                          handlesidbarhandling(
+                                                            `${typeName}1`,
+                                                            item.itemId
+                                                          )
+                                                        }
+                                                      >
+                                                        {restaurantDetails?.country ===
                                                         "US"
-                                                        ? "$"
-                                                        : "Rs."}{" "}
-                                                      {price !== ""
-                                                        ? price
-                                                        : "0"}
-                                                    </span>
-                                                  
-                                                  </>
-                                                   
+                                                          ? "$"
+                                                          : "Rs."}{" "}
+                                                        {price !== ""
+                                                          ? price
+                                                          : "0"}
+                                                      </span>
+                                                    </>
                                                   );
                                                 }
                                               }
                                             )}
                                           </p>
 
-                                          <p  style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith1?"-1rem":""}}>
+                                          <p
+                                            style={{
+                                              display: "flex",
+                                              gap: "1rem",
+                                              marginLeft:
+                                                allFalseForKeysEndingWith1
+                                                  ? "-1rem"
+                                                  : "",
+                                            }}
+                                          >
                                             {orderTypesToShow2?.map(
                                               (typeName) => {
                                                 if (
@@ -1918,32 +1963,30 @@ console.log({allFalseForKeysEndingWith1});
                                                       ot.typeName === typeName
                                                   );
 
-                                                const dynamicWidth = `${typeName.length * 1.3
-                                                  }rem`;
+                                                const dynamicWidth = `${
+                                                  typeName.length * 1.3
+                                                }rem`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
                                                   return (
                                                     <span
-                                                    key={typeName}
-                                                    className="orderTypes-price"
+                                                      key={typeName}
+                                                      className="orderTypes-price"
+                                                      style={{
+                                                        cursor: "pointer",
+                                                        width: dynamicWidth,
+                                                        display: "flex",
 
-                                                    style={{
-                                                     cursor: "pointer",
-                                                     width:dynamicWidth,
-                                                     display:"flex",
-                                                     
-                                                     // gap:"1rem",
+                                                        // gap:"1rem",
                                                         padding: "0",
                                                         //    paddingLeft: "20px",
                                                         //    paddingRight: "20px",
-                                                     // marginLeft:"1rem"
-                                                    
-                                                     // paddingLeft:"20px",
-                                                     // paddingRight:"20px"
+                                                        // marginLeft:"1rem"
 
-
-                                                    }}
+                                                        // paddingLeft:"20px",
+                                                        // paddingRight:"20px"
+                                                      }}
                                                       onClick={() =>
                                                         handlesidbarhandling(
                                                           `${typeName}2`,
@@ -1955,9 +1998,9 @@ console.log({allFalseForKeysEndingWith1});
                                                         toggle={
                                                           orderType &&
                                                           orderType.availabilityEnabled ===
-                                                          true &&
+                                                            true &&
                                                           orderType.isNotHide ===
-                                                          1
+                                                            1
                                                           //   &&
                                                           // orderType.isEnabled ===
                                                           //   1
@@ -1970,70 +2013,74 @@ console.log({allFalseForKeysEndingWith1});
                                             )}
                                           </p>
 
-                                          <p  style={{display:"flex",gap:"1rem",marginLeft:allFalseForKeysEndingWith2?"-1rem":""}}>
+                                          <p
+                                            style={{
+                                              display: "flex",
+                                              gap: "1rem",
+                                              marginLeft:
+                                                allFalseForKeysEndingWith2
+                                                  ? "-1rem"
+                                                  : "",
+                                            }}
+                                          >
                                             {item?.modifiers &&
-                                              Array.isArray(item.modifiers) &&
-                                              listingobject &&
-                                              listingobject.Customize1 ? (
+                                            Array.isArray(item.modifiers) &&
+                                            listingobject &&
+                                            listingobject.Customize1 ? (
                                               <span
-                                             
-                                              className="orderTypes-price"
-
-                                              style={{
-                                               cursor: "pointer",
-                                               width:"12rem",
-                                               display:"flex",
-                                               // gap:"1rem",
+                                                className="orderTypes-price"
+                                                style={{
+                                                  cursor: "pointer",
+                                                  width: "12rem",
+                                                  display: "flex",
+                                                  // gap:"1rem",
                                                   padding: "0",
                                                   //  border:"1px solid red",
-                                                    //  paddingLeft: "20px",
-                                                    //  paddingRight: "20px",
-                                               // marginLeft:"1rem"
-                                              
-                                               // paddingLeft:"20px",
-                                               // paddingRight:"20px"
+                                                  //  paddingLeft: "20px",
+                                                  //  paddingRight: "20px",
+                                                  // marginLeft:"1rem"
 
-
-                                              }}
-                                                onClick={() =>{
+                                                  // paddingLeft:"20px",
+                                                  // paddingRight:"20px"
+                                                }}
+                                                onClick={() => {
                                                   handlesidbarhandling(
                                                     "Customize1",
                                                     item.itemId
-                                                  )
-                                                  console.log("clicked",item.modifiers);
-                                                  
-
-                                                }
-                                                  
-                                                }
+                                                  );
+                                                  console.log(
+                                                    "clicked",
+                                                    item.modifiers
+                                                  );
+                                                }}
                                               >
                                                 <span>
-                                                  {item.modifiers?.filter((item)=>item.isEnabled)?.length}
+                                                  {
+                                                    item.modifiers?.filter(
+                                                      (item) => item.isEnabled
+                                                    )?.length
+                                                  }
                                                 </span>
                                               </span>
                                             ) : (
                                               listingobject &&
                                               listingobject.Customize1 && (
-                                                <span 
-                                              
-                                                className="orderTypes-price"
-
-                                                style={{
-                                                 cursor: "pointer",
-                                                 width:"12rem",
-                                                 display:"flex",
-                                                //  border:"1px solid red",
-                                                 // gap:"1rem",
+                                                <span
+                                                  className="orderTypes-price"
+                                                  style={{
+                                                    cursor: "pointer",
+                                                    width: "12rem",
+                                                    display: "flex",
+                                                    //  border:"1px solid red",
+                                                    // gap:"1rem",
                                                     padding: "0",
-                                                      //  paddingLeft: "20px",
-                                                      //  paddingRight: "20px",
-                                                 // marginLeft:"1rem"
-                                                
-                                                 // paddingLeft:"20px",
-                                                 // paddingRight:"20px"
+                                                    //  paddingLeft: "20px",
+                                                    //  paddingRight: "20px",
+                                                    // marginLeft:"1rem"
 
-
-                                                }}
+                                                    // paddingLeft:"20px",
+                                                    // paddingRight:"20px"
+                                                  }}
                                                 >
                                                   <span>
                                                     No Modifiers Available
@@ -2046,30 +2093,32 @@ console.log({allFalseForKeysEndingWith1});
                                       )
                                     )}
                                 </>
-                              )}
-                            </React.Fragment>
-                          ))
-                        )
-                        
-                        }
-                      </>
+                          
+                          {/* {data?.subCategoryResponseList &&
+                            data?.subCategoryResponseList?.length > 0 && (
+                              <>
+                               
+                               
+                              </>
+                            )} */}
+                        </React.Fragment>
+                      ))
                     )}
-                  </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    {modal && (
-                  <Slider
-                    sidebartext={sidebartext}
-                    SideBarData={SideBarData}
-                    onclose={() => setmodal(false)}
-                  />
+                  </>
                 )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-   </div>
+      {modal && (
+        <Slider
+          sidebartext={sidebartext}
+          SideBarData={SideBarData}
+          onclose={() => setmodal(false)}
+        />
+      )}
+    </div>
   );
 };
