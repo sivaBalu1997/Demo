@@ -217,9 +217,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  console.log({primarydata});
-  
+  const primarydata = useSelector((state: RootState) => state.primarypage.data);  
 
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
@@ -516,9 +514,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     );
     return orderTypes ? orderTypes?.id : null;
   };
-
-  console.log({itemCustomizationData});
-  
    
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
@@ -576,9 +571,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
-
-
-  console.log({dineInDetails}, {editData})
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
@@ -800,10 +792,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //     dispatch(addMenuItemRequest({ menuPayload, locationid }));
   //   }
   // };
-
-  console.log("addandeditimage",primarydata?.imageUrls);
   
-
   const addMenuSuccess = useSelector(
     (state: any) => state.productCatalog.addMenuSuccess
   );
@@ -831,7 +820,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   
   
         }
-        console.log("edit1",primarydata?.imageUrls);
         dispatch(startImageUpload(imageuploadpayload));
         if (subsectiondatamsg && UploadImageImageID !== '') {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -855,9 +843,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         const imageFiles = primarydata?.imageUrls?.filter((item, index) => {
           return item.file && item.file.name && isImageFile(item.file.name);
         });
-      console.log("imageFiles",imageFiles);
-      
-        
+              
         if(primarydata?.imageUrls?.length > 0 && imageFiles.length>0)
         {
           const imageuploadpayload={
@@ -866,17 +852,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     
     
           }
-          console.log("edit2",primarydata?.imageUrls);
 
           dispatch(startImageUpload(imageuploadpayload));
           if (subsectiondatamsg && UploadImageImageID !== '') {
-            console.log("edit3");
             dispatch(updateMenuItemRequest(editPayload));
           }
         }
         else{
           dispatch(updateMenuItemRequest(editPayload));
-           console.log("edit4");
         }
         setButtonClicked(true);
       }

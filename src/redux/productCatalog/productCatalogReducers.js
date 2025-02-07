@@ -755,7 +755,6 @@ case SELECTED_COLUMNS:
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
-        console.log("From reducer", action.payload);
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
@@ -991,7 +990,6 @@ const initialState = {
 export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
-      console.log("IC payload", action.payload);
       return { ...state, itemData: action.payload };
     case REMOVE_DATA_REQUEST:
       return {

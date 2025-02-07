@@ -805,9 +805,7 @@ const PricingDetails = () => {
   //     fetchDropDownRequest(kitchenpayload)
   //   }
   // },[])
-  console.log({kitchenError});
   
-
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />

@@ -127,7 +127,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage.data
   );
-console.log("ItemsPrimaryDetails",ItemsPrimaryDetails);
 
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));

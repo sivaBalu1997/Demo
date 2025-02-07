@@ -6,7 +6,6 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { RootState } from "redux/rootReducer";
 import weightCompare from "../../../assets/svg/weightCompare.svg";
 import TooltipMsg from "../Tooltip/TooltipMsg";
-import { log } from "console";
 import tooltiparrow from "../../../assets/svg/ArrowHover.svg";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
@@ -39,7 +38,6 @@ const PricingSlider: any = ({}) => {
         ...item,
         price: item.price !== undefined && Number(item.price).toFixed(2), // Ensure 2 decimal places
       }));
-    console.log({ tempOnPremarray });
 
     const tempOffPremarray = data[0]?.orderTypes
       ?.filter((data: any) => data?.typeGroup !== "D"&&data?.typeGroup !== "I")

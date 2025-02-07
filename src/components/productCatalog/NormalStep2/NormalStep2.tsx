@@ -87,9 +87,7 @@ interface RootState {
 const NormalStep2 = () => {
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
-  );
-  console.log("prizingDetail", prizingDetail);
-  
+  );  
 
   const thirdPartyDetails = useSelector(
     (state: any) =>
