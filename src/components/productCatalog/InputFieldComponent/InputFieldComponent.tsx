@@ -77,16 +77,23 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
       dispatch(getItemCodeRequest(locationid, inputValue));
     }
   }
+  if (name === "itemName") {
+   
+    if (inputValue.startsWith(" ")) return;
 
-    if (name== 'itemName') {
-      if(!e.target.value.startsWith(" "))
-        onChange(e); 
-      trigger(name);
-    }
-    else{
-      onChange(e); 
-      trigger(name);
-    }
+    
+    inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+
+    onChange({
+      ...e,
+      target: { ...e.target, value: inputValue },
+    });
+
+    trigger(name);
+  } else {
+    onChange(e);
+    trigger(name);
+  }
   
     
   
