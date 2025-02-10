@@ -218,7 +218,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  console.log({primarydata});
+
   
 
   const prizingDetail = useSelector(
@@ -434,13 +434,43 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
   ];
 
-  const targetItemId = "104";
+ 
 
   const filteredCategory = menuData.find((category: any) =>
     category?.itemResponseList?.some(
       (item: any) => item.itemId === editData[0]?.itemId
     )
   );
+
+ 
+ 
+
+  const allItemResponseLists = menuData
+  ?.flatMap((category:any) =>
+    category?.subCategoryResponseList?.map((subCategory:any) => ({
+      categoryId: category.categoryId,
+      categoryName: category?.categoryName,
+      subCategoryId: subCategory?.subCategoryId,
+      subCategoryName: subCategory?.subCategoryName,
+      itemResponseList: subCategory?.itemResponseList,
+    }))
+  )
+  .filter(
+    (item:any) =>
+      item?.itemResponseList !== null &&
+      item?.itemResponseList?.length > 0
+  );
+
+
+  
+
+  const filteredSubCategory = allItemResponseLists.find((category: any) =>
+    category?.itemResponseList?.some(
+      (item: any) => item.itemId === editData[0]?.itemId
+    )
+  );
+
+
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -517,7 +547,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return orderTypes ? orderTypes?.id : null;
   };
 
-  console.log({itemCustomizationData});
+  
   
    
   const modifierData = itemCustomizationData?.map((item) => ({
@@ -578,7 +608,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
 
 
-  console.log({dineInDetails}, {editData})
+
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
@@ -719,6 +749,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.updatedPayload
   );
 
+
+
+  
+
   const editPayload = {
     itemId: editData[0]?.itemId,
     locationId: locationid,
@@ -748,9 +782,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     modifiersToAdd: hasData ? modifierData : [],
 
-    isCategoryUpdated:
-      filteredCategory?.categoryName !==
-      primarypagedetails.primarypage.data.category,
+    isCategoryUpdated:(filteredSubCategory?.length!==0||filteredSubCategory!==undefined)?filteredSubCategory?.subCategoryId!==matchedSubCategoryId:filteredCategory?.length!==0?filteredCategory?.categoryId!==matchedCategoryId:false,
+
+
+    // isCategoryUpdated:filteredCategory.length===0?filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category:filteredSubCategory.length===0?filteredSubCategory?. !==primarypagedetails.primarypage.data.category:filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category,
+
+
+    // isCategoryUpdated:(filteredCategory.length===0)? (filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category )
+    // :filteredCategory.length===0filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category
+    
+    //   ,
     isSingleMenu: false,
     modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
@@ -758,7 +799,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
-  console.log({ menuPayload }, { editPayload });
+
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -801,7 +842,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //   }
   // };
 
-  console.log("addandeditimage",primarydata?.imageUrls);
+  
   
 
   const addMenuSuccess = useSelector(
@@ -831,7 +872,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   
   
         }
-        console.log("edit1",primarydata?.imageUrls);
+       
         dispatch(startImageUpload(imageuploadpayload));
         if (subsectiondatamsg && UploadImageImageID !== '') {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -855,7 +896,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         const imageFiles = primarydata?.imageUrls?.filter((item, index) => {
           return item.file && item.file.name && isImageFile(item.file.name);
         });
-      console.log("imageFiles",imageFiles);
+
       
         
         if(primarydata?.imageUrls?.length > 0 && imageFiles.length>0)
@@ -866,17 +907,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     
     
           }
-          console.log("edit2",primarydata?.imageUrls);
+          
 
           dispatch(startImageUpload(imageuploadpayload));
           if (subsectiondatamsg && UploadImageImageID !== '') {
-            console.log("edit3");
+           
             dispatch(updateMenuItemRequest(editPayload));
           }
         }
         else{
           dispatch(updateMenuItemRequest(editPayload));
-           console.log("edit4");
+         
         }
         setButtonClicked(true);
       }

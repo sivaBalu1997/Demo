@@ -165,7 +165,6 @@ export const MenulistingPage = () => {
     );
   }, [itemList, menuData]);
 
-  console.log({ uniqueOrderTypeNames });
 
   const selectedBranch = useSelector(
     (state) => state.auth.selectedBranch || null
@@ -280,7 +279,7 @@ export const MenulistingPage = () => {
     Customization: "Customization",
   };
 
-  console.log({ listingobject });
+
 
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
@@ -1062,7 +1061,7 @@ export const MenulistingPage = () => {
     setRemoveiconclciked(value);
   };
   const [widthForEachRow, setWidthForEachRow] = useState();
-  console.log({ removeiconclciked });
+ 
   const bodyrefwidthclient = bodyRef?.current?.clientWidth;
   const bodyrefwidthscroll = bodyRef?.current?.scrollWidth;
 
@@ -1079,7 +1078,7 @@ export const MenulistingPage = () => {
     menuData,
   ]);
 
-  console.log({ hasScrollbar });
+ 
 
   useEffect(() => {
     const element = document.querySelector(".orderTypes");
@@ -1090,7 +1089,7 @@ export const MenulistingPage = () => {
     }
   }, [listingobject, menuData, menudatalist]);
 
-  console.log({ listingobject });
+ 
   const allFalseForKeysEndingWith1 =
     listingobject &&
     Object.keys(listingobject)
@@ -1102,7 +1101,7 @@ export const MenulistingPage = () => {
     Object.keys(listingobject)
       ?.filter((key) => key.endsWith("2"))
       ?.every((key) => listingobject[key] === false);
-  console.log({ allFalseForKeysEndingWith1 });
+
 
   return (
     <div className="MenuPage-new-container">

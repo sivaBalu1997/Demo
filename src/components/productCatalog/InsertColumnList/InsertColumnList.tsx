@@ -126,7 +126,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   const availlist = uniqueKeys?.map(
     (item: any) => `${item}2` as keyof typeof insertlists.Available
   );
-console.log({pricelist});
+
 
   const isAllPricingChecked = pricelist?.every(
     (key: any) => listingobject[key]
@@ -143,7 +143,7 @@ console.log({pricelist});
         
   
         const nameOfOrderTypes=selectedBranch.orderTypes?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
-  console.log({nameOfOrderTypes});
+ 
   
   const handleToggle = useCallback(
     (key: keyof typeof listingobject, dependentKeys?: (keyof typeof listingobject)[]) => {
