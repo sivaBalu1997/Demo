@@ -427,6 +427,21 @@ const SliderUpdated: React.FC<SliderProps> = ({
               </div>
             </div>
 
+            {eye && (
+            <EyeModal
+              onEyeclose={() => setEye(false)}
+              onclose={onclose}
+              setEyeIconOpenClose={setEyeIconOpenClose}
+            />
+          )}
+
+          {trash && (
+            <Trash
+              onTrashclose={() => setTrash(false)}
+              ItemId={SideBarData[0].itemId}
+            />
+          )}
+
       </div>
 
 

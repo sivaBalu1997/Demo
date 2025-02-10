@@ -221,7 +221,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
-        option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
+        option?.name?.toLowerCase().startsWith(searchTerm?.toLowerCase() || "")
       )
     : [];
 
