@@ -1126,6 +1126,10 @@ const ItemCustomizations: React.FC<any> = () => {
     setSearchQuery("");
     setSearchClicked(false);
   }
+  const handleWheel = (event: any) => {
+    event.target.blur(); // Removes focus to prevent unintended changes
+    event.preventDefault();
+  };
 
   const handleRemoveAllmodifiers=()=>{
 
@@ -1567,6 +1571,7 @@ setModifications((prev: any) => {
                                           className="input-option-price-field"
                                           name="cost"
                                           type="number"
+                                          onWheel={handleWheel}
                                           style={{
                                             opacity: modifications[modIndex]
                                               ?.modifierOptions[optIndex]
