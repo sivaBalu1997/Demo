@@ -1143,7 +1143,7 @@ export const MenulistingPage = () => {
             {!menuDataLoading && !menuDataFailed && itemList?.length > 0 && (
               <div className="first-part-header">
                 <p className="image-style"></p>
-                <p className="name-item-style">ItemName</p>
+                <p className="name-item-style">Item Name</p>
                 <p className="item-code-style">
                   <span> Code </span>
                   <button
