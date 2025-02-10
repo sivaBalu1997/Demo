@@ -42,7 +42,7 @@ const Table = ({
   tabledataLoading
 }: TableProps) => {
 
-  console.log({ Heading, tableData })
+  // console.log({ Heading, tableData })
   // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: null,
@@ -62,7 +62,7 @@ const Table = ({
   const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
 
 
-  console.log("H", { Heading, records })
+  // console.log("H", { Heading, records })
 
   useEffect(() => {
     setRecords(tableData)
@@ -231,8 +231,17 @@ const Table = ({
             <thead className="t-tableHeader">
               <tr className="t-tableRowHead">
                 {tableHeader?.map((header, index) => {
-                  const isNumeric = typeof tableData[0][header] === "number" && header !== "S.No";
-                  const isMonetary = /sales|amount|price/i.test(header);
+                  const firstRowValue = tableData && tableData?.[0]?.[header];
+                  // const isNumeric = (!isNaN(firstRowValue) && firstRowValue !== null && firstRowValue !== "") && header !== "S.No";
+                  const isNumeric = (!isNaN(firstRowValue) &&
+                    firstRowValue !== null &&
+                    firstRowValue !== "" &&
+                    typeof firstRowValue !== "boolean" &&
+                    !/^0\d+$/.test(firstRowValue) &&  // Prevents leading-zero numbers like "005444"
+                    header !== "S.No" &&
+                    !/orderNo/i.test(header));
+                  const isMonetary = /sales|amount|price|tip|tips|service\s?fee|fee|gratuity|discount|order\s?total/i.test(header) &&
+                    !/discount\s?name/i.test(header);
                   const currencySymbol = countryCode === "US" ? "$" : "₹";
                   return (
                     <th
@@ -264,13 +273,25 @@ const Table = ({
                       className="t-mainRow"
                       onClick={() => toggleRowExpansion(rowIndex)}
                     >
-                      {tableHeader.map((header, cellIndex) => (
+                      {tableHeader?.map((header, cellIndex) => (
                         <td
+                          // className={`t-tableCell ${header === "S.No"
+                          //   ? "t-align-left"
+                          //   : typeof row[header] === "number"
+                          //     ? "t-align-right"
+                          //     : ""
+                          //   }`}
+                          // className={`t-tableCell ${header === "S.No"
+                          //   ? "t-align-left"
+                          //   : (!isNaN(row[header]) && typeof row[header] === "string") || typeof row[header] === "number"
+                          //     ? "t-align-right"
+                          //     : "t-align-left"
+                          //   }`}
                           className={`t-tableCell ${header === "S.No"
                             ? "t-align-left"
-                            : typeof row[header] === "number"
+                            : (typeof row[header] === "number" || (!isNaN(row[header]) && typeof row[header] === "string" && !/^0\d+/.test(row[header])))
                               ? "t-align-right"
-                              : ""
+                              : "t-align-left"
                             }`}
                           key={cellIndex}
                         >

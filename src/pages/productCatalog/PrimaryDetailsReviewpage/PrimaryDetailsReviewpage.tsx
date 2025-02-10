@@ -217,9 +217,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-
-  
+  const primarydata = useSelector((state: RootState) => state.primarypage.data);  
 
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
@@ -546,9 +544,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     );
     return orderTypes ? orderTypes?.id : null;
   };
-
-  
-  
    
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
@@ -606,9 +601,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
-
-
-
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
@@ -841,10 +833,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //     dispatch(addMenuItemRequest({ menuPayload, locationid }));
   //   }
   // };
-
   
-  
-
   const addMenuSuccess = useSelector(
     (state: any) => state.productCatalog.addMenuSuccess
   );
@@ -872,7 +861,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   
   
         }
-       
         dispatch(startImageUpload(imageuploadpayload));
         if (subsectiondatamsg && UploadImageImageID !== '') {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -896,9 +884,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         const imageFiles = primarydata?.imageUrls?.filter((item, index) => {
           return item.file && item.file.name && isImageFile(item.file.name);
         });
-
-      
-        
+              
         if(primarydata?.imageUrls?.length > 0 && imageFiles.length>0)
         {
           const imageuploadpayload={
@@ -907,17 +893,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     
     
           }
-          
 
           dispatch(startImageUpload(imageuploadpayload));
           if (subsectiondatamsg && UploadImageImageID !== '') {
-           
             dispatch(updateMenuItemRequest(editPayload));
           }
         }
         else{
           dispatch(updateMenuItemRequest(editPayload));
-         
         }
         setButtonClicked(true);
       }

@@ -1089,7 +1089,6 @@ export const MenulistingPage = () => {
     }
   }, [listingobject, menuData, menudatalist]);
 
- 
   const allFalseForKeysEndingWith1 =
     listingobject &&
     Object.keys(listingobject)
@@ -1101,7 +1100,6 @@ export const MenulistingPage = () => {
     Object.keys(listingobject)
       ?.filter((key) => key.endsWith("2"))
       ?.every((key) => listingobject[key] === false);
-
 
   return (
     <div className="MenuPage-new-container">
@@ -2046,10 +2044,6 @@ export const MenulistingPage = () => {
                                                   handlesidbarhandling(
                                                     "Customize1",
                                                     item.itemId
-                                                  );
-                                                  console.log(
-                                                    "clicked",
-                                                    item.modifiers
                                                   );
                                                 }}
                                               >

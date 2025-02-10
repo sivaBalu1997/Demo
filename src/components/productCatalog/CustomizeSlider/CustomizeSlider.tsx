@@ -35,10 +35,7 @@ const CustomizeSlider = () => {
   const { patchedData, setPatchedData ,setPartialData} = useContext(Contextpagejs);
 
   const [customData, setCustomData] = useState<any>([]);
-
- console.log({datafromRedux});
- 
-  
+   
   useEffect(() => {
     const updatedCustomData = datafromRedux.flatMap((item: any) =>
       item?.modifiers.map((modifier: any) => ({
@@ -290,9 +287,7 @@ const CustomizeSlider = () => {
       }
     }, 100); // Small delay to ensure accurate measurement
   }, []); //
-  console.log({customizeHeight});
   
-
   return (
     <div className="customize-container" ref={customizeRefHeight} style={{height:customizeHeight<=509?"52vh":customizeHeight}}>
       <h3 className="customize-heading">Customize</h3>

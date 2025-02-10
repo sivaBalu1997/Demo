@@ -127,7 +127,6 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
     (item: any) => `${item}2` as keyof typeof insertlists.Available
   );
 
-
   const isAllPricingChecked = pricelist?.every(
     (key: any) => listingobject[key]
   );

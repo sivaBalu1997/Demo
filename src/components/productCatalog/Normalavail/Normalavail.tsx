@@ -608,7 +608,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const dineIndetailsField = prizingDetail?.normalForm?.dineinfields;
-        console.log({ thirdpartyDetails });
 
         setformNormal({
           PickuppriceNormal:
@@ -829,7 +828,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
-        console.log({ dineIndetail });
 
         // setValue("kitchenstation",prizingDetail?.kitchenstation)
 

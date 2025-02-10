@@ -67,9 +67,15 @@ const EmployeeInsights: React.FC = () => {
 
   const TABLE_RECORDS_LIMIT = 15;
 
+  const selectedBranch = useSelector(
+    (state: any) => state.auth?.selectedBranch || null
+  );
+
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
 
   const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
+  const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(({ total, date, ...rest }: any) => rest);
+  // console.log("2222222222", { updatedEmployeeSummary })
   // console.log("1111", { employeeSummaryAPIRedux })
   const employeeSummaryTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages);
   // console.log("1111", { employeeSummaryTotalPagesRedux })
@@ -83,6 +89,13 @@ const EmployeeInsights: React.FC = () => {
 
   const employeeDiscountAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.content);
   // console.log("1111", { employeeDiscountAPIRedux })
+
+  const employeeDisountMappped = employeeDiscountAPIRedux?.map((data: any) => ({
+    EmployeeName: data?.fullName,
+    Discount: data?.tip
+  }))
+
+  // console.log("1111", { employeeDisountMappped })
   const employeeDiscountTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.totalPages);
   // console.log("1111", { employeeDiscountTotalPagesRedux })
   const employeeDiscountLoading = useSelector((state: any) => state?.newReports?.employeeStaffDiscountLoading);
@@ -92,6 +105,7 @@ const EmployeeInsights: React.FC = () => {
   const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
   // console.log("1111", { employeeVoidActivityTotalPagesRedux })
   const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
+
 
 
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
@@ -441,6 +455,7 @@ const EmployeeInsights: React.FC = () => {
               </div>
               {state.openFilter && (
                 <div className="filter-drop-down-options" ref={dropdownRef}>
+                  <p onClick={() => handleOptionClickForDate("Yesterday")}>Yesterday</p>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                   <p onClick={() => handleOptionClickForDate("This Week")}>
                     This Week
@@ -530,14 +545,16 @@ const EmployeeInsights: React.FC = () => {
           </div>
         )}
         <div className="name-board-two">
-          <h1>Maghil Restaurant, Parsippany</h1>
+          <h1>{selectedBranch?.locationName}</h1>
         </div>
         <div className="employee-details-container">
           <Table
             currentPage={currentPageEmployeeTipsFeeSummary}
             setCurrentPage={setCurrentPageEmployeeTipsFeeSummary}
             Heading="Employee Summary"
-            tableData={employeeSummaryAPIRedux && employeeSummaryAPIRedux?.length > 0 && employeeSummaryAPIRedux}
+            // tableData={employeeSummaryAPIRedux && employeeSummaryAPIRedux?.length > 0 && employeeSummaryAPIRedux}
+            tableData={updatedEmployeeSummary && updatedEmployeeSummary?.length > 0 && updatedEmployeeSummary}
+            //updatedEmployeeSummary
             viewType="full"
             recordsPerPage={TABLE_RECORDS_LIMIT}
             totalpageNo={employeeSummaryTotalPagesRedux}
@@ -561,7 +578,8 @@ const EmployeeInsights: React.FC = () => {
             currentPage={currentPageEmployeeDiscount}
             setCurrentPage={setCurrentPageEmployeeDiscount}
             Heading="Employee Discount"
-            tableData={employeeDiscountAPIRedux && employeeDiscountAPIRedux?.length > 0 && employeeDiscountAPIRedux}
+            // tableData={employeeDiscountAPIRedux && employeeDiscountAPIRedux?.length > 0 && employeeDiscountAPIRedux}
+            tableData={employeeDisountMappped && employeeDisountMappped?.length > 0 && employeeDisountMappped}
             viewType="full"
             recordsPerPage={TABLE_RECORDS_LIMIT}
             totalpageNo={employeeDiscountTotalPagesRedux}

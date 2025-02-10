@@ -228,7 +228,7 @@ function* addSubsection(action) {
         response.data.message &&
         response.data.message.includes("already exist")
       ) {
-        showErrorToast(" Type already exist  . Please Try With Other Input  ");
+        showErrorToast(response.data.message);
         yield put(addDropDownFailure({ message: "Please try again" }));
       }
     }

@@ -64,11 +64,15 @@ const SidePanel = () => {
   const [isExpand, setIsExpand] = useState(true);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
+  
   useEffect(() => {
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
       // history.push("/productCatalog/menuListing");
     } else if (location?.pathname?.includes("/old-reports")) {
+      setSelectSubForReport("Reports & Insights");
+      setShowOptions("reportOptions");
+    } else if (location?.pathname?.includes("report/32")) {
       setSelectSubForReport("Reports & Insights");
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/live-reports")) {
@@ -131,7 +135,7 @@ const SidePanel = () => {
   );
 
   useEffect(() => {
-    if (locationId) {
+    if (locationId && !restaurantDetails) {
       dispatch(getRestaurantRequest(locationId));
     }
   }, []);

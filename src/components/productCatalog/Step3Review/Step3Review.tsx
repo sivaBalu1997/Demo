@@ -34,9 +34,7 @@ const Step3Review: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state.itemCustomizationsReducer1.itemData
   );
-  console.log({itemCustomizationData});
   
-
   const minSelectionArray = Array.isArray(itemCustomizationData) &&
       itemCustomizationData.length > 0 ? (
         itemCustomizationData

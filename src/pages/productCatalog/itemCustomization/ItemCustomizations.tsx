@@ -180,9 +180,6 @@ const ItemCustomizations: React.FC<any> = () => {
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
-console.log({orderTypes});
-
-  console.log({itemCustomizationData})
 
   useEffect(()=>{
     if(itemCustomizationData?.length > 0)
@@ -195,11 +192,9 @@ console.log({orderTypes});
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       // setShowModifiers(!showModifiers);
-      console.log({itemCustomizationData});
       
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
-        console.log("itemId",item?.selectedValue);
         
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
@@ -211,7 +206,6 @@ console.log({orderTypes});
         );
 
         if (item?.options) {
-          console.log("edit1",itemCustomizationData);
           
           return {
             modifierId: item?.id || "",
@@ -241,9 +235,6 @@ console.log({orderTypes});
           };
         } else if (item?.modifierOptions) {
 
-
-
-          console.log("edit",itemCustomizationData);
           // const selectedTypeNames = (item?.orderTypeIds || []).map(
           //   (selectedId: string) => {
           //     const orderType = orderTypes?.find(
@@ -328,10 +319,7 @@ console.log({orderTypes});
       dispatch(deleteModifierRequest(deletedModifierIds));
     }
   }, [deletedModifierIds]);
-
-  console.log({deletedModifierIds});
   
-
   useEffect(() => {
     if (updatedModifierIds.length > 0) {
       dispatch(updateModifierData(updatedModifierIds));
@@ -375,7 +363,6 @@ console.log({orderTypes});
     selectionType?: string
   ) => {
     const { name, value } = e.target;
-console.log({modifications});
 
     setModifications((prev: any) => {
       const updated = [...prev];
@@ -741,9 +728,6 @@ console.log({modifications});
     (state: any) => state.PricingDetailReducer.prizingData
   );
 
-
-  console.log({ordertypesdetails})
-
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
       modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
@@ -757,7 +741,6 @@ console.log({modifications});
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
     setSearchClicked(false);
-console.log({Modifiers});
 
     const updatedModifiers = {
       ...Modifiers,
@@ -866,9 +849,7 @@ console.log({Modifiers});
       const noPriceDetails = ordertypesdetails.normalForm.thirdpartyDetails.filter(
         (detail:any) => detail.price || parseFloat(detail.price) > 0
       );
-      console.log({noPriceDetails});
-      
-    
+          
       if (noPriceDetails.length > 0) {
         streams.push(noPriceDetails[0].typeName);
       }
@@ -1010,9 +991,7 @@ console.log({Modifiers});
 
   const validateModifiers = (modifications: any[]) => {
     // Initialize errors array
-    const errors = [customizationerrors];
-  
-    console.log({showModifiers});
+    const errors = [customizationerrors];  
     // Perform validation only if showModifiers is true
     if (showModifiers) {
 
@@ -1032,7 +1011,6 @@ console.log({Modifiers});
           errormsgforselectedvalues: "",
           options: [],
         };
-        console.log({modifierOptions});
         // Validate Modifier Name
         if (!modifierName.trim() && showModifiers &&modifier.isEnabled) {
           modifierErrors.modifierNameError = `Modifier Name is required`;
@@ -1103,10 +1081,7 @@ console.log({Modifiers});
           (option: any) =>
             option.optionNameError === "" && option.optionPriceError === ""
         );
-
-        console.log(hasNoTopLevelErrors && hasNoOptionErrors);
-        
-  
+          
         return hasNoTopLevelErrors && hasNoOptionErrors;
       });
     };
@@ -1151,6 +1126,10 @@ console.log({Modifiers});
     setSearchQuery("");
     setSearchClicked(false);
   }
+  const handleWheel = (event: any) => {
+    event.target.blur(); // Removes focus to prevent unintended changes
+    event.preventDefault();
+  };
 
   const handleRemoveAllmodifiers=()=>{
 
@@ -1592,6 +1571,7 @@ setModifications((prev: any) => {
                                           className="input-option-price-field"
                                           name="cost"
                                           type="number"
+                                          onWheel={handleWheel}
                                           style={{
                                             opacity: modifications[modIndex]
                                               ?.modifierOptions[optIndex]

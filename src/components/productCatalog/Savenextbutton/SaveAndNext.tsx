@@ -234,9 +234,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
       setKitchenError(true);
-
-
-      console.log("coming",mainForm);
       
       const isValid = handleValidate();
       const valid=setValiadtePriceFields
