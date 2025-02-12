@@ -204,7 +204,7 @@ const CheckIn: React.FC = () => {
 
   const guestValues = transformDataForSplineCurveAreaChart(checkInD["Day Over Day Guests One"], "guest")
   const checkInValues = transformDataForSplineCurveAreaChart(checkInD["Day Over Day Guests One"], "checkIns")
-  console.log("4444", { guestValues, checkInValues })
+  // console.log("4444", { guestValues, checkInValues })
 
   const MockchartOptionsSpline: {
     animationEnabled: boolean;
