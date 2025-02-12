@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import emptyfoodimg from "../../assets/images/emptyfoodimg.png";
 import imageslist from "../imageslist/imageslist";
 import { useSelector, useDispatch } from "react-redux";
-
 import { getIngredientsRequest } from "redux/productCatalog/productCatalogActions";
 
 interface ingredients {
@@ -22,6 +21,8 @@ interface ImageItem {
   base64String: string;
   name: string;
   media?: any;
+  imageId?:any;
+  imageType?:any;
 }
 
 interface alleregenimagelist {
@@ -60,6 +61,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
   );
+
   const allergensData = useSelector(
     (state: any) => state.productCatalog?.allergens?.data
   );
@@ -94,17 +96,20 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
     }
   }, [imageselected, ingredientsdata, allergensData]);
 
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+
   return (
     <div className="imagesselected">
       <div>
         {name === "Ingredients" && (
           <div className="images1">
-            {imagefromapi?.map((image) => (
+            {imagefromapi?.map((image) => {
+              return (
               <div key={image?.id} className="selectedingredientsimage">
-                <img src={image?.media.url || ""} alt="ingredient-image" />
-                <span>{image?.name}</span>
+                <img src={`${baseImageUrl}${image?.media?.imageId}.${image?.media?.imageType?.split("/")[1]}` || ""} alt="ingredient-image" />
+                <span className="iaImageName">{image?.name}</span>
               </div>
-            ))}
+            )})}
           </div>
         )}
       </div>
@@ -113,8 +118,8 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
           <div className="images2">
             {alleregenimgelist?.map((image) => (
               <div key={image?.id} className="selectedallergenimage">
-                <img src={image?.media.url || ""} alt="allergen-image" />
-                <span>{image?.name}</span>
+                <img src={`${baseImageUrl}${image?.media?.imageId}.${image?.media?.imageType?.split("/")[1]}` || ""} alt="allergen-image" />
+                <span className="iaImageName">{image?.name}</span>
               </div>
             ))}
           </div>

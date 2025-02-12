@@ -271,7 +271,10 @@ const PricingSlider: any = ({}) => {
                       <div
                         className="compare-Image"
                         onClick={() =>
-                          handleComparision(price.price, price.tyepeId, index)
+                          { 
+                            console.log(price, '333',price.isEnabled)
+                            price.typeGroup === "D" && price.price > 0 && price.isEnabled === 1 && price.isNotHide === 1 && handleComparision(price.price, price.tyepeId, index)
+                          }
                         }
                       >
                         <div className="comparision">

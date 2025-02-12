@@ -1176,14 +1176,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                             }
                           />
                         </div>
-                        <div>
+                        {/* <div>
                           <ReviewValues
                             label="Tax Class Association"
                             textvalue={
                               primarydata.tax ? primarydata.tax : "N/A"
                             }
                           />
-                        </div>
+                        </div> */}
 
                         {/* <div>
                         <ReviewValues
