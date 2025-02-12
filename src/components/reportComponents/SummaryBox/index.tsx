@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "./style.scss";
-import { useSelector } from 'react-redux';
 
 interface SummaryBoxProps {
     summaryTitle: string;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { checkInD } from "../../../assets/mockData/originalAPIData/OcheckinData";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
@@ -13,9 +13,9 @@ import Topnavbar from "components/reportComponents/TopNavbar";
 import moment from "moment";
 import useSalesLocationDates from "hooks/useSalesLocationDates";
 import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
+import SummaryBox from "components/reportComponents/SummaryBox";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
-import SummaryBox from "components/reportComponents/SummaryBox";
 
 
 
@@ -42,6 +42,9 @@ declare namespace CanvasJS {
 }
 
 const CheckIn: React.FC = () => {
+  const selectedBranch = useSelector(
+    (state: any) => state.auth?.selectedBranch || null
+  );
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
   const [state, setState] = useState<DateRangeStateInterface>({
     startDate: moment().toDate(),
@@ -512,11 +515,35 @@ const CheckIn: React.FC = () => {
     }));
   };
 
+
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
       <div
-        style={isExpanded ? { width: '85%' } : { width: '94%' }}
+        style={{
+          width: isExpanded
+            ? "85%"
+            : windowWidth <= 600
+              ? "101%"
+              : "94%",
+        }}
+
         className={`checkin-container ${isDarkTheme ? "dark-theme" : "light-theme"
           }`}
       >
@@ -604,7 +631,7 @@ const CheckIn: React.FC = () => {
           </div>
         )} */}
         <div className="checkin-name-board-two">
-          <h1>Maghil Restaurant, Parsippany</h1>
+          <h1>{selectedBranch?.locationName}</h1>
         </div>
         <div className="overall-summary">
           <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
