@@ -2,18 +2,22 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { ReportsChartDropDown } from "components/reportComponents/ReportsChartDropDown";
+import { useDispatch, useSelector } from "react-redux";
+import { employeeStaffActivityRequest, employeeStaffDiscountRequest, employeeStaffPerformanceRequest, employeeStaffTipGratuityRequest } from "redux/newReports/newReportsActions";
+import { DateRangeStateInterface } from "interface/newReportsInterface";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
-import "react-datepicker/dist/react-datepicker.css";
-import "./style.scss";
 import CanvaPieChart from "components/reportComponents/Charts/CanvaPieChart";
 import BarChart from "components/reportComponents/Charts/BarChart";
-import { ReportsChartDropDown } from "components/reportComponents/ReportsChartDropDown";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { employeeStaffActivityRequest, employeeStaffDiscountRequest, employeeStaffPerformanceRequest, employeeStaffTipGratuityRequest } from "redux/newReports/newReportsActions";
+import SummaryBox from "components/reportComponents/SummaryBox";
+import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
+import useSalesLocationDates from "hooks/useSalesLocationDates";
+import "react-datepicker/dist/react-datepicker.css";
+import "./style.scss";
 
 
 interface CanvaPieChartOptions {
@@ -51,15 +55,6 @@ interface CanvaPieChartOptions {
   backgroundColor: string;
 }
 
-interface employeeState {
-  startDate: Date;
-  endDate: Date;
-  openCustomDateRange: boolean;
-  openStartDatePicker: boolean;
-  openEndDatePicker: boolean;
-  openFilter: boolean;
-  selectedPeriod: string;
-}
 
 const EmployeeInsights: React.FC = () => {
 
@@ -109,7 +104,8 @@ const EmployeeInsights: React.FC = () => {
 
 
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const [state, setState] = useState<employeeState>({
+  // const [state, setState] = useState<employeeState>({
+  const [state, setState] = useState<DateRangeStateInterface>({
     startDate: moment().toDate(),
     endDate: moment().toDate(),
     openCustomDateRange: false,
@@ -128,121 +124,7 @@ const EmployeeInsights: React.FC = () => {
   const [currentPageEmployeeDiscount, setCurrentPageEmployeeDiscount] = useState<number>(1);
   const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
 
-
-  const openFilterDropDown = () => {
-    setState((prevState) => ({
-      ...prevState,
-      openFilter: !prevState.openFilter,
-    }));
-  };
-
-  const handleOptionClickForDate = (option: string) => {
-    setState((prevState) => ({
-      ...prevState,
-      selectedPeriod: option,
-      openCustomDateRange: option === "Custom Range",
-      openStartDatePicker: option === "Custom Range",
-      openEndDatePicker: option === "Custom Range",
-      startDate:
-        option === "Custom Range"
-          ? moment().toDate()
-          : prevState.startDate,
-      endDate:
-        option === "Custom Range"
-          ? moment().toDate()
-          : prevState.endDate,
-      openFilter: false,
-    }));
-  };
-
-  // const XemployeeNameBar = EmployeeD["Sales By Employee"].map(
-  //   (item) => item["Employee Name"]
-  // );
-
-  // const YemployeeSalesBar = EmployeeD["Sales By Employee"].map(
-  //   (item) => item.Sales
-  // );
-
-  const getSalesLocationStartEndDate = useMemo(() => {
-    const { selectedPeriod, startDate, endDate } = state;
-    let computedStartDate = moment().toDate();
-    let computedEndDate = moment().toDate();
-
-    switch (selectedPeriod) {
-      case "Today":
-        computedStartDate = moment().startOf("day").toDate();
-        computedEndDate = moment().endOf("day").toDate();
-        break;
-      case "This Week":
-        computedStartDate = moment().startOf("week").toDate();
-        computedEndDate = moment().endOf("week").toDate();
-        break;
-      case "Last 7 days":
-        computedStartDate = moment().subtract(7, "days").startOf("day").toDate();
-        computedEndDate = moment().endOf("day").toDate();
-        break;
-      case "This Month":
-        computedStartDate = moment().startOf("month").toDate();
-        computedEndDate = moment().endOf("month").toDate();
-        break;
-      case "Last Month":
-        computedStartDate = moment().subtract(1, "month").startOf("month").toDate();
-        computedEndDate = moment().subtract(1, "month").endOf("month").toDate();
-        break;
-      case "Last 30 days":
-        computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
-        computedEndDate = moment().endOf("day").toDate();
-        break;
-      case "Yesterday":
-        computedStartDate = moment().subtract(1, "day").startOf("day").toDate();
-        computedEndDate = moment().subtract(1, "day").endOf("day").toDate();
-        break;
-      case "Custom Range":
-        computedStartDate = startDate;
-        computedEndDate = endDate;
-        break;
-      default:
-        break;
-    }
-
-    // Validate locationId and date range
-    if (!locationid) {
-      console.error("locationId is missing");
-      return null;
-    }
-
-    return {
-      locationid,
-      startDate: moment(computedStartDate).format("YYYY-MM-DD"),
-      endDate: moment(computedEndDate).format("YYYY-MM-DD"),
-      // tablePageNo: currentPageSalesByItemCategory,
-      // tableRecordLimit: TABLE_RECORDS_LIMIT,
-    };
-  }, [state, locationid]);
-
-  // console.log("qqqq22", { getSalesLocationStartEndDate })
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setState((prevState) => ({
-          ...prevState,
-          openFilter: false,
-        }));
-      }
-    };
-
-    if (state.openFilter) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [state.openFilter]);
+  const getLocationDates = useSalesLocationDates(state, locationid);
 
   // Data/Config For Pie Chart start ====================================================
   const empTips = EmployeeD["Employee Performance"]?.map((items: any) => ({
@@ -385,52 +267,63 @@ const EmployeeInsights: React.FC = () => {
   };
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         employeeStaffTipGratuityRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageEmployeeTipsFeeSummary,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageEmployeeTipsFeeSummary]);
+  }, [getLocationDates, currentPageEmployeeTipsFeeSummary]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         employeeStaffPerformanceRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageEmployeePerformance,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageEmployeePerformance]);
+  }, [getLocationDates, currentPageEmployeePerformance]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         employeeStaffDiscountRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageEmployeeDiscount,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageEmployeeDiscount]);
+  }, [getLocationDates, currentPageEmployeeDiscount]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         employeeStaffActivityRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageEmployeeVoidActivity,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageEmployeeVoidActivity]);
+  }, [getLocationDates, currentPageEmployeeVoidActivity]);
+
+  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
+    startDate: Date,
+    endDate: Date) => {
+    setState((prev) => ({
+      ...prev,
+      selectedPeriod: option, // Now it correctly matches the expected type
+      startDate,
+      endDate,
+    }));
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
@@ -445,15 +338,24 @@ const EmployeeInsights: React.FC = () => {
           <div className="name-board">
             <h1>Reports Dashboard</h1>
           </div>
-          <div className="dates">
-            <div className="label-time-period">
+          <div className="employee-date-filter-container">
+            {/* <SummaryBox summaryTitle="Summary Title" boxValue={15} toolTipMessage="Tooltip Message" isMonetary={true} /> */}
+            <DateFilterDropdown
+              selectedPeriod={state.selectedPeriod}
+              startDate={state.startDate}
+              endDate={state.endDate}
+              onSelect={handleDateSelection}
+            />
+          </div>
+          {/* <div className="dates"> */}
+          {/* <div className="label-time-period">
               <p>Select Time Period</p>
-            </div>
-            <div className="filter-toggle-btn-container">
-              <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-                {state.selectedPeriod} {/* Display the selected option */}
-              </div>
-              {state.openFilter && (
+            </div> */}
+          {/* <div className="filter-toggle-btn-container"> */}
+          {/* <div className="filter-toggle-btn" onClick={openFilterDropDown}>
+                {state.selectedPeriod} 
+              </div> */}
+          {/* {state.openFilter && (
                 <div className="filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClickForDate("Yesterday")}>Yesterday</p>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
@@ -480,9 +382,9 @@ const EmployeeInsights: React.FC = () => {
                     Custom Range
                   </p>
                 </div>
-              )}
-            </div>
-          </div>
+              )} */}
+          {/* </div> */}
+          {/* </div> */}
         </div>
         {state.openCustomDateRange && (
           <div className="e-date-range-style">
@@ -610,6 +512,15 @@ const EmployeeInsights: React.FC = () => {
             </div>
           </div>
           {renderChart()}
+          {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", gap: "20px" }}> */}
+          {/* <SummaryBox summaryTitle="Summary Title" boxValue={15} toolTipMessage="Tooltip Message" isMonetary={true} /> */}
+          {/* <DateFilterDropdown
+              selectedPeriod={state.selectedPeriod}
+              startDate={state.startDate}
+              endDate={state.endDate}
+              onSelect={handleDateSelection}
+            /> */}
+          {/* </div> */}
         </div>
       </div>
     </div >

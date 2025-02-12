@@ -3,14 +3,34 @@ import { checkInD } from "../../../assets/mockData/originalAPIData/OcheckinData"
 import { ThemeContext } from "../../../context/ThemeContext";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { DateRangeStateInterface } from "interface/newReportsInterface";
+import { useSelector } from "react-redux";
 import Table from "../../../components/reportComponents/Table";
 import ReusableCanvaChart from "../../../components/reportComponents/Charts/ReusabeCanvaChart";
-import DatePicker from "react-datepicker";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import moment from "moment";
+import useSalesLocationDates from "hooks/useSalesLocationDates";
+import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import SummaryBox from "components/reportComponents/SummaryBox";
+
+
+
+// {
+//   reservation_time: string;
+//   channel_name: string;
+//   count: number;
+// }[]
+
+// {
+//   x: string;
+//   y: number;
+//   type: string;
+// }[]
+
 
 declare namespace CanvasJS {
   interface ChartEventArgs {
@@ -22,13 +42,21 @@ declare namespace CanvasJS {
 }
 
 const CheckIn: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+  const [state, setState] = useState<DateRangeStateInterface>({
+    startDate: moment().toDate(),
+    endDate: moment().toDate(),
+    openCustomDateRange: false,
+    openStartDatePicker: false,
+    openEndDatePicker: false,
+    openFilter: false,
+    selectedPeriod: "Yesterday",
+  });
+
+  const getLocationDates = useSalesLocationDates(state, locationid);
+
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const [openFilter, setOpenFilter] = useState(false);
-  const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [totalPageNoCurrentPageRepeatCustomers, setTotalPageNoCurrentPageRepeatCustomers] = useState<number>(5)
@@ -37,9 +65,9 @@ const CheckIn: React.FC = () => {
   const [totalPageNoCurrentPageDailyCheckInDetails, setTotalPageNoCurrentPageDailyCheckInDetails] = useState<number>(5)
   const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
 
-  const openFilterDropDown = () => {
-    setOpenFilter((op) => !op);
-  };
+  const [totalPageNoReservationData, setTotalPageNoReservationData] = useState<number>(5)
+  const [currentPageReservationData, setCurrentPageReservationData] = useState<number>(1)
+
 
   const transformDataByChannelForStackBar = (
     data: { channel_name: string; reservation_time: string; count: number }[],
@@ -60,6 +88,10 @@ const CheckIn: React.FC = () => {
   const merchantData = transformDataByChannelForStackBar(
     checkInD["Daily Hourly CheckIn"],
     "MERCHANT"
+  );
+  const emptyTypeData = transformDataByChannelForStackBar(
+    checkInD["Daily Hourly CheckIn"],
+    "EMPTY"
   );
 
   const MockchartOptions: {
@@ -146,10 +178,120 @@ const CheckIn: React.FC = () => {
         showInLegend: true,
         dataPoints: merchantData,
       },
+      {
+        type: "stackedColumn",
+        name: "Empty",
+        showInLegend: true,
+        dataPoints: emptyTypeData,
+      },
     ],
     backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
   };
 
+  const transformDataForSplineCurveAreaChart = (data: {
+    x: string;
+    y: number;
+    type: string;
+  }[], typeParam: string) => {
+    return data?.filter((dataForFiltering) => dataForFiltering.type === typeParam)?.map((mappingFilterData) => ({
+      x: new Date(mappingFilterData?.x),
+      y: mappingFilterData?.y
+    }))
+  }
+
+  const guestValues = transformDataForSplineCurveAreaChart(checkInD["Day Over Day Guests One"], "guest")
+  const checkInValues = transformDataForSplineCurveAreaChart(checkInD["Day Over Day Guests One"], "checkIns")
+  console.log("4444", { guestValues, checkInValues })
+
+  const MockchartOptionsSpline: {
+    animationEnabled: boolean;
+    exportEnabled: boolean;
+    theme: string;
+    title: {
+      text: string;
+      fontSize: string;
+    };
+    axisY: {
+      title: string;
+      gridColor: string;
+    };
+    axisX: {
+      title: string;
+      gridColor: string;
+    };
+    legend: {
+      cursor: string;
+      itemclick: (e: CanvasJS.ChartEventArgs) => void;
+      horizontalAlign: string;
+      verticalAlign: string;
+      reversed: boolean;
+    };
+    toolTip: {
+      shared: boolean;
+      reversed: boolean;
+    };
+    data: {
+      type: string;
+      name: string;
+      showInLegend: boolean;
+      dataPoints: any[];
+    }[];
+    backgroundColor: string;
+  } = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: isDarkTheme ? "dark1" : "light2",
+    title: {
+      text: "Day Over Day Guests",
+      fontSize: "28",
+    },
+    axisY: {
+      title: "Count",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    axisX: {
+      title: "Reservation Time",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    legend: {
+      cursor: "pointer",
+      itemclick: (e: CanvasJS.ChartEventArgs) => {
+        if (
+          typeof e.dataSeries.visible === "undefined" ||
+          e.dataSeries.visible
+        ) {
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        e.chart.render();
+      },
+      horizontalAlign: "center",
+      verticalAlign: "bottom",
+      reversed: true,
+    },
+    toolTip: {
+      shared: true,
+      reversed: true,
+    },
+    data: [
+      {
+        type: "splineArea",
+        name: "Guests",
+        showInLegend: true,
+        dataPoints: guestValues,
+      },
+      {
+        type: "splineArea",
+        name: "CheckIns",
+        showInLegend: true,
+        dataPoints: checkInValues,
+      },
+    ],
+    backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
+  };
+
+  // console.log("4444", { guestValues })
   const peakData = [];
   const offPeakData = [];
 
@@ -160,6 +302,180 @@ const CheckIn: React.FC = () => {
       offPeakData.push({ x: item.party_size, y: item["Dine Tine"] });
     }
   });
+
+  const dataForDineInTime = checkInD["Daily Dine In Time"]?.map((data) => ({ y: data?.["Dine Tine"], label: data?.party_size }))
+
+  const MockchartOptionsDineInTime: {
+    animationEnabled: boolean;
+    exportEnabled: boolean;
+    theme: string;
+    title: {
+      text: string;
+      fontSize: string;
+    };
+    axisY: {
+      title: string;
+      gridColor: string;
+    };
+    axisX: {
+      title: string;
+      gridColor: string;
+    };
+    legend: {
+      cursor: string;
+      itemclick: (e: CanvasJS.ChartEventArgs) => void;
+      horizontalAlign: string;
+      verticalAlign: string;
+      reversed: boolean;
+    };
+    toolTip: {
+      shared: boolean;
+      reversed: boolean;
+    };
+    data: {
+      type: string;
+      name: string;
+      showInLegend: boolean;
+      dataPoints: any[];
+    }[];
+    backgroundColor: string;
+  } = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: isDarkTheme ? "dark1" : "light2",
+    title: {
+      text: "Daily Dine In Time",
+      fontSize: "28",
+    },
+    axisY: {
+      title: "Count",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    axisX: {
+      title: "Reservation Time",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    legend: {
+      cursor: "pointer",
+      itemclick: (e: CanvasJS.ChartEventArgs) => {
+        if (
+          typeof e.dataSeries.visible === "undefined" ||
+          e.dataSeries.visible
+        ) {
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        e.chart.render();
+      },
+      horizontalAlign: "center",
+      verticalAlign: "bottom",
+      reversed: true,
+    },
+    toolTip: {
+      shared: true,
+      reversed: true,
+    },
+    data: [
+      {
+        type: "column",
+        name: "Dine In Time",
+        showInLegend: true,
+        dataPoints: dataForDineInTime,
+      },
+    ],
+    backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
+  };
+
+  // console.log({ peakData, offPeakData })
+
+
+  const partySizeDistributionValue = checkInD["Party Size Distributions"]?.map((data) => ({
+    y: data?.["count"],
+    label: data?.["Party Size"]
+  }))
+
+  const MockchartOptionsPartySizeDistribution: {
+    animationEnabled: boolean;
+    exportEnabled: boolean;
+    theme: string;
+    title: {
+      text: string;
+      fontSize: string;
+    };
+    axisY: {
+      title: string;
+      gridColor: string;
+    };
+    axisX: {
+      title: string;
+      gridColor: string;
+    };
+    legend: {
+      cursor: string;
+      itemclick: (e: CanvasJS.ChartEventArgs) => void;
+      horizontalAlign: string;
+      verticalAlign: string;
+      reversed: boolean;
+    };
+    toolTip: {
+      shared: boolean;
+      reversed: boolean;
+    };
+    data: {
+      type: string;
+      name: string;
+      showInLegend: boolean;
+      dataPoints: any[];
+    }[];
+    backgroundColor: string;
+  } = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: isDarkTheme ? "dark1" : "light2",
+    title: {
+      text: "Party Size Distribution",
+      fontSize: "28",
+    },
+    axisY: {
+      title: "Count",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    axisX: {
+      title: "Reservation Time",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    legend: {
+      cursor: "pointer",
+      itemclick: (e: CanvasJS.ChartEventArgs) => {
+        if (
+          typeof e.dataSeries.visible === "undefined" ||
+          e.dataSeries.visible
+        ) {
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        e.chart.render();
+      },
+      horizontalAlign: "center",
+      verticalAlign: "bottom",
+      reversed: true,
+    },
+    toolTip: {
+      shared: true,
+      reversed: true,
+    },
+    data: [
+      {
+        type: "column",
+        name: "Daily Party Size Distribution",
+        showInLegend: true,
+        dataPoints: partySizeDistributionValue,
+      },
+    ],
+    backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
+  };
 
   const formatNumberIndian = (number: number[]) => {
     let numStr = number.toString();
@@ -185,23 +501,22 @@ const CheckIn: React.FC = () => {
   );
   const YdayofTheWeekDA = S["Day of the Week"].map((item) => item.day);
 
-  const [selectedPeriod, setSelectedPeriod] = useState("Today");
-
-  const handleOptionClickForDate = (option: string) => {
-    setSelectedPeriod(option);
-    if (option === "Custom Range") {
-      setOpenCustomDateRange(true);
-    } else {
-      setOpenCustomDateRange(false);
-    }
-    setOpenFilter(false);
+  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
+    startDate: Date,
+    endDate: Date) => {
+    setState((prev) => ({
+      ...prev,
+      selectedPeriod: option, // Now it correctly matches the expected type
+      startDate,
+      endDate,
+    }));
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'85%'} : {width:'94%'}}
+        style={isExpanded ? { width: '85%' } : { width: '94%' }}
         className={`checkin-container ${isDarkTheme ? "dark-theme" : "light-theme"
           }`}
       >
@@ -210,7 +525,15 @@ const CheckIn: React.FC = () => {
           <div className="checkin-name-board">
             <h1>Reports Dashboard</h1>
           </div>
-          <div className="dates">
+          <div className="checkin-date-filter-container">
+            <DateFilterDropdown
+              selectedPeriod={state.selectedPeriod}
+              startDate={state.startDate}
+              endDate={state.endDate}
+              onSelect={handleDateSelection}
+            />
+          </div>
+          {/* <div className="dates">
             <div className="label-time-period">
               <p>Select Time Period</p>
             </div>
@@ -246,9 +569,9 @@ const CheckIn: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
-        {openCustomDateRange && (
+        {/* {openCustomDateRange && (
           <div className="ch-date-range-style">
             <label className="ch-dateLabel" htmlFor="ch-start-date">
               From
@@ -279,7 +602,7 @@ const CheckIn: React.FC = () => {
               }}
             />
           </div>
-        )}
+        )} */}
         <div className="checkin-name-board-two">
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>
@@ -315,8 +638,30 @@ const CheckIn: React.FC = () => {
             <h3>New Customers</h3>
           </div>
         </div>
+        <div className="daily-summary-container">
+          <div className="daily-heading">
+            <h1>Daily Summary</h1>
+          </div>
+          <div className="daily-summary-inner-container">
+            <SummaryBox summaryTitle="Daily Checkins" boxValue={10} />
+            <SummaryBox summaryTitle="Daily Guest" boxValue={10} />
+            <SummaryBox summaryTitle="Daily Cancellation" boxValue={10} />
+            <SummaryBox summaryTitle="Total Customers" boxValue={10} />
+          </div>
+        </div>
         <div className="canva-stacked-bar-container">
           <ReusableCanvaChart options={MockchartOptions} />
+        </div>
+        <div className="canva-stacked-bar-container">
+          <ReusableCanvaChart options={MockchartOptionsSpline} />
+        </div>
+        {/* MockchartOptionsDineInTime */}
+        <div className="canva-stacked-bar-container">
+          <ReusableCanvaChart options={MockchartOptionsDineInTime} />
+        </div>
+        {/* MockchartOptionsPartySizeDistribution */}
+        <div className="canva-stacked-bar-container">
+          <ReusableCanvaChart options={MockchartOptionsPartySizeDistribution} />
         </div>
         <div className="day-of-the-week">
           <div className="day-of-the-week-inner">
@@ -360,7 +705,7 @@ const CheckIn: React.FC = () => {
             setCurrentPage={setCurrentPageRepeatCustomers}
             tableData={checkInD["Repeat Customers"]}
             viewType="full"
-            recordsPerPage={9}
+            recordsPerPage={15}
             Heading="Repeat Customers"
             totalpageNo={totalPageNoCurrentPageRepeatCustomers}
           />
@@ -371,9 +716,20 @@ const CheckIn: React.FC = () => {
             setCurrentPage={setCurrentPageDailyCheckInDetails}
             tableData={checkInD["Daily CheckIn Details"]}
             viewType="full"
-            recordsPerPage={11}
+            recordsPerPage={15}
             Heading="Daily CheckIn Details"
             totalpageNo={totalPageNoCurrentPageDailyCheckInDetails}
+          />
+        </div>
+        <div className="daily-checkin-table-container">
+          <Table
+            currentPage={currentPageReservationData}
+            setCurrentPage={setCurrentPageReservationData}
+            tableData={checkInD["Reservation Data"]}
+            viewType="full"
+            recordsPerPage={15}
+            Heading="Reservation Data"
+            totalpageNo={totalPageNoReservationData}
           />
         </div>
       </div>
