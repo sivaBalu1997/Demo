@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/svg/newCalendar.svg";
 import ResetLogo from "../../assets/images/resetIcon.png";
 import InputMask from "react-input-mask"
-import alertImg from '../../assets/svg/alert-triangle.svg'
+import alertImg from '../../assets/svg/newCaution.svg'
 import info from '../../assets/svg/info.svg'
 import {
   addEmployee,
