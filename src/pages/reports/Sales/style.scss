@@ -72,8 +72,10 @@
     justify-content: space-between;
     @media(max-width: 500px){
       justify-content: space-around;
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
     }
-
 
     .s-name-board {
       display: flex;
@@ -90,92 +92,97 @@
       }
     }
 
-    .s-dates {
+    // .s-dates {
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   gap: 3rem;
+    //   height: 6rem;
+
+    //   .s-label-time-period {
+    //     font-weight: 600;
+    //     color: var(--table-text);
+    //     @media (max-width: 800px) {
+    //       font-size: smaller;
+    //     }
+    //     @media (max-width: 500px) {
+    //       display: none;
+    //     }
+    //   }
+
+    //   .s-filter-toggle-btn-container {
+    //     position: relative;
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: center;
+    //     gap: 0.6rem;
+
+    //     .s-filter-toggle-btn {
+    //       text-align: center;
+    //       padding: 0.5rem;
+    //       width: 10rem;
+    //       height: 2rem;
+    //       color: #000;
+    //       background-color: #ccc;
+    //       display: flex;
+    //       justify-content: center;
+    //       align-items: center;
+    //       border: 1px solid #000;
+    //       border-radius: 0.8rem;
+    //       cursor: pointer;
+    //       @media (max-width: 800px) {
+    //         width: 5rem;
+    //         height: 1rem;
+    //         font-size: smaller;
+    //       }
+    //       @media(max-width: 500px){
+    //         width: 27vw;
+    //       }
+    //     }
+
+    //     .s-filter-drop-down-options {
+    //       position: absolute;
+    //       top: 110%;
+    //       left: 50%;
+    //       transform: translateX(-50%);
+    //       width: 12rem;
+    //       padding: 0.5rem;
+    //       background-color: var(--navbar-bg);
+    //       color: var(--navbar-text);
+    //       border: 1px solid #ccc;
+    //       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    //       z-index: 999;
+    //       border-radius: 1rem;
+    //       @media (max-width: 800px) {
+    //         width: 5rem;
+    //       }
+    //       @media(max-width: 500px) {
+    //         width: 25vw;
+    //       }
+
+    //       p {
+    //         margin: 0;
+    //         padding: 0.5rem;
+    //         cursor: pointer;
+    //         border-radius: 0.6rem;
+    //         text-align: center;
+
+    //         &:hover {
+    //           background-color: var(--navbar-text);
+    //           color: var(--navbar-bg);
+    //         }
+
+    //         @media (max-width: 800px) {
+    //           font-size: x-small;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    .sales-date-filter-container{
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 3rem;
-      height: 6rem;
-
-      .s-label-time-period {
-        font-weight: 600;
-        color: var(--table-text);
-        @media (max-width: 800px) {
-          font-size: smaller;
-        }
-        @media (max-width: 500px) {
-          display: none;
-        }
-      }
-
-      .s-filter-toggle-btn-container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.6rem;
-
-        .s-filter-toggle-btn {
-          text-align: center;
-          padding: 0.5rem;
-          width: 10rem;
-          height: 2rem;
-          color: #000;
-          background-color: #ccc;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border: 1px solid #000;
-          border-radius: 0.8rem;
-          cursor: pointer;
-          @media (max-width: 800px) {
-            width: 5rem;
-            height: 1rem;
-            font-size: smaller;
-          }
-          @media(max-width: 500px){
-            width: 27vw;
-          }
-        }
-
-        .s-filter-drop-down-options {
-          position: absolute;
-          top: 110%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 12rem;
-          padding: 0.5rem;
-          background-color: var(--navbar-bg);
-          color: var(--navbar-text);
-          border: 1px solid #ccc;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-          z-index: 999;
-          border-radius: 1rem;
-          @media (max-width: 800px) {
-            width: 5rem;
-          }
-          @media(max-width: 500px) {
-            width: 25vw;
-          }
-
-          p {
-            margin: 0;
-            padding: 0.5rem;
-            cursor: pointer;
-            border-radius: 0.6rem;
-            text-align: center;
-
-            &:hover {
-              background-color: var(--navbar-text);
-              color: var(--navbar-bg);
-            }
-
-            @media (max-width: 800px) {
-              font-size: x-small;
-            }
-          }
-        }
-      }
     }
   }
   .s-canva-pie-chart-outer-cont {

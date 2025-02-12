@@ -3,14 +3,19 @@ import { checkInD } from "../../../assets/mockData/originalAPIData/OcheckinData"
 import { ThemeContext } from "../../../context/ThemeContext";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { DateRangeStateInterface } from "interface/newReportsInterface";
+import { useSelector } from "react-redux";
 import Table from "../../../components/reportComponents/Table";
 import ReusableCanvaChart from "../../../components/reportComponents/Charts/ReusabeCanvaChart";
-import DatePicker from "react-datepicker";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import moment from "moment";
+import useSalesLocationDates from "hooks/useSalesLocationDates";
+import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import SummaryBox from "components/reportComponents/SummaryBox";
 
 declare namespace CanvasJS {
   interface ChartEventArgs {
@@ -22,13 +27,21 @@ declare namespace CanvasJS {
 }
 
 const CheckIn: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+  const [state, setState] = useState<DateRangeStateInterface>({
+    startDate: moment().toDate(),
+    endDate: moment().toDate(),
+    openCustomDateRange: false,
+    openStartDatePicker: false,
+    openEndDatePicker: false,
+    openFilter: false,
+    selectedPeriod: "Yesterday",
+  });
+
+  const getLocationDates = useSalesLocationDates(state, locationid);
+
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const [openFilter, setOpenFilter] = useState(false);
-  const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [totalPageNoCurrentPageRepeatCustomers, setTotalPageNoCurrentPageRepeatCustomers] = useState<number>(5)
@@ -37,9 +50,6 @@ const CheckIn: React.FC = () => {
   const [totalPageNoCurrentPageDailyCheckInDetails, setTotalPageNoCurrentPageDailyCheckInDetails] = useState<number>(5)
   const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
 
-  const openFilterDropDown = () => {
-    setOpenFilter((op) => !op);
-  };
 
   const transformDataByChannelForStackBar = (
     data: { channel_name: string; reservation_time: string; count: number }[],
@@ -185,23 +195,22 @@ const CheckIn: React.FC = () => {
   );
   const YdayofTheWeekDA = S["Day of the Week"].map((item) => item.day);
 
-  const [selectedPeriod, setSelectedPeriod] = useState("Today");
-
-  const handleOptionClickForDate = (option: string) => {
-    setSelectedPeriod(option);
-    if (option === "Custom Range") {
-      setOpenCustomDateRange(true);
-    } else {
-      setOpenCustomDateRange(false);
-    }
-    setOpenFilter(false);
+  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
+    startDate: Date,
+    endDate: Date) => {
+    setState((prev) => ({
+      ...prev,
+      selectedPeriod: option, // Now it correctly matches the expected type
+      startDate,
+      endDate,
+    }));
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'85%'} : {width:'94%'}}
+        style={isExpanded ? { width: '85%' } : { width: '94%' }}
         className={`checkin-container ${isDarkTheme ? "dark-theme" : "light-theme"
           }`}
       >
@@ -210,7 +219,15 @@ const CheckIn: React.FC = () => {
           <div className="checkin-name-board">
             <h1>Reports Dashboard</h1>
           </div>
-          <div className="dates">
+          <div className="checkin-date-filter-container">
+            <DateFilterDropdown
+              selectedPeriod={state.selectedPeriod}
+              startDate={state.startDate}
+              endDate={state.endDate}
+              onSelect={handleDateSelection}
+            />
+          </div>
+          {/* <div className="dates">
             <div className="label-time-period">
               <p>Select Time Period</p>
             </div>
@@ -246,9 +263,9 @@ const CheckIn: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
-        {openCustomDateRange && (
+        {/* {openCustomDateRange && (
           <div className="ch-date-range-style">
             <label className="ch-dateLabel" htmlFor="ch-start-date">
               From
@@ -279,7 +296,7 @@ const CheckIn: React.FC = () => {
               }}
             />
           </div>
-        )}
+        )} */}
         <div className="checkin-name-board-two">
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>
@@ -313,6 +330,17 @@ const CheckIn: React.FC = () => {
           <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
             <h2>2,400</h2>
             <h3>New Customers</h3>
+          </div>
+        </div>
+        <div className="daily-summary-container">
+          <div className="daily-heading">
+            <h1>Daily Summary</h1>
+          </div>
+          <div className="daily-summary-inner-container">
+            <SummaryBox summaryTitle="Daily Checkins" boxValue={10} />
+            <SummaryBox summaryTitle="Daily Guest" boxValue={10} />
+            <SummaryBox summaryTitle="Daily Cancellation" boxValue={10} />
+            <SummaryBox summaryTitle="Total Customer" boxValue={10} />
           </div>
         </div>
         <div className="canva-stacked-bar-container">
@@ -354,7 +382,7 @@ const CheckIn: React.FC = () => {
             />
           </div>
         </div>
-        <div className="repeat-customers-table-container">
+        {/* <div className="repeat-customers-table-container">
           <Table
             currentPage={currentPageRepeatCustomers}
             setCurrentPage={setCurrentPageRepeatCustomers}
@@ -364,8 +392,8 @@ const CheckIn: React.FC = () => {
             Heading="Repeat Customers"
             totalpageNo={totalPageNoCurrentPageRepeatCustomers}
           />
-        </div>
-        <div className="daily-checkin-table-container">
+        </div> */}
+        {/* <div className="daily-checkin-table-container">
           <Table
             currentPage={currentPageDailyCheckInDetails}
             setCurrentPage={setCurrentPageDailyCheckInDetails}
@@ -375,7 +403,7 @@ const CheckIn: React.FC = () => {
             Heading="Daily CheckIn Details"
             totalpageNo={totalPageNoCurrentPageDailyCheckInDetails}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

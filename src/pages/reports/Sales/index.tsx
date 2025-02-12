@@ -4,6 +4,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useDispatch, useSelector } from "react-redux";
 import { actualSalesRequest, actualSalesThirdPartyRequest, cancellationSummaryRequest, discountSummaryRequest, hourlySalesRequest, salesByItemCategoryRequest, salesByRevenueClassRequest, salesSummaryRequest } from "redux/newReports/newReportsActions";
+import { DateRangeStateInterface } from "interface/newReportsInterface";
 import Table from "../../../components/reportComponents/Table";
 import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
 import DatePicker from "react-datepicker";
@@ -12,8 +13,10 @@ import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import ToolTip from "../../../assets/svg/ToolTip.svg"
+import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import useSalesLocationDates from "hooks/useSalesLocationDates";
 
 type FormatCurrencyOptions = {
   locale: 'IN' | 'US';
@@ -193,7 +196,8 @@ const Sales: React.FC = () => {
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const [state, setState] = useState<SalesState>({
+  // const [state, setState] = useState<SalesState>({
+  const [state, setState] = useState<DateRangeStateInterface>({
     startDate: moment().toDate(),
     endDate: moment().toDate(),
     openCustomDateRange: false,
@@ -326,32 +330,6 @@ const Sales: React.FC = () => {
     backgroundColor: backgroundColorForPie || "#ffffff",
   };
 
-  const openFilterDropDown = () => {
-    setState((prevState) => ({
-      ...prevState,
-      openFilter: !prevState.openFilter,
-    }));
-  };
-
-  const handleOptionClick = (option: string) => {
-    setState((prevState) => ({
-      ...prevState,
-      selectedPeriod: option,
-      openCustomDateRange: option === "Custom Range",
-      openStartDatePicker: option === "Custom Range",
-      openEndDatePicker: option === "Custom Range",
-      startDate:
-        option === "Custom Range"
-          ? moment().toDate()
-          : prevState.startDate,
-      endDate:
-        option === "Custom Range"
-          ? moment().toDate()
-          : prevState.endDate,
-      openFilter: false,
-    }));
-  };
-
   const XAvgSalesinDolla = S["Day of the Week"].map(
     (item: DayOfTheWeekData) => item["Average Sales in Dollars"]
   );
@@ -369,144 +347,90 @@ const Sales: React.FC = () => {
     (state: any) => state?.auth?.restaurantDetails?.country
   );
 
-  const getSalesLocationStartEndDate = useMemo(() => {
-    const { selectedPeriod, startDate, endDate } = state;
-    let computedStartDate = moment().toDate();
-    let computedEndDate = moment().toDate();
 
-    switch (selectedPeriod) {
-      case "Today":
-        computedStartDate = moment().startOf("day").toDate();
-        computedEndDate = moment().endOf("day").toDate();
-        break;
-      case "This Week":
-        computedStartDate = moment().startOf("week").toDate();
-        computedEndDate = moment().endOf("week").toDate();
-        break;
-      case "Last 7 days":
-        computedStartDate = moment().subtract(7, "days").startOf("day").toDate();
-        computedEndDate = moment().endOf("day").toDate();
-        break;
-      case "This Month":
-        computedStartDate = moment().startOf("month").toDate();
-        computedEndDate = moment().endOf("month").toDate();
-        break;
-      case "Last Month":
-        computedStartDate = moment().subtract(1, "month").startOf("month").toDate();
-        computedEndDate = moment().subtract(1, "month").endOf("month").toDate();
-        break;
-      case "Last 30 days":
-        computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
-        computedEndDate = moment().endOf("day").toDate();
-        break;
-      case "Yesterday":
-        computedStartDate = moment().subtract(1, "day").startOf("day").toDate();
-        computedEndDate = moment().subtract(1, "day").endOf("day").toDate();
-        break;
-      case "Custom Range":
-        computedStartDate = startDate;
-        computedEndDate = endDate;
-        break;
-      default:
-        break;
-    }
-
-    // Validate locationId and date range
-    if (!locationid) {
-      console.error("locationId is missing");
-      return null;
-    }
-
-    return {
-      locationid,
-      startDate: moment(computedStartDate).format("YYYY-MM-DD"),
-      endDate: moment(computedEndDate).format("YYYY-MM-DD"),
-      // tablePageNo: currentPageSalesByItemCategory,
-      // tableRecordLimit: TABLE_RECORDS_LIMIT,
-    };
-  }, [state, locationid]);
+  const getLocationDates = useSalesLocationDates(state, locationid);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
-      dispatch(salesSummaryRequest(getSalesLocationStartEndDate));
+    if (getLocationDates) {
+      dispatch(salesSummaryRequest(getLocationDates));
     }
-  }, [getSalesLocationStartEndDate]);
+  }, [getLocationDates]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
-      dispatch(salesByItemCategoryRequest({ ...getSalesLocationStartEndDate, tablePageNo: currentPageSalesByItemCategory, tableRecordLimit: TABLE_RECORDS_LIMIT }));
+    if (getLocationDates) {
+      dispatch(salesByItemCategoryRequest({ ...getLocationDates, tablePageNo: currentPageSalesByItemCategory, tableRecordLimit: TABLE_RECORDS_LIMIT }));
     }
-  }, [getSalesLocationStartEndDate, currentPageSalesByItemCategory]);
+  }, [getLocationDates, currentPageSalesByItemCategory]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
-      dispatch(salesByRevenueClassRequest({ ...getSalesLocationStartEndDate, tablePageNo: currentPageSalesByRevenueClass, tableRecordLimit: TABLE_RECORDS_LIMIT }));
+    if (getLocationDates) {
+      dispatch(salesByRevenueClassRequest({ ...getLocationDates, tablePageNo: currentPageSalesByRevenueClass, tableRecordLimit: TABLE_RECORDS_LIMIT }));
     }
-  }, [getSalesLocationStartEndDate, currentPageSalesByRevenueClass]);
+  }, [getLocationDates, currentPageSalesByRevenueClass]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         actualSalesThirdPartyRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageForActualThirdPartySales,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageForActualThirdPartySales]);
+  }, [getLocationDates, currentPageForActualThirdPartySales]);
 
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         actualSalesRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageForDirectStoreOnlineSalesMaghil,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageForDirectStoreOnlineSalesMaghil]);
+  }, [getLocationDates, currentPageForDirectStoreOnlineSalesMaghil]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         hourlySalesRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           // tablePageNo: currentPageForDirectStoreOnlineSalesMaghil,
           // tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate]);
+  }, [getLocationDates]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         discountSummaryRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageDiscountSummary,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
           // tableRecordLimit: 200,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageDiscountSummary]);
+  }, [getLocationDates, currentPageDiscountSummary]);
 
   useEffect(() => {
-    if (getSalesLocationStartEndDate) {
+    if (getLocationDates) {
       dispatch(
         cancellationSummaryRequest({
-          ...getSalesLocationStartEndDate,
+          ...getLocationDates,
           tablePageNo: currentPageCancellationSummary,
           tableRecordLimit: TABLE_RECORDS_LIMIT,
         })
       );
     }
-  }, [getSalesLocationStartEndDate, currentPageCancellationSummary]);
+  }, [getLocationDates, currentPageCancellationSummary]);
 
 
 
@@ -599,6 +523,17 @@ const Sales: React.FC = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
+  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
+    startDate: Date,
+    endDate: Date) => {
+    setState((prev) => ({
+      ...prev,
+      selectedPeriod: option, // Now it correctly matches the expected type
+      startDate,
+      endDate,
+    }));
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -614,105 +549,15 @@ const Sales: React.FC = () => {
           <div className="s-name-board">
             <h1>Reports Dashboard</h1>
           </div>
-          <div className="s-dates">
-            <div className="s-label-time-period">
-              <p>Select Time Period</p>
-            </div>
-            <div className="s-filter-toggle-btn-container">
-              <div className="s-filter-toggle-btn" onClick={openFilterDropDown}>
-                {state.selectedPeriod}
-              </div>
-              {state.openFilter && (
-                <div className="s-filter-drop-down-options" ref={dropdownRef}>
-                  <p onClick={() => handleOptionClick("Yesterday")}>Yesterday</p>
-                  <p onClick={() => handleOptionClick("Today")}>Today</p>
-                  <p onClick={() => handleOptionClick("This Week")}>
-                    This Week
-                  </p>
-                  <p onClick={() => handleOptionClick("Last 7 days")}>
-                    Last 7 days
-                  </p>
-                  <p onClick={() => handleOptionClick("This Month")}>
-                    This Month
-                  </p>
-                  <p onClick={() => handleOptionClick("Last Month")}>
-                    Last Month
-                  </p>
-                  <p onClick={() => handleOptionClick("Last 30 days")}>
-                    Last 30 days
-                  </p>
-                  <p
-                    onClick={() =>
-                      handleOptionClick("Custom Range")
-                    }
-                  >
-                    Custom Range
-                  </p>
-                </div>
-              )}
-            </div>
+          <div className="sales-date-filter-container">
+            <DateFilterDropdown
+              selectedPeriod={state.selectedPeriod}
+              startDate={state.startDate}
+              endDate={state.endDate}
+              onSelect={handleDateSelection}
+            />
           </div>
         </div>
-        {state.openCustomDateRange && (
-          <div className="s-date-range-style">
-            <label className="dateLabel" htmlFor="s-start-date">
-              From
-            </label>
-            <DatePicker
-              placeholderText="Start Date"
-              selected={state.startDate}
-              onChange={(date: Date | null) => {
-                if (date && date > state.endDate) {
-                  alert("Start date cannot be greater than the end date.");
-                } else if (date) {
-                  setState((prevState) => ({ ...prevState, startDate: date }));
-                }
-              }}
-              dateFormat="dd MMM yyyy"
-              className="s-start-date"
-              onSelect={() =>
-                setState((prevState) => ({
-                  ...prevState,
-                  openStartDatePicker: false,
-                }))
-              }
-              onFocus={() => {
-                setState((prevState) => ({
-                  ...prevState,
-                  openStartDatePicker: true,
-                }));
-              }}
-            />
-            <label className="dateLabel" htmlFor="s-end-date">
-              To
-            </label>
-            <DatePicker
-              placeholderText="End Date"
-              selected={state.endDate}
-              onChange={(date: Date | null) => {
-                if (date && date < state.startDate) {
-                  alert("End date cannot be earlier than the start date.");
-                } else if (date) {
-                  setState((prevState) => ({ ...prevState, endDate: date }));
-                }
-              }}
-              dateFormat="dd MMM yyyy"
-              className="s-end-date"
-              onSelect={() =>
-                setState((prevState) => ({
-                  ...prevState,
-                  openEndDatePicker: false,
-                }))
-              }
-              onFocus={() => {
-                setState((prevState) => ({
-                  ...prevState,
-                  openEndDatePicker: true,
-                }));
-              }}
-            />
-          </div>
-        )}
         <div className="s-name-board-two">
           <h1>{selectedBranch?.locationName}</h1>
         </div>
