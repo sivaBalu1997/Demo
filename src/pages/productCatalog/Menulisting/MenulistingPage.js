@@ -279,6 +279,8 @@ export const MenulistingPage = () => {
     Customization: "Customization",
   };
 
+
+
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
@@ -1059,6 +1061,7 @@ export const MenulistingPage = () => {
     setRemoveiconclciked(value);
   };
   const [widthForEachRow, setWidthForEachRow] = useState();
+ 
   const bodyrefwidthclient = bodyRef?.current?.clientWidth;
   const bodyrefwidthscroll = bodyRef?.current?.scrollWidth;
 
@@ -1074,6 +1077,8 @@ export const MenulistingPage = () => {
     bodyRef?.current?.scrollWidth,
     menuData,
   ]);
+
+ 
 
   useEffect(() => {
     const element = document.querySelector(".orderTypes");
@@ -1135,7 +1140,7 @@ export const MenulistingPage = () => {
             {!menuDataLoading && !menuDataFailed && itemList?.length > 0 && (
               <div className="first-part-header">
                 <p className="image-style"></p>
-                <p className="name-item-style">ItemName</p>
+                <p className="name-item-style">Item Name</p>
                 <p className="item-code-style">
                   <span> Code </span>
                   <button

@@ -142,6 +142,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
         
   
         const nameOfOrderTypes=selectedBranch.orderTypes?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
+ 
   
   const handleToggle = useCallback(
     (key: keyof typeof listingobject, dependentKeys?: (keyof typeof listingobject)[]) => {
