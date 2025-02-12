@@ -167,8 +167,9 @@ img{
 .addBtn{
   width: 120px;
   height: 40px;
+  margin-top: 30px;
   border: none;
-  background-color: #67833E;
+  background-color: #E52333;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -280,7 +281,7 @@ img{
   width: 180px;
   margin-left: 420px;
   margin-top: -55px;
-  color: #67833E ;
+  color: #E52333 ;
   font-weight: 600;
   cursor: pointer;
 }
@@ -306,11 +307,11 @@ img{
 
 .resetbtn{
   background-color: #fff;
-  color: #67833E;
+  color: #E52333;
   width: 80px;
   cursor: pointer;
   font-weight: 600;
-  border:1px solid #67833E
+  border:1px solid #E52333
 }
 .resetbtn span {
   display: flex;
@@ -322,7 +323,7 @@ img{
   width: 30px;
 }
 .saveBtn{
-  background-color: #67833E;
+  background-color: #E52333;
   color: #fff;
   width: 80px;
   cursor: pointer;
@@ -367,18 +368,18 @@ img{
 }
 .modalBtn .noBtn{
   background-color: white;
-  color: #67833E;
+  color: #E52333;
   font-weight: 600;
   cursor: pointer;
   height: 50px;
   width: 130px;
   border-radius: 7px;
-  border-color: #67833E;
+  border-color: #E52333;
   border-width: 1px;
   cursor: pointer;
 }
 .modalBtn .yesBtn{
-  background-color: #67833E;
+  background-color: #E52333;
   color: white;
   font-weight: 600;
   cursor: pointer;

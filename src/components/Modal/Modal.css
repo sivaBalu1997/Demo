@@ -44,7 +44,7 @@
     margin: 5px;
     padding: 10px 20px;
     /* border: none; */
-    border-color: #67833e;
+    border-color: #E52333;
     border-radius: 5px;
     cursor: pointer;
     height: 40px;
@@ -58,7 +58,7 @@
   }
   
   .yesBtn {
-    background: #67833e;
+    background: #E52333;
     color: white;
   }
   
@@ -69,7 +69,7 @@
   }
   
   .okBtn {
-    background: #67833e;
+    background: #E52333;
     color: white;
   }
   
