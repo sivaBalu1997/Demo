@@ -1947,8 +1947,11 @@ setModifications((prev: any) => {
                                   name="minSelection"
                                   onChange={(e) => {
                                     const value = e.target.value;
+                                    if(e.target.value.length<=2){
+                                      handleModifierChange(modIndex, e);
+                                    }
 
-                                    handleModifierChange(modIndex, e);
+                                    
                                   }}
                                   onKeyDown={(
                                     e: React.KeyboardEvent<HTMLInputElement>
@@ -2039,8 +2042,11 @@ setModifications((prev: any) => {
                                       : 1
                                   }
                                   name="maxSelection"
-                                  onChange={(e) =>
+                                  onChange={(e) =>{
+                                    if(e.target.value.length<=2){
                                     handleModifierChange(modIndex, e)
+                                    }
+                                  }
                                   }
                                   onKeyDown={(
                                     e: React.KeyboardEvent<HTMLInputElement>
@@ -2104,8 +2110,11 @@ setModifications((prev: any) => {
                                           ?.freeCustomization
                                       : 0
                                   }
-                                  onChange={(e) =>
+                                  onChange={(e) =>{
+                                    if(e.target.value.length<=2){
                                     handleModifierChange(modIndex, e)
+                                    }
+                                  }
                                   }
                                   onKeyDown={(
                                     e: React.KeyboardEvent<HTMLInputElement>
