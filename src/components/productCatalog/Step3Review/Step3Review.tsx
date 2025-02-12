@@ -34,18 +34,18 @@ const Step3Review: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state.itemCustomizationsReducer1.itemData
   );
-  
-  const minSelectionArray = Array.isArray(itemCustomizationData) &&
-      itemCustomizationData.length > 0 ? (
-        itemCustomizationData
-          .filter((elem) => elem.modifierName !== "")
-          .map((elem, index) => (elem?.minSelection))):""
 
-  const maxSelectionArray = Array.isArray(itemCustomizationData) &&
-  itemCustomizationData.length > 0 ? (
+  const minSelectionArray = Array.isArray(itemCustomizationData) &&
+    itemCustomizationData.length > 0 ? (
     itemCustomizationData
       .filter((elem) => elem.modifierName !== "")
-      .map((elem, index) => (elem?.maxSelection))):""
+      .map((elem, index) => (elem?.minSelection))) : ""
+
+  const maxSelectionArray = Array.isArray(itemCustomizationData) &&
+    itemCustomizationData.length > 0 ? (
+    itemCustomizationData
+      .filter((elem) => elem.modifierName !== "")
+      .map((elem, index) => (elem?.maxSelection))) : ""
 
   const { setActiveCategory } = useContext(Contextpagejs);
 
@@ -87,10 +87,10 @@ const Step3Review: React.FC = () => {
 
       {/* Render itemCustomizationData if it's an array */}
       {Array.isArray(itemCustomizationData) &&
-      itemCustomizationData.length > 0 ? (
+        itemCustomizationData.length > 0 ? (
         itemCustomizationData
           .filter((elem) => elem.modifierName !== "")
-          .map((elem, index) => (
+          .map((elem: any, index) => (
             <div key={index} className="item-customization">
               {/* Example of how to display properties of each item */}
               <div className="step3-Review-modifier-section">
@@ -119,7 +119,7 @@ const Step3Review: React.FC = () => {
                     Min Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem.selectionType === "Optional" ? 0 : elem?.minSelection? elem?.minSelection:1}{!minSelectionArray?.length && "N/A"}
+                    {elem.selectionType === "Optional" ? 0 : elem?.minSelection ? elem?.minSelection : 1}{!minSelectionArray?.length && "N/A"}
                   </h3>
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">
@@ -133,7 +133,7 @@ const Step3Review: React.FC = () => {
                 <div className="Step-3-Modifier-Section-Each-Menu-container-item">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
                   {elem.modifierOptions &&
-                    elem.modifierOptions.map((subItem:any, subIndex:any) => (
+                    elem.modifierOptions.map((subItem: any, subIndex: any) => (
                       <h2
                         key={subIndex}
                         className="Step-3-Modifier-Section-Menu-details-items"
@@ -147,13 +147,13 @@ const Step3Review: React.FC = () => {
                     Price
                   </h3>
                   {elem.modifierOptions &&
-                    elem.modifierOptions.map((price, priceIndex) => (
+                    elem.modifierOptions.map((price: any, priceIndex: any) => (
                       <h2
                         key={priceIndex}
                         className="Step-3-Modifier-Section-Menu-details-price"
                       >
-                          {restaurantDetails?.country === "US" ? "$" : "Rs."}{Number(price.cost).toFixed(2)} 
-                          {/* {(typeof price.cost === "number" ? price.cost : 0).toFixed(2)} */}
+                        {restaurantDetails?.country === "US" ? "$" : "Rs."}{Number(price.cost).toFixed(2)}
+                        {/* {(typeof price.cost === "number" ? price.cost : 0).toFixed(2)} */}
                       </h2>
                     ))}
                 </div>
@@ -173,13 +173,15 @@ const Step3Review: React.FC = () => {
                   Service Stream
                 </h3>
                 <h3 className="Step-3-free-details">
-                  {(elem?.selectedValue &&
-                    elem?.selectedValue.map((e) => e + " " + "")) ||
-                    "N/A"}{" "}
+                  {elem?.selectedValue?.length
+                    ? elem.selectedValue.map((e: any, i: any) =>
+                      i !== elem?.selectedValue?.length - 1 ? e + "," : e
+                    ).join("")
+                    : "N/A"}
                 </h3>
                 <div className="Step-3-Review-Stream-Modification-container">
                   {elem.serviceStreams &&
-                    elem.serviceStreams.map((stream, streamIndex) => (
+                    elem.serviceStreams.map((stream: any, streamIndex: any) => (
                       <h1
                         key={streamIndex}
                         className="Step-3-Review-Stream-Modification-heading"

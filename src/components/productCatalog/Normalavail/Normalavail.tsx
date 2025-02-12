@@ -1611,7 +1611,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       if (selectedthirdvalues.length > 0) {
         priceInfo.forEach((item, index) => {
           // Check if the price is empty
-          if (!item.price && item?.Enabled) {
+          if ((!item.price && item?.Enabled) || item?.price <= 0) {
             validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
           }
           // Check if sessions are empty
