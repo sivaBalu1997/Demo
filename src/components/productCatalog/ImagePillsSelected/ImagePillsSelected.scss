@@ -17,10 +17,16 @@
 
     .selectedingredientsimage,
     .selectedallergenimage {
+      display: flex;
       width: auto;
       height: auto;
-      padding: 0.5rem;
+      padding: 10px;
       gap: 10px;
+
+      img{
+        width: 20px;
+        height: 20px;
+      }
     }
 
     &::-webkit-scrollbar {
