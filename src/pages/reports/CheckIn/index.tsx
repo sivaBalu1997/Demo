@@ -340,7 +340,7 @@ const CheckIn: React.FC = () => {
             <SummaryBox summaryTitle="Daily Checkins" boxValue={10} />
             <SummaryBox summaryTitle="Daily Guest" boxValue={10} />
             <SummaryBox summaryTitle="Daily Cancellation" boxValue={10} />
-            <SummaryBox summaryTitle="Total Customer" boxValue={10} />
+            <SummaryBox summaryTitle="Total Customers" boxValue={10} />
           </div>
         </div>
         <div className="canva-stacked-bar-container">
@@ -382,7 +382,7 @@ const CheckIn: React.FC = () => {
             />
           </div>
         </div>
-        {/* <div className="repeat-customers-table-container">
+        <div className="repeat-customers-table-container">
           <Table
             currentPage={currentPageRepeatCustomers}
             setCurrentPage={setCurrentPageRepeatCustomers}
@@ -392,8 +392,8 @@ const CheckIn: React.FC = () => {
             Heading="Repeat Customers"
             totalpageNo={totalPageNoCurrentPageRepeatCustomers}
           />
-        </div> */}
-        {/* <div className="daily-checkin-table-container">
+        </div>
+        <div className="daily-checkin-table-container">
           <Table
             currentPage={currentPageDailyCheckInDetails}
             setCurrentPage={setCurrentPageDailyCheckInDetails}
@@ -403,7 +403,7 @@ const CheckIn: React.FC = () => {
             Heading="Daily CheckIn Details"
             totalpageNo={totalPageNoCurrentPageDailyCheckInDetails}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );
