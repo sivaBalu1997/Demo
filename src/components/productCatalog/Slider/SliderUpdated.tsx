@@ -454,7 +454,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
             key={section}
             onClick={() => handleScrollTo(section)}
             className="texts"
-            style={{ color: activeSection === section ? "#67833E" : "#000000",}}
+            style={{ color: activeSection === section ? "#E52333" : "#000000",}}
           >
             {section}
           </button>

@@ -837,7 +837,7 @@ const PricingDetails = () => {
                     marginLeft: "2rem",
                     width: "450px",
                     height: "35px",
-                    backgroundColor: "#67833E",
+                    backgroundColor: "#E52333",
                     color: "white",
                     textAlign: "center",
                     display: "flex",
