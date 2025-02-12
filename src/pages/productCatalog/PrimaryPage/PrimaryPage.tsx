@@ -829,7 +829,7 @@ const PrimaryPage = () => {
       subcategoryList === "" &&
       (subCategoryData?.length > 0 || subCategoryData === undefined)
     ) {
-      setsubcategortError("subcategory is required");
+      setsubcategortError("Subcategory is required");
 
       return false;
     } else {
@@ -924,7 +924,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "DietaryType is required" }}
+                        validation={{ required: "Dietary type is required" }}
                         error={errors.DietaryType}
                         dropdownopen={DropdownOpen.DietaryType}
                         onToggle={() => handleDropdownToggle("DietaryType")}
@@ -1242,7 +1242,7 @@ const PrimaryPage = () => {
                           marginTop: "0rem",
                           rotate: "-90deg",
                           position: "relative",
-                          left: "-1.6rem",
+                          left: "-2.4rem",
                         }}
                       >
                         <div className="Tool-item-code">
