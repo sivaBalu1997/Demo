@@ -123,7 +123,7 @@ display: flex;
 }
 .first-part-body
 {
-    height: 77vh;
+    height: 78vh;
     width: 26vw;
     // border: 1px solid red;
     overflow-y: scroll;
@@ -134,9 +134,29 @@ display: flex;
     }
     @media (max-width:"1400px") {
       // border: 1px solid blue;
-      height: 75.4vh;
+      height: 76.4vh;
       
     }
+    @media (max-width:"1230px") {
+      // border: 1px solid blue;
+      height: 74vh;
+      
+    }
+}
+.dynamic-columns
+{
+  height: 78vh !important;
+  width: 10vw !important;
+  @media (max-width:"1400px") {
+    // border: 1px solid blue;
+    height: 76.4vh;
+    
+  }
+  @media (max-width:"1230px") {
+    // border: 1px solid blue;
+    height: 74vh;
+    
+  }
 }
 .imgae-styel2
 {
@@ -190,7 +210,7 @@ border-bottom: 1px solid #b3b3b3;
     // border: 1px solid green;
     gap: 1rem;
     // padding-left: 1rem;
-    padding-right: 1rem;
+    padding-right: 4rem;
 
     &::-webkit-scrollbar{
         display: none;
@@ -252,6 +272,7 @@ color: #000000;
     border-right: 1px solid #b3b3b3;
 border-bottom: 1px solid #b3b3b3;
 width: fit-content;
+padding-left: 3rem;
 }
 .second-part-body-overflow-none
 {
@@ -264,7 +285,7 @@ width: fit-content;
 }
 .second-part-body
 {
-    width: 67.5vw;
+    width: 67.8vw;
     display: flex;
     // border: 1px solid red;
     overflow-x: scroll;
@@ -333,13 +354,16 @@ width: fit-content;
 }
 .forheight-true
 {
-  height: 78.6vh;
+  height: 79.6vh;
   // border: 1px solid red;
 
   @media (max-width:"1400px") {
     // border: 1px solid blue;
-    height: 77.2vh;
+    height: 78.2vh;
     
+  }
+  @media (max-width:"1230px") {
+    height: 76vh;
   }
 }
 .forheight-false
