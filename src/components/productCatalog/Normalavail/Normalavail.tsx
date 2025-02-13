@@ -1924,9 +1924,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               <span
                 onClick={() => {
                   const validationErrors = { ...errors };
-
                   delete validationErrors[`DineInAvailableDays-${0}`];
-
                   setErrors(validationErrors);
                 }}
                 className="dine-in-toggle"
@@ -1974,11 +1972,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 handleChange(index, e, true);
                               }}
                               onInput={(e) => {
-                                const inputElement =
-                                  e.target as HTMLInputElement;
-                                const value = inputElement.value;
-
-                                if (!/^(\d+(\.\d*)?|\.\d+)$/.test(value)) {
+                                const inputElement = e.target as HTMLInputElement;
+                                let value = inputElement.value;
+                            
+                                if (value.length === 1 && value === "0") {
+                                  inputElement.value = "";
+                                  return;
+                                }
+                            
+                                if (!/^(\d+(\.\d*)?|\.\d+)?$/.test(value)) {
                                   inputElement.value = value.slice(0, -1);
                                 }
                               }}
