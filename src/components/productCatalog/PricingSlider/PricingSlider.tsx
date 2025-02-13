@@ -244,7 +244,7 @@ const PricingSlider: any = ({}) => {
                       <input
                         type="number"
                         className="Priceing-input-field"
-                        placeholder="$0.00"
+                        placeholder={`${Pricesymbol}0.00`}
                         disabled={!enableOrNot}
                         onChange={(e) => {
                           const value = e.target.value;
