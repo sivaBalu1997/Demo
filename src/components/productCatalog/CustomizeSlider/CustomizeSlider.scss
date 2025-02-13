@@ -121,8 +121,8 @@ display: inline-block;
   padding-top: 4px;
   color: #000000;
 }
+
 .priceSymbol-customize {
-  width: 10px;
   //   border: 1px solid red;
   position: relative;
   // left: 25%;
@@ -133,7 +133,7 @@ display: inline-block;
 .input-subitem-field {
   border: none;
   height: 25px;
-  width: 65px;
+  // width: 65px;
   outline: none;
   position: relative;
   // left: -0.5rem;

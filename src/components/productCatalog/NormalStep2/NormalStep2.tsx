@@ -157,7 +157,6 @@ const NormalStep2 = () => {
   const onlineDeliveryFormatted = onlineDelivery?.join(", ");
   // console.log({ onlinePickupFormatted });
 
-
   return (
     <div>
       <div className="Step2Avaliable">
@@ -171,23 +170,17 @@ const NormalStep2 = () => {
           <div>
             <h1 className="Step2DineInPriceheading">Price</h1>
           </div>
-          {prizingDetail &&
-            prizingDetail?.normalForm &&
-            prizingDetail?.normalForm?.dineinfields?.map((elem, index) => {
-              return (
-                <>
-                  <div key={index}>
-                    <h1 className="Step2DineInPricevalue">
-                      {elem?.DineInPrice
-                        ? `${
-                            restaurantDetails?.country === "US" ? "$" : "Rs."
-                          } ${parseFloat(elem.DineInPrice).toFixed(2)}`
-                        : ` N/A`}
-                    </h1>
-                  </div>
-                </>
-              );
-            })}
+          {prizingDetail?.normalForm?.dineInDetails ? (
+            <div>
+              <h1 className="Step2DineInPricevalue">
+                {prizingDetail.normalForm.dineInDetails.price
+                  ? `${restaurantDetails?.country === "US" ? "$" : "Rs."} ${parseFloat(
+                      prizingDetail.normalForm.dineInDetails.price
+                    ).toFixed(2)}`
+                  : "N/A"}
+              </h1>
+            </div>
+          ): <p className="Step2DineInPricevalue">N/A</p>}
         </div>
 
         {/* <div>

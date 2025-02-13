@@ -158,6 +158,8 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
+  console.log({modifications})
+
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -374,7 +376,7 @@ const ItemCustomizations: React.FC<any> = () => {
       updated[modIndex] = {
         ...currentModifier,
         selectionType: selectionType ? selectionType : "Mandatory",
-        minSelection: selectionType === "Optional" ? 0 : prev.minSelection,
+        minSelection: selectionType === "Optional" ? 0 : prev.minSelection ? prev.minSelection : 1,
         maxSelection:  currentModifier.maxSelection>1?currentModifier.maxSelection:1,
 
         ["isModifierChanged"]:
@@ -389,7 +391,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
         return prevIds.filter((id) => id !== "");
       });
-
+      console.log({updated})
       return updated;
     });
   };
