@@ -761,7 +761,7 @@ const SidePanel = () => {
             {
               <div>
                 <li style={{ marginBottom: 0 }} />
-                <Stats className="menu-items-SVG" />
+                <Stats className="menu-items-" />
                 {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
               </div>
             }

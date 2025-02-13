@@ -12,6 +12,7 @@ import Filter from "../Filter/Filter";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import DatePicker from "react-datepicker";
 import plusicon from "../../../assets/svg/plusIcon.svg";
+import {ReactComponent as Icon } from "../../../assets/svg/cloud.svg";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 import { useDispatch } from "react-redux";
 const Header = () => {
@@ -36,6 +37,17 @@ const Header = () => {
 
         <SearchBox />
       </div>
+      <div style={{display:'flex',justifyContent:'space-between'}}>
+      <div
+        className="sync-Container"
+      >
+        {/* <p className="Add-Item-Heading-Plus">+</p> */}
+
+        <span className="sync-icon">
+        <Icon/>
+        </span>
+        <p className="Add-Item-Heading-header">Sync</p>
+      </div>
       <div
         onClick={() => handleClick()}
         className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"}
@@ -57,6 +69,7 @@ const Header = () => {
           </svg>
         </span>
         <p className="Add-Item-Heading-header">Add Item</p>
+      </div>
       </div>
     </div>
   );
