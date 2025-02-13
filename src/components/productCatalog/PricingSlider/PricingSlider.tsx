@@ -86,10 +86,14 @@ const PricingSlider: any = ({}) => {
       const pricelist = availabilityOrderTypes[1].types
         .filter((elem: any) => id !== elem.typeId)
         .map((elem: any) => {
+          console.log("type", Number(elem.price));
+          
           const percentageDifference =
-            ((elem.price - baseprice) / baseprice) * 100;
+            ((Number(elem.price) - Number(baseprice)) / Number(baseprice)) * 100;
+
+
           const increaseOrDecrease =
-            elem.price > baseprice ? "increase" : "decrease";
+            Number(elem.price) >= Number(baseprice) ? "increase" : "decrease";
 
           return {
             typeId: elem.typeId,
