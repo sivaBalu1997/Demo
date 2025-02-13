@@ -10,7 +10,7 @@ import block from '../../assets/svg/blockED.svg'
 import unBlockImg from '../../assets/svg/unBlockED.svg'
 import trash from '../../assets/svg/trash.svg'
 import Modal from '../../components/Modal/Modal';
-import thunder from '../../assets/svg/thunder.svg'
+import thunder from '../../assets/svg/RedThunder.svg'
 import { IoIosArrowBack } from "react-icons/io";
 import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
 import deleteIcon from '../../assets/svg/trash2.svg'
@@ -345,7 +345,7 @@ const EmployeeDetails = () => {
                 <button 
                     className='backBtn' 
                     onClick={() => history.push("/employees")}>
-                        Back
+                        Close
                 </button>
             </div>
         </div>

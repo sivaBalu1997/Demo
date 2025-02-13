@@ -213,8 +213,8 @@
 }
 
 .checkbox:checked + p::before {
-    background-color: #67833E;
-    border-color: #67833E;
+    background-color: #E52333;
+    border-color: #E52333;
     content: '✔';
     color: white;
     font-size: 10px;
@@ -399,14 +399,14 @@
 
     .clear-all-btn{
       background-color: #fff;
-      color: #67833E;
+      color: #E52333;
       width: 130px;
-      border-color: #67833E;
+      border-color: #E52333;
       cursor: pointer;
       font-weight: 600;
     }
     .save-btn{
-      background-color: #67833E;
+      background-color: #E52333;
       color: #fff;
       width: 130px;
       cursor: pointer;
@@ -446,12 +446,12 @@
     gap: 10px;
     .noBtn{
       background-color: white;
-      color: #67833E;
+      color: #E52333;
       font-weight: 600;
       cursor: pointer;
     }
     .yesBtn{
-      background-color: #67833E;
+      background-color: #E52333;
       color: white;
       font-weight: 600;
       cursor: pointer;
@@ -510,14 +510,14 @@
   
       .clear-all-btn{
         background-color: #fff;
-        color: #67833E;
+        color: #E52333;
         width: 130px;
-        border-color: #67833E;
+        border-color: #E52333;
         cursor: pointer;
         font-weight: 600;
       }
       .save-btn{
-        background-color: #67833E;
+        background-color: #E52333;
         color: #fff;
         width: 130px;
         cursor: pointer;
@@ -539,14 +539,14 @@
   
       .clear-all-btn{
         background-color: #fff;
-        color: #67833E;
+        color: #E52333;
         width: 130px;
-        border-color: #67833E;
+        border-color: #E52333;
         cursor: pointer;
         font-weight: 600;
       }
       .save-btn{
-        background-color: #67833E;
+        background-color: #E52333;
         color: #fff;
         width: 130px;
         cursor: pointer;

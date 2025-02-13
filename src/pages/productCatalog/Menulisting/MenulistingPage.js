@@ -1460,7 +1460,7 @@ export const MenulistingPage = () => {
                       width="100px"
                       style={{
                         filter:
-                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                          "invert(18%) sepia(93%) saturate(7494%) hue-rotate(357deg) brightness(92%) contrast(88%)",
                       }}
                     />
                   </div>

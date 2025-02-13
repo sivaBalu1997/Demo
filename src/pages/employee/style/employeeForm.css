@@ -137,8 +137,8 @@
 }
 
 .checkbox:checked + p::before {
-  background-color: #67833E;
-  border-color: #67833E;
+  background-color: #E52333;
+  border-color: #E52333;
   content: '✔';
   color: white;
   font-size: 10px;

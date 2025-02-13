@@ -7,10 +7,10 @@ import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Calendar from "../../assets/images/cal.png";
+import Calendar from "../../assets/svg/newCalendar.svg";
 import ResetLogo from "../../assets/images/resetIcon.png";
 import InputMask from "react-input-mask"
-import alertImg from '../../assets/svg/alert-triangle.svg'
+import alertImg from '../../assets/svg/newCaution.svg'
 import info from '../../assets/svg/info.svg'
 import {
   addEmployee,
@@ -25,8 +25,8 @@ import {
   getEmployeeRoleByIdRequest
 } from "../../redux/employee/employeeActions";
 import { useHistory, useParams } from "react-router-dom";
-import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
-import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+import { ReactComponent as OpenEyeIcon } from "../../assets/svg/eyeOpenNew.svg";
+import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/newEye.svg";
 import { ReactComponent as ResetIcon } from "../../assets/svg/refresh-cw.svg";
 import Modal from "../../components/Modal/Modal";
 import { RootState } from "redux/rootReducer";
@@ -1025,12 +1025,12 @@ if(!!params?.id?.length && dataFetching)  {
                         className="cal_icon"
                         alt="Calendar Icon"
                         src={Calendar}
-                        width="15"
+                        width="20"
                         onClick={() => {
                           const dateInput = document.querySelector('.dateInput') as HTMLInputElement;
                           dateInput?.focus();
                         }}
-                        style={{right:'10px', top:'38%'}}
+                        style={{right:'10px', top:'32%'}}
                       />
                     </div>
                   </div>
@@ -1269,7 +1269,7 @@ if(!!params?.id?.length && dataFetching)  {
                         onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                         style={{
                           position: "relative",
-                          bottom: 30,
+                          bottom: 35,
                           left: 370, 
                           cursor:'pointer'
                         }}
@@ -1279,7 +1279,7 @@ if(!!params?.id?.length && dataFetching)  {
                         onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                         style={{
                           position: "relative",
-                          bottom: 30,
+                          bottom: 35,
                           left: 370, 
                           cursor:'pointer'
                         }}

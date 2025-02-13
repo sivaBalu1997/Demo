@@ -7,7 +7,7 @@ import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png";
 import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import arrow from '../../../assets/svg/arrow-down.svg'
+import arrow from "../../../assets/svg/arrow-down.svg";
 import {
   SPOfferListRequest,
   SPOfferListDelete,
@@ -20,8 +20,8 @@ import { FaArrowUp } from "react-icons/fa";
 const CompletedTable = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const locationId = useSelector(
-     (state: any) => state.auth.credentials?.locationId
-   );
+    (state: any) => state.auth.credentials?.locationId
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(SPOfferListRequest(locationId));
@@ -37,21 +37,22 @@ const CompletedTable = () => {
   const offerlistdatafailed = useSelector(
     (state: any) => state.offer.SpofferListFailureResponse
   );
-  const SpOfferlistSuccess=useSelector((state:any)=>state.offer.SpOfferlistSuccess)
+  const SpOfferlistSuccess = useSelector(
+    (state: any) => state.offer.SpOfferlistSuccess
+  );
   // console.log({ offerlistdata });
-const [loading,setLoding]=useState(false)
+  const [loading, setLoding] = useState(false);
   const [offerListDataArray, setOfferListDataArray] = useState([]);
   useEffect(() => {
-    if(SpOfferlistSuccess){
-      const data =offerlistdata?.filter((item:any)=>item.isEnabled == 2)
-    setOfferListDataArray(data);
-    if(data.length>0){
-      setLoding(false)
+    if (SpOfferlistSuccess) {
+      const data = offerlistdata?.filter((item: any) => item.isEnabled == 2);
+      setOfferListDataArray(data);
+      if (data.length > 0) {
+        setLoding(false);
+      } else {
+        setLoding(true);
+      }
     }
-    else{
-      setLoding(true)
-    }
-  }
   }, [offerlistdata]);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -108,26 +109,29 @@ const [loading,setLoding]=useState(false)
 
     return orderTypeNames.join(", ");
   };
-  const [showFullitems,setShowFullItems]=useState(false);
+  const [showFullitems, setShowFullItems] = useState(false);
 
   const renderItems = (items: { itemId: string; itemName: string }[]) => {
     const maxVisibleItems = 5;
-  
-  
+
     const itemNames = items?.map((item) => item?.itemName);
 
-
-  
     return (
       <>
+        {showFullitems
+          ? itemNames?.join(", ")
+          : itemNames?.slice(0, maxVisibleItems).join(", ")}
 
-      {
-        showFullitems ? itemNames?.join(", "):itemNames?.slice(0, maxVisibleItems).join(", ")
-      }
-        
         {items?.length > maxVisibleItems && (
-          <span className="extra-items" onClick={()=>setShowFullItems(!showFullitems)}>
-            {!showFullitems ? <> +{items?.length - maxVisibleItems} Items</>:<>show less</>}
+          <span
+            className="extra-items"
+            onClick={() => setShowFullItems(!showFullitems)}
+          >
+            {!showFullitems ? (
+              <> +{items?.length - maxVisibleItems} Items</>
+            ) : (
+              <>show less</>
+            )}
           </span>
         )}
       </>
@@ -220,11 +224,14 @@ const [loading,setLoding]=useState(false)
                     width="100px"
                     style={{
                       filter:
-                        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                        "invert(18%) sepia(93%) saturate(7494%) hue-rotate(357deg) brightness(92%) contrast(88%)",
                     }}
                   />
                 </div>
-              ) : offerlistdatafailed || (offerListDataArray.length===0 && SpOfferlistSuccess && loading) ? (
+              ) : offerlistdatafailed ||
+                (offerListDataArray.length === 0 &&
+                  SpOfferlistSuccess &&
+                  loading) ? (
                 <div className="NoDataFoundContainer-offer">
                   <img
                     className="columnselected"
@@ -268,7 +275,7 @@ const [loading,setLoding]=useState(false)
                             highlightedDays={row?.effectivePeriod?.validDays}
                           />
                         </td>
-                        
+
                         <td
                           className="completedtsTabletd"
                           style={{
@@ -283,9 +290,11 @@ const [loading,setLoding]=useState(false)
                             opacity: row.isEnabled === 0 ? "50%" : "100%",
                           }}
                         >
-                          {
-                            row.items?.length>0?renderItems(row.items): <span>-</span>
-                          }
+                          {row.items?.length > 0 ? (
+                            renderItems(row.items)
+                          ) : (
+                            <span>-</span>
+                          )}
                           {}
                         </td>
                         <td
@@ -294,54 +303,61 @@ const [loading,setLoding]=useState(false)
                             opacity: row.isEnabled === 0 ? "50%" : "100%",
                           }}
                         >
-                         {
-                            row.items?.length>0?row?.totalItems: <span>-</span>
-                          } 
+                          {row.items?.length > 0 ? (
+                            row?.totalItems
+                          ) : (
+                            <span>-</span>
+                          )}
                         </td>
 
-                        
-
                         <td
-                                                  className="completedtsTabletd"
-                                                  style={{
-                                                    opacity: row.isEnabled === 0 ? "50%" : "100%",
-                                                    display:"flex",
-                                                    justifyContent:"left",
-                                                    alignItems:"center",
-                                                    position:'absolute',
-                                                    marginTop:"10px",
-                                                    gap:"0.5rem",
-                                                  }}
-                                                >
-                                                  
-                                                  {row.type === "PERCENT" && (
-                                                    <>
-                                                     <span style={{marginTop:"3px"}}>{`${row?.value}%`}</span> 
-                                                      {row.specialType === "HAPPY HOUR" ? (
-                                                        // <FaArrowUp />
-                                                        <img src={arrow} alt="" className="down-arrow-price" />
-                                                      ) : (
-                                                        <img src={arrow} alt="" />
-                                                        // <FaArrowDown />
-                                                      )}
-                                                    </>
-                                                  )}
-                                                  {row.type === "FLATFEE" && (
-                                                    <>
-                                                      <span>
-                                                      {countryC === "US" ? "$" : "RS"}
-                                                      {row.value}
-                                                      </span>
-                                                      {row.specialType === "HAPPY HOUR" ? (
-                                                                                      <img src={arrow} alt="" className="down-arrow-price"/>
-                                                                                    ) : (
-                                                                                      <img src={arrow} alt="" />
-                                                                                    )}
-
-                                                    </>
-                                                  )}
-                                                  
-                                                </td>
+                          className="completedtsTabletd"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                            display: "flex",
+                            justifyContent: "left",
+                            alignItems: "center",
+                            position: "absolute",
+                            marginTop: "10px",
+                            gap: "0.5rem",
+                          }}
+                        >
+                          {row.type === "PERCENT" && (
+                            <>
+                              <span
+                                style={{ marginTop: "3px" }}
+                              >{`${row?.value}%`}</span>
+                              {row.specialType === "HAPPY HOUR" ? (
+                                // <FaArrowUp />
+                                <img
+                                  src={arrow}
+                                  alt=""
+                                  className="down-arrow-price"
+                                />
+                              ) : (
+                                <img src={arrow} alt="" />
+                                // <FaArrowDown />
+                              )}
+                            </>
+                          )}
+                          {row.type === "FLATFEE" && (
+                            <>
+                              <span>
+                                {countryC === "US" ? "$" : "RS"}
+                                {row.value}
+                              </span>
+                              {row.specialType === "HAPPY HOUR" ? (
+                                <img
+                                  src={arrow}
+                                  alt=""
+                                  className="down-arrow-price"
+                                />
+                              ) : (
+                                <img src={arrow} alt="" />
+                              )}
+                            </>
+                          )}
+                        </td>
                         {/* <td className="OffrtsTabletd">
                           <div className="action-container" ref={componentRef}>
                             <img

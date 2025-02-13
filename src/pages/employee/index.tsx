@@ -55,7 +55,7 @@ const Employees = () => {
     return <div className="employeeHeaderContainer">
         <h3 className={"employeeHeading"}>Employee Management</h3>
         <div className={"employeeHeaderButtonContainer"} onClick={logoutUser}>
-          <img src={logout} alt="Logout" height="20" /><span className="employeeLogoutText">&nbsp;&nbsp;&nbsp;Log Out</span>
+          {/* <img src={logout} alt="Logout" height="20" /><span className="employeeLogoutText">&nbsp;&nbsp;&nbsp;Log Out</span> */}
         </div>
     </div>
   }
@@ -123,8 +123,8 @@ const Employees = () => {
       <div className="employeeIndex">
         <SidePanel />
         <div className="employeeContainer">
-          <Header/>
           <div className="employeeSearchContainer">
+          <Header/>
             <div className="employeeSearchBox">
               <input 
                 type="text"  

@@ -7,11 +7,11 @@ import { setEditEmployeeData, clearEditEmployeeData, deleteEmployee, employeeSta
 import editImg from '../../assets/svg/edit.svg'
 import trashImg from '../../assets/svg/trash.svg'
 import blockImg from '../../assets/svg/blockImg.svg'
-import previewImg from '../../assets/svg/preview.svg'
+import previewImg from '../../assets/svg/newPreview.svg'
 import unBlockImg from '../../assets/svg/unBlockImg.svg'
-import activeIcon from '../../assets/svg/activeIcon.svg'
+import activeIcon from '../../assets/svg/redActive.svg'
 import blockIcon from '../../assets/svg/yblockIcon.svg'
-import thunder from '../../assets/svg/thunder.svg'
+import thunder from '../../assets/svg/RedThunder.svg'
 import noResultsfound from "../../assets/images/NoResultsFound.png"
 import {selectBranch,} from "../../redux/auth/authActions";
 import Modal from "../../components/Modal/Modal";
@@ -187,7 +187,7 @@ const EmployeeRow: React.FC<RowType> = ({
         </td>
 
         <td>
-          <div className="employeeValueData2" style={{color: !data.isActive ?"#FFA800" :"#67833E"}}>
+          <div className="employeeValueData2" style={{color: !data.isActive ?"#FFA800" :"#E52333"}}>
             <img className="statusImg" src={ !data.isActive ? blockIcon :activeIcon} alt="" />
              <div>{!data.isActive ? "Blocked":"Active"}</div>
              </div> 

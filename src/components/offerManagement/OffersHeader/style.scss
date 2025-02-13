@@ -34,7 +34,7 @@
 
 .SpecialPriceHeading {
     font-size: 24px;
-    color: #67833e;
+    color: #E52333;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     margin-left: 35px;
@@ -90,20 +90,20 @@
     transform: translateY(20px);
     width: 154px;
     height: 38px;
-    background-color: #67833e;
+    background-color: #E52333;
     padding: 0;
     color: #ffffff;
     font-family: "Poppins";
     font-size: 15px;
     font-weight: 500;
     border-radius: 7px;
-    border-color: #67833e;
+    border-color: #E52333;
     border: none;
     cursor: pointer;
 }
 
 .OfferListItem.active-link {
-    color: #67833e; 
+    color: #E52333; 
     font-weight: 500;
     // text-decoration: underline;
     // text-underline-offset:4px ;
@@ -124,7 +124,7 @@
     // border-bottom-right-radius: 5px;
     // border-bottom-left-radius: 5px;
     .active-link {
-        color: #67833e;
+        color: #E52333;
         font-weight: 500;
         position: relative; 
     }
@@ -132,7 +132,7 @@
         content: "";
         display: block;
         height: 3px; 
-        background-color: #67833e;
+        background-color: #E52333;
         border-top-right-radius: 5px;
         border-top-left-radius: 5px;
        

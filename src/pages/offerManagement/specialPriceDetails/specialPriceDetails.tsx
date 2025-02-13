@@ -14,7 +14,7 @@ import Toggle from "components/offerManagement/Toggle/Toggle";
 import searchIcon from "../../../assets/svg/Vector.svg";
 import searchCancelIcon from "../../../assets/svg/x_1.svg";
 import { useDispatch } from "react-redux";
-import calender from "../../../assets/images/calendar 1.png";
+import calender from "../../../assets/svg/newCalendar.svg";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";

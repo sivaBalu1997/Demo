@@ -1030,7 +1030,7 @@ const PrimaryPage = () => {
                         styles={{
                           marginTop: "1.3rem",
                           marginLeft: "-1rem",
-                          backgroundColor: "#67833E",
+                          backgroundColor: "#E52333",
                           width: "350px",
                           height: "35px",
                           color: "white",
@@ -1213,7 +1213,7 @@ const PrimaryPage = () => {
                           marginLeft: "2rem",
                           width: "350px",
                           height: "35px",
-                          backgroundColor: "#67833E",
+                          backgroundColor: "#E52333",
                           color: "white",
                           textAlign: "center",
                           display: "flex",
@@ -1375,7 +1375,7 @@ const PrimaryPage = () => {
                     styles={{
                       marginTop: "1.5rem",
                       marginLeft: "-19rem",
-                      backgroundColor: "#67833E",
+                      backgroundColor: "#E52333",
                       width: "350px",
                       height: "35px",
                       color: "white",
