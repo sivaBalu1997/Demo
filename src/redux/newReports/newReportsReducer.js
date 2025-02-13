@@ -54,51 +54,106 @@ import {
     EMPLOYEE_STAFF_ACTIVITY_REQUEST,
     EMPLOYEE_STAFF_ACTIVITY_SUCCESS,
     EMPLOYEE_STAFF_ACTIVITY_FAILURE,
+    DAY_CHECKIN_REQUEST,
+    DAY_CHECKIN_SUCCESS,
+    DAY_CHECKIN_FAILURE,
+    DAILY_CHECKIN_REQUEST,
+    DAILY_CHECKIN_SUCCESS,
+    DAILY_CHECKIN_FAILURE,
+    DAILY_GUEST_REQUEST,
+    DAILY_GUEST_SUCCESS,
+    DAILY_GUEST_FAILURE,
+    DAILY_CANCELLATION_REQUEST,
+    DAILY_CANCELLATION_SUCCESS,
+    DAILY_CANCELLATION_FAILURE,
+    HOURLY_GUESTS_REQUEST,
+    HOURLY_GUESTS_SUCCESS,
+    HOURLY_GUESTS_FAILURE,
+    DAILY_HOURLY_CHECKIN_REQUEST,
+    DAILY_HOURLY_CHECKIN_SUCCESS,
+    DAILY_HOURLY_CHECKIN_FAILURE,
+    DAY_OVER_DAY_GUEST_REQUEST,
+    DAY_OVER_DAY_GUEST_SUCCESS,
+    DAY_OVER_DAY_GUEST_FAILURE,
+    PEAK_SUMMARY_REQUEST,
+    PEAK_SUMMARY_SUCCESS,
+    PEAK_SUMMARY_FAILURE,
+    PARTY_SIZE_REQUEST,
+    PARTY_SIZE_SUCCESS,
+    PARTY_SIZE_FAILURE,
+    CUSTOMER_SIZE_REQUEST,
+    CUSTOMER_SIZE_SUCCESS,
+    CUSTOMER_SIZE_FAILURE,
+    NEW_CUSTOMER_SIZE_REQUEST,
+    NEW_CUSTOMER_SIZE_SUCCESS,
+    NEW_CUSTOMER_SIZE_FAILURE,
+    CUSTOMER_DETAILS_REQUEST,
+    CUSTOMER_DETAILS_SUCCESS,
+    CUSTOMER_DETAILS_FAILURE,
+    LIVE_CHECKIN_STATUS_REQUEST,
+    LIVE_CHECKIN_STATUS_SUCCESS,
+    LIVE_CHECKIN_STATUS_FAILURE,
+    DAILY_CHECKIN_STATUS_REQUEST,
+    DAILY_CHECKIN_STATUS_SUCCESS,
+    DAILY_CHECKIN_STATUS_FAILURE,
 } from "../newReports/newReportsConstants";
 
 
-
 const initialNewReportsState = {
+    // sales summary
     SalesSummaryLoading: false,
     salesSummarySuccess: [],
     salesSummaryFailure: false,
     salesSummaryStatus: false,
+    // sales by item category
     salesByItemCategoryLoading: false,
     salesByItemCategorySuccess: [],
     salesByItemCategoryFailure: false,
+    // sales by revenue class
     salesByRevenueClassLoading: false,
     salesByRevenueClassSuccess: [],
     salesByRevenueClassFailure: false,
+    // actal sales 
     actualSalesLoading: false,
     actualSalesSuccess: [],
     actualSalesFailure: false,
+    // actual third party sales
     actualThirdPartySalesLoading: false,
     actualThirdPartySalesSuccess: [],
     actualThirdPartySalesFailure: false,
+    // hourly sales
     hourlySalesLoading: false,
     hourlySalesSuccess: [],
     hourlySalesFailure: false,
+    // live discount
     liveDiscountLoading: false,
     liveDiscountSuccess: [],
     liveDiscountFailure: false,
+    // live open sales
     liveOpenSalesLoading: false,
     liveOpenSalesSuccess: [],
     liveOpenSalesFailure: false,
+    // live orders 
     liveOrdersLoading: false,
     liveOrdersSuccess: [],
     liveOrdersFailure: false,
+    // live refunds
     liveRefundsLoading: false,
     liveRefundsSuccess: [],
     liveRefundsFailure: false,
+    // live net sales
     liveNetSalesLoading: false,
     liveNetSalesSuccess: [],
     liveNetSalesFailure: false,
+    // live order non dine in
     liveOrderNonDineInLoading: false,
     liveOrderNonDineInSuccess: [],
     liveOrderNonDineInFailure: false,
+    // discount summary
     discountSummaryLoading: false,
     discountSummarySuccess: [],
     discountSummaryFailure: false,
+    // cancellation summary
     cancellationSummaryLoading: false,
     cancellationSummarySuccess: [],
     cancellationSummaryFailure: false,
@@ -118,6 +173,62 @@ const initialNewReportsState = {
     employeeStaffActivityLoading: false,
     employeeStaffActivitySuccess: [],
     employeeStaffActivityFailure: false,
+    // day CheckIn
+    dayCheckInLoading: false,
+    dayCheckInSuccess: [],
+    dayCheckInFailure: false,
+    // daily checkIn
+    dailyCheckInLoading: false,
+    dailyCheckInSuccess: [],
+    dailyCheckInFailure: false,
+    // daily guests
+    dailyGuestLoading: false,
+    dailyGuestSuccess: [],
+    dailyGuestFailure: false,
+    // daily cancellation
+    dailyCancellationLoading: false,
+    dailyCancellationSuccess: [],
+    dailyCancellationFailure: false,
+    // hourly guests
+    dailyHourlyGuestsLoading: false,
+    dailyHourlyGuestsSuccess: [],
+    dailyHourlyGuestsFailure: false,
+    // daily hourly checkin
+    dailyHourlyCheckInLoading: false,
+    dailyHourlyCheckInSuccess: [],
+    dailyHourlyCheckInfailure: false,
+    // day over day guest
+    dayOverDayGuestLoading: false,
+    dayOverDayGuestSuccess: [],
+    dayOverDayGuestFailure: false,
+    // peak summary
+    peakSummaryLoading: false,
+    peakSummarySuccess: [],
+    peakSummaryFailure: false,
+    // party size
+    partySizeLoading: false,
+    partySizeSuccess: [],
+    partySizeFailure: false,
+    // customer size
+    customerSizeLoading: false,
+    customerSizeSuccess: [],
+    customerSizeFailure: false,
+    // new customer size
+    newCustomerSizeLoading: false,
+    newCustomerSizeSuccess: [],
+    newCustomerSizeFailure: false,
+    // customer details
+    customerDetailsLoading: false,
+    customerDetailsSuccess: [],
+    customerDetailsFailure: false,
+    // live check-in status
+    liveCheckInStatusLoading: false,
+    liveCheckInStatusSuccess: [],
+    liveCheckInStatusFailure: false,
+    // daily check-in status
+    dailyCheckInStatusLoading: false,
+    dailyCheckInStatusSuccess: [],
+    dailyCheckInStatusFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -413,6 +524,229 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.employeeStaffActivitySuccess = action.payload;
                 draft.employeeStaffActivityLoading = false;
                 draft.employeeStaffActivityFailure = false
+                break;
+            // day checkIn
+            case DAY_CHECKIN_REQUEST:
+                draft.dayCheckInLoading = true;
+                draft.dayCheckInSuccess = [];
+                draft.dayCheckInFailure = false;
+                break;
+            case DAY_CHECKIN_SUCCESS:
+                draft.dayCheckInLoading = false;
+                draft.dayCheckInSuccess = action.payload;
+                draft.dayCheckInFailure = false;
+                break;
+            case DAY_CHECKIN_FAILURE:
+                draft.dayCheckInLoading = true;
+                draft.dayCheckInSuccess = [];
+                draft.dayCheckInFailure = true;
+                break;
+            // daily checkIn :
+            case DAILY_CHECKIN_REQUEST:
+                draft.dailyCheckInLoading = true;
+                draft.dailyCheckInSuccess = [];
+                draft.dailyCheckInFailure = false;
+                break;
+            case DAILY_CHECKIN_SUCCESS:
+                draft.dailyCheckInLoading = false;
+                draft.dailyCheckInSuccess = action.payload;
+                draft.dailyCheckInFailure = false;
+                break;
+            case DAILY_CHECKIN_FAILURE:
+                draft.dailyCheckInLoading = false;
+                draft.dailyCheckInSuccess = [];
+                draft.dailyCheckInFailure = true;
+                break;
+            // daily guest :
+            case DAILY_GUEST_REQUEST:
+                draft.dailyGuestLoading = true;
+                draft.dailyGuestSuccess = [];
+                draft.dailyGuestFailure = false;
+                break;
+            case DAILY_GUEST_SUCCESS:
+                draft.dailyGuestLoading = false;
+                draft.dailyGuestSuccess = action.payload;
+                draft.dailyGuestFailure = false;
+                break;
+            case DAILY_GUEST_FAILURE:
+                draft.dailyGuestLoading = false;
+                draft.dailyGuestSuccess = [];
+                draft.dailyGuestFailure = true;
+                break;
+            // daily cancellation :
+            case DAILY_CANCELLATION_REQUEST:
+                draft.dailyCancellationLoading = true;
+                draft.dailyCancellationSuccess = [];
+                draft.dailyCancellationFailure = false;
+                break;
+            case DAILY_CANCELLATION_SUCCESS:
+                draft.dailyCancellationLoading = false;
+                draft.dailyCancellationSuccess = action.payload;
+                draft.dailyCancellationFailure = false;
+                break;
+            case DAILY_CANCELLATION_FAILURE:
+                draft.dailyCancellationLoading = false;
+                draft.dailyCancellationSuccess = [];
+                draft.dailyCancellationFailure = true;
+                break;
+            // hourly guests :
+            case HOURLY_GUESTS_REQUEST:
+                draft.dailyHourlyGuestsLoading = true;
+                draft.dailyHourlyGuestsSuccess = [];
+                draft.dailyHourlyGuestsFailure = false;
+                break;
+            case HOURLY_GUESTS_SUCCESS:
+                draft.dailyHourlyGuestsLoading = false;
+                draft.dailyHourlyGuestsSuccess = action.payload;
+                draft.dailyHourlyGuestsFailure = false;
+                break;
+            case HOURLY_GUESTS_FAILURE:
+                draft.dailyHourlyGuestsLoading = false;
+                draft.dailyHourlyGuestsSuccess = [];
+                draft.dailyHourlyGuestsFailure = true;
+                break;
+            // daily hourly checkIn
+            case DAILY_HOURLY_CHECKIN_REQUEST:
+                draft.dailyHourlyCheckInLoading = true;
+                draft.dailyHourlyCheckInSuccess = [];
+                draft.dailyHourlyCheckInfailure = false;
+                break;
+            case DAILY_HOURLY_CHECKIN_SUCCESS:
+                draft.dailyHourlyCheckInLoading = false;
+                draft.dailyHourlyCheckInSuccess = action.payload;
+                draft.dailyHourlyCheckInfailure = false;
+                break;
+            case DAILY_HOURLY_CHECKIN_FAILURE:
+                draft.dailyHourlyCheckInLoading = false;
+                draft.dailyHourlyCheckInSuccess = [];
+                draft.dailyHourlyCheckInfailure = true;
+                break;
+            // day over day guest
+            case DAY_OVER_DAY_GUEST_REQUEST:
+                draft.dayOverDayGuestLoading = true;
+                draft.dayOverDayGuestSuccess = [];
+                draft.dayOverDayGuestFailure = false;
+                break;
+            case DAY_OVER_DAY_GUEST_SUCCESS:
+                draft.dayOverDayGuestLoading = false;
+                draft.dayOverDayGuestSuccess = action.payload;
+                draft.dayOverDayGuestFailure = false;
+                break;
+            case DAY_OVER_DAY_GUEST_FAILURE:
+                draft.dayOverDayGuestLoading = false;
+                draft.dayOverDayGuestSuccess = [];
+                draft.dayOverDayGuestFailure = true;
+                break;
+            // peak summary
+            case PEAK_SUMMARY_REQUEST:
+                draft.peakSummaryLoading = true;
+                draft.peakSummarySuccess = [];
+                draft.peakSummaryFailure = false;
+                break;
+            case PEAK_SUMMARY_SUCCESS:
+                draft.peakSummaryLoading = false;
+                draft.peakSummarySuccess = action.payload;
+                draft.peakSummaryFailure = false;
+                break;
+            case PEAK_SUMMARY_FAILURE:
+                draft.peakSummaryLoading = false;
+                draft.peakSummarySuccess = [];
+                draft.peakSummaryFailure = true;
+                break;
+            // party size
+            case PARTY_SIZE_REQUEST:
+                draft.partySizeLoading = true;
+                draft.partySizeSuccess = [];
+                draft.partySizeFailure = false;
+                break;
+            case PARTY_SIZE_SUCCESS:
+                draft.partySizeLoading = false;
+                draft.partySizeSuccess = action.payload;
+                draft.partySizeFailure = false;
+                break;
+            case PARTY_SIZE_FAILURE:
+                draft.partySizeLoading = false;
+                draft.partySizeSuccess = [];
+                draft.partySizeFailure = true;
+                break;
+            // customer size
+            case CUSTOMER_SIZE_REQUEST:
+                draft.customerSizeLoading = true;
+                draft.customerSizeSuccess = [];
+                draft.customerSizeFailure = false;
+                break;
+            case CUSTOMER_SIZE_SUCCESS:
+                draft.customerSizeLoading = false;
+                draft.customerSizeSuccess = action.payload;
+                draft.customerSizeFailure = false;
+                break;
+            case CUSTOMER_SIZE_FAILURE:
+                draft.customerSizeLoading = false;
+                draft.customerSizeSuccess = [];
+                draft.customerSizeFailure = true;
+                break;
+            // new customer size
+            case NEW_CUSTOMER_SIZE_REQUEST:
+                draft.newCustomerSizeLoading = true;
+                draft.customerSizeSuccess = [];
+                draft.customerSizeFailure = false;
+                break;
+            case NEW_CUSTOMER_SIZE_SUCCESS:
+                draft.newCustomerSizeLoading = false;
+                draft.newCustomerSizeSuccess = action.payload;
+                draft.newCustomerSizeFailure = false;
+                break;
+            case NEW_CUSTOMER_SIZE_FAILURE:
+                draft.newCustomerSizeLoading = false;
+                draft.newCustomerSizeSuccess = [];
+                draft.newCustomerSizeFailure = true;
+                break;
+            // customer details
+            case CUSTOMER_DETAILS_REQUEST:
+                draft.customerDetailsLoading = true;
+                draft.customerDetailsSuccess = [];
+                draft.customerDetailsFailure = false;
+                break;
+            case CUSTOMER_DETAILS_SUCCESS:
+                draft.customerDetailsLoading = false;
+                draft.customerDetailsSuccess = action.payload;
+                draft.customerDetailsFailure = false;
+                break;
+            case CUSTOMER_DETAILS_FAILURE:
+                draft.customerDetailsLoading = false;
+                draft.customerDetailsSuccess = [];
+                draft.customerDetailsFailure = true;
+                break;
+            // live Check-In status
+            case LIVE_CHECKIN_STATUS_REQUEST:
+                draft.liveCheckInStatusLoading = true;
+                draft.liveCheckInStatusSuccess = [];
+                draft.liveCheckInStatusFailure = false;
+                break;
+            case LIVE_CHECKIN_STATUS_SUCCESS:
+                draft.liveCheckInStatusLoading = false;
+                draft.liveCheckInStatusSuccess = action.payload;
+                draft.liveCheckInStatusFailure = false;
+                break;
+            case LIVE_CHECKIN_STATUS_FAILURE:
+                draft.liveCheckInStatusLoading = false;
+                draft.liveCheckInStatusSuccess = [];
+                draft.liveCheckInStatusFailure = true;
+                break;
+            case DAILY_CHECKIN_STATUS_REQUEST:
+                draft.dailyCheckInStatusLoading = true;
+                draft.dailyCheckInStatusSuccess = [];
+                draft.dailyCheckInStatusFailure = false;
+                break;
+            case DAILY_CHECKIN_STATUS_SUCCESS:
+                draft.dailyCheckInStatusLoading = false;
+                draft.dailyCheckInStatusSuccess = action.payload;
+                draft.dailyCheckInStatusFailure = false;
+                break;
+            case DAILY_CHECKIN_STATUS_FAILURE:
+                draft.dailyCheckInStatusLoading = false;
+                draft.dailyCheckInStatusSuccess = [];
+                draft.dailyCheckInStatusFailure = true;
                 break;
             default:
                 break;

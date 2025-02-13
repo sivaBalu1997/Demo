@@ -1,8 +1,137 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
-import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure, hourlySalesSuccess, hourlySalesFailure, liveDiscountSuccess, liveDiscountFailure, liveOpenSalesSuccess, liveOpenSalesFailure, liveOrdersSuccess, liveOrdersFailure, liveRefundsSuccess, liveRefundsFailure, liveNetSalesSuccess, liveNetSalesFailure, liveOrderNonDineInSuccess, liveOrderNonDineInFailure, discountSummarySuccess, discountSummaryFailure, cancellationSummarySuccess, cancellationSummaryFailure, employeeStaffTipGratuitySuccess, employeeStaffTipGratuityFailure, employeeStaffDiscountSuccess, employeeStaffDiscountFailure, employeeStaffPerformanceFailure, employeeStaffPerformanceSuccess, employeeStaffActivitySuccess, employeeStaffActivityFailure } from "./newReportsActions";
-import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, CANCELLATION_SUMMARY_REQUEST, DISCOUNT_SUMMARY_REQUEST, EMPLOYEE_STAFF_ACTIVITY_REQUEST, EMPLOYEE_STAFF_DISCOUNT_REQUEST, EMPLOYEE_STAFF_PERFORMANCE_REQUEST, EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, HOURLY_SALES_REQUEST, LIVE_DISCOUNT_REQUEST, LIVE_NET_SALES_REQUEST, LIVE_OPEN_SALES_REQUEST, LIVE_ORDER_NON_DINE_IN_REQUEST, LIVE_ORDERS_REQUEST, LIVE_REFUNDS_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
-import { getActualSales, getCancellationSummary, getDiscountSummary, getEmployeeStaffActivity, getEmployeeStaffDiscount, getEmployeeStaffPerformance, getEmployeeStaffTipGratuity, getHourlySalesChart, getLiveDiscount, getLiveNetSales, getLiveOpenSales, getLiveOrderNonDineIn, getLiveOrders, getLiveRefunds, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
+import {
+    salesSummarySuccess,
+    salesSummaryFailure,
+    salesByItemCategoryFailure,
+    salesByItemCategorySuccess,
+    salesByRevenueClassSuccess,
+    salesByRevenueClassFailure,
+    actualSalesFailure,
+    actualSalesSuccess,
+    actualSalesThirdPartySuccess,
+    actualSalesThirdPartyFailure,
+    hourlySalesSuccess,
+    hourlySalesFailure,
+    liveDiscountSuccess,
+    liveDiscountFailure,
+    liveOpenSalesSuccess,
+    liveOpenSalesFailure,
+    liveOrdersSuccess,
+    liveOrdersFailure,
+    liveRefundsSuccess,
+    liveRefundsFailure,
+    liveNetSalesSuccess,
+    liveNetSalesFailure,
+    liveOrderNonDineInSuccess,
+    liveOrderNonDineInFailure,
+    discountSummarySuccess,
+    discountSummaryFailure,
+    cancellationSummarySuccess,
+    cancellationSummaryFailure,
+    employeeStaffTipGratuitySuccess,
+    employeeStaffTipGratuityFailure,
+    employeeStaffDiscountSuccess,
+    employeeStaffDiscountFailure,
+    employeeStaffPerformanceFailure,
+    employeeStaffPerformanceSuccess,
+    employeeStaffActivitySuccess,
+    employeeStaffActivityFailure,
+    dayCheckInSuccess,
+    dayCheckInFailure,
+    dailyCheckInSuccess,
+    dailyCheckInFailure,
+    dailyGuestSuccess,
+    dailyGuestFailure,
+    dailyCancellationSuccess,
+    dailyCancellationFailure,
+    hourlyGuestsSuccess,
+    hourlyGuestsFailure,
+    dailyHourlyCheckInSuccess,
+    dailyHourlyCheckInFailure,
+    dayOverDayGuestSuccess,
+    dayOverDayGuestFailure,
+    peakSummarySuccess,
+    peakSummaryFailure,
+    partySizeSuccess,
+    partySizeFailure,
+    customerSizeSuccess,
+    customerSizeFailure,
+    newCustomerSizeSuccess,
+    newCustomerSizeFailure,
+    customerDetailsSuccess,
+    customerDetailsFailure,
+    liveCheckInStatusSuccess,
+    liveCheckInStatusFailure,
+    dailyCheckInStatusSuccess,
+    dailyCheckInStatusFailure
+} from "./newReportsActions";
+import {
+    ACTUAL_SALES_REQUEST,
+    ACTUAL_SALES_THIRD_PARTY_REQUEST,
+    CANCELLATION_SUMMARY_REQUEST,
+    CUSTOMER_DETAILS_REQUEST,
+    CUSTOMER_SIZE_REQUEST,
+    DAILY_CANCELLATION_REQUEST,
+    DAILY_CHECKIN_REQUEST,
+    DAILY_CHECKIN_STATUS_REQUEST,
+    DAILY_GUEST_REQUEST,
+    DAILY_HOURLY_CHECKIN_REQUEST,
+    DAY_CHECKIN_REQUEST,
+    DAY_OVER_DAY_GUEST_REQUEST,
+    DISCOUNT_SUMMARY_REQUEST,
+    EMPLOYEE_STAFF_ACTIVITY_REQUEST,
+    EMPLOYEE_STAFF_DISCOUNT_REQUEST,
+    EMPLOYEE_STAFF_PERFORMANCE_REQUEST,
+    EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST,
+    HOURLY_GUESTS_REQUEST,
+    HOURLY_SALES_REQUEST,
+    LIVE_CHECKIN_STATUS_REQUEST,
+    LIVE_DISCOUNT_REQUEST,
+    LIVE_NET_SALES_REQUEST,
+    LIVE_OPEN_SALES_REQUEST,
+    LIVE_ORDER_NON_DINE_IN_REQUEST,
+    LIVE_ORDERS_REQUEST,
+    LIVE_REFUNDS_REQUEST,
+    NEW_CUSTOMER_SIZE_REQUEST,
+    PARTY_SIZE_REQUEST,
+    PEAK_SUMMARY_REQUEST,
+    SALES_BY_ITEM_CATEGORY_REQUEST,
+    SALES_BY_REVENUE_CLASS_REQUEST,
+    SALES_SUMMARY_REQUEST
+} from "./newReportsConstants";
+import {
+    getActualSales,
+    getCancellationSummary,
+    getCustomerDetails,
+    getDailyCancellation,
+    getDailyCheckIn,
+    getDailyCheckInStatus,
+    getDailyGuest,
+    getDailyHourlyCheckIn,
+    getDayCheckIn,
+    getDayOverDayGuest,
+    getDiscountSummary,
+    getEmployeeStaffActivity,
+    getEmployeeStaffDiscount,
+    getEmployeeStaffPerformance,
+    getEmployeeStaffTipGratuity,
+    getHourlyGuests,
+    getHourlySalesChart,
+    getLiveCheckInStatus,
+    getLiveDiscount,
+    getLiveNetSales,
+    getLiveOpenSales,
+    getLiveOrderNonDineIn,
+    getLiveOrders,
+    getLiveRefunds,
+    getNewCustomerSize,
+    getPartySize,
+    getPeakSummary,
+    getSalesByItemCategory,
+    getSalesByRevenueClass,
+    getSalesSummary
+} from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 
 export function* salesSummaryRequestSaga(action) {
@@ -323,6 +452,258 @@ export function* employeeStaffActivityRequestSaga(action) {
     }
 }
 
+//dayCheckInRequestSaga
+export function* dayCheckInRequestSaga(action) {
+    try {
+        const response = yield call(getDayCheckIn, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dayCheckInRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dayCheckInSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dayCheckInFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dayCheckInFailure(error))
+    }
+}
+
+// dailyCheckInRequestSaga
+export function* dailyCheckInRequestSaga(action) {
+    try {
+        const response = yield call(getDailyCheckIn, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dailyCheckInRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dailyCheckInSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dailyCheckInFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dailyCheckInFailure(error))
+    }
+}
+
+// dailyGuestRequestSaga
+export function* dailyGuestRequestSaga(action) {
+    try {
+        const response = yield call(getDailyGuest, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dailyGuestRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dailyGuestSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dailyGuestFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dailyGuestFailure(error))
+    }
+}
+
+//   dailyCancellationRequestSaga
+export function* dailyCancellationRequestSaga(action) {
+    try {
+        const response = yield call(getDailyCancellation, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dailyCancellationRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dailyCancellationSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dailyCancellationFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dailyCancellationFailure(error))
+    }
+}
+
+//  hourlyGuestsRequestSaga
+export function* hourlyGuestsRequestSaga(action) {
+    try {
+        const response = yield call(getHourlyGuests, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of hourlyGuestsRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(hourlyGuestsSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(hourlyGuestsFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(hourlyGuestsFailure(error))
+    }
+}
+
+// dailyHourlyCheckInRequestSaga
+export function* dailyHourlyCheckInRequestSaga(action) {
+    try {
+        const response = yield call(getDailyHourlyCheckIn, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dailyHourlyCheckInRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dailyHourlyCheckInSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dailyHourlyCheckInFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dailyHourlyCheckInFailure(error))
+    }
+}
+
+//  dayOverDayGuestRequestSaga
+export function* dayOverDayGuestRequestSaga(action) {
+    try {
+        const response = yield call(getDayOverDayGuest, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dayOverDayGuestRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dayOverDayGuestSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dayOverDayGuestFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dayOverDayGuestFailure(error))
+    }
+}
+
+//  peakSummaryRequestSaga
+export function* peakSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getPeakSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of peakSummaryRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(peakSummarySuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(peakSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(peakSummaryFailure(error))
+    }
+}
+
+//  partySizeRequestSaga
+export function* partySizeRequestSaga(action) {
+    try {
+        const response = yield call(getPartySize, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of partySizeRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(partySizeSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(partySizeFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(partySizeFailure(error))
+    }
+}
+
+// customerSizeRequestSaga
+export function* customerSizeRequestSaga(action) {
+    try {
+        const response = yield call(getPartySize, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of customerSizeRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(customerSizeSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(customerSizeFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(customerSizeFailure(error))
+    }
+}
+
+//  newCustomerSizeRequestSaga
+export function* newCustomerSizeRequestSaga(action) {
+    try {
+        const response = yield call(getNewCustomerSize, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of newCustomerSizeRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(newCustomerSizeSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(newCustomerSizeFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(newCustomerSizeFailure(error))
+    }
+}
+
+//  customeDetailsRequestSaga
+export function* customeDetailsRequestSaga(action) {
+    try {
+        const response = yield call(getCustomerDetails, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of customeDetailsRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(customerDetailsSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(customerDetailsFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(customerDetailsFailure(error))
+    }
+}
+
+//  liveCheckInStatusRequestSaga
+export function* liveCheckInStatusRequestSaga(action) {
+    try {
+        const response = yield call(getLiveCheckInStatus, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of liveCheckInStatusRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(liveCheckInStatusSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(liveCheckInStatusFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(liveCheckInStatusFailure(error))
+    }
+}
+
+// dailyCheckInStatusRequestSaga
+export function* dailyCheckInStatusRequestSaga(action) {
+    try {
+        const response = yield call(getDailyCheckInStatus, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of dailyCheckInStatusRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(dailyCheckInStatusSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(dailyCheckInStatusFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dailyCheckInStatusFailure(error))
+    }
+}
+
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
@@ -342,4 +723,18 @@ export default function* watchNewReportRequest() {
     yield takeLatest(EMPLOYEE_STAFF_DISCOUNT_REQUEST, employeeStaffDiscountRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_PERFORMANCE_REQUEST, employeeStaffPerformanceRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_ACTIVITY_REQUEST, employeeStaffActivityRequestSaga);
+    yield takeLatest(DAY_CHECKIN_REQUEST, dayCheckInRequestSaga);
+    yield takeLatest(DAILY_CHECKIN_REQUEST, dailyCheckInRequestSaga);
+    yield takeLatest(DAILY_GUEST_REQUEST, dailyGuestRequestSaga);
+    yield takeLatest(DAILY_CANCELLATION_REQUEST, dailyCancellationRequestSaga);
+    yield takeLatest(HOURLY_GUESTS_REQUEST, hourlyGuestsRequestSaga);
+    yield takeLatest(DAILY_HOURLY_CHECKIN_REQUEST, dailyHourlyCheckInRequestSaga);
+    yield takeLatest(DAY_OVER_DAY_GUEST_REQUEST, dayOverDayGuestRequestSaga);
+    yield takeLatest(PEAK_SUMMARY_REQUEST, peakSummaryRequestSaga);
+    yield takeLatest(PARTY_SIZE_REQUEST, partySizeRequestSaga);
+    yield takeLatest(CUSTOMER_SIZE_REQUEST, customerSizeRequestSaga);
+    yield takeLatest(NEW_CUSTOMER_SIZE_REQUEST, newCustomerSizeRequestSaga);
+    yield takeLatest(CUSTOMER_DETAILS_REQUEST, customeDetailsRequestSaga);
+    yield takeLatest(LIVE_CHECKIN_STATUS_REQUEST, liveCheckInStatusRequestSaga);
+    yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga)
 }
