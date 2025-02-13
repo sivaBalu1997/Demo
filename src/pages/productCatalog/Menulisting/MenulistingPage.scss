@@ -75,9 +75,10 @@ display: flex;
         .addbtn-menupage
         {
             width: 25px;
+            z-index: 0;
             height: 29px;
            position: relative;
-           left: 1rem;
+           left: 2.7rem;
            top: -0.08rem;
             border-radius: 4px;
             background-color: white;
@@ -85,7 +86,7 @@ display: flex;
             cursor: pointer;
             @media (max-width: 1397px) {
      
-            left: 0.7rem;
+            left: 2.3rem;
             
             }
         }
@@ -135,6 +136,7 @@ display: flex;
     @media (max-width:"1400px") {
       // border: 1px solid blue;
       height: 76.4vh;
+
       
     }
     @media (max-width:"1230px") {
@@ -202,7 +204,7 @@ border-bottom: 1px solid #b3b3b3;
 
 .second-part-header
 {
-    width: 67.4vw;
+    width: 65vw;
     display: flex;
     height: 49.6px;
     overflow-x: scroll;
@@ -210,11 +212,17 @@ border-bottom: 1px solid #b3b3b3;
     // border: 1px solid green;
     gap: 1rem;
     // padding-left: 1rem;
-    padding-right: 4rem;
-
+    padding-right: 1rem;
+    margin-left: 2rem ;
+z-index: 2;
+@media (max-width:"1400px") {
+  width: 64.1vw;
+   
+ }
     &::-webkit-scrollbar{
         display: none;
     }
+
 }
 .orderTypes
 {
@@ -272,7 +280,7 @@ color: #000000;
     border-right: 1px solid #b3b3b3;
 border-bottom: 1px solid #b3b3b3;
 width: fit-content;
-padding-left: 3rem;
+padding-left: 2rem;
 }
 .second-part-body-overflow-none
 {
@@ -295,6 +303,13 @@ padding-left: 3rem;
     // padding-bottom: 20px;
    
     overflow-y: scroll;
+    @media (max-width:"1400px") {
+     width: 66.9vw;
+      
+    }
+    // @media (max-width:"1230px") {
+    //   height: 76vh;
+    // }
     
     &::-webkit-scrollbar {
         width: 12px;
