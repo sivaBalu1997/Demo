@@ -141,7 +141,7 @@ const ItemCustomizations: React.FC<any> = () => {
         {
           modifierOptionId: "",
           modifierOptionName: "",
-          cost: 0,
+          cost: '',
           isEnabled: true,
           isModifierOptionChanged: false,
         },
@@ -258,7 +258,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                    cost:((option?.cost!==0)&& Number(option?.cost).toFixed(2)) || 0,
+                    cost:(Number(option?.cost).toFixed(2)) || '',
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
@@ -288,7 +288,7 @@ const ItemCustomizations: React.FC<any> = () => {
         modifierOptions: [
           {
             modifierOptionName: "",
-            cost: 0,
+            cost: '',
             isModifierOptionChanged: false,
             isEnabled: true,
           },
@@ -430,7 +430,7 @@ const ItemCustomizations: React.FC<any> = () => {
             const newOption = {
               modifierOptionName: "",
               isEnabled: true,
-              cost: 0,
+              cost: '',
               modifierOptionId: "",
               isModifierOptionChanged: false,
             };
@@ -466,10 +466,7 @@ const ItemCustomizations: React.FC<any> = () => {
                   e.target.name === "cost"
                     ? parseFloat(
                         e.target.value.replace(/^(\d+)(\.\d{0,2})?.*$/, "$1$2")
-                      ) ||
-                      0 ||
-                      0 ||
-                      0
+                      )
                     : e.target.value;
 
                 const isOptionChanged =
@@ -972,7 +969,7 @@ const ItemCustomizations: React.FC<any> = () => {
       optionPriceError: "",
     };
 
-    if (inputValue <= 0) {
+    if (inputValue <0) {
       optionErrors.optionPriceError = `Price field is required`;
     } else {
       optionErrors.optionPriceError = "";
@@ -1039,7 +1036,7 @@ const ItemCustomizations: React.FC<any> = () => {
             }
   
             // Validate Option Price
-            if ((isNaN(option.cost) || option.cost <= 0) &&showModifiers && modifier.isEnabled && option.isEnabled) {
+            if ((isNaN(option.cost) || option.cost < 0) &&showModifiers && modifier.isEnabled && option.isEnabled) {
               optionErrors.optionPriceError = `Price field is required`;
              
             }
@@ -1166,7 +1163,7 @@ setModifications((prev: any) => {
         modifierOptions: [
           {
             modifierOptionName: "",
-            cost: 0,
+            cost: '',
             isModifierOptionChanged: false,
             isEnabled: true,
           },
@@ -1585,18 +1582,21 @@ setModifications((prev: any) => {
                                               ?.isEnabled ||
                                             !modifications[modIndex]?.isEnabled
                                           }
+                                        
                                           value={
                                             modifier.modifierOptions[optIndex]
-                                              .cost ||
-                                            modifier.modifierOptions[optIndex]
-                                              .sellPrice ||
+                                              .cost >=0 ? modifier.modifierOptions[optIndex]
+                                              .cost :
+                                           modifier.modifierOptions[optIndex]
+                                              .sellPrice >=0 ? modifier.modifierOptions[optIndex]
+                                              .sellPrice:
                                             ""
                                           }
                                           onChange={(e) => {
                                             const value = e.target.value;
-
+                                            const [integerPart, decimalPart] = value.split('.')
                                             // Restrict to 4 digits
-                                            if (value.length <= 4) {
+                                            if (integerPart?.length <= 4) {
                                               addOptionChange(
                                                 modIndex,
                                                 optIndex,
