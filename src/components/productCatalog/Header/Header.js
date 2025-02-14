@@ -13,7 +13,7 @@ import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import DatePicker from "react-datepicker";
 import plusicon from "../../../assets/svg/plusIcon.svg";
 import {ReactComponent as Icon } from "../../../assets/svg/cloud.svg";
-import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
+import { removeDataRequest, triggerFcm } from "redux/productCatalog/productCatalogActions";
 import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   const { isExpanded } = useContext(Contextpagejs);
