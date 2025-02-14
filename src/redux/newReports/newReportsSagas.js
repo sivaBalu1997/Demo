@@ -104,6 +104,7 @@ import {
     getActualSales,
     getCancellationSummary,
     getCustomerDetails,
+    getCustomerSize,
     getDailyCancellation,
     getDailyCheckIn,
     getDailyCheckInStatus,
@@ -617,7 +618,7 @@ export function* partySizeRequestSaga(action) {
 // customerSizeRequestSaga
 export function* customerSizeRequestSaga(action) {
     try {
-        const response = yield call(getPartySize, action.payload);
+        const response = yield call(getCustomerSize, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         console.log("response of customerSizeRequestSaga", { decryptedData })
         if (response.status === 200) {

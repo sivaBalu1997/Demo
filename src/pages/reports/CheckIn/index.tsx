@@ -4,7 +4,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { DateRangeStateInterface } from "interface/newReportsInterface";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Table from "../../../components/reportComponents/Table";
 import ReusableCanvaChart from "../../../components/reportComponents/Charts/ReusabeCanvaChart";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
@@ -16,6 +16,7 @@ import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import SummaryBox from "components/reportComponents/SummaryBox";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import { customerDetailsRequest, customerSizeRequest, dailyCancellationRequest, dailyCheckInRequest, dailyCheckInStatusRequest, dailyGuestRequest, dailyHourlyCheckInRequest, dayCheckInRequest, dayOverDayGuestRequest, hourlyGuestsRequest, liveCheckInStatusRequest, newCustomerSizeRequest, partySizeRequest, peakSummaryRequest } from "redux/newReports/newReportsActions";
 
 
 
@@ -42,9 +43,31 @@ declare namespace CanvasJS {
 }
 
 const CheckIn: React.FC = () => {
+
+  const RECORDS_PER_PAGE_LIMIT: number = 15;
+
+  const dispatch = useDispatch();
+
   const selectedBranch = useSelector(
     (state: any) => state.auth?.selectedBranch || null
   );
+
+  // summary boxes data from redux :
+  const dailyCheckInBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyCheckInSuccess)
+  console.log({ dailyCheckInBoxAPIRedux })
+  const dailyGuestBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyGuestSuccess)
+  const dailyCancellationBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyCancellationSuccess)
+  const newCustomerSizeBoxAPIRedux = useSelector((state: any) => state?.newReports?.newCustomerSizeSuccess)
+  const repeatCustomerCountBoxAPIRedux = useSelector((state: any) => state?.newReports?.customerSizeSuccess)
+
+  //Charts data from redux :
+  const dailyHourlyGuestAPIRedux = useSelector((state: any) => state?.newReports?.dailyHourlyGuestsSuccess)
+  const dailyHourlyCheckInAPIRedux = useSelector((state: any) => state?.newReports?.dailyHourlyCheckInSuccess)
+  const dayOverDayGuestAPIRedux = useSelector((state: any) => state?.newReports?.dayOverDayGuestSuccess)
+  const dailyDineInTimeChartAPIRedux = useSelector((state: any) => state?.newReports?.peakSummarySuccess)
+  const dailyPartySizeDistributionAPIRedux = useSelector((state: any) => state?.newReports?.partySizeSuccess)
+  const weeklyTrendAPIRedux = useSelector((state: any) => state?.newReports?.dayCheckInSuccess)
+
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
   const [state, setState] = useState<DateRangeStateInterface>({
     startDate: moment().toDate(),
@@ -57,6 +80,7 @@ const CheckIn: React.FC = () => {
   });
 
   const getLocationDates = useSalesLocationDates(state, locationid);
+  // console.log("4444", { getLocationDates })
 
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
 
@@ -68,8 +92,155 @@ const CheckIn: React.FC = () => {
   const [totalPageNoCurrentPageDailyCheckInDetails, setTotalPageNoCurrentPageDailyCheckInDetails] = useState<number>(5)
   const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
 
-  const [totalPageNoReservationData, setTotalPageNoReservationData] = useState<number>(5)
-  const [currentPageReservationData, setCurrentPageReservationData] = useState<number>(1)
+  // const [totalPageNoReservationData, setTotalPageNoReservationData] = useState<number>(5)
+  // const [currentPageReservationData, setCurrentPageReservationData] = useState<number>(1)
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dailyCheckInRequest({
+          ...getLocationDates
+        })
+      )
+    }
+  }, [getLocationDates])
+
+
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dailyGuestRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dailyCancellationRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        hourlyGuestsRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dailyHourlyCheckInRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dayOverDayGuestRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        peakSummaryRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        partySizeRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        customerSizeRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        newCustomerSizeRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        customerDetailsRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dayCheckInRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        liveCheckInStatusRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+  useEffect(() => {
+    if (getLocationDates) {
+      dispatch(
+        dailyCheckInStatusRequest({
+          ...getLocationDates,
+        })
+      )
+    }
+  }, [getLocationDates])
+
+
 
 
   const transformDataByChannelForStackBar = (
@@ -509,7 +680,7 @@ const CheckIn: React.FC = () => {
     endDate: Date) => {
     setState((prev) => ({
       ...prev,
-      selectedPeriod: option, // Now it correctly matches the expected type
+      selectedPeriod: option,
       startDate,
       endDate,
     }));
@@ -560,120 +731,20 @@ const CheckIn: React.FC = () => {
               onSelect={handleDateSelection}
             />
           </div>
-          {/* <div className="dates">
-            <div className="label-time-period">
-              <p>Select Time Period</p>
-            </div>
-            <div className="filter-toggle-btn-container">
-              <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-                {selectedPeriod}
-              </div>
-              {openFilter && (
-                <div className="filter-drop-down-options">
-                  <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
-                  <p onClick={() => handleOptionClickForDate("This Week")}>
-                    This Week
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("Last 7 days")}>
-                    Last 7 days
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("This Month")}>
-                    This Month
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("Last Month")}>
-                    Last Month
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("Last 30 days")}>
-                    Last 30 days
-                  </p>
-                  <p
-                    onClick={() =>
-                      handleOptionClickForDate("Custom Range")
-                    }
-                  >
-                    Custom Range
-                  </p>
-                </div>
-              )}
-            </div>
-          </div> */}
         </div>
-        {/* {openCustomDateRange && (
-          <div className="ch-date-range-style">
-            <label className="ch-dateLabel" htmlFor="ch-start-date">
-              From
-            </label>
-            <DatePicker
-              placeholderText="Start Date"
-              selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
-              dateFormat="dd MMM yyyy"
-              className="ch-start-date"
-              onSelect={() => setOpenStartDatePicker(false)}
-              onFocus={() => {
-                setOpenStartDatePicker(true);
-              }}
-            />
-            <label className="ch-dateLabel" htmlFor="ch-start-date">
-              To
-            </label>
-            <DatePicker
-              placeholderText="End Date"
-              selected={endDate}
-              onChange={(date: Date) => setEndDate(date)}
-              dateFormat="dd MMM yyyy"
-              className="ch-end-date"
-              onSelect={() => setOpenEndDatePicker(false)}
-              onFocus={() => {
-                setOpenEndDatePicker(true);
-              }}
-            />
-          </div>
-        )} */}
         <div className="checkin-name-board-two">
           <h1>{selectedBranch?.locationName}</h1>
-        </div>
-        <div className="overall-summary">
-          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
-            <h2>
-              {formatNumberIndian(
-                checkInD["Daily Checkin"].map((item) => item.count)
-              )}
-            </h2>
-            <h3>Total CheckIns</h3>
-          </div>
-          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
-            <h2>
-              {formatNumberIndian(
-                checkInD.Cancellations.map((item) => item.count)
-              )}
-            </h2>
-            <h3>Cancellations</h3>
-          </div>
-          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
-            <h2>
-              {formatNumberIndian(
-                checkInD["Repeat Customers Count"].map(
-                  (item) => item["count(*)"]
-                )
-              )}
-            </h2>
-            <h3>Repeat Customers</h3>
-          </div>
-          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
-            <h2>2,400</h2>
-            <h3>New Customers</h3>
-          </div>
         </div>
         <div className="daily-summary-container">
           <div className="daily-heading">
             <h1>Daily Summary</h1>
           </div>
           <div className="daily-summary-inner-container">
-            <SummaryBox summaryTitle="Daily Checkins" boxValue={10} />
-            <SummaryBox summaryTitle="Daily Guest" boxValue={10} />
-            <SummaryBox summaryTitle="Daily Cancellation" boxValue={10} />
-            <SummaryBox summaryTitle="Total Customers" boxValue={10} />
+            <SummaryBox summaryTitle="Daily Checkins" boxValue={dailyCheckInBoxAPIRedux || 0} />
+            <SummaryBox summaryTitle="Daily Guest" boxValue={dailyGuestBoxAPIRedux || 0} />
+            <SummaryBox summaryTitle="Daily Cancellation" boxValue={dailyCancellationBoxAPIRedux || 0} />
+            <SummaryBox summaryTitle="New Customers" boxValue={newCustomerSizeBoxAPIRedux || 0} />
+            <SummaryBox summaryTitle="Repeat Customer Count" boxValue={repeatCustomerCountBoxAPIRedux || 0} />
           </div>
         </div>
         <div className="canva-stacked-bar-container">
@@ -748,7 +819,7 @@ const CheckIn: React.FC = () => {
             totalpageNo={totalPageNoCurrentPageDailyCheckInDetails}
           />
         </div>
-        <div className="daily-checkin-table-container">
+        {/* <div className="daily-checkin-table-container">
           <Table
             currentPage={currentPageReservationData}
             setCurrentPage={setCurrentPageReservationData}
@@ -758,7 +829,7 @@ const CheckIn: React.FC = () => {
             Heading="Reservation Data"
             totalpageNo={totalPageNoReservationData}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

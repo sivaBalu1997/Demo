@@ -14,12 +14,6 @@ import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
 
-interface SalesData {
-  paymentMode: string;
-  totalSales: number;
-  totalOrders: number;
-  type: string;
-}
 
 const CustomerInsights = () => {
 
@@ -40,7 +34,6 @@ const CustomerInsights = () => {
   const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
 
   const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
-
 
   const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
 

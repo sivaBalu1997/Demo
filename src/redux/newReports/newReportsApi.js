@@ -243,7 +243,7 @@ export const getDailyCheckIn = (dailyCheckInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckIn?locationId=${dailyCheckInPayload?.locationid}&startDate=${dailyCheckInPayload?.startDate}&endDate=${dailyCheckInPayload?.endDate}&page=${dailyCheckInPayload?.tablePageNo}&size=${dailyCheckInPayload?.tableRecordLimit}`,
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckIn?locationId=${dailyCheckInPayload?.locationid}&startDate=${dailyCheckInPayload?.startDate}&endDate=${dailyCheckInPayload?.endDate}&page=${dailyCheckInPayload?.tablePageNo || null}&size=${dailyCheckInPayload?.tableRecordLimit || null}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
