@@ -81,7 +81,7 @@ interface FormData {
   tax: string;
   masterCode: string;
   popularItem: boolean;
-  itemId:string;
+  itemId: string;
 }
 interface Category {
   id: string;
@@ -231,14 +231,13 @@ const PrimaryPage = () => {
       selectedPortion: "Portion(count)",
       tax: "",
       masterCode: "",
-      itemId:""
+      itemId: "",
     },
   });
 
   const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
-    // const editData = useSelector((state: any) => state.productCatalog.editData);
-  
+  // const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const [calorieInfo, setCalorieInfo] = useState<any>({
     type: "per 100 grams",
@@ -255,10 +254,8 @@ const PrimaryPage = () => {
   // const locationid = useSelector(
   //   (state: State) => state.auth.credentials?.locationId
   // );
-   const { categoryIdStore,setCategoryIdStore } = useContext(Contextpagejs);
-  
+  const { categoryIdStore, setCategoryIdStore } = useContext(Contextpagejs);
 
-  
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data
   );
@@ -322,7 +319,7 @@ const PrimaryPage = () => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
-      setValue("itemId",ItemsPrimaryDetails?.itemId)
+      setValue("itemId", ItemsPrimaryDetails?.itemId);
       if (ItemsPrimaryDetails?.description) {
         setCharCount(ItemsPrimaryDetails?.description.length);
       }
@@ -389,8 +386,6 @@ const PrimaryPage = () => {
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
 
- 
-  
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
@@ -479,7 +474,6 @@ const PrimaryPage = () => {
   };
 
   const [isImageDeleted, setIsImageDeleted] = useState(false);
-  
 
   const handleImageDeletion = (index: number) => {
     setImages((prevImages) => {
@@ -491,13 +485,16 @@ const PrimaryPage = () => {
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });
-    if(editData.length&& ItemsPrimaryDetails && ItemsPrimaryDetails.imageUrls && ItemsPrimaryDetails.imageUrls.length>0)
-    {
-         dispatch(deleteimageRequest(ItemsPrimaryDetails.imageUrls[index]?.imageId
-          ))
+    if (
+      editData.length &&
+      ItemsPrimaryDetails &&
+      ItemsPrimaryDetails.imageUrls &&
+      ItemsPrimaryDetails.imageUrls.length > 0
+    ) {
+      dispatch(
+        deleteimageRequest(ItemsPrimaryDetails.imageUrls[index]?.imageId)
+      );
     }
-      
-    
   };
   const [restrictToAdd, setRestrictToAdd] = useState(true);
 
@@ -583,7 +580,6 @@ const PrimaryPage = () => {
   ];
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
-  
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -661,10 +657,6 @@ const PrimaryPage = () => {
       dispatch(fetchDropDownRequest(categoryPayload));
       dispatch(fetchDropDownRequest(bestPairPayload));
       dispatch(fetchDropDownRequest(kitchenpayload));
-
-
-
-
     }
   }, []);
 
@@ -842,21 +834,16 @@ const PrimaryPage = () => {
   const categoryList = getValues("category");
   const subcategoryList = getValues("subCategory");
   useEffect(() => {
-
-
     if (
       categoryList !== "" &&
       subcategoryList === "" &&
-      (subCategoryData?.length > 0)
+      subCategoryData?.length > 0
     ) {
-    
       setShowAsterisk(true);
     } else {
       setShowAsterisk(false);
-      
     }
-  }, [getValues, categoryList,subCategoryData,categoriesdata]);
-
+  }, [getValues, categoryList, subCategoryData, categoriesdata]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -889,10 +876,8 @@ const PrimaryPage = () => {
                     name="itemName"
                     control={control}
                     defaultValue=""
-
                     rules={{
                       required: "Item Name is required",
-
                     }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
@@ -1007,10 +992,8 @@ const PrimaryPage = () => {
                   />
                 </div>
 
-                
-
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="Best paired with food items *" />
+                  <LableComponent lable="Best paired with food items" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="bestPair"
@@ -1028,7 +1011,7 @@ const PrimaryPage = () => {
                           getValues={getValues}
                           error={errors.bestPair}
                           bestpair={true}
-                          validation={{ required: "Best Pair is required" }}
+                          // validation={{ required: "Best Pair is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -1120,7 +1103,7 @@ const PrimaryPage = () => {
                       accept="image/png, image/jpeg"
                       multiple
                       onChange={handleImageChange}
-                    // name="imageUrls"
+                      // name="imageUrls"
                     />
 
                     {images?.map((img, index) => (
@@ -1326,9 +1309,12 @@ const PrimaryPage = () => {
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
                     <LableComponent
-                    lable={subCategoryData?.length>0?'Sub Category*':'Sub Category'}
+                      lable={
+                        subCategoryData?.length > 0
+                          ? "Sub Category*"
+                          : "Sub Category"
+                      }
                       // lable={`Sub Category${showAsterisk ? "*" : ""}`}
-
                     />
                     <Controller
                       name="subCategory"
@@ -1347,7 +1333,9 @@ const PrimaryPage = () => {
                           // validation={{ required: "subCategory is required" }}
                           // error={errors.subCategory}
                           valiadtesubCategory={
-                            subCategoryData?.length > 0 ? valiadtesubCategory : ''
+                            subCategoryData?.length > 0
+                              ? valiadtesubCategory
+                              : ""
                           }
                           errormsg={subcategortError}
                           categoryChange={categoryChange}
@@ -1438,137 +1426,133 @@ const PrimaryPage = () => {
                 </h3>
                 <div className="Primary-Page-Other-Detail">
                   <div className="Primary-Page-Other-Detail-colorie">
-                  <div className="Primary-Page-Other-Detail-input" style={{width:"22vw"}}>
-                    <Controller
-                      name="coloriePoint"
-                      control={control}
+                    <div
+                      className="Primary-Page-Other-Detail-input"
+                      style={{ width: "22vw" }}
+                    >
+                      <Controller
+                        name="coloriePoint"
+                        control={control}
+                        render={({ onChange, onBlur, value }: any) => (
+                          <InputFieldComponent
+                            name="coloriePoint"
+                            type="number"
+                            maxLength={5}
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              onChange(e);
+                            }}
+                            onBlur={onBlur}
+                            value={calorieInfo?.value}
+                            trigger={trigger}
+                            onKeyDown={(e: any) => {
+                              if (
+                                e.key === "e" ||
+                                e.key === "-" ||
+                                e.key === "+"
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                            placeholder="Calorie Point"
+                          />
+                        )}
+                      />
+                    </div>
 
-                      render={({ onChange, onBlur, value }: any) => (
-                        <InputFieldComponent
-                          name="coloriePoint"
-                          type="number"
-                          maxLength={5}
-                          onChange={(e) => {
-                            handleInputChange(e);
-                            onChange(e);
-                          }}
-                          onBlur={onBlur}
-                          value={calorieInfo?.value}
-                          trigger={trigger}
-                          onKeyDown={(e: any) => {
-                            if (
-                              e.key === "e" ||
-                              e.key === "-" ||
-                              e.key === "+"
-                            ) {
-                              e.preventDefault();
-                            }
-                          }}
-                          placeholder="Calorie Point"
-                        />
-                      )}
-                    />
+                    <div className="Caloriepointradio">
+                      <RadioButtonGroup
+                        options={calorieponitradio}
+                        name="type"
+                        selectedValue={calorieInfo?.type}
+                        onChange={(value) =>
+                          handleCalorieRadioChange("type", value)
+                        }
+                        register={register}
+                      />
+                    </div>
                   </div>
-
-                  <div className="Caloriepointradio">
-                    <RadioButtonGroup
-                      options={calorieponitradio}
-                      name="type"
-                      selectedValue={calorieInfo?.type}
-                      onChange={(value) =>
-                        handleCalorieRadioChange("type", value)
-                      }
-                      register={register}
-                    />
-                  </div>
-                  </div>
-                  
                 </div>
 
                 <div className="Primary-Page-Other-Detailss">
                   <div className="Primary-Page-inputfiled-and-tooltip-portionsize">
-                    <div style={{width:"22vw"}}>
-                    <Controller
-                      name="portionSize"
-                      control={control}
-                      render={({ onChange, onBlur, value }: any) => (
-                        <InputFieldComponent
-                          name="portionSize"
-                          maxLength={4}
-                          type="number"
-                          onChange={(e) => {
-                            handlePortionChange("value", e.target.value);
-                            onChange(e);
-                          }}
-                          onBlur={onBlur}
-                          value={portionInfo?.value}
-                          trigger={trigger}
-                          onKeyDown={(e: any) => {
-                            if (
-                              e.key === "e" ||
-                              e.key === "-" ||
-                              e.key === "+"
-                            ) {
-                              e.preventDefault(); // Block these keys
-                            }
-                          }}
-                          placeholder="Portion Size"
-                        //   placeholder={
-                        //     portionInfo?.type || "portion(count) / grams/ml"
-                        //   }
-                        />
-                      )}
-                    />
+                    <div style={{ width: "22vw" }}>
+                      <Controller
+                        name="portionSize"
+                        control={control}
+                        render={({ onChange, onBlur, value }: any) => (
+                          <InputFieldComponent
+                            name="portionSize"
+                            maxLength={4}
+                            type="number"
+                            onChange={(e) => {
+                              handlePortionChange("value", e.target.value);
+                              onChange(e);
+                            }}
+                            onBlur={onBlur}
+                            value={portionInfo?.value}
+                            trigger={trigger}
+                            onKeyDown={(e: any) => {
+                              if (
+                                e.key === "e" ||
+                                e.key === "-" ||
+                                e.key === "+"
+                              ) {
+                                e.preventDefault(); // Block these keys
+                              }
+                            }}
+                            placeholder="Portion Size"
+                            //   placeholder={
+                            //     portionInfo?.type || "portion(count) / grams/ml"
+                            //   }
+                          />
+                        )}
+                      />
                     </div>
                     <div className="Primary-Page-inputfiled-and-tooltip-portion">
-                    <RadioButtonGroup
-                      options={portionsizeradio}
-                      name="selectedPortion"
-                      selectedValue={portionInfo?.type}
-                      onChange={(value) => handlePortionChange("type", value)}
-                      register={register}
-                    />
-                    <div className="tool-tip-portion-cont">
-
-                      
-                      <TooltipMsg
-                        message="Specify the portion size for this item, either by count or weight."
-                        styles={{
-                          marginTop: "-0.8rem",
-                          marginLeft: "2rem",
-                          width: "350px",
-                          height: "35px",
-                          backgroundColor: "#67833E",
-                          color: "white",
-                          textAlign: "center",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "5px",
-                        }}
-                        Arrowstyle={{
-                          rotate: "-90deg",
-                          position: "relative",
-                          left: "-1.5rem",
-                        }}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                      <RadioButtonGroup
+                        options={portionsizeradio}
+                        name="selectedPortion"
+                        selectedValue={portionInfo?.type}
+                        onChange={(value) => handlePortionChange("type", value)}
+                        register={register}
+                      />
+                      <div className="tool-tip-portion-cont">
+                        <TooltipMsg
+                          message="Specify the portion size for this item, either by count or weight."
+                          styles={{
+                            marginTop: "-0.8rem",
+                            marginLeft: "2rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            rotate: "-90deg",
+                            position: "relative",
+                            left: "-1.5rem",
+                          }}
+                        >
+                          <div className="ToolKitchen">
+                            <img
+                              src={info}
+                              alt="info icon"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                        </TooltipMsg>
+                      </div>
                     </div>
-                  </div>
 
-                   
                     {/* Tooltip component can go here */}
                   </div>
-
-                  
                 </div>
 
                 <div className="Primary-Page-Other-Detail">
@@ -1677,10 +1661,6 @@ const PrimaryPage = () => {
                       </div>
                         
                       </div> */}
-
-                      
-
-
                     </div>
                   </div>
                 </div>

@@ -1412,7 +1412,7 @@ setModifications((prev: any) => {
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
 
-                                    if ((inputValue === "" || /^[a-zA-Z\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(inputValue)) && !inputValue.startsWith(" ") ) {
+                                    if ((inputValue === "" || /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(inputValue)) && !inputValue.startsWith(" ") ) {
                                       handleModifierChange(
                                         modIndex,
                                         e,
@@ -1544,7 +1544,7 @@ setModifications((prev: any) => {
                                           }
                                           onChange={(e) => {
                                             const value = e.target.value;
-                                            if ((value === "" || /^[a-zA-Z\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(value)) && !value.startsWith(" ") ){
+                                            if ((value === "" || /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(value)) && !value.startsWith(" ") ){
                                               addOptionChange(
                                                 modIndex,
                                                 optIndex,

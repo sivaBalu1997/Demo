@@ -161,7 +161,7 @@ const NormalStep2 = () => {
     <div>
       <div className="Step2Avaliable">
         <h1 className="Step2Avaliable-heading">
-          Available Service Streams(Normal)
+          Available Service Streams
         </h1>
       </div>
       <h1 className="Step2Dinein-heading">Dine in</h1>

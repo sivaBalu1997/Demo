@@ -1102,7 +1102,7 @@ const PricingDetails = () => {
             </div>
 
             <div className="NormalSpecial">
-              <div className="Normal">
+              {/* <div className="Normal">
                 <input
                   type="radio"
                   value="true"
@@ -1111,7 +1111,7 @@ const PricingDetails = () => {
                   className="N1radio"
                 />
                 <label className="N1">Normal Availability</label>
-              </div>
+              </div> */}
               {/* <div className="Special">
                 <input
                   type="radio"
