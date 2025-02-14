@@ -307,3 +307,13 @@ console.log({payload});
 
   });
 }
+
+export function triggerFcmUrl(payload) {
+  const { successCB, errorCB, eventName, topic, sendToDefaultDeviceOnly = false, locationId,  ...filteredBody } = payload || {};
+  const body = {...filteredBody, locationId}  
+  return API({
+    method: 'post',
+    url: `/fcm/trigger-event?topic=${topic}&eventName=${eventName}&sendToDefaultDeviceOnly=${sendToDefaultDeviceOnly}&locationId=${locationId}`,
+    data: body
+  })
+}

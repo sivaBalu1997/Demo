@@ -14,7 +14,7 @@ import DatePicker from "react-datepicker";
 import plusicon from "../../../assets/svg/plusIcon.svg";
 import {ReactComponent as Icon } from "../../../assets/svg/cloud.svg";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const [filterSelected, setFilterSelected] = useState(false);
@@ -29,6 +29,26 @@ const Header = () => {
     dispatch(removeDataRequest());
     history.push("/productCatalog/PrimaryDetails");
   };
+  const restaurantDetails = useSelector(
+      (state) => state?.auth.restaurantDetails
+    );
+  const syncByFcm=()=>{
+   
+      // dispatch(triggerFcm({
+      //   topic: merchantContext.topicToSubscribe,
+      //   eventName: 'MENU_UPDATE',
+      //   locationId: merchantContext.locationId,
+      //   type: menuVieworderTypes?.[0].typeName,
+      // }))
+console.log({restaurantDetails});
+
+
+     
+    
+  }
+
+
+  
 
   return (
     <div className={isExpanded ? "Header-Container1" : "Header-Container"}>
@@ -40,6 +60,7 @@ const Header = () => {
       <div style={{display:'flex',justifyContent:'space-between'}}>
       <div
         className="sync-Container"
+        onClick={syncByFcm}
       >
         {/* <p className="Add-Item-Heading-Plus">+</p> */}
 

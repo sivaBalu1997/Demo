@@ -99,6 +99,7 @@ import {
   imageUploadingApi,
   hideMockData,
   deleteImage,
+  triggerFcmUrl,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -136,6 +137,8 @@ import {
   ADD_MOCK_DATA_HIDDEN_FALIURE,
   PARTIAL_UPDATE_MENU_SUCCESS,
   DELETE_IMAGE_REQUEST,
+  UPDATE_TRIGGER_FCM,
+  TRIGGER_FCM,
 } from "./productCatalogConstants";
 import { showSuccessToast } from "util/toastUtils";
 import {
@@ -619,9 +622,21 @@ function* addMockDataHiddenSaga(action) {
   }
 }
 
+function* triggerFcmSaga(action) {
+  try {
+    yield put({ type: UPDATE_TRIGGER_FCM, payload: true })
+    const response = yield call(triggerFcmUrl,action.payload);
+    yield put({ type: UPDATE_TRIGGER_FCM ,payload:false})
+   
+  } catch (err) {
+    yield put({ type: UPDATE_TRIGGER_FCM, payload: false })
+  }
+}
+
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
+  
 
   yield takeEvery(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
   yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga);
@@ -648,5 +663,6 @@ export default function* productCatalog() {
   yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
   yield takeLatest(ADD_MOCK_DATA_HIDDEN_REQUEST, addMockDataHiddenSaga);
   yield takeLatest(DELETE_IMAGE_REQUEST, deleteimage);
+  yield takeLatest(TRIGGER_FCM,triggerFcmSaga)
 
 }

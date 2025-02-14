@@ -160,9 +160,11 @@ import {
   DELETE_IMAGE_SUCCESS,
   DELETE_IMAGE_REQUEST,
   SELECTED_COLUMNS,
+  TRIGGER_FCM,
 } from "./productCatalogConstants";
 
 //Get Menu
+
 export const getMenuRequest = (data) => ({
   type: STORE_MENU_REQUEST,
   payload: data,
@@ -982,3 +984,16 @@ export const selectedColumnsCarryData = (data) => ({
 });
 
 
+// export function triggerFcm(payload) {
+//   return typedAction(TRIGGER_FCM, payload)
+// }
+  
+
+
+
+export const triggerFcm = (payload)=>({
+
+  type:TRIGGER_FCM,
+  payload:payload
+
+})
