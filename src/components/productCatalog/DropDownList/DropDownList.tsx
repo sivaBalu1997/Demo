@@ -767,7 +767,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             }`}
             disabled={!Disablesubcategory && name === "subCategory"}
           />
-          <span className="dropdown-arrow" onMouseDown={handleOptionMouseDown}>
+          <span className="dropdown-arrow-PC" onMouseDown={handleOptionMouseDown}>
             {dropdownopen ? (
               <img
                 src={dropdown}
