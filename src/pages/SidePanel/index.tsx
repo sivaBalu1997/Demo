@@ -175,7 +175,6 @@ const SidePanel = () => {
   };
 
   const logoutUser = () => {
-    console.log('hi')
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());

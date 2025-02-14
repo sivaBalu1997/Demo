@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/svg/newCalendar.svg";
-import ResetLogo from "../../assets/images/resetIcon.png";
+import ResetLogo from "../../assets/svg/resetImg.svg";
 import InputMask from "react-input-mask"
 import alertImg from '../../assets/svg/newCaution.svg'
 import info from '../../assets/svg/info.svg'
