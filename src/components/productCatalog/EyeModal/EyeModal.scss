@@ -3,7 +3,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    // background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
     display: flex;
     justify-content: center;
     align-items: center; /* Center the modal vertically */
@@ -68,7 +68,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
-    color: #67833E;
+    color: #E52333;
     text-decoration: underline;
     position: relative;
     top: 0.8rem;
@@ -130,7 +130,7 @@
        left: 1px;
         width: 20px;
         height: 20px;
-        accent-color: #67833E;
+        accent-color: #E52333;
         transform: translateY(10px);
     }
 }
@@ -144,7 +144,7 @@
     .checkbox-Items{
         width: 20px;
         height: 20px;
-        accent-color: #67833E;
+        accent-color: #E52333;
         transform: translateY(10px);
     }
    
@@ -179,7 +179,7 @@
 .SavebtnEye{
     width: 120px;
     height: 40px;
-    background-color: #67833E;
+    background-color: #E52333;
     color: white;
     text-align: center;
     cursor: pointer;
@@ -190,7 +190,7 @@
     width: 120px;
     height: 40px;
     background-color: white;
-    color: #67833E;
+    color: #E52333;
     text-align: center;
     cursor: pointer;
     border-radius: 3.47px;
