@@ -553,13 +553,16 @@ export const MenulistingPage = () => {
   };
 
   const showsidebar = (key) => {
-    if (key === "DineIn1" || key === "Pickup1" || key === "Delivery1") {
+    if (key.endsWith("1")) {
+    
       setSideBarText("Pricing");
       handlemodal();
-    } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
+    } else if (key.endsWith("2")) {
+    
       setSideBarText("Availability");
       handlemodal();
-    } else if (key === "Customize1") {
+    } else if (key === "Customize") {
+   
       setSideBarText("Customize");
       handlemodal();
     }
@@ -1028,6 +1031,8 @@ export const MenulistingPage = () => {
       );
     }
   };
+  console.log({hasScrollbar});
+  
   const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
 
   const [removeiconclciked, setRemoveiconclciked] = useState();
@@ -1451,6 +1456,7 @@ export const MenulistingPage = () => {
                 `}
               style={{
                 //  width:!hasScrollbar?"fit-content":"67.5vw",
+
                 height: menudatalist.length === 1 && "15vh",
                 overflowY: menudatalist.length === 1 ? "hidden" : "auto",
                 overflowX: showColumns === true ? "hidden" : "auto",
@@ -1734,7 +1740,7 @@ export const MenulistingPage = () => {
                                                       //   className="Customizedata"
                                                       onClick={() =>
                                                         handlesidbarhandling(
-                                                          "Customize1",
+                                                          "Customize",
                                                           item.itemId
                                                         )
                                                       }
@@ -1814,6 +1820,8 @@ export const MenulistingPage = () => {
                                       (item, index) => (
                                         <div
                                           key={index}
+                                          style={{justifyContent:hasScrollbar?"":"space-between",gap:hasScrollbar?"1rem":"0rem"}}
+
                                           className="second-part-data-row"
                                         >
                                           <p
@@ -2048,7 +2056,7 @@ export const MenulistingPage = () => {
                                                 }}
                                                 onClick={() => {
                                                   handlesidbarhandling(
-                                                    "Customize1",
+                                                    "Customize",
                                                     item.itemId
                                                   );
                                                 }}

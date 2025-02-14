@@ -138,10 +138,17 @@
   // }
  
   .Tool-item-code {
-    transform: translateY(22px);
+    // transform: translateY(8px);
+
     opacity: 40%;
     border: none;
     outline: none;
+    width: 20px;
+    height: 20px;
+ position: relative;
+ top: 8px;
+  
+
     // @media (min-width: 1700px) and (max-width: 1706.67px) {
     //   transform: translate(-30px, 20px);
     //   // border: 1px solid darkgoldenrod;
@@ -157,15 +164,26 @@
   
      
   }
+  .Primary-Page-inputfiled-and-tooltip-itemcode
+  {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    // position: relative;
+    // top: 1rem;
+
+    width: 100vw;
+  
+  }
 
   .Primary-Page-inputfiled-and-tooltip {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 4px;
     width: fit-content;
 
     .tool-tip-best-pair {
-      margin-top: -0.3rem;
+      margin-top: -0.4rem;
       width: 1px;
       margin-left: -11px;
       // border: 1px solid red;
@@ -178,59 +196,60 @@
       //   // transform: translateX(-15px);
       // }
     }
+   
 
-    .tool-tip-item-code {
-      width: fit-content;
-      margin-top: -0.3rem;
-      margin-left: -16px;
-      // @media (max-width: 1280px) {
-      //   // background-color: pink;
-      //   // margin-left: -50px;
-      //   // margin-right: 8rem;
-      //   transform: translateX(-35px);
-      // }
-      // @media (min-width: 1281px) and (max-width: 1440px) {
-      //   // background-color: pink;
-      //   margin-left: -1.7rem;
-      // }
-      // @media (min-width: 1441px) and (max-width: 1536px) {
-      //   // background-color: pink;
-      //   margin-left: -2.3rem;
-      // }
-      @media (max-width: 2500px) {
+    // .tool-tip-item-code {
+    //   width: fit-content;
+    //   margin-top: -0.3rem;
+    //   margin-left: -16px;
+    //   // @media (max-width: 1280px) {
+    //   //   // background-color: pink;
+    //   //   // margin-left: -50px;
+    //   //   // margin-right: 8rem;
+    //   //   transform: translateX(-35px);
+    //   // }
+    //   // @media (min-width: 1281px) and (max-width: 1440px) {
+    //   //   // background-color: pink;
+    //   //   margin-left: -1.7rem;
+    //   // }
+    //   // @media (min-width: 1441px) and (max-width: 1536px) {
+    //   //   // background-color: pink;
+    //   //   margin-left: -2.3rem;
+    //   // }
+    //   @media (max-width: 2500px) {
        
-        // border: 1px solid violet;
-        margin-left: 6rem;
+    //     // border: 1px solid violet;
+    //     margin-left: 6rem;
        
-       }
-       @media (max-width:2000px) {
+    //    }
+    //    @media (max-width:2000px) {
        
       
-        // border: 1px solid brown;
-        margin-left: 4.5rem;
-      }
+    //     // border: 1px solid brown;
+    //     margin-left: 4.5rem;
+    //   }
     
-      @media (max-width: 1800px) {
+    //   @media (max-width: 1800px) {
        
-        // border: 1px solid blue;
-        margin-left: 2rem;
+    //     // border: 1px solid blue;
+    //     margin-left: 2rem;
        
-       }
-       @media (max-width: 1600px) {
+    //    }
+    //    @media (max-width: 1600px) {
       
-        // border: 1px solid green;
-        margin-left: 0rem;
+    //     // border: 1px solid green;
+    //     margin-left: 0rem;
        
-       }
-      @media (max-width: 1525px) {
+    //    }
+    //   @media (max-width: 1525px) {
        
-        // border: 1px solid red;
-        margin-left: -2rem;
+    //     // border: 1px solid red;
+    //     margin-left: -2rem;
    
      
       
-      }
-    }
+    //   }
+    // }
 
     .tool-tip-portion-size {
       position: relative;
@@ -426,8 +445,8 @@
       margin-top: 3%;
     }
     .tool-tip-Allergen {
-      margin-left: 96.5%;
-      margin-top: -6.5%;
+      margin-left: 96.2%;
+      margin-top: -6.8%;
     }
 
     .Primary-page-container-pairtwo {
