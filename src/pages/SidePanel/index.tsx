@@ -11,6 +11,9 @@ import {
   SELECTED_BRANCH_DATA,
   STORAGE_BUCKET_URL,
 } from "../../shared/constants";
+import { clearMenuData } from "../../redux/menu/menuAction";
+import { signOut } from "../../redux/auth/authActions";
+
 // import MenuItems from "../menuItems";
 import {
   getRestaurantRequest,
@@ -26,6 +29,7 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
+import logout from '../../assets/svg/LogoutIcon.svg'
 import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -170,6 +174,14 @@ const SidePanel = () => {
     setIsExpanded(!isExpanded);
   };
 
+  const logoutUser = () => {
+    console.log('hi')
+    dispatch(clearMenuData());
+    localStorage.clear();
+    dispatch(signOut());
+    history.replace("/");
+  }
+
   return (
     <>
       <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
@@ -313,7 +325,7 @@ const SidePanel = () => {
                       ? offerMenuOptions.map((option) => (
                           <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
                             <span
-                              style={{ color: SelectSub == option ? "#67833E" : '#000000' }}
+                              style={{ color: SelectSub == option ? "#E52333" : '#000000' }}
                               onClick={() => {
                                 option === "Offers"
                                   ? history.push("/Offer")
@@ -386,7 +398,7 @@ const SidePanel = () => {
                       ? reportInsightsOptions.map((option) => (
                           <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
                             <span
-                              style={{ color: SelectSubForReport == option ? "#67833E" : '#000000' }}
+                              style={{ color: SelectSubForReport == option ? "#E52333" : '#000000' }}
                               onClick={() => {
                                 if (option === "Reports & Insights") {
                                   history.push(`/old-reports`);
@@ -502,6 +514,31 @@ const SidePanel = () => {
                 {isExpanded && (
                   <span className="menu-items-name">Payments</span>
                 )}
+              </>
+            }
+          </div>
+
+          <div
+          //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
+            className="not-active"
+            // className={
+            //   showOptions === "reportOptions" &&
+            //     location.pathname.includes("payment")
+            //     ? "activePath"
+            //     : "not-active"
+            // }
+            onClick={() => {
+              
+            }}
+          >
+            {
+              <>
+                <div className="logOutBtn" onClick={logoutUser}>
+                  <img src={logout} alt="" />
+                  {isExpanded && (
+                      <span className="menu-items-name">Log Out</span>
+                  )}
+                </div>
               </>
             }
           </div>
@@ -731,7 +768,7 @@ const SidePanel = () => {
                 <li>
                   <span
                     className="d-inline-block m-t-20"
-                    style={{ color: SelectSub == option ? "#67833E" : '#000000' }}
+                    style={{ color: SelectSub == option ? "#E52333" : '#000000' }}
                     onClick={() => {
                       option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
                       setSelectedSub(option)
