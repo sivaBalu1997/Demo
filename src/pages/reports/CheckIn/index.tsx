@@ -54,11 +54,15 @@ const CheckIn: React.FC = () => {
 
   // summary boxes data from redux :
   const dailyCheckInBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyCheckInSuccess)
-  console.log({ dailyCheckInBoxAPIRedux })
+  const dailyCheckInResponseSuccess = useSelector((state: any) => state?.newReports?.dailyCheckInResponseSuccess)
   const dailyGuestBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyGuestSuccess)
+  const dailyGuestSuccessResponse = useSelector((state: any) => state?.newReports?.dailyGuestSuccessResponse)
   const dailyCancellationBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyCancellationSuccess)
+  const dailyCancellationSucessResponse = useSelector((state: any) => state?.newReports?.dailyCancellationSucessResponse)
   const newCustomerSizeBoxAPIRedux = useSelector((state: any) => state?.newReports?.newCustomerSizeSuccess)
+  const newCustomerSizeSuccessResponse = useSelector((state: any) => state?.newReports?.newCustomerSizeSuccessResponse)
   const repeatCustomerCountBoxAPIRedux = useSelector((state: any) => state?.newReports?.customerSizeSuccess)
+  const customerSizeSuccessResponse = useSelector((state: any) => state?.newReports?.customerSizeSuccessResponse)
 
   //Charts data from redux :
   const dailyHourlyGuestAPIRedux = useSelector((state: any) => state?.newReports?.dailyHourlyGuestsSuccess)
@@ -740,11 +744,11 @@ const CheckIn: React.FC = () => {
             <h1>Daily Summary</h1>
           </div>
           <div className="daily-summary-inner-container">
-            <SummaryBox summaryTitle="Daily Checkins" boxValue={dailyCheckInBoxAPIRedux || 0} />
-            <SummaryBox summaryTitle="Daily Guest" boxValue={dailyGuestBoxAPIRedux || 0} />
-            <SummaryBox summaryTitle="Daily Cancellation" boxValue={dailyCancellationBoxAPIRedux || 0} />
-            <SummaryBox summaryTitle="New Customers" boxValue={newCustomerSizeBoxAPIRedux || 0} />
-            <SummaryBox summaryTitle="Repeat Customer Count" boxValue={repeatCustomerCountBoxAPIRedux || 0} />
+            <SummaryBox summaryTitle="Daily Checkins" boxValue={dailyCheckInResponseSuccess ? (dailyCheckInBoxAPIRedux || 0) : 0} />
+            <SummaryBox summaryTitle="Daily Guest" boxValue={dailyGuestSuccessResponse ? (dailyGuestBoxAPIRedux || 0) : 0} />
+            <SummaryBox summaryTitle="Daily Cancellation" boxValue={dailyCancellationSucessResponse ? (dailyCancellationBoxAPIRedux || 0) : 0} />
+            <SummaryBox summaryTitle="New Customers" boxValue={newCustomerSizeSuccessResponse ? (newCustomerSizeBoxAPIRedux || 0) : 0} />
+            <SummaryBox summaryTitle="Repeat Customer Count" boxValue={customerSizeSuccessResponse ? (repeatCustomerCountBoxAPIRedux || 0) : 0} />
           </div>
         </div>
         <div className="canva-stacked-bar-container">

@@ -180,14 +180,17 @@ const initialNewReportsState = {
     // daily checkIn
     dailyCheckInLoading: false,
     dailyCheckInSuccess: [],
+    dailyCheckInResponseSuccess: false,
     dailyCheckInFailure: false,
     // daily guests
     dailyGuestLoading: false,
     dailyGuestSuccess: [],
+    dailyGuestSuccessResponse : false,
     dailyGuestFailure: false,
     // daily cancellation
     dailyCancellationLoading: false,
     dailyCancellationSuccess: [],
+    dailyCancellationSucessResponse: false,
     dailyCancellationFailure: false,
     // hourly guests
     dailyHourlyGuestsLoading: false,
@@ -212,10 +215,12 @@ const initialNewReportsState = {
     // customer size
     customerSizeLoading: false,
     customerSizeSuccess: [],
+    customerSizeSuccessResponse: false,
     customerSizeFailure: false,
     // new customer size
     newCustomerSizeLoading: false,
     newCustomerSizeSuccess: [],
+    newCustomerSizeSuccessResponse: false,
     newCustomerSizeFailure: false,
     // customer details
     customerDetailsLoading: false,
@@ -545,31 +550,37 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case DAILY_CHECKIN_REQUEST:
                 draft.dailyCheckInLoading = true;
                 draft.dailyCheckInSuccess = [];
+                draft.dailyCheckInResponseSuccess = false;
                 draft.dailyCheckInFailure = false;
                 break;
             case DAILY_CHECKIN_SUCCESS:
                 draft.dailyCheckInLoading = false;
                 draft.dailyCheckInSuccess = action.payload;
+                draft.dailyCheckInResponseSuccess = true;
                 draft.dailyCheckInFailure = false;
                 break;
             case DAILY_CHECKIN_FAILURE:
                 draft.dailyCheckInLoading = false;
                 draft.dailyCheckInSuccess = [];
+                draft.dailyCheckInResponseSuccess = false;
                 draft.dailyCheckInFailure = true;
                 break;
             // daily guest :
             case DAILY_GUEST_REQUEST:
                 draft.dailyGuestLoading = true;
                 draft.dailyGuestSuccess = [];
+                draft.dailyGuestSuccessResponse = false;
                 draft.dailyGuestFailure = false;
                 break;
             case DAILY_GUEST_SUCCESS:
                 draft.dailyGuestLoading = false;
+                draft.dailyGuestSuccessResponse = true;
                 draft.dailyGuestSuccess = action.payload;
                 draft.dailyGuestFailure = false;
                 break;
             case DAILY_GUEST_FAILURE:
                 draft.dailyGuestLoading = false;
+                draft.dailyGuestSuccessResponse = false;
                 draft.dailyGuestSuccess = [];
                 draft.dailyGuestFailure = true;
                 break;
@@ -577,16 +588,19 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case DAILY_CANCELLATION_REQUEST:
                 draft.dailyCancellationLoading = true;
                 draft.dailyCancellationSuccess = [];
+                draft.dailyCancellationSucessResponse = false;
                 draft.dailyCancellationFailure = false;
                 break;
             case DAILY_CANCELLATION_SUCCESS:
                 draft.dailyCancellationLoading = false;
                 draft.dailyCancellationSuccess = action.payload;
+                draft.dailyCancellationSucessResponse = true;
                 draft.dailyCancellationFailure = false;
                 break;
             case DAILY_CANCELLATION_FAILURE:
                 draft.dailyCancellationLoading = false;
                 draft.dailyCancellationSuccess = [];
+                draft.dailyCancellationSucessResponse = false;
                 draft.dailyCancellationFailure = true;
                 break;
             // hourly guests :
@@ -673,16 +687,19 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case CUSTOMER_SIZE_REQUEST:
                 draft.customerSizeLoading = true;
                 draft.customerSizeSuccess = [];
+                draft.customerSizeSuccessResponse = false;
                 draft.customerSizeFailure = false;
                 break;
             case CUSTOMER_SIZE_SUCCESS:
                 draft.customerSizeLoading = false;
                 draft.customerSizeSuccess = action.payload;
+                draft.customerSizeSuccessResponse = true;
                 draft.customerSizeFailure = false;
                 break;
             case CUSTOMER_SIZE_FAILURE:
                 draft.customerSizeLoading = false;
                 draft.customerSizeSuccess = [];
+                draft.customerSizeSuccessResponse = false;
                 draft.customerSizeFailure = true;
                 break;
             // new customer size
@@ -690,16 +707,19 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.newCustomerSizeLoading = true;
                 draft.customerSizeSuccess = [];
                 draft.customerSizeFailure = false;
+                draft.newCustomerSizeSuccessResponse = false;
                 break;
             case NEW_CUSTOMER_SIZE_SUCCESS:
                 draft.newCustomerSizeLoading = false;
                 draft.newCustomerSizeSuccess = action.payload;
+                draft.newCustomerSizeSuccessResponse = true;
                 draft.newCustomerSizeFailure = false;
                 break;
             case NEW_CUSTOMER_SIZE_FAILURE:
                 draft.newCustomerSizeLoading = false;
                 draft.newCustomerSizeSuccess = [];
                 draft.newCustomerSizeFailure = true;
+                draft.newCustomerSizeSuccessResponse = false;
                 break;
             // customer details
             case CUSTOMER_DETAILS_REQUEST:
