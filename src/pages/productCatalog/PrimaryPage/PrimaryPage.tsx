@@ -6,7 +6,7 @@ import DigitInput from "../../../components/productCatalog/DigitInput/DigitInput
 import RadioButtonGroup from "../../../components/productCatalog/RadioButton/RadioButton";
 import { ImCross } from "react-icons/im";
 import info from "../../../assets/svg/info.svg";
-import ImgaeUploading from "../../../assets/images/addimage.png";
+import ImgaeUploading from "../../../assets/svg/AddFoodImg.svg";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Imagepillsselection from "../../../components/productCatalog/ImagePillsSelection/ImagePillsSelection";
@@ -1525,7 +1525,7 @@ const PrimaryPage = () => {
                             marginLeft: "2rem",
                             width: "350px",
                             height: "35px",
-                            backgroundColor: "#67833E",
+                            backgroundColor: "#E52333",
                             color: "white",
                             textAlign: "center",
                             display: "flex",
