@@ -254,7 +254,7 @@
   .hoverImage {
     visibility: hidden;
     width: 250px; 
-    background-color: #67833E;
+    background-color: #E52333;
     color: #fff;
     // text-align: center;
     border-radius: 5px;
@@ -276,7 +276,7 @@
     transform: translateY(-50%);
     border-width: 10px;
     border-style: solid;
-    border-color: transparent #67833E transparent transparent;
+    border-color: transparent #E52333 transparent transparent;
   }
   
   .infoToolTip:hover + .hoverImage{
