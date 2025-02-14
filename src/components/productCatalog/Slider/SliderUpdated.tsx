@@ -310,6 +310,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
     Customize: <CustomizeSlider />,
   };
   const handleScrollTo = (section: string) => {
+    
     const sectionElement = sectionRefs[section].current;
     const containerElement = containerRef.current;
   
@@ -334,7 +335,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
 
     const handleScroll = () => {
       let maxVisibleHeight = 0;
-      let currentSection = "section1";
+      let currentSection = activeSection;
 
       sections.forEach((section:any) => {
         const sectionElement = sectionRefs[section].current;
@@ -358,6 +359,18 @@ const SliderUpdated: React.FC<SliderProps> = ({
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
+  const [activeSectionFromData, setActiveSectionFromData] = useState<string | null>("Pricing");
+
+   useEffect(() => {
+      if (sidebartext) {
+        handleScrollTo(sidebartext);
+        setActiveSection(sidebartext);
+        setActiveSectionFromData(sidebartext)
+       
+      }
+    }, [sidebartext,activeSectionFromData]);
+    console.log({sidebartext});
+    
 
   return (
     <div ref={modelref} className="Slider-Container-Updated" onClick={closeModal}>
