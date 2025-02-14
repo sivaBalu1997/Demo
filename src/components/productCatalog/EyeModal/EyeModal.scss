@@ -3,7 +3,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    // background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
     display: flex;
     justify-content: center;
     align-items: center; /* Center the modal vertically */
@@ -12,6 +12,7 @@
     height: 848px;
     overflow-y: auto;
     overflow-x: hidden;
+
     &::-webkit-scrollbar
     {
         display: none;
