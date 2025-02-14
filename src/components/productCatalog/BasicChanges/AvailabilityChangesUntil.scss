@@ -1,119 +1,117 @@
-.AvailabilityChangesUntilContainer{
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.2); 
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    z-index: 1000; 
-    width:416px;
-    height: 900px;
-}
- 
-.Availability_Changes_Until_SubContainer{
-      margin-top: -140px;
-background-color: white;
-width: 322px;
-height: 322px;
-display: flex;
+.AvailabilityChangesUntilContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  width: 27%;
+//   height: 900px;
 
-border-radius: 8px; 
-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
- 
+//   @media (max-width: 1440px) {
+//     width: 100% !important;
+//   }
+
+//   @media (max-width: 1530px) {
+//     width: 27vw !important;
+//   }
 }
- 
-.Avail_Changes_Form{
-    display: flex;
-    flex-direction: column;
-    width: 262px;
-    height: 322px;
-    margin-left: 20px;
-    padding: 20px  10px 20px;
- 
-   
- 
+
+.Availability_Changes_Until_SubContainer {
+  margin-top: -140px;
+  background-color: white;
+  width: 322px;
+  height: 322px;
+  display: flex;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
- 
-.Avail_Changes_Heading{
-    width: 259px;
-    height: 30px;
-        font-family: Poppins;
-        font-weight: 500;
-        font-size: 19px;
-        line-height: 20px;
-        padding-top: 2px;
+
+.Avail_Changes_Form {
+  display: flex;
+  flex-direction: column;
+  width: 262px;
+  height: 322px;
+  margin-left: 20px;
+  padding: 20px 10px 20px;
 }
- 
-.Avail_Changes_Radio_container{
-    width: 262px;
-    height: 42px;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
- 
+
+.Avail_Changes_Heading {
+  width: 259px;
+  height: 30px;
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 20px;
+  padding-top: 2px;
 }
- 
-.Avail_Changes_Radio_container_Justify{
-    display: flex;
-    justify-content: space-between;
-    padding-top: 10px;
- 
- 
+
+.Avail_Changes_Radio_container {
+  width: 262px;
+  height: 42px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
 }
- 
-.Avail_Changes_Radio_Text{
-    width: 600%;
-    height: 21px;
-    font-family: Poppins;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    color:#686868 ;
+
+.Avail_Changes_Radio_container_Justify {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
 }
-.AvaiilRadio{
-    accent-color:#E52333;
+
+.Avail_Changes_Radio_Text {
+  width: 600%;
+  height: 21px;
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #686868;
 }
- 
-.Avail_Button_Flex{
-    width: 262px;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    gap: 20px;
-    // border: 1px solid red;
-    padding-bottom: 10%;
+.AvaiilRadio {
+  accent-color: #e52333;
 }
- 
-.Avail-btn1-Cancel{
-    width: 150px;
-    height:  40px;
-    color: #E52333;
-    border:  0.5px solid #E52333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 3.47px;
- 
+
+.Avail_Button_Flex {
+  width: 262px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 20px;
+  // border: 1px solid red;
+  padding-bottom: 10%;
 }
- 
-.Avail-btn1-Save{
-    width: 150px;
-    height:  40px;
-    color: white;
-    border:  0.5px solid #E52333;
-    border-radius: 3.47px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #E52333;
-    cursor: pointer;
- 
+
+.Avail-btn1-Cancel {
+  width: 150px;
+  height: 40px;
+  color: #e52333;
+  border: 0.5px solid #e52333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 3.47px;
 }
- 
+
+.Avail-btn1-Save {
+  width: 150px;
+  height: 40px;
+  color: white;
+  border: 0.5px solid #e52333;
+  border-radius: 3.47px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e52333;
+  cursor: pointer;
+}
+
 .react-datepicker__current-month {
-    font-size: 0.8rem; /* Adjust size */
-    font-weight: 400;
-  }
+  font-size: 0.8rem; /* Adjust size */
+  font-weight: 400;
+}
