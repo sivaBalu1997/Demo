@@ -127,6 +127,8 @@ import {
   DELETE_IMAGE_SUCCESS,
   DELETE_IMAGE_REQUEST,
   SELECTED_COLUMNS,
+  TRIGGER_FCM,
+  TRIGGERED_FCM,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -261,7 +263,12 @@ const initialProductCatalogState = {
   deleteimageloading:false,
   deleteimagesuccess:false,
   deleteimagefailure:false,
-  selectedColumns:{}
+  selectedColumns:{},
+
+  fcMEventloading:false,
+  fcMEventsuccess:false,
+  fcMEventfailure:false,
+
 
 };
 
@@ -944,6 +951,14 @@ case SELECTED_COLUMNS:
         draft.editData = [];
         draft.successImageId = "";
         break;
+        case TRIGGER_FCM:
+          draft.fcMEventloading = true;
+          
+          break;
+          case TRIGGERED_FCM:
+            draft.fcMEventloading = false;
+            break;
+            
 
       default:
     }

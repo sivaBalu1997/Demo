@@ -161,6 +161,7 @@ import {
   DELETE_IMAGE_REQUEST,
   SELECTED_COLUMNS,
   TRIGGER_FCM,
+  TRIGGERED_FCM,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -997,3 +998,7 @@ export const triggerFcm = (payload)=>({
   payload:payload
 
 })
+export const triggeredFcm = (response) => ({
+  type: TRIGGERED_FCM,
+  payload: response,
+});

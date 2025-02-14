@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./PrimaryDetailsReviewpage.scss";
 import axios from "axios";
-import edit from "../../../assets/images/edit.png";
+// import edit from "../../../assets/images/edit.png";
+import edit from "../../../assets/svg/editimg.svg";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Step2 from "../../../components/productCatalog/Step2/Step2";

@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import "./Step3Review.scss";
-import Edit from "../../../assets/images/edit.png";
+// import Edit from "../../../assets/images/edit.png";
+import Edit from "../../../assets/svg/editimg.svg";
+
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { Link } from "react-router-dom";
