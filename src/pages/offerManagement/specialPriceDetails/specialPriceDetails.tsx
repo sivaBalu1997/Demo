@@ -227,7 +227,7 @@ const SpecialPriceDetails = () => {
   const [parentId, setParentId] = useState("");
   const [subCatagoryId, setSubCatagoryId] = useState([]);
 useEffect(()=>{
-if(OfferlistData1.length>0){
+if(OfferlistData1?.length>0){
   setOfferlistData(OfferlistData1)
 }
 },[OfferlistData1])
