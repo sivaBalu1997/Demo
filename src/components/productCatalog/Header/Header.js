@@ -33,14 +33,24 @@ const Header = () => {
       (state) => state?.auth.restaurantDetails
     );
   const syncByFcm=()=>{
+
+    const cuurentMenuTypes=restaurantDetails.orderTypes?.filter((type)=>{
+      return type.typeGroup!=="I"
+    }).map((type)=>{
+      return type.typeGroup!=="I" && type.typeName
+    })
+
    
-      // dispatch(triggerFcm({
-      //   topic: merchantContext.topicToSubscribe,
-      //   eventName: 'MENU_UPDATE',
-      //   locationId: merchantContext.locationId,
-      //   type: menuVieworderTypes?.[0].typeName,
-      // }))
-console.log({restaurantDetails});
+      dispatch(triggerFcm({
+        topic:restaurantDetails.id, // restaurantDetails.topicToSubscribe,
+        eventName: 'MENU_UPDATE',
+        locationId: restaurantDetails.id,
+        updateMenuType: cuurentMenuTypes,
+        sendToDefaultDeviceOnly:false
+
+      }))
+
+
 
 
      
