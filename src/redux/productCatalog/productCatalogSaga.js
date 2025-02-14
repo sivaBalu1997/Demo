@@ -68,6 +68,7 @@ import {
   getItemCodeValiadtion,
   deleteimageSuccess,
   deleteimageFailure,
+  triggeredFcm,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -625,7 +626,17 @@ function* addMockDataHiddenSaga(action) {
 function* triggerFcmSaga(action) {
   try {
     yield put({ type: UPDATE_TRIGGER_FCM, payload: true })
+    
     const response = yield call(triggerFcmUrl,action.payload);
+    if (response) {
+      yield put(
+        triggeredFcm({
+          message: response.data,
+          
+        })
+      );
+     
+    }
     yield put({ type: UPDATE_TRIGGER_FCM ,payload:false})
    
   } catch (err) {

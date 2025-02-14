@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./SliderUpdated.scss";
-import Pen from "../../../assets/images/edit 1.png";
-import Eye from "../../../assets/images/eye-off.png";
+import Pen from "../../../assets/svg/editimg.svg";
+import Eye from "../../../assets/svg/eyecloseimg.svg";
 import Bin from "../../../assets/images/trash-2.png";
 import EyeModal from "../EyeModal/EyeModal";
 import Trash from "../Trash/Trash";

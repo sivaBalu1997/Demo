@@ -32,6 +32,10 @@ const Header = () => {
   const restaurantDetails = useSelector(
       (state) => state?.auth.restaurantDetails
     );
+     const fcMEventloading = useSelector(
+        (state) => state.productCatalog?.fcMEventloading
+      );
+    
   const syncByFcm=()=>{
 
     const cuurentMenuTypes=restaurantDetails.orderTypes?.filter((type)=>{
@@ -69,18 +73,31 @@ const Header = () => {
       </div>
       <div style={{display:'flex',justifyContent:'space-between'}}>
       <div
-        className="sync-Container"
+      className={fcMEventloading ? "sync-Container-loading" : "sync-Container"}
+        
         onClick={syncByFcm}
       >
         {/* <p className="Add-Item-Heading-Plus">+</p> */}
 
-        <span className="sync-icon">
-        <Icon/>
-        </span>
-        <p className="Add-Item-Heading-header">Sync</p>
+
+        {
+          !fcMEventloading?<>
+          <span className="sync-icon">
+          <Icon/>
+          </span>
+          <p   Add-Item-Heading-header >
+            Sync
+           
+            </p>
+          </>
+          :<div className="reviewLoaders"></div>
+        }
+
+       
       </div>
       <div
         onClick={() => handleClick()}
+      
         className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"}
       >
         {/* <p className="Add-Item-Heading-Plus">+</p> */}
