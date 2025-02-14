@@ -1048,8 +1048,8 @@ const PrimaryPage = () => {
                           <img
                             src={info}
                             alt="info icon"
-                            width={20}
-                            height={20}
+                            width={24}
+                            height={24}
                           />
                         </div>
                       </TooltipMsg>
@@ -1160,7 +1160,8 @@ const PrimaryPage = () => {
                 <div className="Primary-page-InputFields">
                   {" "}
                   <LableComponent lable="Item Code" />
-                  <div className="Primary-Page-inputfiled-and-tooltip">
+                  <div className="Primary-Page-inputfiled-and-tooltip-itemcode">
+                    <div style={{ width: "20.2vw" ,height:"auto"}}>
                     <Controller
                       name="itemCode"
                       control={control}
@@ -1204,13 +1205,15 @@ const PrimaryPage = () => {
                           error={errors.itemCode}
                         />
                       )}
-                    />{" "}
+                    />
+                    </div>
+                    
                     <div className="tool-tip-item-code">
                       <TooltipMsg
                         message="Enter a unique 4-digit number to identify this food item."
                         styles={{
-                          marginTop: "-1rem",
-                          marginLeft: "2rem",
+                          marginTop: "-1.4rem",
+                          marginLeft: "2.5rem",
                           width: "350px",
                           height: "35px",
                           backgroundColor: "#67833E",
@@ -1225,15 +1228,15 @@ const PrimaryPage = () => {
                           marginTop: "0rem",
                           rotate: "-90deg",
                           position: "relative",
-                          left: "-2.4rem",
+                          left: "-2.5rem",
                         }}
                       >
                         <div className="Tool-item-code">
                           <img
                             src={info}
                             alt="info icon"
-                            width={20}
-                            height={20}
+                            width={24}
+                            height={24}
                           />
                         </div>
                       </TooltipMsg>
@@ -1390,7 +1393,7 @@ const PrimaryPage = () => {
                     }}
                   >
                     <div className="ToolKitchen">
-                      <img src={info} alt="info icon" width={20} height={20} />
+                      <img src={info} alt="info icon" width={24} height={24} />
                     </div>
                   </TooltipMsg>
                 </div>
@@ -1543,8 +1546,8 @@ const PrimaryPage = () => {
                             <img
                               src={info}
                               alt="info icon"
-                              width={20}
-                              height={20}
+                              width={24}
+                              height={24}
                             />
                           </div>
                         </TooltipMsg>
