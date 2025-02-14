@@ -124,11 +124,14 @@ const ItemCustomizations: React.FC<any> = () => {
   const [ModifierList, setModifierList] = useState<Modification[]>([]);
 
   useEffect(() => {
+    if(ListOfmodifier?.length>0)
+    {
     const filtered = ListOfmodifier?.filter((modifier: any) =>
-      modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
+      modifier?.modifierName?.toLowerCase().startsWith(searchQuery?.toLowerCase())
     );
 
     setModifierList(filtered);
+  }
   }, [ListOfmodifier, searchQuery]);
 
   const initialModificationValue = [
@@ -781,7 +784,7 @@ const ItemCustomizations: React.FC<any> = () => {
     if (searchQuery.length >= 1) {
       setShowSearchList(true);
       setSearchClicked(true);
-      dispatch(getModifierRequest({ name: searchQuery, locationId }));
+      
     }
   };
 

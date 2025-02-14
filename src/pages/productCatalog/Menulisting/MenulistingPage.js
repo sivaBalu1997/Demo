@@ -36,7 +36,9 @@ import {
   selectedColumnsCarryData,
   selectedMockDataRequest,
   storeMockDataRequest,
+  getModifierRequest,
 } from "redux/productCatalog/productCatalogActions";
+
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
 
@@ -46,6 +48,9 @@ export const MenulistingPage = () => {
   const menuData = useSelector((state) => state.productCatalog?.menuData);
   const listingobjects = useSelector(
     (state) => state.productCatalog?.selectedColumns
+  );
+  const locationId = useSelector(
+    (state) => state.auth.selectedBranch?.id
   );
 
   const [listingobject, setlistingobject] = useState();
@@ -339,6 +344,7 @@ export const MenulistingPage = () => {
 
   useEffect(() => {
     dispatch(removeDataRequest());
+    dispatch(getModifierRequest({ name: '', locationId }));
   }, []);
 
   const locationid = useSelector((state) => state.auth.selectedBranch?.id);
