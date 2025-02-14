@@ -401,7 +401,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           price: 0,
           ...(editData?.length && {
             inActiveUntil:
-              prizingDetail?.normalForm?.pickupDetails?.inActiveUntil || null,
+              prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split(".")[0] || null,
           }),
         });
         setDayPickup([]);
@@ -423,7 +423,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           ],
           ...(editData?.length && {
             inActiveUntil:
-              prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil || null,
+              prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split(".")[0] || null,
           }),
         });
         setMealTypes({});
@@ -443,7 +443,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             ],
             ...(editData?.length && {
               inActiveUntil:
-                prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil ||
+                prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(".")[0] ||
                 null,
             }),
           },
