@@ -161,8 +161,6 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -394,7 +392,6 @@ const ItemCustomizations: React.FC<any> = () => {
 
         return prevIds.filter((id) => id !== "");
       });
-      console.log({updated})
       return updated;
     });
   };
@@ -552,16 +549,16 @@ const ItemCustomizations: React.FC<any> = () => {
   ) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
 
-    if (newModifier[index] && EnableOrnot) {
-      const baseValue = selectionType === "Mandatory" ? 1 : 0;
+    const modifierInput = newModifier[index][field] == 0 ? 1 : newModifier[index][field]
 
+    if (newModifier[index] && EnableOrnot && modifications[index]?.modifierOptions?.length > 1 && (modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1)) {
+      const baseValue = selectionType === "Mandatory" ? 1 : 0;
       newModifier[index][field] =
         (parseInt(
           newModifier[index][field]?.toString() || baseValue.toString(),
           10
         ) || baseValue) + 1;
     }
-
     setModifications(newModifier);
   };
 
@@ -572,7 +569,7 @@ const ItemCustomizations: React.FC<any> = () => {
   ) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
 
-    if (newModifier[index] && EnableOrnot) {
+    if (newModifier[index] && EnableOrnot && newModifier[index][field] > 0) {
       const currentValue =
         parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
 
@@ -591,6 +588,8 @@ const ItemCustomizations: React.FC<any> = () => {
           (opt: any, optIdx: any) => optIdx !== optIndex
         );
 
+        const selectionType = modifications[modIndex]?.selectionType
+
         const isModifierChanged =
           mod.modifierId !== "" &&
           mod.modifierOptions.length !== updatedModifierOptions.length;
@@ -599,6 +598,8 @@ const ItemCustomizations: React.FC<any> = () => {
           ...mod,
           modifierOptions: updatedModifierOptions,
           isModifierChanged: isModifierChanged,
+          maxSelection : 1,
+          minSelection : selectionType === 'Mandatory' ? 1 : 0 
         };
       }
       return mod;
@@ -660,7 +661,7 @@ const ItemCustomizations: React.FC<any> = () => {
     }
 
     setIsDragging(false);
-  };
+  }; 
   const clearAll = () => {
     setModifications((prevModifications: any) =>
       prevModifications.map((modification: any) => ({
@@ -1952,7 +1953,7 @@ setModifications((prev: any) => {
                                   name="minSelection"
                                   onChange={(e) => {
                                     const value = e.target.value;
-                                    if(e.target.value.length<=2){
+                                    if(e.target.value.length<=2 && modifications[modIndex]?.modifierOptions?.length >= e.target.value){
                                       handleModifierChange(modIndex, e);
                                     }
 
@@ -2048,7 +2049,7 @@ setModifications((prev: any) => {
                                   }
                                   name="maxSelection"
                                   onChange={(e) =>{
-                                    if(e.target.value.length<=2){
+                                    if(e.target.value?.length<=2 && modifications[modIndex]?.modifierOptions?.length >= e.target.value){
                                     handleModifierChange(modIndex, e)
                                     }
                                   }
