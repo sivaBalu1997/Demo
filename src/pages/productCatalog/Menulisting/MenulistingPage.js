@@ -206,7 +206,7 @@ export const MenulistingPage = () => {
     (state) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
-  const nameOfOrderTypes = selectedBranch.orderTypes
+  const nameOfOrderTypes = selectedBranch?.orderTypes
     ?.filter((item) => item.isEnabled)
     .map((item) => item.typeName);
 
