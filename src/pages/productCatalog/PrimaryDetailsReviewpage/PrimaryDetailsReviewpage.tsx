@@ -610,6 +610,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       isEnabled: dineInDetails?.Enabled===true||dineInDetails?.Enabled===1?1:0, 
       isNotHide:dineInDetails && dineInDetails?.price && parseFloat(dineInDetails?.price) > 0.00 ? 1 : 0,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
+      
+      inActiveUntil: dineInDetails?.inActiveUntil ? dineInDetails.inActiveUntil.split(".")[0] : null,
+
       availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
@@ -625,6 +628,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
       isNotHide: pickupDetails && pickupDetails?.price && parseFloat(pickupDetails?.price) > 0.00 ? 1 : 0,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
+      inActiveUntil: pickupDetails?.inActiveUntil ? pickupDetails.inActiveUntil.split(".")[0] : null,
+
       availabilities: pickupDetails.availabilities?.map((availability: any) => ({
         ...availability,
         availabilityDays:
@@ -637,6 +642,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     deliveryDetails && {
       ...deliveryDetails,
       isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
+      inActiveUntil: deliveryDetails?.inActiveUntil ? deliveryDetails.inActiveUntil.split(".")[0] : null,
+
       isNotHide:  deliveryDetails && deliveryDetails?.price && parseFloat(deliveryDetails?.price) > 0.00 ? 1 : 0,
       availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
         ...availability,
@@ -653,6 +660,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           ...detail,
           isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
           isNotHide:detail && detail?.price && parseFloat(detail?.price) > 0.00 ? 1 : 0,
+          inActiveUntil: detail?.inActiveUntil ? detail.inActiveUntil.split(".")[0] : null,
+
           availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
             availabilityDays:
@@ -675,6 +684,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   // ].filter(Boolean);
 
+  console.log({combinedDetails});
+  
  
   const formatFirstNameUppercase = (fullName: string) => {
     if (!fullName.trim()) return ''; // Handle empty input gracefully
