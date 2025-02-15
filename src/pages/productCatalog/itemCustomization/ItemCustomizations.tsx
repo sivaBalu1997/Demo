@@ -1937,6 +1937,7 @@ setModifications((prev: any) => {
                                 <input
                                   type="number"
                                   placeholder=""
+                                  onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                   className={
                                     modifications[modIndex]?.selectionType ===
                                     "Optional"
@@ -2038,6 +2039,7 @@ setModifications((prev: any) => {
                                 <input
                                   type="number"
                                   placeholder=""
+                                  onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                   className="input3ItemCustomizations"
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   value={
@@ -2109,6 +2111,7 @@ setModifications((prev: any) => {
                                   type="number"
                                   className="input3ItemCustomizations-free"
                                   name="freeCustomization"
+                                  onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   value={
                                     modifications[modIndex]
