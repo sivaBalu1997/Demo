@@ -178,7 +178,7 @@ const Step3Review: React.FC = () => {
                   {elem?.selectedValue?.length
                     ? elem.selectedValue.map((e: any, i: any) =>
                       i !== elem?.selectedValue?.length - 1 ? e + "," : e
-                    ).join("")
+                    ).join(" ")
                     : "N/A"}
                 </h3>
                 <div className="Step-3-Review-Stream-Modification-container">

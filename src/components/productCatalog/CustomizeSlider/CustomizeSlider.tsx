@@ -275,6 +275,11 @@ const CustomizeSlider = () => {
       }
     }, 100); // Small delay to ensure accurate measurement
   }, []); //
+  const handleWheel = (event: any) => {
+    event.target.blur(); // Removes focus to prevent unintended changes
+    event.preventDefault();
+  };
+
 
   return (
     <div
@@ -353,6 +358,7 @@ const CustomizeSlider = () => {
                           <input
                             className="input-subitem-field"
                             type="text"
+                            onWheel={handleWheel}
                             value={subitem.price || ""} // Display an empty string if the value is null/undefined
                             disabled={!subitem.isEnabled}
                             onChange={(e) => {

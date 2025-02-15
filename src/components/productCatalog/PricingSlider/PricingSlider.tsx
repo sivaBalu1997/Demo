@@ -183,6 +183,11 @@ const PricingSlider: any = ({}) => {
     }
     return stringValue; // No decimals, return as is
   };
+  const handleWheel = (event: any) => {
+    event.target.blur(); // Removes focus to prevent unintended changes
+    event.preventDefault();
+  };
+
 
   return (
     <div className="PricingSlider-Container" >
@@ -249,6 +254,7 @@ const PricingSlider: any = ({}) => {
                         type="number"
                         className="Priceing-input-field"
                         placeholder={`${Pricesymbol}0.00`}
+                        onWheel={handleWheel}
                         disabled={!enableOrNot}
                         onChange={(e) => {
                           const value = e.target.value;
