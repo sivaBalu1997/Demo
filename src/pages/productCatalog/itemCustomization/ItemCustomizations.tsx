@@ -599,7 +599,8 @@ const ItemCustomizations: React.FC<any> = () => {
           modifierOptions: updatedModifierOptions,
           isModifierChanged: isModifierChanged,
           maxSelection : 1,
-          minSelection : selectionType === 'Mandatory' ? 1 : 0 
+          minSelection : selectionType === 'Mandatory' ? 1 : 0, 
+          freeCustomization : 0
         };
       }
       return mod;

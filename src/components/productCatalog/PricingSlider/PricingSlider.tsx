@@ -267,6 +267,7 @@ const PricingSlider: any = ({}) => {
                             );
                           }
                         }}
+                        // onWheel={(e) => (e.target as HTMLInputElement).blur()} 
                         value={price.price || ""}
                       />
                     </div>
