@@ -434,21 +434,15 @@ const ItemCustomizations: React.FC<any> = () => {
               isEnabled: true,
               cost: '',
               modifierOptionId: "",
-              isModifierOptionChanged: true,
+              isModifierOptionChanged: false,
             };
 
             const newModifierOptions = [...mod.modifierOptions, newOption];
-            console.log("modifier length",mod.modifierOptions?.length);
-            console.log("modifier length now",newModifierOptions?.length);
-            
-            
 
             return {
               ...mod,
               modifierOptions: newModifierOptions,
-              
               isModifierChanged: mod.modifierId !== "",
-
             };
           }
           return mod;
@@ -547,28 +541,6 @@ const ItemCustomizations: React.FC<any> = () => {
     }
   };
 
-  // const incrementSpinner = (
-  //   index: number,
-  //   field: keyof Modification,
-  //   EnableOrnot: boolean,
-  //   selectionType: "Mandatory" | "Optional"
-  // ) => {
-  //   const newModifier = JSON.parse(JSON.stringify(modifications));
-
-  //   const modifierInput = newModifier[index][field] == 0 ? 1 : newModifier[index][field]
-
-  //   if (newModifier[index] && EnableOrnot && modifications[index]?.modifierOptions?.length > 1 && (modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1)) {
-  //     const baseValue = selectionType === "Mandatory" ? 1 : 0;
-  //     newModifier[index][field] =
-  //       (parseInt(
-  //         newModifier[index][field]?.toString() || baseValue.toString(),
-  //         10
-  //       ) || baseValue) + 1;
-  //   }
-  //   setModifications(newModifier);
-  // };
-
-
   const incrementSpinner = (
     index: number,
     field: keyof Modification,
@@ -576,27 +548,19 @@ const ItemCustomizations: React.FC<any> = () => {
     selectionType: "Mandatory" | "Optional"
   ) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
-  
-    const modifierInput = newModifier[index][field] == 0 ? 1 : newModifier[index][field];
-  
-    if (
-      newModifier[index] &&
-      EnableOrnot &&
-      modifications[index]?.modifierOptions?.length > 1 &&
-      modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1
-    ) {
+
+    const modifierInput = newModifier[index][field] == 0 ? 1 : newModifier[index][field]
+
+    if (newModifier[index] && EnableOrnot && modifications[index]?.modifierOptions?.length > 1 && (modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1)) {
       const baseValue = selectionType === "Mandatory" ? 1 : 0;
-      const currentValue =
-        parseInt(newModifier[index][field]?.toString() || baseValue.toString(), 10) ||
-        baseValue;
-  
-      // Ensure value does not exceed 99
-      newModifier[index][field] = Math.min(currentValue + 1, 99);
+      newModifier[index][field] =
+        (parseInt(
+          newModifier[index][field]?.toString() || baseValue.toString(),
+          10
+        ) || baseValue) + 1;
     }
-  
     setModifications(newModifier);
   };
-  
 
   const decrementSpinner = (
     index: number,
