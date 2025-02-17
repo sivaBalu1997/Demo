@@ -21,25 +21,9 @@ const SummaryBox = ({ summaryTitle, boxValue, toolTipMessage, isMonetary }: Summ
     // const newCustomerSizeBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.newCustomerSizeLoading)
     // const repeatCustomerCountBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.customerSizeloading)
     const [currencySymbol, setCurrencySymbol] = useState(countryCode === "US" ? '$' : '₹');
-    // useEffect(() => {
-    //     setCurrencySymbol(countryCode === "US" ? '$' : '₹');
-    // }, [countryCode]);
-    // console.log("4444", { currencySymbol })
     const [showSummaryBoxToolTip, setShowSummaryBoxToolTip] = useState<boolean>(false);
-
-    // const isLoading = dailyCheckInBoxAPIReduxLoader && dailyGuestBoxAPIReduxloader && dailyCancellationBoxAPIReduxLoader && newCustomerSizeBoxAPIReduxLoader && repeatCustomerCountBoxAPIReduxLoader;
-    // if (isLoading) {
-    //     return <ShimmerSummaryBox />;
-    // }
-    // if (summaryTitle && boxValue) {
-    //     return <ShimmerSummaryBox />;
-    console.log("5555", { boxValue })
-    // }
     return (
         <div className="summary-box">
-            {/* <h2>{isMonetary ? currencySymbol : ""}{boxValue || 0}</h2> */}
-            {/* <h2>{isMonetary ? `${currencySymbol}${boxValue}` : boxValue}</h2> */}
-            {/* <h2>{isMonetary ? `${currencySymbol}${boxValue}` : (boxValue)}</h2> */}
             <h2>{isMonetary ? `${currencySymbol}${boxValue}` : (boxValue)}</h2>
             <div className="label-tooltip-container">
                 <h3>{summaryTitle}</h3>

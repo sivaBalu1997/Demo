@@ -276,7 +276,7 @@ export const getHourlyGuests = (hourlyGuestsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/hourlyGuests?locationId=${hourlyGuestsPayload?.locationid}&startDate=${hourlyGuestsPayload?.startDate}&endDate=${hourlyGuestsPayload?.endDate}&page=${hourlyGuestsPayload?.tablePageNo}&size=${hourlyGuestsPayload?.tableRecordLimit}`,
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/hourlyGuests?locationId=${hourlyGuestsPayload?.locationid}&startDate=${hourlyGuestsPayload?.startDate}&endDate=${hourlyGuestsPayload?.endDate}&page=${hourlyGuestsPayload?.tablePageNo || null}&size=${hourlyGuestsPayload?.tableRecordLimit || null}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

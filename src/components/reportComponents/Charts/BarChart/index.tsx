@@ -31,7 +31,7 @@ interface BarchartProps {
   xAxislabelColor?: string;
   BatChartTitle?: string;
   TitleColor?: string;
-  barChartLoading?: any;
+  barChartLoading?: boolean;
 }
 
 const BarChart: React.FC<BarchartProps> = ({

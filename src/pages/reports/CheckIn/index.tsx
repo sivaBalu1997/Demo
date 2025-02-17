@@ -19,20 +19,6 @@ import "./style.scss";
 import { customerDetailsRequest, customerSizeRequest, dailyCancellationRequest, dailyCheckInRequest, dailyCheckInStatusRequest, dailyGuestRequest, dailyHourlyCheckInRequest, dayCheckInRequest, dayOverDayGuestRequest, hourlyGuestsRequest, liveCheckInStatusRequest, newCustomerSizeRequest, partySizeRequest, peakSummaryRequest } from "redux/newReports/newReportsActions";
 
 
-
-// {
-//   reservation_time: string;
-//   channel_name: string;
-//   count: number;
-// }[]
-
-// {
-//   x: string;
-//   y: number;
-//   type: string;
-// }[]
-
-
 declare namespace CanvasJS {
   interface ChartEventArgs {
     chart: any;
@@ -52,7 +38,7 @@ const CheckIn: React.FC = () => {
     (state: any) => state.auth?.selectedBranch || null
   );
 
-  // summary boxes data from redux :
+  // Summary boxes data from redux :
   const dailyCheckInBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyCheckInSuccess)
   const dailyCheckInResponseSuccess = useSelector((state: any) => state?.newReports?.dailyCheckInResponseSuccess)
   const dailyGuestBoxAPIRedux = useSelector((state: any) => state?.newReports?.dailyGuestSuccess)
@@ -64,13 +50,33 @@ const CheckIn: React.FC = () => {
   const repeatCustomerCountBoxAPIRedux = useSelector((state: any) => state?.newReports?.customerSizeSuccess)
   const customerSizeSuccessResponse = useSelector((state: any) => state?.newReports?.customerSizeSuccessResponse)
 
-  //Charts data from redux :
+  // Charts data from redux :
   const dailyHourlyGuestAPIRedux = useSelector((state: any) => state?.newReports?.dailyHourlyGuestsSuccess)
+  const dailyHourlyGuestAPIReduxLoader = useSelector((state: any) => state?.newReports?.dailyHourlyGuestsLoading)
   const dailyHourlyCheckInAPIRedux = useSelector((state: any) => state?.newReports?.dailyHourlyCheckInSuccess)
+  const dailyHourlyCheckInAPIReduxLoader = useSelector((state: any) => state?.newReports?.dailyHourlyCheckInLoading)
   const dayOverDayGuestAPIRedux = useSelector((state: any) => state?.newReports?.dayOverDayGuestSuccess)
+  const dayOverDayGuestAPIReduxLoader = useSelector((state: any) => state?.newReports?.dayOverDayGuestLoading)
   const dailyDineInTimeChartAPIRedux = useSelector((state: any) => state?.newReports?.peakSummarySuccess)
+  const dailyDineInTimeChartAPIReduxLoader = useSelector((state: any) => state?.newReports?.peakSummaryLoading)
   const dailyPartySizeDistributionAPIRedux = useSelector((state: any) => state?.newReports?.partySizeSuccess)
+  const dailyPartySizeDistributionAPIReduxLoader = useSelector((state: any) => state?.newReports?.partySizeLoading)
   const weeklyTrendAPIRedux = useSelector((state: any) => state?.newReports?.dayCheckInSuccess)
+  const weeklyTrendAPIReduxLoader = useSelector((state: any) => state?.newReports?.dayCheckInloading)
+  // console.log("8888", { dailyHourlyGuestAPIRedux, dailyHourlyCheckInAPIRedux, dayOverDayGuestAPIRedux, dailyDineInTimeChartAPIRedux, dailyPartySizeDistributionAPIRedux, weeklyTrendAPIRedux })
+
+  // Tables data from redux :
+  const repeatCustomerAPIRedux = useSelector((state: any) => state?.newReports?.customerDetailsSuccess)
+  const repeatCustomerAPIReduxLoader = useSelector((state: any) => state?.newReports?.customerDetailsLoading)
+
+  // console.log({ repeatCustomerAPIRedux })
+  const liveCheckInStatusAPIRedux = useSelector((state: any) => state?.newReports?.liveCheckInStatusSuccess)
+  const liveCheckInStatusAPIReduxLoader = useSelector((state: any) => state?.newReports?.liveCheckInStatusLoading)
+  const dailyCheckInDetailsAPIRedux = useSelector((state: any) => state?.newReports?.dailyCheckInStatusSuccess)
+  const dailyCheckInDetailsAPIReduxLoader = useSelector((state: any) => state?.newReports?.dailyCheckInStatusLoading)
+  // console.log("2222", { dailyCheckInDetailsAPIRedux, liveCheckInStatusAPIRedux })
+  // console.log("9999", { repeatCustomerAPIRedux, liveCheckInStatusAPIRedux, dailyCheckInDetailsAPIRedux })
+
 
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
   const [state, setState] = useState<DateRangeStateInterface>({
@@ -97,7 +103,7 @@ const CheckIn: React.FC = () => {
   const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
 
   // const [totalPageNoReservationData, setTotalPageNoReservationData] = useState<number>(5)
-  // const [currentPageReservationData, setCurrentPageReservationData] = useState<number>(1)
+  const [liveCheckInStatusDataCurrentPage, setLiveCheckInStatusDataCurrentPage] = useState<number>(1)
 
   useEffect(() => {
     if (getLocationDates) {
@@ -132,7 +138,9 @@ const CheckIn: React.FC = () => {
   }, [getLocationDates])
 
   useEffect(() => {
+    console.log("CCCC")
     if (getLocationDates) {
+      console.log("DDDD")
       dispatch(
         hourlyGuestsRequest({
           ...getLocationDates,
@@ -208,7 +216,7 @@ const CheckIn: React.FC = () => {
     if (getLocationDates) {
       dispatch(
         customerDetailsRequest({
-          ...getLocationDates,
+          ...getLocationDates, tablePageNo: currentPageRepeatCustomers, tableRecordLimit: RECORDS_PER_PAGE_LIMIT
         })
       )
     }
@@ -228,7 +236,7 @@ const CheckIn: React.FC = () => {
     if (getLocationDates) {
       dispatch(
         liveCheckInStatusRequest({
-          ...getLocationDates,
+          ...getLocationDates, tablePageNo: liveCheckInStatusDataCurrentPage, tableRecordLimit: RECORDS_PER_PAGE_LIMIT
         })
       )
     }
@@ -238,7 +246,7 @@ const CheckIn: React.FC = () => {
     if (getLocationDates) {
       dispatch(
         dailyCheckInStatusRequest({
-          ...getLocationDates,
+          ...getLocationDates, tablePageNo: currentPageDailyCheckInDetails, tableRecordLimit: RECORDS_PER_PAGE_LIMIT
         })
       )
     }
@@ -248,28 +256,28 @@ const CheckIn: React.FC = () => {
 
 
   const transformDataByChannelForStackBar = (
-    data: { channel_name: string; reservation_time: string; count: number }[],
-    channelName: string
+    data: { channelName: string; reservationTime: string; count: number }[],
+    channelName: string | null
   ) => {
     return data
-      .filter((point) => point.channel_name === channelName)
-      .map((point) => ({
-        label: point.reservation_time,
-        y: point.count,
+      ?.filter((point) => point?.channelName === channelName)
+      ?.map((point) => ({
+        label: point?.reservationTime,
+        y: point?.count,
       }));
   };
 
   const onlineData = transformDataByChannelForStackBar(
-    checkInD["Daily Hourly CheckIn"],
+    dailyHourlyCheckInAPIRedux?.content,
     "ONLINE"
   );
   const merchantData = transformDataByChannelForStackBar(
-    checkInD["Daily Hourly CheckIn"],
+    dailyHourlyCheckInAPIRedux?.content,
     "MERCHANT"
   );
   const emptyTypeData = transformDataByChannelForStackBar(
-    checkInD["Daily Hourly CheckIn"],
-    "EMPTY"
+    dailyHourlyCheckInAPIRedux?.content,
+    null
   );
 
   const MockchartOptions: {
@@ -358,7 +366,7 @@ const CheckIn: React.FC = () => {
       },
       {
         type: "stackedColumn",
-        name: "Empty",
+        name: "Null",
         showInLegend: true,
         dataPoints: emptyTypeData,
       },
@@ -366,19 +374,143 @@ const CheckIn: React.FC = () => {
     backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
   };
 
-  const transformDataForSplineCurveAreaChart = (data: {
-    x: string;
-    y: number;
-    type: string;
-  }[], typeParam: string) => {
-    return data?.filter((dataForFiltering) => dataForFiltering.type === typeParam)?.map((mappingFilterData) => ({
-      x: new Date(mappingFilterData?.x),
-      y: mappingFilterData?.y
-    }))
-  }
+  const dailyHourlyGuestChartDataMerchant = transformDataByChannelForStackBar(dailyHourlyGuestAPIRedux?.content, "MERCHANT")
+  const dailyHourlyGuestChartDataOnline = transformDataByChannelForStackBar(dailyHourlyGuestAPIRedux?.content, "ONLINE")
+  const dailyHourlyGuestChartDataEmpty = transformDataByChannelForStackBar(dailyHourlyGuestAPIRedux?.content, null)
 
-  const guestValues = transformDataForSplineCurveAreaChart(checkInD["Day Over Day Guests One"], "guest")
-  const checkInValues = transformDataForSplineCurveAreaChart(checkInD["Day Over Day Guests One"], "checkIns")
+
+  const dailyHourlyGuestsChartConfig: {
+    animationEnabled: boolean;
+    exportEnabled: boolean;
+    theme: string;
+    title: {
+      text: string;
+      fontSize: string;
+    };
+    axisY: {
+      title: string;
+      gridColor: string;
+    };
+    axisX: {
+      title: string;
+      gridColor: string;
+    };
+    legend: {
+      cursor: string;
+      itemclick: (e: CanvasJS.ChartEventArgs) => void;
+      horizontalAlign: string;
+      verticalAlign: string;
+      reversed: boolean;
+    };
+    toolTip: {
+      shared: boolean;
+      reversed: boolean;
+    };
+    data: {
+      type: string;
+      name: string;
+      showInLegend: boolean;
+      dataPoints: any[];
+    }[];
+    backgroundColor: string;
+  } = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: isDarkTheme ? "dark1" : "light2",
+    title: {
+      text: "Daily Hourly Guests",
+      fontSize: "28",
+    },
+    axisY: {
+      title: "Count",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    axisX: {
+      title: "Reservation Time",
+      gridColor: isDarkTheme ? "#445678" : "#cccccc",
+    },
+    legend: {
+      cursor: "pointer",
+      itemclick: (e: CanvasJS.ChartEventArgs) => {
+        if (
+          typeof e.dataSeries.visible === "undefined" ||
+          e.dataSeries.visible
+        ) {
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        e.chart.render();
+      },
+      horizontalAlign: "center",
+      verticalAlign: "bottom",
+      reversed: true,
+    },
+    toolTip: {
+      shared: true,
+      reversed: true,
+    },
+    data: [
+      {
+        type: "stackedColumn",
+        name: "Online",
+        showInLegend: true,
+        dataPoints: dailyHourlyGuestChartDataOnline,
+      },
+      {
+        type: "stackedColumn",
+        name: "Merchant",
+        showInLegend: true,
+        dataPoints: dailyHourlyGuestChartDataMerchant,
+      },
+      {
+        type: "stackedColumn",
+        name: "Null",
+        showInLegend: true,
+        dataPoints: dailyHourlyGuestChartDataEmpty,
+      },
+    ],
+    backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
+  };
+
+  // const transformDataForDayOverDayGuest = (data: {
+  //   name: string;
+  //   date: string;
+  //   guests: number;
+  // }[]) => {
+  //   return data?.map((mappingFilterData) => {
+  //     // Create a new date object using optional chaining
+  //     const date = new Date(mappingFilterData?.date);
+
+  //     // Format the date to "Jan 1 2025" if date is valid
+  //     const formattedDate = date?.toLocaleDateString('en-US', {
+  //       month: 'short',
+  //       day: 'numeric',
+  //       year: 'numeric'
+  //     });
+
+  //     return {
+  //       x: formattedDate,
+  //       y: mappingFilterData?.guests
+  //     };
+  //   });
+  // };
+
+  const transformDataForDayOverDayGuest = (data: { name: string; date: string; guests: number; }[]) => {
+    return data?.map(({ date, guests }) => {
+      const parsedDate = new Date(date); // Ensure it's a valid Date object
+      return {
+        x: parsedDate, // Use Date object instead of formatted string
+        y: guests
+      };
+    });
+  };
+
+
+
+  const guestValues = transformDataForDayOverDayGuest(dayOverDayGuestAPIRedux?.content)
+  // console.log("PPPP", { guestValues })
+  // const checkInValues = transformDataForDayOverDayGuest(checkInD["Day Over Day Guests One"], "checkIns")
   // console.log("4444", { guestValues, checkInValues })
 
   const MockchartOptionsSpline: {
@@ -424,11 +556,11 @@ const CheckIn: React.FC = () => {
       fontSize: "28",
     },
     axisY: {
-      title: "Count",
+      title: "Guest Count",
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     axisX: {
-      title: "Reservation Time",
+      title: "Reservation Date",
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     legend: {
@@ -454,16 +586,12 @@ const CheckIn: React.FC = () => {
     },
     data: [
       {
-        type: "splineArea",
+        type: "column",
+        // type: "spline",
+        // type: "splineArea",
         name: "Guests",
         showInLegend: true,
         dataPoints: guestValues,
-      },
-      {
-        type: "splineArea",
-        name: "CheckIns",
-        showInLegend: true,
-        dataPoints: checkInValues,
       },
     ],
     backgroundColor: isDarkTheme ? "#222b3c" : "#ffffff",
@@ -481,7 +609,7 @@ const CheckIn: React.FC = () => {
     }
   });
 
-  const dataForDineInTime = checkInD["Daily Dine In Time"]?.map((data) => ({ y: data?.["Dine Tine"], label: data?.party_size }))
+  const dataForDineInTime = dailyDineInTimeChartAPIRedux?.content?.map((data: { actualDineInTime: number, partySize: number }) => ({ y: data?.actualDineInTime, label: data?.partySize }))
 
   const MockchartOptionsDineInTime: {
     animationEnabled: boolean;
@@ -526,11 +654,11 @@ const CheckIn: React.FC = () => {
       fontSize: "28",
     },
     axisY: {
-      title: "Count",
+      title: "Actual Dine In Time",
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     axisX: {
-      title: "Reservation Time",
+      title: "Party Size",
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     legend: {
@@ -568,9 +696,9 @@ const CheckIn: React.FC = () => {
   // console.log({ peakData, offPeakData })
 
 
-  const partySizeDistributionValue = checkInD["Party Size Distributions"]?.map((data) => ({
-    y: data?.["count"],
-    label: data?.["Party Size"]
+  const partySizeDistributionValue = dailyPartySizeDistributionAPIRedux?.content?.map((data: { count: number, totalGuests: number }) => ({
+    y: data?.count,
+    label: data?.totalGuests
   }))
 
   const MockchartOptionsPartySizeDistribution: {
@@ -620,7 +748,7 @@ const CheckIn: React.FC = () => {
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     axisX: {
-      title: "Reservation Time",
+      title: "Party Size",
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     legend: {
@@ -674,12 +802,12 @@ const CheckIn: React.FC = () => {
     return formatted;
   };
 
-  const XAvgSalesinDolla = S["Day of the Week"].map(
-    (item) => item["Average Sales in Dollars"]
+  const XAvgSalesinDolla = weeklyTrendAPIRedux?.content?.map(
+    (item: { totalCheckins: number }) => item?.totalCheckins
   );
-  const YdayofTheWeekDA = S["Day of the Week"].map((item) => item.day);
+  const YdayofTheWeekDA = weeklyTrendAPIRedux?.content?.map((item: { day: string }) => item?.day);
 
-  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
+  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"],
     startDate: Date,
     endDate: Date) => {
     setState((prev) => ({
@@ -700,7 +828,6 @@ const CheckIn: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -752,18 +879,21 @@ const CheckIn: React.FC = () => {
           </div>
         </div>
         <div className="canva-stacked-bar-container">
-          <ReusableCanvaChart options={MockchartOptions} />
+          <ReusableCanvaChart options={MockchartOptions} loader={dailyHourlyCheckInAPIReduxLoader} ChartTitle="Daily Hourly CheckIn" />
         </div>
         <div className="canva-stacked-bar-container">
-          <ReusableCanvaChart options={MockchartOptionsSpline} />
+          <ReusableCanvaChart options={MockchartOptionsSpline} loader={dayOverDayGuestAPIReduxLoader} ChartTitle="Day Over Day Guests" />
         </div>
         {/* MockchartOptionsDineInTime */}
         <div className="canva-stacked-bar-container">
-          <ReusableCanvaChart options={MockchartOptionsDineInTime} />
+          <ReusableCanvaChart options={MockchartOptionsDineInTime} loader={dailyDineInTimeChartAPIReduxLoader} ChartTitle="Daily Dine In Time" />
         </div>
         {/* MockchartOptionsPartySizeDistribution */}
         <div className="canva-stacked-bar-container">
-          <ReusableCanvaChart options={MockchartOptionsPartySizeDistribution} />
+          <ReusableCanvaChart options={MockchartOptionsPartySizeDistribution} loader={dailyPartySizeDistributionAPIReduxLoader} ChartTitle="Party Size Distribution" />
+        </div>
+        <div className="canva-stacked-bar-container">
+          <ReusableCanvaChart options={dailyHourlyGuestsChartConfig} loader={dailyHourlyGuestAPIReduxLoader} ChartTitle="Daily Hourly Guests" />
         </div>
         <div className="day-of-the-week">
           <div className="day-of-the-week-inner">
@@ -798,6 +928,7 @@ const CheckIn: React.FC = () => {
               xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
               yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
               TitleColor={isDarkTheme ? "#fff" : "#000"}
+              barChartLoading={weeklyTrendAPIReduxLoader}
             />
           </div>
         </div>
@@ -805,35 +936,38 @@ const CheckIn: React.FC = () => {
           <Table
             currentPage={currentPageRepeatCustomers}
             setCurrentPage={setCurrentPageRepeatCustomers}
-            tableData={checkInD["Repeat Customers"]}
+            tableData={repeatCustomerAPIRedux?.content}
             viewType="full"
-            recordsPerPage={15}
+            recordsPerPage={RECORDS_PER_PAGE_LIMIT}
             Heading="Repeat Customers"
-            totalpageNo={totalPageNoCurrentPageRepeatCustomers}
+            totalpageNo={repeatCustomerAPIRedux?.totalPages}
+            tabledataLoading={repeatCustomerAPIReduxLoader}
           />
         </div>
         <div className="daily-checkin-table-container">
           <Table
             currentPage={currentPageDailyCheckInDetails}
             setCurrentPage={setCurrentPageDailyCheckInDetails}
-            tableData={checkInD["Daily CheckIn Details"]}
+            tableData={dailyCheckInDetailsAPIRedux?.content}
             viewType="full"
-            recordsPerPage={15}
+            recordsPerPage={RECORDS_PER_PAGE_LIMIT}
             Heading="Daily CheckIn Details"
-            totalpageNo={totalPageNoCurrentPageDailyCheckInDetails}
+            totalpageNo={dailyCheckInDetailsAPIRedux?.totalPages}
+            tabledataLoading={liveCheckInStatusAPIReduxLoader}
           />
         </div>
-        {/* <div className="daily-checkin-table-container">
+        <div className="daily-checkin-table-container">
           <Table
-            currentPage={currentPageReservationData}
-            setCurrentPage={setCurrentPageReservationData}
-            tableData={checkInD["Reservation Data"]}
+            currentPage={liveCheckInStatusDataCurrentPage}
+            setCurrentPage={setLiveCheckInStatusDataCurrentPage}
+            tableData={liveCheckInStatusAPIRedux?.content}
             viewType="full"
             recordsPerPage={15}
-            Heading="Reservation Data"
-            totalpageNo={totalPageNoReservationData}
+            Heading="Live CheckIn Status"
+            totalpageNo={liveCheckInStatusAPIRedux?.totalPages}
+            tabledataLoading={dailyCheckInDetailsAPIReduxLoader}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );

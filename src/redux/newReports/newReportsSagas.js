@@ -458,7 +458,7 @@ export function* dayCheckInRequestSaga(action) {
     try {
         const response = yield call(getDayCheckIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dayCheckInRequestSaga", { decryptedData })
+        // console.log("response of dayCheckInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dayCheckInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -476,7 +476,7 @@ export function* dailyCheckInRequestSaga(action) {
     try {
         const response = yield call(getDailyCheckIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dailyCheckInRequestSaga", { decryptedData })
+        // console.log("response of dailyCheckInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCheckInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -494,7 +494,7 @@ export function* dailyGuestRequestSaga(action) {
     try {
         const response = yield call(getDailyGuest, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dailyGuestRequestSaga", { decryptedData })
+        // console.log("response of dailyGuestRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyGuestSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -512,7 +512,7 @@ export function* dailyCancellationRequestSaga(action) {
     try {
         const response = yield call(getDailyCancellation, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dailyCancellationRequestSaga", { decryptedData })
+        // console.log("response of dailyCancellationRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCancellationSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -527,7 +527,9 @@ export function* dailyCancellationRequestSaga(action) {
 
 //  hourlyGuestsRequestSaga
 export function* hourlyGuestsRequestSaga(action) {
+    console.log("AAAA")
     try {
+        console.log("BBBB")
         const response = yield call(getHourlyGuests, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         console.log("response of hourlyGuestsRequestSaga", { decryptedData })
@@ -548,7 +550,7 @@ export function* dailyHourlyCheckInRequestSaga(action) {
     try {
         const response = yield call(getDailyHourlyCheckIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dailyHourlyCheckInRequestSaga", { decryptedData })
+        // console.log("response of dailyHourlyCheckInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyHourlyCheckInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -566,7 +568,7 @@ export function* dayOverDayGuestRequestSaga(action) {
     try {
         const response = yield call(getDayOverDayGuest, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dayOverDayGuestRequestSaga", { decryptedData })
+        // console.log("response of dayOverDayGuestRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dayOverDayGuestSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -584,7 +586,7 @@ export function* peakSummaryRequestSaga(action) {
     try {
         const response = yield call(getPeakSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of peakSummaryRequestSaga", { decryptedData })
+        // console.log("response of peakSummaryRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(peakSummarySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -602,7 +604,7 @@ export function* partySizeRequestSaga(action) {
     try {
         const response = yield call(getPartySize, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of partySizeRequestSaga", { decryptedData })
+        // console.log("response of partySizeRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(partySizeSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -620,7 +622,7 @@ export function* customerSizeRequestSaga(action) {
     try {
         const response = yield call(getCustomerSize, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of customerSizeRequestSaga", { decryptedData })
+        // console.log("response of customerSizeRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(customerSizeSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -638,7 +640,7 @@ export function* newCustomerSizeRequestSaga(action) {
     try {
         const response = yield call(getNewCustomerSize, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of newCustomerSizeRequestSaga", { decryptedData })
+        // console.log("response of newCustomerSizeRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(newCustomerSizeSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -656,7 +658,7 @@ export function* customeDetailsRequestSaga(action) {
     try {
         const response = yield call(getCustomerDetails, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of customeDetailsRequestSaga", { decryptedData })
+        // console.log("response of customeDetailsRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(customerDetailsSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -674,7 +676,7 @@ export function* liveCheckInStatusRequestSaga(action) {
     try {
         const response = yield call(getLiveCheckInStatus, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of liveCheckInStatusRequestSaga", { decryptedData })
+        // console.log("response of liveCheckInStatusRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(liveCheckInStatusSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -692,7 +694,7 @@ export function* dailyCheckInStatusRequestSaga(action) {
     try {
         const response = yield call(getDailyCheckInStatus, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dailyCheckInStatusRequestSaga", { decryptedData })
+        // console.log("response of dailyCheckInStatusRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCheckInStatusSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
