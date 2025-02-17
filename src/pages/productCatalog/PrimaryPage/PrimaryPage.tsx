@@ -685,8 +685,9 @@ const PrimaryPage = () => {
   const [isChecked, setIsChecked] = useState<boolean>(
     ItemsPrimaryDetails?.popularItem || false
   );
-
+  
   useEffect(() => {
+    setValue("popularItem", ItemsPrimaryDetails?.popularItem || false);
     setIsChecked(ItemsPrimaryDetails?.popularItem || false);
   }, [ItemsPrimaryDetails?.popularItem]);
 

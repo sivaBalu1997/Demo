@@ -805,6 +805,9 @@ const PricingDetails = () => {
   //     fetchDropDownRequest(kitchenpayload)
   //   }
   // },[])
+
+  console.log({ItemsPrimaryDetails})
+
   
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>

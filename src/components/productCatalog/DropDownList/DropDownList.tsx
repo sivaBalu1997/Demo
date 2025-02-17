@@ -311,11 +311,15 @@ const DropDownList: React.FC<DropdownProps> = ({
         return normalizedBestPair.some((b: any) => b.name === opt?.name);
       });
 
+      const dropdownName2 = dropdownName.filter((item, index, self) => 
+        index === self.findIndex((obj) => obj.name === item.name)
+      );
+
       // Update state and form values
-      setSelectedOptions(dropdownName);
+      setSelectedOptions(dropdownName2);
       setValue(
         "bestPair",
-        dropdownName?.map((opt) => opt?.name)
+        dropdownName2?.map((opt) => opt?.name)
       );
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);

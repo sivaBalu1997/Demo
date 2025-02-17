@@ -219,7 +219,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);  
+  const primarydata: any = useSelector((state: RootState) => state.primarypage.data);  
 
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
@@ -298,7 +298,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   };
 
   const [uploadedimage, setUploadedimage] = useState<any[]>(
-    fetchedprimarydata.imageUrls?.map((url) => ({ url })) || []
+    fetchedprimarydata.imageUrls?.map((url: any) => ({ url })) || []
   );
 
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>(
@@ -500,9 +500,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       )
     : undefined;
 
-  const matchedBestPair = bestPairData?.filter((bestPair: any) =>
-    primarydata?.bestPair?.includes(bestPair?.name)
-  );
+
+  const matchedBestPair = primarydata?.bestPair?.map((best: any) => {
+    return bestPairData?.find((b: any) => b.name == best)
+  }) 
+
+  // const matchedBestPair = bestPairData?.filter((bestPair: any) =>
+  //   primarydata?.bestPair?.includes(bestPair?.name)
+  // );
 
   const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
   const matchedCuisineId = matchedCuisine?.id;
@@ -683,10 +688,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //   deliveryDetails && deliveryDetails,
   //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   // ].filter(Boolean);
-
-  console.log({combinedDetails});
-  
- 
+   
   const formatFirstNameUppercase = (fullName: string) => {
     if (!fullName.trim()) return ''; // Handle empty input gracefully
 
@@ -753,10 +755,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editPrevData = useSelector(
     (state: any) => state.productCatalog.updatedPayload
   );
-
-
-
-  
 
   const editPayload = {
     itemId: editData[0]?.itemId,
@@ -894,7 +892,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           return imageExtensions.includes(fileExtension);
         };
         
-        const imageFiles = primarydata?.imageUrls?.filter((item, index) => {
+        const imageFiles = primarydata?.imageUrls?.filter((item : any, index: any) => {
           return item.file && item.file.name && isImageFile(item.file.name);
         });
               
