@@ -47,7 +47,7 @@ const SidePanel = () => {
       : null;
   const menuOptions = ["Items", "Product Catalog"];
   const reportInsightsOptions = ["Reports & Insights", "Chart JS"];
-  const offerMenuOptions = ["Offers", "Special Price"];
+  const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
 
@@ -489,7 +489,7 @@ const SidePanel = () => {
             </div>
           </div> */}
 
-          <div
+          {/* <div
            style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
             className="not-active"
             // className={
@@ -515,7 +515,7 @@ const SidePanel = () => {
                 )}
               </>
             }
-          </div>
+          </div> */}
 
           <div
           //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
