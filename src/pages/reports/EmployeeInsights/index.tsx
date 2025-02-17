@@ -5,7 +5,7 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { ReportsChartDropDown } from "components/reportComponents/ReportsChartDropDown";
 import { useDispatch, useSelector } from "react-redux";
 import { employeeStaffActivityRequest, employeeStaffDiscountRequest, employeeStaffPerformanceRequest, employeeStaffTipGratuityRequest } from "redux/newReports/newReportsActions";
-import { DateRangeStateInterface } from "interface/newReportsInterface";
+import { DateRangeStateInterface, NewTableHeader } from "interface/newReportsInterface";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
 import SidePanel from "pages/SidePanel";
@@ -18,6 +18,7 @@ import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import useSalesLocationDates from "hooks/useSalesLocationDates";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import NewTable from "components/reportComponents/NewTable";
 
 
 interface CanvaPieChartOptions {
@@ -325,6 +326,25 @@ const EmployeeInsights: React.FC = () => {
     }));
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const rowsPerPage = 15; // Set number of rows per page
+  // const totalPages = Math.ceil(mockData.length / rowsPerPage);
+  // const [loader, setLoader] = useState<boolean>(false);
+
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
+
+  const currencySymbol = countryCode === "US" ? "$" : "₹";
+
+  const newTableHeaders: NewTableHeader[] = [
+    { key: 'steward', label: `Steward`, isSortable: true, alignment: 'left' },
+    { key: 'voidedAmount', label: `Voided amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
+    { key: 'voidedItems', label: `Voided items`, isSortable: false, alignment: 'left' },
+    { key: 'voidedReasons', label: `Voided reasons`, isSortable: false, alignment: 'left' },
+  ];
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -498,6 +518,21 @@ const EmployeeInsights: React.FC = () => {
             recordsPerPage={TABLE_RECORDS_LIMIT}
             totalpageNo={employeeVoidActivityTotalPagesRedux}
             tabledataLoading={employeeVoidActivityLoading}
+          />
+        </div>
+        <div className="employee-details-container">
+          <NewTable
+            kpiTitle="Live Dine-in Orders"
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            headerData={newTableHeaders}
+            tableData={employeeVoidActivityAPIRedux && employeeVoidActivityAPIRedux?.length > 0 && employeeVoidActivityAPIRedux}
+            currentPage={currentPageEmployeeVoidActivity}
+            totalPages={employeeVoidActivityTotalPagesRedux}
+            onPageChange={setCurrentPageEmployeeVoidActivity}
+            rowsPerPage={TABLE_RECORDS_LIMIT}
+            loader={employeeVoidActivityLoading}
+          // setLoader={setLoader}
           />
         </div>
         <div className="dynamic-chart-container">
