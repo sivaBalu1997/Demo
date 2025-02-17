@@ -501,7 +501,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : undefined;
 
 
-  const matchedBestPair = primarydata?.bestPair?.map((best: any) => {
+  const matchedBestPair = primarydata?.bestPair && primarydata?.bestPair?.map((best: any) => {
     return bestPairData?.find((b: any) => b.name == best)
   }) 
 
@@ -512,7 +512,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
   const matchedCuisineId = matchedCuisine?.id;
   const matchedCategoryId = matchedCategory?.id;
-  const bestPairId = matchedBestPair?.map((m: any) => m?.id);
+  const bestPairId =  matchedBestPair && matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
   const payload = {

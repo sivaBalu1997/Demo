@@ -806,7 +806,6 @@ const PricingDetails = () => {
   //   }
   // },[])
 
-  console.log({ItemsPrimaryDetails})
 
   
   return (
