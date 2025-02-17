@@ -551,7 +551,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
     const modifierInput = newModifier[index][field] == 0 ? 1 : newModifier[index][field]
 
-    if (newModifier[index] && EnableOrnot && modifications[index]?.modifierOptions?.length > 1 && (modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1)) {
+    if (newModifier[index] && EnableOrnot &&(field=="freeCustomization"?true:modifications[index]?.modifierOptions?.length > 1) && (modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1)) {
       const baseValue = selectionType === "Mandatory" ? 1 : 0;
       newModifier[index][field] =
         (parseInt(
@@ -2145,7 +2145,7 @@ setModifications((prev: any) => {
                                       : 0
                                   }
                                   onChange={(e) =>{
-                                    if(e.target.value.length<=2){
+                                    if(e.target.value.length<=2 && modifications[modIndex]?.modifierOptions?.length >= e.target.value){
                                     handleModifierChange(modIndex, e)
                                     }
                                   }
