@@ -559,6 +559,15 @@ const ItemCustomizations: React.FC<any> = () => {
           10
         ) || baseValue) + 1;
     }
+    newModifier[index].isModifierChanged=true;
+    setUpdatedModifierIds((prevIds) => {
+      const updatedModifierId = newModifier[index].modifierId;
+      if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+        return [...prevIds, updatedModifierId].filter((id) => id !== "");
+      }
+
+      return prevIds.filter((id) => id !== "");
+    });
     setModifications(newModifier);
   };
 
@@ -577,7 +586,15 @@ const ItemCustomizations: React.FC<any> = () => {
         newModifier[index][field] = currentValue - 1;
       }
     }
+   newModifier[index].isModifierChanged=true;
+   setUpdatedModifierIds((prevIds) => {
+    const updatedModifierId = newModifier[index].modifierId;
+    if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+      return [...prevIds, updatedModifierId].filter((id) => id !== "");
+    }
 
+    return prevIds.filter((id) => id !== "");
+  });
     setModifications(newModifier);
   };
 
@@ -608,7 +625,14 @@ const ItemCustomizations: React.FC<any> = () => {
 
     const deletedOptionId =
       modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId;
-
+      setUpdatedModifierIds((prevIds) => {
+        const updatedModifierId = newModifications[index].modifierId;
+        if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId].filter((id) => id !== "");
+        }
+  
+        return prevIds.filter((id) => id !== "");
+      });
     setModifications(newModifications);
 
     // if (deletedOptionId) {

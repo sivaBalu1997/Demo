@@ -280,6 +280,7 @@ export default function productCatalogReducer(
     switch (action.type) {
       case STORE_MENU_REQUEST:
         draft.menuData = [];
+        draft.updateModifierId=[];
         // draft.addMenuLoading = true;
         draft.menuDataLoading = true;
         break;
@@ -949,6 +950,7 @@ case SELECTED_COLUMNS:
         break;
       case REMOVE_DATA_REQUEST:
         draft.editData = [];
+        draft.updateModifierId=[]
         draft.successImageId = "";
         break;
         case TRIGGER_FCM:
