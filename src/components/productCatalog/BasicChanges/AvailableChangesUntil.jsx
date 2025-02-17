@@ -14,12 +14,13 @@ const AvailabilityChangesUntil = ({
   ParentToggles,
   setcanceledChanges,
   handleOrderTypesAvail,
+  selectedTypeGroup
 }) => {
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(-1);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const [showAvailchanges, setshowAvailchanges] = useState(true);
-
+console.log({selectedtypeid})
   const [showsession, setshowsession] = useState(false);
   const [selctedDateSession, setselctedDateSession] = useState("");
   const restaurantDetails = useSelector(
@@ -301,20 +302,28 @@ const AvailabilityChangesUntil = ({
               Availability Changes Until
             </h4>
 
-            {Text.map((elem, index) => (
-              <div key={index} className="Avail_Changes_Radio_container">
-                <div className="Avail_Changes_Radio_container_Justify">
-                  <h4 className="Avail_Changes_Radio_Text">{elem}</h4>
-                  <input
-                    className="AvaiilRadio"
-                    type="radio"
-                    name="avail-radio"
-                    checked={selectedOption === index}
-                    onChange={() => handleRadioChange(index, elem)}
-                  />
+            {Text.map((elem, index) => {
+              if(!(elem==="Until manually enabled" &&selectedTypeGroup==="T") )
+              {
+                return(
+                  <div key={index} className="Avail_Changes_Radio_container">
+                  <div className="Avail_Changes_Radio_container_Justify">
+                    <h4 className="Avail_Changes_Radio_Text">{elem}</h4>
+                    <input
+                      className="AvaiilRadio"
+                      type="radio"
+                      name="avail-radio"
+                      checked={selectedOption === index}
+                      onChange={() => handleRadioChange(index, elem)}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+                )
+               
+              }
+
+             
+})}
 
             <div className="Avail_Button_Flex">
               <a

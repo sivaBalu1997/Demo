@@ -51,6 +51,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const [selectedOrderTypeId, setSelectedOrderTypeId] = useState<string>("");
   const [selectedTypeId, setSelectedTypeId] = useState<string>("");
 
+ const [selectedTypeGroup, setSelectedTypeGroup] = useState<string>("");
   const [selectedOrderTypeCategory, setSelectedOrderTypeCategory] =
     useState<string>("");
 
@@ -541,6 +542,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                               setParrentToggle("");
 
                               setSelectedTypeId(type?.typeId);
+                              setSelectedTypeGroup(type?.typeGroup)
                               handleOrderTypesAvail(
                                 type?.typeId,
                                 type?.isEnabled,
@@ -555,6 +557,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                               );
                               handleToggleDisable(type?.typeId);
                               setSelectedTypeId(type?.typeId);
+                              setSelectedTypeGroup(type?.typeGroup)
                               setParrentToggle("");
                             }
                           }}
@@ -572,6 +575,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         {selectPeriod && (
           <AvailabilityChangesUntil
             setSelectPeriod={setSelectPeriod}
+            selectedTypeGroup={selectedTypeGroup}
             selectedtypeid={selectedTypeId}
             parentToggle={parentToggle}
             ParentToggles={ParentToggles}

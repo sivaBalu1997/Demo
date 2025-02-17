@@ -177,6 +177,7 @@ const AvailCalender: React.FC<modelshow> = ({
               onChange={handleDateChange}
               inline
               minDate={new Date()}
+              maxDate={new Date(new Date().setDate(new Date().getDate() + 30))}
               locale="custom"
             />
           </div>
