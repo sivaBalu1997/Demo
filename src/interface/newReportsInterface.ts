@@ -49,6 +49,8 @@ export interface NewTableProps {
   rowsPerPage: number;
   loader: boolean;
   setLoader?: React.Dispatch<React.SetStateAction<boolean>>;
+  count?: number | string;
+  searchPlaceHolder?: string;
 }
 
 export interface SortConfig {

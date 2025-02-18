@@ -532,7 +532,8 @@ const EmployeeInsights: React.FC = () => {
             onPageChange={setCurrentPageEmployeeVoidActivity}
             rowsPerPage={TABLE_RECORDS_LIMIT}
             loader={employeeVoidActivityLoading}
-          // setLoader={setLoader}
+            count={employeeVoidActivityAPIRedux?.length}
+            searchPlaceHolder="Search By Steward, Voided reasons"
           />
         </div>
         <div className="dynamic-chart-container">

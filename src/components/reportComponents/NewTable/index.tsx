@@ -1,8 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ReactComponent as SearchIcon } from "../../../assets/svg/r-search-icon.svg";
-import { ReactComponent as SortIcon } from "../../../assets/svg/r-sort-icon.svg"
-import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg"
-import { ReactComponent as ArrowRight } from "../../../assets/svg/r-arrow-right.svg"
+import { ReactComponent as SortIcon } from "../../../assets/svg/r-sort-icon.svg";
+import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
+import { ReactComponent as ArrowRight } from "../../../assets/svg/r-arrow-right.svg";
+import { ReactComponent as ClearSearchIcon } from "../../../assets/svg/r-clear-search-icon-x.svg";
+import { ReactComponent as TableDownloadOptionsIcon } from "../../../assets/svg/r-options-table.svg";
+import { ReactComponent as PdfDownloadIcon } from "../../../assets/svg/r-pdf-download-option-icon.svg";
+import { ReactComponent as JsonDownloadIcon } from "../../../assets/svg/r-json-download-option-icon.svg";
+import { ReactComponent as CsvDownloadIcon } from "../../../assets/svg/r-csv-download-option-icon.svg";
 import { NewTableProps } from 'interface/newReportsInterface';
 import ReactPaginate from 'react-paginate';
 import './style.scss';
@@ -24,21 +29,24 @@ const NewTable: React.FC<NewTableProps> = ({
     onPageChange,
     rowsPerPage,
     loader,
-    setLoader
+    setLoader,
+    count,
+    searchPlaceHolder,
 }) => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
 
+    // console.log("9999", { tableData })
 
     const handleSort = (key: string) => {
         let direction: SortConfig['direction'] = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') direction = 'desc';
-        else if (sortConfig.key === key && sortConfig.direction === 'desc') direction = null;
+        if (sortConfig?.key === key && sortConfig?.direction === 'asc') direction = 'desc';
+        else if (sortConfig?.key === key && sortConfig?.direction === 'desc') direction = null;
         setSortConfig({ key, direction });
     };
 
     const sortedData = useMemo(() => {
         if (!sortConfig.direction || !sortConfig.key) return tableData;
-        return [...tableData].sort((a, b) => {
+        return [...tableData]?.sort((a, b) => {
             const aValue = a[sortConfig.key];
             const bValue = b[sortConfig.key];
             if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
@@ -55,9 +63,10 @@ const NewTable: React.FC<NewTableProps> = ({
     }, [sortedData, searchQuery]);
 
     const paginatedData = useMemo(() => {
-        const startIndex = (currentPage - 1) * rowsPerPage;
-        return filteredData && filteredData?.slice(startIndex, startIndex + rowsPerPage);
+        return filteredData
     }, [filteredData, currentPage, rowsPerPage]);
+
+    // console.log("9999", { paginatedData })
 
     // useEffect(() => {
     //     // Simulate data fetching
@@ -66,22 +75,59 @@ const NewTable: React.FC<NewTableProps> = ({
     //     }, 2000);
     // }, []);
 
+    const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
+    console.log("1111", { showDownloadables })
+
+
+
     return (
-        loader ? (  // If loading, show shimmer
+        loader ? (
             <TableShimmer />
-        ) : (  // Once loader is false, render the table
+        ) : (
             <div className="new-table-container">
                 <div className="table-header">
-                    <h2 className="table-title">{kpiTitle}</h2>
-                    <div className="search-container">
-                        <SearchIcon className="search-icon" />
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            value={searchQuery}
-                            onChange={e => onSearchChange(e.target.value)}
-                            className="search-input"
-                        />
+                    <div className="table-title-with-count-container">
+                        <h2 className="table-title">{kpiTitle}</h2>
+                        {!!count && <p className='table-title-count'>{count}</p>}
+                    </div>
+                    <div className="table-search-with-download-opt-container">
+                        <div className="search-container">
+                            <SearchIcon className="search-icon" />
+                            <input
+                                type="text"
+                                placeholder={searchPlaceHolder ? searchPlaceHolder : "Search..."}
+                                value={searchQuery}
+                                onChange={e => onSearchChange(e.target.value)}
+                                className="search-input"
+                            />
+                            <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
+                        </div>
+                        <div className="table-download-options-container">
+                            <TableDownloadOptionsIcon
+                                className="table-download-options"
+                                onClick={() => setShowDownloadables((val) => !val)}
+                            />
+                            {showDownloadables && (
+                                <div className="table-download-options-pop-over">
+                                    <p className="pop-over-title">Downloadable</p>
+                                    <div className="formats-container">
+                                        <div className="download-icon-with-title">
+                                            <PdfDownloadIcon />
+                                            <p>.PDF</p>
+                                        </div>
+                                        <div className="download-icon-with-title">
+                                            <JsonDownloadIcon />
+                                            <p>.JSON</p>
+                                        </div>
+                                        <div className="download-icon-with-title">
+                                            <CsvDownloadIcon />
+                                            <p>.CSV</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                     </div>
                 </div>
 
@@ -110,6 +156,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                 <tr key={index}>
                                     {headerData?.map(header => (
                                         <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
+                                            {/* {console.log("9999r", row[header?.key])} */}
                                             {row[header?.key]}
                                         </td>
                                     ))}
@@ -128,6 +175,7 @@ const NewTable: React.FC<NewTableProps> = ({
                         pageCount={totalPages}
                         marginPagesDisplayed={1}
                         pageRangeDisplayed={3}
+                        forcePage={currentPage - 1}
                         onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
                         containerClassName="pagination"
                         activeClassName="active"
