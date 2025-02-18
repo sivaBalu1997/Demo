@@ -895,7 +895,7 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="Dietary Type *" />
+                  <LableComponent lable="Dietary Type" />
                   <Controller
                     name="DietaryType"
                     control={control}
@@ -910,7 +910,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "Dietary type is required" }}
+                        // validation={{ required: "Dietary type is required" }}
                         error={errors.DietaryType}
                         dropdownopen={DropdownOpen.DietaryType}
                         onToggle={() => handleDropdownToggle("DietaryType")}
@@ -961,7 +961,7 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="Cuisine *" />
+                  <LableComponent lable="Cuisine" />
                   <Controller
                     name="cuisine"
                     control={control}
@@ -975,7 +975,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "Cuisine is required" }}
+                        // validation={{ required: "Cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
