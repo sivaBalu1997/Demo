@@ -35,6 +35,7 @@ import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
 import { tr } from "date-fns/locale";
 import PricingDetails from "../PricingDetalis/PricingDetails";
+import { lightFormat } from "date-fns";
 
 // Define types
 interface Option {
@@ -122,6 +123,44 @@ const ItemCustomizations: React.FC<any> = () => {
   );
 
   const [ModifierList, setModifierList] = useState<Modification[]>([]);
+  const [listOfStreams, setListOfStreams] = useState<string[]>([]);
+
+  const [atleastOnestream, setAtleastOnestream] = useState(false);
+  const ordertypesdetails = useSelector(
+    (state: any) => state.PricingDetailReducer.prizingData
+  );
+
+  useEffect(() => {
+    const streams: string[] = [];
+
+    if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
+      streams.push(ordertypesdetails?.normalForm.dineInDetails?.typeName);
+    }
+
+    if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
+      streams.push(ordertypesdetails?.normalForm.pickupDetails?.typeName);
+    }
+
+    if (ordertypesdetails?.normalForm?.deliveryDetails?.price) {
+      streams.push(ordertypesdetails?.normalForm.deliveryDetails?.typeName);
+    }
+
+    if (ordertypesdetails?.normalForm?.thirdpartyDetails?.length) {
+      const noPriceDetails = ordertypesdetails.normalForm.thirdpartyDetails.filter(
+        (detail:any) => detail.price || parseFloat(detail.price) > 0
+      );
+          
+      if (noPriceDetails.length > 0) {
+        streams.push(noPriceDetails[0].typeName);
+      }
+    }
+    
+    setListOfStreams(streams);
+
+    if (streams.length > 0) {
+      setAtleastOnestream(true);
+    }
+  }, [ordertypesdetails]);
 
   useEffect(() => {
     if(ListOfmodifier?.length>0)
@@ -195,11 +234,11 @@ const ItemCustomizations: React.FC<any> = () => {
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       // setShowModifiers(!showModifiers);
-      
+      console.log(";;;;;",listOfStreams)
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         
-        const selectedTypeNames = (item?.selectedValue || []).map(
+        var selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
             const orderType = selectedBranch.orderTypes?.find(
               (type: any) => type.id === selectedId
@@ -207,7 +246,7 @@ const ItemCustomizations: React.FC<any> = () => {
             return orderType?.typeName || selectedId;
           }
         );
-
+        selectedTypeNames=selectedTypeNames.filter((data:any)=>listOfStreams.includes(data))
         if (item?.options) {
           
           return {
@@ -278,7 +317,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
       setModifications([...mappedModifications]);
     }
-  }, [itemCustomizationData]);
+  }, [itemCustomizationData,listOfStreams]);
 
   const addModifier = () => {
     setModifications([
@@ -752,9 +791,7 @@ const ItemCustomizations: React.FC<any> = () => {
     validateSelectedValue(index, values);
   };
 
-  const ordertypesdetails = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData
-  );
+ 
 
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
@@ -854,41 +891,6 @@ const ItemCustomizations: React.FC<any> = () => {
       document.removeEventListener("click", Outsideclicking, true);
     };
   }, [ShowSearchList]);
-  const [listOfStreams, setListOfStreams] = useState<string[]>([]);
-
-  const [atleastOnestream, setAtleastOnestream] = useState(false);
-
-  useEffect(() => {
-    const streams: string[] = [];
-
-    if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
-      streams.push(ordertypesdetails?.normalForm.dineInDetails?.typeName);
-    }
-
-    if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
-      streams.push(ordertypesdetails?.normalForm.pickupDetails?.typeName);
-    }
-
-    if (ordertypesdetails?.normalForm?.deliveryDetails?.price) {
-      streams.push(ordertypesdetails?.normalForm.deliveryDetails?.typeName);
-    }
-
-    if (ordertypesdetails?.normalForm?.thirdpartyDetails?.length) {
-      const noPriceDetails = ordertypesdetails.normalForm.thirdpartyDetails.filter(
-        (detail:any) => detail.price || parseFloat(detail.price) > 0
-      );
-          
-      if (noPriceDetails.length > 0) {
-        streams.push(noPriceDetails[0].typeName);
-      }
-    }
-    
-    setListOfStreams(streams);
-
-    if (streams.length > 0) {
-      setAtleastOnestream(true);
-    }
-  }, [ordertypesdetails]);
 
   const [customizationerrors, setcustomizationerrors] = useState<any>([]);
 
