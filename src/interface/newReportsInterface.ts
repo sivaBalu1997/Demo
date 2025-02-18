@@ -47,8 +47,9 @@ export interface NewTableProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   rowsPerPage: number;
-  loader: boolean;
-  setLoader?: React.Dispatch<React.SetStateAction<boolean>>;
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>
+  loader?: boolean;
+  // setLoader: React.Dispatch<React.SetStateAction<boolean>>;
   count?: number | string;
   searchPlaceHolder?: string;
 }

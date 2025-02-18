@@ -16,9 +16,9 @@ import moment from "moment";
 import SummaryBox from "components/reportComponents/SummaryBox";
 import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import useSalesLocationDates from "hooks/useSalesLocationDates";
+import NewTable from "components/reportComponents/NewTable";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
-import NewTable from "components/reportComponents/NewTable";
 
 
 interface CanvaPieChartOptions {
@@ -62,12 +62,17 @@ const EmployeeInsights: React.FC = () => {
   const dispatch = useDispatch();
 
   const TABLE_RECORDS_LIMIT = 15;
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(15);
 
   const selectedBranch = useSelector(
     (state: any) => state.auth?.selectedBranch || null
   );
 
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+
+  // const netWorkStatus = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess);
+  // console.log("PPPP", { netWorkStatus })
+
 
   const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
   const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(({ total, date, ...rest }: any) => rest);
@@ -97,7 +102,7 @@ const EmployeeInsights: React.FC = () => {
   const employeeDiscountLoading = useSelector((state: any) => state?.newReports?.employeeStaffDiscountLoading);
 
   const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.content);
-  // console.log("1111", { employeeVoidActivityAPIRedux })
+  console.log("1111", { employeeVoidActivityAPIRedux })
   const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
   // console.log("1111", { employeeVoidActivityTotalPagesRedux })
   const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
@@ -309,11 +314,11 @@ const EmployeeInsights: React.FC = () => {
         employeeStaffActivityRequest({
           ...getLocationDates,
           tablePageNo: currentPageEmployeeVoidActivity,
-          tableRecordLimit: TABLE_RECORDS_LIMIT,
+          tableRecordLimit: employeeVoidRecordLimit,
         })
       );
     }
-  }, [getLocationDates, currentPageEmployeeVoidActivity]);
+  }, [getLocationDates, currentPageEmployeeVoidActivity, employeeVoidRecordLimit]);
 
   const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
     startDate: Date,
@@ -515,14 +520,14 @@ const EmployeeInsights: React.FC = () => {
             Heading="Employee Void Activity"
             tableData={employeeVoidActivityAPIRedux && employeeVoidActivityAPIRedux?.length > 0 && employeeVoidActivityAPIRedux}
             viewType="full"
-            recordsPerPage={TABLE_RECORDS_LIMIT}
+            recordsPerPage={employeeVoidRecordLimit}
             totalpageNo={employeeVoidActivityTotalPagesRedux}
             tabledataLoading={employeeVoidActivityLoading}
           />
         </div>
         <div className="employee-details-container">
           <NewTable
-            kpiTitle="Live Dine-in Orders"
+            kpiTitle="Employee Void Activity"
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             headerData={newTableHeaders}
@@ -530,7 +535,8 @@ const EmployeeInsights: React.FC = () => {
             currentPage={currentPageEmployeeVoidActivity}
             totalPages={employeeVoidActivityTotalPagesRedux}
             onPageChange={setCurrentPageEmployeeVoidActivity}
-            rowsPerPage={TABLE_RECORDS_LIMIT}
+            rowsPerPage={employeeVoidRecordLimit}
+            setRowsPerPage={setEmployeeVoidRecordLimit}
             loader={employeeVoidActivityLoading}
             count={employeeVoidActivityAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"

@@ -441,7 +441,7 @@ export function* employeeStaffActivityRequestSaga(action) {
         const response = yield call(getEmployeeStaffActivity, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            // console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
+            console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
             yield put(employeeStaffActivitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {

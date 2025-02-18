@@ -8,10 +8,13 @@ import { ReactComponent as TableDownloadOptionsIcon } from "../../../assets/svg/
 import { ReactComponent as PdfDownloadIcon } from "../../../assets/svg/r-pdf-download-option-icon.svg";
 import { ReactComponent as JsonDownloadIcon } from "../../../assets/svg/r-json-download-option-icon.svg";
 import { ReactComponent as CsvDownloadIcon } from "../../../assets/svg/r-csv-download-option-icon.svg";
+import { ReactComponent as DownloadBtn } from "../../../assets/svg/r-download-button-icon.svg";
+import { ReactComponent as NoResultsFoundStampIcon } from "../../../assets/svg/r-sad-no-results-found-stamp.svg";
+import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg"
 import { NewTableProps } from 'interface/newReportsInterface';
 import ReactPaginate from 'react-paginate';
-import './style.scss';
 import TableShimmer from './NewShimmerTable';
+import './style.scss';
 
 interface SortConfig {
     key: string;
@@ -28,12 +31,15 @@ const NewTable: React.FC<NewTableProps> = ({
     totalPages,
     onPageChange,
     rowsPerPage,
+    setRowsPerPage,
     loader,
-    setLoader,
+    // setLoader,
     count,
     searchPlaceHolder,
 }) => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
+
+    // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
     // console.log("9999", { tableData })
 
@@ -45,12 +51,13 @@ const NewTable: React.FC<NewTableProps> = ({
     };
 
     const sortedData = useMemo(() => {
-        if (!sortConfig.direction || !sortConfig.key) return tableData;
+        if (!tableData || tableData?.length === 0) return [];
+        if (!sortConfig?.direction || !sortConfig?.key) return tableData;
         return [...tableData]?.sort((a, b) => {
-            const aValue = a[sortConfig.key];
-            const bValue = b[sortConfig.key];
-            if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-            if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+            const aValue = a[sortConfig?.key];
+            const bValue = b[sortConfig?.key];
+            if (aValue < bValue) return sortConfig?.direction === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortConfig?.direction === 'asc' ? 1 : -1;
             return 0;
         });
     }, [tableData, sortConfig]);
@@ -109,7 +116,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             />
                             {showDownloadables && (
                                 <div className="table-download-options-pop-over">
-                                    <p className="pop-over-title">Downloadable</p>
+                                    <p className="pop-over-title">Total sales overview</p>
                                     <div className="formats-container">
                                         <div className="download-icon-with-title">
                                             <PdfDownloadIcon />
@@ -124,6 +131,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                             <p>.CSV</p>
                                         </div>
                                     </div>
+                                    <button className='download-btn'><DownloadBtn />Download</button>
                                 </div>
                             )}
                         </div>
@@ -132,42 +140,71 @@ const NewTable: React.FC<NewTableProps> = ({
                 </div>
 
                 <div className="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                {headerData?.map(header => (
-                                    <th
-                                        key={header?.key}
-                                        className={`table-header-cell align-${header?.alignment || 'left'} ${header?.isSortable ? 'sortable' : ''}`}
-                                        onClick={() => header?.isSortable && handleSort(header?.key)}
-                                    >
-                                        <div className="header-content">
-                                            <span>{header?.label}</span>
-                                            {header?.isSortable && (
-                                                <SortIcon className={`sort-icon ${sortConfig?.key === header?.key ? sortConfig?.direction : ''}`} />
-                                            )}
-                                        </div>
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {paginatedData && paginatedData?.map((row, index) => (
-                                <tr key={index}>
+                    {/* Case 1: No data available at all */}
+                    {!tableData || tableData.length === 0 ? (
+                        <div className="no-results-container">
+                            <NoOrdersFoundStampIcon />
+                            <p className="no-results-text">No Orders Found</p>
+                        </div>
+                    ) : searchQuery && filteredData.length === 0 ? (
+                        /* Case 2: User searched but no matching results */
+                        <div className="no-results-container">
+                            <NoResultsFoundStampIcon />
+                            <p className="no-results-text">No results found for "{searchQuery}"</p>
+                        </div>
+                    ) : (
+                        /* Case 3: Display the table if data is available */
+                        <table>
+                            <thead>
+                                <tr>
                                     {headerData?.map(header => (
-                                        <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
-                                            {/* {console.log("9999r", row[header?.key])} */}
-                                            {row[header?.key]}
-                                        </td>
+                                        <th
+                                            key={header?.key}
+                                            className={`table-header-cell align-${header?.alignment || 'left'} ${header?.isSortable ? 'sortable' : ''}`}
+                                            onClick={() => header?.isSortable && handleSort(header?.key)}
+                                        >
+                                            <div className="header-content">
+                                                <span>{header?.label}</span>
+                                                {header?.isSortable && (
+                                                    <SortIcon className={`sort-icon ${sortConfig?.key === header?.key ? sortConfig?.direction : ''}`} />
+                                                )}
+                                            </div>
+                                        </th>
                                     ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {paginatedData?.map((row, index) => (
+                                    <tr key={index}>
+                                        {headerData?.map(header => (
+                                            <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
+                                                {row[header?.key]}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
 
-                <div className="table-footer">
-                    <div className="page-info">Page {currentPage}/{totalPages}</div>
+
+                {tableData && <div className="table-footer">
+                    {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
+                    <div className="results-per-page">
+                        <span>Result per page:</span>
+                        <div className="options">
+                            {[10, 15, 20, 30].map((num) => (
+                                <button
+                                    key={num}
+                                    className={`option ${rowsPerPage === num ? "selected" : ""}`}
+                                    onClick={() => setRowsPerPage(num)}
+                                >
+                                    {num}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                     <ReactPaginate
                         previousLabel={<ArrowLeft className="arrow-icon" />}
                         nextLabel={<ArrowRight className="arrow-icon" />}
@@ -183,7 +220,7 @@ const NewTable: React.FC<NewTableProps> = ({
                         previousClassName="prev-button"
                         nextClassName="next-button"
                     />
-                </div>
+                </div>}
             </div>
         )
     );
