@@ -20,7 +20,6 @@ const AvailabilityChangesUntil = ({
   const [selectedOption, setSelectedOption] = useState(0);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const [showAvailchanges, setshowAvailchanges] = useState(true);
-console.log({selectedtypeid})
   const [showsession, setshowsession] = useState(false);
   const [selctedDateSession, setselctedDateSession] = useState("");
   const restaurantDetails = useSelector(

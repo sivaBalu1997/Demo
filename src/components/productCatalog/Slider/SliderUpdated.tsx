@@ -368,9 +368,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
         setActiveSectionFromData(sidebartext)
        
       }
-    }, [sidebartext,activeSectionFromData]);
-    console.log({sidebartext});
-    
+    }, [sidebartext,activeSectionFromData]);    
 
   return (
     <div ref={modelref} className="Slider-Container-Updated" onClick={closeModal}>

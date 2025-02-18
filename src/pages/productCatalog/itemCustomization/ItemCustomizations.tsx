@@ -35,7 +35,6 @@ import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
 import { tr } from "date-fns/locale";
 import PricingDetails from "../PricingDetalis/PricingDetails";
-import { lightFormat } from "date-fns";
 
 // Define types
 interface Option {
@@ -234,7 +233,6 @@ const ItemCustomizations: React.FC<any> = () => {
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       // setShowModifiers(!showModifiers);
-      console.log(";;;;;",listOfStreams)
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         
