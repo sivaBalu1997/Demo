@@ -20,10 +20,10 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   setTimeToSet
   
 }) => {
-  const [selectedSession, setSelectedSession] = useState<string>("");
+
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
   const [selctedDateSession, setselctedDateSession] = useState("");
-  const [filteredsession,setfilteredsession]=useState([]);
+  const [filteredsession,setfilteredsession]=useState<any>([]);
   const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails);
  
   const sessionavailable=[
@@ -77,7 +77,7 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   //   }
   //   return null;
   // };
-
+  const [selectedSession, setSelectedSession] = useState<string>(filteredsession[0]?.closingTime);
   const getFormattedDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -132,6 +132,7 @@ const SessionOpen: React.FC<ModelShowProps> = ({
 
 // }
 
+
 setTimeToSet(`${formattedDate}T${selctedDateSession}`)
     
     setshowsession(false);
@@ -156,6 +157,11 @@ const handleSessionCancel=()=>{
   
 
 }
+useEffect(() => {
+  if (filteredsession && filteredsession.length > 0) {
+    setSelectedSession(filteredsession[0]?.closingTime);
+  }
+}, [filteredsession]);
   return (
     <div className="session-container">
       <div className="session-window">

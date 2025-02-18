@@ -17,7 +17,7 @@ const AvailabilityChangesUntil = ({
   selectedTypeGroup
 }) => {
   const dispatch = useDispatch();
-  const [selectedOption, setSelectedOption] = useState(-1);
+  const [selectedOption, setSelectedOption] = useState(0);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const [showAvailchanges, setshowAvailchanges] = useState(true);
 console.log({selectedtypeid})
