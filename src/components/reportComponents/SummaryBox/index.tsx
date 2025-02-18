@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "./style.scss";
+import ShimmerSummaryBox from './ShimmerSummaryBox';
 
 interface SummaryBoxProps {
     summaryTitle: string;
@@ -14,16 +15,16 @@ const SummaryBox = ({ summaryTitle, boxValue, toolTipMessage, isMonetary }: Summ
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
     );
-    const currencySymbol = countryCode === "US" ? '$' : '₹';
+    // const dailyCheckInBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.dailyCheckInLoading)
+    // const dailyGuestBoxAPIReduxloader = useSelector((state: any) => state?.newReports?.dailyGuestLoading)
+    // const dailyCancellationBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.dailyCancellationLoading)
+    // const newCustomerSizeBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.newCustomerSizeLoading)
+    // const repeatCustomerCountBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.customerSizeloading)
+    const [currencySymbol, setCurrencySymbol] = useState(countryCode === "US" ? '$' : '₹');
     const [showSummaryBoxToolTip, setShowSummaryBoxToolTip] = useState<boolean>(false);
     return (
         <div className="summary-box">
-            {boxValue ? <h2>
-                {isMonetary === true ? currencySymbol : ""}{boxValue}
-            </h2> :
-                // <p className="s-summary-no-data">No data found!</p>
-                <h2>{isMonetary === true ? currencySymbol : ""}{0}</h2>
-            }
+            <h2>{isMonetary ? `${currencySymbol}${boxValue}` : (boxValue)}</h2>
             <div className="label-tooltip-container">
                 <h3>{summaryTitle}</h3>
                 {toolTipMessage && <div

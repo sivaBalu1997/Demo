@@ -1,6 +1,8 @@
 import { API } from "redux/api";
 import Store from "../store";
 
+const REPORTS_API_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports";
+
 const SALES_SUMMARY_API_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/summary";
 
 const SALES_BY_ITEM_CATEGORY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/category";
@@ -35,6 +37,7 @@ const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = "https://rptd.gcp.magilhub.com/magil
 
 const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffActivity?"
 
+//    https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/checkIn/dayCheckIn?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2025-01-01&endDate=2025-02-28&page=1&size=15
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -223,6 +226,163 @@ export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
         }
     });
 }
+
+// New ======================= New //
+export const getDayCheckIn = (dayCheckInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dayCheckIn?locationId=${dayCheckInPayload?.locationid}&startDate=${dayCheckInPayload?.startDate}&endDate=${dayCheckInPayload?.endDate}&page=${dayCheckInPayload?.tablePageNo}&size=${dayCheckInPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDailyCheckIn = (dailyCheckInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckIn?locationId=${dailyCheckInPayload?.locationid}&startDate=${dailyCheckInPayload?.startDate}&endDate=${dailyCheckInPayload?.endDate}&page=${dailyCheckInPayload?.tablePageNo || null}&size=${dailyCheckInPayload?.tableRecordLimit || null}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDailyGuest = (dailyGuestPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyGuests?locationId=${dailyGuestPayload?.locationid}&startDate=${dailyGuestPayload?.startDate}&endDate=${dailyGuestPayload?.endDate}&page=${dailyGuestPayload?.tablePageNo}&size=${dailyGuestPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDailyCancellation = (dailyCancellationPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCancellation?locationId=${dailyCancellationPayload?.locationid}&startDate=${dailyCancellationPayload?.startDate}&endDate=${dailyCancellationPayload?.endDate}&page=${dailyCancellationPayload?.tablePageNo}&size=${dailyCancellationPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getHourlyGuests = (hourlyGuestsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/hourlyGuests?locationId=${hourlyGuestsPayload?.locationid}&startDate=${hourlyGuestsPayload?.startDate}&endDate=${hourlyGuestsPayload?.endDate}&page=${hourlyGuestsPayload?.tablePageNo || null}&size=${hourlyGuestsPayload?.tableRecordLimit || null}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDailyHourlyCheckIn = (dailyHouryCheckInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyHourlyCheckin?locationId=${dailyHouryCheckInPayload?.locationid}&startDate=${dailyHouryCheckInPayload?.startDate}&endDate=${dailyHouryCheckInPayload?.endDate}&page=${dailyHouryCheckInPayload?.tablePageNo}&size=${dailyHouryCheckInPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDayOverDayGuest = (dayOverDayGuestPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dayOverDayGuest?locationId=${dayOverDayGuestPayload?.locationid}&startDate=${dayOverDayGuestPayload?.startDate}&endDate=${dayOverDayGuestPayload?.endDate}&page=${dayOverDayGuestPayload?.tablePageNo}&size=${dayOverDayGuestPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getPeakSummary = (peakSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/peakSummary?locationId=${peakSummaryPayload?.locationid}&startDate=${peakSummaryPayload?.startDate}&endDate=${peakSummaryPayload?.endDate}&page=${peakSummaryPayload?.tablePageNo}&size=${peakSummaryPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getPartySize = (partySizePayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/partySize?locationId=${partySizePayload?.locationid}&startDate=${partySizePayload?.startDate}&endDate=${partySizePayload?.endDate}&page=${partySizePayload?.tablePageNo}&size=${partySizePayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getCustomerSize = (customerSizePayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/customerSize?locationId=${customerSizePayload?.locationid}&startDate=${customerSizePayload?.startDate}&endDate=${customerSizePayload?.endDate}&page=${customerSizePayload?.tablePageNo}&size=${customerSizePayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getNewCustomerSize = (newCustomerSizePayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/newCustomerSize?locationId=${newCustomerSizePayload?.locationid}&startDate=${newCustomerSizePayload?.startDate}&endDate=${newCustomerSizePayload?.endDate}&page=${newCustomerSizePayload?.tablePageNo}&size=${newCustomerSizePayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getCustomerDetails = (customerDetailsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/customerDetails?locationId=${customerDetailsPayload?.locationid}&startDate=${customerDetailsPayload?.startDate}&endDate=${customerDetailsPayload?.endDate}&page=${customerDetailsPayload?.tablePageNo}&size=${customerDetailsPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getLiveCheckInStatus = (liveCheckInStatusPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/liveCheckInStatus?locationId=${liveCheckInStatusPayload?.locationid}&startDate=${liveCheckInStatusPayload?.startDate}&endDate=${liveCheckInStatusPayload?.endDate}&page=${liveCheckInStatusPayload?.tablePageNo}&size=${liveCheckInStatusPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckInStatus?locationId=${dailyCheckInStatusPayload?.locationid}&startDate=${dailyCheckInStatusPayload?.startDate}&endDate=${dailyCheckInStatusPayload?.endDate}&page=${dailyCheckInStatusPayload?.tablePageNo}&size=${dailyCheckInStatusPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
 
 
 

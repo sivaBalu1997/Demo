@@ -1,0 +1,32 @@
+.summary-box.shimmer {
+    background: var(--table-bg);
+    position: relative;
+    overflow: hidden;
+    
+    .shimmer-line {
+      background: linear-gradient(90deg, #f6f7f8 25%, #edeef1 50%, #f6f7f8 75%);
+      background-size: 200% 100%;
+      animation: shimmerAnimation 1.5s infinite;
+      border-radius: 4px;
+    }
+    
+    .shimmer-title {
+      width: 60%;
+      height: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .shimmer-value {
+      width: 40%;
+      height: 1.5rem;
+    }
+  }
+  
+  @keyframes shimmerAnimation {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
