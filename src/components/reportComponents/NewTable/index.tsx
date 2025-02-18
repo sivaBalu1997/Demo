@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { ReactComponent as SearchIcon } from "../../../assets/svg/r-search-icon.svg";
 import { ReactComponent as SortIcon } from "../../../assets/svg/r-sort-icon.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
@@ -14,6 +14,9 @@ import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-
 import { NewTableProps } from 'interface/newReportsInterface';
 import ReactPaginate from 'react-paginate';
 import TableShimmer from './NewShimmerTable';
+import exportFromJSON from "export-from-json";
+import jsPDF from 'jspdf';
+import "jspdf-autotable";
 import './style.scss';
 
 interface SortConfig {
@@ -85,6 +88,61 @@ const NewTable: React.FC<NewTableProps> = ({
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     console.log("1111", { showDownloadables })
 
+    const csvDownloadFn = (data: Array<Record<string, any>>) => {
+        const fileName = kpiTitle;
+        const exportType = exportFromJSON.types.csv;
+        exportFromJSON({ data, fileName, exportType });
+    };
+
+    const jsonDownloadFn = (data: Array<Record<string, any>>) => {
+        const fileName = kpiTitle;
+        const exportType = exportFromJSON.types.json;
+        exportFromJSON({ data, fileName, exportType });
+    };
+
+    const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
+        const fileName = kpiTitle;
+        const exportType = exportFromJSON.types.xls;
+        exportFromJSON({ data, fileName, exportType });
+    };
+
+    const pdfDownloadFn = (data: Array<Record<string, any>>, headers: Array<{ key: string; label: string }>) => {
+        const doc = new jsPDF();
+        doc.text(kpiTitle, 14, 10); // Title at the top
+
+        // Prepare the table data
+        const tableColumnHeaders = headers?.map(header => header.label);
+        const tableRows = data?.map(row => headers?.map(header => row[header.key] || ""));
+
+        // Add the table using autoTable
+        (doc as any).autoTable({
+            head: [tableColumnHeaders],
+            body: tableRows,
+            startY: 20,
+        });
+
+        // Save the PDF
+        doc.save(`${kpiTitle}.pdf`);
+    };
+
+    const downloadPopoverRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            // Ensure that the click is not inside the popover or the button that toggles it
+            if (
+                downloadPopoverRef.current &&
+                !downloadPopoverRef.current.contains(event.target as Node) &&
+                !(event.target as HTMLElement).closest(".table-download-options")
+            ) {
+                setShowDownloadables(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
+
 
 
     return (
@@ -112,22 +170,25 @@ const NewTable: React.FC<NewTableProps> = ({
                         <div className="table-download-options-container">
                             <TableDownloadOptionsIcon
                                 className="table-download-options"
-                                onClick={() => setShowDownloadables((val) => !val)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowDownloadables((val) => !val);
+                                }}
                             />
                             {showDownloadables && (
-                                <div className="table-download-options-pop-over">
+                                <div className="table-download-options-pop-over" ref={downloadPopoverRef}>
                                     <p className="pop-over-title">Total sales overview</p>
                                     <div className="formats-container">
                                         <div className="download-icon-with-title">
-                                            <PdfDownloadIcon />
+                                            <PdfDownloadIcon onClick={() => pdfDownloadFn(tableData, headerData)} />
                                             <p>.PDF</p>
                                         </div>
                                         <div className="download-icon-with-title">
-                                            <JsonDownloadIcon />
+                                            <JsonDownloadIcon onClick={() => jsonDownloadFn(tableData)} />
                                             <p>.JSON</p>
                                         </div>
                                         <div className="download-icon-with-title">
-                                            <CsvDownloadIcon />
+                                            <CsvDownloadIcon onClick={() => csvDownloadFn(tableData)} />
                                             <p>.CSV</p>
                                         </div>
                                     </div>
