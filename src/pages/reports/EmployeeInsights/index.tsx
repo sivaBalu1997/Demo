@@ -19,6 +19,8 @@ import useSalesLocationDates from "hooks/useSalesLocationDates";
 import NewTable from "components/reportComponents/NewTable";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import SwitchableBox from "components/reportComponents/SwitchableBox";
+import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 
 
 interface CanvaPieChartOptions {
@@ -350,6 +352,12 @@ const EmployeeInsights: React.FC = () => {
     { key: 'voidedReasons', label: `Voided reasons`, isSortable: false, alignment: 'left' },
   ];
 
+  const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
+
+  const handleToggleSwitch = () => {
+    setIsSwitchActive((prev) => !prev)
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -541,6 +549,19 @@ const EmployeeInsights: React.FC = () => {
             count={employeeVoidActivityAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"
           />
+        </div>
+        {/* SwitchableBox */}
+        <div className="employee-details-container">
+          <SwitchableBox
+            textOne="Overall"
+            textTwo="Live Orders"
+            isActive={isSwitchActive}
+            toggleSwitch={handleToggleSwitch}
+          />
+        </div>
+        {/* CardWithMiniGraph */}
+        <div className="employee-details-container">
+          <CardWithMiniGraph cardTitle="Total Sales" cardValue={15} incrementDecrementValue={"21"} isMonetary={true} showMiniGraph={true} incrementOrDecrement="decrement" />
         </div>
         <div className="dynamic-chart-container">
           <div className="chart-options-config-header">
