@@ -66,8 +66,7 @@ import completedTable from "pages/offerManagement/completedTable/completedTable"
 import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
 import SalesOverView from "pages/NewReports/SalesOverView";
-import Product from "pages/NewReports/Category";
-import Category from "pages/NewReports/Category";
+import Product from "pages/NewReports/Product";
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -334,7 +333,7 @@ const Routers = () => {
             </div>
             <div>
               <Route exact path="/sales-over-view-reports" component={SalesOverView} />
-              <Route path="/category-reports" component={Category} />
+              <Route path="/product-reports" component={Product} />
             </div>
           </ThemeProvider>
         </Contextpage>
