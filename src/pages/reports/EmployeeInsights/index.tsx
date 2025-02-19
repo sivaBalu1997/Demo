@@ -17,10 +17,10 @@ import SummaryBox from "components/reportComponents/SummaryBox";
 import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";
 import useSalesLocationDates from "hooks/useSalesLocationDates";
 import NewTable from "components/reportComponents/NewTable";
-import "react-datepicker/dist/react-datepicker.css";
-import "./style.scss";
 import SwitchableBox from "components/reportComponents/SwitchableBox";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
+import "react-datepicker/dist/react-datepicker.css";
+import "./style.scss";
 
 
 interface CanvaPieChartOptions {
@@ -561,7 +561,7 @@ const EmployeeInsights: React.FC = () => {
         </div>
         {/* CardWithMiniGraph */}
         <div className="employee-details-container">
-          <CardWithMiniGraph cardTitle="Total Sales" cardValue={15} incrementDecrementValue={"21"} isMonetary={true} showMiniGraph={true} incrementOrDecrement="decrement" />
+          <CardWithMiniGraph cardTitle="Total Sales" cardValue={10} incrementDecrementValue={"21"} isMonetary={true} showMiniGraph={true} incrementOrDecrement="decrement" loader={false} />
         </div>
         <div className="dynamic-chart-container">
           <div className="chart-options-config-header">
@@ -575,15 +575,6 @@ const EmployeeInsights: React.FC = () => {
             </div>
           </div>
           {renderChart()}
-          {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", gap: "20px" }}> */}
-          {/* <SummaryBox summaryTitle="Summary Title" boxValue={15} toolTipMessage="Tooltip Message" isMonetary={true} /> */}
-          {/* <DateFilterDropdown
-              selectedPeriod={state.selectedPeriod}
-              startDate={state.startDate}
-              endDate={state.endDate}
-              onSelect={handleDateSelection}
-            /> */}
-          {/* </div> */}
         </div>
       </div>
     </div >

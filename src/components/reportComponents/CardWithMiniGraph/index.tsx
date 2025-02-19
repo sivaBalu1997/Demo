@@ -5,14 +5,16 @@ import { ReactComponent as DecrementGraph } from "../../../assets/svg/r-decremen
 import { ReactComponent as DecrementArrow } from "../../../assets/svg/r-decrement-arrow-icon.svg";
 import { useSelector } from "react-redux";
 import "./style.scss";
+import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
 
 interface CardWithMiniGraphProps {
-    cardTitle: string;
-    cardValue: number | string;
-    showMiniGraph: boolean;
+    cardTitle: string | undefined | null | "";
+    cardValue: number | string | undefined | "" | null;
     isMonetary: boolean;
-    incrementDecrementValue: number | string;
-    incrementOrDecrement: "increment" | "decrement";
+    showMiniGraph?: boolean;
+    incrementDecrementValue?: number | string | undefined | "" | null;
+    incrementOrDecrement?: "increment" | "decrement";
+    loader?: boolean;
 }
 
 const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
@@ -22,6 +24,7 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
     isMonetary,
     incrementDecrementValue,
     incrementOrDecrement,
+    loader,
 }) => {
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
@@ -29,37 +32,37 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
 
     const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
 
+    if (loader) return <ShimmerCardMiniGraph />
     return (
         <div className="card-mini-graph-container">
-            {/* Card Header */}
+
             <div className="card-title-value-container">
-                <h4 className="card-title">{cardTitle}</h4>
+                <h4 className="card-title">{cardTitle?.trim() ? cardTitle : "Title"}</h4>
                 <h2 className="card-value">
                     {isMonetary && currencySymbol}
-                    {cardValue}
+                    {cardValue !== null && cardValue !== undefined && cardValue !== "" ? cardValue : "0"}
                 </h2>
             </div>
 
-            {/* Mini Graph Section */}
-            {
-                showMiniGraph && (
-                    <div className="mini-graph-container">
-                        <div className="increment-decrement-value">
-                            {incrementOrDecrement === "increment" ? (
-                                <>
-                                    <IncrementArrow />
-                                    <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>+{" "}{incrementDecrementValue}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <DecrementArrow />
-                                    <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>-{" "}{incrementDecrementValue}</span>
-                                </>
-                            )}
-                        </div>
-                        {incrementOrDecrement === "increment" ? <IncrementGraph /> : <DecrementGraph />}
+
+            {showMiniGraph && (
+                <div className="mini-graph-container">
+                    <div className="increment-decrement-value">
+                        {incrementOrDecrement === "increment" ? (
+                            <>
+                                <IncrementArrow />
+                                <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>+{" "}{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}</span>
+                            </>
+                        ) : (
+                            <>
+                                <DecrementArrow />
+                                <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>-{" "}{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}</span>
+                            </>
+                        )}
                     </div>
-                )
+                    {incrementOrDecrement === "increment" ? <IncrementGraph /> : <DecrementGraph />}
+                </div>
+            )
             }
         </div >
     );

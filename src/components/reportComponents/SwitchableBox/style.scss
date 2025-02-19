@@ -4,7 +4,7 @@
     height: 7vh;
     background: #f4f4f4;
     border-radius: 15px;
-    padding: 1px 7px 1px 7px;
+    padding: 5px 7px 5px 7px;
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -17,18 +17,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-    //   padding: 2px 5px 2px 5px;
   
       &.active {
         background: white;
         color: black;
-        // font-weight: bold;
         width: 15vw;
         height: 6vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 10px;
       }
     }
+    
   }
   

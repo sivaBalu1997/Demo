@@ -1,13 +1,91 @@
 .sales-overview-container{
-    background-color: pink;
+    // background-color: pink;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding-bottom: 5vh;
+    padding-top: 6vh;
     width: 94%;
+    padding-left: 2vw;
+    gap: 4vh;
+
+    // &::-webkit-scrollbar{
+    //     display: none !important;
+    // }
 
     &.sales-overview-container-expanded { 
         width: 82%;
-        background-color: palegreen;
+        // background-color: palegreen;
+    }
+    .top-nav-bar{
+        width: 80%;
+        height: 8%;
+        background-color: pink;
+    }
+    .todays-report-head{
+        background-color: palevioletred;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // padding-left: 2vw;
+        padding-right: 2vw;
+        .todays-report-store-name{
+            background-color: lightcoral;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            // gap: 1.5vh;
+            height: 100%;
+        }
+        .todays-report-select-store-refresh-container{
+            background-color: paleturquoise;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            .todays-report-store-and-refresh-btn{
+                display: flex;
+                background-color: lightseagreen;
+                gap: 2vw;
+                p{
+                    width: 8vw;
+                    background-color: lightslategray;
+                }
+                button{
+                    width: 8vw;
+                }
+            }
+        }
+    }
+    .todays-report-sales-overview-box-container-parent{
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+        // background-color: lightseagreen;
+        .todays-report-sales-overview-box-container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(2, auto); 
+            gap: 16px; 
+            width: 100%;
+            max-width: 1200px; 
+            // margin: auto; 
+            @media (max-width: 1024px) {
+                grid-template-columns: repeat(2, 1fr); 
+                grid-template-rows: repeat(4, auto);    
+            }
+            @media (max-width: 600px) {
+                grid-template-columns: repeat(1, 1fr); 
+                grid-template-rows: repeat(8, auto); 
+            }
+        }
+    }
+    .todays-report-tables-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        height: 80vh;
+        // background-color: lightsalmon;
     }
 }
