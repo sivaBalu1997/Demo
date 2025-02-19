@@ -1031,7 +1031,6 @@ export const MenulistingPage = () => {
       );
     }
   };
-  console.log({hasScrollbar});
   
   const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
 

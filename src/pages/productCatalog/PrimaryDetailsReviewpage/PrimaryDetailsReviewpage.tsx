@@ -499,9 +499,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           prizingDetail?.kitchenstation?.toLowerCase()
       )
     : undefined;
+    const data =typeof(primarydata?.bestPair)=='string' ? primarydata?.bestPair.split(", ") :[]
 
-
-  const matchedBestPair = primarydata?.bestPair && primarydata?.bestPair?.map((best: any) => {
+  const matchedBestPair = typeof(primarydata?.bestPair)=='string'?(primarydata?.bestPair &&
+    data?.map((best: any) => {
+      return bestPairData?.find((b: any) => b.name == best)})): primarydata?.bestPair && primarydata?.bestPair?.map((best: any) => {
     return bestPairData?.find((b: any) => b.name == best)
   }) 
 

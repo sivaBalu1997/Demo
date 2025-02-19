@@ -20,7 +20,6 @@ const AvailabilityChangesUntil = ({
   const [selectedOption, setSelectedOption] = useState(0);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const [showAvailchanges, setshowAvailchanges] = useState(true);
-console.log({selectedtypeid})
   const [showsession, setshowsession] = useState(false);
   const [selctedDateSession, setselctedDateSession] = useState("");
   const restaurantDetails = useSelector(
@@ -187,6 +186,7 @@ console.log({selectedtypeid})
       setTimeToSet("9999-01-01T00:00:00");
     }
   };
+
   const [matchedChildArray, setMatchedChildArray] = useState([]);
 
   const handleTimeChange = () => {
@@ -252,6 +252,21 @@ console.log({selectedtypeid})
       setSelectPeriod(false);
     }
   };
+  useEffect(()=>{
+    const todayDay = getTodayDay();
+     
+    const formattedDate = getFormattedDate();
+    // console.log("todayWorkinghours",todayWorkinghours);
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item) => item.weekday === todayDay || item.weekday === "All"
+    );
+ 
+    const Time = `${formattedDate}T${
+      todayWorkinghours&& todayWorkinghours[todayWorkinghours.length - 1]?.closingTime
+    }`;
+    setTimeToSet(Time);
+ 
+  },[])
 
   const handleTimeChangeCancel = () => {
     if (parentToggle === "") {

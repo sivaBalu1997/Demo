@@ -32,7 +32,6 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
     }
   };
 
-  console.log({deleteMenuItemLoading})
 
   return (
     <div

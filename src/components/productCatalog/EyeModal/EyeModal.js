@@ -21,10 +21,7 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
   );
   const failed = useSelector(
     (state) => state?.addMockDataHiddenReducer?.failed
-  );
-
-  console.log({data1});
-  
+  );  
 
   const [data, setData] = useState([]);
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
