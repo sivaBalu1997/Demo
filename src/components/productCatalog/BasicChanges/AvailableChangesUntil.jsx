@@ -186,6 +186,7 @@ const AvailabilityChangesUntil = ({
       setTimeToSet("9999-01-01T00:00:00");
     }
   };
+
   const [matchedChildArray, setMatchedChildArray] = useState([]);
 
   const handleTimeChange = () => {
@@ -251,6 +252,21 @@ const AvailabilityChangesUntil = ({
       setSelectPeriod(false);
     }
   };
+  useEffect(()=>{
+    const todayDay = getTodayDay();
+     
+    const formattedDate = getFormattedDate();
+    // console.log("todayWorkinghours",todayWorkinghours);
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item) => item.weekday === todayDay || item.weekday === "All"
+    );
+ 
+    const Time = `${formattedDate}T${
+      todayWorkinghours&& todayWorkinghours[todayWorkinghours.length - 1]?.closingTime
+    }`;
+    setTimeToSet(Time);
+ 
+  },[])
 
   const handleTimeChangeCancel = () => {
     if (parentToggle === "") {
