@@ -36,7 +36,6 @@ const NewTable: React.FC<NewTableProps> = ({
     rowsPerPage,
     setRowsPerPage,
     loader,
-    // setLoader,
     count,
     searchPlaceHolder,
 }) => {
@@ -78,15 +77,8 @@ const NewTable: React.FC<NewTableProps> = ({
 
     // console.log("9999", { paginatedData })
 
-    // useEffect(() => {
-    //     // Simulate data fetching
-    //     setTimeout(() => {
-    //         setLoader(false);  // Data has loaded
-    //     }, 2000);
-    // }, []);
-
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
-    console.log("1111", { showDownloadables })
+    // console.log("1111", { showDownloadables })
 
     const csvDownloadFn = (data: Array<Record<string, any>>) => {
         const fileName = kpiTitle;
@@ -255,7 +247,7 @@ const NewTable: React.FC<NewTableProps> = ({
                     <div className="results-per-page">
                         <span>Result per page:</span>
                         <div className="options">
-                            {[10, 15, 20, 30].map((num) => (
+                            {[10, 15, 20, 30]?.map((num) => (
                                 <button
                                     key={num}
                                     className={`option ${rowsPerPage === num ? "selected" : ""}`}

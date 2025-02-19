@@ -65,6 +65,9 @@ import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
 import completedTable from "pages/offerManagement/completedTable/completedTable";
 import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
+import SalesOverView from "pages/NewReports/SalesOverView";
+import Product from "pages/NewReports/Category";
+import Category from "pages/NewReports/Category";
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -328,6 +331,10 @@ const Routers = () => {
               <Route exact path="/check-in" component={CheckIn} />
               <Route exact path="/gen-ai-reports" component={GenAiReports} />
               <Route exact path="/customer-insights" component={CustIns} />
+            </div>
+            <div>
+              <Route exact path="/sales-over-view-reports" component={SalesOverView} />
+              <Route path="/category-reports" component={Category} />
             </div>
           </ThemeProvider>
         </Contextpage>

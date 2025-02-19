@@ -46,7 +46,7 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS"];
+  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales", "Product", "Staff", "Check-in", "Customer", "Event"];
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -68,7 +68,7 @@ const SidePanel = () => {
   const [isExpand, setIsExpand] = useState(true);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
-  
+
   useEffect(() => {
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
@@ -81,6 +81,12 @@ const SidePanel = () => {
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
+      setShowOptions("reportOptions");
+    } else if (location?.pathname?.includes("/sales-over-view-reports")) {
+      setSelectSubForReport("Sales");
+      setShowOptions("reportOptions");
+    } else if (location?.pathname?.includes("/product-reports")) {
+      setSelectSubForReport("Product");
       setShowOptions("reportOptions");
     } else if (
       location?.pathname?.includes("Offers/active") ||
@@ -186,7 +192,7 @@ const SidePanel = () => {
       <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
         <div className="logo-container">
           <div>
-            <img src={getImageURL("LOGO")} className="restaurant-logo" />
+            <img src={getImageURL("LOGO")} className="restaurant-logo" alt="logo-restaurant" />
           </div>
           <div className="restaurant-name-container">
             {isExpanded && (
@@ -222,7 +228,7 @@ const SidePanel = () => {
                       return (
                         <option
                           value={`${JSON.stringify(u)}`}
-                          //selected={userBranchName}
+                        //selected={userBranchName}
                         >
                           {u.locationName.split(",")[1]}
                         </option>
@@ -237,7 +243,7 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "employees" &&
-              location.pathname.includes("employees")
+                location.pathname.includes("employees")
                 ? "activePath"
                 : "not-active"
             }
@@ -264,7 +270,7 @@ const SidePanel = () => {
               }
             }}
           >
-            <Tableware className="menu-items-icon" style={{width:"24px",height:"24px"}} />
+            <Tableware className="menu-items-icon" style={{ width: "24px", height: "24px" }} />
             {isExpanded && (
               <span className="menu-items-name">Product Catalog</span>
             )}
@@ -283,10 +289,10 @@ const SidePanel = () => {
               // setShowOfferListNav(!showOfferListNav);
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column",marginLeft:!isExpanded && showOfferOptions === "MenuOptions"? '0rem' : '0px' }}
+            <div style={{ display: "flex", flexDirection: "column", marginLeft: !isExpanded && showOfferOptions === "MenuOptions" ? '0rem' : '0px' }}
 
-            
-            
+
+
             >
               <div style={{ display: "flex", gap: "1.5rem" }}>
                 <div
@@ -300,7 +306,7 @@ const SidePanel = () => {
                   )}
                 </div>
 
-                <div style={{cursor:"pointer"}}>
+                <div style={{ cursor: "pointer" }}>
                   {showOfferOptions === "MenuOptions" ? (
                     <Uparrow
                     // className="dropdown-arrow"
@@ -315,27 +321,27 @@ const SidePanel = () => {
                 </div>
               </div>
               <div
-                className={ "offers-nav-list"}
-                style={{ padding: "0", margin: "0" ,left:!isExpanded && showOfferOptions === "MenuOptions"? '-0.4rem' : '4rem'}}
+                className={"offers-nav-list"}
+                style={{ padding: "0", margin: "0", left: !isExpanded && showOfferOptions === "MenuOptions" ? '-0.4rem' : '4rem' }}
               >
-                {showOfferOptions === "MenuOptions"  && (
-                  <ul className="menu-items-list"  style={{ padding: "0", margin: "0" ,marginTop:!isExpanded && showOfferOptions === "MenuOptions"?"1rem":""}}>
-                    {showOfferOptions === "MenuOptions" 
+                {showOfferOptions === "MenuOptions" && (
+                  <ul className="menu-items-list" style={{ padding: "0", margin: "0", marginTop: !isExpanded && showOfferOptions === "MenuOptions" ? "1rem" : "" }}>
+                    {showOfferOptions === "MenuOptions"
                       ? offerMenuOptions.map((option) => (
-                          <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
-                            <span
-                              style={{ color: SelectSub == option ? "#E52333" : '#000000' }}
-                              onClick={() => {
-                                option === "Offers"
-                                  ? history.push("/Offer")
-                                  : history.push("/Offers/active");
-                                setSelectedSub(option);
-                              }}
-                            >
-                              {option}
-                            </span>
-                          </li>
-                        ))
+                        <li className="menuList-offers-sub-category" style={{ width: !isExpanded ? "4rem" : "100%" }}>
+                          <span
+                            style={{ color: SelectSub == option ? "#E52333" : '#000000' }}
+                            onClick={() => {
+                              option === "Offers"
+                                ? history.push("/Offer")
+                                : history.push("/Offers/active");
+                              setSelectedSub(option);
+                            }}
+                          >
+                            {option}
+                          </span>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -345,7 +351,7 @@ const SidePanel = () => {
 
           <div
 
-          style={{marginTop:showOfferOptions === "MenuOptions"&&offerMenuOptions.length>0?"-1.2rem":"0" }}
+            style={{ marginTop: showOfferOptions === "MenuOptions" && offerMenuOptions.length > 0 ? "-1.2rem" : "0" }}
             className={
               showOptions === "reportOptions" ? "activePath" : "not-active"
             }
@@ -357,11 +363,17 @@ const SidePanel = () => {
               // setShowReportsOptions(!showReportsOptions);
             }}
           >
-            <div 
-           style={{ display: "flex", flexDirection: "column",marginLeft:!isExpanded && showOptions === "reportOptions"? '-0.3rem' : '0px' }}
-            
+            {/* #fafafa */}
+            {/* backgroundColor: SelectSub === "Reports & Insights" ? "pink" : "#ffffff" */}
+            {/* backgroundColor: "pink" */}
+            {/* {console.log("9999", { SelectSub })} */}
+            <div
+              style={{
+                padding: "0.3rem", backgroundColor: showOptions === "reportOptions" ? "#fafafa" : "#ffffff", display: "flex", flexDirection: "column", marginLeft: !isExpanded && showOptions === "reportOptions" ? '-0.3rem' : '0px'
+              }}
+
             >
-              <div style={{ display: "flex", gap:!isExpanded? "1.5rem" :"2rem",justifyContent:"left",alignItems:"center" }}>  
+              <div style={{ display: "flex", gap: !isExpanded ? "1.5rem" : "2rem", justifyContent: "left", alignItems: "center" }}>
                 <div
                   className={
                     showOptions === "reportOptions" ? "activePath" : "not-active"
@@ -373,7 +385,7 @@ const SidePanel = () => {
                   )}
                 </div>
 
-                <div style={{cursor:"pointer"}}>
+                <div style={{ cursor: "pointer" }}>
                   {showOptions === "reportOptions" ? (
                     <Uparrow
                     // className="dropdown-arrow"
@@ -387,30 +399,35 @@ const SidePanel = () => {
                   )}
                 </div>
               </div>
+              {/* backgroundColor: "#fafafa" */}
               <div
-                className={ "offers-nav-list" }
-                style={{ padding: "0", margin: "0" ,left:!isExpanded && showOptions === "reportOptions"? '-0.45rem' : '4rem'}}
+                className={"offers-nav-list"}
+                style={{ padding: "0", margin: "0", left: !isExpanded && showOptions === "reportOptions" ? '-0.45rem' : '4rem' }}
               >
                 {showOptions === "reportOptions" && (
-                  <ul className="menu-items-list" style={{ padding: "0", margin: "0" ,marginLeft:!isExpanded && showOptions === "reportOptions"? '0.4rem' : '0px',marginTop:!isExpanded &&showOptions === "reportOptions"?"1rem":""}}>
-                    {showOptions === "reportOptions" 
+                  <ul className="menu-items-list" style={{ padding: "0", margin: "0", marginLeft: !isExpanded && showOptions === "reportOptions" ? '0.4rem' : '0px', marginTop: !isExpanded && showOptions === "reportOptions" ? "1rem" : "" }}>
+                    {showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
-                          <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
-                            <span
-                              style={{ color: SelectSubForReport == option ? "#E52333" : '#000000' }}
-                              onClick={() => {
-                                if (option === "Reports & Insights") {
-                                  history.push(`/old-reports`);
-                                  // history.push("/live-reports");
-                                } else if (option === "Chart JS") {
-                                  history.push("/live-reports");
-                                }
-                              }}
-                            >
-                              {option}
-                            </span>
-                          </li>
-                        ))
+                        <li className="menuList-offers-sub-category" style={{ width: !isExpanded ? "4rem" : "100%" }}>
+                          <span
+                            style={{ color: SelectSubForReport == option ? "#E52333" : '#000000' }}
+                            onClick={() => {
+                              if (option === "Reports & Insights") {
+                                history.push(`/old-reports`);
+                                // history.push("/live-reports");
+                              } else if (option === "Chart JS") {
+                                history.push("/live-reports");
+                              } else if (option === "Sales") {
+                                history.push("/sales-over-view-reports");
+                              } else if (option === "Product") {
+                                history.push("/product-reports");
+                              }
+                            }}
+                          >
+                            {option}
+                          </span>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -518,7 +535,7 @@ const SidePanel = () => {
           </div> */}
 
           <div
-          //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
+            //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
             className="not-active"
             // className={
             //   showOptions === "reportOptions" &&
@@ -527,7 +544,7 @@ const SidePanel = () => {
             //     : "not-active"
             // }
             onClick={() => {
-              
+
             }}
           >
             {
@@ -535,7 +552,7 @@ const SidePanel = () => {
                 <div className="logOutBtn" onClick={logoutUser}>
                   <img src={logout} alt="" />
                   {isExpanded && (
-                      <span className="menu-items-name">Log Out</span>
+                    <span className="menu-items-name">Log Out</span>
                   )}
                 </div>
               </>
@@ -921,7 +938,7 @@ const SidePanel = () => {
               </div>
             }
           </div> */}
-        </ul>
+        </ul >
         <div>
           {isExpanded && (
             <div className="magilhub-bottom-logo">
@@ -930,7 +947,7 @@ const SidePanel = () => {
             </div>
           )}
         </div>
-      </div>
+      </div >
       <div>
         <img
           onClick={toggleExpand}

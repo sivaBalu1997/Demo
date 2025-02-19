@@ -1,0 +1,13 @@
+.sales-overview-container{
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 5vh;
+    width: 94%;
+
+    &.sales-overview-container-expanded { 
+        width: 82%;
+        background-color: palegreen;
+    }
+}
