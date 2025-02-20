@@ -116,6 +116,8 @@ const AvailabilityChangesUntil = ({
     );
     setfilteredsession(todayWorkinghours);
   }, [restaurantDetails]);
+
+
   const filterWorkingHoursBySession = (session) => {
     const todayDay = getTodayDay();
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
@@ -162,7 +164,9 @@ const AvailabilityChangesUntil = ({
       setTimeToSet(Time);
     } else if (elem === "End of Sessions") {
       const formattedDate = getFormattedDate();
-      const SessionTime = `${formattedDate}T${filteredsession&& filteredsession[0].closingTime}`;
+      console.log({filteredsession});
+      
+      const SessionTime = `${formattedDate}T${filteredsession&& filteredsession[filteredsession?.length-1].closingTime}`;
       if (filteredsession?.length ===1) {
         setTimeToSet(SessionTime);
        
