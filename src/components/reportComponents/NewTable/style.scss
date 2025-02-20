@@ -386,6 +386,7 @@ $text-secondary: #6b7280;
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 0.2vw;
       }
 
       .prev-button,
@@ -393,7 +394,7 @@ $text-secondary: #6b7280;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 2.5rem;
+        width: 3.8rem;
         height: 2rem;
         border-radius: 0.375rem;
         border: 1px solid $border-color;

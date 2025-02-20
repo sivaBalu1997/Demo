@@ -64,7 +64,7 @@ const EmployeeInsights: React.FC = () => {
   const dispatch = useDispatch();
 
   const TABLE_RECORDS_LIMIT = 15;
-  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(15);
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
   const selectedBranch = useSelector(
     (state: any) => state.auth?.selectedBranch || null
@@ -358,6 +358,29 @@ const EmployeeInsights: React.FC = () => {
     setIsSwitchActive((prev) => !prev)
   }
 
+  const handleSearch = (value: string, kpiTitle: string) => {
+    switch (kpiTitle) {
+      case 'Employee Void Activity':
+        if (getLocationDates) {
+          dispatch(
+            employeeStaffActivityRequest({
+              ...getLocationDates,
+              tablePageNo: currentPageEmployeeVoidActivity,
+              tableRecordLimit: employeeVoidRecordLimit,
+            })
+          );
+        }
+        break;
+
+      // case 'Live Orders Non Dine-in':
+      //   currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+      //   break;
+
+      default:
+        console.warn(`Unknown KPI title: ${kpiTitle}`);
+    }
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
       <SidePanel />
@@ -534,7 +557,7 @@ const EmployeeInsights: React.FC = () => {
           />
         </div>
         <div className="employee-details-container">
-          {/* <NewTable
+          <NewTable
             kpiTitle="Employee Void Activity"
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -548,7 +571,8 @@ const EmployeeInsights: React.FC = () => {
             loader={employeeVoidActivityLoading}
             count={employeeVoidActivityAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"
-          /> */}
+            onSearch={handleSearch}
+          />
         </div>
         {/* SwitchableBox */}
         <div className="employee-details-container">
@@ -561,7 +585,7 @@ const EmployeeInsights: React.FC = () => {
         </div>
         {/* CardWithMiniGraph */}
         <div className="employee-details-container">
-          <CardWithMiniGraph cardTitle="Total Sales" cardValue={10} incrementDecrementValue={"21"} isMonetary={true} showMiniGraph={true} incrementOrDecrement="decrement" loader={false} />
+          <CardWithMiniGraph cardTitle="Total Sales" cardValue={null} incrementDecrementValue={null} isMonetary={true} showMiniGraph={false} />
         </div>
         <div className="dynamic-chart-container">
           <div className="chart-options-config-header">

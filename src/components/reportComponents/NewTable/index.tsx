@@ -42,6 +42,18 @@ const NewTable: React.FC<NewTableProps> = ({
 }) => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
 
+    const [initialLoader, setInitialLoader] = useState(true);
+    const [tableLoader, setTableLoader] = useState(false);
+
+    useEffect(() => {
+        if (loader) {
+            setTableLoader(true); // Table shimmer active
+        } else {
+            setInitialLoader(false); // Hide initial shimmer
+            setTableLoader(false);  // Hide table shimmer
+        }
+    }, [loader]);
+
     // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
     // console.log("9999", { tableData })
@@ -143,7 +155,7 @@ const NewTable: React.FC<NewTableProps> = ({
 
 
     return (
-        loader ? (
+        initialLoader ? (
             <TableShimmer />
         ) :
             (
@@ -233,7 +245,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {paginatedData?.map((row, index) => (
+                                    {/* {paginatedData?.map((row, index) => (
                                         <tr key={index}>
                                             {headerData?.map(header => (
                                                 <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
@@ -241,7 +253,28 @@ const NewTable: React.FC<NewTableProps> = ({
                                                 </td>
                                             ))}
                                         </tr>
-                                    ))}
+                                    ))} */}
+                                    {tableLoader ? (
+                                        // Shimmer Effect for Table Rows (only when search, pagination, row-limit changes)
+                                        [...Array(rowsPerPage)].map((_, index) => (
+                                            <tr key={index} className="skeleton-row">
+                                                {headerData.map((header, i) => (
+                                                    <td key={i}>
+                                                        <div className="skeleton-box"></div>
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        // Actual Data Rendering
+                                        paginatedData?.map((row, index) => (
+                                            <tr key={index}>
+                                                {headerData?.map(header => (
+                                                    <td key={header?.key}>{row[header?.key]}</td>
+                                                ))}
+                                            </tr>
+                                        ))
+                                    )}
                                 </tbody>
                             </table>
                         )}
