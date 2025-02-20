@@ -281,7 +281,7 @@ const CategoryReport = (props) => {
               <div className="category-dropdown-sub-container">
                 <span className="category-dropdown-text">Select date</span>
                 <CustomDropdown
-                  options={[{ value: "Sales", label: "Sales" }]}
+                  options={[{ value: "Sales", label: "Sales" },{ value: "Product", label: "Product" }]}
                   value={"Sales"}
                   className="category-dropdown"
                 />
