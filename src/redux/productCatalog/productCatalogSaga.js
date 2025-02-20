@@ -434,7 +434,13 @@ function* imageUploadSaga (action) {
 
     try {
       const response = yield call(uploadImageApi, image, itemId);
-      yield put(imageUploadSuccess(itemId));
+
+      if(i===images.length-1 && response.status===200)
+      {
+        yield put(imageUploadSuccess(itemId));
+      }
+
+      
     } catch (error) {
       failureArray.push({
         file: image.file,

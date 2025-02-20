@@ -49,9 +49,9 @@ const Step2 = () => {
             </div>
           </div>
 
-          <div className="Res">
-            <h1 className="Res-heading">{selectedBranch?.locationName}</h1>
-          </div>
+          {/* <div className="Res">
+            <h1 className="Res-heading">{selectedBranch?.locationName?.split(',')[1]}</h1>
+          </div> */}
           {/* <div className="CostPrice">
             <h1 className="CostPrice-heading">Cost Price</h1>
             <h1 className="Rupees-heading"> {prizingDetail?.normalForm?.dineInDetails?.price ? restaurantDetails?.country === "US" ? "$" : "Rs." : ""}{Number(prizingDetail?.normalForm?.dineInDetails?.price)?.toFixed(2)}

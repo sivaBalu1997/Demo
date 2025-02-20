@@ -479,6 +479,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const addMenuLoading = useSelector(
     (state: any) => state.productCatalog?.addMenuLoading
   );
+  
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.DietaryType?.includes(dietary.name)
@@ -1466,9 +1467,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleSubmitItemDetails}
-            disabled={addMenuLoading || updateMenuItemLoading}
+            disabled={addMenuLoading&&uploadImageLoading || updateMenuItemLoading&&uploadImageLoading}
           >
-            {addMenuLoading || updateMenuItemLoading ? (
+            {addMenuLoading&&uploadImageLoading || updateMenuItemLoading&&uploadImageLoading ? (
               <div className="reviewLoaders"></div>
             ) : (
               "Publish"
