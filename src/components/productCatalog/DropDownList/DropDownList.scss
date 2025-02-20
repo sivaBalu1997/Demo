@@ -493,3 +493,56 @@ right: 3%;
   height: 3rem;
   // border: 1px solid green;
 }
+.delete-option
+
+{
+
+  position: relative;
+  // border: 1px solid red;
+  .delete-updated {
+    position: absolute;
+    visibility: hidden;
+    // top: 100px;
+    right: 332px;
+    top: 15px;
+    // left: 1%;
+    width: 188px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    // background-color: pink;
+  
+    .delete-box-updated {
+      width: fit-content;
+      height: fit-content;
+      border-radius: 3px;
+      // padding: 6px;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      background-color: #e52333;
+      color: white;
+      font-size: 8px;
+      margin-bottom: 0;
+    }
+  
+    .ArrowHoverdelete-updated {
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
+  
+      width: 10px;
+      height: 10px;
+      top: 3px;
+      // background-color: lightcoral;
+      left: 72%;
+      // margin-bottom: 2px;
+    }
+  }
+  &:hover .delete-updated {
+    visibility: visible;
+    opacity: 1;
+  }
+}

@@ -87,12 +87,11 @@ const EyeModal = ({ onEyeclose, onclose, setEyeIconOpenClose }) => {
 
   const hidePayload = {
     itemId: data1[0]?.itemId,
-    isEnabled: false,
     itemOrderTypeStatuses: availabilityOrderTypes?.flatMap((section) =>
-      section?.types?.map((subItem) => ({
-        orderTypeId: subItem?.typeId,
-        isEnabled: subItem?.isNotHide,
-      }))
+      section?.types?.filter((subItem) => typeof subItem?.isNotHide === "boolean").map((subItem) => ({
+          orderTypeId: subItem?.typeId,
+          isEnabled: subItem?.isNotHide,
+        }))
     ),
   };
 
