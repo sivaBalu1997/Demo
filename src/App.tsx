@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles/app.scss";
+import "./styles/layout.scss";
 import { signOut, storeCredentials } from "./redux/auth/authActions";
 import { clearMenuData } from "./redux/menu/menuAction";
 import { ToastContainer } from "react-toastify";

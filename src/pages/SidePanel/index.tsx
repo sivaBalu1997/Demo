@@ -2,11 +2,10 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  Fragment,
   useContext,
 } from "react";
 import "../../styles/menu.scss";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import {  useHistory, useLocation } from "react-router-dom";
 import {
   SELECTED_BRANCH_DATA,
   STORAGE_BUCKET_URL,
@@ -33,11 +32,15 @@ import logout from '../../assets/svg/LogoutIcon.svg'
 import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-import { ReactComponent as CMS } from "../../assets/svg/CMS.svg";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
-import exp from "constants";
+import { SideMenuInterface } from "interface/commonInterface";
+// import { ReactComponent as CMS } from "../../assets/svg/CMS.svg";
+// import exp from "constants";
 
 const SidePanel = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
   const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
     localStorage.getItem(SELECTED_BRANCH_DATA) || "";
@@ -46,10 +49,46 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales", "Product", "Staff", "Check-in", "Customer", "Event"];
-  const offerMenuOptions = ["Special Price"];
+ const offerMenuOptions = ["Special Price"];
+  const reportInsightsOptions :SideMenuInterface[]= [{
+    name:"Reports & Insights",
+    path:"/old-reports"
+  },
+  {
+    name:"Chart JS",
+    path:"/live-reports"
+  },
+  {
+    name:"Sales",
+    path:"/sales-reports"
+  },
 
-  const history = useHistory();
+  {
+    name:"Product",
+    path:"/product-reports"
+  },
+  {
+    name:"Product",
+    path:""
+  },
+  {
+    name:"Staff",
+    path:""
+  },
+  {
+    name:"Check-in",
+    path:""
+  },
+  {
+    name:"Customer",
+    path:""
+  },
+  {
+    name:"Event",
+    path:""
+  }
+    ];
+
 
   // useEffect(() => {
   //   if (window.innerWidth <= 575) {
@@ -57,23 +96,18 @@ const SidePanel = () => {
   //   }
   // }, [history]);
 
-  const location = useLocation();
-  const dispatch = useDispatch();
+
   const [showOptions, setShowOptions] = useState("employees");
   const [showOfferOptions, setShowOfferOptions] = useState("");
-  const [showReportsOptions, setShowReportsOptions] = useState(false);
-  const [showOfferListNav, setShowOfferListNav] = useState(false);
-  const [routeTo, setRouteTo] = useState({});
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-  const [isExpand, setIsExpand] = useState(true);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
-
+  
   useEffect(() => {
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
       // history.push("/productCatalog/menuListing");
-    } else if (location?.pathname?.includes("/old-reports")) {
+    } else if (location?.pathname?.includes("/reports-and-insights")) {
       setSelectSubForReport("Reports & Insights");
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("report/32")) {
@@ -82,7 +116,7 @@ const SidePanel = () => {
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
       setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/sales-over-view-reports")) {
+    } else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/product-reports")) {
@@ -187,6 +221,11 @@ const SidePanel = () => {
     history.replace("/");
   }
 
+
+  const handlePath=(path:string="",subMenuTitle:string="")=>{
+    path && history.push(path);
+      setSelectedSub(subMenuTitle)
+  }
   return (
     <>
       <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
@@ -399,7 +438,6 @@ const SidePanel = () => {
                   )}
                 </div>
               </div>
-              {/* backgroundColor: "#fafafa" */}
               <div
                 className={"offers-nav-list"}
                 style={{ padding: "0", margin: "0", left: !isExpanded && showOptions === "reportOptions" ? '-0.45rem' : '4rem' }}
@@ -407,27 +445,15 @@ const SidePanel = () => {
                 {showOptions === "reportOptions" && (
                   <ul className="menu-items-list" style={{ padding: "0", margin: "0", marginLeft: !isExpanded && showOptions === "reportOptions" ? '0.4rem' : '0px', marginTop: !isExpanded && showOptions === "reportOptions" ? "1rem" : "" }}>
                     {showOptions === "reportOptions"
-                      ? reportInsightsOptions.map((option) => (
-                        <li className="menuList-offers-sub-category" style={{ width: !isExpanded ? "4rem" : "100%" }}>
-                          <span
-                            style={{ color: SelectSubForReport == option ? "#E52333" : '#000000' }}
-                            onClick={() => {
-                              if (option === "Reports & Insights") {
-                                history.push(`/old-reports`);
-                                // history.push("/live-reports");
-                              } else if (option === "Chart JS") {
-                                history.push("/live-reports");
-                              } else if (option === "Sales") {
-                                history.push("/sales-over-view-reports");
-                              } else if (option === "Product") {
-                                history.push("/product-reports");
-                              }
-                            }}
-                          >
-                            {option}
-                          </span>
-                        </li>
-                      ))
+                      ? reportInsightsOptions.map((option:SideMenuInterface) => (
+                          <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
+                            <span
+                              style={{ color: SelectSubForReport == option?.name ? "#67833E" : '#000000' }}
+                              onClick={() =>handlePath(option?.path, "Reports & Insights") }                            >
+                              {option?.name}
+                            </span>
+                          </li>
+                        ))
                       : null}
                   </ul>
                 )}
