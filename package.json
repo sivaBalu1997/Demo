@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://apid.gcp.magilhub.com/magilhub-data-services",
   "dependencies": {
+    "@canvasjs/charts": "^3.12.2",
     "@canvasjs/react-charts": "^1.0.2",
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf-viewer/default-layout": "^3.12.0",
@@ -24,6 +25,7 @@
     "moment": "^2.29.1",
     "npm": "^7.14.0",
     "nvm": "^0.0.4",
+    "pdfjs-dist": "^3.11.174",
     "process": "^0.11.10",
     "rc-time-picker": "^3.7.3",
     "react": "^17.0.1",

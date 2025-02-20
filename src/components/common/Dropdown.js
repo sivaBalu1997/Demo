@@ -8,9 +8,10 @@ const Dropdown = ({
   handleSelect,
   placeholder,
   name,
+  className
 }) => {
   return (
-    <div className="dropdown">
+    <div className={`dropdown ${className}`}>
       <select
         style={{ color: color }}
         value={selectValue}

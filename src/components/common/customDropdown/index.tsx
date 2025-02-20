@@ -20,6 +20,7 @@ interface CustomDropdownProps {
   style?: React.CSSProperties;
   placeholderClass?: string;
   disabled?: boolean;
+  className?: string;
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
@@ -35,18 +36,20 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   style,
   placeholderClass,
   disabled,
+  className,
 }) => {
   return (
     <Dropdown
       options={options}
       onChange={onSelect}
       value={value}
-      placeholder={""}
+      className={className}
+      placeholder={placeholder}
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
       controlClassName={`${controlClassName} add-employee-dropdown`}
       arrowClassName={arrowClassName}
-      menuClassName="MenuClass"
+      menuClassName={"MenuClass " + className}
       disabled={disabled}
       placeholderClassName={
         placeholderClass
