@@ -73,15 +73,15 @@ const App = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const handleContextMenu = (event: MouseEvent) => {
-      event.preventDefault();
-    };
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleContextMenu = (event: MouseEvent) => {
+  //     event.preventDefault();
+  //   };
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
+  //   };
+  // }, []);
 
   const authState = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();

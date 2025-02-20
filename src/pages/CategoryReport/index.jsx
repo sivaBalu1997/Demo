@@ -1,15 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./Tabs.css";
 
-import { API } from "../../redux/api";
-import { getOutlets } from "../../redux/employee/employeeActions";
-import { clearMenuData } from "../../redux/menu/menuAction";
-
-import { signOut } from "../../redux/auth/authActions";
-import { useHistory, useLocation } from "react-router";
-import {
-  IS_SPORT_VERTICAL,
-  IS_SPORT_DOMAIN,
-} from "../../shared/constants";
 import SidePanel from "../SidePanel";
 import CustomDropdown from "../../components/common/customDropdown/index";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
@@ -17,261 +9,59 @@ import MiniCard from "components/common/MiniCard/MiniCard";
 import SalesChart from "./salesReport";
 import LinearBarChart from "./barChart";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
-const axios = require("axios");
-
-const reportCategory = [{ id: 32, option: "Sales" }];
+import DoughnutChart from "./doughnutChart";
 
 const CategoryReport = (props) => {
-  const credentials = useSelector((state) => state.auth.credentials);
-  const outlets = useSelector((state) => state.employee.outlets);
-  const restaurantDetails = useSelector(
-    (state) => state.auth.restaurantDetails
-  );
-  const merchantId = credentials?.merchantId;
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
-
-  const [iframeSource, setiFrameSource] = useState("");
-  const [reportId, setReportId] = useState("");
-  const [branchId, setBranchId] = useState("");
-  const [branchName, setBranchName] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [selectValue, setSelectValue] = useState(
-    location.state ? location.state : reportCategory[0].option
-  );
   const [activeBtn, setActiveBtn] = useState("categories");
-  // console.log("qqqq8", { selectValue })
-  const [reportData, setReportData] = useState([]);
-  const [singleBranchId, setSingleBranchId] = useState(
-    restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id
-  );
-  const branchDetails = useSelector((state) => state.auth.selectedBranch);
+  const tabList = [
+    { key: "todaySummary", label: "Today summary" },
+    { key: "customers", label: "Customers" },
+    { key: "categories", label: "Categories" },
+    { key: "employees", label: "Employees" },
+    { key: "trends", label: "Trends" },
+  ];
 
-  useEffect(() => {
-    getReportData(branchDetails?.id);
-  }, []);
-
-  useEffect(() => {
-    if (outlets.length == 0 && credentials) {
-      setBranchId(credentials?.locationId);
-    }
-  }, [outlets]);
-
-  useEffect(() => {
-    if (credentials) {
-      dispatch(getOutlets(credentials?.merchantId));
-    }
-  }, [credentials]);
-
-  useEffect(() => {
-    if (reportId !== "") {
-      fetchData();
-    }
-  }, [reportId, branchId]);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const token = credentials?.accessToken;
-    API({
-      method: "get",
-      url:
-        "/merchants/" +
-        merchantId +
-        "/location/" +
-        branchId +
-        "/reports/" +
-        reportId,
-      headers: {
-        Authorization: "bearer " + token,
-      },
-    })
-      .then((res) => {
-        //console.log(res);
-        if (res.status === 200) {
-          //console.log(res.data.url);
-          setiFrameSource(res.data.url);
-          setLoading(false);
-        } else {
-          setError("please try again later");
-        }
-      })
-      .catch((err) => {
-        //console.log(err);
-        setError("please try again later");
-      });
-  };
-
-  const getReportData = async (locationId) => {
-    const token = credentials?.accessToken;
-    let reportId =
-      restaurantDetails.country == "US" && location.pathname === "report/32"
-        ? 41
-        : restaurantDetails.country == "IN" && location.pathname === "report/32"
-        ? 32
-        : location.pathname === "/report/51"
-        ? 51
-        : location.pathname === "/report/57"
-        ? 57
-        : location.pathname === "/report/63"
-        ? 63
-        : location.pathname === "/report/67"
-        ? 67
-        : location.pathname === "/report/82"
-        ? 82
-        : 2;
-    API({
-      method: "get",
-      url:
-        "/merchants/" +
-        merchantId +
-        "/location/" +
-        locationId +
-        "/reports/" +
-        reportId,
-      headers: {
-        Authorization: "bearer " + token,
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          setReportData(res.data?.url);
-          setiFrameSource(res.data.url);
-        } else {
-          setError("please try again later");
-        }
-      })
-      .catch((err) => {
-        setError("please try again later");
-      });
-  };
-
-  const logoutUser = () => {
-    dispatch(clearMenuData());
-    localStorage.clear();
-    dispatch(signOut());
-    history.replace("/");
-  };
-
+  // Track which tab is active
+  const [activeTab, setActiveTab] = useState(tabList[0].key);
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
-      <div className="menu-items">
-        <div className="header header-category">
-          <h1 className="report-title">{"Reports & Insights"}</h1>
-        </div>
-
-        <div
-          className="header-menu"
-          style={{
-            justifyContent: "space-between",
-          }}
-        >
-          {/* <div>
-          <Stats className="menu-items-SVG" />
-          <h2
-            style={{
-              fontSize: "1.1vw",
-            }}
-          >{`Reports & Insights  >   ${props.title}`}</h2>
-        </div> */}
-          <div>
-            {selectValue === "Sales" && (
-              <div
-                className={`${
-                  location.pathname === "/report/32" ? "selected" : "unselected"
-                }`}
-                onClick={() => history.push("/report/32", "Sales")}
-              >
-                Sales Report
-              </div>
-            )}
-            {selectValue === "Sales" && (
-              <div
-                className={`tab ${
-                  location.pathname === "/report/82" ? "selected" : "unselected"
-                }`}
-                onClick={() => history.push("/report/82", "Sales")}
-              >
-                Category Report
-              </div>
-            )}
-            {/* {
-            <div
-              className={` ${
-                location.pathname === "/report/32"
-                  ? "selected"
-                  : "unselected"
-              }`}
-              onClick={() => history.push("/report/32", "Check In")}
-            >
-              Checkin Report
+      <div className="category-page-cotainer">
+        <div className="category-page-header">
+          <div className="category-page-header-container">
+            <div className="header-category">
+              <h1 className="report-title">{"Reports & Insights"}</h1>
             </div>
-          } */}
 
-            {restaurantDetails.vertical == IS_SPORT_DOMAIN && (
-              <div
-                className={`tab ${
-                  location.pathname === "/management/report/67"
-                    ? "selected"
-                    : "unselected"
-                }`}
-                onClick={() => history.push("/management/report/67", "Sales")}
-              >
-                Enrolment tracker
-              </div>
-            )}
-            {selectValue === "Sales" && (
-              <div
-                className={` ${
-                  location.pathname === "/report/57" ? "selected" : "unselected"
-                }`}
-                onClick={() => history.push("/report/57", "Sales")}
-              >
-                Product Insights
-              </div>
-            )}
-
-            {
-              <div
-                className={`tab ${
-                  location.pathname === "/report/2" ? "selected" : "unselected"
-                }`}
-                onClick={() => history.push("/report/2", "Sales")}
-              >
-                Check-In Report
-              </div>
-            }
-
-            {selectValue === "Sales" && (
-              <div
-                className={` ${
-                  location.pathname === "/report/51" ? "selected" : "unselected"
-                }`}
-                onClick={() => history.push("/report/51", "Sales")}
-              >
-                Customer Insights
-              </div>
-            )}
-            {branchDetails.cusine != null &&
-              branchDetails.cusine[0] != null &&
-              branchDetails.cusine[0] == IS_SPORT_VERTICAL &&
-              selectValue === "Sales" && (
+            <div className="tabs-container">
+              {/* Tab Bar */}
+              {/* <ul className="tabs-list"> */}
+              {tabList.map((tab) => (
                 <div
-                  className={` ${
-                    location.pathname === "/management/report/63"
-                      ? "selected"
-                      : "unselected"
+                  key={tab.key}
+                  className={`tab-item ${
+                    activeTab === tab.key ? "active" : ""
                   }`}
-                  onClick={() => history.push("/management/report/63", "Sales")}
+                  onClick={() => setActiveTab(tab.key)}
                 >
-                  Consolidated Report
+                  {tab.label}
                 </div>
-              )}
+              ))}
+              {/* </ul> */}
+
+              {/* Tab Content */}
+              <div>
+                {activeTab === "categories" && (
+                  <div>
+                    {/* <h2>Categories</h2>
+            <p>Content for Categories goes here...</p> */}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-        <div>
+        <div className="category-page-body">
           <div className="category-filters-section">
             <div className="category-store-name">
               <span>Store name</span>
@@ -281,7 +71,10 @@ const CategoryReport = (props) => {
               <div className="category-dropdown-sub-container">
                 <span className="category-dropdown-text">Select date</span>
                 <CustomDropdown
-                  options={[{ value: "Sales", label: "Sales" },{ value: "Product", label: "Product" }]}
+                  options={[
+                    { value: "Sales", label: "Sales" },
+                    { value: "Product", label: "Product" },
+                  ]}
                   value={"Sales"}
                   className="category-dropdown"
                 />
@@ -319,28 +112,72 @@ const CategoryReport = (props) => {
               Items
             </button>
           </div>
-          <div>
-            <div className="select-categories-title-container">
-              <span className="select-categories-title poppins-fw400-fs16">
-                Select Categories{" "}
-              </span>
-              <span className="font-color-red poppins-fw400-fs16">*</span>
-            </div>
-            {/* <CustomDropdown
+          <div className="categories-items-container">
+            {/* <div className="categories-items-content">
+              <div>
+                <div className="select-categories-title-container">
+                  <span className="select-categories-title poppins-fw400-fs16">
+                    Select Categories{" "}
+                  </span>
+                  <span className="font-color-red poppins-fw400-fs16">*</span>
+                </div>
+                <ReusableDropdown
+                  options={[
+                    { value: "Sales", label: "Sales" },
+                    { value: "Dosai", label: "Dosai" },
+                    { value: "Veg Briyani", label: "Veg Briyani" },
+                  ]}
+                  value={"Sales"}
+                  placeholder={"Select categories"}
+                  dropdownContainerClassName="select-food-item-dropdown-cotainer"
+                  dropdownClassName="select-food-item-dropdown"
+                  dropdownPrefix={"select-food-item-dropdown-prefix"}
+                />
+              </div>
+              <RoundedPill
+                data={[
+                  { name: "Dosai" },
+                  { name: "Cadai" },
+                  { name: "Dosai" },
+                  { name: "Cadai" },
+                  { name: "Dosai" },
+                  { name: "Cadai" },
+                  { name: "Dosai" },
+                  { name: "Cadai" },
+                  { name: "Dosai" },
+                  { name: "Cadai" },
+                ]}
+              />
+            </div> */}
+            <div className="categories-items-content">
+              <div>
+                <div className="select-categories-title-container">
+                  <span className="select-categories-title poppins-fw400-fs16">
+                    Select Categories{" "}
+                  </span>
+                  <span className="font-color-red poppins-fw400-fs16">*</span>
+                </div>
+                {/* <CustomDropdown
               options={[{ value: "Sales", label: "Sales" }]}
               className="select-food-item-dropdown"
               placeholder="Select Categories"
             /> */}
-            <ReusableDropdown
-              options={[{ value: "Sales", label: "Sales" },{ value: "Dosai", label: "Dosai" },{ value: "Veg Briyani", label: "Veg Briyani" }]}
-              value={"Sales"}
-              placeholder={"Select categories"}
-              dropdownContainerClassName="select-food-item-dropdown-cotainer"
-              dropdownClassName="select-food-item-dropdown"
-              dropdownPrefix={"select-food-item-dropdown-prefix"}
-            />
+                <ReusableDropdown
+                  options={[
+                    { value: "Sales", label: "Sales" },
+                    { value: "Dosai", label: "Dosai" },
+                    { value: "Veg Briyani", label: "Veg Briyani" },
+                  ]}
+                  value={"Sales"}
+                  placeholder={"Select categories"}
+                  dropdownContainerClassName="select-food-item-dropdown-cotainer"
+                  dropdownClassName="select-food-item-dropdown"
+                  dropdownPrefix={"select-food-item-dropdown-prefix"}
+                />
+              </div>
+              <RoundedPill data={[{ name: "Dosai" }, { name: "Cadai" }]} />
+            </div>
           </div>
-          <RoundedPill data={[{ name: "Dosai" }, { name: "Cadai" }]} />
           <div>
             <h1 className="categories-overview-heading">Categories Overview</h1>
             <MiniCard
@@ -366,6 +203,10 @@ const CategoryReport = (props) => {
           <div>
             <h1 className="categories-overview-heading">Categories Voids</h1>
             <LinearBarChart barColorCode={"#7D7774"} />
+          </div>
+          <div >
+            <h1 className="categories-overview-heading">Cancellation</h1>
+            <DoughnutChart />
           </div>
         </div>
       </div>

@@ -1,0 +1,38 @@
+.tabs-container {
+    width: 100%;
+    font-family: "Poppins";
+    font-size: 14px;
+    /* border-bottom: 1px solid #ccc;  */
+    display: flex;
+    flex-direction: row;   
+    flex-wrap: wrap;
+}
+  
+  .tabs-list {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+    background-color: #fff;    
+
+  }
+  
+  .tab-item {
+    padding: 10px 30px;
+    cursor: pointer;
+    color: #666;            
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .tab-item:hover {
+    color: #333;
+  }
+  
+  .tab-item.active {
+    font-weight: 500;
+    background-color: #FFF0F1;             
+    border-bottom: 2px solid #E52333; 
+  }
+  
+  

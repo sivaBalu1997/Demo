@@ -65,14 +65,36 @@ const SalesChart = () => {
     plugins: {
       legend: { position: "bottom" },
       tooltip: {
+        // Tooltip style
+        backgroundColor: "#fff",
+        borderColor: "#ccc",
+        borderWidth: 1,
+        displayColors: false, // Hide color boxes
+        titleColor: "#000",
+        bodyColor: "#000",
+        cornerRadius: 4,
+        // Custom tooltip content
         callbacks: {
-          label: (tooltipItem) => `$${tooltipItem.raw.toFixed(2)}`,
+          // The title callback returns the x-axis label
+          title: (tooltipItems) => {
+            if (!tooltipItems.length) return "";
+            return `Category: ${tooltipItems[0].label}`;
+          },
+          // The label callback returns two lines: Channel and Sales
+          label: (tooltipItem) => {
+            const channel = tooltipItem.dataset.label;
+            const value = tooltipItem.raw;
+            return [`Channel: ${channel}`, `Sales: $${value.toFixed(2)}`];
+          },
         },
+      },
+      datalabels: {
+        display: false,
       },
     },
     datasets: {
       bar: {
-        maxBarThickness: 30, // Set maximum bar thickness in pixels
+        maxBarThickness: 30,
         categoryPercentage: 0.5,
         barPercentage: 0.8,
       },
@@ -81,19 +103,21 @@ const SalesChart = () => {
       x: {
         stacked: true,
         barPercentage: 0.6,
-        categoryPercentage: 0.8, // Adjusts spacing between bars
+        categoryPercentage: 0.8,
         ticks: {
           color: "#555",
           font: { size: 14 },
-          minRotation: 45, // Minimum rotation (in degrees)
+          minRotation: 45,
           maxRotation: 45,
         },
       },
-
       y: {
         stacked: true,
         beginAtZero: true,
-        ticks: { color: "#555", font: { size: 12 } },
+        ticks: {
+          color: "#555",
+          font: { size: 12 },
+        },
       },
     },
   };
