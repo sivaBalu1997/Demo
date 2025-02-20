@@ -6,6 +6,8 @@ import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import ArrowHover from "../../../assets/svg/ArrowHover.svg";
+
 import {
   addDropDowRequest,
   deleteDropDowRequest,
@@ -879,7 +881,8 @@ const DropDownList: React.FC<DropdownProps> = ({
                                 {option.name}
                               </span>
                             </li>
-                            <div>
+                            <div className="delete-option">
+                              <div>
                               {editList && (
                                 <span
                                   className={`dropdown-option-delete`}
@@ -900,6 +903,18 @@ const DropDownList: React.FC<DropdownProps> = ({
                                   -Delete
                                 </span>
                               )}
+                              </div>
+                              
+                               <div className="delete-updated">
+                  <img
+                    src={ArrowHover}
+                    className="ArrowHoverdelete-updated"
+                    alt="Delete Tool"
+                  />
+                  <div className="delete-box-updated">Cannot delete if assigned to a food item.</div>
+                </div>
+
+
                             </div>
                           </div>
                         );

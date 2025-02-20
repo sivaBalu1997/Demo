@@ -735,7 +735,7 @@ case SELECTED_COLUMNS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
         draft.imageUploadsuccessemsg = true;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
@@ -743,14 +743,14 @@ case SELECTED_COLUMNS:
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         draft.imageUploadsuccessemsg = false;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
         draft.imageUploadsuccessemsg = true;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case STORE_UPLOAD_FAILURE:
@@ -758,14 +758,14 @@ case SELECTED_COLUMNS:
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
         draft.imageUploadsuccessemsg = false;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case RETRY_IMAGE_SUCCESS:

@@ -920,6 +920,7 @@ cursor: pointer;
   // border: 1px solid red;
   transform: translateY(1px);
   overflow-y: auto;
+  overflow-x: hidden;
   position: absolute;
   z-index: 2;
   top: 5.2rem;

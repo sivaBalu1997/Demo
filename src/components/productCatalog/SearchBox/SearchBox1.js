@@ -337,8 +337,10 @@ else{
             }`}
           >
             <ul
-              className={
-                isExpanded ? "MLsearchBoxContainer1" : "MLsearchBoxContainer"
+              className={`${isExpanded ? "MLsearchBoxContainer1" : "MLsearchBoxContainer"} 
+              
+              `
+                
               }
             >
               {filteredOptions.length > 0
@@ -349,11 +351,13 @@ else{
                       onClick={() => handleOptionClick(option.itemName)}
                       className={`${
                         index === highlightedIndex ? "MLhighlighted" : ""
+                        
                       }   ${
                         isExpanded
                           ? "list-of-item-name-expand"
                           : "list-of-item-name"
                       }
+                      ${highlightedIndex===index ? "no-hover" : "hover"}
 
                       
                       
