@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, debounce } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
 import {
     salesSummarySuccess,
@@ -134,6 +134,7 @@ import {
     getSalesSummary
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
+import throttle from "lodash.throttle";
 
 export function* salesSummaryRequestSaga(action) {
     try {
@@ -279,7 +280,7 @@ export function* liveOrdersRequestSaga(action) {
         const response = yield call(getLiveOrders, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            // console.log("response of liveOrdersRequestSaga", { decryptedData })
+            console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -716,10 +717,10 @@ export default function* watchNewReportRequest() {
     yield takeLatest(HOURLY_SALES_REQUEST, hourlySalesRequestSaga);
     yield takeLatest(LIVE_DISCOUNT_REQUEST, liveDiscountRequestSaga);
     yield takeLatest(LIVE_OPEN_SALES_REQUEST, liveOpenSalesRequestSaga);
-    yield takeLatest(LIVE_ORDERS_REQUEST, liveOrdersRequestSaga);
+    yield debounce(1000, LIVE_ORDERS_REQUEST, liveOrdersRequestSaga);
     yield takeLatest(LIVE_REFUNDS_REQUEST, liveRefundsRequestSaga);
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
-    yield takeLatest(LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
+    yield debounce(1000, LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
     yield takeLatest(DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
     yield takeLatest(CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);

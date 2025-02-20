@@ -332,7 +332,7 @@ $text-secondary: #6b7280;
               }
           }
       }
-  }
+    }
 
 
     .page-info {
@@ -382,6 +382,12 @@ $text-secondary: #6b7280;
         }
       }
     
+      .pagination-label{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
       .prev-button,
       .next-button {
         display: flex;

@@ -38,6 +38,7 @@ const NewTable: React.FC<NewTableProps> = ({
     loader,
     count,
     searchPlaceHolder,
+    onSearch,
 }) => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
 
@@ -135,147 +136,152 @@ const NewTable: React.FC<NewTableProps> = ({
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        onSearchChange(event.target.value);
+        onSearch(event.target.value, kpiTitle);
+    };
 
 
     return (
         loader ? (
             <TableShimmer />
-        ) : (
-            <div className="new-table-container">
-                <div className="table-header">
-                    <div className="table-title-with-count-container">
-                        <h2 className="table-title">{kpiTitle}</h2>
-                        {!!count && <p className='table-title-count'>{count}</p>}
-                    </div>
-                    <div className="table-search-with-download-opt-container">
-                        <div className="search-container">
-                            <SearchIcon className="search-icon" />
-                            <input
-                                type="text"
-                                placeholder={searchPlaceHolder ? searchPlaceHolder : "Search..."}
-                                value={searchQuery}
-                                onChange={e => onSearchChange(e.target.value)}
-                                className="search-input"
-                            />
-                            <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
+        ) :
+            (
+                <div className="new-table-container">
+                    <div className="table-header">
+                        <div className="table-title-with-count-container">
+                            <h2 className="table-title">{kpiTitle}</h2>
+                            {!!count && <p className='table-title-count'>{count}</p>}
                         </div>
-                        <div className="table-download-options-container">
-                            <TableDownloadOptionsIcon
-                                className="table-download-options"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowDownloadables((val) => !val);
-                                }}
-                            />
-                            {showDownloadables && (
-                                <div className="table-download-options-pop-over" ref={downloadPopoverRef}>
-                                    <p className="pop-over-title">Total sales overview</p>
-                                    <div className="formats-container">
-                                        <div className="download-icon-with-title">
-                                            <PdfDownloadIcon onClick={() => pdfDownloadFn(tableData, headerData)} />
-                                            <p>.PDF</p>
-                                        </div>
-                                        <div className="download-icon-with-title">
-                                            <JsonDownloadIcon onClick={() => jsonDownloadFn(tableData)} />
-                                            <p>.JSON</p>
-                                        </div>
-                                        <div className="download-icon-with-title">
-                                            <CsvDownloadIcon onClick={() => csvDownloadFn(tableData)} />
-                                            <p>.CSV</p>
-                                        </div>
-                                    </div>
-                                    <button className='download-btn'><DownloadBtn />Download</button>
-                                </div>
-                            )}
-                        </div>
-
-                    </div>
-                </div>
-
-                <div className="table-wrapper">
-                    {/* Case 1: No data available at all */}
-                    {!tableData || tableData.length === 0 ? (
-                        <div className="no-results-container">
-                            <NoOrdersFoundStampIcon />
-                            <p className="no-results-text">No Orders Found</p>
-                        </div>
-                    ) : searchQuery && filteredData.length === 0 ? (
-                        /* Case 2: User searched but no matching results */
-                        <div className="no-results-container">
-                            <NoResultsFoundStampIcon />
-                            <p className="no-results-text">No results found for "{searchQuery}"</p>
-                        </div>
-                    ) : (
-                        /* Case 3: Display the table if data is available */
-                        <table>
-                            <thead>
-                                <tr>
-                                    {headerData?.map(header => (
-                                        <th
-                                            key={header?.key}
-                                            className={`table-header-cell align-${header?.alignment || 'left'} ${header?.isSortable ? 'sortable' : ''}`}
-                                            onClick={() => header?.isSortable && handleSort(header?.key)}
-                                        >
-                                            <div className="header-content">
-                                                <span>{header?.label}</span>
-                                                {header?.isSortable && (
-                                                    <SortIcon className={`sort-icon ${sortConfig?.key === header?.key ? sortConfig?.direction : ''}`} />
-                                                )}
+                        <div className="table-search-with-download-opt-container">
+                            <div className="search-container">
+                                <SearchIcon className="search-icon" />
+                                <input
+                                    type="text"
+                                    placeholder={searchPlaceHolder ? searchPlaceHolder : "Search..."}
+                                    value={searchQuery}
+                                    onChange={handleInputChange}
+                                    className="search-input"
+                                />
+                                <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
+                            </div>
+                            <div className="table-download-options-container">
+                                <TableDownloadOptionsIcon
+                                    className="table-download-options"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowDownloadables((val) => !val);
+                                    }}
+                                />
+                                {showDownloadables && (
+                                    <div className="table-download-options-pop-over" ref={downloadPopoverRef}>
+                                        <p className="pop-over-title">Total sales overview</p>
+                                        <div className="formats-container">
+                                            <div className="download-icon-with-title">
+                                                <PdfDownloadIcon onClick={() => pdfDownloadFn(tableData, headerData)} />
+                                                <p>.PDF</p>
                                             </div>
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {paginatedData?.map((row, index) => (
-                                    <tr key={index}>
+                                            <div className="download-icon-with-title">
+                                                <JsonDownloadIcon onClick={() => jsonDownloadFn(tableData)} />
+                                                <p>.JSON</p>
+                                            </div>
+                                            <div className="download-icon-with-title">
+                                                <CsvDownloadIcon onClick={() => csvDownloadFn(tableData)} />
+                                                <p>.CSV</p>
+                                            </div>
+                                        </div>
+                                        <button className='download-btn'><DownloadBtn />Download</button>
+                                    </div>
+                                )}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div className="table-wrapper">
+                        {/* Case 1: No data available at all */}
+                        {!tableData || tableData.length === 0 ? (
+                            <div className="no-results-container">
+                                <NoOrdersFoundStampIcon />
+                                <p className="no-results-text">No Orders Found</p>
+                            </div>
+                        ) : searchQuery && filteredData?.length === 0 ? (
+                            /* Case 2: User searched but no matching results */
+                            <div className="no-results-container">
+                                <NoResultsFoundStampIcon />
+                                <p className="no-results-text">No results found for "{searchQuery}"</p>
+                            </div>
+                        ) : (
+                            /* Case 3: Display the table if data is available */
+                            <table>
+                                <thead>
+                                    <tr>
                                         {headerData?.map(header => (
-                                            <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
-                                                {row[header?.key]}
-                                            </td>
+                                            <th
+                                                key={header?.key}
+                                                className={`table-header-cell align-${header?.alignment || 'left'} ${header?.isSortable ? 'sortable' : ''}`}
+                                                onClick={() => header?.isSortable && handleSort(header?.key)}
+                                            >
+                                                <div className="header-content">
+                                                    <span>{header?.label}</span>
+                                                    {header?.isSortable && (
+                                                        <SortIcon className={`sort-icon ${sortConfig?.key === header?.key ? sortConfig?.direction : ''}`} />
+                                                    )}
+                                                </div>
+                                            </th>
                                         ))}
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
-
-
-                {tableData && <div className="table-footer">
-                    {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
-                    <div className="results-per-page">
-                        <span>Result per page:</span>
-                        <div className="options">
-                            {[10, 15, 20, 30]?.map((num) => (
-                                <button
-                                    key={num}
-                                    className={`option ${rowsPerPage === num ? "selected" : ""}`}
-                                    onClick={() => setRowsPerPage(num)}
-                                >
-                                    {num}
-                                </button>
-                            ))}
-                        </div>
+                                </thead>
+                                <tbody>
+                                    {paginatedData?.map((row, index) => (
+                                        <tr key={index}>
+                                            {headerData?.map(header => (
+                                                <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
+                                                    {row[header?.key]}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
-                    <ReactPaginate
-                        previousLabel={<ArrowLeft className="arrow-icon" />}
-                        nextLabel={<ArrowRight className="arrow-icon" />}
-                        breakLabel="..."
-                        pageCount={totalPages}
-                        marginPagesDisplayed={1}
-                        pageRangeDisplayed={3}
-                        forcePage={currentPage - 1}
-                        onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        disabledClassName="disabled"
-                        previousClassName="prev-button"
-                        nextClassName="next-button"
-                    />
-                </div>}
-            </div>
-        )
+
+
+                    {tableData && <div className="table-footer">
+                        {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
+                        <div className="results-per-page">
+                            <span>Result per page:</span>
+                            <div className="options">
+                                {[10, 20, 30]?.map((num) => (
+                                    <button
+                                        key={num}
+                                        className={`option ${rowsPerPage === num ? "selected" : ""}`}
+                                        onClick={() => setRowsPerPage(num)}
+                                    >
+                                        {num}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                        <ReactPaginate
+                            previousLabel={<span className='pagination-label'><ArrowLeft className="arrow-icon" />{" "}Prev</span>}
+                            nextLabel={<span className="pagination-label">Next{" "}<ArrowRight className="arrow-icon" /></span>}
+                            breakLabel="..."
+                            pageCount={totalPages}
+                            marginPagesDisplayed={1}
+                            pageRangeDisplayed={3}
+                            forcePage={currentPage - 1}
+                            onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
+                            containerClassName="pagination"
+                            activeClassName="active"
+                            disabledClassName="disabled"
+                            previousClassName="prev-button"
+                            nextClassName="next-button"
+                        />
+                    </div>}
+                </div>
+            )
     );
 };
 

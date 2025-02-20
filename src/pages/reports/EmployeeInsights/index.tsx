@@ -534,7 +534,7 @@ const EmployeeInsights: React.FC = () => {
           />
         </div>
         <div className="employee-details-container">
-          <NewTable
+          {/* <NewTable
             kpiTitle="Employee Void Activity"
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -548,7 +548,7 @@ const EmployeeInsights: React.FC = () => {
             loader={employeeVoidActivityLoading}
             count={employeeVoidActivityAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"
-          />
+          /> */}
         </div>
         {/* SwitchableBox */}
         <div className="employee-details-container">

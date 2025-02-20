@@ -52,6 +52,8 @@ export interface NewTableProps {
   // setLoader: React.Dispatch<React.SetStateAction<boolean>>;
   count?: number | string;
   searchPlaceHolder?: string;
+  // searchDebounce?: (value: string) => void;
+  onSearch: (value: string, kpiTitle: string) => void;
 }
 
 export interface SortConfig {

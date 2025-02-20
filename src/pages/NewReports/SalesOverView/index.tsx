@@ -1,24 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import { useDispatch, useSelector } from 'react-redux';
+import { liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from 'redux/newReports/newReportsActions';
+import { NewTableHeader } from 'interface/newReportsInterface';
 import SidePanel from 'pages/SidePanel'
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
-import "./style.scss";
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from 'redux/newReports/newReportsActions';
 import NewTable from 'components/reportComponents/NewTable';
-import { NewTableHeader } from 'interface/newReportsInterface';
+import "./style.scss";
 
 
 const SalesOverView: React.FC = () => {
     const { isExpanded } = useContext(Contextpagejs);
 
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
-    const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(15)
+    const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
 
     const [liveOrderNonDineInSearchQuery, setLiveOrderNonDineInSearchQuery] = useState('')
-    const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(15)
+    const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(10)
 
 
     const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
@@ -63,6 +63,16 @@ const SalesOverView: React.FC = () => {
     ];
 
 
+    const liveOrdersDineInTableHeaders: NewTableHeader[] = [
+        { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
+        { key: 'tableName', label: 'Table Name', isSortable: true, alignment: 'left' },
+        { key: 'tableOccupancyDuration', label: 'Table Occupancy Duration', isSortable: true, alignment: 'left' },
+        { key: 'orderAmount', label: `Order Amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
+        { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'right' }
+    ];
+
+
+
     // const RECORDS_PER_PAGE_LIMIT = 15
 
     const [totalPageNoCurrentPageLiveOrders, setTotalPageNoCurrentPageLiveOrders] = useState<number>(liveOrdersTotalPageNo || 1)
@@ -84,7 +94,25 @@ const SalesOverView: React.FC = () => {
     // setCurrentDate(formattedDate);
     const [currentDate, setCurrentDate] = useState('');
 
+    // const handleSearchDebounce = (value: string, kpiTitle: string) => {
+    //     dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
+    // }
 
+
+    const handleSearch = (value: string, kpiTitle: string) => {
+        switch (kpiTitle) {
+            case 'Live Orders':
+                dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
+                break;
+
+            case 'Live Orders Non Dine-in':
+                currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+                break;
+
+            default:
+                console.warn(`Unknown KPI title: ${kpiTitle}`);
+        }
+    };
 
     useEffect(() => {
         dispatch(liveDiscountRequest({ locationid }))
@@ -95,8 +123,10 @@ const SalesOverView: React.FC = () => {
     }, [locationid])
 
     useEffect(() => {
-        dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit }))
-    }, [locationid, currentPageLiveOrders])
+        const formattedDate = moment().format('YYYY-MM-DD');
+        setCurrentDate(formattedDate);
+        currentDate && dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
+    }, [locationid, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
 
     useEffect(() => {
         dispatch(liveRefundsRequest({ locationid }))
@@ -109,7 +139,7 @@ const SalesOverView: React.FC = () => {
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrderNonDineInRequest({ locationid }))
+        currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
         // currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
     }, [locationid, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
@@ -154,11 +184,11 @@ const SalesOverView: React.FC = () => {
                     </div>
                 </div>
                 <div className="todays-report-tables-container">
-                    {/* <NewTable
+                    <NewTable
                         kpiTitle="Live Orders"
                         searchQuery={liveOrdersSearchQuery}
                         onSearchChange={setLiveOrdersSearchQuery}
-                        headerData={liveOrderTableHeaders}
+                        headerData={liveOrdersDineInTableHeaders}
                         tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 && liveOrdersAPIRedux}
                         currentPage={currentPageLiveOrders}
                         totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
@@ -166,9 +196,12 @@ const SalesOverView: React.FC = () => {
                         rowsPerPage={liveOrdersPageLimit}
                         setRowsPerPage={setLiveOrdersPageLimit}
                         loader={liveOrdersLoading}
+                        // loader={true}
                         count={liveOrdersAPIRedux?.length}
-                        searchPlaceHolder="Search By Steward, Voided reasons"
-                    /> */}
+                        searchPlaceHolder="Search by order number, table name"
+                        onSearch={handleSearch}
+                    // searchDebounce={()=>searchDebounce()}
+                    />
                     <NewTable
                         kpiTitle="Live Orders Non Dine-in"
                         searchQuery={liveOrderNonDineInSearchQuery}
@@ -182,7 +215,8 @@ const SalesOverView: React.FC = () => {
                         setRowsPerPage={setLiveOrderNonDineInPageLimit}
                         loader={liveOrderNonDineInLoading}
                         count={liveOrderNonDineInAPIRedux?.length}
-                        searchPlaceHolder="Search By Steward, Voided reasons"
+                        searchPlaceHolder="Search by order number, customer name"
+                        onSearch={handleSearch}
                     />
                 </div>
             </div>
