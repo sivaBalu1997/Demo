@@ -1,7 +1,7 @@
 export const UUID = "UUID";
 export const CREDENTIALS = "CREDENTIALS";
 export const STORAGE_BUCKET_URL =
-  "https://static.magilhub.com/";
+  "https://storage.googleapis.com/mhd-media/";
 
 export const SELECTED_BRANCH_DATA = "SELECTED_BRANCH_DATA";
 
