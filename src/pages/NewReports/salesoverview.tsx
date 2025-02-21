@@ -16,6 +16,8 @@ import moment from "moment";
 import NewTable from "components/reportComponents/NewTable";
 import "./styles.scss";
 import CategoryReport from "pages/CategoryReport";
+import ReportsTabSwitch from "components/reportComponents/ReportsTabSwitch";
+import TodaysReport from "./TodaysReport";
 
 const SalesOverView: React.FC = () => {
   const { isExpanded } = useContext(Contextpagejs);
@@ -206,16 +208,25 @@ const SalesOverView: React.FC = () => {
   //     dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
   // }
 
+  const [activeTab, setActiveTab] = useState<string>("today");
+
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <SidePanel />
       <div
-        // style={isExpanded ? { width: '82%' } : { width: '94%' }}
-        className={`sales-overview-container ${
-          isExpanded ? "sales-overview-container-expanded" : ""
-        }`}
+        className={`sales-overview-container ${isExpanded ? "sales-overview-container-expanded" : ""
+          }`}
       >
-        <CategoryReport />
+        {/* <CategoryReport /> */}
+        <h2>Reports & Insights</h2>
+        <ReportsTabSwitch onTabChange={setActiveTab} />
+        <div className="tab-content">
+          {activeTab === "today" && <TodaysReport />}
+          {/* {activeTab === "sales" && <InnerSalesOverview />} */}
+          {activeTab === "categories" && <CategoryReport />}
+          {/* {activeTab === "employees" && <Employees />} */}
+          {/* {activeTab === "trends" && <Trends />} */}
+        </div>
       </div>
     </div>
   );

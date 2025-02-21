@@ -58,42 +58,8 @@ const CategoryReport = (props) => {
   };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <SidePanel />
+      {/* <SidePanel /> */}
       <div className="category-page-cotainer">
-        <div className="category-page-header">
-          <div className="category-page-header-container">
-            <div className="header-category">
-              <h1 className="report-title">{"Reports & Insights"}</h1>
-            </div>
-
-            <div className="tabs-container">
-              {/* Tab Bar */}
-              {/* <ul className="tabs-list"> */}
-              {tabList.map((tab) => (
-                <div
-                  key={tab.key}
-                  className={`tab-item ${
-                    activeTab === tab.key ? "active" : ""
-                  }`}
-                  onClick={() => setActiveTab(tab.key)}
-                >
-                  {tab.label}
-                </div>
-              ))}
-              {/* </ul> */}
-
-              {/* Tab Content */}
-              <div>
-                {activeTab === "categories" && (
-                  <div>
-                    {/* <h2>Categories</h2>
-            <p>Content for Categories goes here...</p> */}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="category-page-body">
           <div className="category-filters-section">
             <div className="category-store-name">

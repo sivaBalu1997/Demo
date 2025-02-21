@@ -46,7 +46,7 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS"];
+  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales", "Product", "Staff", "Check-in", "Customer", "Event"];
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -82,7 +82,20 @@ const SidePanel = () => {
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
       setShowOptions("reportOptions");
-    } else if (
+    }
+    else if (location?.pathname?.includes("/category-1")) {
+      setSelectSubForReport("Sales");
+      setShowOptions("reportOptions");
+    }
+    else if (location?.pathname?.includes("/category-1")) {
+      setSelectSubForReport("Product");
+      setShowOptions("reportOptions");
+    }
+    // else if (location?.pathname?.includes("/category-1")) {
+    //   setSelectSubForReport("Product");
+    //   setShowOptions("reportOptions");
+    // }
+    else if (
       location?.pathname?.includes("Offers/active") ||
       location?.pathname?.includes("offer/special") ||
       location?.pathname?.includes("Offers/completed")
@@ -222,7 +235,7 @@ const SidePanel = () => {
                       return (
                         <option
                           value={`${JSON.stringify(u)}`}
-                          //selected={userBranchName}
+                        //selected={userBranchName}
                         >
                           {u.locationName.split(",")[1]}
                         </option>
@@ -237,7 +250,7 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "employees" &&
-              location.pathname.includes("employees")
+                location.pathname.includes("employees")
                 ? "activePath"
                 : "not-active"
             }
@@ -346,26 +359,26 @@ const SidePanel = () => {
                   >
                     {showOfferOptions === "MenuOptions"
                       ? offerMenuOptions.map((option) => (
-                          <li
-                            className="menuList-offers-sub-category"
-                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        <li
+                          className="menuList-offers-sub-category"
+                          style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        >
+                          <span
+                            style={{
+                              color:
+                                SelectSub == option ? "#E52333" : "#000000",
+                            }}
+                            onClick={() => {
+                              option === "Offers"
+                                ? history.push("/Offer")
+                                : history.push("/Offers/active");
+                              setSelectedSub(option);
+                            }}
                           >
-                            <span
-                              style={{
-                                color:
-                                  SelectSub == option ? "#E52333" : "#000000",
-                              }}
-                              onClick={() => {
-                                option === "Offers"
-                                  ? history.push("/Offer")
-                                  : history.push("/Offers/active");
-                                setSelectedSub(option);
-                              }}
-                            >
-                              {option}
-                            </span>
-                          </li>
-                        ))
+                            {option}
+                          </span>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -377,7 +390,7 @@ const SidePanel = () => {
             style={{
               marginTop:
                 showOfferOptions === "MenuOptions" &&
-                offerMenuOptions.length > 0
+                  offerMenuOptions.length > 0
                   ? "-1.2rem"
                   : "0",
             }}
@@ -466,30 +479,30 @@ const SidePanel = () => {
                   >
                     {showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
-                          <li
-                            className="menuList-offers-sub-category"
-                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        <li
+                          className="menuList-offers-sub-category"
+                          style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        >
+                          <span
+                            style={{
+                              color:
+                                SelectSubForReport == option
+                                  ? "#E52333"
+                                  : "#000000",
+                            }}
+                            onClick={() => {
+                              if (option === "Reports & Insights") {
+                                history.push(`/old-reports`);
+                                // history.push("/live-reports");
+                              } else if (option === "Chart JS") {
+                                history.push("/live-reports");
+                              }
+                            }}
                           >
-                            <span
-                              style={{
-                                color:
-                                  SelectSubForReport == option
-                                    ? "#E52333"
-                                    : "#000000",
-                              }}
-                              onClick={() => {
-                                if (option === "Reports & Insights") {
-                                  history.push(`/old-reports`);
-                                  // history.push("/live-reports");
-                                } else if (option === "Chart JS") {
-                                  history.push("/live-reports");
-                                }
-                              }}
-                            >
-                              {option}
-                            </span>
-                          </li>
-                        ))
+                            {option}
+                          </span>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -605,7 +618,7 @@ const SidePanel = () => {
             //     ? "activePath"
             //     : "not-active"
             // }
-            onClick={() => {}}
+            onClick={() => { }}
           >
             {
               <>
