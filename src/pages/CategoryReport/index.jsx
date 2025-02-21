@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Tabs.css";
 
-import SidePanel from "../SidePanel";
+import SidePanel from "../SidePanel/RebrandedSidebar";
 import CustomDropdown from "../../components/common/customDropdown/index";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";

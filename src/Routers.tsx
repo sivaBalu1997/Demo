@@ -66,6 +66,7 @@ import completedTable from "pages/offerManagement/completedTable/completedTable"
 import offerSpecial from "./pages/offerManagement/specialPriceDetails/specialPriceDetails";
 import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
 import CategoryReport from "pages/CategoryReport";
+import SalesOverView from "pages/NewReports/salesoverview";
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -336,6 +337,7 @@ const Routers = () => {
               <Route exact path="/check-in" component={CheckIn} />
               <Route exact path="/gen-ai-reports" component={GenAiReports} />
               <Route exact path="/customer-insights" component={CustIns} />
+              <Route exact path="/category-1" component={SalesOverView} />
             </div>
           </ThemeProvider>
         </Contextpage>

@@ -219,7 +219,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
-  const primarydata: any = useSelector((state: RootState) => state.primarypage.data);  
+  const primarydata: any = useSelector(
+    (state: RootState) => state.primarypage.data
+  );
 
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
@@ -434,43 +436,32 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
   ];
 
- 
-
   const filteredCategory = menuData.find((category: any) =>
     category?.itemResponseList?.some(
       (item: any) => item.itemId === editData[0]?.itemId
     )
   );
 
- 
- 
-
   const allItemResponseLists = menuData
-  ?.flatMap((category:any) =>
-    category?.subCategoryResponseList?.map((subCategory:any) => ({
-      categoryId: category.categoryId,
-      categoryName: category?.categoryName,
-      subCategoryId: subCategory?.subCategoryId,
-      subCategoryName: subCategory?.subCategoryName,
-      itemResponseList: subCategory?.itemResponseList,
-    }))
-  )
-  .filter(
-    (item:any) =>
-      item?.itemResponseList !== null &&
-      item?.itemResponseList?.length > 0
-  );
-
-
-  
+    ?.flatMap((category: any) =>
+      category?.subCategoryResponseList?.map((subCategory: any) => ({
+        categoryId: category.categoryId,
+        categoryName: category?.categoryName,
+        subCategoryId: subCategory?.subCategoryId,
+        subCategoryName: subCategory?.subCategoryName,
+        itemResponseList: subCategory?.itemResponseList,
+      }))
+    )
+    .filter(
+      (item: any) =>
+        item?.itemResponseList !== null && item?.itemResponseList?.length > 0
+    );
 
   const filteredSubCategory = allItemResponseLists.find((category: any) =>
     category?.itemResponseList?.some(
       (item: any) => item.itemId === editData[0]?.itemId
     )
   );
-
-
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -500,10 +491,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       )
     : undefined;
 
-
-  const matchedBestPair = primarydata?.bestPair && primarydata?.bestPair?.map((best: any) => {
-    return bestPairData?.find((b: any) => b.name == best)
-  }) 
+  const matchedBestPair =
+    primarydata?.bestPair &&
+    primarydata?.bestPair?.map((best: any) => {
+      return bestPairData?.find((b: any) => b.name == best);
+    });
 
   // const matchedBestPair = bestPairData?.filter((bestPair: any) =>
   //   primarydata?.bestPair?.includes(bestPair?.name)
@@ -512,7 +504,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
   const matchedCuisineId = matchedCuisine?.id;
   const matchedCategoryId = matchedCategory?.id;
-  const bestPairId =  matchedBestPair && matchedBestPair?.map((m: any) => m?.id);
+  const bestPairId = matchedBestPair && matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
   const payload = {
@@ -538,12 +530,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
-    (state: any) =>state.auth?.restaurantDetails?.branch && state.auth?.restaurantDetails?.branch[0]?.orderTypes
+    (state: any) =>
+      state.auth?.restaurantDetails?.branch &&
+      state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
   const selectedBranch = useSelector(
-    (state:any) => state.auth.selectedBranch || null
+    (state: any) => state.auth.selectedBranch || null
   );
-
 
   const getOrderTypeId = (value: any) => {
     const orderTypes = selectedBranch?.orderTypes?.find(
@@ -551,7 +544,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     );
     return orderTypes ? orderTypes?.id : null;
   };
-   
+
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
@@ -586,7 +579,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
   );
@@ -603,69 +595,107 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
-    const stringDineInDays = Array.isArray(DineIndays)
+  const stringDineInDays = Array.isArray(DineIndays)
     ? DineIndays.map(String)
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
-  const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
+  const Dineinresult = stringDineInDays.includes("0")
+    ? ["0"]
+    : stringDineInDays;
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
-      isEnabled: dineInDetails?.Enabled===true||dineInDetails?.Enabled===1?1:0, 
-      isNotHide:dineInDetails && dineInDetails?.price && parseFloat(dineInDetails?.price) > 0.00 ? 1 : 0,
+      isEnabled:
+        dineInDetails?.Enabled === true || dineInDetails?.Enabled === 1 ? 1 : 0,
+      isNotHide:
+        dineInDetails &&
+        dineInDetails?.price &&
+        parseFloat(dineInDetails?.price) > 0.0
+          ? 1
+          : 0,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
-      
-      inActiveUntil: dineInDetails?.inActiveUntil ? dineInDetails.inActiveUntil.split(".")[0] : null,
 
-      availabilities: dineInDetails?.availabilities?.map((availability: any) => ({
-        ...availability,
-        availabilityDays:
-          availability.availabilityDays &&
-          availability.availabilityDays.length === 0 &&
-          Dineinresult.length === 0
-            ? result
-            : Dineinresult,
-      })),
+      inActiveUntil: dineInDetails?.inActiveUntil
+        ? dineInDetails.inActiveUntil.split(".")[0]
+        : null,
+
+      availabilities: dineInDetails?.availabilities?.map(
+        (availability: any) => ({
+          ...availability,
+          availabilityDays:
+            availability.availabilityDays &&
+            availability.availabilityDays.length === 0 &&
+            Dineinresult.length === 0
+              ? result
+              : Dineinresult,
+        })
+      ),
     },
     pickupDetails && {
       ...pickupDetails,
-      isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
-      isNotHide: pickupDetails && pickupDetails?.price && parseFloat(pickupDetails?.price) > 0.00 ? 1 : 0,
+      isEnabled:
+        pickupDetails.Enabled === true || pickupDetails.Enabled === 1 ? 1 : 0,
+      isNotHide:
+        pickupDetails &&
+        pickupDetails?.price &&
+        parseFloat(pickupDetails?.price) > 0.0
+          ? 1
+          : 0,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
-      inActiveUntil: pickupDetails?.inActiveUntil ? pickupDetails.inActiveUntil.split(".")[0] : null,
+      inActiveUntil: pickupDetails?.inActiveUntil
+        ? pickupDetails.inActiveUntil.split(".")[0]
+        : null,
 
-      availabilities: pickupDetails.availabilities?.map((availability: any) => ({
-        ...availability,
-        availabilityDays:
-          availability.availabilityDays &&
-          availability.availabilityDays.length === 0
-            ? result
-            : availability.availabilityDays,
-      })),
+      availabilities: pickupDetails.availabilities?.map(
+        (availability: any) => ({
+          ...availability,
+          availabilityDays:
+            availability.availabilityDays &&
+            availability.availabilityDays.length === 0
+              ? result
+              : availability.availabilityDays,
+        })
+      ),
     },
     deliveryDetails && {
       ...deliveryDetails,
-      isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
-      inActiveUntil: deliveryDetails?.inActiveUntil ? deliveryDetails.inActiveUntil.split(".")[0] : null,
+      isEnabled:
+        deliveryDetails.Enabled === true || deliveryDetails.Enabled === 1
+          ? 1
+          : 0,
+      inActiveUntil: deliveryDetails?.inActiveUntil
+        ? deliveryDetails.inActiveUntil.split(".")[0]
+        : null,
 
-      isNotHide:  deliveryDetails && deliveryDetails?.price && parseFloat(deliveryDetails?.price) > 0.00 ? 1 : 0,
-      availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
-        ...availability,
-        availabilityDays:
-          availability.availabilityDays &&
-          availability.availabilityDays.length === 0
-            ? result
-            : availability.availabilityDays,
-      })),
+      isNotHide:
+        deliveryDetails &&
+        deliveryDetails?.price &&
+        parseFloat(deliveryDetails?.price) > 0.0
+          ? 1
+          : 0,
+      availabilities: deliveryDetails.availabilities?.map(
+        (availability: any) => ({
+          ...availability,
+          availabilityDays:
+            availability.availabilityDays &&
+            availability.availabilityDays.length === 0
+              ? result
+              : availability.availabilityDays,
+        })
+      ),
     },
-  
+
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails?.map((detail) => ({
           ...detail,
-          isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
-          isNotHide:detail && detail?.price && parseFloat(detail?.price) > 0.00 ? 1 : 0,
-          inActiveUntil: detail?.inActiveUntil ? detail.inActiveUntil.split(".")[0] : null,
+          isEnabled:
+            detail.Enabled === true || deliveryDetails.Enabled === 1 ? 1 : 0,
+          isNotHide:
+            detail && detail?.price && parseFloat(detail?.price) > 0.0 ? 1 : 0,
+          inActiveUntil: detail?.inActiveUntil
+            ? detail.inActiveUntil.split(".")[0]
+            : null,
 
           availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
@@ -679,21 +709,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       : []),
   ]
     .filter(Boolean)
-    .map(({ Enabled, ...rest }) => rest); 
-  
-  
+    .map(({ Enabled, ...rest }) => rest);
+
   // const combinedDetails: Detail[] = [
   //   dineInDetails && dineInDetails,
   //   pickupDetails && pickupDetails,
   //   deliveryDetails && deliveryDetails,
   //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   // ].filter(Boolean);
-   
-  const formatFirstNameUppercase = (fullName: string) => {
-    if (!fullName.trim()) return ''; // Handle empty input gracefully
 
-    const [firstName, ...rest] = fullName.split(' ');
-    return [firstName.toUpperCase(), ...rest].join(' ');
+  const formatFirstNameUppercase = (fullName: string) => {
+    if (!fullName.trim()) return ""; // Handle empty input gracefully
+
+    const [firstName, ...rest] = fullName.split(" ");
+    return [firstName.toUpperCase(), ...rest].join(" ");
   };
 
   const taxData =
@@ -705,7 +734,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: editData?.length === 0 && UploadImageImageID ? UploadImageImageID : "",
+    itemId:
+      editData?.length === 0 && UploadImageImageID ? UploadImageImageID : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -785,15 +815,18 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     modifiersToAdd: hasData ? modifierData : [],
 
-    isCategoryUpdated:(filteredSubCategory?.length!==0||filteredSubCategory!==undefined)?filteredSubCategory?.subCategoryId!==matchedSubCategoryId:filteredCategory?.length!==0?filteredCategory?.categoryId!==matchedCategoryId:false,
-
+    isCategoryUpdated:
+      filteredSubCategory?.length !== 0 || filteredSubCategory !== undefined
+        ? filteredSubCategory?.subCategoryId !== matchedSubCategoryId
+        : filteredCategory?.length !== 0
+        ? filteredCategory?.categoryId !== matchedCategoryId
+        : false,
 
     // isCategoryUpdated:filteredCategory.length===0?filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category:filteredSubCategory.length===0?filteredSubCategory?. !==primarypagedetails.primarypage.data.category:filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category,
 
-
     // isCategoryUpdated:(filteredCategory.length===0)? (filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category )
     // :filteredCategory.length===0filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category
-    
+
     //   ,
     isSingleMenu: false,
     modifiersToRemove: combinedData?.filter(Boolean),
@@ -801,8 +834,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
-
-
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -844,7 +875,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //     dispatch(addMenuItemRequest({ menuPayload, locationid }));
   //   }
   // };
-  
+
   const addMenuSuccess = useSelector(
     (state: any) => state.productCatalog.addMenuSuccess
   );
@@ -860,70 +891,56 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
-
-    if(editData?.length === 0)
-    {
-     
-      if(Wholedata?.imageUrls?.length > 0)
-      {
-        const imageuploadpayload={
-          itemId:"",
-          imageUrls:primarydata?.imageUrls
-  
-  
-        }
+    if (editData?.length === 0) {
+      if (Wholedata?.imageUrls?.length > 0) {
+        const imageuploadpayload = {
+          itemId: "",
+          imageUrls: primarydata?.imageUrls,
+        };
         dispatch(startImageUpload(imageuploadpayload));
-        if (subsectiondatamsg && UploadImageImageID !== '') {
+        if (subsectiondatamsg && UploadImageImageID !== "") {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
-      }
-      else{
+      } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
       setButtonClicked(true);
-    }
-    else if(editData?.length> 0)
-      {
-        // setButtonClicked(true);
-       
-        const isImageFile = (fileName:any) => {
-          const imageExtensions = ['jpg', 'jpeg', 'png'];
-          const fileExtension = fileName.split('.').pop().toLowerCase();
-          return imageExtensions.includes(fileExtension);
-        };
-        
-        const imageFiles = primarydata?.imageUrls?.filter((item : any, index: any) => {
-          return item.file && item.file.name && isImageFile(item.file.name);
-        });
-              
-        if(primarydata?.imageUrls?.length > 0 && imageFiles.length>0)
-        {
-          const imageuploadpayload={
-            itemId: editData[0]?.itemId,
-            imageUrls:imageFiles
-    
-    
-          }
+    } else if (editData?.length > 0) {
+      // setButtonClicked(true);
 
-          dispatch(startImageUpload(imageuploadpayload));
-          if (subsectiondatamsg && UploadImageImageID !== '') {
-            dispatch(updateMenuItemRequest(editPayload));
-          }
+      const isImageFile = (fileName: any) => {
+        const imageExtensions = ["jpg", "jpeg", "png"];
+        const fileExtension = fileName.split(".").pop().toLowerCase();
+        return imageExtensions.includes(fileExtension);
+      };
+
+      const imageFiles = primarydata?.imageUrls?.filter(
+        (item: any, index: any) => {
+          return item.file && item.file.name && isImageFile(item.file.name);
         }
-        else{
+      );
+
+      if (primarydata?.imageUrls?.length > 0 && imageFiles.length > 0) {
+        const imageuploadpayload = {
+          itemId: editData[0]?.itemId,
+          imageUrls: imageFiles,
+        };
+
+        dispatch(startImageUpload(imageuploadpayload));
+        if (subsectiondatamsg && UploadImageImageID !== "") {
           dispatch(updateMenuItemRequest(editPayload));
         }
-        setButtonClicked(true);
+      } else {
+        dispatch(updateMenuItemRequest(editPayload));
       }
-
-
+      setButtonClicked(true);
+    }
 
     // if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
 
     //   const imageuploadpayload={
     //     itemId:primarydata?.itemId,
     //     imageUrls:primarydata?.imageUrls
-
 
     //   }
     //   dispatch(startImageUpload(imageuploadpayload));
@@ -933,8 +950,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     //       const imageuploadpayload={
     //         itemId:primarydata?.itemId,
     //         imageUrls:primarydata?.imageUrls
-    
-    
+
     //       }
     //       dispatch(startImageUpload(imageuploadpayload));
     //       dispatch(updateMenuItemRequest(editPayload));
@@ -948,8 +964,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     //     const imageuploadpayload={
     //       itemId:primarydata?.itemId||"",
     //       imageUrls:primarydata?.imageUrls
-  
-  
+
     //     }
     //     dispatch(startImageUpload(imageuploadpayload));
     //     dispatch(updateMenuItemRequest(editPayload));
@@ -962,7 +977,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (subsectiondatamsg && buttonClicked && UploadImageImageID !== '') {
+    if (subsectiondatamsg && buttonClicked && UploadImageImageID !== "") {
       editData?.length > 0 && editData[0]
         ? dispatch(updateMenuItemRequest(editPayload))
         : dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -970,7 +985,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondatamsg, UploadImageImageID]);
 
   useEffect(() => {
-    if (buttonClicked &&(updateMenuItemSuccess||addMenuSuccess )) {
+    if (buttonClicked && (updateMenuItemSuccess || addMenuSuccess)) {
       dispatch(removeDataRequest());
       // dispatch(removeDataRequest(prizingDetail))
       // dispatch(removeDataRequest(itemCustomizationData))
@@ -1018,8 +1033,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
-      <div style={{ display: "flex", flexDirection: "column"}} className="reviewpage-whole-container">
-        <div  className={isExpanded ? "reviewheading-Expanded" : "reviewheading"}>
+      <div
+        style={{ display: "flex", flexDirection: "column" }}
+        className="reviewpage-whole-container"
+      >
+        <div
+          className={isExpanded ? "reviewheading-Expanded" : "reviewheading"}
+        >
           <p>
             Review menu item -{" "}
             {primarypagedetails.primarypage.data?.itemName || "N/A"}
@@ -1029,30 +1049,40 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <div className="reviewpagebody">
             <div className="primaryreview">
               <div
-                style={{ display: "flex", borderBottom: "1px solid #c4c4c4",width:isExpanded?"78vw":"83vw" }}
+                style={{
+                  display: "flex",
+                  borderBottom: "1px solid #c4c4c4",
+                  width: isExpanded ? "78vw" : "83vw",
+                }}
               >
                 <div className="primaryreviewdetailspart1">
                   <div className="primaryreviewheading">
-                    <div className={isExpanded ? "primary-and-edit-heading-extended" : "primary-and-edit-heading"}>
-                    <p>Step 1: Primary Details</p>
-                    <Link
-                      to="/productCatalog/PrimaryDetails"
-                      className="primarypageedit"
-                      onClick={() =>
-                        setActiveCategory("Step 1: Primary Details")
+                    <div
+                      className={
+                        isExpanded
+                          ? "primary-and-edit-heading-extended"
+                          : "primary-and-edit-heading"
                       }
                     >
-                      <img
-                        src={edit}
-                        alt=""
-                        className="step3-Review-Container-heading-EditImage-primary"
-                        width={15}
-                        height={15}
-                      />
+                      <p>Step 1: Primary Details</p>
+                      <Link
+                        to="/productCatalog/PrimaryDetails"
+                        className="primarypageedit"
+                        onClick={() =>
+                          setActiveCategory("Step 1: Primary Details")
+                        }
+                      >
+                        <img
+                          src={edit}
+                          alt=""
+                          className="step3-Review-Container-heading-EditImage-primary"
+                          width={15}
+                          height={15}
+                        />
 
-                      <span className="edit-primary-data">Edit</span>
-                      </Link></div>
-                   
+                        <span className="edit-primary-data">Edit</span>
+                      </Link>
+                    </div>
                   </div>
                   <div className="primaryreviews">
                     <div className="primaryreviewdetails">
@@ -1068,7 +1098,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           />
                         </div>
 
-                        <div >
+                        <div>
                           <ReviewValues
                             label="Dietary type"
                             textvalue={
@@ -1250,7 +1280,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         src={emptyfoodimg}
                                         alt={``}
                                         className="eerroremptyimage"
-                                        style={{cursor:"context-menu"}}
+                                        style={{ cursor: "context-menu" }}
                                       />
                                       <input
                                         type="file"
@@ -1259,7 +1289,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" ,cursor:"context-menu"}}
+                                        style={{
+                                          display: "none",
+                                          cursor: "context-menu",
+                                        }}
                                       />
                                       <span
                                         className="errromsg"
@@ -1271,7 +1304,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   ) : (
                                     <img
                                       className="uploaded-image"
-                                      style={{cursor:"context-menu"}}
+                                      style={{ cursor: "context-menu" }}
                                       src={
                                         selectedImages[0]?.url?.file
                                           ? selectedImages[0].url.preview
@@ -1289,9 +1322,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               <li className="empty-image">
                                 <img
                                   src={emptyfoodimg}
-                                  style={{cursor:"context-menu"}}
+                                  style={{ cursor: "context-menu" }}
                                   alt={`No images available`}
-                                  
                                 />
                               </li>
                             )}
@@ -1301,11 +1333,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                 selectedImages.slice(1).map((image, index) => (
                                   <li key={index + 1}>
                                     {imagecheck(selectedImages[index + 1]) ? (
-                                      <div className="imagewitherror"   style={{cursor:"context-menu"}}>
+                                      <div
+                                        className="imagewitherror"
+                                        style={{ cursor: "context-menu" }}
+                                      >
                                         <img
                                           src={emptyfoodimg}
                                           alt={``}
-                                          style={{cursor:"context-menu"}}
+                                          style={{ cursor: "context-menu" }}
                                           className="eerroremptyimage"
                                         />
                                         <input
@@ -1317,7 +1352,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                           onChange={(e) =>
                                             handleRetry(e, index + 1)
                                           }
-                                          style={{ display: "none" ,cursor:"context-menu"}}
+                                          style={{
+                                            display: "none",
+                                            cursor: "context-menu",
+                                          }}
                                         />
                                         <span
                                           className="errromsg"
@@ -1331,7 +1369,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                     ) : (
                                       <img
                                         className="uploaded-image-img"
-                                        style={{cursor:"context-menu"}}
+                                        style={{ cursor: "context-menu" }}
                                         src={
                                           image.url?.file
                                             ? image.url.preview
@@ -1348,7 +1386,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   <li key={selectedImages?.length + index + 1}>
                                     {typeof emptyfoodimg === "string" ? (
                                       <img
-                                      style={{cursor:"context-menu"}}
+                                        style={{ cursor: "context-menu" }}
                                         src={emptyfoodimg}
                                         alt={`empty ${index}`}
                                       />
@@ -1442,7 +1480,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
                 <span
                   className={isExpanded ? "verticalLineExpand" : "verticalLine"}
-                  style={{height:thirdPartyDetails?.length>0?"55rem":"50rem"}}
+                  style={{
+                    height: thirdPartyDetails?.length > 0 ? "55rem" : "50rem",
+                  }}
                 />
 
                 <Step3Review />
@@ -1453,30 +1493,31 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         <div
           className={isExpanded ? "saveandnextreview" : "saveandnextreview1"}
         >
-
-          <div  className={isExpanded ? "save-and-next-button-extended" : "save-and-next-button"}>
-          <button
-            className={`${isExpanded ? "clearall1" : "clearall"}`}
-            onClick={() => history.push("/productCatalog/menuListing")}
+          <div
+            className={
+              isExpanded
+                ? "save-and-next-button-extended"
+                : "save-and-next-button"
+            }
           >
-            Cancel
-          </button>
-          <button
-            className="saveall"
-            onClick={handleSubmitItemDetails}
-            disabled={addMenuLoading || updateMenuItemLoading}
-          >
-            {addMenuLoading || updateMenuItemLoading ? (
-              <div className="reviewLoaders"></div>
-            ) : (
-              "Publish"
-            )}
-          </button>
+            <button
+              className={`${isExpanded ? "clearall1" : "clearall"}`}
+              onClick={() => history.push("/productCatalog/menuListing")}
+            >
+              Cancel
+            </button>
+            <button
+              className="saveall"
+              onClick={handleSubmitItemDetails}
+              disabled={addMenuLoading || updateMenuItemLoading}
+            >
+              {addMenuLoading || updateMenuItemLoading ? (
+                <div className="reviewLoaders"></div>
+              ) : (
+                "Publish"
+              )}
+            </button>
           </div>
-
-
-
-         
         </div>
       </div>
     </div>
@@ -1484,5 +1525,3 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 };
 
 export default PrimaryDetailsReviewpage;
-
-

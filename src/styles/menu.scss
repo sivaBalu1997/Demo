@@ -9,7 +9,6 @@
     background-color: #fff;
     // min-width: 150px;
     width: 6vw;
-
     padding: 2.5% 1.5%;
     border-right: 1px solid #c4c4c4;
     height: 100vh;
@@ -17,16 +16,19 @@
     position: fixed;
     transition: width 0.6s ease;
     overflow: hidden;
-    @media (max-width: 1397px) {
-      width: 7vw !important;
+    &.menu-rebranded {
+      padding: 3.5% 1.5%;
     }
+    // @media (max-width: 1397px) {
+    //   width: 7vw !important;
+    // }
 
     & .magilhub {
       width: 5vw;
     }
 
     &.expanded {
-      width: 18%;
+      width: 25%;
       transition: width 0.6s ease;
       overflow: hidden;
 
@@ -48,10 +50,15 @@
         width: 20px;
         // padding-bottom: 1.1%;
       }
-      @media (max-width: 1397px) {
-        width: 19% !important;
-        // border: 1px solid red !important;
+      @media (min-width: 1250px) and (max-width: 1397px) {
+        width: 26% !important;
       }
+      @media (min-width: 900px) and (max-width: 1250px) {
+        width: 40% !important;
+      }
+      @media (min-width: 650px) and (max-width: 900px) {
+        width: 50% !important;
+          }
     }
 
     & h2 {
@@ -690,7 +697,9 @@ iframe {
   align-items: center;
   width: 100%;
   margin-top: -3vh;
-
+  &.logo-container-rebranded {
+    flex-direction: column !important;
+  }
   @media (max-width: 1024px) {
     flex-direction: column;
   }
@@ -700,6 +709,12 @@ iframe {
   width: 60px;
   height: 60px;
   padding-top: 1rem;
+  &.restaurant-logo-rebranded {
+    width: 100px;
+    height: 50px;
+    margin-right: 0px;
+    padding-top: 0rem;
+  }
 }
 
 .restaurant-name {
@@ -709,7 +724,12 @@ iframe {
   font-size: 14px;
   display: inline-block;
   text-align: start;
-
+  &.restaurant-name-rebranded {
+    font-weight: 600;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
   @media (max-width: 575px) {
     text-align: left;
   }
@@ -730,10 +750,23 @@ iframe {
     max-width: 115px;
   }
 }
-
+.branch-name {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 14px;
+  color: #262626;
+}
 .restaurant-name-container {
   padding-left: 1rem;
   line-height: 1em;
+  &.restaurant-name-container-rebranded {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0px;
+    margin-top: 10px;
+  }
+
   @media (max-width: 1024px) {
     padding-left: 0;
   }
@@ -887,7 +920,7 @@ iframe {
   }
 
   .main-section .menu.expanded {
-    width: 23%;
+    width: 25%;
   }
 
   .main-section {
@@ -911,6 +944,9 @@ iframe {
 @media (max-width: 900px) {
   .menu-items-name {
     display: none;
+    &.menu-items-name-rebranded {
+    display: initial;
+  }
   }
   .main-section .menu.expanded .menu-items-SVG {
     width: 30px;
@@ -940,6 +976,9 @@ iframe {
   flex-direction: column;
   gap: 3rem;
   margin-top: 2.3rem !important;
+  &.menu-items-sidebar-rebranded {
+    margin-top: 1.3rem !important;
+  }
 }
 .activePath {
   display: flex;
@@ -954,6 +993,9 @@ iframe {
   width: 24px;
   height: 20px;
   cursor: pointer;
+  &.menu-items-icons-resize {
+    width: 20px;
+  }
 }
 .menu-items-name {
   font-family: "Poppins", sans-serif;
@@ -968,6 +1010,9 @@ iframe {
 }
 .not-active .menu-items-name {
   color: #000000 !important;
+  &.menu-items-name-rebranded {
+    color: #393939 !important;
+  }
 }
 .activePath .menu-items-name {
   color: #e52333 !important;
@@ -1016,6 +1061,12 @@ iframe {
 .logOutBtn {
   display: flex;
   gap: 15px;
+  &.logout-resize {
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .sidebar-container {
@@ -1312,8 +1363,18 @@ iframe {
     padding-right: 2rem;
     padding-left: 3rem;
     border-bottom: 1px solid#EEEEEE;
-
   }
+
+      @media (min-width: 1250px) and (max-width: 1397px) {
+    min-width: 75%;
+      }
+      @media (min-width: 900px) and (max-width: 1250px) {
+    min-width: 50%;
+      }
+      @media (min-width: 650px) and (max-width: 900px) {
+
+    min-width: 50%;
+      }
 }
 .categories-items-container {
   display: flex;
@@ -1363,7 +1424,7 @@ iframe {
   .categories-overview-card-container {
     flex: 0 0 calc(100% - 20px);
   }
-  .categories-items-container{
+  .categories-items-container {
     .categories-items-content {
       flex: 0 0 calc(100% - 20px); /* don't grow or shrink, take 50% of container */
       max-width: 100%; /* ensure maximum width is 50% */
@@ -1403,3 +1464,5 @@ iframe {
     width: 100%;
   }
 }
+
+//

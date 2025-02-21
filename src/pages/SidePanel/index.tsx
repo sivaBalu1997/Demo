@@ -29,7 +29,7 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
-import logout from '../../assets/svg/LogoutIcon.svg'
+import logout from "../../assets/svg/LogoutIcon.svg";
 import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -68,7 +68,7 @@ const SidePanel = () => {
   const [isExpand, setIsExpand] = useState(true);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
-  
+
   useEffect(() => {
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
@@ -179,10 +179,16 @@ const SidePanel = () => {
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
-  }
+  };
 
   return (
     <>
+      <button
+        className="hamburger-btn"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        ☰
+      </button>
       <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
         <div className="logo-container">
           <div>
@@ -264,14 +270,16 @@ const SidePanel = () => {
               }
             }}
           >
-            <Tableware className="menu-items-icon" style={{width:"24px",height:"24px"}} />
+            <Tableware
+              className="menu-items-icon"
+              style={{ width: "24px", height: "24px" }}
+            />
             {isExpanded && (
               <span className="menu-items-name">Product Catalog</span>
             )}
           </div>
 
           <div
-
             className={
               showOfferOptions === "MenuOptions" ? "activePath" : "not-active"
             }
@@ -283,10 +291,15 @@ const SidePanel = () => {
               // setShowOfferListNav(!showOfferListNav);
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column",marginLeft:!isExpanded && showOfferOptions === "MenuOptions"? '0rem' : '0px' }}
-
-            
-            
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginLeft:
+                  !isExpanded && showOfferOptions === "MenuOptions"
+                    ? "0rem"
+                    : "0px",
+              }}
             >
               <div style={{ display: "flex", gap: "1.5rem" }}>
                 <div
@@ -300,7 +313,7 @@ const SidePanel = () => {
                   )}
                 </div>
 
-                <div style={{cursor:"pointer"}}>
+                <div style={{ cursor: "pointer" }}>
                   {showOfferOptions === "MenuOptions" ? (
                     <Uparrow
                     // className="dropdown-arrow"
@@ -315,16 +328,39 @@ const SidePanel = () => {
                 </div>
               </div>
               <div
-                className={ "offers-nav-list"}
-                style={{ padding: "0", margin: "0" ,left:!isExpanded && showOfferOptions === "MenuOptions"? '-0.4rem' : '4rem'}}
+                className={"offers-nav-list"}
+                style={{
+                  padding: "0",
+                  margin: "0",
+                  left:
+                    !isExpanded && showOfferOptions === "MenuOptions"
+                      ? "-0.4rem"
+                      : "4rem",
+                }}
               >
-                {showOfferOptions === "MenuOptions"  && (
-                  <ul className="menu-items-list"  style={{ padding: "0", margin: "0" ,marginTop:!isExpanded && showOfferOptions === "MenuOptions"?"1rem":""}}>
-                    {showOfferOptions === "MenuOptions" 
+                {showOfferOptions === "MenuOptions" && (
+                  <ul
+                    className="menu-items-list"
+                    style={{
+                      padding: "0",
+                      margin: "0",
+                      marginTop:
+                        !isExpanded && showOfferOptions === "MenuOptions"
+                          ? "1rem"
+                          : "",
+                    }}
+                  >
+                    {showOfferOptions === "MenuOptions"
                       ? offerMenuOptions.map((option) => (
-                          <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
+                          <li
+                            className="menuList-offers-sub-category"
+                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                          >
                             <span
-                              style={{ color: SelectSub == option ? "#E52333" : '#000000' }}
+                              style={{
+                                color:
+                                  SelectSub == option ? "#E52333" : "#000000",
+                              }}
                               onClick={() => {
                                 option === "Offers"
                                   ? history.push("/Offer")
@@ -344,8 +380,13 @@ const SidePanel = () => {
           </div>
 
           <div
-
-          style={{marginTop:showOfferOptions === "MenuOptions"&&offerMenuOptions.length>0?"-1.2rem":"0" }}
+            style={{
+              marginTop:
+                showOfferOptions === "MenuOptions" &&
+                offerMenuOptions.length > 0
+                  ? "-1.2rem"
+                  : "0",
+            }}
             className={
               showOptions === "reportOptions" ? "activePath" : "not-active"
             }
@@ -357,14 +398,29 @@ const SidePanel = () => {
               // setShowReportsOptions(!showReportsOptions);
             }}
           >
-            <div 
-           style={{ display: "flex", flexDirection: "column",marginLeft:!isExpanded && showOptions === "reportOptions"? '-0.3rem' : '0px' }}
-            
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginLeft:
+                  !isExpanded && showOptions === "reportOptions"
+                    ? "-0.3rem"
+                    : "0px",
+              }}
             >
-              <div style={{ display: "flex", gap:!isExpanded? "1.5rem" :"2rem",justifyContent:"left",alignItems:"center" }}>  
+              <div
+                style={{
+                  display: "flex",
+                  gap: !isExpanded ? "1.5rem" : "2rem",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
                 <div
                   className={
-                    showOptions === "reportOptions" ? "activePath" : "not-active"
+                    showOptions === "reportOptions"
+                      ? "activePath"
+                      : "not-active"
                   }
                 >
                   <Stats className="menu-items-icon" />
@@ -373,7 +429,7 @@ const SidePanel = () => {
                   )}
                 </div>
 
-                <div style={{cursor:"pointer"}}>
+                <div style={{ cursor: "pointer" }}>
                   {showOptions === "reportOptions" ? (
                     <Uparrow
                     // className="dropdown-arrow"
@@ -388,16 +444,45 @@ const SidePanel = () => {
                 </div>
               </div>
               <div
-                className={ "offers-nav-list" }
-                style={{ padding: "0", margin: "0" ,left:!isExpanded && showOptions === "reportOptions"? '-0.45rem' : '4rem'}}
+                className={"offers-nav-list"}
+                style={{
+                  padding: "0",
+                  margin: "0",
+                  left:
+                    !isExpanded && showOptions === "reportOptions"
+                      ? "-0.45rem"
+                      : "4rem",
+                }}
               >
                 {showOptions === "reportOptions" && (
-                  <ul className="menu-items-list" style={{ padding: "0", margin: "0" ,marginLeft:!isExpanded && showOptions === "reportOptions"? '0.4rem' : '0px',marginTop:!isExpanded &&showOptions === "reportOptions"?"1rem":""}}>
-                    {showOptions === "reportOptions" 
+                  <ul
+                    className="menu-items-list"
+                    style={{
+                      padding: "0",
+                      margin: "0",
+                      marginLeft:
+                        !isExpanded && showOptions === "reportOptions"
+                          ? "0.4rem"
+                          : "0px",
+                      marginTop:
+                        !isExpanded && showOptions === "reportOptions"
+                          ? "1rem"
+                          : "",
+                    }}
+                  >
+                    {showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
-                          <li className="menuList-offers-sub-category" style={{width:!isExpanded ?"4rem":"100%"}}>
+                          <li
+                            className="menuList-offers-sub-category"
+                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                          >
                             <span
-                              style={{ color: SelectSubForReport == option ? "#E52333" : '#000000' }}
+                              style={{
+                                color:
+                                  SelectSubForReport == option
+                                    ? "#E52333"
+                                    : "#000000",
+                              }}
                               onClick={() => {
                                 if (option === "Reports & Insights") {
                                   history.push(`/old-reports`);
@@ -518,7 +603,7 @@ const SidePanel = () => {
           </div> */}
 
           <div
-          //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
+            //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
             className="not-active"
             // className={
             //   showOptions === "reportOptions" &&
@@ -526,16 +611,14 @@ const SidePanel = () => {
             //     ? "activePath"
             //     : "not-active"
             // }
-            onClick={() => {
-              
-            }}
+            onClick={() => {}}
           >
             {
               <>
                 <div className="logOutBtn" onClick={logoutUser}>
                   <img src={logout} alt="" />
                   {isExpanded && (
-                      <span className="menu-items-name">Log Out</span>
+                    <span className="menu-items-name">Log Out</span>
                   )}
                 </div>
               </>
