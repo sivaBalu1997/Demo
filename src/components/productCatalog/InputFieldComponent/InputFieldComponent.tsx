@@ -99,6 +99,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   
   
   };
+  const handleWheel = (event: any) => {
+    event.target.blur(); // Removes focus to prevent unintended changes
+    event.preventDefault();
+  };
   
 
   const message = useSelector(
@@ -112,7 +116,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           type={type}
           autoComplete="off"
           name={name}
-          
+          onWheel={handleWheel}
           value={value}
           onChange={handleChange}
           onBlur={onBlur}
