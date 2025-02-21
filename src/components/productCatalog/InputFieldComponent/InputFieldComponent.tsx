@@ -67,6 +67,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     e.target.value = inputValue;
    
   if (name === "itemCode") {
+    if(Number(inputValue)>=0 ||inputValue=='' ){
    
     if (inputValue.length <= 3 || inputValue !== oldValue) {
       dispatch({ type: REMOVE_CODE_REQUEST });
@@ -76,6 +77,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (inputValue.length > 3 && inputValue !== oldValue) {
       dispatch(getItemCodeRequest(locationid, inputValue));
     }
+  }
+  else{
+    return ;
+  }
   }
   if (name === "itemName") {
    
