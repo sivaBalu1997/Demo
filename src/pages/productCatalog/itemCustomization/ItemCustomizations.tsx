@@ -1263,14 +1263,14 @@ setModifications((prev: any) => {
                 </a>
               )}
             </div>
-            {showModifiers && (
+            {/* {showModifiers && (
               <div className="searchbox">
                 <input
                   placeholder="Search"
                   className="searchBox-input"
                   type="text"
                   value={searchQuery}
-                  // onKeyDown={handleKeyDown}
+                 
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
                     if (e.target.value === "") {
@@ -1285,12 +1285,7 @@ setModifications((prev: any) => {
                     }
                   }}
                 ></input>
-                {/* <img
-                  src={Serachicon}
-                  alt=""
-                  className="searchIcon"
-                  onClick={() => handleSearchChange()}
-                /> */}
+                
                 {
                   !searchClicked?
                   <img
@@ -1341,14 +1336,7 @@ setModifications((prev: any) => {
                               onClick={() => handleSelecteModifiers(item)}
                             >
                               {item.modifierName}{" "}
-                              {/* {index === highlightedIndex && (
-                              <button
-                                onClick={() => handleSelecteModifiers(item)}
-                                className="Addmodificationfromsearch"
-                              >
-                                Add
-                              </button>
-                            )} */}
+                             
                             </div>
                           </li>
                         </div>
@@ -1376,7 +1364,7 @@ setModifications((prev: any) => {
                   </ul>
                 )}
               </div>
-            )}
+            )} */}
 
             <div className="modifiersitem">
               <div className="modifiers">

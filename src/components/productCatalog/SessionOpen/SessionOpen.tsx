@@ -83,7 +83,7 @@ const SessionOpen: React.FC<ModelShowProps> = ({
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item:any) => item.weekday === todayDay||item.weekday === "All"
     );
-    console.log({todayWorkinghours});
+ 
     
     setfilteredsession(todayWorkinghours);
 
@@ -162,7 +162,7 @@ const handleSessionCancel=()=>{
   
 
 }
-console.log("filteredsession seesion",filteredsession);
+
 
 useEffect(()=>{
   if (filteredsession && filteredsession.length > 0) {
@@ -184,7 +184,7 @@ useEffect(() => {
 
   }
 }, [filteredsession]);
-console.log({selectedSession});
+
   return (
     <div className="session-container">
       <div className="session-window">
