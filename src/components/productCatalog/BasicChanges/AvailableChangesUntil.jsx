@@ -164,7 +164,7 @@ const AvailabilityChangesUntil = ({
       setTimeToSet(Time);
     } else if (elem === "End of Sessions") {
       const formattedDate = getFormattedDate();
-      console.log({filteredsession});
+     
       
       const SessionTime = `${formattedDate}T${filteredsession&& filteredsession[filteredsession?.length-1].closingTime}`;
       if (filteredsession?.length ===1) {
