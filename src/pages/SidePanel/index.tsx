@@ -183,12 +183,6 @@ const SidePanel = () => {
 
   return (
     <>
-      <button
-        className="hamburger-btn"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        ☰
-      </button>
       <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
         <div className="logo-container">
           <div>
