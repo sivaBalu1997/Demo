@@ -20,9 +20,42 @@ const CategoryReport = (props) => {
     { key: "employees", label: "Employees" },
     { key: "trends", label: "Trends" },
   ];
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [itemsList, setItemsList] = useState([]);
 
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
+    console.log(selectedCategoriesData);
+    setSelectedCategories((prevData) => [
+      ...prevData,
+      { name: selectedCategoriesData.value },
+    ]);
+  };
+  const handleSelectItemsOnChange = (selectedItemsData) => {
+    setSelectedItems((prevData) => [
+      ...prevData,
+      { name: selectedItemsData.value },
+    ]);
+  };
+  
   // Track which tab is active
   const [activeTab, setActiveTab] = useState(tabList[0].key);
+  const categoryCloseOnClick = (categoryName) => {
+    setSelectedCategories((prevCategoryData) =>
+      prevCategoryData.filter(
+        (selectedData) => selectedData.name !== categoryName
+      )
+    );
+  };
+  const itemsCloseOnClick = (itemName) => {
+    setSelectedItems((prevItemData) =>
+      prevItemData.filter(
+        (selectedData) => selectedData.name !== itemName
+      )
+    );
+  };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
@@ -113,42 +146,6 @@ const CategoryReport = (props) => {
             </button>
           </div>
           <div className="categories-items-container">
-            {/* <div className="categories-items-content">
-              <div>
-                <div className="select-categories-title-container">
-                  <span className="select-categories-title poppins-fw400-fs16">
-                    Select Categories{" "}
-                  </span>
-                  <span className="font-color-red poppins-fw400-fs16">*</span>
-                </div>
-                <ReusableDropdown
-                  options={[
-                    { value: "Sales", label: "Sales" },
-                    { value: "Dosai", label: "Dosai" },
-                    { value: "Veg Briyani", label: "Veg Briyani" },
-                  ]}
-                  value={"Sales"}
-                  placeholder={"Select categories"}
-                  dropdownContainerClassName="select-food-item-dropdown-cotainer"
-                  dropdownClassName="select-food-item-dropdown"
-                  dropdownPrefix={"select-food-item-dropdown-prefix"}
-                />
-              </div>
-              <RoundedPill
-                data={[
-                  { name: "Dosai" },
-                  { name: "Cadai" },
-                  { name: "Dosai" },
-                  { name: "Cadai" },
-                  { name: "Dosai" },
-                  { name: "Cadai" },
-                  { name: "Dosai" },
-                  { name: "Cadai" },
-                  { name: "Dosai" },
-                  { name: "Cadai" },
-                ]}
-              />
-            </div> */}
             <div className="categories-items-content">
               <div>
                 <div className="select-categories-title-container">
@@ -173,13 +170,52 @@ const CategoryReport = (props) => {
                   dropdownContainerClassName="select-food-item-dropdown-cotainer"
                   dropdownClassName="select-food-item-dropdown"
                   dropdownPrefix={"select-food-item-dropdown-prefix"}
+                  onChange={handleSelectCategoriesOnChange}
                 />
               </div>
-              <RoundedPill data={[{ name: "Dosai" }, { name: "Cadai" }]} />
+              <RoundedPill
+                data={selectedCategories}
+                closeIconOnClick={categoryCloseOnClick}
+              />
             </div>
+            {activeBtn == "items" ? (
+              <div className="categories-items-content">
+                <div>
+                  <div className="select-categories-title-container">
+                    <span className="select-categories-title poppins-fw400-fs16">
+                      Select Items
+                    </span>
+                    <span className="font-color-red poppins-fw400-fs16">*</span>
+                  </div>
+                  <ReusableDropdown
+                    options={[
+                      { value: "Sales", label: "Sales" },
+                      { value: "Dosai", label: "Dosai" },
+                      { value: "Veg Briyani", label: "Veg Briyani" },
+                    ]}
+                    value={"Sales"}
+                    placeholder={"Select items"}
+                    dropdownContainerClassName="select-food-item-dropdown-cotainer"
+                    dropdownClassName="select-food-item-dropdown"
+                    dropdownPrefix={"select-food-item-dropdown-prefix"}
+                    onChange={handleSelectItemsOnChange}
+
+                  />
+                </div>
+                <RoundedPill
+                  data={selectedItems}
+                  closeIconOnClick={itemsCloseOnClick}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div>
-            <h1 className="categories-overview-heading">Categories Overview</h1>
+            <h1 className="categories-overview-heading">
+              {activeBtn == "categories" ? "Categories Overview" : ""}
+              {activeBtn == "items" ? "Items overview" : ""}
+            </h1>
             <MiniCard
               data={[
                 { title: "TOTAL SALES", value: "8500.90" },
@@ -191,23 +227,37 @@ const CategoryReport = (props) => {
             />
           </div>
           <div>
-            <h1 className="categories-overview-heading">Categories sales</h1>
-            <LinearBarChart barColorCode={"#02B04C"} />
+            <h1 className="categories-overview-heading">
+              {activeBtn == "categories" ? "Categories sales" : ""}
+              {activeBtn == "items" ? "Items sales" : ""}
+            </h1>
+            <LinearBarChart
+              barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
+            />
           </div>
           <div>
             <h1 className="categories-overview-heading">
-              By Channels - Categories
+              {activeBtn == "categories" ? "By Channels - Categories" : ""}
+              {activeBtn == "items" ? "By Channels - Items" : ""}
             </h1>
             <SalesChart />
           </div>
-          <div>
-            <h1 className="categories-overview-heading">Categories Voids</h1>
-            <LinearBarChart barColorCode={"#7D7774"} />
-          </div>
-          <div >
-            <h1 className="categories-overview-heading">Cancellation</h1>
-            <DoughnutChart />
-          </div>
+          {activeBtn == "categories" ? (
+            <div>
+              <h1 className="categories-overview-heading">Categories Voids</h1>
+              <LinearBarChart barColorCode={"#7D7774"} />
+            </div>
+          ) : (
+            ""
+          )}
+          {activeBtn == "items" ? (
+            <div>
+              <h1 className="categories-overview-heading">Cancellation</h1>
+              <DoughnutChart />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
