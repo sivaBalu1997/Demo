@@ -93,7 +93,7 @@ type MainFormTypespecial = {
 type DineInField = {
   DineInId?: string;
   DineInPrice: string | string[];
-  Enabled:boolean
+  Enabled: boolean;
   // DineInMealType: string | string[];
 };
 
@@ -116,8 +116,6 @@ interface FormState {
   Zomatomealtype?: string;
   Inventory1: string;
   Inventory2: string;
-  
-
 }
 
 type MainFormSpecial = {
@@ -163,7 +161,7 @@ interface Option {
 interface MainForm {
   form: FormState1;
   kitchenstation: string;
-  dataStored:boolean;
+  dataStored: boolean;
   Preparationtime: {
     hours: string;
     minutes: string;
@@ -271,7 +269,6 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  
   const {
     control,
     handleSubmit,
@@ -288,7 +285,7 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
-      dataStored:false,
+      dataStored: false,
       kitchenstation: prizingDetail?.kitchenstation
         ? prizingDetail?.kitchenstation
         : "",
@@ -441,7 +438,7 @@ const PricingDetails = () => {
       Inventory1: "",
       Inventory2: "",
     },
-    dataStored:false,
+    dataStored: false,
 
     kitchenstation: prizingDetail?.kitchenstation
       ? prizingDetail?.kitchenstation
@@ -521,7 +518,7 @@ const PricingDetails = () => {
     {
       DineInId: DineInId,
       DineInPrice: "",
-      Enabled:true
+      Enabled: true,
       // DineInMealType: [],
     },
   ]);
@@ -530,7 +527,7 @@ const PricingDetails = () => {
       {
         DineInId: DineInId,
         DineInPrice: "",
-        Enabled:true
+        Enabled: true,
         // DineInMealType: [],
       },
     ]
@@ -806,12 +803,10 @@ const PricingDetails = () => {
   //   }
   // },[])
 
-
-  
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
-      <div style={{height:'100%'}}>
+      <div style={{ height: "100%" }}>
         <Navigationpage
           getFormData={getValues}
           seletedpage="Pricing"
@@ -1180,7 +1175,11 @@ const PricingDetails = () => {
                   Save & next
                 </button>
               </div> */}
-            <div className={isExpanded ? "buttonContainerExpanded" : "buttonContainer"}>
+            <div
+              className={
+                isExpanded ? "buttonContainerExpanded" : "buttonContainer"
+              }
+            >
               <SaveAndNext
                 getFormData={getValues}
                 seletedpage="Pricing"

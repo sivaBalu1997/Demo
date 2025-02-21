@@ -10,7 +10,6 @@ import Routers from "../src/Routers";
 import { Contextpage } from "pages/productCatalog/contextpage";
 import MainPage from "pages/productCatalog/MainPage/MainPage";
 
-
 interface Credentials {
   accessToken: string;
   address: string;
@@ -74,15 +73,15 @@ const App = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const handleContextMenu = (event: MouseEvent) => {
-      event.preventDefault();
-    };
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleContextMenu = (event: MouseEvent) => {
+  //     event.preventDefault();
+  //   };
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
+  //   };
+  // }, []);
 
   const authState = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();

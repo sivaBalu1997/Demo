@@ -59,15 +59,14 @@ import PendingComponent from "pages/ContentManagement/PendingOutlet/PendingOutle
 
 import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 import EmptyMenu from "pages/menuItem/EmptyMenu";
-import OffersTable from "pages/offerManagement/OffersTable"
-import OffersHeader from "./components/offerManagement/OffersHeader"
-import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
+import OffersTable from "pages/offerManagement/OffersTable";
+import OffersHeader from "./components/offerManagement/OffersHeader";
+import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/";
 import completedTable from "pages/offerManagement/completedTable/completedTable";
-import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
+import offerSpecial from "./pages/offerManagement/specialPriceDetails/specialPriceDetails";
 import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
-import SalesOverView from "pages/NewReports/SalesOverView";
-import Product from "pages/NewReports/Product";
-
+import CategoryReport from "pages/CategoryReport";
+import SalesOverView from "pages/NewReports/salesoverview";
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -92,10 +91,10 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
-            <Route exact path='/Offer' component={Offerdetails} />
+            <Route exact path="/Offer" component={Offerdetails} />
             <Route exact path="/Offers" component={OffersHeader} />
             <Route exact path="/Offers/active" component={OffersTable} />
-            <Route exact path='/Offers/completed' component={completedTable} />
+            <Route exact path="/Offers/completed" component={completedTable} />
 
             <Route
               exact
@@ -191,10 +190,7 @@ const Routers = () => {
               component={AddItem}
             />
 
-            <div
-              style={{ width: "100%" }}
-              className="landingpage"
-            >
+            <div style={{ width: "100%" }} className="landingpage">
               {/* {belowMinWidth ? (
                 <div className="warning-message">
                   Your screen width is below the minimum width of {MIN_WIDTH}
@@ -204,7 +200,11 @@ const Routers = () => {
               <>
                 <div>
                   <Switch>
-                    <Route exact path="/productCatalog/menuListing" component={MenulistingPage} />
+                    <Route
+                      exact
+                      path="/productCatalog/menuListing"
+                      component={MenulistingPage}
+                    />
                     {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
                     {/* <Route exact path="/offer/special" component={offers} /> */}
                     <Route
@@ -270,6 +270,13 @@ const Routers = () => {
               />
               <Route
                 exact
+                path="/report/category"
+                component={() => (
+                  <CategoryReport id={"82"} title={"Category report"} />
+                )}
+              />
+              <Route
+                exact
                 path="/report/57"
                 component={() => (
                   <Report id={"57"} title={"Product Insights"} />
@@ -305,16 +312,16 @@ const Routers = () => {
                 path="/report/12"
                 component={() => <Report id={"12"} title={"Sales insights"} />}
 
-              // /> <Route
-              // exact
-              // path="/report/8"
-              // component={() => (
-              //   <Report id={"8"} title={"Product insights"} />
-              // )}
+                // /> <Route
+                // exact
+                // path="/report/8"
+                // component={() => (
+                //   <Report id={"8"} title={"Product insights"} />
+                // )}
               />
             </div>
 
-            <div style={{ width: '100%' }}>
+            <div style={{ width: "100%" }}>
               <Route exact path="/live-reports" component={CustomerInsights} />
               <Route exact path="/sales" component={Sales} />
               <Route
@@ -330,10 +337,7 @@ const Routers = () => {
               <Route exact path="/check-in" component={CheckIn} />
               <Route exact path="/gen-ai-reports" component={GenAiReports} />
               <Route exact path="/customer-insights" component={CustIns} />
-            </div>
-            <div>
-              <Route exact path="/sales-over-view-reports" component={SalesOverView} />
-              <Route path="/product-reports" component={Product} />
+              <Route exact path="/category-1" component={SalesOverView} />
             </div>
           </ThemeProvider>
         </Contextpage>

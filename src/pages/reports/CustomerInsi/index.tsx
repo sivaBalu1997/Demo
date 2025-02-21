@@ -17,10 +17,18 @@ const CustIns: React.FC = () => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
-  const [totalPageNoCurrentPageCustomerOrderDetails, setTotalPageNoCurrentPageCustomerOrderDetails] = useState<number>(5)
-  const [currentPageCustomerOrderDetails, setCurrentPageCustomerOrderDetails] = useState<number>(1);
-  const [totalPageNoCurrentPageDineInInsights, setTotalPageNoCurrentPageDineInInsights] = useState<number>(5)
-  const [currentPageDineInInsights, setCurrentPageDineInInsights] = useState<number>(1);
+  const [
+    totalPageNoCurrentPageCustomerOrderDetails,
+    setTotalPageNoCurrentPageCustomerOrderDetails,
+  ] = useState<number>(5);
+  const [currentPageCustomerOrderDetails, setCurrentPageCustomerOrderDetails] =
+    useState<number>(1);
+  const [
+    totalPageNoCurrentPageDineInInsights,
+    setTotalPageNoCurrentPageDineInInsights,
+  ] = useState<number>(5);
+  const [currentPageDineInInsights, setCurrentPageDineInInsights] =
+    useState<number>(1);
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -38,13 +46,13 @@ const CustIns: React.FC = () => {
     setOpenFilter(false);
   };
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'85%'} : {width:'94%'}}
-        className={`ci-employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
-          } ${isExpanded ? "ci-on-expanded" : ""}`
-        }
+        style={isExpanded ? { width: "85%" } : { width: "94%" }}
+        className={`ci-employee-container ${
+          isDarkTheme ? "dark-theme" : "light-theme"
+        } ${isExpanded ? "ci-on-expanded" : ""}`}
       >
         <Topnavbar />
         <div className="employee-head">
@@ -77,11 +85,7 @@ const CustIns: React.FC = () => {
                   <p onClick={() => handleOptionClickForDate("Last 30 days")}>
                     Last 30 days
                   </p>
-                  <p
-                    onClick={() =>
-                      handleOptionClickForDate("Custom Range")
-                    }
-                  >
+                  <p onClick={() => handleOptionClickForDate("Custom Range")}>
                     Custom Range
                   </p>
                 </div>

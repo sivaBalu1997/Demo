@@ -4,8 +4,16 @@ import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeDat
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { ReportsChartDropDown } from "components/reportComponents/ReportsChartDropDown";
 import { useDispatch, useSelector } from "react-redux";
-import { employeeStaffActivityRequest, employeeStaffDiscountRequest, employeeStaffPerformanceRequest, employeeStaffTipGratuityRequest } from "redux/newReports/newReportsActions";
-import { DateRangeStateInterface, NewTableHeader } from "interface/newReportsInterface";
+import {
+  employeeStaffActivityRequest,
+  employeeStaffDiscountRequest,
+  employeeStaffPerformanceRequest,
+  employeeStaffTipGratuityRequest,
+} from "redux/newReports/newReportsActions";
+import {
+  DateRangeStateInterface,
+  NewTableHeader,
+} from "interface/newReportsInterface";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
 import SidePanel from "pages/SidePanel";
@@ -21,7 +29,6 @@ import SwitchableBox from "components/reportComponents/SwitchableBox";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
-
 
 interface CanvaPieChartOptions {
   animationEnabled: boolean;
@@ -44,12 +51,14 @@ interface CanvaPieChartOptions {
     toolTipContent?: string;
     showInLegend?: string;
     legendText?: string;
-    axisX?: { // Only valid for line charts
+    axisX?: {
+      // Only valid for line charts
       title: string;
       titleFontSize: number;
       labelFontSize: number;
     };
-    axisY?: { // Only valid for line charts
+    axisY?: {
+      // Only valid for line charts
       title: string;
       titleFontSize: number;
       labelFontSize: number;
@@ -58,9 +67,7 @@ interface CanvaPieChartOptions {
   backgroundColor: string;
 }
 
-
 const EmployeeInsights: React.FC = () => {
-
   const dispatch = useDispatch();
 
   const TABLE_RECORDS_LIMIT = 15;
@@ -70,46 +77,73 @@ const EmployeeInsights: React.FC = () => {
     (state: any) => state.auth?.selectedBranch || null
   );
 
-  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+  const locationid = useSelector(
+    (state: any) => state?.auth?.credentials?.locationId
+  );
 
   // const netWorkStatus = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess);
   // console.log("PPPP", { netWorkStatus })
 
-
-  const employeeSummaryAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content);
-  const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(({ total, date, ...rest }: any) => rest);
+  const employeeSummaryAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.content
+  );
+  const updatedEmployeeSummary = employeeSummaryAPIRedux?.map(
+    ({ total, date, ...rest }: any) => rest
+  );
   // console.log("2222222222", { updatedEmployeeSummary })
   // console.log("1111", { employeeSummaryAPIRedux })
-  const employeeSummaryTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages);
+  const employeeSummaryTotalPagesRedux = useSelector(
+    (state: any) =>
+      state?.newReports?.employeeStaffTipGratuitySuccess?.totalPages
+  );
   // console.log("1111", { employeeSummaryTotalPagesRedux })
-  const employeeSummaryLoading = useSelector((state: any) => state?.newReports?.employeeStaffTipGratuityLoading);
+  const employeeSummaryLoading = useSelector(
+    (state: any) => state?.newReports?.employeeStaffTipGratuityLoading
+  );
 
-  const employeePerformanceAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.content);
+  const employeePerformanceAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.content
+  );
   // console.log("1111", { employeePerformanceAPIRedux })
-  const employeePerformanceTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.totalPages);
+  const employeePerformanceTotalPagesRedux = useSelector(
+    (state: any) =>
+      state?.newReports?.employeeStaffPerformanceSuccess?.totalPages
+  );
   // console.log("1111", { employeePerformanceTotalPagesRedux })
-  const employeePerformanceLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
+  const employeePerformanceLoading = useSelector(
+    (state: any) => state?.newReports?.employeeStaffPerformanceLoading
+  );
 
-  const employeeDiscountAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.content);
+  const employeeDiscountAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffDiscountSuccess?.content
+  );
   // console.log("1111", { employeeDiscountAPIRedux })
 
   const employeeDisountMappped = employeeDiscountAPIRedux?.map((data: any) => ({
     EmployeeName: data?.fullName,
-    Discount: data?.tip
-  }))
+    Discount: data?.tip,
+  }));
 
   // console.log("1111", { employeeDisountMappped })
-  const employeeDiscountTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffDiscountSuccess?.totalPages);
+  const employeeDiscountTotalPagesRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffDiscountSuccess?.totalPages
+  );
   // console.log("1111", { employeeDiscountTotalPagesRedux })
-  const employeeDiscountLoading = useSelector((state: any) => state?.newReports?.employeeStaffDiscountLoading);
+  const employeeDiscountLoading = useSelector(
+    (state: any) => state?.newReports?.employeeStaffDiscountLoading
+  );
 
-  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.content);
-  console.log("1111", { employeeVoidActivityAPIRedux })
-  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
+  const employeeVoidActivityAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
+  );
+  console.log("1111", { employeeVoidActivityAPIRedux });
+  const employeeVoidActivityTotalPagesRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
+  );
   // console.log("1111", { employeeVoidActivityTotalPagesRedux })
-  const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
-
-
+  const employeeVoidActivityLoading = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivityLoading
+  );
 
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   // const [state, setState] = useState<employeeState>({
@@ -127,18 +161,24 @@ const EmployeeInsights: React.FC = () => {
 
   const [chartType, setChartType] = useState<string>("Bar");
 
-  const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
-  const [currentPageEmployeePerformance, setCurrentPageEmployeePerformance] = useState<number>(1);
-  const [currentPageEmployeeDiscount, setCurrentPageEmployeeDiscount] = useState<number>(1);
-  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
+  const [
+    currentPageEmployeeTipsFeeSummary,
+    setCurrentPageEmployeeTipsFeeSummary,
+  ] = useState<number>(1);
+  const [currentPageEmployeePerformance, setCurrentPageEmployeePerformance] =
+    useState<number>(1);
+  const [currentPageEmployeeDiscount, setCurrentPageEmployeeDiscount] =
+    useState<number>(1);
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
+    useState<number>(1);
 
   const getLocationDates = useSalesLocationDates(state, locationid);
 
   // Data/Config For Pie Chart start ====================================================
   const empTips = EmployeeD["Employee Performance"]?.map((items: any) => ({
     label: items["Employee"],
-    y: items["Tips"]
-  }))
+    y: items["Tips"],
+  }));
 
   // console.log("qqqq", { empTips })
   const backgroundEmployeeColorForPieChart = isDarkTheme ? "#222b3c" : "#fff";
@@ -169,16 +209,20 @@ const EmployeeInsights: React.FC = () => {
   // Data/Config For Pie Chart end =====================================================
 
   // Data/Config For Bar Chart start ====================================================
-  const empNameBarX = EmployeeD["Employee Performance"]?.map((items: any) => items["Employee"]);
+  const empNameBarX = EmployeeD["Employee Performance"]?.map(
+    (items: any) => items["Employee"]
+  );
   // console.log("qqqq", { empNameBarX })
-  const empSalesBarY = EmployeeD["Employee Performance"]?.map((items: any) => items["Orders Handled"]);
+  const empSalesBarY = EmployeeD["Employee Performance"]?.map(
+    (items: any) => items["Orders Handled"]
+  );
   // console.log("qqqq", { empSalesBarY })
   // Data/Config For Bar Chart end ====================================================
 
   // Data/Config For Line Chart Start ====================================================
   const empLineX = EmployeeD["Employee Performance"]?.map((items: any) => ({
     label: items["Employee"],
-    y: items["Sales"]
+    y: items["Sales"],
   }));
   // console.log("qqqq", { empLineX })
   const SalesTrendsByEmployee: CanvaPieChartOptions = {
@@ -225,50 +269,56 @@ const EmployeeInsights: React.FC = () => {
   const renderChart = () => {
     switch (chartType) {
       case "Bar":
-        return <div className="employee-sales-chart">
-          <BarChart
-            BatChartTitle="Orders Handled vs. Employee"
-            TitleColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisData={empNameBarX && empNameBarX}
-            yAxisData={empSalesBarY && empSalesBarY}
-            label="Orders Handled"
-            backgroundColor={[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-            ]}
-            borderColor={[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-            ]}
-            xAxisGridColor={"transparent"}
-            yAxisGridColor={"transparent"}
-            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-            ttTitleColor="#fff"
-            ttBodyColor="#fff"
-            // yAxisLabel="Average Sales per Hour"
-            yAxisLabel="Orders handled"
-            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisLabel="Employee"
-            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-          // barChartLoading={hourlySalesChartDataLoading}
-          />
-        </div>;
+        return (
+          <div className="employee-sales-chart">
+            <BarChart
+              BatChartTitle="Orders Handled vs. Employee"
+              TitleColor={isDarkTheme ? "#fff" : "#000"}
+              xAxisData={empNameBarX && empNameBarX}
+              yAxisData={empSalesBarY && empSalesBarY}
+              label="Orders Handled"
+              backgroundColor={[
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 205, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+              ]}
+              borderColor={[
+                "rgb(255, 99, 132)",
+                "rgb(255, 159, 64)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(54, 162, 235)",
+              ]}
+              xAxisGridColor={"transparent"}
+              yAxisGridColor={"transparent"}
+              xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+              yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+              pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+              ttTitleColor="#fff"
+              ttBodyColor="#fff"
+              // yAxisLabel="Average Sales per Hour"
+              yAxisLabel="Orders handled"
+              xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+              xAxisLabel="Employee"
+              yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+            // barChartLoading={hourlySalesChartDataLoading}
+            />
+          </div>
+        );
       case "Pie":
-        return <div className="employee-tips-pie-chart">
-          <CanvaPieChart options={EmployeeTipsPieOptions} />
-        </div>;
+        return (
+          <div className="employee-tips-pie-chart">
+            <CanvaPieChart options={EmployeeTipsPieOptions} />
+          </div>
+        );
       case "line":
-        return <div className="employee-tips-pie-chart">
-          <CanvaPieChart options={SalesTrendsByEmployee} />
-        </div>;
+        return (
+          <div className="employee-tips-pie-chart">
+            <CanvaPieChart options={SalesTrendsByEmployee} />
+          </div>
+        );
       default:
         return <div>Select a chart type</div>;
     }
@@ -320,11 +370,17 @@ const EmployeeInsights: React.FC = () => {
         })
       );
     }
-  }, [getLocationDates, currentPageEmployeeVoidActivity, employeeVoidRecordLimit]);
+  }, [
+    getLocationDates,
+    currentPageEmployeeVoidActivity,
+    employeeVoidRecordLimit,
+  ]);
 
-  const handleDateSelection = (option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
+  const handleDateSelection = (
+    option: DateRangeStateInterface["selectedPeriod"], // Ensuring type safety
     startDate: Date,
-    endDate: Date) => {
+    endDate: Date
+  ) => {
     setState((prev) => ({
       ...prev,
       selectedPeriod: option,
@@ -343,10 +399,25 @@ const EmployeeInsights: React.FC = () => {
   const currencySymbol = countryCode === "US" ? "$" : "₹";
 
   const newTableHeaders: NewTableHeader[] = [
-    { key: 'steward', label: `Steward`, isSortable: true, alignment: 'left' },
-    { key: 'voidedAmount', label: `Voided amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
-    { key: 'voidedItems', label: `Voided items`, isSortable: false, alignment: 'left' },
-    { key: 'voidedReasons', label: `Voided reasons`, isSortable: false, alignment: 'left' },
+    { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
+    {
+      key: "voidedAmount",
+      label: `Voided amount (${currencySymbol})`,
+      isSortable: true,
+      alignment: "right",
+    },
+    {
+      key: "voidedItems",
+      label: `Voided items`,
+      isSortable: false,
+      alignment: "left",
+    },
+    {
+      key: "voidedReasons",
+      label: `Voided reasons`,
+      isSortable: false,
+      alignment: "left",
+    },
   ];
 
   const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
@@ -379,10 +450,10 @@ const EmployeeInsights: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width: '100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <SidePanel />
       <div
-        style={isExpanded ? { width: '100%' } : { width: '94%' }}
+        style={isExpanded ? { width: "100%" } : { width: "94%" }}
         className={`employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
           } ${isExpanded ? "e-expanded-width-sales" : ""}`}
       >
@@ -508,7 +579,11 @@ const EmployeeInsights: React.FC = () => {
             setCurrentPage={setCurrentPageEmployeeTipsFeeSummary}
             Heading="Employee Summary"
             // tableData={employeeSummaryAPIRedux && employeeSummaryAPIRedux?.length > 0 && employeeSummaryAPIRedux}
-            tableData={updatedEmployeeSummary && updatedEmployeeSummary?.length > 0 && updatedEmployeeSummary}
+            tableData={
+              updatedEmployeeSummary &&
+              updatedEmployeeSummary?.length > 0 &&
+              updatedEmployeeSummary
+            }
             //updatedEmployeeSummary
             viewType="full"
             recordsPerPage={TABLE_RECORDS_LIMIT}
@@ -534,7 +609,11 @@ const EmployeeInsights: React.FC = () => {
             setCurrentPage={setCurrentPageEmployeeDiscount}
             Heading="Employee Discount"
             // tableData={employeeDiscountAPIRedux && employeeDiscountAPIRedux?.length > 0 && employeeDiscountAPIRedux}
-            tableData={employeeDisountMappped && employeeDisountMappped?.length > 0 && employeeDisountMappped}
+            tableData={
+              employeeDisountMappped &&
+              employeeDisountMappped?.length > 0 &&
+              employeeDisountMappped
+            }
             viewType="full"
             recordsPerPage={TABLE_RECORDS_LIMIT}
             totalpageNo={employeeDiscountTotalPagesRedux}
@@ -546,7 +625,11 @@ const EmployeeInsights: React.FC = () => {
             currentPage={currentPageEmployeeVoidActivity}
             setCurrentPage={setCurrentPageEmployeeVoidActivity}
             Heading="Employee Void Activity"
-            tableData={employeeVoidActivityAPIRedux && employeeVoidActivityAPIRedux?.length > 0 && employeeVoidActivityAPIRedux}
+            tableData={
+              employeeVoidActivityAPIRedux &&
+              employeeVoidActivityAPIRedux?.length > 0 &&
+              employeeVoidActivityAPIRedux
+            }
             viewType="full"
             recordsPerPage={employeeVoidRecordLimit}
             totalpageNo={employeeVoidActivityTotalPagesRedux}
@@ -559,7 +642,11 @@ const EmployeeInsights: React.FC = () => {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             headerData={newTableHeaders}
-            tableData={employeeVoidActivityAPIRedux && employeeVoidActivityAPIRedux?.length > 0 && employeeVoidActivityAPIRedux}
+            tableData={
+              employeeVoidActivityAPIRedux &&
+              employeeVoidActivityAPIRedux?.length > 0 &&
+              employeeVoidActivityAPIRedux
+            }
             currentPage={currentPageEmployeeVoidActivity}
             totalPages={employeeVoidActivityTotalPagesRedux}
             onPageChange={setCurrentPageEmployeeVoidActivity}
@@ -598,7 +685,7 @@ const EmployeeInsights: React.FC = () => {
           {renderChart()}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

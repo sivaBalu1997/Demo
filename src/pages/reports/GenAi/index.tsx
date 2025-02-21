@@ -39,10 +39,10 @@ const GenAiReports: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'85%'} : {width:'94%'}}
+        style={isExpanded ? { width: "85%" } : { width: "94%" }}
         className={`genai-report ${isDarkTheme ? "dark-theme" : "light-theme"}`}
       >
         <Topnavbar />
