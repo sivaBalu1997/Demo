@@ -13,14 +13,14 @@ const SwitchableBox: React.FC<SwitchableBoxProps> = ({ textOne, textTwo, isActiv
     return (
         <div className="switchable-box">
             <div
-                className={`switchable-tab ${isActive ? "active" : ""}`}
-                onClick={isActive ? undefined : toggleSwitch}
+                className={`switchable-tab ${!isActive ? "active" : ""}`}
+                onClick={toggleSwitch}
             >
                 {textOne}
             </div>
             <div
-                className={`switchable-tab ${!isActive ? "active" : ""}`}
-                onClick={!isActive ? undefined : toggleSwitch}
+                className={`switchable-tab ${isActive ? "active" : ""}`}
+                onClick={toggleSwitch}
             >
                 {textTwo}
             </div>

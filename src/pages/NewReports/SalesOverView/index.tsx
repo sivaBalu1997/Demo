@@ -82,9 +82,13 @@ const SalesOverView: React.FC = () => {
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
 
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
+    const textOne: string = "Overall";
+    const textTwo: string = "Live Orders";
+    const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(textOne);
 
     const handleToggleSwitch = () => {
         setIsSwitchActive((prev) => !prev)
+        setActiveTextForSwitchableBox((prev) => (prev === textOne ? textTwo : textOne));
     }
 
     const dispatch = useDispatch();

@@ -327,17 +327,14 @@ const EmployeeInsights: React.FC = () => {
     endDate: Date) => {
     setState((prev) => ({
       ...prev,
-      selectedPeriod: option, // Now it correctly matches the expected type
+      selectedPeriod: option,
       startDate,
       endDate,
     }));
   };
 
   const [searchQuery, setSearchQuery] = useState('');
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const rowsPerPage = 15; // Set number of rows per page
-  // const totalPages = Math.ceil(mockData.length / rowsPerPage);
-  // const [loader, setLoader] = useState<boolean>(false);
+
 
   const countryCode = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.country

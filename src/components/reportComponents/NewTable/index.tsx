@@ -44,19 +44,24 @@ const NewTable: React.FC<NewTableProps> = ({
 
     const [initialLoader, setInitialLoader] = useState(true);
     const [tableLoader, setTableLoader] = useState(false);
+    const [searchFlag, setSearchFlag] = useState(false)
+
+    // console.log("9999", { tableData })
 
     useEffect(() => {
         if (loader) {
-            setTableLoader(true); // Table shimmer active
+            if (searchFlag) {
+                setTableLoader(true)
+            } else {
+                setInitialLoader(true)
+            }
         } else {
-            setInitialLoader(false); // Hide initial shimmer
-            setTableLoader(false);  // Hide table shimmer
+            setTableLoader(false)
+            setInitialLoader(false)
         }
     }, [loader]);
 
-    // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
-    // console.log("9999", { tableData })
 
     const handleSort = (key: string) => {
         let direction: SortConfig['direction'] = 'asc';
@@ -151,6 +156,7 @@ const NewTable: React.FC<NewTableProps> = ({
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onSearchChange(event.target.value);
         onSearch(event.target.value, kpiTitle);
+        setSearchFlag(true)
     };
 
 
@@ -212,12 +218,12 @@ const NewTable: React.FC<NewTableProps> = ({
 
                     <div className="table-wrapper">
                         {/* Case 1: No data available at all */}
-                        {!tableData || tableData.length === 0 ? (
+                        {!tableLoader && !initialLoader && (!tableData || tableData.length === 0) ? (
                             <div className="no-results-container">
                                 <NoOrdersFoundStampIcon />
                                 <p className="no-results-text">No Orders Found</p>
                             </div>
-                        ) : searchQuery && filteredData?.length === 0 ? (
+                        ) : !tableLoader && !initialLoader && (searchQuery && filteredData?.length === 0) ? (
                             /* Case 2: User searched but no matching results */
                             <div className="no-results-container">
                                 <NoResultsFoundStampIcon />
@@ -231,10 +237,11 @@ const NewTable: React.FC<NewTableProps> = ({
                                         {headerData?.map(header => (
                                             <th
                                                 key={header?.key}
-                                                className={`table-header-cell align-${header?.alignment || 'left'} ${header?.isSortable ? 'sortable' : ''}`}
+                                                style={{ textAlign: header?.alignment || "left" }}
+                                                className={`${header?.isSortable ? 'sortable' : ''}`}
                                                 onClick={() => header?.isSortable && handleSort(header?.key)}
                                             >
-                                                <div className="header-content">
+                                                <div className="header-content" style={{ display: "flex", justifyContent: header?.alignment }}>
                                                     <span>{header?.label}</span>
                                                     {header?.isSortable && (
                                                         <SortIcon className={`sort-icon ${sortConfig?.key === header?.key ? sortConfig?.direction : ''}`} />
@@ -245,15 +252,6 @@ const NewTable: React.FC<NewTableProps> = ({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* {paginatedData?.map((row, index) => (
-                                        <tr key={index}>
-                                            {headerData?.map(header => (
-                                                <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
-                                                    {row[header?.key]}
-                                                </td>
-                                            ))}
-                                        </tr>
-                                    ))} */}
                                     {tableLoader ? (
                                         // Shimmer Effect for Table Rows (only when search, pagination, row-limit changes)
                                         [...Array(rowsPerPage)].map((_, index) => (
@@ -270,7 +268,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                         paginatedData?.map((row, index) => (
                                             <tr key={index}>
                                                 {headerData?.map(header => (
-                                                    <td key={header?.key}>{row[header?.key]}</td>
+                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>{row[header?.key]}</td>
                                                 ))}
                                             </tr>
                                         ))
@@ -281,39 +279,41 @@ const NewTable: React.FC<NewTableProps> = ({
                     </div>
 
 
-                    {tableData && <div className="table-footer">
-                        {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
-                        <div className="results-per-page">
-                            <span>Result per page:</span>
-                            <div className="options">
-                                {[10, 20, 30]?.map((num) => (
-                                    <button
-                                        key={num}
-                                        className={`option ${rowsPerPage === num ? "selected" : ""}`}
-                                        onClick={() => setRowsPerPage(num)}
-                                    >
-                                        {num}
-                                    </button>
-                                ))}
+                    {
+                        tableData && <div className="table-footer">
+                            {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
+                            <div className="results-per-page">
+                                <span>Result per page:</span>
+                                <div className="options">
+                                    {[10, 20, 30]?.map((num) => (
+                                        <button
+                                            key={num}
+                                            className={`option ${rowsPerPage === num ? "selected" : ""}`}
+                                            onClick={() => setRowsPerPage(num)}
+                                        >
+                                            {num}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
+                            <ReactPaginate
+                                previousLabel={<span className='pagination-label'><ArrowLeft className="arrow-icon" />{" "}Prev</span>}
+                                nextLabel={<span className="pagination-label">Next{" "}<ArrowRight className="arrow-icon" /></span>}
+                                breakLabel="..."
+                                pageCount={totalPages}
+                                marginPagesDisplayed={1}
+                                pageRangeDisplayed={3}
+                                forcePage={currentPage - 1}
+                                onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
+                                containerClassName="pagination"
+                                activeClassName="active"
+                                disabledClassName="disabled"
+                                previousClassName="prev-button"
+                                nextClassName="next-button"
+                            />
                         </div>
-                        <ReactPaginate
-                            previousLabel={<span className='pagination-label'><ArrowLeft className="arrow-icon" />{" "}Prev</span>}
-                            nextLabel={<span className="pagination-label">Next{" "}<ArrowRight className="arrow-icon" /></span>}
-                            breakLabel="..."
-                            pageCount={totalPages}
-                            marginPagesDisplayed={1}
-                            pageRangeDisplayed={3}
-                            forcePage={currentPage - 1}
-                            onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
-                            containerClassName="pagination"
-                            activeClassName="active"
-                            disabledClassName="disabled"
-                            previousClassName="prev-button"
-                            nextClassName="next-button"
-                        />
-                    </div>}
-                </div>
+                    }
+                </div >
             )
     );
 };
