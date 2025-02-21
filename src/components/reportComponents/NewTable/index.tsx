@@ -268,7 +268,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                         paginatedData?.map((row, index) => (
                                             <tr key={index}>
                                                 {headerData?.map(header => (
-                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>{row[header?.key]}</td>
+                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }} className={`${header?.label === "Steward" && "bubble-text"}`}>{row[header?.key]}</td>
                                                 ))}
                                             </tr>
                                         ))
