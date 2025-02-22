@@ -115,7 +115,7 @@ const AvailabilityChangesUntil = ({
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item) => item.weekday === todayDay || item.weekday === "All"
     );
-    console.log({todayWorkinghours});
+   
     
     setfilteredsession(todayWorkinghours);
   }, [restaurantDetails]);
