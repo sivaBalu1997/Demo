@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Tabs.css";
 
@@ -10,6 +10,7 @@ import SalesChart from "./salesReport";
 import LinearBarChart from "./barChart";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
 import DoughnutChart from "./doughnutChart";
+import DownloadPopOver from "./downloadOption";
 
 const CategoryReport = (props) => {
   const [activeBtn, setActiveBtn] = useState("categories");
@@ -39,7 +40,6 @@ const CategoryReport = (props) => {
       { name: selectedItemsData.value },
     ]);
   };
-  
   // Track which tab is active
   const [activeTab, setActiveTab] = useState(tabList[0].key);
   const categoryCloseOnClick = (categoryName) => {
@@ -51,9 +51,7 @@ const CategoryReport = (props) => {
   };
   const itemsCloseOnClick = (itemName) => {
     setSelectedItems((prevItemData) =>
-      prevItemData.filter(
-        (selectedData) => selectedData.name !== itemName
-      )
+      prevItemData.filter((selectedData) => selectedData.name !== itemName)
     );
   };
   return (
@@ -165,7 +163,6 @@ const CategoryReport = (props) => {
                     dropdownClassName="select-food-item-dropdown"
                     dropdownPrefix={"select-food-item-dropdown-prefix"}
                     onChange={handleSelectItemsOnChange}
-
                   />
                 </div>
                 <RoundedPill
@@ -178,10 +175,13 @@ const CategoryReport = (props) => {
             )}
           </div>
           <div>
-            <h1 className="categories-overview-heading">
-              {activeBtn == "categories" ? "Categories Overview" : ""}
-              {activeBtn == "items" ? "Items overview" : ""}
-            </h1>
+            <div className="categories-graph-header-container">
+              <h1 className="categories-overview-heading">
+                {activeBtn == "categories" ? "Categories Overview" : ""}
+                {activeBtn == "items" ? "Items overview" : ""}
+              </h1>
+              <DownloadPopOver />
+            </div>
             <MiniCard
               data={[
                 { title: "TOTAL SALES", value: "8500.90" },
@@ -193,24 +193,36 @@ const CategoryReport = (props) => {
             />
           </div>
           <div>
-            <h1 className="categories-overview-heading">
-              {activeBtn == "categories" ? "Categories sales" : ""}
-              {activeBtn == "items" ? "Items sales" : ""}
-            </h1>
+            <div className="categories-graph-header-container">
+              <h1 className="categories-overview-heading">
+                {activeBtn == "categories" ? "Categories sales" : ""}
+                {activeBtn == "items" ? "Items sales" : ""}
+              </h1>
+              <DownloadPopOver />
+            </div>
             <LinearBarChart
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
             />
           </div>
           <div>
-            <h1 className="categories-overview-heading">
-              {activeBtn == "categories" ? "By Channels - Categories" : ""}
-              {activeBtn == "items" ? "By Channels - Items" : ""}
-            </h1>
+            <div className="categories-graph-header-container">
+              <h1 className="categories-overview-heading">
+                {activeBtn == "categories" ? "By Channels - Categories" : ""}
+                {activeBtn == "items" ? "By Channels - Items" : ""}
+              </h1>
+              <DownloadPopOver />
+            </div>
+
             <SalesChart />
           </div>
           {activeBtn == "categories" ? (
             <div>
-              <h1 className="categories-overview-heading">Categories Voids</h1>
+              <div className="categories-graph-header-container">
+                <h1 className="categories-overview-heading">
+                  Categories Voids
+                </h1>
+                <DownloadPopOver />
+              </div>
               <LinearBarChart barColorCode={"#7D7774"} />
             </div>
           ) : (
@@ -218,7 +230,10 @@ const CategoryReport = (props) => {
           )}
           {activeBtn == "items" ? (
             <div>
-              <h1 className="categories-overview-heading">Cancellation</h1>
+              <div className="categories-graph-header-container">
+                <h1 className="categories-overview-heading">Cancellation</h1>
+                <DownloadPopOver />
+              </div>
               <DoughnutChart />
             </div>
           ) : (

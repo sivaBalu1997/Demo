@@ -191,10 +191,12 @@ const SidePanel = () => {
       >
         <div className="logo-container logo-container-rebranded">
           <div>
-            <img
-              src={getImageURL("LOGO")}
-              className="restaurant-logo restaurant-logo-rebranded"
-            />
+            {isExpanded ?? (
+              <img
+                src={getImageURL("LOGO")}
+                className="restaurant-logo restaurant-logo-rebranded"
+              />
+            )}
           </div>
           <div className="restaurant-name-container restaurant-name-container-rebranded">
             {isExpanded && (
@@ -301,17 +303,18 @@ const SidePanel = () => {
                 </div>
 
                 <div style={{ cursor: "pointer" }}>
-                  {showOfferOptions === "MenuOptions" ? (
-                    <Uparrow
-                    // className="dropdown-arrow"
-                    // style={{ marginLeft: "15px" }}
-                    />
-                  ) : (
-                    <Downarrow
-                    // className="dropdown-arrow"
-                    // style={{ marginLeft: "15px" }}
-                    />
-                  )}
+                  {isExpanded ??
+                    (showOfferOptions === "MenuOptions" ? (
+                      <Uparrow
+                      // className="dropdown-arrow"
+                      // style={{ marginLeft: "15px" }}
+                      />
+                    ) : (
+                      <Downarrow
+                      // className="dropdown-arrow"
+                      // style={{ marginLeft: "15px" }}
+                      />
+                    ))}
                 </div>
               </div>
               <div
@@ -421,18 +424,19 @@ const SidePanel = () => {
                 </div>
 
                 <div style={{ cursor: "pointer" }}>
-                  {showOptions === "reportOptions" ? (
-                    <Uparrow
-                      className="arrow-dimensions"
+                  {isExpanded ??
+                    (showOptions === "reportOptions" ? (
+                      <Uparrow
+                        className="arrow-dimensions"
+                        // className="dropdown-arrow"
+                        // style={{ marginLeft: "15px" }}
+                      />
+                    ) : (
+                      <Downarrow
                       // className="dropdown-arrow"
                       // style={{ marginLeft: "15px" }}
-                    />
-                  ) : (
-                    <Downarrow
-                    // className="dropdown-arrow"
-                    // style={{ marginLeft: "15px" }}
-                    />
-                  )}
+                      />
+                    ))}
                 </div>
               </div>
               <div
@@ -900,6 +904,15 @@ const SidePanel = () => {
               }
             </div> */}
         </ul>
+      </div>
+      <div>
+        <img
+          onClick={toggleExpand}
+          className={isExpanded ? "btn-nav1" : "btn-nav"}
+          src={btnnav}
+          alt=""
+          style={{ zIndex: 9 }}
+        />
       </div>
     </>
   );
