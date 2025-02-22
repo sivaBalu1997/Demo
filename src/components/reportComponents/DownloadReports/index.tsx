@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ReactComponent as TableDownloadOptionsIcon } from "../../../assets/svg/r-options-table.svg";
-import { ReactComponent as PdfDownloadIcon } from "../../../assets/svg/r-pdf-download-option-icon.svg";
-import { ReactComponent as JsonDownloadIcon } from "../../../assets/svg/r-json-download-option-icon.svg";
-import { ReactComponent as CsvDownloadIcon } from "../../../assets/svg/r-csv-download-option-icon.svg";
+import { ReactComponent as PdfDownloadIconUnselected } from "../../../assets/svg/r-pdf-unselected.svg";
+import { ReactComponent as PdfDownloadIconSelected } from "../../../assets/svg/r-pdf-selected.svg";
+import { ReactComponent as JsonDownloadIconUnselected } from "../../../assets/svg/r-json-unselected.svg";
+import { ReactComponent as JsonDownloadIconSelected } from "../../../assets/svg/r-json-selected.svg";
+import { ReactComponent as CsvDownloadIconUnselected } from "../../../assets/svg/r-csv-unselected.svg";
+import { ReactComponent as CsvDownloadIconSelected } from "../../../assets/svg/r-csv-selected.svg";
+import { ReactComponent as XlsxDownloadIconUnSelected } from "../../../assets/svg/r-xls-unselected.svg";
+import { ReactComponent as XlsxDownloadIconSelected } from "../../../assets/svg/r-xls-selected.svg";
 import { ReactComponent as DownloadBtn } from "../../../assets/svg/r-download-button-icon.svg";
-import "./style.scss";
 import exportFromJSON from 'export-from-json';
 import jsPDF from 'jspdf';
+import "./style.scss";
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
@@ -16,6 +21,7 @@ interface DownloadReportProps {
 
 const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, kpiTitle }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
+    const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
     // console.log("1111", { showDownloadables })
 
     const csvDownloadFn = (data: Array<Record<string, any>>) => {
@@ -72,6 +78,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
+
+    const handleDownload = () => {
+        if (selectedFormat === "pdf") pdfDownloadFn(tableData, headerData);
+        else if (selectedFormat === "json") jsonDownloadFn(tableData);
+        else if (selectedFormat === "csv") csvDownloadFn(tableData);
+        else if (selectedFormat === "xlsx") xlsxDownloadFn(tableData);
+    };
+
     return (
         <div className="table-download-options-container">
             <TableDownloadOptionsIcon
@@ -83,22 +97,32 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
             />
             {showDownloadables && (
                 <div className="table-download-options-pop-over" ref={downloadPopoverRef}>
-                    <p className="pop-over-title">Total sales overview</p>
+                    <p className="pop-over-title">{kpiTitle || "Downloadables"}</p>
                     <div className="formats-container">
-                        <div className="download-icon-with-title">
-                            <PdfDownloadIcon onClick={() => pdfDownloadFn(tableData, headerData)} />
-                            <p>.PDF</p>
+                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("pdf"); }}>
+                            {selectedFormat === "pdf" ? <PdfDownloadIconSelected /> : <PdfDownloadIconUnselected />}
+                            <p style={{ color: selectedFormat === "pdf" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "pdf" ? "500" : "400" }}>.PDF</p>
                         </div>
-                        <div className="download-icon-with-title">
-                            <JsonDownloadIcon onClick={() => jsonDownloadFn(tableData)} />
-                            <p>.JSON</p>
+                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("json"); }}>
+                            {selectedFormat === "json" ? <JsonDownloadIconSelected /> : <JsonDownloadIconUnselected />}
+                            <p style={{ color: selectedFormat === "json" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "json" ? "500" : "400" }}>.JSON</p>
                         </div>
-                        <div className="download-icon-with-title">
-                            <CsvDownloadIcon onClick={() => csvDownloadFn(tableData)} />
-                            <p>.CSV</p>
+                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("csv"); }}>
+                            {selectedFormat === "csv" ? <CsvDownloadIconSelected /> : <CsvDownloadIconUnselected />}
+                            <p style={{ color: selectedFormat === "csv" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "csv" ? "500" : "400" }}>.CSV</p>
+                        </div>
+                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("xlsx"); }}>
+                            {selectedFormat === "xlsx" ? <XlsxDownloadIconSelected /> : < XlsxDownloadIconUnSelected />}
+                            <p style={{ color: selectedFormat === "xlsx" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "xlsx" ? "500" : "400" }}>.XLSX</p>
                         </div>
                     </div>
-                    <button className='download-btn'><DownloadBtn />Download</button>
+                    <button
+                        className={`download-btn ${!selectedFormat ? "disabled" : ""}`}
+                        onClick={handleDownload}
+                        disabled={!selectedFormat}
+                    >
+                        <DownloadBtn /> Download
+                    </button>
                 </div>
             )}
         </div>
