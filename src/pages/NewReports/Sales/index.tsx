@@ -3,8 +3,12 @@ import SidePanel from "../../SidePanel";
 import "./report.scss";
 import SalesOverview from "../SalesOverview";
 import Header from "components/reportComponents/Header";
+import TabNavigation from "components/common/TabNavigation";
+import CategoryReport from "pages/CategoryReport";
+import TodaysReport from "../TodaysReport";
+import Employees from "../Employees";
 
-const tabs = ["Today's report", "Sales Overview", "Categories", "Employees", "Trends"];
+const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
 interface ReportProps { }
 
@@ -16,49 +20,19 @@ const SalesReport: React.FC<ReportProps> = () => {
         <>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <SidePanel />
-                <div className="reportsContainer">
+                <div className="reports-container ">
 
                     {/* Header */}
                     <Header isExpanded={isExpanded} title="Reports & Insights" />
 
                     {/* Tab Navigation */}
-                    <div className={"tabsContainer"}>
-                        {tabs.map((tab) => (
-                            <div
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`${"tab"} ${activeTab === tab ? "active" : ""}`}
-                            >
-                                {tab}
-                                {activeTab === tab && <span className={"underline"}></span>}
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Sample Screen (Dynamic Content) */}
-                    <div className={"sampleScreen"}>
-                        {activeTab === "Today's Report" ? (
-                            <div className={"noData"}>
-                                <img src="/no-report.png" alt="No report available" />
-                                <h3>Today's Sales Report Not Available</h3>
-                                <p>
-                                    Sales data for today will be available after business hours when the day is closed.
-                                    Please check back later or view previous days' reports.
-                                </p>
-                            </div>
-                        ) : (
-                            <div>
-                                {/* Tabs: all tabs comes here */}
-                                {activeTab === "Sales Overview" ? (
-                                    <SalesOverview />
-                                ) : (<>
-                                    <h3>{activeTab}</h3>
-                                    <p>Data visualization or insights for {activeTab} will be shown here.</p>
-                                </>)}
-
-                            </div>
-                        )}
-                    </div>
+                    <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+       
+                    {activeTab === "Sales Overview" ?  <SalesOverview /> : null}
+                    {activeTab === "Today's report" ?  <TodaysReport /> : null}
+                    {activeTab === "Categories" ?  <CategoryReport /> : null}
+                    {activeTab === "Employees" ?  <Employees /> : null}
+                    {/* {activeTab === "Trends" ?  <Trends /> : null} */}
                 </div>
             </div>
         </>

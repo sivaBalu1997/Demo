@@ -83,7 +83,11 @@ const SidePanel = () => {
       setSelectSubForReport("Chart JS");
       setShowOptions("reportOptions");
     }
-    else if (location?.pathname?.includes("/category-1")) {
+    else if (location?.pathname?.includes("/live-reports")) {
+      setSelectSubForReport("Chart JS");
+      setShowOptions("reportOptions");
+    }
+    else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
     }
@@ -497,6 +501,10 @@ const SidePanel = () => {
                               } else if (option === "Chart JS") {
                                 history.push("/live-reports");
                               }
+                              else if (option === "Sales") {
+                                history.push("/sales-reports");
+                              }
+                              
                             }}
                           >
                             {option}

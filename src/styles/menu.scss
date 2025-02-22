@@ -1108,12 +1108,7 @@ iframe {
   font-weight: 500;
   color: #393939;
 }
-.category-filters-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 30px 0px 40px 0px;
-}
+
 .category-dropdown-container {
   display: flex;
   flex-direction: row;
@@ -1385,38 +1380,10 @@ iframe {
     max-width: 50%; /* ensure maximum width is 50% */
   }
 }
-.category-store-name {
-  h1 {
-    font-size: 24px;
-    font-weight: 500;
-    font-family: "Poppins";
-  }
-  span {
-    display: block;
-    margin-bottom: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: "Poppins";
-    color: #595959;
-  }
-}
+
 
 /* 1) For screens up to 992px (e.g. tablets in landscape) */
-@media (max-width: 992px) {
-  /* Reduce to 2 columns in .categories-overview-container */
-  .categories-overview-card-container {
-    flex: 0 0 calc(50% - 20px);
-  }
-  /* Possibly stack .category-filters-section or .category-dropdown-container */
-  .category-filters-section {
-    flex-direction: column;
-    gap: 20px;
-  }
-  .category-dropdown-container {
-    width: 100%;
-    flex-direction: column;
-  }
-}
+
 
 /* 2) For screens up to 768px (e.g. tablets in portrait) */
 @media (max-width: 768px) {

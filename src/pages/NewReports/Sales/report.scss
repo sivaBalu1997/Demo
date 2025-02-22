@@ -1,8 +1,8 @@
-.reportsContainer {
+.reports-container {
     display: flex;
     flex-direction: column;
     width: 100vw;
-    padding: 1rem;
+    padding: 16px;
 
     & .storeAndDate {
         display: flex;
@@ -48,83 +48,16 @@
                 }
             }
         }
-    }
-    .tabsContainer {
-        display: flex;
-        // gap: 24px;
-        // border-bottom: 1px solid #e0e0e0;   
-    }
-    
+    }    
     & .title {
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 16px;
     }
 
-    & .tabsContainer {
-        display: flex;
-        justify-content: center;
-        gap: 24px;
-
-        & .tab {
-            position: relative;
-            padding: 10px 16px;
-            margin: 0;
-            padding-bottom: 8px;
-            font-size: 1rem;
-            color: #666;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: color 0.3s ease-in-out;
-            font-weight: 500;
-
-            &:hover {
-                color: #000;
-            }
-
-            &.active {
-                font-weight: 600;
-                color: #000;
-                background: rgba(255, 0, 0, 0.1);
-                border-radius: 5px;
-            }
-
-            & .underline {
-                position: absolute;
-                left: 0;
-                bottom: -3px;
-                width: 100%;
-                height: 2px;
-                background: red;
-            }
-        }
-    }
 
     // Responsive Design
-    @media (max-width: 768px) {
-        & .tabsContainer {
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: flex-start;
-        }
-
-        & .tab {
-            font-size: 0.9rem;
-        }
-    }
-
     @media (max-width: 480px) {
-        & .tabsContainer {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        & .tab {
-            font-size: 0.85rem;
-            padding-bottom: 4px;
-        }
 
         & .title {
             font-size: 1.2rem;

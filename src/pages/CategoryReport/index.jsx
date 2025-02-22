@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Tabs.css";
 
-import SidePanel from "../SidePanel/RebrandedSidebar";
+
 import CustomDropdown from "../../components/common/customDropdown/index";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
@@ -11,6 +11,7 @@ import LinearBarChart from "./barChart";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
 import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
+import StoreFilter from "components/reportComponents/StoreFilter";
 
 const CategoryReport = (props) => {
   const [activeBtn, setActiveBtn] = useState("categories");
@@ -56,37 +57,10 @@ const CategoryReport = (props) => {
   };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <SidePanel />
+
       <div className="category-page-cotainer">
         <div className="category-page-body">
-          <div className="category-filters-section">
-            <div className="category-store-name">
-              <span>Store name</span>
-              <h1>A2B, Princeton</h1>
-            </div>
-            <div className="category-dropdown-container">
-              <div className="category-dropdown-sub-container">
-                <span className="category-dropdown-text">Select date</span>
-                <CustomDropdown
-                  options={[
-                    { value: "Sales", label: "Sales" },
-                    { value: "Product", label: "Product" },
-                  ]}
-                  value={"Sales"}
-                  className="category-dropdown"
-                />
-                {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
-              </div>
-              <div className="category-dropdown-sub-container">
-                <span className="category-dropdown-text">Select store</span>
-                <CustomDropdown
-                  options={[{ value: "Sales", label: "Sales" }]}
-                  value={"Sales"}
-                  className="category-dropdown"
-                />
-              </div>
-            </div>
-          </div>
+         <StoreFilter/>
           <div className="category-btn-switch">
             <button
               className={`category-btn  ${

@@ -1,4 +1,5 @@
 import React from "react"
+import "./Header.scss";
 
 interface HeaderProps {
     title: string;
@@ -7,12 +8,12 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, isExpanded }) => {
     return (
-        <div className="OffersHeaderContainer">
-            <div className={isExpanded ? "OffersHeadersWindow" : "OffersHeadersWindow1"}>
-                <div className={isExpanded ? "SubHeadingContainerExpanded" : "SubHeadingContainerMin"}>
-                    <h2 className="SubHeading">{title}</h2>
-                </div>
-            </div>
+        <div className="reports-header-container">
+            {/* <div className={isExpanded ? "OffersHeadersWindow" : "OffersHeadersWindow1"}> */}
+                {/* <div className={isExpanded ? "SubHeadingContainerExpanded" : "SubHeadingContainerMin"}> */}
+                    <h2 className="reports-header">{title}</h2>
+                {/* </div> */}
+             {/* </div> */}
         </div>
     );
 }
