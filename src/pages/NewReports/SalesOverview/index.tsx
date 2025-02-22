@@ -7,14 +7,15 @@ import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees
 import DiscountAndVoidedOrders from "components/reportComponents/chart/DiscountAndVoidedOrders";
 import ChannelSalesChart from "components/reportComponents/chart/channelChart";
 import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
+import StoreFilter from "components/reportComponents/StoreFilter";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees", "Trends"];
 
 interface ReportProps {}
 
 const SalesOverview: React.FC<ReportProps> = () => {
-  const [selectedDate, setSelectedDate] = useState("Today");
-  const [selectedStore, setSelectedStore] = useState("A2B Princeton");
+      const [selectedDate, setSelectedDate] = useState( { label: "Yesterday", value: "Yesterday" });
+      const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
   const salesData = [
     { type: "Total Sales", amount: "$8500.90", trend: "+20%", positive: true, showChart: true },
     { type: "Net Sales", amount: "$6990.50", trend: "+20%", positive: true, showVChart: true },
@@ -28,36 +29,7 @@ const SalesOverview: React.FC<ReportProps> = () => {
     <>
   
           {/* Date and Store */}
-          <div className="storeAndDate">
-            <div className="storeInfo">
-              <p className="label">Store name</p>
-              <h2>A2B, Princeton</h2>
-            </div>
-
-            <div className="filters">
-              <div className="filterGroup">
-                <p className="label">Select date</p>
-                <select value={selectedDate} onChange={(e ) => setSelectedDate(e.target.value)}>
-                  {/* <option>Today</option> */}
-                  <option>Yesterday</option>
-                  <option>This week</option>
-                  <option>This month</option>
-                  <option>This year</option>
-                  <option>Custom Date</option>
-                </select>
-              </div>
-
-              <div className="filterGroup">
-                <p className="label">Select store</p>
-                <select value={selectedStore} onChange={(e) => setSelectedStore(e.target.value)}>
-                  <option>A2B Princeton</option>
-                  <option>A2B Store 2</option>
-                  <option>A2B Store 3</option>
-                  <option>A2B Store 4</option>
-                </select>
-              </div>
-            </div>
-          </div>
+<StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore}/>
 
           {/*  ReportsNotFound*/}
           {/* <ReportsNotFound status="notFound"/>

@@ -3,7 +3,7 @@ import { Contextpagejs } from 'pages/productCatalog/contextpage';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
-import SidePanel from 'pages/SidePanel'
+
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import moment from 'moment';

@@ -1,11 +1,13 @@
-import React from 'react';
+import StoreFilter from 'components/reportComponents/StoreFilter';
+import React, { useState } from 'react';
 
 const Employees: React.FC = () => {
+      const [selectedDate, setSelectedDate] = useState( { label: "Yesterday", value: "Yesterday" });
+      const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
     return (
-        <div>
-            <h1>Employees Report</h1>
-            <p>This is a sample page for the Employees report.</p>
-        </div>
+        <>
+        <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore}/>
+        </>
     );
 };
 

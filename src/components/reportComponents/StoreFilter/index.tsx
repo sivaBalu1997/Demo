@@ -8,12 +8,31 @@ import './StoreFilter.scss';
 import CustomDropdown from 'components/common/customDropdown';
 
 interface StoreFilterProps {
-  selectedDate: string;
-  setSelectedDate: (date: string) => void;
-  selectedStore: string;
-  setSelectedStore: (store: string) => void;
+  selectedDate: StoreOption;
+  setSelectedDate: (date: StoreOption) => void;
+  selectedStore: StoreOption;
+  setSelectedStore: (store: StoreOption) => void;
+}
+interface StoreOption {
+  label: string;
+  value: string;
 }
 
+const dateOptions: StoreOption[] = [
+  { label: "Yesterday", value: "Yesterday" },
+  { label: "This week", value: "This week" },
+  { label: "This month", value: "This month" },
+  { label: "This year", value: "This year" },
+  { label: "Custom Date", value: "Custom Date" },
+];
+
+
+const storeOptions: StoreOption[] = [
+  { label: "A2B Princeton", value: "A2B Princeton" },
+  { label: "A2B Store 2", value: "A2B Store 2" },
+  { label: "A2B Store 3", value: "A2B Store 3" },
+  { label: "A2B Store 4", value: "A2B Store 4" },
+];
 const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelectedStore }: StoreFilterProps) => {
   // const dispatch = useDispatch();
   // const history = useHistory();
@@ -38,12 +57,9 @@ const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelected
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select date</span>
             <CustomDropdown
-              onSelect={() => console.log(1)}
-              options={[
-                { value: "Sales", label: "Sales" },
-                { value: "Product", label: "Product" },
-              ]}
-              value={"Sales"}
+            onSelect={(option:StoreOption) => setSelectedDate(option)}
+              options={dateOptions}
+              value={selectedDate}
               className="category-dropdown"
             />
             {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
@@ -51,9 +67,9 @@ const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelected
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select store</span>
             <CustomDropdown
-              onSelect={() => console.log(1)}
-              options={[{ value: "Sales", label: "Sales" }]}
-              value={"Sales"}
+              onSelect={(option:StoreOption) => setSelectedStore(option)}
+              options={storeOptions}
+              value={selectedStore}
               className="category-dropdown"
             />
           </div>

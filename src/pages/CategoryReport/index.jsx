@@ -25,6 +25,9 @@ const CategoryReport = (props) => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [itemsList, setItemsList] = useState([]);
 
+        const [selectedDate, setSelectedDate] = useState( { label: "Yesterday", value: "Yesterday" });
+        const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -60,7 +63,7 @@ const CategoryReport = (props) => {
 
       <div className="category-page-cotainer">
         <div className="category-page-body">
-         <StoreFilter/>
+    <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore}/>
           <div className="category-btn-switch">
             <button
               className={`category-btn  ${
