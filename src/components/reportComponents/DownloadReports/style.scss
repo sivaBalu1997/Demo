@@ -11,6 +11,8 @@ $border-color: #e5e7eb;
     .table-download-options-pop-over {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         background-color: white;
         width: 15rem;
         height: auto;
@@ -27,6 +29,8 @@ $border-color: #e5e7eb;
             text-align: left;
             font-weight: 500;
             color: #595959;
+            width: 110%;
+            // background-color: pink;
             }
 
             .formats-container {
@@ -42,6 +46,7 @@ $border-color: #e5e7eb;
                     justify-content: center;
                     align-items: center;
                     cursor: pointer;
+                    // background-color: pink;
                 }
             }
             .download-btn{
@@ -56,7 +61,7 @@ $border-color: #e5e7eb;
             color: #ffffff;
             padding: 0.5rem;
             border-radius: 0.5vw;
-            // width: 17vw;
+            width: 100%;
             }
         }
  }
