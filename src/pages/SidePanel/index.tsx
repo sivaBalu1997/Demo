@@ -87,10 +87,10 @@ const SidePanel = () => {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
     }
-    else if (location?.pathname?.includes("/category-1")) {
-      setSelectSubForReport("Product");
-      setShowOptions("reportOptions");
-    }
+    // else if (location?.pathname?.includes("/category-1")) {
+    //   setSelectSubForReport("Product");
+    //   setShowOptions("reportOptions");
+    // }
     // else if (location?.pathname?.includes("/category-1")) {
     //   setSelectSubForReport("Product");
     //   setShowOptions("reportOptions");
@@ -496,6 +496,8 @@ const SidePanel = () => {
                                 // history.push("/live-reports");
                               } else if (option === "Chart JS") {
                                 history.push("/live-reports");
+                              } else if (option === "Sales") {
+                                history.push("/category-1");
                               }
                             }}
                           >
