@@ -191,7 +191,7 @@ const SidePanel = () => {
       >
         <div className="logo-container logo-container-rebranded">
           <div>
-            {isExpanded ?? (
+            {isExpanded && (
               <img
                 src={getImageURL("LOGO")}
                 className="restaurant-logo restaurant-logo-rebranded"
@@ -303,7 +303,7 @@ const SidePanel = () => {
                 </div>
 
                 <div style={{ cursor: "pointer" }}>
-                  {isExpanded ??
+                  {isExpanded &&
                     (showOfferOptions === "MenuOptions" ? (
                       <Uparrow
                       // className="dropdown-arrow"
@@ -424,7 +424,7 @@ const SidePanel = () => {
                 </div>
 
                 <div style={{ cursor: "pointer" }}>
-                  {isExpanded ??
+                  {isExpanded &&
                     (showOptions === "reportOptions" ? (
                       <Uparrow
                         className="arrow-dimensions"
