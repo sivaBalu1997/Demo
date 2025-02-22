@@ -8,10 +8,7 @@ import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import moment from 'moment';
 import NewTable from 'components/reportComponents/NewTable';
-// import CustomDropdown from "../../../../src/components/common/customDropdown/index";
 import "./style.scss";
-import CustomDropdown from 'components/common/customDropdown';
-import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
 
 
 const TodaysReport: React.FC = () => {
@@ -150,16 +147,6 @@ const TodaysReport: React.FC = () => {
         // currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
     }, [locationid, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
-    const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
-
-    const handleDropdownChangeStore = (selectedValue: string) => {
-        setSelectedOptionStore(selectedValue);
-    };
-
-    const handleRefreshClick = () => {
-        console.log('Refresh button clicked')
-    }
-
     return (
         <div className='todays-report-container'>
             <div className="todays-report-head">
@@ -170,16 +157,7 @@ const TodaysReport: React.FC = () => {
                 <div className="todays-report-select-store-refresh-container">
                     <h4>Select store</h4>
                     <div className="todays-report-store-and-refresh-btn">
-                        <CustomDropdown
-                            options={[
-                                { value: "Sales", label: "Sales" },
-                                { value: "Product", label: "Product" },
-                            ]}
-                            value={"Sales"}
-                            className="category-dropdown"
-                            onSelect={handleDropdownChangeStore}
-                        />
-                        <ReportsRefreshButton loader={false} onRefreshClick={handleRefreshClick} />
+                        <p>Store</p><button>Refresh</button>
                     </div>
                 </div>
             </div>

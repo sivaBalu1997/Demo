@@ -136,7 +136,7 @@ const EmployeeInsights: React.FC = () => {
   const employeeVoidActivityAPIRedux = useSelector(
     (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
   );
-  // console.log("1111", { employeeVoidActivityAPIRedux });
+  console.log("1111", { employeeVoidActivityAPIRedux });
   const employeeVoidActivityTotalPagesRedux = useSelector(
     (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
   );

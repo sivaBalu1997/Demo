@@ -18,7 +18,6 @@ import exportFromJSON from "export-from-json";
 import jsPDF from 'jspdf';
 import "jspdf-autotable";
 import './style.scss';
-import DownloadReport from '../DownloadReports';
 
 interface SortConfig {
     key: string;
@@ -97,9 +96,15 @@ const NewTable: React.FC<NewTableProps> = ({
 
     // console.log("9999", { paginatedData })
 
+    // useEffect(() => {
+    //     // Simulate data fetching
+    //     setTimeout(() => {
+    //         setLoader(false);  // Data has loaded
+    //     }, 2000);
+    // }, []);
 
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
-    // console.log("1111", { showDownloadables })
+    console.log("1111", { showDownloadables })
 
     const csvDownloadFn = (data: Array<Record<string, any>>) => {
         const fileName = kpiTitle;
@@ -124,8 +129,8 @@ const NewTable: React.FC<NewTableProps> = ({
         doc.text(kpiTitle, 14, 10); // Title at the top
 
         // Prepare the table data
-        const tableColumnHeaders = headers && headers?.map(header => header.label);
-        const tableRows = data && data?.map(row => headers?.map(header => row[header.key] || ""));
+        const tableColumnHeaders = headers?.map(header => header.label);
+        const tableRows = data?.map(row => headers?.map(header => row[header.key] || ""));
 
         // Add the table using autoTable
         (doc as any).autoTable({
@@ -186,7 +191,36 @@ const NewTable: React.FC<NewTableProps> = ({
                                 />
                                 <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
                             </div>
-                            {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
+                            <div className="table-download-options-container">
+                                <TableDownloadOptionsIcon
+                                    className="table-download-options"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowDownloadables((val) => !val);
+                                    }}
+                                />
+                                {showDownloadables && (
+                                    <div className="table-download-options-pop-over" ref={downloadPopoverRef}>
+                                        <p className="pop-over-title">Total sales overview</p>
+                                        <div className="formats-container">
+                                            <div className="download-icon-with-title">
+                                                <PdfDownloadIcon onClick={() => pdfDownloadFn(tableData, headerData)} />
+                                                <p>.PDF</p>
+                                            </div>
+                                            <div className="download-icon-with-title">
+                                                <JsonDownloadIcon onClick={() => jsonDownloadFn(tableData)} />
+                                                <p>.JSON</p>
+                                            </div>
+                                            <div className="download-icon-with-title">
+                                                <CsvDownloadIcon onClick={() => csvDownloadFn(tableData)} />
+                                                <p>.CSV</p>
+                                            </div>
+                                        </div>
+                                        <button className='download-btn'><DownloadBtn />Download</button>
+                                    </div>
+                                )}
+                            </div>
+
                         </div>
                     </div>
 
