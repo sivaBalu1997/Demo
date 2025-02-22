@@ -1,11 +1,6 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import "../../styles/menu.scss";
-import {  useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   SELECTED_BRANCH_DATA,
   STORAGE_BUCKET_URL,
@@ -30,20 +25,21 @@ import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
-// import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"; 
+// import { ReactComponent as CMS } from "../../assets/svg/CMS.svg";
 // import { STORAGE_BUCKET_URL } from "";
-// import MenuItems from "../menuItems";     
+// import MenuItems from "../menuItems";
 // import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 // import exp from "constants";
 
-
 //TODO: Conert in this format
-const menuOptions=[{
-  name: "Reports & Insights",
-  path: "/old-reports",
-  icon: <div />, // Replace with the correct SVG import
-  submenu: [],
-}]  
+const menuOptions = [
+  {
+    name: "Reports & Insights",
+    path: "/old-reports",
+    icon: <div />, // Replace with the correct SVG import
+    submenu: [],
+  },
+];
 const SidePanel = () => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
@@ -53,40 +49,40 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-const reportInsightsOptions = [
-  {
-    name:"Reports & Insights",
-    path:"/old-reports"
-  },
-  {
-    name:"Chart JS",
-    path:"/live-reports"
-  },
-  {
-    name:"Sales",
-    path:"/sales-reports"
-  },
-  // {
-  //   name:"Product",
-  //   path:""
-  // },
-  // {
-  //   name:"Staff",
-  //   path:""
-  // },
-  // {
-  //   name:"Check-in",
-  //   path:""
-  // },
-  // {
-  //   name:"Customer",
-  //   path:""
-  // },
-  // {
-  //   name:"Event",
-  //   path:""
-  // }
-];
+  const reportInsightsOptions = [
+    {
+      name: "Reports & Insights",
+      path: "/old-reports",
+    },
+    {
+      name: "Chart JS",
+      path: "/live-reports",
+    },
+    {
+      name: "Sales",
+      path: "/sales-reports",
+    },
+    // {
+    //   name:"Product",
+    //   path:""
+    // },
+    // {
+    //   name:"Staff",
+    //   path:""
+    // },
+    // {
+    //   name:"Check-in",
+    //   path:""
+    // },
+    // {
+    //   name:"Customer",
+    //   path:""
+    // },
+    // {
+    //   name:"Event",
+    //   path:""
+    // }
+  ];
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -123,7 +119,7 @@ const reportInsightsOptions = [
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
       setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/sales-reports")) {      
+    } else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
     } else if (
@@ -225,9 +221,9 @@ const reportInsightsOptions = [
     history.replace("/");
   };
 
-  const handlePathChange=(path:string)=>{
-    history.push(path);  
-  }
+  const handlePathChange = (path: string) => {
+    history.push(path);
+  };
 
   return (
     <>
@@ -243,13 +239,11 @@ const reportInsightsOptions = [
                 src={getImageURL("LOGO")}
                 className="restaurant-logo restaurant-logo-rebranded"
               />
-            ):(
-              (
-                <img
-                  src={getImageURL("LOGO")}
-                  className="restaurant-logo restaurant-logo-rebranded-min"
-                />
-              )
+            ) : (
+              <img
+                src={getImageURL("LOGO")}
+                className="restaurant-logo restaurant-logo-rebranded-min"
+              />
             )}
           </div>
           <div className="restaurant-name-container restaurant-name-container-rebranded">
@@ -259,9 +253,8 @@ const reportInsightsOptions = [
                   restaurantDetails.branchName &&
                   restaurantDetails.branchName.split(",")[0]}
               </span>
-            ):(
-              <span className="restaurant-name restaurant-name-rebranded-min ">
-              </span>
+            ) : (
+              <span className="restaurant-name restaurant-name-rebranded-min "></span>
             )}
             {isExpanded ? (
               <div>
@@ -271,10 +264,9 @@ const reportInsightsOptions = [
                     restaurantDetails.branchName.split(",")[1]}
                 </span>
               </div>
-            ): (
+            ) : (
               <div>
-                <span className="branch-name-min">
-                </span>
+                <span className="branch-name-min"></span>
               </div>
             )}
           </div>
@@ -531,7 +523,7 @@ const reportInsightsOptions = [
                     {showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
                           <li
-                          key={option?.path}
+                            key={option?.path}
                             className="menuList-offers-sub-category"
                             style={{ width: !isExpanded ? "4rem" : "100%" }}
                           >
@@ -542,7 +534,7 @@ const reportInsightsOptions = [
                                     ? "#E52333"
                                     : "#000000",
                               }}
-                              onClick={() => handlePathChange(option?.path)}      
+                              onClick={() => handlePathChange(option?.path)}
                             >
                               {option?.name}
                             </span>
