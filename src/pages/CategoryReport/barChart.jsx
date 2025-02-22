@@ -27,7 +27,7 @@ const categories = [
   { label: "North Indian",    sales: 390, qty: 19 },
 ];
 
-function LinearBarChart({ barColorCode = "green" }) {
+function LinearBarChart({ barColorCode  }) {
   // Prepare the Chart.js data object
   const data = {
     labels: categories.map((cat) => cat.label),
@@ -51,7 +51,7 @@ function LinearBarChart({ barColorCode = "green" }) {
       tooltip: {
         // Customize tooltip styling
         backgroundColor: "#fff",
-        borderColor: "#6F6F6F",
+        borderColor: barColorCode??"#6F6F6F",
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",

@@ -67,7 +67,7 @@ const SalesChart = () => {
       tooltip: {
         // Tooltip style
         backgroundColor: "#fff",
-        borderColor: "#ccc",
+        borderColor: "#FF8C00",
         borderWidth: 1,
         displayColors: false, // Hide color boxes
         titleColor: "#000",
