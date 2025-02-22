@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles/app.scss";
-import "./styles/layout.scss";
 import { signOut, storeCredentials } from "./redux/auth/authActions";
 import { clearMenuData } from "./redux/menu/menuAction";
 import { ToastContainer } from "react-toastify";
@@ -10,7 +9,6 @@ import { RootState } from "./redux/rootReducer";
 import Routers from "../src/Routers";
 import { Contextpage } from "pages/productCatalog/contextpage";
 import MainPage from "pages/productCatalog/MainPage/MainPage";
-
 
 interface Credentials {
   accessToken: string;
@@ -75,15 +73,15 @@ const App = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const handleContextMenu = (event: MouseEvent) => {
-      event.preventDefault();
-    };
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleContextMenu = (event: MouseEvent) => {
+  //     event.preventDefault();
+  //   };
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
+  //   };
+  // }, []);
 
   const authState = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();

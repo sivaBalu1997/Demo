@@ -21,10 +21,10 @@ const Index = () => {
       <div className={isExpanded ? "OffersHeadersWindow" : "OffersHeadersWindow1"}>
         <div
           className={
-            isExpanded ? "SubHeadingContainerExpanded" : "SubHeadingContainerMin"
+            isExpanded ? "SpecialPriceContainer2" : "SpecialPriceContainer"
           }
         >
-          <p className="SubHeading">Special Price</p>
+          <p className="SpecialPriceHeading">Special Price</p>
           <button
             className="AddOfferButton"
             onClick={() => {history.push("/offer/special")

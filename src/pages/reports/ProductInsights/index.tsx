@@ -33,10 +33,13 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const [openCustomDateRange, setOpenCustomDateRange] =
     useState<boolean>(false);
 
-  const [totalPageNoCurrentPageProductSummary, setTotalPageNoCurrentPageProductSummary] = useState<number>(5)
-  const [currentPageProductSummary, setCurrentPageProductSummary] = useState<number>(1);
+  const [
+    totalPageNoCurrentPageProductSummary,
+    setTotalPageNoCurrentPageProductSummary,
+  ] = useState<number>(5);
+  const [currentPageProductSummary, setCurrentPageProductSummary] =
+    useState<number>(1);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-
 
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
@@ -152,12 +155,13 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width:'100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <SidePanel />
       <div
-        style={isExpanded ? {width:'100%'} : {width:'94%'}}
-        className={`p-product-insights-container ${isDarkTheme ? "p-dark-theme" : "p-light-theme"
-          }`}
+        style={isExpanded ? { width: "100%" } : { width: "94%" }}
+        className={`p-product-insights-container ${
+          isDarkTheme ? "p-dark-theme" : "p-light-theme"
+        }`}
       >
         <Topnavbar />
         <div className="p-prod-insights-head">
@@ -190,11 +194,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
                   <p onClick={() => handleOptionClickForDate("Last 30 days")}>
                     Last 30 days
                   </p>
-                  <p
-                    onClick={() =>
-                      handleOptionClickForDate("Custom Range")
-                    }
-                  >
+                  <p onClick={() => handleOptionClickForDate("Custom Range")}>
                     Custom Range
                   </p>
                 </div>
