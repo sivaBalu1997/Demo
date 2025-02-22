@@ -901,6 +901,15 @@ const SidePanel = () => {
             </div> */}
         </ul>
       </div>
+      <div>
+        <img
+          onClick={toggleExpand}
+          className={isExpanded ? "btn-nav1" : "btn-nav"}
+          src={btnnav}
+          alt=""
+          style={{ zIndex: 9 }}
+        />
+      </div>
     </>
   );
 };
