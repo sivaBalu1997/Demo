@@ -1,0 +1,69 @@
+.reports-tab-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+    margin-left: 2rem;
+
+    & .tab {
+        margin-left: 0!important;
+        font-family: Poppins;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+letter-spacing: -0.2px;
+color: #595959;
+
+        position: relative;
+        padding: 10px 17px;
+        margin: 0;
+        font-size: 1rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+            color: #262626;
+        }
+
+        &.active {
+font-weight: 500;
+            color: #262626;
+            background: #FFF0F1;
+            border-radius: 5px;
+        }
+
+        & .underline {
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            height: 2px;
+            background: #E52333;
+        }
+    }
+}
+@media (max-width: 768px) {
+     .reports-tab-container  {
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: flex-start;
+        
+        & .tab {
+            font-size: 0.9rem;
+        }
+    } 
+}
+
+@media (max-width: 480px) {
+     .reports-tab-container  {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        
+        & .tab {
+            font-size: 0.85rem;
+            padding-bottom: 4px;
+        }
+    }
+}
