@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SidePanel from "../../SidePanel";
 import "./report.scss";
 import SalesOverview from "../SalesOverview";
 import Header from "components/reportComponents/Header";
@@ -7,13 +6,14 @@ import TabNavigation from "components/common/TabNavigation";
 import CategoryReport from "pages/CategoryReport";
 import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
+import SidePanel from "pages/SidePanel";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
 interface ReportProps { }
 
 const SalesReport: React.FC<ReportProps> = () => {
-    const [activeTab, setActiveTab] = useState("Sales Overview");
+    const [activeTab, setActiveTab] = useState("Today's report");
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (

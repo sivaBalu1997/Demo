@@ -29,7 +29,7 @@ const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelected
 
   return (
     <>
-      <div className="category-filters-section">
+      <div className="reports-filters-section">
         <div className="category-store-name">
           <span>Store name</span>
           <h1>A2B, Princeton</h1>
@@ -59,35 +59,6 @@ const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelected
           </div>
         </div>
       </div>
-      {/* <div className="reports-store-filter">
-        <div className="store-info">
-          <p className="label">Store name</p>
-          <h2 className="store-name">A2B, Princeton</h2>
-        </div>
-
-        <div className="filters">
-          <div className="filter-group">
-            <p className="label">Select date</p>
-            <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
-              <option>Yesterday</option>
-              <option>This week</option>
-              <option>This month</option>
-              <option>This year</option>
-              <option>Custom Date</option>
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <p className="label">Select store</p>
-            <select value={selectedStore} onChange={(e) => setSelectedStore(e.target.value)}>
-              <option>A2B Princeton</option>
-              <option>A2B Store 2</option>
-              <option>A2B Store 3</option>
-              <option>A2B Store 4</option>
-            </select>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 };
