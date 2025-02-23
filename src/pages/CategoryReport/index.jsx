@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Tabs.css";
 
@@ -12,6 +18,9 @@ import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdow
 import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
+import CustomDatePicker from "./CustomDatepicker";
+import { ReactComponent as CalendarIcon } from "../../assets/svg/Calendar.svg";
+import DatePicker from "react-multi-date-picker";
 
 const CategoryReport = (props) => {
   const [activeBtn, setActiveBtn] = useState("categories");
@@ -30,7 +39,10 @@ const CategoryReport = (props) => {
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-
+  const calendarRef = useRef();
+  // const CustomDatePickers = forwardRef(({ value, onChange }, ref) => (
+  //   <DatePicker selected={value} onChange={onChange} ref={ref} />
+  // ));
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
     console.log(selectedCategoriesData);
     setSelectedCategories((prevData) => [
@@ -58,12 +70,99 @@ const CategoryReport = (props) => {
       prevItemData.filter((selectedData) => selectedData.name !== itemName)
     );
   };
+  const handleSelectDateOnClick = (dropDownData) => {
+    console.log(dropDownData.value);
+    if (dropDownData.value == "Custom date") {
+      console.log("Custom Date Selected", calendarRef);
+      calendarRef.current?.openCalendar();
+    }
+  };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
 
       <div className="category-page-cotainer">
+        <div className="category-page-header">
+          <div className="category-page-header-container">
+            <div className="header-category">
+              <h1 className="report-title">{"Reports & Insights"}</h1>
+            </div>
+            <div className="tabs-container">
+              {/* Tab Bar */}
+              {/* <ul className="tabs-list"> */}
+              {tabList.map((tab) => (
+                <div
+                  key={tab.key}
+                  className={`tab-item ${
+                    activeTab === tab.key ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab(tab.key)}
+                >
+                  {tab.label}
+                </div>
+              ))}
+              {/* </ul> */}
+
+              {/* Tab Content */}
+              <div>
+                {activeTab === "categories" && (
+                  <div>
+                    {/* <h2>Categories</h2>
+            <p>Content for Categories goes here...</p> */}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="category-page-body">
-    <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore}/>
+          <div className="category-filters-section">
+            <div className="category-store-name">
+              <span>Store name</span>
+              <h1>A2B, Princeton</h1>
+            </div>
+            <div className="category-dropdown-container">
+              <div className="category-dropdown-sub-container">
+                <span className="category-dropdown-text">Select date</span>
+                <div className="category-dropdown-sub-dropdown-container">
+                  <CustomDropdown
+                    onSelect={handleSelectDateOnClick}
+                    options={[
+                      { value: "Yesterday", label: "Yesterday" },
+                      { value: "Today", label: "Today" },
+                      { value: "This week", label: "This week" },
+                      { value: "This month", label: "This month" },
+                      {
+                        value: "Custom date",
+                        label: "Custom date",
+                        icon: <CalendarIcon />,
+                      },
+                    ]}
+                    value={"Sales"}
+                    className="category-dropdown"
+                  />
+                  <CustomDatePicker
+                    containerClassName={"category-date-picker-container"}
+                    datePickerContainerClassName="category-custom-datepicker-container"
+                    ref={calendarRef}
+                    className="category-custom-datepicker"
+                    render={<></>}
+                    arrowClassName="category-custom-datepicker-arrow"
+                    offsetY={-15}
+                  />
+                </div>
+
+                {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
+              </div>
+              <div className="category-dropdown-sub-container">
+                <span className="category-dropdown-text">Select store</span>
+                <CustomDropdown
+                  options={[{ value: "Sales", label: "Sales" }]}
+                  value={"Sales"}
+                  className="category-dropdown"
+                />
+              </div>
+            </div>
+          </div>
           <div className="category-btn-switch">
             <button
               className={`category-btn  ${

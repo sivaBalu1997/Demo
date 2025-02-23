@@ -1,15 +1,15 @@
 import React from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-
 interface Option {
   value: string;
   label: string;
+  icon?: React.ReactNode;
 }
 
 interface CustomDropdownProps {
   value?: Option | string;
-  options: Array<{ value: string; label: string }>;
+  options: Array<{ value: string; label: string; icon?: React.ReactNode }>;
   onSelect: any;
   arrowClosed?: React.ReactNode;
   arrowOpen?: React.ReactNode;
@@ -38,9 +38,17 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   disabled,
   className,
 }) => {
+  const customOptions = options.map((option) => ({
+    ...option,
+    label: (
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        {option.icon ?? ""} {option.label}
+      </div>
+    ),
+  }));
   return (
     <Dropdown
-      options={options}
+      options={customOptions}
       onChange={onSelect}
       value={value}
       className={className}
