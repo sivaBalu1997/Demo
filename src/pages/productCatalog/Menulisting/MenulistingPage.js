@@ -41,6 +41,7 @@ import {
 
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
+import ImageWithFallback from "components/productCatalog/ImageWithFallback/ImageWithFallback";
 
 export const MenulistingPage = () => {
   const dispatch = useDispatch();
@@ -1224,7 +1225,18 @@ export const MenulistingPage = () => {
                                             >
                                               <p>
                                                 <span className="imgae-styel2">
-                                                  <img
+                                                <ImageWithFallback src={`${baseImageUrl}${
+                                              item?.mediaResponseList[0]
+                                                ?.imageId
+                                            }.${
+                                              item?.mediaResponseList[0]?.imageType.split(
+                                                "/"
+                                              )[1]
+                                            }`}
+                                            alt={"No image"}
+                                            classname="foodimage"
+                                            />
+                                                  {/* <img
                                                     src={`${baseImageUrl}${
                                                       item?.mediaResponseList[0]
                                                         ?.imageId
@@ -1235,7 +1247,7 @@ export const MenulistingPage = () => {
                                                     }`}
                                                     alt="No Image"
                                                     className="foodimage"
-                                                  />
+                                                  /> */}
                                                 </span>
                                               </p>
                                               <p>
@@ -1289,7 +1301,19 @@ export const MenulistingPage = () => {
                                     >
                                       <p>
                                         <span className="imgae-styel2">
-                                          <img
+                                          <ImageWithFallback src={`${baseImageUrl}${
+                                              item?.mediaResponseList[0]
+                                                ?.imageId
+                                            }.${
+                                              item?.mediaResponseList[0]?.imageType.split(
+                                                "/"
+                                              )[1]
+                                            }`}
+                                            alt={"No image"}
+                                            classname="foodimage"
+                                            />
+                                          
+                                          {/* <img
                                             src={`${baseImageUrl}${
                                               item?.mediaResponseList[0]
                                                 ?.imageId
@@ -1300,7 +1324,7 @@ export const MenulistingPage = () => {
                                             }`}
                                             alt="No Image"
                                             className="foodimage"
-                                          />
+                                          /> */}
                                         </span>
                                       </p>
                                       <p>
