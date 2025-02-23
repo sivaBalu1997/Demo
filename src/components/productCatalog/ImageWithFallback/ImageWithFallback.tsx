@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from "react";
-import placeholder from '../../../assets/svg/placeholderimg.svg'
+import placeholder from '../../../assets/images/noImage.png'
 
 interface image{
     src:any;
@@ -25,6 +25,7 @@ const ImageWithFallback:React.FC<image> = ({ src, alt ,classname}) => {
         alt={placeholder} 
         className={classname}
         onLoad={handleLoad}
+        style={{borderRadius:"50px"}}
         onError={() => setImgSrc(placeholder)} 
         
         // style={{ width: 150, height: 150 }} 
