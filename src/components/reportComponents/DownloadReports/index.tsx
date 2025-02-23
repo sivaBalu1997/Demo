@@ -15,7 +15,7 @@ import "./style.scss";
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
-    headerData: Array<{ key: string; label: string }>;
+    headerData?: Array<{ key: string; label: string }>;
     kpiTitle: string;
 }
 
@@ -42,7 +42,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
         exportFromJSON({ data, fileName, exportType });
     };
 
-    const pdfDownloadFn = (data: Array<Record<string, any>>, headers: Array<{ key: string; label: string }>) => {
+    const pdfDownloadFn = (data: Array<Record<string, any>>, headers?: Array<{ key: string; label: string }>) => {
         const doc = new jsPDF();
         doc.text(kpiTitle, 14, 10); // Title at the top
 

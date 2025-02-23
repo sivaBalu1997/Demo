@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./report.scss";
-import SalesOverview from "../SalesOverview";
+import SalesOverview from "../SalesOverview/index";
 import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";
 import CategoryReport from "pages/CategoryReport";
@@ -27,11 +27,11 @@ const SalesReport: React.FC<ReportProps> = () => {
 
                     {/* Tab Navigation */}
                     <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-       
-                    {activeTab === "Sales Overview" ?  <SalesOverview /> : null}
-                    {activeTab === "Today's report" ?  <TodaysReport /> : null}
-                    {activeTab === "Categories" ?  <CategoryReport /> : null}
-                    {activeTab === "Employees" ?  <Employees /> : null}
+
+                    {activeTab === "Sales Overview" ? <SalesOverview /> : null}
+                    {activeTab === "Today's report" ? <TodaysReport /> : null}
+                    {activeTab === "Categories" ? <CategoryReport /> : null}
+                    {activeTab === "Employees" ? <Employees /> : null}
                     {/* {activeTab === "Trends" ?  <Trends /> : null} */}
                 </div>
             </div>

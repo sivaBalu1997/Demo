@@ -12,6 +12,7 @@ import NewTable from 'components/reportComponents/NewTable';
 import "./style.scss";
 import CustomDropdown from 'components/common/customDropdown';
 import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
+import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 
 
 const TodaysReport: React.FC = () => {
@@ -160,6 +161,8 @@ const TodaysReport: React.FC = () => {
         console.log('Refresh button clicked')
     }
 
+
+
     return (
         <div className='todays-report-container'>
             <div className="todays-report-head">
@@ -201,6 +204,7 @@ const TodaysReport: React.FC = () => {
                     <CardWithMiniGraph cardTitle="Discount" cardValue={155.50} isMonetary={true} loader={false} />
                     <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} />
                 </div>
+
             </div>
             <div className="todays-report-tables-container">
                 <NewTable
