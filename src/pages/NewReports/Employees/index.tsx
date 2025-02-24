@@ -1,14 +1,97 @@
-import StoreFilter from 'components/reportComponents/StoreFilter';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
+import { NewTableHeader } from 'interface/newReportsInterface';
+import { useDispatch, useSelector } from 'react-redux';
+import { employeeStaffActivityRequest } from 'redux/newReports/newReportsActions';
+import StoreFilter from 'components/reportComponents/StoreFilter';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import CustomDropdown from 'components/common/customDropdown';
+import NewTable from 'components/reportComponents/NewTable';
+import useSalesLocationDates from 'hooks/useSalesLocationDates';
 import "./style.scss";
 
 const Employees: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
+
+    const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
+
+    const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+
+    const dispatch = useDispatch();
+
+    const countryCode = useSelector(
+        (state: any) => state?.auth?.restaurantDetails?.country
+    );
+
+    const currencySymbol = countryCode === "US" ? "$" : "₹";
+
+    const employeeVoidActivityAPIRedux = useSelector(
+        (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
+    );
+
+    const employeeVoidActivityTotalPagesRedux = useSelector(
+        (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
+    );
+
+    const employeeVoidActivityLoading = useSelector(
+        (state: any) => state?.newReports?.employeeStaffActivityLoading
+    );
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
+        useState<number>(1);
+
+    // const getLocationDates = useSalesLocationDates(state, locationid);
+
+    const newTableHeaders: NewTableHeader[] = [
+        { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
+        {
+            key: "voidedAmount",
+            label: `Voided amount (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+        },
+        {
+            key: "voidedItems",
+            label: `Voided items`,
+            isSortable: false,
+            alignment: "left",
+        },
+        {
+            key: "voidedReasons",
+            label: `Voided reasons`,
+            isSortable: false,
+            alignment: "left",
+        },
+    ];
+
+    const handleSearch = (value: string, kpiTitle: string) => {
+        switch (kpiTitle) {
+            case 'Employee Void Activity':
+                if (locationid) {
+                    dispatch(
+                        employeeStaffActivityRequest({
+                            locationid,
+                            startDate: "2025-01-25",
+                            endDate: "2025-02-24",
+                            tablePageNo: currentPageEmployeeVoidActivity,
+                            tableRecordLimit: employeeVoidRecordLimit,
+                        })
+                    );
+                }
+                break;
+
+            // case 'Live Orders Non Dine-in':
+            //   currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+            //   break;
+
+            default:
+                console.warn(`Unknown KPI title: ${kpiTitle}`);
+        }
+    };
 
     // Chart Data
     const chartData = [
@@ -39,6 +122,30 @@ const Employees: React.FC = () => {
         setEmployeeList(selectedValue);
     };
 
+    useEffect(() => {
+        if (locationid) {
+            dispatch(
+                employeeStaffActivityRequest({
+                    locationid,
+                    startDate: "2025-01-25",
+                    endDate: "2025-02-24",
+                    tablePageNo: currentPageEmployeeVoidActivity,
+                    tableRecordLimit: employeeVoidRecordLimit,
+                })
+            );
+        }
+    }, [
+        locationid,
+        // startDate,
+        // endDate,
+        currentPageEmployeeVoidActivity,
+        employeeVoidRecordLimit,
+    ]);
+
+    const handleGoBackToChart = () => {
+        setShowAllActivityTable(false);
+    }
+
     return (
         <div className='report-sales-employee-container'>
             <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} />
@@ -62,14 +169,14 @@ const Employees: React.FC = () => {
                     </div>
                 </div>
                 <div className="employee-report-sales-overview-box-container">
-                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={8500.90} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={6990.90} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={425.00} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={250.00} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={350.00} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} />
-                    <CardWithMiniGraph cardTitle="Discount" cardValue={155.50} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} />
+                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={8500.90} isMonetary={true} loader={false} incrementDecrementValue={"21"} graphType='chart' incrementOrDecrement='decrement' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={6990.90} isMonetary={true} loader={false} incrementDecrementValue={"20"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={425.00} isMonetary={true} loader={false} incrementDecrementValue={"18"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={250.00} isMonetary={true} loader={false} incrementDecrementValue={"19"} graphType='chart' incrementOrDecrement='decrement' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={350.00} isMonetary={true} loader={false} incrementDecrementValue={"41"} graphType='chart' incrementOrDecrement='decrement' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} incrementDecrementValue={"31"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Discount" cardValue={155.50} isMonetary={true} loader={false} incrementDecrementValue={"11"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} incrementDecrementValue={"21"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
                 </div>
             </div>
             {!showAllActivityTable ? <CustomBarChart
@@ -83,8 +190,31 @@ const Employees: React.FC = () => {
                 kpiTitle='All Activity'
                 showRelatedTable={showAllActivityTable}
                 setShowRelatedTable={setShowAllActivityTable}
-            /> : "Hi From Table"}
-            <button className='back-to-chart-btn'><ArrowLeft />Back</button>
+            /> : <div className="void-activity-table-container">
+                <div className="void-activity-button-container">
+                    <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
+                </div>
+                <NewTable
+                    kpiTitle="Employee Void Activity"
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    headerData={newTableHeaders}
+                    tableData={
+                        employeeVoidActivityAPIRedux &&
+                        employeeVoidActivityAPIRedux?.length > 0 &&
+                        employeeVoidActivityAPIRedux
+                    }
+                    currentPage={currentPageEmployeeVoidActivity}
+                    totalPages={employeeVoidActivityTotalPagesRedux}
+                    onPageChange={setCurrentPageEmployeeVoidActivity}
+                    rowsPerPage={employeeVoidRecordLimit}
+                    setRowsPerPage={setEmployeeVoidRecordLimit}
+                    loader={employeeVoidActivityLoading}
+                    count={employeeVoidActivityAPIRedux?.length}
+                    searchPlaceHolder="Search By Steward, Voided reasons"
+                    onSearch={handleSearch}
+                />
+            </div>}
         </div>
     );
 };

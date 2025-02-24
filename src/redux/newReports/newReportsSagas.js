@@ -751,7 +751,7 @@ export default function* watchNewReportRequest() {
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_DISCOUNT_REQUEST, employeeStaffDiscountRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_PERFORMANCE_REQUEST, employeeStaffPerformanceRequestSaga);
-    yield takeLatest(EMPLOYEE_STAFF_ACTIVITY_REQUEST, employeeStaffActivityRequestSaga);
+    yield debounce(1000, EMPLOYEE_STAFF_ACTIVITY_REQUEST, employeeStaffActivityRequestSaga);
     yield takeLatest(DAY_CHECKIN_REQUEST, dayCheckInRequestSaga);
     yield takeLatest(DAILY_CHECKIN_REQUEST, dailyCheckInRequestSaga);
     yield takeLatest(DAILY_GUEST_REQUEST, dailyGuestRequestSaga);

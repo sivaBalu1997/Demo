@@ -41,7 +41,6 @@ const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `${reportsBaseUrl}/sales/employee/st
 
 const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffActivity?`;
 
-//    https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/checkIn/dayCheckIn?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2025-01-01&endDate=2025-02-28&page=1&size=15
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -385,8 +384,6 @@ export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
         }
     });
 }
-
-// http://localhost:9081/magilhub-data-services-reports/sales/live/billedOrders?locationId=3f741dc2-49e3-480a-97e6-226b559e6951&startDate=2024-01-0&type=notcompleted
 
 export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;

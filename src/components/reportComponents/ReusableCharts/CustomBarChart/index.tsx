@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-
-import "./style.scss";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import DownloadReport from "components/reportComponents/DownloadReports";
+import "./style.scss";
 
 // Type Definitions
 interface ChartData {
@@ -45,7 +45,7 @@ const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShow
         if (!tooltipInfo) return null;
 
         const handleClick = () => {
-            alert(`Viewing details for: ${name}`);
+            // alert(`Viewing details for: ${name}`);
             setShowRelatedTable(true);
         };
 
@@ -93,7 +93,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                     <h3 className="chart-title">{kpiTitle}</h3>
                     <DownloadReport downloadRef={chartRef} kpiTitle={kpiTitle} tableData={data} />
                 </div>
-                {/* <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
                         {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
                         <XAxis dataKey="name" />
@@ -107,10 +107,11 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                 />
                             }
                             wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
+                            position={{ y: 200 }}
                         />
                         <Bar dataKey="value" fill={barColor} style={barStyle} />
                     </BarChart>
-                </ResponsiveContainer> */}
+                </ResponsiveContainer>
             </div>
         </div>
     );
