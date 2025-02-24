@@ -84,7 +84,12 @@ const StoreFilter = ({
         selectedDates[1] instanceof DateObject
           ? selectedDates[1]
           : new DateObject(selectedDates[1]);
-      datePickerApplyFunction(startDate, endDate);
+      if (
+        typeof datePickerApplyFunction == "function" ||
+        (datePickerApplyFunction != null && datePickerApplyFunction != null)
+      ) {
+        datePickerApplyFunction(startDate, endDate);
+      }
       calendarRef.current?.closeCalendar();
 
       setRangeDateLabel(
