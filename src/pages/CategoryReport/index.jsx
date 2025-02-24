@@ -19,7 +19,7 @@ import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomDatePicker from "./CustomDatepicker";
-import { ReactComponent as CalendarIcon } from "../../assets/svg/Calendar.svg";
+import { ReactComponent as CalendarIcon } from "../../assets/svg/calendar.svg";
 import DatePicker from "react-multi-date-picker";
 
 const CategoryReport = (props) => {

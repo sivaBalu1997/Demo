@@ -2,8 +2,8 @@ import { API } from "redux/api";
 import Store from "../store";
 
 
-const baseUrl="https://rptd.gcp.magilhub.com"
-const reportsBaseUrl=`${baseUrl}/magilhub-data-services-reports`
+const baseUrl = "https://rptd.gcp.magilhub.com"
+const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 const REPORTS_API_ENDPOINT = `${reportsBaseUrl}`;
 
@@ -380,6 +380,20 @@ export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckInStatus?locationId=${dailyCheckInStatusPayload?.locationid}&startDate=${dailyCheckInStatusPayload?.startDate}&endDate=${dailyCheckInStatusPayload?.endDate}&page=${dailyCheckInStatusPayload?.tablePageNo}&size=${dailyCheckInStatusPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+// http://localhost:9081/magilhub-data-services-reports/sales/live/billedOrders?locationId=3f741dc2-49e3-480a-97e6-226b559e6951&startDate=2024-01-0&type=notcompleted
+
+export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // console.log('inside Api')
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/live/billedOrders?locationId=${billedAndUnbilledPayload?.locationid}&type=${billedAndUnbilledPayload?.type}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

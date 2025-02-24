@@ -96,6 +96,9 @@ import {
     DAILY_CHECKIN_STATUS_REQUEST,
     DAILY_CHECKIN_STATUS_SUCCESS,
     DAILY_CHECKIN_STATUS_FAILURE,
+    BILLED_UNBILLED_REQUEST,
+    BILLED_UNBILLED_SUCCESS,
+    BILLED_UNBILLED_FAILURE,
 } from "../newReports/newReportsConstants";
 
 
@@ -185,7 +188,7 @@ const initialNewReportsState = {
     // daily guests
     dailyGuestLoading: false,
     dailyGuestSuccess: [],
-    dailyGuestSuccessResponse : false,
+    dailyGuestSuccessResponse: false,
     dailyGuestFailure: false,
     // daily cancellation
     dailyCancellationLoading: false,
@@ -234,6 +237,10 @@ const initialNewReportsState = {
     dailyCheckInStatusLoading: false,
     dailyCheckInStatusSuccess: [],
     dailyCheckInStatusFailure: false,
+    // billed or unbilled
+    billedUnbilledLoading: false,
+    billedUnbilledSuccess: [],
+    billedUnbilledFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -767,6 +774,21 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.dailyCheckInStatusLoading = false;
                 draft.dailyCheckInStatusSuccess = [];
                 draft.dailyCheckInStatusFailure = true;
+                break;
+            case BILLED_UNBILLED_REQUEST:
+                draft.billedUnbilledLoading = true;
+                draft.billedUnbilledSuccess = [];
+                draft.billedUnbilledFailure = false;
+                break;
+            case BILLED_UNBILLED_SUCCESS:
+                draft.billedUnbilledLoading = false;
+                draft.billedUnbilledSuccess = action.payload;
+                draft.billedUnbilledFailure = false;
+                break;
+            case BILLED_UNBILLED_FAILURE:
+                draft.billedUnbilledLoading = false;
+                draft.billedUnbilledSuccess = [];
+                draft.billedUnbilledFailure = true;
                 break;
             default:
                 break;

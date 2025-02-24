@@ -64,11 +64,14 @@ import {
     liveCheckInStatusSuccess,
     liveCheckInStatusFailure,
     dailyCheckInStatusSuccess,
-    dailyCheckInStatusFailure
+    dailyCheckInStatusFailure,
+    billerUnbilledSuccess,
+    billerUnbilledFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
     ACTUAL_SALES_THIRD_PARTY_REQUEST,
+    BILLED_UNBILLED_REQUEST,
     CANCELLATION_SUMMARY_REQUEST,
     CUSTOMER_DETAILS_REQUEST,
     CUSTOMER_SIZE_REQUEST,
@@ -102,6 +105,7 @@ import {
 } from "./newReportsConstants";
 import {
     getActualSales,
+    getBilledAndUnbilled,
     getCancellationSummary,
     getCustomerDetails,
     getCustomerSize,
@@ -280,7 +284,7 @@ export function* liveOrdersRequestSaga(action) {
         const response = yield call(getLiveOrders, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of liveOrdersRequestSaga", { decryptedData })
+            // console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -442,7 +446,7 @@ export function* employeeStaffActivityRequestSaga(action) {
         const response = yield call(getEmployeeStaffActivity, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
+            // console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
             yield put(employeeStaffActivitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -528,12 +532,12 @@ export function* dailyCancellationRequestSaga(action) {
 
 //  hourlyGuestsRequestSaga
 export function* hourlyGuestsRequestSaga(action) {
-    console.log("AAAA")
+    // console.log("AAAA")
     try {
-        console.log("BBBB")
+        // console.log("BBBB")
         const response = yield call(getHourlyGuests, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of hourlyGuestsRequestSaga", { decryptedData })
+        // console.log("response of hourlyGuestsRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(hourlyGuestsSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -708,6 +712,27 @@ export function* dailyCheckInStatusRequestSaga(action) {
     }
 }
 
+// billedUnbilledRequestSaga
+export function* billedUnbilledRequestSaga(action) {
+    // console.log('inside saga')
+    try {
+        const response = yield call(getBilledAndUnbilled, action.payload);
+        const decryptedData = response?.data
+        // const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of billedUnbilledRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(billerUnbilledSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(billerUnbilledFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        // console.log('inside catch')
+        yield put(billerUnbilledFailure(error))
+    }
+}
+
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
@@ -740,5 +765,6 @@ export default function* watchNewReportRequest() {
     yield takeLatest(NEW_CUSTOMER_SIZE_REQUEST, newCustomerSizeRequestSaga);
     yield takeLatest(CUSTOMER_DETAILS_REQUEST, customeDetailsRequestSaga);
     yield takeLatest(LIVE_CHECKIN_STATUS_REQUEST, liveCheckInStatusRequestSaga);
-    yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga)
+    yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga);
+    yield takeLatest(BILLED_UNBILLED_REQUEST, billedUnbilledRequestSaga);
 }

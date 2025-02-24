@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
 import { useDispatch, useSelector } from 'react-redux';
-import { liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from 'redux/newReports/newReportsActions';
+import { billerUnbilledRequest, liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
 
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
@@ -14,12 +14,13 @@ import CustomDropdown from 'components/common/customDropdown';
 import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
+import { billedUnbilledRequestSaga } from 'redux/newReports/newReportsSagas';
 
 
 const TodaysReport: React.FC = () => {
     const { isExpanded } = useContext(Contextpagejs);
-      const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
-      const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
+    const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
+    const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
 
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
     const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
@@ -55,6 +56,11 @@ const TodaysReport: React.FC = () => {
     );
 
     const currencySymbol = countryCode === "US" ? "$" : "₹";
+
+    const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
+    // console.log("6666", { billedOrUnbilledDataAPIRedux })
+
+    const billedOrUnbilledDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedUnbilledLoading)
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
         { key: 'customerName', label: 'Customer Name', isSortable: true, alignment: 'left' },
@@ -97,6 +103,7 @@ const TodaysReport: React.FC = () => {
         setIsSwitchActive((prev) => !prev)
         setActiveTextForSwitchableBox((prev) => (prev === textOne ? textTwo : textOne));
     }
+
 
     const dispatch = useDispatch();
 
@@ -154,6 +161,12 @@ const TodaysReport: React.FC = () => {
         // currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
     }, [locationid, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
+    useEffect(() => {
+        const formattedDate = moment().format('YYYY-MM-DD');
+        setCurrentDate(formattedDate);
+        currentDate && dispatch(billerUnbilledRequest({ locationid, startDate: currentDate, type: isSwitchActive === true ? 'notcompleted' : 'completed' }))
+    }, [isSwitchActive, currentDate, locationid])
+
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
 
     const handleDropdownChangeStore = (selectedValue: string) => {
@@ -168,10 +181,10 @@ const TodaysReport: React.FC = () => {
 
     return (
         <div className='todays-report-container'>
-      <StoreFilter  selectedStore={selectedStore}  setSelectedStore={setSelectedStore} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
+            <StoreFilter selectedStore={selectedStore} setSelectedStore={setSelectedStore} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
 
             <SwitchableBox
-                textOne="Overall"   
+                textOne="Overall"
                 textTwo="Live Orders"
                 isActive={isSwitchActive}
                 toggleSwitch={handleToggleSwitch}
@@ -179,14 +192,14 @@ const TodaysReport: React.FC = () => {
             <div className="todays-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="todays-report-sales-overview-box-container">
-                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={8500.90} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={6990.90} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={425.00} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={250.00} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={350.00} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} />
-                    <CardWithMiniGraph cardTitle="Discount" cardValue={155.50} isMonetary={true} loader={false} />
-                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} />
+                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={billedOrUnbilledDataAPIRedux?.totalSales} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={billedOrUnbilledDataAPIRedux?.totalNetSales} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={billedOrUnbilledDataAPIRedux?.totalTax} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={billedOrUnbilledDataAPIRedux?.totalTip} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={billedOrUnbilledDataAPIRedux?.totalServiceTax} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Transactions" cardValue={billedOrUnbilledDataAPIRedux?.totalTransactions} isMonetary={billedOrUnbilledDataAPIReduxLoading} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Discount" cardValue={billedOrUnbilledDataAPIRedux?.totalDiscount} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
+                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={billedOrUnbilledDataAPIRedux?.totalCancelledOrders} isMonetary={true} loader={billedOrUnbilledDataAPIReduxLoading} />
                 </div>
             </div>
             <div className="todays-report-tables-container">
