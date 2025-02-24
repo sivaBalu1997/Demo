@@ -4,27 +4,42 @@ import Toolbar from "react-multi-date-picker/plugins/toolbar";
 import "./datePicker.scss"; // Your custom styles
 import "react-multi-date-picker/styles/layouts/mobile.css"; // Mobile-friendly layout
 
-// Wrap the component using forwardRef.
-// If no ref is provided, ref remains undefined but the component works normally.
-const CustomDatePicker = forwardRef(
+// Define the interface for the props you want to pass:
+export interface CustomDatePickerProps {
+  render?: any;
+  className?: string;
+  datePickerContainerClassName?: string;
+  monthYearSeparator?: string;
+  inputMode?: string;
+  themeColor?: string;
+  closeBtnOnclick?: () => void;
+  applyBtnOnclick?: () => void;
+  containerClassName?: string;
+  arrowClassName?: string;
+  offsetY?: number;
+}
+
+// forwardRef will allow an optional ref to be passed. If none is provided, ref is undefined.
+const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
   (
     {
       render,
-      className,
-      datePickerContainerClassName,
+      className = "",
+      datePickerContainerClassName = "",
       monthYearSeparator = " ",
-      inputMode = false,
+      inputMode = "",
       themeColor = "red ",
       closeBtnOnclick,
       applyBtnOnclick,
-      containerClassName,
-      arrowClassName,offsetY
+      containerClassName = "",
+      arrowClassName = "",
+      offsetY,
     },
     ref
   ) => {
-    const [selectedDates, setSelectedDates] = useState([]);
+    const [selectedDates, setSelectedDates] = useState<any[]>([]);
 
-    const handleApply = (dates) => {
+    const handleApply = (dates: any) => {
       console.log("Applied Dates:", dates);
       setSelectedDates(dates);
     };
@@ -37,7 +52,7 @@ const CustomDatePicker = forwardRef(
     return (
       <div className={containerClassName}>
         <DatePicker
-          ref={ref}
+          ref={ref as React.MutableRefObject<any>}
           arrowClassName={arrowClassName}
           value={selectedDates}
           containerClassName={datePickerContainerClassName}
@@ -46,27 +61,11 @@ const CustomDatePicker = forwardRef(
           sort
           inputMode={inputMode}
           offsetY={offsetY}
-        
           render={render}
           format="MMM DD YYYY"
           monthYearSeparator={monthYearSeparator}
-          // months={["January","Feb","March","April","May","June","July","August","September","October","November","December"]}
           numberOfMonths={2} // Display two months side by side
-          className={`${themeColor} ` + className}
-          // plugins={[
-          //   <Toolbar
-          //     key="toolbar"
-
-          //     names={{today:"",deselect:"Apply",close:"cancel",}}
-          //     position="bottom"
-          //     cancelButton
-          //     applyButton
-          //     onCancel={handleCancel}
-          //     onApply={handleApply}
-          //     cancelButtonText="Cancel"
-          //     applyButtonText="Apply"
-          //   />,
-          // ]}
+          className={`${themeColor} ${className}`}
         >
           <div className="datepicker-footer">
             <button

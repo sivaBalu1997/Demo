@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from "react";
 // import { useDispatch, useSelector } from 'react-redux';
 // import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
 // import { Contextpagejs } from 'pages/productCatalog/contextpage';
 // import { useHistory } from 'react-router-dom';
-
-import './StoreFilter.scss';
-import CustomDropdown from 'components/common/customDropdown';
-import ReportsRefreshButton from '../ReportsRefreshButton';
+import "./StoreFilter.scss";
+import CustomDropdown from "components/common/customDropdown";
+import ReportsRefreshButton from "../ReportsRefreshButton";
+import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 
 interface StoreFilterProps {
   selectedDate?: StoreOption;
@@ -31,14 +31,22 @@ const dateOptions: StoreOption[] = [
   { label: "Custom Date", value: "Custom Date" },
 ];
 
-
 const storeOptions: StoreOption[] = [
   { label: "A2B Princeton", value: "A2B Princeton" },
   { label: "A2B Store 2", value: "A2B Store 2" },
   { label: "A2B Store 3", value: "A2B Store 3" },
   { label: "A2B Store 4", value: "A2B Store 4" },
 ];
-const StoreFilter = ({ selectedDate, setSelectedDate = () => { }, selectedStore, setSelectedStore = () => { }, handleRefreshClick = () => { }, showDate = true, showStore = true, showRefresh = false }: StoreFilterProps) => {
+const StoreFilter = ({
+  selectedDate,
+  setSelectedDate = () => {},
+  selectedStore,
+  setSelectedStore = () => {},
+  handleRefreshClick = () => {},
+  showDate = true,
+  showStore = true,
+  showRefresh = false,
+}: StoreFilterProps) => {
   // const dispatch = useDispatch();
   // const history = useHistory();
   // const { storeList } = useContext(Contextpagejs);
@@ -50,7 +58,7 @@ const StoreFilter = ({ selectedDate, setSelectedDate = () => { }, selectedStore,
   //     dispatch(storeMockDataRequest(store.storeId));
   //     history.push(`/product-catalog?storeId=${store.storeId}`);
   // };
-
+  const calendarRef = useRef<any>(null);
   return (
     <div className="reports-filters-section">
       <div className="category-store-name">
@@ -58,19 +66,33 @@ const StoreFilter = ({ selectedDate, setSelectedDate = () => { }, selectedStore,
         <h1>{selectedStore?.label || ""}</h1>
       </div>
       <div className="category-dropdown-container">
-        {showDate ?
+        {showDate ? (
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select date</span>
             <CustomDropdown
-              onSelect={(option: StoreOption) => setSelectedDate(option)}
+              onSelect={(option: StoreOption) => {
+                if (option.value == "Custom Date") {
+                  calendarRef.current?.openCalendar();
+                }
+                setSelectedDate(option);
+              }}
               options={dateOptions}
               value={selectedDate}
               className="category-dropdown"
             />
+            <CustomDatePicker
+              containerClassName={"category-date-picker-container"}
+              datePickerContainerClassName="category-custom-datepicker-container"
+              ref={calendarRef}
+              className="category-custom-datepicker"
+              render={<></>}
+              arrowClassName="category-custom-datepicker-arrow"
+              offsetY={-15}
+            />
             {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
           </div>
-          : null}
-        {showStore ?
+        ) : null}
+        {showStore ? (
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select store</span>
             <CustomDropdown
@@ -80,15 +102,17 @@ const StoreFilter = ({ selectedDate, setSelectedDate = () => { }, selectedStore,
               className="category-dropdown"
             />
           </div>
-          : null}
+        ) : null}
 
-        {showRefresh ?
+        {showRefresh ? (
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text"> &nbsp;</span>
-            <ReportsRefreshButton loader={false} onRefreshClick={handleRefreshClick} />
+            <ReportsRefreshButton
+              loader={false}
+              onRefreshClick={handleRefreshClick}
+            />
           </div>
-          : null}
-
+        ) : null}
       </div>
     </div>
   );

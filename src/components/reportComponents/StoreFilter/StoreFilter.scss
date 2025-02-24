@@ -11,7 +11,9 @@
 
 .category-dropdown-sub-container {
   width: 100%;
+  
 }
+
 .category-dropdown-container {
   display: flex;
   flex-direction: row;
@@ -97,8 +99,27 @@
   }
 }
 
+
 @media (max-width: 576px) {
   .category-dropdown-sub-container {
     width: 100%;
   }
 }
+
+
+.category-date-picker-container {
+  height: 0px;
+  width: 0px;
+  
+}
+.category-dropdown-sub-container {
+  position: relative;
+  .category-custom-datepicker {
+    position: relative;
+    right: 15vw !important;
+  }
+.category-custom-datepicker-arrow{
+  left: 20% !important;
+}
+}
+
