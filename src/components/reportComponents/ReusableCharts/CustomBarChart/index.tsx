@@ -26,10 +26,20 @@ interface CustomBarChartProps {
     gridColor?: string;
     gridStrokeWidth?: number;
     kpiTitle?: string;
+    showRelatedTable: boolean;
+    setShowRelatedTable: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: any[];
+    tooltipData: TooltipData;
+    showRelatedTable: boolean;
+    setShowRelatedTable: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Custom Tooltip Component
-const CustomTooltip = ({ active, payload, tooltipData }: any) => {
+const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShowRelatedTable }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0].payload;
         const tooltipInfo = tooltipData[name];
@@ -38,6 +48,7 @@ const CustomTooltip = ({ active, payload, tooltipData }: any) => {
 
         const handleClick = () => {
             alert(`Viewing details for: ${name}`);
+            setShowRelatedTable(true);
         };
 
         return (
@@ -61,7 +72,9 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     showGrid = true,
     gridColor = "#ddd",
     gridStrokeWidth = 1,
-    kpiTitle = "KPI Title"
+    kpiTitle = "KPI Title",
+    showRelatedTable,
+    setShowRelatedTable
 }) => {
     // useEffect(() => {
     //     const resizeObserverError = (event: any) => {
@@ -77,7 +90,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     const chartRef = useRef<HTMLDivElement>(null);
     return (
         <div className="chart-wrapper">
-            <div className="chart-container" ref={chartRef}>
+            <div className="custom-chart-container" ref={chartRef}>
                 <div className="title-and-downloadable">
                     <h3 className="chart-title">{kpiTitle}</h3>
                     <DownloadReport downloadRef={chartRef} kpiTitle={kpiTitle} tableData={data} />
@@ -85,9 +98,19 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
                         {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
-                        <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" dx={-10} dy={10} />
+                        {/* interval={0} angle={-45} textAnchor="end" dx={-10} dy={10} */}
+                        <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip content={<CustomTooltip tooltipData={tooltipData} />} />
+                        <Tooltip
+                            content={
+                                <CustomTooltip
+                                    tooltipData={tooltipData}
+                                    showRelatedTable={showRelatedTable}
+                                    setShowRelatedTable={setShowRelatedTable}
+                                />
+                            }
+                            wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
+                        />
                         <Bar dataKey="value" fill={barColor} style={barStyle} />
                     </BarChart>
                 </ResponsiveContainer>

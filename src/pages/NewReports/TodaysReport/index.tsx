@@ -204,7 +204,6 @@ const TodaysReport: React.FC = () => {
                     <CardWithMiniGraph cardTitle="Discount" cardValue={155.50} isMonetary={true} loader={false} />
                     <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} />
                 </div>
-
             </div>
             <div className="todays-report-tables-container">
                 <NewTable
