@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
 } from "recharts";
@@ -74,12 +74,13 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     //         window.removeEventListener('error', resizeObserverError);
     //     };
     // }, []);
+    const chartRef = useRef<HTMLDivElement>(null);
     return (
         <div className="chart-wrapper">
-            <div className="chart-container">
+            <div className="chart-container" ref={chartRef}>
                 <div className="title-and-downloadable">
                     <h3 className="chart-title">{kpiTitle}</h3>
-                    <DownloadReport kpiTitle={kpiTitle} tableData={data} />
+                    <DownloadReport downloadRef={chartRef} kpiTitle={kpiTitle} tableData={data} />
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>

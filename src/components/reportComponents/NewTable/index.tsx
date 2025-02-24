@@ -174,7 +174,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <h2 className="table-title">{kpiTitle}</h2>
                             {!!count && <p className='table-title-count'>{count}</p>}
                         </div>
-                        <div className="table-search-with-download-opt-container">
+                        {tableData && headerData && <div className="table-search-with-download-opt-container">
                             <div className="search-container">
                                 <SearchIcon className="search-icon" />
                                 <input
@@ -186,8 +186,8 @@ const NewTable: React.FC<NewTableProps> = ({
                                 />
                                 <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
                             </div>
-                            {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
-                        </div>
+                            <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />
+                        </div>}
                     </div>
 
                     <div className="table-wrapper">

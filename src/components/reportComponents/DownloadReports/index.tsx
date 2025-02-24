@@ -10,6 +10,7 @@ import { ReactComponent as XlsxDownloadIconUnSelected } from "../../../assets/sv
 import { ReactComponent as XlsxDownloadIconSelected } from "../../../assets/svg/r-xls-selected.svg";
 import { ReactComponent as DownloadBtn } from "../../../assets/svg/r-download-button-icon.svg";
 import exportFromJSON from 'export-from-json';
+import html2canvas from "html2canvas";
 import jsPDF from 'jspdf';
 import "./style.scss";
 
@@ -17,12 +18,28 @@ interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
     headerData?: Array<{ key: string; label: string }>;
     kpiTitle: string;
+    downloadRef?: React.RefObject<HTMLDivElement>;
 }
 
-const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, kpiTitle }) => {
+const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, kpiTitle, downloadRef }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
     // console.log("1111", { showDownloadables })
+
+    const generatePdfFromRef = async () => {
+        if (downloadRef?.current) {
+            const element = downloadRef.current;
+            const canvas = await html2canvas(element, { scale: 2 });
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+
+            const imgWidth = 190; // Adjust width to fit A4
+            const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+            pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+            pdf.save(`${kpiTitle}.pdf`);
+        }
+    };
 
     const csvDownloadFn = (data: Array<Record<string, any>>) => {
         const fileName = kpiTitle;
@@ -72,6 +89,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
                 !(event.target as HTMLElement).closest(".table-download-options")
             ) {
                 setShowDownloadables(false);
+                setSelectedFormat(null);
             }
         };
 
@@ -80,10 +98,19 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
     }, []);
 
     const handleDownload = () => {
-        if (selectedFormat === "pdf") pdfDownloadFn(tableData, headerData);
-        else if (selectedFormat === "json") jsonDownloadFn(tableData);
-        else if (selectedFormat === "csv") csvDownloadFn(tableData);
-        else if (selectedFormat === "xlsx") xlsxDownloadFn(tableData);
+        if (downloadRef?.current) {
+            generatePdfFromRef(); // Invoke if downloadRef is present
+        } else if (selectedFormat === "pdf") {
+            pdfDownloadFn(tableData, headerData);
+        } else if (selectedFormat === "json") {
+            jsonDownloadFn(tableData);
+        } else if (selectedFormat === "csv") {
+            csvDownloadFn(tableData);
+        } else if (selectedFormat === "xlsx") {
+            xlsxDownloadFn(tableData);
+        }
+        setShowDownloadables(false);
+        setSelectedFormat(null);
     };
 
     return (
@@ -96,7 +123,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
                 }}
             />
             {showDownloadables && (
-                <div className="table-download-options-pop-over" ref={downloadPopoverRef}>
+                <div className="table-download-options-pop-over" ref={downloadPopoverRef} data-html2canvas-ignore="true">
                     <p className="pop-over-title">{kpiTitle || "Downloadables"}</p>
                     <div className="formats-container">
                         <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("pdf"); }}>
