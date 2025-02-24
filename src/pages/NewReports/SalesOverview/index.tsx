@@ -30,6 +30,7 @@ import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg
 // import TenderType from "components/reportComponents/TendorTypeCard";
 import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import LinearBarChart from "pages/CategoryReport/barChart";
+import DoughnutChart from "pages/CategoryReport/doughnutChart";
 
 const tabs = [
   "Today's report",
