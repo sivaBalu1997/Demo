@@ -13,6 +13,8 @@ const data = {
       data: [210, 170, 265, 110, 220, 190],
       backgroundColor: "#B8860B",
       borderRadius: 5,
+      barPercentage: 0.7,    // Thinner bars
+      categoryPercentage: 0.6,
     },
   ],
 };
@@ -25,6 +27,9 @@ const options = {
       callbacks: {
         label: (tooltipItem: any) => `Sales: $${tooltipItem.raw.toFixed(2)}`,
       },
+    },
+    datalabels: {
+      display: false,
     },
   },
   scales: {
@@ -39,11 +44,8 @@ const options = {
 
 const RevenueClassChart = () => {
   return (
-    <div className="chart-container">
-      <h3>By Revenue Class</h3>
-      <div className="chart-wrapper">
+    <div style={{ width: "100%", height: "500px" }}>
         <Bar data={data} options={options} />
-      </div>
     </div>
   );
 };

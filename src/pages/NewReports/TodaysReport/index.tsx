@@ -13,10 +13,13 @@ import "./style.scss";
 import CustomDropdown from 'components/common/customDropdown';
 import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
+import StoreFilter from 'components/reportComponents/StoreFilter';
 
 
 const TodaysReport: React.FC = () => {
     const { isExpanded } = useContext(Contextpagejs);
+      const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
+      const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
 
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
     const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
@@ -165,29 +168,10 @@ const TodaysReport: React.FC = () => {
 
     return (
         <div className='todays-report-container'>
-            <div className="todays-report-head">
-                <div className="todays-report-store-name">
-                    <h4>Store name</h4>
-                    <h2>A2B, Princeton</h2>
-                </div>
-                <div className="todays-report-select-store-refresh-container">
-                    <h4>Select store</h4>
-                    <div className="todays-report-store-and-refresh-btn">
-                        <CustomDropdown
-                            options={[
-                                { value: "Sales", label: "Sales" },
-                                { value: "Product", label: "Product" },
-                            ]}
-                            value={"Sales"}
-                            className="category-dropdown"
-                            onSelect={handleDropdownChangeStore}
-                        />
-                        <ReportsRefreshButton loader={false} onRefreshClick={handleRefreshClick} />
-                    </div>
-                </div>
-            </div>
+      <StoreFilter  selectedStore={selectedStore}  setSelectedStore={setSelectedStore} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
+
             <SwitchableBox
-                textOne="Overall"
+                textOne="Overall"   
                 textTwo="Live Orders"
                 isActive={isSwitchActive}
                 toggleSwitch={handleToggleSwitch}

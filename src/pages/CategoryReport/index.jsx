@@ -79,7 +79,6 @@ const CategoryReport = (props) => {
   };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-
       <div className="category-page-cotainer">
         <div className="category-page-header">
           <div className="category-page-header-container">

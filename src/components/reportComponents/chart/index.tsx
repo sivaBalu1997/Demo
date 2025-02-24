@@ -12,11 +12,16 @@ const data = {
       label: "Credit card",
       data: [270, 150, 154.5, 100, 130],
       backgroundColor: "#2196F3", // Blue
+      barPercentage: 0.7,    // Thinner bars
+      categoryPercentage: 0.6,
     },
     {
       label: "Debit card",
       data: [0, 100, 110.5, 110, 140],
       backgroundColor: "#D98F2B", // Orange
+      barPercentage: 0.7,    // Thinner bars
+      categoryPercentage: 0.6,
+      
     },
   ],
 };
@@ -33,6 +38,9 @@ const options = {
         },
       },
     },
+    datalabels: {
+      display: false,
+    },
   },
   scales: {
     x: { stacked: true },
@@ -40,12 +48,14 @@ const options = {
   },
 };
 
+
+
+
 const CardTypeChart = () => {
   return (
-    <div className="chart-container">
-      <h2>Card Type</h2>
+    <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
-    </div>
+      </div>
   );
 };
 

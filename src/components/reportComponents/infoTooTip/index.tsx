@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./InfoTooTip.scss";
+import "./Tooltip.scss";
 import { ReactComponent as InfoIcon } from "../../assets/svg/info1.svg";
 interface InfoTooltipProps {
   title: string;
