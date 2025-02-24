@@ -31,6 +31,7 @@ import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg
 import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import LinearBarChart from "pages/CategoryReport/barChart";
 import DoughnutChart from "pages/CategoryReport/doughnutChart";
+import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 
 const tabs = [
   "Today's report",
@@ -130,7 +131,9 @@ const SalesOverview: React.FC<ReportProps> = () => {
       percentage: 29,
     },
   ];
-
+  const datepickerApply = (data1: any, data2: any) => {
+    console.log(data1, data2, "selected Date is here");
+  };
   return (
     <>
       {/* Date and Store */}
@@ -139,6 +142,7 @@ const SalesOverview: React.FC<ReportProps> = () => {
         selectedStore={selectedStore}
         setSelectedDate={setSelectedDate}
         setSelectedStore={setSelectedStore}
+        datePickerApplyFunction={datepickerApply}
       />
 
       {/*  ReportsNotFound*/}
@@ -439,11 +443,11 @@ const SalesOverview: React.FC<ReportProps> = () => {
       <div style={{ display: "flex", width: "100%", height: "500px" }}>
         <div className="left-section" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">By Discount</h2>
-          <DiscountAndVoidedOrders />
+          <DoughnutChartWithButton />
         </div>
         <div className="right-section" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-          <DiscountAndVoidedOrders />
+          <DoughnutChartWithButton />
         </div>
       </div>
       <h2 className="sales-overview-sub-heading ">By Revenue class</h2>

@@ -84,10 +84,8 @@ const StoreFilter = ({
         selectedDates[1] instanceof DateObject
           ? selectedDates[1]
           : new DateObject(selectedDates[1]);
-      if (
-        typeof datePickerApplyFunction == "function" ||
-        (datePickerApplyFunction != null && datePickerApplyFunction != null)
-      ) {
+
+      if (datePickerApplyFunction != null && datePickerApplyFunction) {
         datePickerApplyFunction(startDate, endDate);
       }
       calendarRef.current?.closeCalendar();
