@@ -319,3 +319,14 @@ export function triggerFcmUrl(payload) {
     data: body
   })
 }
+
+export const scheduleTriggerFCM = (payload) => {
+  const { successCB, errorCB, eventName, topic, sendToDefaultDeviceOnly = false, locationId, scheduledTime,  ...filteredBody } = payload || {};
+  const body = {...filteredBody, locationId, scheduledTime}  
+  return API({
+    method: 'post',
+    url:`/api/v1/menu-items/sync?locationId=${locationId}`,
+    // url: `/fcm/trigger-event?topic=${topic}&eventName=${eventName}&sendToDefaultDeviceOnly=${sendToDefaultDeviceOnly}&locationId=${locationId}`,
+    data: body
+  })
+}
