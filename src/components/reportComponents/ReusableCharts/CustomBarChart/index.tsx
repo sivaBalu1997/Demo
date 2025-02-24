@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import {
-    BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
-} from "recharts";
+
 import "./style.scss";
 import DownloadReport from "components/reportComponents/DownloadReports";
 
@@ -95,10 +93,9 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                     <h3 className="chart-title">{kpiTitle}</h3>
                     <DownloadReport downloadRef={chartRef} kpiTitle={kpiTitle} tableData={data} />
                 </div>
-                <ResponsiveContainer width="100%" height="100%">
+                {/* <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
                         {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
-                        {/* interval={0} angle={-45} textAnchor="end" dx={-10} dy={10} */}
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip
@@ -113,7 +110,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                         />
                         <Bar dataKey="value" fill={barColor} style={barStyle} />
                     </BarChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> */}
             </div>
         </div>
     );

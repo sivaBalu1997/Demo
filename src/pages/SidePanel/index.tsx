@@ -2,11 +2,10 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  Fragment,
   useContext,
 } from "react";
 import "../../styles/menu.scss";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import {  useHistory, useLocation } from "react-router-dom";
 import {
   SELECTED_BRANCH_DATA,
   STORAGE_BUCKET_URL,
@@ -46,7 +45,7 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales", "Product", "Staff", "Check-in", "Customer", "Event"];
+  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales"];// "Product", "Staff", "Check-in", "Customer", "Event"
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -80,10 +79,6 @@ const SidePanel = () => {
       setSelectSubForReport("Reports & Insights");
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/live-reports")) {
-      setSelectSubForReport("Chart JS");
-      setShowOptions("reportOptions");
-    }
-    else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
       setShowOptions("reportOptions");
     }
@@ -500,8 +495,6 @@ const SidePanel = () => {
                                 // history.push("/live-reports");
                               } else if (option === "Chart JS") {
                                 history.push("/live-reports");
-                              } else if (option === "Sales") {
-                                history.push("/category-1");
                               }
                               else if (option === "Sales") {
                                 history.push("/sales-reports");

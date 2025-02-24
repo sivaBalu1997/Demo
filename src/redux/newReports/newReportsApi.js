@@ -1,41 +1,45 @@
 import { API } from "redux/api";
 import Store from "../store";
 
-const REPORTS_API_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports";
 
-const SALES_SUMMARY_API_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/summary";
+const baseUrl="https://rptd.gcp.magilhub.com"
+const reportsBaseUrl=`${baseUrl}/magilhub-data-services-reports`
 
-const SALES_BY_ITEM_CATEGORY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/category";
+const REPORTS_API_ENDPOINT = `${reportsBaseUrl}`;
 
-const SALES_BY_REVENUE_CLASS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tags?";
+const SALES_SUMMARY_API_ENDPOINT = `${reportsBaseUrl}/sales/summary`;
 
-const ACTUAL_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/payment?";
+const SALES_BY_ITEM_CATEGORY_ENDPOINT = `${reportsBaseUrl}/sales/category`;
 
-const HOURLY_SALES_CHART_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/hourly?";
+const SALES_BY_REVENUE_CLASS_ENDPOINT = `${reportsBaseUrl}/sales/tags?`;
 
-const DISCOUNT_SUMMARY_ENDPOINT = 'https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/discountSummary?';
+const ACTUAL_SALES_ENDPOINT = `${reportsBaseUrl}/sales/payment?`;
 
-const CANCELLATION_SUMMARY_ENDPOINT = 'https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/cancelSummary?';
+const HOURLY_SALES_CHART_ENDPOINT = `${reportsBaseUrl}/sales/hourly?`;
 
-const LIVE_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/discounts?"
+const DISCOUNT_SUMMARY_ENDPOINT = `${reportsBaseUrl}/sales/discountSummary?`;
 
-const LIVE_OPEN_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/open-sales?"
+const CANCELLATION_SUMMARY_ENDPOINT = `${reportsBaseUrl}/sales/cancelSummary?`;
 
-const LIVE_ORDERS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/tables?"
+const LIVE_DISCOUNT_ENDPOINT = `${reportsBaseUrl}/sales/live/discounts?`;
 
-const LIVE_REFUNDS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/refunds?"
+const LIVE_OPEN_SALES_ENDPOINT = `${reportsBaseUrl}/sales/live/open-sales?`;
 
-const LIVE_NET_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/net-sales?"
+const LIVE_ORDERS_ENDPOINT = `${reportsBaseUrl}/sales/live/tables?`;
 
-const LIVE_ORDER_NON_DINE_IN_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/live/tracking?"
+const LIVE_REFUNDS_ENDPOINT = `${reportsBaseUrl}/sales/live/refunds?`;
 
-const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffTipAndGratuity?"
+const LIVE_NET_SALES_ENDPOINT = `${reportsBaseUrl}/sales/live/net-sales?`;
 
-const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffDiscount?"
+const LIVE_ORDER_NON_DINE_IN_ENDPOINT = `${reportsBaseUrl}/sales/live/tracking?`;
 
-const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffPerformance?"
+const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffTipAndGratuity?`;
 
-const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/staffActivity?"
+const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffDiscount?`;
+
+const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffPerformance?`;
+
+const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffActivity?`;
 
 //    https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/checkIn/dayCheckIn?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2025-01-01&endDate=2025-02-28&page=1&size=15
 
