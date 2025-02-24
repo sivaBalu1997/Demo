@@ -15,6 +15,9 @@ const data = {
       label: "Sales ($)",
       data: [210, 160, 260, 90, 220, 180, 140, 230, 210, 260, 140, 170, 210],
       backgroundColor: "#2196F3", // Blue color
+      barPercentage: 0.6,    // Thinner bars
+      categoryPercentage: 0.6,
+
     },
   ],
 };
@@ -31,6 +34,9 @@ const options = {
         },
       },
     },
+          datalabels: {
+        display: false,
+      },
   },
   scales: {
     x: { grid: { display: false } },
@@ -40,8 +46,7 @@ const options = {
 
 const EmployeeSalesChart = () => {
   return (
-    <div className="chart-container">
-      <h2>By Employees</h2>
+    <div style={{ width: "100%", height: "500px" }}>   
       <Bar data={data} options={options} />
     </div>
   );

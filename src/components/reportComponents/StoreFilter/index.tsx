@@ -6,12 +6,17 @@ import React, { useState } from 'react';
 
 import './StoreFilter.scss';
 import CustomDropdown from 'components/common/customDropdown';
+import ReportsRefreshButton from '../ReportsRefreshButton';
 
 interface StoreFilterProps {
-  selectedDate: StoreOption;
-  setSelectedDate: (date: StoreOption) => void;
-  selectedStore: StoreOption;
-  setSelectedStore: (store: StoreOption) => void;
+  selectedDate?: StoreOption;
+  setSelectedDate?: (date: StoreOption) => void;
+  selectedStore?: StoreOption;
+  setSelectedStore?: (store: StoreOption) => void;
+  showDate?: boolean;
+  showStore?: boolean;
+  showRefresh?: boolean;
+  handleRefreshClick?: () => void;
 }
 interface StoreOption {
   label: string;
@@ -33,7 +38,7 @@ const storeOptions: StoreOption[] = [
   { label: "A2B Store 3", value: "A2B Store 3" },
   { label: "A2B Store 4", value: "A2B Store 4" },
 ];
-const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelectedStore }: StoreFilterProps) => {
+const StoreFilter = ({ selectedDate, setSelectedDate = () => { }, selectedStore, setSelectedStore = () => { }, handleRefreshClick = () => { }, showDate = true, showStore = true, showRefresh = false }: StoreFilterProps) => {
   // const dispatch = useDispatch();
   // const history = useHistory();
   // const { storeList } = useContext(Contextpagejs);
@@ -47,35 +52,45 @@ const StoreFilter = ({ selectedDate, setSelectedDate, selectedStore, setSelected
   // };
 
   return (
-    <>
-      <div className="reports-filters-section">
-        <div className="category-store-name">
-          <span>Store name</span>
-          <h1>A2B, Princeton</h1>
-        </div>
-        <div className="category-dropdown-container">
+    <div className="reports-filters-section">
+      <div className="category-store-name">
+        <span>Store name</span>
+        <h1>{selectedStore?.label || ""}</h1>
+      </div>
+      <div className="category-dropdown-container">
+        {showDate ?
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select date</span>
             <CustomDropdown
-            onSelect={(option:StoreOption) => setSelectedDate(option)}
+              onSelect={(option: StoreOption) => setSelectedDate(option)}
               options={dateOptions}
               value={selectedDate}
               className="category-dropdown"
             />
             {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
           </div>
+          : null}
+        {showStore ?
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select store</span>
             <CustomDropdown
-              onSelect={(option:StoreOption) => setSelectedStore(option)}
+              onSelect={(option: StoreOption) => setSelectedStore(option)}
               options={storeOptions}
               value={selectedStore}
               className="category-dropdown"
             />
           </div>
-        </div>
+          : null}
+
+        {showRefresh ?
+          <div className="category-dropdown-sub-container">
+            <span className="category-dropdown-text"> &nbsp;</span>
+            <ReportsRefreshButton loader={false} onRefreshClick={handleRefreshClick} />
+          </div>
+          : null}
+
       </div>
-    </>
+    </div>
   );
 };
 

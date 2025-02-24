@@ -41,29 +41,11 @@ const options = {
 
 const DiscountAndVoidedOrders = () => {
   return (
-    <div className="charts-container">
-      <div className="chart-card">
-        <h3>By Discount</h3>
-        <div className="chart-wrapper">
-          <Doughnut data={discountData} options={options} />
-          <div className="chart-center">
-            <p>Total</p>
-            <h2>$1200.50</h2>
-          </div>
-        </div>
-      </div>
+    <div>
 
-      <div className="chart-card">
-        <h3>Voided Orders</h3>
-        <div className="chart-wrapper">
-          <Doughnut data={voidedOrdersData} options={options} />
-          <div className="chart-center">
-            <p>Total</p>
-            <h2>$856.75</h2>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Doughnut data={discountData} options={options} />
+  </div>
+
   );
 };
 

@@ -10,8 +10,7 @@ interface SalesCardProps {
   amount: string | number;
   trend: string;
   positive: boolean;
-  showChart?: boolean;
-  showVChart?: boolean;
+  showLineChart?: boolean;
 }
 
 const SalesCard: React.FC<SalesCardProps> = ({
@@ -19,21 +18,20 @@ const SalesCard: React.FC<SalesCardProps> = ({
   amount,
   trend,
   positive,
-  showChart = false,  
-  showVChart = false,
+  showLineChart = true,  
 }) => {
   return (
-    <div className="sales-card">
+    <div className="reports-sales-card">
       <div className="card-header">
-        <span>{type}</span>
+        <span  className="card-header-title">{type}</span>
         <span className={`trend ${positive ? "positive" : "negative"}`}>
           {trend} {positive ? <ArrowUpIcon className="icon" /> : <ArrowDownIcon className="icon" />}
         </span>
       </div>
       <div className="card-body">
         <h3 className={positive ? "positive" : "negative"}>{amount}</h3>
-        {showChart && <div className={`chart ${positive ? "positive" : "negative"}`}></div>}
-        {showVChart &&positive? <GainChartIcon className="vchart-icon" />:<LossChartIcon className="vchart-icon" />}
+        {showLineChart?(positive? <GainChartIcon className="vchart-icon" />:<LossChartIcon className="vchart-icon" />):
+        (positive? <GainChartIcon className="vchart-icon" />:<LossChartIcon className="vchart-icon" />)  }
       </div>
     </div>
   );

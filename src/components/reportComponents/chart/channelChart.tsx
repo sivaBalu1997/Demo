@@ -12,8 +12,10 @@ const data = {
       label: "Sales ($)",
       data: [2700, 2000, 2150, 1400, 900, 2100, 2200],
       backgroundColor: ["#E53935", "#4CAF50", "#E67E22", "#26A69A", "#D32F2F", "#2ECC71", "#F39C12"],
+      barPercentage: 0.7,    // Thinner bars
+      categoryPercentage: 0.6,
     },
-  ],
+  ],  
 };
 
 const options = {
@@ -25,6 +27,9 @@ const options = {
       callbacks: {
         label: (tooltipItem: any) => `Sales: $${tooltipItem.raw.toFixed(2)}`,
       },
+    },
+    datalabels: {
+      display: false,
     },
   },
   scales: {
@@ -42,8 +47,7 @@ const options = {
 
 const ChannelSalesChart = () => {
   return (
-    <div className="chart-container">
-      <h2>By Channel</h2>
+    <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>
   );

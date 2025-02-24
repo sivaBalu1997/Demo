@@ -3,6 +3,8 @@ import { ReactComponent as IncrementGraph } from "../../../assets/svg/r-incremen
 import { ReactComponent as IncrementArrow } from "../../../assets/svg/r-increment-arrow-icon.svg";
 import { ReactComponent as DecrementGraph } from "../../../assets/svg/r-decrement-graph-icon.svg";
 import { ReactComponent as DecrementArrow } from "../../../assets/svg/r-decrement-arrow-icon.svg";
+import { ReactComponent as LossArrowIcon } from "../../../assets/svg/lossArrow1.svg";
+import { ReactComponent as GainArrowIcon } from "../../../assets/svg/gainarrow1.svg";
 import { useSelector } from "react-redux";
 import "./style.scss";
 import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
@@ -15,6 +17,8 @@ interface CardWithMiniGraphProps {
     incrementDecrementValue?: number | string | undefined | "" | null;
     incrementOrDecrement?: "increment" | "decrement";
     loader?: boolean;
+    isPercent?: boolean;
+    graphType?: "chart" | "arrow"
 }
 
 const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
@@ -25,6 +29,8 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
     incrementDecrementValue,
     incrementOrDecrement,
     loader,
+    isPercent,
+    graphType = "chart"
 }) => {
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
@@ -51,16 +57,18 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
                         {incrementOrDecrement === "increment" ? (
                             <>
                                 <IncrementArrow />
-                                <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>+{" "}{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}</span>
+                                <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>+{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}{isPercent ? "%" : ""}</span>
                             </>
                         ) : (
                             <>
-                                <DecrementArrow />
-                                <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>-{" "}{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}</span>
+                                    <DecrementArrow />
+                                <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>-{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}
+                                    {isPercent ? "%" : ""}
+                                </span>
                             </>
                         )}
                     </div>
-                    {incrementOrDecrement === "increment" ? <IncrementGraph /> : <DecrementGraph />}
+                    {incrementOrDecrement === "increment" ? (graphType === "chart" ? <IncrementGraph /> : <GainArrowIcon />) : graphType === "chart" ? <DecrementGraph /> : <LossArrowIcon />}
                 </div>
             )
             }
