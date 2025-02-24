@@ -214,15 +214,16 @@ const SalesOverView: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <SidePanel />
       <div
-        className={`sales-overview-container ${isExpanded ? "sales-overview-container-expanded" : ""
-          }`}
+        className={`sales-overview-container ${
+          isExpanded ? "sales-overview-container-expanded" : ""
+        }`}
       >
         {/* <CategoryReport /> */}
         <h2>Reports & Insights</h2>
         <ReportsTabSwitch onTabChange={setActiveTab} />
         <div className="tab-content">
           {activeTab === "today" && <TodaysReport />}
-          {/* {activeTab === "sales" && <InnerSalesOverview />} */}
+          {activeTab === "sales" && <SalesOverView />}
           {activeTab === "categories" && <CategoryReport />}
           {/* {activeTab === "employees" && <Employees />} */}
           {/* {activeTab === "trends" && <Trends />} */}

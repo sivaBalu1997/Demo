@@ -1,110 +1,109 @@
 .sales-overview {
-    margin-top: 8px;
-    margin-bottom: 24px;
-    padding: 0px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  padding: 0px;
 
-    & h2 {
-        font-family: Poppins;
-        font-weight: 500;
-        font-size: 24px;
-        line-height: 32px;
-        letter-spacing: -0.2px;
-        color: #262626;
-        margin: 20px 0px;
+  & h2 {
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.2px;
+    color: #262626;
+    margin: 20px 0px;
+  }
 
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .reports-tendor-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin-top: 46px;
+
+    h2 {
+      font-family: Poppins;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: -0.2px;
+      color: #262626;
     }
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 24px;
-        margin-top: 20px;
+    .left-section,
+    .right-section {
+      flex: 1;
+      box-shadow: none;
+      border: none;
     }
 
-    .reports-tendor-container {
-        display: flex;
-        flex-direction: row;
-        gap: 24px;
-        margin-top: 46px;
-
-        h2 {
-            font-family: Poppins;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 32px;
-            letter-spacing: -0.2px;
-            color: #262626;
-        }
-
-        .left-section,
-        .right-section {
-            flex: 1;
-            box-shadow: none;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            flex-direction: column;
-        }
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
-    .reports-discount-countainer{
+  }
+  .reports-discount-countainer {
     display: flex;
     flex-direction: row;
     width: 100%;
     .left-section,
     .right-section {
-        width: 50%;
-        flex: 1;
+      width: 50%;
+      flex: 1;
     }
-        
+  }
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
-    @media (max-width: 768px) {
-        .grid {
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        }
-    }
+  }
 }
-
 
 // Remove this
 .todays-report-sales-overview-box-container-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+
+  // background-color: lightseagreen;
+  h2 {
+    font-weight: 500;
+  }
+
+  .todays-report-sales-overview-box-container {
     display: flex;
-    flex-direction: column;
-    gap: 1vh;
+    flex-basis: 25%;
+    flex-wrap: wrap;
+    // grid-template-columns: repeat(4, 1fr);
+    // grid-template-rows: repeat(2, auto);
+    gap: 18px;
+    width: 100%;
+    // max-width: 1200px;
 
-    // background-color: lightseagreen;
-    h2 {
-        font-weight: 500;
+    // margin: auto;
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, auto);
     }
 
-    .todays-report-sales-overview-box-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(2, auto);
-        gap: 16px;
-        width: 98%;
-        max-width: 1200px;
-
-        // margin: auto; 
-        @media (max-width: 1024px) {
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(4, auto);
-        }
-
-        @media (max-width: 600px) {
-            grid-template-columns: repeat(1, 1fr);
-            grid-template-rows: repeat(8, auto);
-        }
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: repeat(8, auto);
     }
+  }
 }
 
 .todays-report-tables-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    height: fit-content;
-    gap: 5vh;
-    // background-color: lightsalmon;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: fit-content;
+  gap: 5vh;
+  // background-color: lightsalmon;
 }
