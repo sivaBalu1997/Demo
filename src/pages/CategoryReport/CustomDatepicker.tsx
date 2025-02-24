@@ -14,6 +14,7 @@ export interface CustomDatePickerProps {
   themeColor?: string;
   closeBtnOnclick?: () => void;
   applyBtnOnclick?: () => void;
+  handleOnChange?: () => void;
   containerClassName?: string;
   arrowClassName?: string;
   offsetY?: number;
@@ -31,6 +32,7 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
       themeColor = "red ",
       closeBtnOnclick,
       applyBtnOnclick,
+      handleOnChange,
       containerClassName = "",
       arrowClassName = "",
       offsetY,
@@ -54,9 +56,9 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
         <DatePicker
           ref={ref as React.MutableRefObject<any>}
           arrowClassName={arrowClassName}
-          value={selectedDates}
+          // value={selectedDates}
           containerClassName={datePickerContainerClassName}
-          onChange={setSelectedDates}
+          onChange={handleOnChange}
           range
           sort
           inputMode={inputMode}

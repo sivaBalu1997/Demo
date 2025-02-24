@@ -7,12 +7,14 @@ import "./StoreFilter.scss";
 import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
 import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
+import { DateObject } from "react-multi-date-picker";
 
 interface StoreFilterProps {
   selectedDate?: StoreOption;
   setSelectedDate?: (date: StoreOption) => void;
   selectedStore?: StoreOption;
   setSelectedStore?: (store: StoreOption) => void;
+  datePickerApplyFunction?: any;
   showDate?: boolean;
   showStore?: boolean;
   showRefresh?: boolean;
@@ -42,6 +44,7 @@ const StoreFilter = ({
   setSelectedDate = () => {},
   selectedStore,
   setSelectedStore = () => {},
+  datePickerApplyFunction,
   handleRefreshClick = () => {},
   showDate = true,
   showStore = true,
@@ -58,6 +61,37 @@ const StoreFilter = ({
   //     dispatch(storeMockDataRequest(store.storeId));
   //     history.push(`/product-catalog?storeId=${store.storeId}`);
   // };
+  const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
+  const [isDateSelected, setIsDateSelected] = useState(false);
+  const [rangeDateLabel, setRangeDateLabel] = useState("");
+  const datePickerHandleOnChange: any = (dates: any): void => {
+    setSelectedDates(dates);
+  };
+  const closeBtnOnclick = () => {
+    setIsDateSelected(false);
+    calendarRef.current?.closeCalendar();
+    setSelectedDate(dateOptions[0]);
+  };
+  const applyBtnOnclick = () => {
+    if (selectedDates.length === 2) {
+      setIsDateSelected(true);
+      // If the dates are not already DateObject instances, wrap them:
+      const startDate =
+        selectedDates[0] instanceof DateObject
+          ? selectedDates[0]
+          : new DateObject(selectedDates[0]);
+      const endDate =
+        selectedDates[1] instanceof DateObject
+          ? selectedDates[1]
+          : new DateObject(selectedDates[1]);
+      datePickerApplyFunction(startDate, endDate);
+      calendarRef.current?.closeCalendar();
+
+      setRangeDateLabel(
+        `${startDate.format("MMM DD")} - ${endDate.format("MMM DD")}`
+      );
+    }
+  };
   const calendarRef = useRef<any>(null);
   return (
     <div className="reports-filters-section">
@@ -73,17 +107,31 @@ const StoreFilter = ({
               onSelect={(option: StoreOption) => {
                 if (option.value == "Custom Date") {
                   calendarRef.current?.openCalendar();
+                } else {
+                  setIsDateSelected(false);
                 }
                 setSelectedDate(option);
               }}
               options={dateOptions}
-              value={selectedDate}
+              value={
+                isDateSelected
+                  ? {
+                      value: "Custom Date",
+                      label: `${
+                        rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
+                      }`,
+                    }
+                  : selectedDate
+              }
               className="category-dropdown"
             />
             <CustomDatePicker
               containerClassName={"category-date-picker-container"}
+              handleOnChange={datePickerHandleOnChange}
               datePickerContainerClassName="category-custom-datepicker-container"
               ref={calendarRef}
+              applyBtnOnclick={applyBtnOnclick}
+              closeBtnOnclick={closeBtnOnclick}
               className="category-custom-datepicker"
               render={<></>}
               arrowClassName="category-custom-datepicker-arrow"

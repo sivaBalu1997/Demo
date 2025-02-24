@@ -30,6 +30,7 @@ import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg
 // import TenderType from "components/reportComponents/TendorTypeCard";
 import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import LinearBarChart from "pages/CategoryReport/barChart";
+import DoughnutChart from "pages/CategoryReport/doughnutChart";
 
 const tabs = [
   "Today's report",
@@ -436,13 +437,13 @@ const SalesOverview: React.FC<ReportProps> = () => {
       <ChannelSalesChart />
 
       <div style={{ display: "flex", width: "100%", height: "500px" }}>
-        <div className="left-section" style={{ width: "50%", height: "100%" }}>
+        <div style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">By Discount</h2>
-          <DiscountAndVoidedOrders />
+          <DoughnutChart />
         </div>
-        <div className="right-section" style={{ width: "50%", height: "100%" }}>
+        <div style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-          <DiscountAndVoidedOrders />
+          <DoughnutChart />
         </div>
       </div>
       <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
