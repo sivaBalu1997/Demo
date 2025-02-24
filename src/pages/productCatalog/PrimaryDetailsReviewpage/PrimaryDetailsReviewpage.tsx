@@ -1467,9 +1467,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleSubmitItemDetails}
-            disabled={addMenuLoading&&uploadImageLoading || updateMenuItemLoading&&uploadImageLoading}
+            disabled={(editData?.length===0 &&addMenuLoading) || (editData?.length>0 &&updateMenuItemLoading)}
           >
-            {addMenuLoading&&uploadImageLoading || updateMenuItemLoading&&uploadImageLoading ? (
+            {(editData?.length===0 &&addMenuLoading) || (editData?.length>0 &&updateMenuItemLoading) ? (
               <div className="reviewLoaders"></div>
             ) : (
               "Publish"

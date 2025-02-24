@@ -709,6 +709,7 @@ case SELECTED_COLUMNS:
         break;
       case ADD_MENU_ITEM_SUCCESS:
         draft.addMenuLoading = false;
+        draft.updateMenuItemLoading=false;
         draft.addMenuFailed = false;
         draft.addMenuSuccess = true;
         draft.addMenuSuccessMessage = action.payload;
@@ -716,6 +717,7 @@ case SELECTED_COLUMNS:
         break;
       case ADD_MENU_ITEM_FAILED:
         draft.addMenuLoading = false;
+        draft.updateMenuItemLoading=false;
         draft.addMenuFailed = true;
         draft.addMenuSuccess = false;
         draft.addMenuSuccessMessage = "";
@@ -728,6 +730,7 @@ case SELECTED_COLUMNS:
         draft.uploadImageLoading = true;
         draft.imageUploadsuccessemsg = false;
         draft.addMenuLoading = true;
+        draft.updateMenuItemLoading=true;
         
         break;
 
@@ -735,6 +738,7 @@ case SELECTED_COLUMNS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
         draft.imageUploadsuccessemsg = true;
+        // draft.updateMenuItemLoading=true;
         // draft.addMenuLoading = false;
         break;
 
@@ -743,6 +747,7 @@ case SELECTED_COLUMNS:
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         draft.imageUploadsuccessemsg = false;
+        
         // draft.addMenuLoading = false;
         break;
 
@@ -788,6 +793,7 @@ case SELECTED_COLUMNS:
         break;
       case UPDATE_MENU_ITEM_SUCCESS:
         draft.updateMenuItemLoading = false;
+        draft.addMenuLoading = false;
         draft.updateMenuItemFailed = false;
         draft.updateMenuItemSuccess = true;
         draft.updateMenuItemFailureMessage = "";
@@ -795,6 +801,7 @@ case SELECTED_COLUMNS:
         break;
       case UPDATE_MENU_ITEM_FAILED:
         draft.updateMenuItemLoading = false;
+        draft.addMenuLoading = false;
         draft.updateMenuItemFailed = true;
         draft.updateMenuItemSuccess = false;
         draft.updateMenuItemFailureMessage = action.payload;
