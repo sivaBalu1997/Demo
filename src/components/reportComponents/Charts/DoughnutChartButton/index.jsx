@@ -137,7 +137,7 @@ function DoughnutChartWithButton() {
       ref={containerRef}
       style={{
         width: "100%",
-        maxWidth: "600px",
+        maxWidth: "550px",
         height: "450px",
         position: "relative",
         overflow: "visible",
