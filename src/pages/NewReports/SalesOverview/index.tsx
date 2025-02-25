@@ -42,19 +42,27 @@ const tabs = [
   "Employees",
   "Trends",
 ];
-interface ReportProps { }
+interface ReportProps {}
 
 const SalesOverview: React.FC<ReportProps> = () => {
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.branch
+  );
 
-  const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
-
-  const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+  const mappedIdWithBranchName = restaurantDetails?.map(
+    (branchWithId: any) => ({
+      value: branchWithId?.id,
+      label: branchWithId?.locationName,
+    })
+  );
 
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
     value: "Yesterday",
   });
-  const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
+  const [selectedStore, setSelectedStore] = useState(
+    mappedIdWithBranchName?.[0]
+  );
   const salesData = [
     {
       type: "Total Sales",
@@ -452,7 +460,7 @@ const SalesOverview: React.FC<ReportProps> = () => {
       <h2 className="sales-overview-sub-heading ">By Channel</h2>
       <ChannelSalesChart />
 
-      <div style={{ display: "flex", width: "100%", height: "500px" }}>
+      <div className="sales-overview-doughnut-chart-container">
         <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">By Discount</h2>
           <DoughnutChartWithButton />
