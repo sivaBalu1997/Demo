@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from 'interface/newReportsInterface';
 import { useDispatch, useSelector } from 'react-redux';
-import { employeeStaffActivityRequest } from 'redux/newReports/newReportsActions';
+import { changeLocation, employeeStaffActivityRequest, locationDetailsRequest } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
@@ -26,13 +26,24 @@ const Employees: React.FC = () => {
 
     const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
-    const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+   const locations=useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
+       const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+);
+    useEffect(() => {
+        dispatch(locationDetailsRequest({ locationid }))
+    }, [locationid])
 
-    const countryCode = useSelector(
-        (state: any) => state?.auth?.restaurantDetails?.country
-    );
+
+    useEffect(() => {
+      dispatch(changeLocation({label:locations?.[0],value:locationid }))
+  }, [locations])
+    
+
 
 
 
@@ -165,7 +176,13 @@ const Employees: React.FC = () => {
 
     return (
         <div className='report-sales-employee-container'>
-            <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={getDates} />
+                  <StoreFilter
+      storeOptions={locations?.map(((data:any)=>({label:data,value:locationid })))}
+        selectedDate={selectedDate}
+        selectedStore={selectedLocation}
+        setSelectedDate={setSelectedDate}
+        setSelectedStore={(store)=>dispatch(changeLocation(store))}
+      />
             <div className="employee-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="select-employee-container">

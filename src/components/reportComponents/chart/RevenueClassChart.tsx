@@ -5,47 +5,60 @@ import "./RevenueChart.scss";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const data = {
-  labels: ["Food", "North Indian", "South Indian", "Soft Drinks", "South Indian", "Soft Drinks"],
-  datasets: [
-    {
-      label: "Sales",
-      data: [210, 170, 265, 110, 220, 190],
-      backgroundColor: "#B8860B",
-      borderRadius: 5,
-      barPercentage: 0.7,    // Thinner bars
-      categoryPercentage: 0.6,
-    },
-  ],
-};
+interface RevenueChartProps {
+  dataList: Array<{
+    [key: string]: any;  
+  }> | {
+    [key: string]: any;  
+  };
+}
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    tooltip: {
-      callbacks: {
-        label: (tooltipItem: any) => `Sales: $${tooltipItem.raw.toFixed(2)}`,
+const RevenueClassChart: React.FC<RevenueChartProps> = ({dataList}) => {
+  const dataArray = Array.isArray(dataList) ? dataList : Object.entries(dataList || {}).map(([hour, data]) => ({
+    hour,
+    ...data
+  }));
+
+  const data = {
+    labels: dataArray.map((item) => item?.hour) || [],
+    datasets: [
+      {
+        label: "Sales",
+        data: dataArray.map((item) => item?.totalAmount || item?.totalSales || 0) || [],
+        backgroundColor: "#B8860B",
+        borderRadius: 5,
+        barPercentage: 0.7,
+        categoryPercentage: 0.6,
+      },
+    ],
+  };
+  
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem: any) => `Sales: $${tooltipItem.raw?.toFixed(2) || 0}`,
+        },
+      },
+      datalabels: {
+        display: false,
       },
     },
-    datalabels: {
-      display: false,
+    scales: {
+      x: {
+        grid: { display: false },
+      },
+      y: {
+        beginAtZero: true,
+      },
     },
-  },
-  scales: {
-    x: {
-      grid: { display: false },
-    },
-    y: {
-      beginAtZero: true,
-    },
-  },
-};
+  };
 
-const RevenueClassChart = () => {
   return (
     <div style={{ width: "100%", height: "500px" }}>
-        <Bar data={data} options={options} />
+      <Bar data={data} options={options} />
     </div>
   );
 };

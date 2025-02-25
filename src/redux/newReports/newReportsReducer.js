@@ -99,8 +99,44 @@ import {
     BILLED_UNBILLED_REQUEST,
     BILLED_UNBILLED_SUCCESS,
     BILLED_UNBILLED_FAILURE,
+    VOIDED_SUMMARY_REQUEST,
+    VOIDED_SUMMARY_SUCCESS,
+    VOIDED_SUMMARY_FAILURE,
+    DROPDOWN_DETAILS_REQUEST,
+    DROPDOWN_DETAILS_SUCCESS,
+    DROPDOWN_DETAILS_FAILURE,
+    CATEGORY_CHANNEL_SUMMARY_REQUEST,
+    CATEGORY_CHANNEL_SUMMARY_SUCCESS,
+    CATEGORY_CHANNEL_SUMMARY_FAILURE,
+    CATEGORY_SALES_REQUEST,
+    CATEGORY_SALES_SUCCESS,
+    CATEGORY_SALES_FAILURE,
+    CATEGORY_SALES_SUMMARY_REQUEST,
+    CATEGORY_SALES_SUMMARY_SUCCESS,
+    CATEGORY_SALES_SUMMARY_FAILURE,
+    LOCATION_DETAILS_REQUEST,
+    LOCATION_DETAILS_SUCCESS,
+    LOCATION_DETAILS_FAILURE,
+    SELCTED_LOCATION,
+    PAYMENT_DETAILS_SUCCESS,
+    PAYMENT_DETAILS_REQUEST,
+    PAYMENT_DETAILS_FAILURE,
+    SALES_SUMMARY_REPORT_REQUEST,
+    SALES_SUMMARY_REPORT_SUCCESS,
+    SALES_SUMMARY_REPORT_FAILURE,
+    STAFF_SALES_REQUEST,
+    STAFF_SALES_SUCCESS,
+    STAFF_SALES_FAILURE,
+    SALES_CATEGORY_REQUEST,
+    SALES_CATEGORY_SUCCESS,
+    SALES_CATEGORY_FAILURE,
+    SALES_CARD_TYPE_REQUEST,
+    SALES_CARD_TYPE_SUCCESS,
+    SALES_CARD_TYPE_FAILURE,
+    HOURLY_SALES_REPORT_CHART_REQUEST,
+    HOURLY_SALES_REPORT_CHART_SUCCESS,
+    HOURLY_SALES_REPORT_CHART_FAILURE,
 } from "../newReports/newReportsConstants";
-
 
 const initialNewReportsState = {
     // sales summary
@@ -241,6 +277,70 @@ const initialNewReportsState = {
     billedUnbilledLoading: false,
     billedUnbilledSuccess: [],
     billedUnbilledFailure: false,
+
+
+    // voided summary
+    voidedSummaryLoading: false,
+    voidedSummaryData: null,
+    voidedSummaryError: null,
+
+    // dropdown details
+    dropdownDetailsLoading: false,
+    dropdownDetailsData: null,
+    dropdownDetailsError: null,
+
+    // category channel summary
+    categoryChannelSummaryLoading: false,
+    categoryChannelSummaryData: null,
+    categoryChannelSummaryError: null,
+
+    // category sales
+    categorySalesLoading: false,
+    categorySalesData: null,
+    categorySalesError: null,
+
+    // category sales summary
+    categorySalesSummaryLoading: false,
+    categorySalesSummaryData: null,
+    categorySalesSummaryError: null,
+
+    // Location Details
+    locationDetailsLoading: false,
+    locationDetailsData: null,
+    locationDetailsError: null,
+
+
+    // Payment Details
+    paymentDetailsLoading: false,
+    paymentDetailsData: null,
+    paymentDetailsError: null,
+
+    // Sales Summary Report
+    salesSummaryReportData: {},
+    salesSummaryReportLoading: false,
+    salesSummaryReportError: null,
+
+    // Staff Sales
+    staffSalesData: [],
+    staffSalesLoading: false,
+    staffSalesError: null,
+
+    // Sales Category
+    salesCategoryLoading: false,
+    salesCategoryData: null,
+    salesCategoryError: null,
+
+    // Sales Card Type
+    salesCardTypeLoading: false,
+    salesCardTypeData: null,
+    salesCardTypeError: null,
+
+    // Hourly Sales Report Chart
+    hourlySalesReportChartLoading: false,
+    hourlySalesReportChartData: null,
+    hourlySalesReportChartError: null,
+
+    selectedLocation:{}
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -626,7 +726,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.dailyHourlyGuestsSuccess = [];
                 draft.dailyHourlyGuestsFailure = true;
                 break;
-            // daily hourly checkIn
+            // daily hourly checkin
             case DAILY_HOURLY_CHECKIN_REQUEST:
                 draft.dailyHourlyCheckInLoading = true;
                 draft.dailyHourlyCheckInSuccess = [];
@@ -790,6 +890,204 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.billedUnbilledSuccess = [];
                 draft.billedUnbilledFailure = true;
                 break;
+            // Voided Summary
+            case VOIDED_SUMMARY_REQUEST:
+                draft.voidedSummaryLoading = true;
+                draft.voidedSummaryData = null;
+                draft.voidedSummaryError = null;
+                break;
+            case VOIDED_SUMMARY_SUCCESS:
+                draft.voidedSummaryLoading = false;
+                draft.voidedSummaryData = action.payload;
+                draft.voidedSummaryError = null;
+                break;
+            case VOIDED_SUMMARY_FAILURE:
+                draft.voidedSummaryLoading = false;
+                draft.voidedSummaryData = null;
+                draft.voidedSummaryError = action.payload;
+                break;
+
+            // Dropdown Details
+            case DROPDOWN_DETAILS_REQUEST:
+                draft.dropdownDetailsLoading = true;
+                draft.dropdownDetailsError = null;
+                break;
+            case DROPDOWN_DETAILS_SUCCESS:
+                draft.dropdownDetailsLoading = false;
+                draft.dropdownDetailsData = action.payload;
+                draft.dropdownDetailsError = null;
+                break;
+            case DROPDOWN_DETAILS_FAILURE:
+                draft.dropdownDetailsLoading = false;
+                draft.dropdownDetailsData = null;
+                draft.dropdownDetailsError = action.payload;
+                break;
+
+            // Category Channel Summary
+            case CATEGORY_CHANNEL_SUMMARY_REQUEST:
+                draft.categoryChannelSummaryLoading = true;
+                draft.categoryChannelSummaryError = null;
+                break;
+            case CATEGORY_CHANNEL_SUMMARY_SUCCESS:
+                draft.categoryChannelSummaryLoading = false;
+                draft.categoryChannelSummaryData = action.payload;
+                break;
+            case CATEGORY_CHANNEL_SUMMARY_FAILURE:
+                draft.categoryChannelSummaryLoading = false;
+                draft.categoryChannelSummaryError = action.payload;
+                break;
+
+            // Category Sales
+            case CATEGORY_SALES_REQUEST:
+                draft.categorySalesLoading = true;
+                draft.categorySalesError = null;
+                break;
+            case CATEGORY_SALES_SUCCESS:
+                draft.categorySalesLoading = false;
+                draft.categorySalesData = action.payload;
+                draft.categorySalesError = null;
+                break;
+            case CATEGORY_SALES_FAILURE:
+                draft.categorySalesLoading = false;
+                draft.categorySalesError = action.payload;
+                break;
+
+            // Category Sales Summary
+            case CATEGORY_SALES_SUMMARY_REQUEST:
+                draft.categorySalesSummaryLoading = true;
+                draft.categorySalesSummaryError = null;
+                break;
+            case CATEGORY_SALES_SUMMARY_SUCCESS:
+                draft.categorySalesSummaryLoading = false;
+                draft.categorySalesSummaryData = action.payload; 
+                draft.categorySalesSummaryError = null;
+                break;
+            case CATEGORY_SALES_SUMMARY_FAILURE:
+                draft.categorySalesSummaryLoading = false;
+                draft.categorySalesSummaryError = action.payload;
+                break;
+
+            // Location Details
+            case LOCATION_DETAILS_REQUEST:
+                draft.locationDetailsLoading = true;
+                draft.locationDetailsError = null;
+                break;
+            case LOCATION_DETAILS_SUCCESS:
+                draft.locationDetailsLoading = false;
+                draft.locationDetailsData = action.payload;
+                draft.locationDetailsError = null;
+                break;
+            case LOCATION_DETAILS_FAILURE:
+                draft.locationDetailsLoading = false;
+                draft.locationDetailsData = null;
+                draft.locationDetailsError = action.payload;
+                break;
+
+               // Location Details
+               case PAYMENT_DETAILS_REQUEST:
+                draft.locationDetailsLoading = true;
+                draft.locationDetailsError = null;
+                break;
+            case PAYMENT_DETAILS_SUCCESS:
+                draft.locationDetailsLoading = false;
+                draft.locationDetailsData = action.payload;
+                draft.locationDetailsError = null;
+                break;
+            case PAYMENT_DETAILS_FAILURE:
+                draft.paymentDetailsLoading = false;
+                draft.paymentDetailsData = null;
+                draft.paymentDetailsError = action.payload;
+                break;
+
+                case SELCTED_LOCATION:
+                    draft.selectedLocation = action.payload;
+                    break;
+
+            // Staff Sales
+            case STAFF_SALES_REQUEST:
+                draft.staffSalesData = [];
+                draft.staffSalesLoading = true;
+                draft.staffSalesError = null;
+                break;
+            case STAFF_SALES_SUCCESS:
+                draft.staffSalesData = action.payload;
+                draft.staffSalesLoading = false;
+                draft.staffSalesError = null;
+                break;
+            case STAFF_SALES_FAILURE:
+                draft.staffSalesData = [];
+                draft.staffSalesLoading = false;
+                draft.staffSalesError = action.payload;
+                break;
+
+            // Sales Summary Report
+            case SALES_SUMMARY_REPORT_REQUEST:
+                draft.salesSummaryReportData = {};
+                draft.salesSummaryReportLoading = true;
+                draft.salesSummaryReportError = null;
+                break;
+            case SALES_SUMMARY_REPORT_SUCCESS:
+                draft.salesSummaryReportData = action.payload;
+                draft.salesSummaryReportLoading = false;
+                draft.salesSummaryReportError = null;
+                break;
+            case SALES_SUMMARY_REPORT_FAILURE:
+                draft.salesSummaryReportData = {};
+                draft.salesSummaryReportLoading = false;
+                draft.salesSummaryReportError = action.payload;
+                break;
+
+            // Sales Category
+            case SALES_CATEGORY_REQUEST:
+                draft.salesCategoryLoading = true;
+                draft.salesCategoryData = null;
+                draft.salesCategoryError = null;
+                break;
+            case SALES_CATEGORY_SUCCESS:
+                draft.salesCategoryLoading = false;
+                draft.salesCategoryData = action.payload;
+                draft.salesCategoryError = null;
+                break;
+            case SALES_CATEGORY_FAILURE:
+                draft.salesCategoryLoading = false;
+                draft.salesCategoryData = null;
+                draft.salesCategoryError = action.payload;
+                break;
+
+            // Sales Card Type
+            case SALES_CARD_TYPE_REQUEST:
+                draft.salesCardTypeLoading = true;
+                draft.salesCardTypeData = null;
+                draft.salesCardTypeError = null;
+                break;
+            case SALES_CARD_TYPE_SUCCESS:
+                draft.salesCardTypeLoading = false;
+                draft.salesCardTypeData = action.payload;
+                draft.salesCardTypeError = null;
+                break;
+            case SALES_CARD_TYPE_FAILURE:
+                draft.salesCardTypeLoading = false;
+                draft.salesCardTypeData = null;
+                draft.salesCardTypeError = action.payload;
+                break;
+
+            // Hourly Sales Report Chart
+            case HOURLY_SALES_REPORT_CHART_REQUEST:
+                draft.hourlySalesReportChartLoading = true;
+                draft.hourlySalesReportChartData = null;
+                draft.hourlySalesReportChartError = null;
+                break;
+            case HOURLY_SALES_REPORT_CHART_SUCCESS:
+                draft.hourlySalesReportChartLoading = false;
+                draft.hourlySalesReportChartData = action.payload;
+                draft.hourlySalesReportChartError = null;
+                break;
+            case HOURLY_SALES_REPORT_CHART_FAILURE:
+                draft.hourlySalesReportChartLoading = false;
+                draft.hourlySalesReportChartData = null;
+                draft.hourlySalesReportChartError = action.payload;
+                break;
+
             default:
                 break;
         }

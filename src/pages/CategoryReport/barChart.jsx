@@ -13,28 +13,14 @@ import {
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-// Example data array storing both sales and quantity
-const categories = [
-  { label: "Dessert",         sales: 520, qty: 24 },
-  { label: "Morning Delight", sales: 340, qty: 18 },
-  { label: "Accompaniments",  sales: 400, qty: 12 },
-  { label: "Appetizers",      sales: 420, qty: 20 },
-  { label: "North Indian",    sales: 480, qty: 25 },
-  { label: "Beverages",       sales: 300, qty: 10 },
-  { label: "House Specials",  sales: 500, qty: 22 },
-  { label: "Non veg Soups",   sales: 450, qty: 16 },
-  { label: "Dosai Corner",    sales: 280, qty: 15 },
-  { label: "North Indian",    sales: 390, qty: 19 },
-];
-
-function LinearBarChart({ barColorCode  }) {
+function LinearBarChart({ barColorCode, dataList  }) {
   // Prepare the Chart.js data object
   const data = {
-    labels: categories.map((cat) => cat.label),
+    labels: dataList?.map((cat) => cat?.categoryName)||[],
     datasets: [
       {
         label: "Sales",
-        data: categories.map((cat) => cat.sales),
+        data: dataList?.map((cat) => cat?.totalItemPrice)||[],
         backgroundColor: barColorCode,
         barPercentage: 0.4,    // Thinner bars
         categoryPercentage: 0.6,
@@ -62,13 +48,13 @@ function LinearBarChart({ barColorCode  }) {
           title: (tooltipItems) => {
             if (!tooltipItems.length) return "";
             const { dataIndex } = tooltipItems[0];
-            return categories[dataIndex].label;
+            return dataList[dataIndex].categoryName;
           },
           // Multi-line body: Qty and Sales
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
-            const cat = categories[idx];
-            return [`Qty: ${cat.qty}`, `Sales: $${cat.sales.toFixed(2)}`];
+            const cat = dataList[idx];
+            return [`Qty: ${cat?.itemCount}`, `Sales: $${cat?.totalItemPrice.toFixed(2)}`];
           },
         },
 

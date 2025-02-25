@@ -5,19 +5,25 @@ import "./chart.scss";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+
+
+
+const CardTypeChart = ({dataList}: {dataList: any[]}) => {
+
+
 const data = {
-  labels: ["Amex", "Discover", "Visa", "Master", "RuPay"],
+  labels:  dataList?.map((item:any) => item?.label),
   datasets: [
     {
       label: "Credit card",
-      data: [270, 150, 154.5, 100, 130],
+      data:  dataList?.filter((item:any) => item?.cardType === "Credit card")?.map((item:any) => item?.amount),
       backgroundColor: "#2196F3", // Blue
       barPercentage: 0.7,    // Thinner bars
       categoryPercentage: 0.6,
     },
     {
       label: "Debit card",
-      data: [0, 100, 110.5, 110, 140],
+      data: dataList?.filter((item:any) => item?.cardType === "Debit card")?.map((item:any) => item?.amount),
       backgroundColor: "#D98F2B", // Orange
       barPercentage: 0.7,    // Thinner bars
       categoryPercentage: 0.6,
@@ -34,7 +40,7 @@ const options = {
     tooltip: {
       callbacks: {
         label: (tooltipItem: any) => {
-          return `${tooltipItem.dataset.label}: $${tooltipItem.raw}`;
+          return `${tooltipItem?.dataset?.label}: $${tooltipItem?.raw?.toFixed(2) || 0}`;
         },
       },
     },
@@ -48,10 +54,6 @@ const options = {
   },
 };
 
-
-
-
-const CardTypeChart = () => {
   return (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />

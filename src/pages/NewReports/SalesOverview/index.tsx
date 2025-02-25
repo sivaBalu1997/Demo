@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { billerUnbilledRequest, cancellationSummaryRequest, changeLocation, discountSummaryRequest, hourlySalesReportChartRequest, locationDetailsRequest, paymentDetailsRequest, salesCardTypeRequest, salesCategoryRequest, salesSummaryReportRequest, staffSalesRequest } from 'redux/newReports/newReportsActions';
 import ReportsNotFound from "components/reportComponents/ReportsNotFound";
-import SalesCard from "components/reportComponents/SalesCard";
+// import SalesCard from "components/reportComponents/SalesCard";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
 import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
@@ -10,10 +12,10 @@ import RevenueClassChart from "components/reportComponents/chart/RevenueClassCha
 import StoreFilter from "components/reportComponents/StoreFilter";
 import "./SalesOverview.scss";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
-import TenderCard from "components/reportComponents/TendorTypeCard/TendorCard";
+// import TenderCard from "components/reportComponents/TendorTypeCard/TendorCard";
 
-import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow-down.svg";
-import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow-down.svg";
+// import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow-down.svg";
+// import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow-down.svg";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
 import { ReactComponent as KeyedInIcon } from "../../../assets/svg/pay-card.svg";
 import { ReactComponent as CashIcon } from "../../../assets/svg/pay-cash.svg";
@@ -33,7 +35,6 @@ import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import LinearBarChart from "pages/CategoryReport/barChart";
 import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
-import { useSelector } from "react-redux";
 
 const tabs = [
   "Today's report",
@@ -43,6 +44,21 @@ const tabs = [
   "Trends",
 ];
 interface ReportProps {}
+
+interface TenderTypeItem {
+  paymentMode:string;
+  totalSales: number;
+  totalOrders: number;
+  type?: string;
+  salesPercentage: string;
+  cardName?: string | null;
+  premises: 'ONPREM'|'third party'| string;
+  cardType?: string | null;
+  onPremOrders?: number;
+  onPremSales?: number;
+  offPremOrders?: number;
+  offPremSales?: number;
+}
 
 const SalesOverview: React.FC<ReportProps> = () => {
   const restaurantDetails = useSelector(
@@ -60,101 +76,92 @@ const SalesOverview: React.FC<ReportProps> = () => {
     label: "Yesterday",
     value: "Yesterday",
   });
-  const [selectedStore, setSelectedStore] = useState(
-    mappedIdWithBranchName?.[0]
-  );
-  const salesData = [
-    {
-      type: "Total Sales",
-      amount: "$8500.90",
-      trend: "+20%",
-      positive: true,
-      showLineChart: true,
-    },
-    {
-      type: "Net Sales",
-      amount: "$6990.50",
-      trend: "+20%",
-      positive: true,
-      showLineChart: true,
-    },
-    {
-      type: "Total Tax",
-      amount: "$425.00",
-      trend: "-20%",
-      positive: false,
-      showLineChart: true,
-    },
-    {
-      type: "Total Tips",
-      amount: "$250.00",
-      trend: "-20%",
-      positive: false,
-      showLineChart: true,
-    },
-  ];
 
-  const tenderData = [
-    {
-      icon: <PayTapIcon />,
-      title: "Swipe/Tap/Dip",
-      amount: "$3058.50",
-      orders: 46,
-      percentage: 18,
-      details: {
-        onPremOrders: 35,
-        onPremSales: "$2520.00",
-        offPremOrders: 11,
-        offPremSales: "$1536.50",
-      },
-    },
-    {
-      icon: <PayTapIcon />,
-      title: "Keyed In",
-      amount: "$3058.50",
-      orders: 46,
-      percentage: 6,
-      details: {
-        onPremOrders: 35,
-        onPremSales: "$2520.00",
-        offPremOrders: 11,
-        offPremSales: "$1536.50",
-      },
-    },
-    {
-      icon: <PayTapIcon />,
-      title: "Cash",
-      amount: "$3058.50",
-      orders: 46,
-      percentage: 13,
-    },
-    {
-      icon: <PayTapIcon />,
-      title: "UberEats",
-      amount: "$3058.50",
-      orders: 46,
-      percentage: 12,
-    },
-    {
-      icon: <PayTapIcon />,
-      title: "Google Pay",
-      amount: "$3058.50",
-      orders: 46,
-      percentage: 29,
-    },
-  ];
   const datepickerApply = (data1: any, data2: any) => {
     console.log(data1, data2, "selected Date is here");
   };
+  
+  const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>({})
+/******************************************************************************************* */
+   const locationId = useSelector((state: any) => state?.auth?.credentials?.locationId)
+   const locations=useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
+       const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+       const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData)
+       const salesSummary=useSelector((state: any) => state?.newReports?.salesSummaryReportData)
+       const staffSalesData=useSelector((state: any) => state?.newReports?.staffSalesData)
+      const salesCardTypeData=useSelector((state: any) => state?.newReports?.salesCardTypeData)
+       const salesCategory=useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess)
+
+       const discountSummary=useSelector((state: any) => state?.newReports?.discountSummarySuccess)
+
+       const cancellationSummary=useSelector((state: any) => state?.newReports?.cancellationSummarySuccess)
+ const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
+       const dispatch = useDispatch();
+       useEffect(() => {
+console.log({
+  selectedLocation,
+  tendorTypes,
+  salesSummary,
+  staffSalesData,
+  salesCardTypeData,
+  salesCategory ,
+  discountSummary,
+  cancellationSummary,
+  hourlySalesReportChartData
+})
+    }, [selectedLocation,tendorTypes,salesSummary,staffSalesData,salesCardTypeData,salesCategory , discountSummary,cancellationSummary,hourlySalesReportChartData])
+
+    useEffect(() => {
+        dispatch(locationDetailsRequest({ locationId }))
+    }, [locationId])
+
+
+    useEffect(() => {
+      dispatch(changeLocation({label:locations?.[0],value:locationId }))
+  }, [locations])
+  /******************************************************************************************* */
+  
+       useEffect(() => {
+        Promise.all([
+          dispatch(paymentDetailsRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1,startDate:"2024-12-01" , endDate:"2024-12-31"})),
+          dispatch(salesSummaryReportRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1 ,startDate:"2024-12-01" , endDate:"2024-12-31"})),
+          dispatch(staffSalesRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1 ,startDate:"2024-12-01" , endDate:"2024-12-31"})),
+          dispatch(salesCardTypeRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1,startDate:"2024-12-01" , endDate:"2024-12-31"})),
+          dispatch(salesCategoryRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1,startDate:"2024-12-01" , endDate:"2024-12-31"})),
+          dispatch(discountSummaryRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1,startDate:"2024-12-01" , endDate:"2024-12-31"})),
+          dispatch(cancellationSummaryRequest({ locationid :selectedLocation?.value,tableRecordLimit:100,tablePageNo:1,startDate:"2024-12-01" , endDate:"2024-12-31"}))
+        ])
+
+    }, [selectedLocation])
+
+
+
+    const arrayToObject = (arr: TenderTypeItem[]=[]) => {
+      return arr?.reduce((acc, item) => {
+        acc[`${item?.paymentMode}`] = item;
+        return acc;
+      }, {} as Record<string, TenderTypeItem>);
+    }
+
+
+    useEffect(() => {
+      setTenderType(arrayToObject(tendorTypes))
+      console.log(arrayToObject(tendorTypes),tendorTypes);
+      
+  }, [tendorTypes])
+
+
+
   return (
     <>
       {/* Date and Store */}
       <StoreFilter
+      storeOptions={locations?.map(((data:any)=>({label:data,value:locationId })))}
         selectedDate={selectedDate}
-        selectedStore={selectedStore}
+        selectedStore={selectedLocation}
         setSelectedDate={setSelectedDate}
-        setSelectedStore={setSelectedStore}
         datePickerApplyFunction={datepickerApply}
+        setSelectedStore={(store)=>dispatch(changeLocation(store))}
       />
 
       {/*  ReportsNotFound*/}
@@ -175,10 +182,12 @@ const SalesOverview: React.FC<ReportProps> = () => {
             </div>
           </div>
         </div>
-        <div className="todays-report-sales-overview-box-container">
+
+       <div className="todays-report-sales-overview-box-container">
           <CardWithMiniGraph
             cardTitle="Total Sales"
-            cardValue={8500.9}
+            cardValue={salesSummary?.totalMagilSales}
+            incrementDecrementValue={salesSummary?.totalSalesPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -188,7 +197,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Net Sales"
-            cardValue={6990.9}
+            cardValue={salesSummary?.totalMagilNetSales}
+            incrementDecrementValue={salesSummary?.netSalesPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -198,7 +208,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Total Tax"
-            cardValue={425.0}
+            cardValue={salesSummary?.totalMagilTax}
+            incrementDecrementValue={salesSummary?.totalTaxPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -208,7 +219,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Total Tips"
-            cardValue={250.0}
+            cardValue={salesSummary?.totalMagilTips}
+            incrementDecrementValue={salesSummary?.totalTipsPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -218,7 +230,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Gratuity"
-            cardValue={350.0}
+            cardValue={salesSummary?.gratuity}
+            incrementDecrementValue={salesSummary?.gratuityPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -228,7 +241,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Transactions"
-            cardValue={2135}
+            cardValue={salesSummary?.totalMagilOrders}
+            incrementDecrementValue={salesSummary?.transactionPercentage}
             isMonetary={false}
             loader={false}
             showMiniGraph={true}
@@ -238,7 +252,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Discount"
-            cardValue={155.5}
+            cardValue={salesSummary?.discounts}
+            incrementDecrementValue={salesSummary?.discountPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -248,7 +263,8 @@ const SalesOverview: React.FC<ReportProps> = () => {
           />
           <CardWithMiniGraph
             cardTitle="Cancelled"
-            cardValue={80.0}
+            cardValue={salesSummary?.cancelledOrders}
+            incrementDecrementValue={salesSummary?.cancelledPercentage}
             isMonetary={true}
             loader={false}
             showMiniGraph={true}
@@ -260,15 +276,11 @@ const SalesOverview: React.FC<ReportProps> = () => {
       </div>
 
       {/* Tendor type */}
-      {/* <div className="tender-list">
-      {tenderData.map((tender, index) => (
-        <TenderCard key={index} {...tender} />
-      ))}
-    </div> */}
+
       <div>
         <h2 className="sales-overview-sub-heading ">Tendor Type</h2>
       </div>
-      <div className="reports-tendor-container">
+      {/* <div className="reports-tendor-container">
         <div className="left-section">
           <h3 className="tender-type-sub-heading">Debit card</h3>
           <div className="tender-type-container">
@@ -276,25 +288,25 @@ const SalesOverview: React.FC<ReportProps> = () => {
               icon={<PayTapIcon />}
               tendorTitle="Swipe/Tap/Dip"
               expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Swipe/Tap/Dip"]?.totalSales || 0}
+              orders={tenderType?.["Swipe/Tap/Dip"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Swipe/Tap/Dip"]?.salesPercentage || 0)}
+              onPremOrders={tenderType?.["Swipe/Tap/Dip"]?.onPremOrders || 0}
+              onPremSales={tenderType?.["Swipe/Tap/Dip"]?.onPremSales || 0}
+              offPremOrders={tenderType?.["Swipe/Tap/Dip"]?.offPremOrders || 0}
+              offPremSales={tenderType?.["Swipe/Tap/Dip"]?.offPremSales || 0}
             />
             <TenderType
               icon={<KeyedInIcon />}
               tendorTitle="Keyed In"
               expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Keyed In"]?.totalSales || 0}
+              orders={tenderType?.["Keyed In"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Keyed In"]?.salesPercentage || 0)}
+              onPremOrders={tenderType?.["Keyed In"]?.onPremOrders || 0}
+              onPremSales={tenderType?.["Keyed In"]?.onPremSales || 0}
+              offPremOrders={tenderType?.["Keyed In"]?.offPremOrders || 0}
+              offPremSales={tenderType?.["Keyed In"]?.offPremSales || 0}
             />
           </div>
           <div className="tender-type-container">
@@ -302,54 +314,35 @@ const SalesOverview: React.FC<ReportProps> = () => {
             <TenderType
               icon={<CashIcon />}
               tendorTitle="Cash"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
-            />
+              amount={tenderType?.["CASH"]?.totalSales || 0}
+              orders={tenderType?.["CASH"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["CASH"]?.salesPercentage || 0)}
+             />
           </div>
           <h3 className="tender-type-sub-heading">Aggregators</h3>
           <div className="tender-type-container">
             <TenderType
               icon={<UberEatsIcon />}
               tendorTitle="UberEats"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["UberEats"]?.totalSales || 0}
+              orders={tenderType?.["UberEats"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["UberEats"]?.salesPercentage || 0)}
             />
             <TenderType
               icon={<GrubHubIcon />}
               tendorTitle="Grubhub"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Grubhub"]?.totalSales || 0}
+              orders={tenderType?.["Grubhub"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Grubhub"]?.salesPercentage || 0)}
             />
             <TenderType
               icon={<DoordashIcon />}
               tendorTitle="Doordash"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Doordash"]?.totalSales || 0}
+              orders={tenderType?.["Doordash"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Doordash"]?.salesPercentage || 0)}
             />
+
           </div>
         </div>
         <div className="right-section">
@@ -359,25 +352,25 @@ const SalesOverview: React.FC<ReportProps> = () => {
               icon={<PayTapIcon />}
               tendorTitle="Swipe/Tap/Dip"
               expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Swipe/Tap/Dip"]?.totalSales || 0}
+              orders={tenderType?.["Swipe/Tap/Dip"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Swipe/Tap/Dip"]?.salesPercentage || 0)}
+              onPremOrders={tenderType?.["Swipe/Tap/Dip"]?.onPremOrders || 0}
+              onPremSales={tenderType?.["Swipe/Tap/Dip"]?.onPremSales || 0}
+              offPremOrders={tenderType?.["Swipe/Tap/Dip"]?.offPremOrders || 0}
+              offPremSales={tenderType?.["Swipe/Tap/Dip"]?.offPremSales || 0}
             />
             <TenderType
               icon={<KeyedInIcon />}
               tendorTitle="Keyed In"
               expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Keyed In"]?.totalSales || 0}
+              orders={tenderType?.["Keyed In"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Keyed In"]?.salesPercentage || 0)}
+              onPremOrders={tenderType?.["Keyed In"]?.onPremOrders || 0}
+              onPremSales={tenderType?.["Keyed In"]?.onPremSales || 0}
+              offPremOrders={tenderType?.["Keyed In"]?.offPremOrders || 0}
+              offPremSales={tenderType?.["Keyed In"]?.offPremSales || 0}
             />
           </div>
 
@@ -386,26 +379,17 @@ const SalesOverview: React.FC<ReportProps> = () => {
             <TenderType
               icon={<CouponsIcon />}
               tendorTitle="Coupons"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Coupons"]?.totalSales || 0}
+              orders={tenderType?.["Coupons"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Coupons"]?.salesPercentage || 0)}
+
             />
             <TenderType
               icon={<GiftCardIcon />}
               tendorTitle="Gift Card"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Gift Card"]?.totalSales || 0}
+              orders={tenderType?.["Gift Card"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Gift Card"]?.salesPercentage || 0)}
             />
           </div>
 
@@ -414,66 +398,50 @@ const SalesOverview: React.FC<ReportProps> = () => {
             <TenderType
               icon={<GooglePayIcon />}
               tendorTitle="Google Pay"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Google Pay"]?.totalSales || 0}
+              orders={tenderType?.["Google Pay"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Google Pay"]?.salesPercentage || 0)}
             />
             <TenderType
               icon={<ApplePayIcon />}
               tendorTitle="Apple Pay"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["Apple Pay"]?.totalSales || 0}
+              orders={tenderType?.["Apple Pay"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["Apple Pay"]?.salesPercentage || 0)}
             />
             <TenderType
               icon={<OfflineQRIcon />}
               tendorTitle="Offline QR"
-              expandable={true}
-              amount={2500}
-              orders={25}
-              percentage={80}
-              onPremOrders={15}
-              onPremSales={150}
-              offPremOrders={10}
-              offPremSales={100}
+              amount={tenderType?.["OFFLINE_QR"]?.totalSales || 0}
+              orders={tenderType?.["OFFLINE_QR"]?.totalOrders || 0}
+              percentage={Number(tenderType?.["OFFLINE_QR"]?.salesPercentage || 0)}
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <h2 className="sales-overview-sub-heading ">By Card Type</h2>
-      <CardTypeChart />
+      {/* <h2 className="sales-overview-sub-heading ">By Card Type</h2>
+      <CardTypeChart dataList={salesCardTypeData} />
 
       <h2 className="sales-overview-sub-heading ">By Employees</h2>
-      <EmployeeSalesChart />
+      <EmployeeSalesChart dataList={staffSalesData} />
 
       <h2 className="sales-overview-sub-heading ">By Channel</h2>
-      <ChannelSalesChart />
+      <ChannelSalesChart  dataList={staffSalesData} />
 
       <div className="sales-overview-doughnut-chart-container">
         <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">By Discount</h2>
           <DoughnutChartWithButton />
+          // <DiscountAndVoidedOrders dataList={discountSummary} />
         </div>
         <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-          <DoughnutChartWithButton />
+          <DiscountAndVoidedOrders dataList={cancellationSummary} />
         </div>
       </div>
-      <div>
-        <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-        <RevenueClassChart />
-      </div>
+      <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
+      <RevenueClassChart dataList={hourlySalesReportChartData} /> */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
 import { useDispatch, useSelector } from 'react-redux';
-import { billerUnbilledRequest, liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from 'redux/newReports/newReportsActions';
+import { billerUnbilledRequest, changeLocation, liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest, locationDetailsRequest } from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
 
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
@@ -10,9 +10,9 @@ import moment from 'moment';
 import NewTable from 'components/reportComponents/NewTable';
 // import CustomDropdown from "../../../../src/components/common/customDropdown/index";
 import "./style.scss";
-import CustomDropdown from 'components/common/customDropdown';
-import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
-import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
+// import CustomDropdown from 'components/common/customDropdown';
+// import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
+// import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 
 
@@ -61,6 +61,19 @@ const TodaysReport: React.FC = () => {
         (state: any) => state?.auth?.restaurantDetails?.country
     );
 
+  const locations = useSelector((state:any) => state?.newReports?.locationDetailsData?.content)
+  const selectedLocation = useSelector((state:any) => state?.newReports?.selectedLocation)
+
+
+  useEffect(() => {
+    dispatch(locationDetailsRequest({ locationid }))
+  }, [locationid])
+
+
+  useEffect(() => {
+    dispatch(changeLocation({ label: locations?.[0], value: locationid }))
+  }, [locations])
+    
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
@@ -187,7 +200,8 @@ const TodaysReport: React.FC = () => {
 
     return (
         <div className='todays-report-container'>
-            <StoreFilter selectedStore={selectedStore} setSelectedStore={setSelectedStore} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
+            <StoreFilter  storeOptions={locations?.map(((data:any)=>({label:data,value:locationid })))}
+            selectedStore={selectedLocation}  setSelectedStore={(store)=>dispatch(changeLocation(store))} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
 
             <SwitchableBox
                 textOne="Overall"
