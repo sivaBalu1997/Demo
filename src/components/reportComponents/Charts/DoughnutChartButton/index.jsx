@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -6,41 +6,11 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const slices = [
-  {
-    label: "Service delay",
-    value: 22,
-    color: "#0FB36A",
-    items: 125,
-    amount: 87.5,
-  },
-  {
-    label: "Wrong order",
-    value: 13,
-    color: "#F99D2B",
-    items: 55,
-    amount: 45,
-  },
-  {
-    label: "Taste issue",
-    value: 21,
-    color: "#B33BB3",
-    items: 78,
-    amount: 60.0,
-  },
-  {
-    label: "Missing item",
-    value: 21,
-    color: "#14C9C9",
-    items: 90,
-    amount: 72.1,
-  },
-  {
-    label: "Extra order",
-    value: 23,
-    color: "#E3313C",
-    items: 100,
-    amount: 80.0,
-  },
+  { label: "Service delay", value: 22, color: "#0FB36A", items: 125, amount: 87.5 },
+  { label: "Wrong order", value: 13, color: "#F99D2B", items: 55, amount: 45 },
+  { label: "Taste issue", value: 21, color: "#B33BB3", items: 78, amount: 60.0 },
+  { label: "Missing item", value: 21, color: "#14C9C9", items: 90, amount: 72.1 },
+  { label: "Extra order", value: 23, color: "#E3313C", items: 100, amount: 80.0 },
 ];
 
 const totalDisplay = "$1200.50";
@@ -48,10 +18,7 @@ const totalDisplay = "$1200.50";
 const centerTextPlugin = {
   id: "centerText",
   beforeDraw: (chart) => {
-    const {
-      ctx,
-      chartArea: { left, right, top, bottom },
-    } = chart;
+    const { ctx, chartArea: { left, right, top, bottom } } = chart;
     const centerX = (left + right) / 2;
     const centerY = (top + bottom) / 2;
     ctx.save();
@@ -68,15 +35,71 @@ const centerTextPlugin = {
 
 function DoughnutChartWithButton() {
   const chartRef = useRef(null);
+  const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
+  const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Update window width on resize to trigger re-render.
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const computeLabelPositions = useCallback(() => {
+    if (chartRef.current) {
+      const meta = chartRef.current.getDatasetMeta(0);
+      if (meta && meta.data.length > 0) {
+        const positions = meta.data.map((arc) => {
+          const centerX = arc.x;
+          const centerY = arc.y;
+          const angle = (arc.startAngle + arc.endAngle) / 2;
+          const offset = 20; // Adjust offset as needed
+          return {
+            x: centerX + (arc.outerRadius + offset) * Math.cos(angle),
+            y: centerY + (arc.outerRadius + offset) * Math.sin(angle),
+          };
+        });
+        setLabelPositions(positions);
+      }
+    }
+  }, []);
+  // Force recalculation on initial render after a short delay.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      computeLabelPositions();
+    }, 500); // 500ms delay to allow chart rendering
+    return () => clearTimeout(timer);
+  }, [computeLabelPositions]);
+
+  // Recompute label positions when windowWidth changes.
+  useEffect(() => {
+    computeLabelPositions();
+  }, [windowWidth, computeLabelPositions]);
+
+  // Also re-calc positions when container size changes.
+  useEffect(() => {
+    if (containerRef.current) {
+      const resizeObserver = new ResizeObserver(() => {
+        computeLabelPositions();
+      });
+      resizeObserver.observe(containerRef.current);
+      return () => resizeObserver.disconnect();
+    }
+  }, [containerRef, computeLabelPositions]);
+
+  // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
+
 
   const handleHover = (event, elements) => {
     if (elements.length > 0) {
       const index = elements[0].index;
       if (!hoverInfo || hoverInfo.index !== index) {
-        const center = elements[0].element.getCenterPoint();
-        setHoverInfo({ index, x: center.x, y: center.y });
+        const pos = labelPositions[index];
+        if (pos) {
+          setHoverInfo({ index, x: pos.x, y: pos.y });
+        }
       }
     } else {
       if (!overlayHoverRef.current) {
@@ -96,20 +119,6 @@ function DoughnutChartWithButton() {
       },
     ],
   };
-  const datalabels = {
-    color: "#fff",
-    font: { weight: "bold", size: 14 },
-    formatter: (value) => `${value}%`, // Ensure percentage display
-    align: "end", // Position near the edge
-    anchor: "center", // Keeps label within slice
-    offset: 5, // Reduce offset to bring labels closer
-    backgroundColor: "#fff",
-    borderColor: (ctx) => ctx.dataset.backgroundColor[ctx.dataIndex],
-    borderWidth: 2,
-    borderRadius: 6,
-    padding: { top: 4, bottom: 4, left: 6, right: 6 },
-    textAlign: "center",
-  };
 
   const options = {
     responsive: true,
@@ -119,14 +128,13 @@ function DoughnutChartWithButton() {
     plugins: {
       tooltip: { enabled: false },
       legend: { position: "bottom", labels: { padding: 20 } },
-      datalabels: {
-        display: false,
-      },
+      datalabels: { display: false },
     },
   };
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: "100%",
         maxWidth: "600px",
@@ -148,79 +156,71 @@ function DoughnutChartWithButton() {
         plugins={[centerTextPlugin]}
       />
 
-      {/* Floating labels for percentages and hover details */}
-      {slices.map((slice, index) => {
-        const element = chartRef.current?.getDatasetMeta(0)?.data[index];
-        if (!element) return null;
-
-        const center = element.tooltipPosition();
-        const angle =
-          element.startAngle + (element.endAngle - element.startAngle) / 2;
-        const radiusOffset = 20; // Move labels slightly outward
-
-        const newX = center.x + radiusOffset * Math.cos(angle);
-        const newY = center.y + radiusOffset * Math.sin(angle);
-
-        const isHovered = hoverInfo && hoverInfo.index === index;
-
-        return (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              left: `${isHovered ? center.x : newX}px`,
-              top: `${isHovered ? center.y : newY}px`,
-              transform: "translate(-50%, -50%)",
-              background: "#fff",
-              border: `2px solid ${slice.color}`,
-              borderRadius: isHovered ? "8px" : "0px",
-              padding: isHovered ? "12px" : "6px",
-              boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-              textAlign: "center",
-              fontSize: "14px",
-              fontWeight: "bold",
-              pointerEvents: "auto",
-              transition: "all 0.2s ease-in-out",
-              zIndex: 10,
-            }}
-            onMouseEnter={() => {
-              overlayHoverRef.current = true;
-              setHoverInfo({ index, x: newX, y: newY });
-            }}
-            onMouseLeave={() => {
-              overlayHoverRef.current = false;
-              setHoverInfo(null);
-            }}
-          >
-            {!isHovered ? (
-              <span style={{ color: slice.color }}>{slice.value}%</span>
-            ) : (
-              <>
-                <div style={{ color: slice.color, marginBottom: "5px" }}>
-                  {slice.label}
-                </div>
-                <div style={{ marginBottom: "5px" }}>
-                  Total items: {slice.items} <br />
-                  Amount: ${slice.amount.toFixed(2)}
-                </div>
-                <button
-                  style={{
-                    background: slice.color,
-                    color: "#fff",
-                    border: "none",
-                    padding: "5px 10px",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => alert(`Viewing details for ${slice.label}`)}
-                >
-                  View Details
-                </button>
-              </>
-            )}
-          </div>
-        );
-      })}
+      {/* Render floating labels for each slice using computed positions */}
+      {labelPositions.length > 0 &&
+        slices.map((slice, index) => {
+          const pos = labelPositions[index];
+          if (!pos) return null;
+          const isHovered = hoverInfo && hoverInfo.index === index;
+          return (
+            <div
+              key={index}
+              style={{
+                position: "absolute",
+                left: `${isHovered && hoverInfo ? hoverInfo.x : pos.x}px`,
+                top: `${isHovered && hoverInfo ? hoverInfo.y : pos.y}px`,
+                transform: "translate(-50%, -50%)",
+                background: "#fff",
+                border: `2px solid ${slice.color}`,
+                borderRadius: isHovered ? "8px" : "6px",
+                padding: isHovered ? "12px" : "6px",
+                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                textAlign: "center",
+                fontSize: "14px",
+                fontWeight: "bold",
+                pointerEvents: "auto",
+                transition: "all 0.2s ease-in-out",
+                zIndex: 10,
+                minWidth: "50px",
+              }}
+              onMouseEnter={() => {
+                overlayHoverRef.current = true;
+                setHoverInfo({ index, x: pos.x, y: pos.y });
+              }}
+              onMouseLeave={() => {
+                overlayHoverRef.current = false;
+                setHoverInfo(null);
+              }}
+            >
+              {!hoverInfo || hoverInfo.index !== index ? (
+                <span style={{ color: slice.color }}>{slice.value}%</span>
+              ) : (
+                <>
+                  <div style={{ color: slice.color, marginBottom: "5px" }}>
+                    {slice.label}
+                  </div>
+                  <div style={{ marginBottom: "5px" }}>
+                    Total items: {slice.items} <br />
+                    Amount: ${slice.amount.toFixed(2)}
+                  </div>
+                  <button
+                    style={{
+                      background: slice.color,
+                      color: "#fff",
+                      border: "none",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => alert(`Viewing details for ${slice.label}`)}
+                  >
+                    View Details
+                  </button>
+                </>
+              )}
+            </div>
+          );
+        })}
     </div>
   );
 }
