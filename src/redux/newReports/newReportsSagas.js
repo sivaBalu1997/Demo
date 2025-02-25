@@ -947,13 +947,16 @@ function* staffSalesRequestSaga(action) {
 function* salesCategoryRequestSaga(action) {
     try {
         const response = yield call(getSalesCategory, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(salesCategorySuccess(response.data));
+            yield put(salesCategorySuccess(decryptedData));
         } else {
-            yield put(salesCategoryFailure('Failed to fetch sales category data'));
+            yield put(salesCategoryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
         }
     } catch (error) {
         yield put(salesCategoryFailure(error.message));
+        showErrorToast(error.message);
     }
 }
 
@@ -961,13 +964,16 @@ function* salesCategoryRequestSaga(action) {
 function* salesCardTypeRequestSaga(action) {
     try {
         const response = yield call(getSalesCardType, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(salesCardTypeSuccess(response.data));
+            yield put(salesCardTypeSuccess(decryptedData));
         } else {
-            yield put(salesCardTypeFailure('Failed to fetch sales card type data'));
+            yield put(salesCardTypeFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
         }
     } catch (error) {
         yield put(salesCardTypeFailure(error.message));
+        showErrorToast(error.message);
     }
 }
 
@@ -975,13 +981,16 @@ function* salesCardTypeRequestSaga(action) {
 function* hourlySalesReportChartRequestSaga(action) {
     try {
         const response = yield call(getHourlySalesReportChart, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(hourlySalesReportChartSuccess(response.data));
+            yield put(hourlySalesReportChartSuccess(decryptedData));
         } else {
-            yield put(hourlySalesReportChartFailure('Failed to fetch hourly sales report chart data'));
+            yield put(hourlySalesReportChartFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
         }
     } catch (error) {
         yield put(hourlySalesReportChartFailure(error.message));
+        showErrorToast(error.message);
     }
 }
 

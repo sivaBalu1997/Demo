@@ -86,7 +86,7 @@ const SalesOverview: React.FC<ReportProps> = () => {
    const locationId = useSelector((state: any) => state?.auth?.credentials?.locationId)
    const locations=useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
        const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
-       const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData)
+      //  const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData)
        const salesSummary=useSelector((state: any) => state?.newReports?.salesSummaryReportData)
        const staffSalesData=useSelector((state: any) => state?.newReports?.staffSalesData)
       const salesCardTypeData=useSelector((state: any) => state?.newReports?.salesCardTypeData)
@@ -100,7 +100,7 @@ const SalesOverview: React.FC<ReportProps> = () => {
        useEffect(() => {
 console.log({
   selectedLocation,
-  tendorTypes,
+  // tendorTypes,
   salesSummary,
   staffSalesData,
   salesCardTypeData,
@@ -109,7 +109,7 @@ console.log({
   cancellationSummary,
   hourlySalesReportChartData
 })
-    }, [selectedLocation,tendorTypes,salesSummary,staffSalesData,salesCardTypeData,salesCategory , discountSummary,cancellationSummary,hourlySalesReportChartData])
+    }, [selectedLocation,salesSummary,staffSalesData,salesCardTypeData,salesCategory , discountSummary,cancellationSummary,hourlySalesReportChartData])
 
     useEffect(() => {
         dispatch(locationDetailsRequest({ locationId }))
@@ -144,11 +144,11 @@ console.log({
     }
 
 
-    useEffect(() => {
-      setTenderType(arrayToObject(tendorTypes))
-      console.log(arrayToObject(tendorTypes),tendorTypes);
+  //   useEffect(() => {
+  //     setTenderType(arrayToObject(tendorTypes))
+  //     console.log(111, arrayToObject(tendorTypes),tendorTypes);
       
-  }, [tendorTypes])
+  // }, [tendorTypes])
 
 
 
@@ -280,7 +280,7 @@ console.log({
       <div>
         <h2 className="sales-overview-sub-heading ">Tendor Type</h2>
       </div>
-      {/* <div className="reports-tendor-container">
+      <div className="reports-tendor-container">
         <div className="left-section">
           <h3 className="tender-type-sub-heading">Debit card</h3>
           <div className="tender-type-container">
@@ -418,30 +418,30 @@ console.log({
             />
           </div>
         </div>
-      </div> */}
+      </div>
 
-      {/* <h2 className="sales-overview-sub-heading ">By Card Type</h2>
-      <CardTypeChart dataList={salesCardTypeData} />
+      <h2 className="sales-overview-sub-heading ">By Card Type</h2>
+      {/* <CardTypeChart dataList={salesCardTypeData} /> */}
 
       <h2 className="sales-overview-sub-heading ">By Employees</h2>
-      <EmployeeSalesChart dataList={staffSalesData} />
+      {/* <EmployeeSalesChart dataList={staffSalesData} /> */}
 
       <h2 className="sales-overview-sub-heading ">By Channel</h2>
-      <ChannelSalesChart  dataList={staffSalesData} />
+      {/* <ChannelSalesChart  dataList={staffSalesData} /> */}
 
       <div className="sales-overview-doughnut-chart-container">
         <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">By Discount</h2>
-          <DoughnutChartWithButton />
-          // <DiscountAndVoidedOrders dataList={discountSummary} />
+          {/* <DoughnutChartWithButton /> */}
+           {/* <DiscountAndVoidedOrders dataList={discountSummary} /> */}
         </div>
         <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-          <DiscountAndVoidedOrders dataList={cancellationSummary} />
+          {/* <DiscountAndVoidedOrders dataList={cancellationSummary} /> */}
         </div>
       </div>
       <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-      <RevenueClassChart dataList={hourlySalesReportChartData} /> */}
+      {/* <RevenueClassChart dataList={hourlySalesReportChartData} /> */}
     </>
   );
 };
