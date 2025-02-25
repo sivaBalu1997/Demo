@@ -26,6 +26,7 @@ import { ReactComponent as GrubHubIcon } from "../../../assets/svg/pay-grub-hub.
 import { ReactComponent as ApplePayIcon } from "../../../assets/svg/pay-apple.svg";
 import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash.svg";
 import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
+import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 
 // import TenderType from "components/reportComponents/TendorTypeCard";
 import DownloadPopOver from "pages/CategoryReport/downloadOption";
@@ -155,9 +156,17 @@ const SalesOverview: React.FC<ReportProps> = () => {
       {/*  Total Sales*/}
 
       <div className="todays-report-sales-overview-box-container-parent">
-        <h2 className="sales-overview-sub-heading total-sales-heading">
-          Total sales Overview
-        </h2>
+        <div className="total-sales-heading-container">
+          <h2>Total sales Overview</h2>
+          <div className="total-sales-info-container">
+            <InfoIcon />
+            <div className="total-sales-info-content">
+              The graph shows the percentage compared to the previous day. If
+              you select this week, the comparison chart will display last
+              week's data
+            </div>
+          </div>
+        </div>
         <div className="todays-report-sales-overview-box-container">
           <CardWithMiniGraph
             cardTitle="Total Sales"
@@ -444,17 +453,19 @@ const SalesOverview: React.FC<ReportProps> = () => {
       <ChannelSalesChart />
 
       <div style={{ display: "flex", width: "100%", height: "500px" }}>
-        <div className="left-section" style={{ width: "50%", height: "100%" }}>
+        <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">By Discount</h2>
           <DoughnutChartWithButton />
         </div>
-        <div className="right-section" style={{ width: "50%", height: "100%" }}>
+        <div className="" style={{ width: "50%", height: "100%" }}>
           <h2 className="sales-overview-sub-heading ">Voided orders</h2>
           <DoughnutChartWithButton />
         </div>
       </div>
-      <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-      <RevenueClassChart />
+      <div>
+        <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
+        <RevenueClassChart />
+      </div>
     </>
   );
 };

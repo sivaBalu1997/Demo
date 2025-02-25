@@ -10,33 +10,36 @@ import SidePanel from "pages/SidePanel";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
-interface ReportProps { }
+interface ReportProps {}
 
 const SalesReport: React.FC<ReportProps> = () => {
-    const [activeTab, setActiveTab] = useState("Today's report");
-    const [isExpanded, setIsExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState("Today's report");
+  const [isExpanded, setIsExpanded] = useState(false);
 
-    return (
-        <>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <SidePanel />
-                <div className="reports-container ">
+  return (
+    <>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <SidePanel />
+        <div className="reports-container ">
+          {/* Header */}
+          <Header isExpanded={isExpanded} title="Reports & Insights" />
 
-                    {/* Header */}
-                    <Header isExpanded={isExpanded} title="Reports & Insights" />
+          {/* Tab Navigation */}
+          <TabNavigation
+            tabs={tabs}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
 
-                    {/* Tab Navigation */}
-                    <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-
-                    {activeTab === "Sales Overview" ? <SalesOverview /> : null}
-                    {activeTab === "Today's report" ? <TodaysReport /> : null}
-                    {activeTab === "Categories" ? <CategoryReport /> : null}
-                    {activeTab === "Employees" ? <Employees /> : null}
-                    {/* {activeTab === "Trends" ?  <Trends /> : null} */}
-                </div>
-            </div>
-        </>
-    );
+          {activeTab === "Sales Overview" ? <SalesOverview /> : null}
+          {activeTab === "Today's report" ? <TodaysReport /> : null}
+          {activeTab === "Categories" ? <CategoryReport /> : null}
+          {activeTab === "Employees" ? <Employees /> : null}
+          {/* {activeTab === "Trends" ?  <Trends /> : null} */}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default SalesReport;

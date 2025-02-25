@@ -18,7 +18,7 @@ const slices = [
     value: 13,
     color: "#F99D2B",
     items: 55,
-    amount: 45.25,
+    amount: 45,
   },
   {
     label: "Taste issue",
@@ -129,7 +129,7 @@ function DoughnutChartWithButton() {
     <div
       style={{
         width: "100%",
-        maxWidth: "550px",
+        maxWidth: "600px",
         height: "450px",
         position: "relative",
         overflow: "visible",
@@ -168,8 +168,8 @@ function DoughnutChartWithButton() {
             key={index}
             style={{
               position: "absolute",
-              left: `${newX}px`,
-              top: `${newY}px`,
+              left: `${isHovered ? center.x : newX}px`,
+              top: `${isHovered ? center.y : newY}px`,
               transform: "translate(-50%, -50%)",
               background: "#fff",
               border: `2px solid ${slice.color}`,
