@@ -56,7 +56,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 1.5vh;
+            gap: 3vh;
             .void-activity-button-container{
                 display: flex;
                 justify-content: flex-start;
@@ -72,7 +72,7 @@
                     padding: 0.5vw 1vw;
                     width: 7vw;
                     border: 1px solid #EEEEEE;
-                    border-radius: 4px;
+                    border-radius: 0.5vw;
                     cursor: pointer;
                     transition: background-color 0.3s ease;
                 }

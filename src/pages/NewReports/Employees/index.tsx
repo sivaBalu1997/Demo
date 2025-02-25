@@ -196,8 +196,8 @@ const Employees: React.FC = () => {
 
     return (
         <div className='report-sales-employee-container'>
-            <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={datepickerApply} />
-            <div className="employee-report-sales-overview-box-container-parent">
+            {!showAllActivityTable && <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={datepickerApply} />}
+            {!showAllActivityTable && <div className="employee-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="select-employee-container">
                     <p>Select employee</p>
@@ -226,7 +226,7 @@ const Employees: React.FC = () => {
                     <CardWithMiniGraph cardTitle="Discount" cardValue={employeeSalesOverViewFromAPIRedux?.discounts} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.discountPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.discountPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                     <CardWithMiniGraph cardTitle="Cancelled" cardValue={employeeSalesOverViewFromAPIRedux?.cancelledOrders} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.cancelledPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.cancelledPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                 </div>
-            </div>
+            </div>}
             {!showAllActivityTable ? <CustomBarChart
                 data={chartData}
                 tooltipData={tooltipData}
@@ -238,31 +238,32 @@ const Employees: React.FC = () => {
                 kpiTitle='All Activity'
                 showRelatedTable={showAllActivityTable}
                 setShowRelatedTable={setShowAllActivityTable}
-            /> : <div className="void-activity-table-container">
-                <div className="void-activity-button-container">
-                    <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
-                </div>
-                <NewTable
-                    kpiTitle="Employee Void Activity"
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    headerData={newTableHeaders}
-                    tableData={
-                        employeeVoidActivityAPIRedux &&
-                        employeeVoidActivityAPIRedux?.length > 0 &&
-                        employeeVoidActivityAPIRedux
-                    }
-                    currentPage={currentPageEmployeeVoidActivity}
-                    totalPages={employeeVoidActivityTotalPagesRedux}
-                    onPageChange={setCurrentPageEmployeeVoidActivity}
-                    rowsPerPage={employeeVoidRecordLimit}
-                    setRowsPerPage={setEmployeeVoidRecordLimit}
-                    loader={employeeVoidActivityLoading}
-                    count={employeeVoidActivityAPIRedux?.length}
-                    searchPlaceHolder="Search By Steward, Voided reasons"
-                    onSearch={handleSearch}
-                />
-            </div>}
+            /> :
+                <div className="void-activity-table-container" style={{ marginTop: showAllActivityTable ? "5vh" : "" }}>
+                    <div className="void-activity-button-container">
+                        <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
+                    </div>
+                    <NewTable
+                        kpiTitle="Employee Void Activity"
+                        searchQuery={searchQuery}
+                        onSearchChange={setSearchQuery}
+                        headerData={newTableHeaders}
+                        tableData={
+                            employeeVoidActivityAPIRedux &&
+                            employeeVoidActivityAPIRedux?.length > 0 &&
+                            employeeVoidActivityAPIRedux
+                        }
+                        currentPage={currentPageEmployeeVoidActivity}
+                        totalPages={employeeVoidActivityTotalPagesRedux}
+                        onPageChange={setCurrentPageEmployeeVoidActivity}
+                        rowsPerPage={employeeVoidRecordLimit}
+                        setRowsPerPage={setEmployeeVoidRecordLimit}
+                        loader={employeeVoidActivityLoading}
+                        count={employeeVoidActivityAPIRedux?.length}
+                        searchPlaceHolder="Search By Steward, Voided reasons"
+                        onSearch={handleSearch}
+                    />
+                </div>}
         </div>
     );
 };

@@ -4,13 +4,12 @@ import { ReactComponent as SortIcon } from "../../../assets/svg/r-sort-icon.svg"
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { ReactComponent as ArrowRight } from "../../../assets/svg/r-arrow-right.svg";
 import { ReactComponent as ClearSearchIcon } from "../../../assets/svg/r-clear-search-icon-x.svg";
-import { ReactComponent as TableDownloadOptionsIcon } from "../../../assets/svg/r-options-table.svg";
-import { ReactComponent as PdfDownloadIcon } from "../../../assets/svg/r-pdf-download-option-icon.svg";
-import { ReactComponent as JsonDownloadIcon } from "../../../assets/svg/r-json-download-option-icon.svg";
-import { ReactComponent as CsvDownloadIcon } from "../../../assets/svg/r-csv-download-option-icon.svg";
-import { ReactComponent as DownloadBtn } from "../../../assets/svg/r-download-button-icon.svg";
 import { ReactComponent as NoResultsFoundStampIcon } from "../../../assets/svg/r-sad-no-results-found-stamp.svg";
-import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg"
+import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg";
+import { ReactComponent as WalkinIcon } from "../../../assets/svg/r-walk-in-icon.svg";
+import DeliveryIcon from "../../../assets/svg/r-delivery-icon.svg";
+import { ReactComponent as PickUpIcon } from "../../../assets/svg/r-pick-up-icon.svg";
+import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-icon.svg";
 import { NewTableProps } from 'interface/newReportsInterface';
 import ReactPaginate from 'react-paginate';
 import TableShimmer from './NewShimmerTable';
@@ -101,42 +100,6 @@ const NewTable: React.FC<NewTableProps> = ({
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     // console.log("1111", { showDownloadables })
 
-    const csvDownloadFn = (data: Array<Record<string, any>>) => {
-        const fileName = kpiTitle;
-        const exportType = exportFromJSON.types.csv;
-        exportFromJSON({ data, fileName, exportType });
-    };
-
-    const jsonDownloadFn = (data: Array<Record<string, any>>) => {
-        const fileName = kpiTitle;
-        const exportType = exportFromJSON.types.json;
-        exportFromJSON({ data, fileName, exportType });
-    };
-
-    const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
-        const fileName = kpiTitle;
-        const exportType = exportFromJSON.types.xls;
-        exportFromJSON({ data, fileName, exportType });
-    };
-
-    const pdfDownloadFn = (data: Array<Record<string, any>>, headers: Array<{ key: string; label: string }>) => {
-        const doc = new jsPDF();
-        doc.text(kpiTitle, 14, 10); // Title at the top
-
-        // Prepare the table data
-        const tableColumnHeaders = headers && headers?.map(header => header.label);
-        const tableRows = data && data?.map(row => headers?.map(header => row[header.key] || ""));
-
-        // Add the table using autoTable
-        (doc as any).autoTable({
-            head: [tableColumnHeaders],
-            body: tableRows,
-            startY: 20,
-        });
-
-        // Save the PDF
-        doc.save(`${kpiTitle}.pdf`);
-    };
 
     const downloadPopoverRef = useRef<HTMLDivElement | null>(null);
 
@@ -161,6 +124,82 @@ const NewTable: React.FC<NewTableProps> = ({
         onSearch(event.target.value, kpiTitle);
         setSearchFlag(true)
     };
+
+    // const getClassName = (rowvalue: string) => {
+    //     if (rowvalue === 'In Queue') {
+    //         return 'bubble-text-blue-one'
+    //     } else if (rowvalue === 'Accepted') {
+    //         return 'bubble-text-blue-two'
+    //     } else if (rowvalue === 'In Progress') {
+    //         return 'bubble-text-orange-one'
+    //     } else if (rowvalue === 'KOT Ready') {
+    //         return 'bubble-text-brown-one'
+    //     } else if (rowvalue === 'Order Ready') {
+    //         return 'bubble-text-green-one'
+    //     } else if (rowvalue === 'In Delivery') {
+    //         return 'bubble-text-light-green-one'
+    //     }
+    // }
+
+    const getClassName = (rowvalue: string) => {
+        if (rowvalue === 'D3') {
+            return 'bubble-text-blue-one'
+        } else if (rowvalue === 'D30') {
+            return 'bubble-text-blue-two'
+        } else if (rowvalue === 'D5') {
+            return 'bubble-text-orange-one'
+        } else if (rowvalue === 'D6') {
+            return 'bubble-text-brown-one'
+        } else if (rowvalue === 'D8') {
+            return 'bubble-text-green-one'
+        } else if (rowvalue === 'In Delivery') {
+            return 'bubble-text-light-green-one'
+        }
+    }
+
+    // const getOrderChannelIcons = (rowvalue: string) => {
+    //     if (rowvalue === 'Walkin') {
+    //         return <WalkinIcon />
+    //     } else if (rowvalue === 'Delivery') {
+    //         return <DeliveryIcon />
+    //     } else if (rowvalue === 'Pick-up') {
+    //         return <PickUpIcon />
+    //     } else if (rowvalue === 'GrubHub') {
+    //         return <GrubhubIcon />
+    //     }
+    // }
+
+    const getOrderChannelIcons = (rowvalue: string) => {
+        if (rowvalue === 'D3') {
+            return <WalkinIcon />
+        } else if (rowvalue === 'D30') {
+            return <DeliveryIcon />
+        } else if (rowvalue === 'D5') {
+            return <PickUpIcon />
+        } else if (rowvalue === 'D6') {
+            return <GrubhubIcon />
+        }
+    }
+
+    const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
+        if (headerValue === "Order Status") {
+            if (rowvalue === 'D3') {
+                return 'bubble-text-blue-one'
+            } else if (rowvalue === 'D30') {
+                return 'bubble-text-blue-two'
+            } else if (rowvalue === 'D5') {
+                return 'bubble-text-orange-one'
+            } else if (rowvalue === 'D6') {
+                return 'bubble-text-brown-one'
+            } else if (rowvalue === 'D8') {
+                return 'bubble-text-green-one'
+            } else if (rowvalue === 'In Delivery') {
+                return 'bubble-text-light-green-one'
+            }
+        } else if (headerValue === "Table Name") {
+            return 'rep-order-channel'
+        }
+    }
 
 
     return (
@@ -242,7 +281,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                         paginatedData?.map((row, index) => (
                                             <tr key={index}>
                                                 {headerData?.map(header => (
-                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }} className={`${header?.label === "Steward" && "bubble-text"}`}>{row[header?.key]}</td>
+                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}><p className={getDynamicClassNames(row[header?.key], header?.label)}>{getOrderChannelIcons(row[header?.key])}{row[header?.key]}</p></td>
                                                 ))}
                                             </tr>
                                         ))

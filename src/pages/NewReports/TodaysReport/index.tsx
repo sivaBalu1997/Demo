@@ -42,6 +42,7 @@ const TodaysReport: React.FC = () => {
     const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
 
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
+    console.log("qqqq", { liveOrdersAPIRedux })
 
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
 
@@ -50,6 +51,7 @@ const TodaysReport: React.FC = () => {
     const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
 
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
+    // console.log("qqqq", { liveOrderNonDineInAPIRedux })
 
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
 

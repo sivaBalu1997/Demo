@@ -289,7 +289,7 @@ export function* liveOrdersRequestSaga(action) {
         const response = yield call(getLiveOrders, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            // console.log("response of liveOrdersRequestSaga", { decryptedData })
+            console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
