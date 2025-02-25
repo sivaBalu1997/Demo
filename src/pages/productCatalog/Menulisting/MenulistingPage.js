@@ -1634,12 +1634,16 @@ export const MenulistingPage = () => {
                                                               // paddingLeft:"20px",
                                                               // paddingRight:"20px"
                                                             }}
-                                                            onClick={() =>
+                                                            onClick={() =>{
+                                                              if(orderType?.isNotHide==1)
+                                                              {
                                                               handlesidbarhandling(
                                                                 `${typeName}1`,
                                                                 item.itemId
                                                               )
                                                             }
+                                                          }
+                                                          }
                                                           >
                                                             {restaurantDetails?.country ===
                                                             "US"
@@ -1728,13 +1732,14 @@ export const MenulistingPage = () => {
                                                               toggle={
                                                                 orderType &&
                                                                 orderType.availabilityEnabled ===
-                                                                  true &&
-                                                                orderType.isNotHide ===
-                                                                  1
+                                                                  true
                                                                 //    &&
                                                                 // orderType.isEnabled ===
                                                                 //   1
                                                               }
+                                                              hidden={
+                                                                orderType?.isNotHide
+                                                                }
                                                             />
                                                           </span>
                                                         );
@@ -1943,12 +1948,16 @@ export const MenulistingPage = () => {
                                                         //       "center",
                                                         //     alignItems: "center",
                                                         //   }}
-                                                        onClick={() =>
+                                                        onClick={() =>{
+                                                          if(orderType?.isNotHide==1)
+                                                          {
                                                           handlesidbarhandling(
                                                             `${typeName}1`,
                                                             item.itemId
                                                           )
                                                         }
+                                                      }
+                                                      }
                                                       >
                                                         {restaurantDetails?.country ===
                                                         "US"
@@ -2032,13 +2041,12 @@ export const MenulistingPage = () => {
                                                         toggle={
                                                           orderType &&
                                                           orderType.availabilityEnabled ===
-                                                            true &&
-                                                          orderType.isNotHide ===
-                                                            1
-                                                          //   &&
-                                                          // orderType.isEnabled ===
-                                                          //   1
+                                                            true
+
                                                         }
+                                                        hidden={
+                                                        orderType?.isNotHide
+                                                          }
                                                       />
                                                     </span>
                                                   );

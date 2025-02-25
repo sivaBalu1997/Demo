@@ -55,10 +55,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (name === "itemName" && inputValue.length > 128) {
       return;
     }
-    if (name === "coloriePoint" && inputValue.length >4 ) {
+    if ((name === "coloriePoint" && inputValue.length >4) ||( Number(inputValue)<0) ) {
       return;
     }
-    if (name === "portionSize" && inputValue.length > 4) {
+    if ((name === "portionSize" && inputValue.length > 4) ||( Number(inputValue)<0) ) {
       return;
     }
    
