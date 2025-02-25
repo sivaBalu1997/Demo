@@ -62,7 +62,48 @@
     }
   }
 }
+.total-sales-heading-container {
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+  align-items: center;
+  margin: 40px 0px 10px 0px;
+  gap: 15px;
 
+  .total-sales-info-content {
+    padding: 10px;
+    z-index: 10;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: "Poppins";
+    color: #ffff;
+    background-color: #6f6f6f !important;
+    border-radius: 5px;
+  }
+
+  .total-sales-info-container {
+    position: relative;
+    .total-sales-info-content {
+      display: none;
+    }
+  }
+  .total-sales-info-container:hover {
+    position: relative;
+    .total-sales-info-content {
+      display: block;
+      position: absolute;
+      left: 2vw;
+      // width: 50vw;
+      // text-wrap: wrap;
+      max-width: 50vw;
+      min-width: 20vw;
+      top: 0%;
+    }
+  }
+  h2 {
+    font-weight: 500;
+  }
+}
 // Remove this
 .todays-report-sales-overview-box-container-parent {
   display: flex;

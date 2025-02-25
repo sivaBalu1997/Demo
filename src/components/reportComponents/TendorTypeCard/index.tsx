@@ -67,16 +67,25 @@ const TenderType: React.FC<PaymentMethod> = ({
               </div>
               {expandable && expanded && (
                 <div className="tender-expand">
-                  <div className="expand-row">
-                    <span>On Prem orders:</span> <strong>{onPremOrders}</strong>
-                    <span>Sales:</span>{" "}
-                    <strong>${onPremSales.toFixed(2)}</strong>
+                  <div className="expand-row top">
+                    <div>
+                      <span>On Prem orders:</span>{" "}
+                      <strong>{onPremOrders}</strong>
+                    </div>
+                    <div>
+                      <span>Sales:</span>{" "}
+                      <strong>${onPremSales.toFixed(2)}</strong>
+                    </div>
                   </div>
                   <div className="expand-row">
-                    <span>Off Prem orders:</span>{" "}
-                    <strong>{offPremOrders}</strong>
-                    <span>Sales:</span>{" "}
-                    <strong>${offPremSales.toFixed(2)}</strong>
+                    <div>
+                      <span>Off Prem orders:</span>{" "}
+                      <strong>{offPremOrders}</strong>
+                    </div>
+                    <div>
+                      <span>Sales:</span>{" "}
+                      <strong>${offPremSales.toFixed(2)}</strong>
+                    </div>
                   </div>
                 </div>
               )}
