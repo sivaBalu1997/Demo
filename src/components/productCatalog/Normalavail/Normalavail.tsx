@@ -669,6 +669,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         setDineInFields([updatedField]);
         if (Number(updatedField.DineInPrice) > 0) {
+
+
           setShowDineIn(true);
           setdineInEnable(true);
         }
@@ -849,7 +851,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         if (dineIndetail) {
-          setShowDineIn(true);
+          if(editData?.length>0)
+          {
+            dineIndetail.price>0 ? setShowDineIn(true):setShowDineIn(false);
+          }
+         
+          
           // if (
           //   editData?.length > 0 &&
           //   filterOrderTypeAvailableorNotDineIn &&
