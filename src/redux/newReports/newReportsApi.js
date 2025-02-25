@@ -568,13 +568,13 @@ export const getSalesTags = (salesTagsPayload) => {
 
 export const getPaymentDetails = (paymentDetailsPayload) => {
     // const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
-        method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
+    // return API({
+    //     method: "get",
+    //     url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
+    //     headers: {
+    //         Authorization: 'bearer ' + token,
+    //     }
+    // });
 }
 
 // export const getHourlySales = (hourlySalesPayload) => {
