@@ -12,8 +12,17 @@ import useSalesLocationDates from 'hooks/useSalesLocationDates';
 import "./style.scss";
 
 const Employees: React.FC = () => {
+
+    const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
+
+    const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+
     const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
-    const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
+    const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
+
+    // console.log("2222", selectedStore?.value)
+
+    const selectedLocationidFromDropDown = selectedStore?.value
 
     const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
@@ -24,6 +33,8 @@ const Employees: React.FC = () => {
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
     );
+
+
 
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
@@ -71,10 +82,10 @@ const Employees: React.FC = () => {
     const handleSearch = (value: string, kpiTitle: string) => {
         switch (kpiTitle) {
             case 'Employee Void Activity':
-                if (locationid) {
+                if (selectedLocationidFromDropDown) {
                     dispatch(
                         employeeStaffActivityRequest({
-                            locationid,
+                            locationid: selectedLocationidFromDropDown,
                             startDate: "2025-01-25",
                             endDate: "2025-02-24",
                             tablePageNo: currentPageEmployeeVoidActivity,
@@ -123,10 +134,10 @@ const Employees: React.FC = () => {
     };
 
     useEffect(() => {
-        if (locationid) {
+        if (selectedLocationidFromDropDown) {
             dispatch(
                 employeeStaffActivityRequest({
-                    locationid,
+                    locationid: selectedLocationidFromDropDown,
                     startDate: "2025-01-25",
                     endDate: "2025-02-24",
                     tablePageNo: currentPageEmployeeVoidActivity,
@@ -135,7 +146,7 @@ const Employees: React.FC = () => {
             );
         }
     }, [
-        locationid,
+        selectedLocationidFromDropDown,
         // startDate,
         // endDate,
         currentPageEmployeeVoidActivity,
@@ -146,9 +157,15 @@ const Employees: React.FC = () => {
         setShowAllActivityTable(false);
     }
 
+    const getDates = (startDate: any, endDate: any) => {
+        console.log("startDate", startDate);
+        console.log("endDate", endDate);
+        console.log("Hi from fun")
+    }
+
     return (
         <div className='report-sales-employee-container'>
-            <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} />
+            <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={getDates} />
             <div className="employee-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="select-employee-container">

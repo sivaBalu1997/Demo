@@ -17,9 +17,15 @@ import StoreFilter from 'components/reportComponents/StoreFilter';
 
 
 const TodaysReport: React.FC = () => {
+
+    const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
+
+    const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+
+
     const { isExpanded } = useContext(Contextpagejs);
     const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
-    const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
+    const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
 
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
     const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
@@ -27,6 +33,7 @@ const TodaysReport: React.FC = () => {
     const [liveOrderNonDineInSearchQuery, setLiveOrderNonDineInSearchQuery] = useState('')
     const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(10)
 
+    const selectedLocationidFromDropDown = selectedStore?.value
 
     const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
 
@@ -119,11 +126,11 @@ const TodaysReport: React.FC = () => {
     const handleSearch = (value: string, kpiTitle: string) => {
         switch (kpiTitle) {
             case 'Live Orders':
-                dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
+                dispatch(liveOrdersRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
 
             case 'Live Orders Non Dine-in':
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
                 break;
 
             default:
@@ -132,39 +139,39 @@ const TodaysReport: React.FC = () => {
     };
 
     useEffect(() => {
-        dispatch(liveDiscountRequest({ locationid }))
-    }, [locationid])
+        dispatch(liveDiscountRequest({ locationid: selectedLocationidFromDropDown }))
+    }, [selectedLocationidFromDropDown])
 
     useEffect(() => {
-        dispatch(liveOpenSalesRequest({ locationid }))
-    }, [locationid])
-
-    useEffect(() => {
-        const formattedDate = moment().format('YYYY-MM-DD');
-        setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
-    }, [locationid, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
-
-    useEffect(() => {
-        dispatch(liveRefundsRequest({ locationid }))
-    }, [locationid])
-
-    useEffect(() => {
-        dispatch(liveNetSalesRequest({ locationid }))
-    }, [locationid])
+        dispatch(liveOpenSalesRequest({ locationid: selectedLocationidFromDropDown }))
+    }, [selectedLocationidFromDropDown])
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
+        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
+    }, [selectedLocationidFromDropDown, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
+
+    useEffect(() => {
+        dispatch(liveRefundsRequest({ locationid: selectedLocationidFromDropDown }))
+    }, [selectedLocationidFromDropDown])
+
+    useEffect(() => {
+        dispatch(liveNetSalesRequest({ locationid: selectedLocationidFromDropDown }))
+    }, [selectedLocationidFromDropDown])
+
+    useEffect(() => {
+        const formattedDate = moment().format('YYYY-MM-DD');
+        setCurrentDate(formattedDate);
+        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
         // currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
-    }, [locationid, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
+    }, [selectedLocationidFromDropDown, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(billerUnbilledRequest({ locationid, startDate: currentDate, type: isSwitchActive === true ? 'notcompleted' : 'completed' }))
-    }, [isSwitchActive, currentDate, locationid])
+        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocationidFromDropDown, startDate: currentDate, type: isSwitchActive === true ? 'notcompleted' : 'completed' }))
+    }, [isSwitchActive, currentDate, selectedLocationidFromDropDown])
 
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
 

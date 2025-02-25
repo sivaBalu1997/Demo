@@ -8,6 +8,7 @@ import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
 import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 import { DateObject } from "react-multi-date-picker";
+import { useSelector } from "react-redux";
 
 interface StoreFilterProps {
   selectedDate?: StoreOption;
@@ -41,11 +42,11 @@ const storeOptions: StoreOption[] = [
 ];
 const StoreFilter = ({
   selectedDate,
-  setSelectedDate = () => {},
+  setSelectedDate = () => { },
   selectedStore,
-  setSelectedStore = () => {},
+  setSelectedStore = () => { },
   datePickerApplyFunction,
-  handleRefreshClick = () => {},
+  handleRefreshClick = () => { },
   showDate = true,
   showStore = true,
   showRefresh = false,
@@ -61,6 +62,14 @@ const StoreFilter = ({
   //     dispatch(storeMockDataRequest(store.storeId));
   //     history.push(`/product-catalog?storeId=${store.storeId}`);
   // };
+
+  const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
+
+
+  const mappedIdWithBranchName: StoreOption[] = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+
+
+
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [rangeDateLabel, setRangeDateLabel] = useState("");
@@ -119,11 +128,10 @@ const StoreFilter = ({
               value={
                 isDateSelected
                   ? {
-                      value: "Custom Date",
-                      label: `${
-                        rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
+                    value: "Custom Date",
+                    label: `${rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
                       }`,
-                    }
+                  }
                   : selectedDate
               }
               className="category-dropdown"
@@ -148,7 +156,7 @@ const StoreFilter = ({
             <span className="category-dropdown-text">Select store</span>
             <CustomDropdown
               onSelect={(option: StoreOption) => setSelectedStore(option)}
-              options={storeOptions}
+              options={mappedIdWithBranchName}
               value={selectedStore}
               className="category-dropdown"
             />

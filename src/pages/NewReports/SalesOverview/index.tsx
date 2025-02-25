@@ -32,6 +32,7 @@ import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import LinearBarChart from "pages/CategoryReport/barChart";
 import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
+import { useSelector } from "react-redux";
 
 const tabs = [
   "Today's report",
@@ -40,17 +41,19 @@ const tabs = [
   "Employees",
   "Trends",
 ];
-interface ReportProps {}
+interface ReportProps { }
 
 const SalesOverview: React.FC<ReportProps> = () => {
+
+  const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
+
+  const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
     value: "Yesterday",
   });
-  const [selectedStore, setSelectedStore] = useState({
-    label: "A2B Princeton",
-    value: "A2B Princeton",
-  });
+  const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
   const salesData = [
     {
       type: "Total Sales",
