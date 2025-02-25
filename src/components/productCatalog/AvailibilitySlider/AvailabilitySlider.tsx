@@ -85,19 +85,32 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         //  child.isEnabled === 1 && 
       child.isNotHide === 1
     );
+
+    const hiddenCheck= tempOnPremarray.some(
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 0
+    );
+    const hiddenCheckOff= tempOffPremarray.some(
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 0
+    );
   
     const tempOrderTypeAvailabilityArray = [
       {
         mainHeading: "On-prem",
         types: tempOnPremarray,
-        isEnabled: isOnPremEnabledCount && allChildrenonEnabled,
+        isEnabled: isOnPremEnabledCount,
         isAble: allChildrenonEnabled,
+        isHidden:hiddenCheck
       },
       {
         mainHeading: "Off-prem",
         types: tempOffPremarray,
-        isEnabled: isOffPremEnabledCount && allChildrenoffEnabled,
+        isEnabled: isOffPremEnabledCount,
         isAble: allChildrenoffEnabled,
+        isHidden:hiddenCheckOff
       },
     ];
   
@@ -189,6 +202,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
           //  child.isEnabled === 1 && 
         child.isNotHide === 1
       );
+      const hiddenCheck= tempOnPremarray.some(
+        (child: any) =>
+          //  child.isEnabled === 1 && 
+        child.isNotHide === 0
+      );
+      const hiddenCheckOff= tempOffPremarray.some(
+        (child: any) =>
+          //  child.isEnabled === 1 && 
+        child.isNotHide === 0
+      );
       const allChildrenoffEnabled = tempOffPremarray?.some(
         (child: any) => 
           // child.isEnabled === 1 && 
@@ -201,14 +224,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         {
           mainHeading: "On-prem",
           types: tempOnPremarray,
-          isEnabled: isOnPremEnabledCount && allChildrenonEnabled,
+          isEnabled: isOnPremEnabledCount,
           isAble: allChildrenonEnabled,
+          isHidden:hiddenCheck
         },
         {
           mainHeading: "Off-prem",
           types: tempOffPremarray,
-          isEnabled: isOffPremEnabledCount && allChildrenoffEnabled,
+          isEnabled: isOffPremEnabledCount,
           isAble: allChildrenoffEnabled,
+          isHidden:hiddenCheckOff
         },
       ];
       setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
@@ -249,9 +274,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     const isOffPremEnabledCount =
       tempOffPremarray?.filter((data: any, index: number) => {
         return (
-          data?.availabilityEnabled === false ||
+          data?.availabilityEnabled === false 
           // data?.isEnabled === 0 ||
-          data?.isNotHide === 0
+         // data?.isNotHide === 0
         );
       }).length == 0;
     const allChildrenonEnabled = tempOnPremarray?.some(
@@ -260,6 +285,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         
         // child.isEnabled === 1 && 
         child.isNotHide === 1
+    );
+    const hiddenCheck= tempOnPremarray.some(
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 0
+    );
+    const hiddenCheckOff= tempOffPremarray.some(
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 0
     );
     const allChildrenoffEnabled = tempOffPremarray?.some(
       (child: any) => 
@@ -271,14 +306,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       {
         mainHeading: "On-prem",
         types: tempOnPremarray,
-        isEnabled: isOnPremEnabledCount && allChildrenonEnabled,
+        isEnabled: isOnPremEnabledCount,
         isAble: allChildrenonEnabled,
+        isHidden:hiddenCheck
       },
       {
         mainHeading: "Off-prem",
         types: tempOffPremarray,
-        isEnabled: isOffPremEnabledCount && allChildrenoffEnabled,
+        isEnabled: isOffPremEnabledCount,
         isAble: allChildrenoffEnabled,
+        isHidden:hiddenCheckOff
       },
     ];
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
@@ -309,6 +346,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         
         // child.isEnabled === 1 && 
         child.isNotHide === 1
+    );
+    const hiddenCheck= tempOnPremarray.some(
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 0
+    );
+    const hiddenCheckOff= tempOffPremarray.some(
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 0
     );
     const allChildrenoffEnabled = tempOffPremarray?.some(
       (child: any) => 
@@ -351,8 +398,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         isEnabled:
           categoryHeading == "On-prem"
             ? !isOnPremEnabledCount
-            : isOnPremEnabledCount && allChildrenonEnabled,
+            : isOnPremEnabledCount,
         isAble: allChildrenonEnabled,
+        isHidden:hiddenCheck
       },
       {
         mainHeading: "Off-prem",
@@ -363,8 +411,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         isEnabled:
           categoryHeading == "Off-prem"
             ? !isOffPremEnabledCount
-            : isOffPremEnabledCount && allChildrenoffEnabled,
+            : isOffPremEnabledCount,
         isAble: allChildrenoffEnabled,
+        isHidden:hiddenCheckOff
       },
     ];
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
@@ -475,15 +524,18 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     <div className="AvailSlider-Container">
       <h3 className="AvailSlider-Heading">Availability</h3>
       <div className="AvailOnprem-Ofprem">
+        {}
         {availabilityOrderTypes?.map((elem: any, index: number) => (
           <div key={index} className="Avail-SectionAB">
             <div className="AvailHeading-Section">
               <h2 className="sub-head">{elem.mainHeading}</h2>
 
               <div className="toggle-btnfor-subhead">
+                {console.log("kkkkk",elem.isHidden)}
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
-                  Enable={elem.isAble === true}
+                  Enable={elem.isEnabled}
+                  hidden ={elem.isHidden==true?0:1}
                   setToggle={() => {
                     //handleParentToggle(index)
 
@@ -530,11 +582,10 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                       >
                         <ToggleSliderAvail
                           toggle={
-                            type?.availabilityEnabled &&
-                            // type?.isEnabled === 1 &&
-                            type?.isNotHide === 1
+                            type?.availabilityEnabled 
                           }
-                          Enable={ type?.isNotHide === 1}
+                          Enable={ type?.availabilityEnabled }
+                          hidden ={type?.isNotHide}
                           setToggle={() => {
                             if (type?.availabilityEnabled) {
                               setSelectedOrderTypeId(type?.typeId);
