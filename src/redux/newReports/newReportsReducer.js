@@ -136,6 +136,15 @@ import {
     HOURLY_SALES_REPORT_CHART_REQUEST,
     HOURLY_SALES_REPORT_CHART_SUCCESS,
     HOURLY_SALES_REPORT_CHART_FAILURE,
+    SALES_BY_CHANNEL_REQUEST,
+    SALES_BY_CHANNEL_SUCCESS,
+    SALES_BY_CHANNEL_FAILURE,
+    GET_VOIDED_ORDER_SUMMARY_REQUEST,
+    GET_VOIDED_ORDER_SUMMARY_SUCCESS,
+    GET_VOIDED_ORDER_SUMMARY_FAILURE,
+    GET_OFFER_SUMMARY_REQUEST,
+    GET_OFFER_SUMMARY_SUCCESS,
+    GET_OFFER_SUMMARY_FAILURE,
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -312,7 +321,7 @@ const initialNewReportsState = {
 
     // Payment Details
     paymentDetailsLoading: false,
-    paymentDetailsData: null,
+    paymentDetailsData: [],
     paymentDetailsError: null,
 
     // Sales Summary Report
@@ -332,13 +341,33 @@ const initialNewReportsState = {
 
     // Sales Card Type
     salesCardTypeLoading: false,
-    salesCardTypeData: null,
+    salesCardTypeData: [],
     salesCardTypeError: null,
 
     // Hourly Sales Report Chart
     hourlySalesReportChartLoading: false,
     hourlySalesReportChartData: null,
     hourlySalesReportChartError: null,
+
+    // Sales By Channel
+    salesByChannelLoading: false,
+    salesByChannelData: [],
+    salesByChannelError: null,
+
+    // Sales By Revenue Class
+    salesByRevenueClassLoading: false,
+    salesByRevenueClassData: null,
+    salesByRevenueClassError: null,
+
+    // Voided Order Summary
+    voidedOrderSummaryLoading: false,
+    voidedOrderSummaryData: [],
+    voidedOrderSummaryError: null,
+
+    // Offer Summary
+    offerSummaryLoading: false,
+    offerSummaryData: [],
+    offerSummaryError: null,
 
     selectedLocation:{}
 };
@@ -985,17 +1014,17 @@ export default function reportsReducer(state = initialNewReportsState, action) {
 
                // Location Details
                case PAYMENT_DETAILS_REQUEST:
-                draft.locationDetailsLoading = true;
-                draft.locationDetailsError = null;
+                draft.paymentDetailsLoading = true;
+                draft.paymentDetailsError = null;
                 break;
             case PAYMENT_DETAILS_SUCCESS:
-                draft.locationDetailsLoading = false;
-                draft.locationDetailsData = action.payload;
-                draft.locationDetailsError = null;
+                draft.paymentDetailsLoading = false;
+                draft.paymentDetailsData = action.payload;
+                draft.paymentDetailsError = null;
                 break;
             case PAYMENT_DETAILS_FAILURE:
                 draft.paymentDetailsLoading = false;
-                draft.paymentDetailsData = null;
+                draft.paymentDetailsData = [];
                 draft.paymentDetailsError = action.payload;
                 break;
 
@@ -1057,7 +1086,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             // Sales Card Type
             case SALES_CARD_TYPE_REQUEST:
                 draft.salesCardTypeLoading = true;
-                draft.salesCardTypeData = null;
+                draft.salesCardTypeData = [];
                 draft.salesCardTypeError = null;
                 break;
             case SALES_CARD_TYPE_SUCCESS:
@@ -1067,7 +1096,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 break;
             case SALES_CARD_TYPE_FAILURE:
                 draft.salesCardTypeLoading = false;
-                draft.salesCardTypeData = null;
+                draft.salesCardTypeData = [];
                 draft.salesCardTypeError = action.payload;
                 break;
 
@@ -1086,6 +1115,57 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.hourlySalesReportChartLoading = false;
                 draft.hourlySalesReportChartData = null;
                 draft.hourlySalesReportChartError = action.payload;
+                break;
+
+            // Sales By Channel
+            case SALES_BY_CHANNEL_REQUEST:
+                draft.salesByChannelLoading = true;
+                draft.salesByChannelData = [];
+                draft.salesByChannelError = null;
+                break;
+            case SALES_BY_CHANNEL_SUCCESS:
+                draft.salesByChannelLoading = false;
+                draft.salesByChannelData = action.payload;
+                draft.salesByChannelError = null;
+                break;
+            case SALES_BY_CHANNEL_FAILURE:
+                draft.salesByChannelLoading = false;
+                draft.salesByChannelData = [];
+                draft.salesByChannelError = action.payload;
+                break;
+
+            //get offer summary
+            case GET_OFFER_SUMMARY_REQUEST:
+                draft.offerSummaryLoading = true;
+                draft.offerSummaryData = [];
+                draft.offerSummaryError = null;
+                break;
+            case GET_OFFER_SUMMARY_SUCCESS:
+                draft.offerSummaryLoading = false;
+                draft.offerSummaryData = action.payload;
+                draft.offerSummaryError = null;
+                break;
+            case GET_OFFER_SUMMARY_FAILURE:
+                draft.offerSummaryLoading = false;
+                draft.offerSummaryData = [];
+                draft.offerSummaryError = action.payload;
+                break;
+
+            //get voided order summary 
+            case GET_VOIDED_ORDER_SUMMARY_REQUEST:
+                draft.voidedOrderSummaryLoading = true;
+                draft.voidedOrderSummaryData = [];
+                draft.voidedOrderSummaryError = null;
+                break;
+            case GET_VOIDED_ORDER_SUMMARY_SUCCESS:
+                draft.voidedOrderSummaryLoading = false;
+                draft.voidedOrderSummaryData = action.payload;
+                draft.voidedOrderSummaryError = null;
+                break;
+            case GET_VOIDED_ORDER_SUMMARY_FAILURE:
+                draft.voidedOrderSummaryLoading = false;
+                draft.voidedOrderSummaryData = [];
+                draft.voidedOrderSummaryError = action.payload;
                 break;
 
             default:

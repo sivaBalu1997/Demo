@@ -14,17 +14,18 @@ interface RevenueChartProps {
 }
 
 const RevenueClassChart: React.FC<RevenueChartProps> = ({dataList}) => {
-  const dataArray = Array.isArray(dataList) ? dataList : Object.entries(dataList || {}).map(([hour, data]) => ({
-    hour,
-    ...data
-  }));
 
+//   {
+//     "revenueClass": "Beverages",
+//     "itemsSold": 23,
+//     "totalSales": "742.00"
+// }
   const data = {
-    labels: dataArray.map((item) => item?.hour) || [],
+    labels:  Array.from(new Set(dataList?.map((item:any) => item?.revenueClass))),
     datasets: [
       {
         label: "Sales",
-        data: dataArray.map((item) => item?.totalAmount || item?.totalSales || 0) || [],
+        data: dataList?.map((item:any) => item?.totalSales||0),
         backgroundColor: "#B8860B",
         borderRadius: 5,
         barPercentage: 0.7,
@@ -39,7 +40,7 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({dataList}) => {
     plugins: {
       tooltip: {
         callbacks: {
-          label: (tooltipItem: any) => `Sales: $${tooltipItem.raw?.toFixed(2) || 0}`,
+          label: (tooltipItem: any) => `Sales: $${tooltipItem.raw || 0}`,
         },
       },
       datalabels: {

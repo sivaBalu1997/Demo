@@ -8,14 +8,21 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 interface EmployeeSalesChartProps {
   dataList: Record<string, any>[];
 }
-
+// {
+//   "date": "",
+//   "fullName": "AdminDemo",
+//   "tip": "0.00",
+//   "serviceFee": "0.00",
+//   "total": "2162.56",
+//   "orders": 18
+// }
 const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({ dataList }) => {
   const data = {
-    labels: dataList?.map((item: any) => item?.fullName),
+    labels: Array.from(new Set(dataList?.map((item:any) => item?.fullName))),
     datasets: [
       {
         label: "Sales ($)",
-        data: dataList?.map((item: any) => item?.serviceFee),
+        data:dataList?.map((item:any) => item?.total||0),
         backgroundColor: "#2196F3", // Blue color
         barPercentage: 0.6,    // Thinner bars
         categoryPercentage: 0.6,

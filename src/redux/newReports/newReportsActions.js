@@ -137,7 +137,16 @@ import {
     STAFF_SALES_FAILURE,
     HOURLY_SALES_REPORT_CHART_REQUEST,
     HOURLY_SALES_REPORT_CHART_SUCCESS,
-    HOURLY_SALES_REPORT_CHART_FAILURE
+    HOURLY_SALES_REPORT_CHART_FAILURE,
+    SALES_BY_CHANNEL_SUCCESS,
+    SALES_BY_CHANNEL_FAILURE,
+    SALES_BY_CHANNEL_REQUEST,
+    GET_OFFER_SUMMARY_FAILURE,
+    GET_VOIDED_ORDER_SUMMARY_REQUEST,
+    GET_VOIDED_ORDER_SUMMARY_SUCCESS,
+    GET_VOIDED_ORDER_SUMMARY_FAILURE,
+    GET_OFFER_SUMMARY_SUCCESS,
+    GET_OFFER_SUMMARY_REQUEST
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -199,6 +208,27 @@ export const salesByRevenueClassSuccess = (data) => {
 export const salesByRevenueClassFailure = (error) => {
     return {
         type: SALES_BY_REVENUE_CLASS_FAILURE,
+        payload: error
+    }
+}
+
+export const salesByChannelRequest = (data) => {
+    return {
+        type: SALES_BY_CHANNEL_REQUEST,
+        payload: data
+    }
+}
+
+export const salesByChannelSuccess = (data) => {
+    return {
+        type: SALES_BY_CHANNEL_SUCCESS,
+        payload: data
+    }
+}
+
+export const salesByChannelFailure = (error) => {
+    return {
+        type: SALES_BY_CHANNEL_FAILURE,
         payload: error
     }
 }
@@ -1076,3 +1106,33 @@ export const hourlySalesReportChartFailure = (error) => ({
     type: HOURLY_SALES_REPORT_CHART_FAILURE,
     payload: error
 });
+
+export const offerSummaryRequest = (data) => ({
+    type: GET_OFFER_SUMMARY_REQUEST,
+    payload: data
+})
+
+export const offerSummarySuccess = (data) => ({
+    type: GET_OFFER_SUMMARY_SUCCESS,
+    payload: data
+})
+
+export const offerSummaryFailure = (error) => ({
+    type: GET_OFFER_SUMMARY_FAILURE,
+    payload: error
+})
+
+export const voidedOrderSummaryRequest = (data) => ({
+    type: GET_VOIDED_ORDER_SUMMARY_REQUEST,
+    payload: data
+})
+
+export const voidedOrderSummarySuccess = (data) => ({
+    type: GET_VOIDED_ORDER_SUMMARY_SUCCESS,
+    payload: data
+})  
+
+export const voidedOrderSummaryFailure = (error) => ({
+    type: GET_VOIDED_ORDER_SUMMARY_FAILURE,
+    payload: error
+})

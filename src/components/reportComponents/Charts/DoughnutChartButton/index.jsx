@@ -5,42 +5,85 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const slices = [
-  { label: "Service delay", value: 22, color: "#0FB36A", items: 125, amount: 87.5 },
-  { label: "Wrong order", value: 13, color: "#F99D2B", items: 55, amount: 45 },
-  { label: "Taste issue", value: 21, color: "#B33BB3", items: 78, amount: 60.0 },
-  { label: "Missing item", value: 21, color: "#14C9C9", items: 90, amount: 72.1 },
-  { label: "Extra order", value: 23, color: "#E3313C", items: 100, amount: 80.0 },
-];
 
-const totalDisplay = "$1200.50";
 
-const centerTextPlugin = {
-  id: "centerText",
-  beforeDraw: (chart) => {
-    const { ctx, chartArea: { left, right, top, bottom } } = chart;
-    const centerX = (left + right) / 2;
-    const centerY = (top + bottom) / 2;
-    ctx.save();
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "#000";
-    ctx.font = "16px Poppins";
-    ctx.fillText("Total", centerX, centerY - 10);
-    ctx.font = "24px Poppins";
-    ctx.fillText(totalDisplay, centerX, centerY + 15);
-    ctx.restore();
-  },
-};
-
-function DoughnutChartWithButton() {
+function DoughnutChartWithButton({ dataList }) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [slices, setSlices] = useState([]);
+  const [centerTextPlugin, setCenterTextPlugin] = useState( {
+    id: "centerText",
+    beforeDraw: (chart) => {
+      const { ctx, chartArea: { left, right, top, bottom } } = chart;
+      const centerX = (left + right) / 2;
+      const centerY = (top + bottom) / 2;
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000";
+      ctx.font = "16px Poppins";
+      ctx.fillText("Total", centerX, centerY - 10);
+      ctx.font = "24px Poppins";
+      ctx.fillText("$0", centerX, centerY + 15);
+      ctx.restore();
+    },
+  });
+  const [totalSales, setTotalSales] = useState(0);
 
+
+  useEffect(()=>{
+    const total = slices.reduce((sum, slice) => sum + slice.amount, 0);
+    setTotalSales(total);
+  },[totalSales])
+
+useEffect(()=>{
+  const colors = [
+    "#0FB36A",
+    "#F99D2B",
+    "#B33BB3",
+    "#14C9C9",
+    "#E3313C",
+  ];
+  const slices = dataList?.map((slice, index) => ({
+    label: slice?.offerName,
+    value: slice?.totalSales,
+    color: colors[index % colors.length],
+    items: slice?.totalOrders,
+    amount: slice?.totalSales,
+  }));
+
+  const totalDisplay = dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0) || 0;
+const sliceData = dataList?.map((slice) => ({
+  label: slice?.offerName,
+  value: slice?.totalSales/totalDisplay*100,
+  color: slice?.color,
+  items: slice?.totalOrders,
+  amount: slice?.totalSales,
+}));
+setSlices(sliceData);
+  setCenterTextPlugin( {
+    id: "centerText",
+    beforeDraw: (chart) => {
+      const { ctx, chartArea: { left, right, top, bottom } } = chart;
+      const centerX = (left + right) / 2;
+      const centerY = (top + bottom) / 2;
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000";
+      ctx.font = "16px Poppins";
+      ctx.fillText("Total", centerX, centerY - 10);
+      ctx.font = "24px Poppins";
+      ctx.fillText(totalDisplay, centerX, centerY + 15);
+      ctx.restore();
+    },
+  }); 
+
+},[dataList])
   // Update window width on resize to trigger re-render.
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -51,7 +94,7 @@ function DoughnutChartWithButton() {
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
-        const positions = meta.data.map((arc) => {
+        const positions = meta.data?.map((arc) => {
           const centerX = arc.x;
           const centerY = arc.y;
           const angle = (arc.startAngle + arc.endAngle) / 2;
@@ -109,11 +152,11 @@ function DoughnutChartWithButton() {
   };
 
   const data = {
-    labels: slices.map((slice) => slice.label),
+    labels: slices?.map((slice) => slice?.label),
     datasets: [
       {
-        data: slices.map((slice) => slice.value),
-        backgroundColor: slices.map((slice) => slice.color),
+        data: slices?.map((slice) => slice?.value),
+        backgroundColor: slices?.map((slice) => slice?.color),
         borderWidth: 0,
         hoverOffset: 15,
       },
@@ -158,7 +201,7 @@ function DoughnutChartWithButton() {
 
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
-        slices.map((slice, index) => {
+        slices?.map((slice, index) => {
           const pos = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;

@@ -457,29 +457,6 @@ export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
     });
 }
 
-export const getCategorySales = (categorySalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
-    const categoryIds = categorySalesPayload?.categoryIds?.join(',');
-    return API({
-        method: "get",
-        url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationid}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}&categoryIds=${categoryIds}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
-}
-
-export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
-    const categoryIds = categorySalesSummaryPayload?.categoryIds?.join(',');
-    return API({
-        method: "get",
-        url: `${reportsBaseUrl}/sales/category/getCategorySalesSummary?locationId=${categorySalesSummaryPayload?.locationid}&startDate=${categorySalesSummaryPayload?.startDate}&endDate=${categorySalesSummaryPayload?.endDate}&categoryIds=${categoryIds}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
-}
 
 export const getSalesSummaryReport = (salesSummaryReportPayload) => {
     // const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -493,6 +470,74 @@ export const getSalesSummaryReport = (salesSummaryReportPayload) => {
     return API({
         method: "get",
         url: `${reportsBaseUrl}/sales/summary?locationId=${salesSummaryReportPayload?.locationid}&startDate=${salesSummaryReportPayload?.startDate}&endDate=${salesSummaryReportPayload?.endDate}&page=${salesSummaryReportPayload?.tablePageNo || 1}&size=${salesSummaryReportPayload?.tableRecordLimit}${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+// export const getHourlySales = (hourlySalesPayload) => {
+// const token = Store.getState()?.auth?.credentials?.accessToken;
+//     return API({
+//         method: "get",
+//         url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid||"d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate||"2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
+//         headers: {
+//             Authorization: 'bearer ' + token,
+//         }
+//     });
+// }
+
+export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const categoryIds = categorySalesSummaryPayload?.categoryIds?.join(',');
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/category/getCategorySalesSummary?locationId=${categorySalesSummaryPayload?.locationid}&startDate=${categorySalesSummaryPayload?.startDate}&endDate=${categorySalesSummaryPayload?.endDate}&categoryIds=${categoryIds}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getSalesByChannel = (salesByChannelPayload) => {
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/channel?locationId=${salesByChannelPayload?.locationid}&startDate=${salesByChannelPayload?.startDate}&endDate=${salesByChannelPayload?.endDate}&page=${salesByChannelPayload?.tablePageNo}&size=${salesByChannelPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
+export const getCategorySales = (categorySalesPayload) => {
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const categoryIds = categorySalesPayload?.categoryIds?.join(',');
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationid}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}&categoryIds=${categoryIds}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+export const getOfferSummary = (offerSummaryPayload) => {
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/offerSummary?locationId=${offerSummaryPayload?.locationid}&startDate=${offerSummaryPayload?.startDate}&endDate=${offerSummaryPayload?.endDate}&page=${offerSummaryPayload?.tablePageNo}&size=${offerSummaryPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getVoidedOrderSummary = (voidedSummaryPayload) => {
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/voidedSummary?locationId=${voidedSummaryPayload?.locationid}&startDate=${voidedSummaryPayload?.startDate}&endDate=${voidedSummaryPayload?.endDate}&page=${voidedSummaryPayload?.tablePageNo || 1}&size=${voidedSummaryPayload?.tableRecordLimit || 100}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -523,13 +568,13 @@ export const getSalesTags = (salesTagsPayload) => {
 
 export const getPaymentDetails = (paymentDetailsPayload) => {
     // const token = Store.getState()?.auth?.credentials?.accessToken;
-    // return API({
-    //     method: "get",
-    //     url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
-    //     headers: {
-    //         Authorization: 'bearer ' + token,
-    //     }
-    // });
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
 }
 
 // export const getHourlySales = (hourlySalesPayload) => {

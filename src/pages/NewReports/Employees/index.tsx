@@ -176,6 +176,31 @@ const Employees: React.FC = () => {
 
     return (
         <div className='report-sales-employee-container'>
+                {showAllActivityTable ? <div className="void-activity-table-container">
+                <div className="void-activity-button-container">
+                    <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
+                </div>
+                <NewTable
+                    kpiTitle="Employee Void Activity"
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    headerData={newTableHeaders}
+                    tableData={
+                        employeeVoidActivityAPIRedux &&
+                        employeeVoidActivityAPIRedux?.length > 0 &&
+                        employeeVoidActivityAPIRedux
+                    }
+                    currentPage={currentPageEmployeeVoidActivity}
+                    totalPages={employeeVoidActivityTotalPagesRedux}
+                    onPageChange={setCurrentPageEmployeeVoidActivity}
+                    rowsPerPage={employeeVoidRecordLimit}
+                    setRowsPerPage={setEmployeeVoidRecordLimit}
+                    loader={employeeVoidActivityLoading}
+                    count={employeeVoidActivityAPIRedux?.length}
+                    searchPlaceHolder="Search By Steward, Voided reasons"
+                    onSearch={handleSearch}
+                />
+            </div>:<>
                   <StoreFilter
       storeOptions={locations?.map(((data:any)=>({label:data,value:locationid })))}
         selectedDate={selectedDate}
@@ -213,7 +238,7 @@ const Employees: React.FC = () => {
                     <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} incrementDecrementValue={"21"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
                 </div>
             </div>
-            {!showAllActivityTable ? <CustomBarChart
+        <CustomBarChart
                 data={chartData}
                 tooltipData={tooltipData}
                 barColor="#67823D"
@@ -224,31 +249,8 @@ const Employees: React.FC = () => {
                 kpiTitle='All Activity'
                 showRelatedTable={showAllActivityTable}
                 setShowRelatedTable={setShowAllActivityTable}
-            /> : <div className="void-activity-table-container">
-                <div className="void-activity-button-container">
-                    <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
-                </div>
-                <NewTable
-                    kpiTitle="Employee Void Activity"
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    headerData={newTableHeaders}
-                    tableData={
-                        employeeVoidActivityAPIRedux &&
-                        employeeVoidActivityAPIRedux?.length > 0 &&
-                        employeeVoidActivityAPIRedux
-                    }
-                    currentPage={currentPageEmployeeVoidActivity}
-                    totalPages={employeeVoidActivityTotalPagesRedux}
-                    onPageChange={setCurrentPageEmployeeVoidActivity}
-                    rowsPerPage={employeeVoidRecordLimit}
-                    setRowsPerPage={setEmployeeVoidRecordLimit}
-                    loader={employeeVoidActivityLoading}
-                    count={employeeVoidActivityAPIRedux?.length}
-                    searchPlaceHolder="Search By Steward, Voided reasons"
-                    onSearch={handleSearch}
-                />
-            </div>}
+            /> 
+        </> } 
         </div>
     );
 };

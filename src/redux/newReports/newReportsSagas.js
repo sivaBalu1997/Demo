@@ -91,6 +91,14 @@ import {
     salesCardTypeFailure,
     hourlySalesReportChartSuccess,
     hourlySalesReportChartFailure,
+    salesByChannelSuccess,
+    salesByChannelFailure,
+    getVoidedOrderSummarySuccess,
+    getOfferSummaryFailure,
+    voidedOrderSummarySuccess,
+    voidedOrderSummaryFailure,
+    offerSummaryFailure,
+    offerSummarySuccess,
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -138,6 +146,9 @@ import {
     CATEGORY_SALES_SUMMARY_REQUEST,
     LOCATION_DETAILS_REQUEST,
     PAYMENT_DETAILS_REQUEST,
+    SALES_BY_CHANNEL_REQUEST,
+    GET_OFFER_SUMMARY_REQUEST,
+    GET_VOIDED_ORDER_SUMMARY_REQUEST,
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -184,6 +195,9 @@ import {
     getCategorySalesSummary,
     getLocationDetails,
     getPaymentDetails,
+    getSalesByChannel,
+    getVoidedOrderSummary,
+    getOfferSummary,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -771,7 +785,6 @@ export function* billedUnbilledRequestSaga(action) {
         // console.log("response of billedUnbilledRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(billerUnbilledSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(billerUnbilledFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -790,7 +803,6 @@ function* voidedSummaryRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(voidedSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(voidedSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -809,7 +821,6 @@ function* dropdownDetailsRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(dropdownDetailsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dropdownDetailsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -827,7 +838,6 @@ function* categoryChannelSummaryRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(categoryChannelSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(categoryChannelSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -845,7 +855,6 @@ function* categorySalesRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(categorySalesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(categorySalesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -863,7 +872,6 @@ function* categorySalesSummaryRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(categorySalesSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(categorySalesSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -898,7 +906,6 @@ function* paymentDetailsRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(paymentDetailsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {           
             yield put(paymentDetailsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -915,7 +922,6 @@ function* salesSummaryReportRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(salesSummaryReportSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {           
             yield put(salesSummaryReportFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -932,7 +938,6 @@ function* staffSalesRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffSalesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {           
             yield put(staffSalesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -947,16 +952,13 @@ function* staffSalesRequestSaga(action) {
 function* salesCategoryRequestSaga(action) {
     try {
         const response = yield call(getSalesCategory, action.payload);
-        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(salesCategorySuccess(decryptedData));
+            yield put(salesCategorySuccess(response.data));
         } else {
-            yield put(salesCategoryFailure(decryptedData?.message));
-            showErrorToast(decryptedData?.message);
+            yield put(salesCategoryFailure('Failed to fetch sales category data'));
         }
     } catch (error) {
         yield put(salesCategoryFailure(error.message));
-        showErrorToast(error.message);
     }
 }
 
@@ -964,16 +966,13 @@ function* salesCategoryRequestSaga(action) {
 function* salesCardTypeRequestSaga(action) {
     try {
         const response = yield call(getSalesCardType, action.payload);
-        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(salesCardTypeSuccess(decryptedData));
+            yield put(salesCardTypeSuccess(response.data));
         } else {
-            yield put(salesCardTypeFailure(decryptedData?.message));
-            showErrorToast(decryptedData?.message);
+            yield put(salesCardTypeFailure('Failed to fetch sales card type data'));
         }
     } catch (error) {
         yield put(salesCardTypeFailure(error.message));
-        showErrorToast(error.message);
     }
 }
 
@@ -981,15 +980,63 @@ function* salesCardTypeRequestSaga(action) {
 function* hourlySalesReportChartRequestSaga(action) {
     try {
         const response = yield call(getHourlySalesReportChart, action.payload);
-        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(hourlySalesReportChartSuccess(decryptedData));
+            yield put(hourlySalesReportChartSuccess(response.data));
         } else {
-            yield put(hourlySalesReportChartFailure(decryptedData?.message));
-            showErrorToast(decryptedData?.message);
+            yield put(hourlySalesReportChartFailure('Failed to fetch hourly sales report chart data'));
         }
     } catch (error) {
         yield put(hourlySalesReportChartFailure(error.message));
+    }
+}
+
+// Sales By Channel Saga
+function* salesByChannelRequestSaga(action) {
+    try {
+        const response = yield call(getSalesByChannel, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(salesByChannelSuccess(decryptedData));
+        } else {
+            yield put(salesByChannelFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(salesByChannelFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Offer Summary Saga
+function* offerSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getOfferSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(offerSummarySuccess(decryptedData));
+        } else {
+            yield put(offerSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(offerSummaryFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Voided Order Summary Saga
+function* voidedOrderSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getVoidedOrderSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(voidedOrderSummarySuccess(decryptedData));
+        } else {
+            yield put(voidedOrderSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(voidedOrderSummaryFailure(error.message));
         showErrorToast(error.message);
     }
 }
@@ -1041,4 +1088,7 @@ export default function* watchNewReportRequest() {
     yield takeLatest(SALES_CATEGORY_REQUEST, salesCategoryRequestSaga);
     yield takeLatest(SALES_CARD_TYPE_REQUEST, salesCardTypeRequestSaga);
     yield takeLatest(HOURLY_SALES_REPORT_CHART_REQUEST, hourlySalesReportChartRequestSaga);
+    yield takeLatest(SALES_BY_CHANNEL_REQUEST, salesByChannelRequestSaga);
+    yield takeLatest(GET_OFFER_SUMMARY_REQUEST, offerSummaryRequestSaga);
+    yield takeLatest(GET_VOIDED_ORDER_SUMMARY_REQUEST, voidedOrderSummaryRequestSaga);
 }

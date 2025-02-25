@@ -12,21 +12,25 @@ const CardTypeChart = ({dataList}: {dataList: any[]}) => {
 
 
 const data = {
-  labels:  dataList?.map((item:any) => item?.label),
+  labels:  Array.from(new Set(dataList?.map((item:any) => item?.cardName))),
   datasets: [
     {
       label: "Credit card",
-      data:  dataList?.filter((item:any) => item?.cardType === "Credit card")?.map((item:any) => item?.amount),
+      data:  dataList?.filter((item:any) => item?.cardType === "CREDIT")?.map((item:any) => item?.totalSales||0),
       backgroundColor: "#2196F3", // Blue
       barPercentage: 0.7,    // Thinner bars
       categoryPercentage: 0.6,
+      // barThickness: 80,
+      // minBarLength: 5,
     },
     {
       label: "Debit card",
-      data: dataList?.filter((item:any) => item?.cardType === "Debit card")?.map((item:any) => item?.amount),
+      data: dataList?.filter((item:any) => item?.cardType === "DEBIT")?.map((item:any) => item?.totalSales||0),
       backgroundColor: "#D98F2B", // Orange
       barPercentage: 0.7,    // Thinner bars
       categoryPercentage: 0.6,
+      // barThickness: 80,//TODO: check for larger no of bars
+      // minBarLength: 5,
       
     },
   ],
