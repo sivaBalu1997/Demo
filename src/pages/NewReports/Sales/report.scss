@@ -7,7 +7,17 @@
     width: 100%;
     max-width: 100%;
     padding: 60px 30px 60px 35px;
-
+.sales-overview-doughnut-chart-container{
+  display: flex;
+  flex-direction: row;
+  // width: 100%;
+  // flex-wrap: wrap;
+  gap: 30px;
+//   margin-top: 20px;
+//   flex-basis: 45%;
+flex-grow: 1;
+  // background-color: lightblue;
+}
     .sales-overview-sub-heading {
         font-family: Poppins;
         font-weight: 500;

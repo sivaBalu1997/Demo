@@ -8,6 +8,7 @@ import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
 import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 import { DateObject } from "react-multi-date-picker";
+import { useSelector } from "react-redux";
 
 interface StoreFilterProps {
   selectedDate?: StoreOption;
@@ -27,6 +28,7 @@ interface StoreOption {
 
 const dateOptions: StoreOption[] = [
   { label: "Yesterday", value: "Yesterday" },
+  { label: "Today", value: "Today" },
   { label: "This week", value: "This week" },
   { label: "This month", value: "This month" },
   { label: "This year", value: "This year" },
@@ -61,6 +63,18 @@ const StoreFilter = ({
   //     dispatch(storeMockDataRequest(store.storeId));
   //     history.push(`/product-catalog?storeId=${store.storeId}`);
   // };
+
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.branch
+  );
+
+  const mappedIdWithBranchName: StoreOption[] = restaurantDetails?.map(
+    (branchWithId: any) => ({
+      value: branchWithId?.id,
+      label: branchWithId?.locationName,
+    })
+  );
+
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [rangeDateLabel, setRangeDateLabel] = useState("");
@@ -96,6 +110,46 @@ const StoreFilter = ({
     }
   };
   const calendarRef = useRef<any>(null);
+  function formatDateToYYYYMMDD(date: Date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+  const handleDateDropdownOnSelect = (option: StoreOption) => {
+    const today = new Date();
+    let from, to;
+    if (option.value == "Yesterday") {
+      from = to = new Date(today);
+      from.setDate(today.getDate() - 1);
+    } else if (option.value == "Today") {
+      from = to = new Date(today);
+    } else if (option.value == "This week") {
+      from = new Date(today);
+      from.setDate(today.getDate() - today.getDay()); // Start of the week (Sunday)
+      to = today;
+    } else if (option.value == "This month") {
+      from = new Date(today.getFullYear(), today.getMonth(), 1); // 1st of this month
+      to = today;
+    } else if (option.value == "This year") {
+      from = new Date(today.getFullYear(), 0, 1); // 1st Jan of this year
+      to = today;
+    } else {
+      from = to = today;
+    }
+
+    const formattedFromDate = formatDateToYYYYMMDD(from);
+    const formattedToDate = formatDateToYYYYMMDD(to);
+
+    console.log(formattedFromDate, formattedToDate, "Here it the date ");
+    if (option.value == "Custom Date") {
+      calendarRef.current?.openCalendar();
+    } else {
+      setIsDateSelected(false);
+    }
+    setSelectedDate(option);
+  };
   return (
     <div className="reports-filters-section">
       <div className="category-store-name">
@@ -107,14 +161,7 @@ const StoreFilter = ({
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select date</span>
             <CustomDropdown
-              onSelect={(option: StoreOption) => {
-                if (option.value == "Custom Date") {
-                  calendarRef.current?.openCalendar();
-                } else {
-                  setIsDateSelected(false);
-                }
-                setSelectedDate(option);
-              }}
+              onSelect={handleDateDropdownOnSelect}
               options={dateOptions}
               value={
                 isDateSelected
