@@ -95,7 +95,7 @@ const StoreFilter = ({
           : new DateObject(selectedDates[1]);
 
       if (datePickerApplyFunction != null && datePickerApplyFunction) {
-        datePickerApplyFunction(startDate, endDate);
+        datePickerApplyFunction(startDate.format("YYYY-MM-DD"), endDate.format("YYYY-MM-DD"));
       }
       calendarRef.current?.closeCalendar();
 

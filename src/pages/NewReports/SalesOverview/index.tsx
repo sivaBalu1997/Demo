@@ -138,6 +138,9 @@ const SalesOverview: React.FC<ReportProps> = () => {
   const datepickerApply = (data1: any, data2: any) => {
     console.log(data1, data2, "selected Date is here");
   };
+
+
+
   return (
     <>
       {/* Date and Store */}

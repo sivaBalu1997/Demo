@@ -99,6 +99,9 @@ import {
     BILLED_UNBILLED_REQUEST,
     BILLED_UNBILLED_SUCCESS,
     BILLED_UNBILLED_FAILURE,
+    EMPLOYEE_SALES_OVERVIEW_REQUEST,
+    EMPLOYEE_SALES_OVERVIEW_SUCCESS,
+    EMPLOYEE_SALES_OVERVIEW_FAILURE,
 } from "../newReports/newReportsConstants";
 
 
@@ -241,6 +244,10 @@ const initialNewReportsState = {
     billedUnbilledLoading: false,
     billedUnbilledSuccess: [],
     billedUnbilledFailure: false,
+    // employee sales overview
+    employeeSalesOverviewLoading: false,
+    employeeSalesOverviewSuccess: [],
+    employeeSalesOverviewFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -789,6 +796,21 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.billedUnbilledLoading = false;
                 draft.billedUnbilledSuccess = [];
                 draft.billedUnbilledFailure = true;
+                break;
+            case EMPLOYEE_SALES_OVERVIEW_REQUEST:
+                draft.employeeSalesOverviewLoading = true;
+                draft.employeeSalesOverviewSuccess = [];
+                draft.employeeSalesOverviewFailure = false;
+                break;
+            case EMPLOYEE_SALES_OVERVIEW_SUCCESS:
+                draft.employeeSalesOverviewLoading = false;
+                draft.employeeSalesOverviewSuccess = action.payload;
+                draft.employeeSalesOverviewFailure = false;
+                break;
+            case EMPLOYEE_SALES_OVERVIEW_FAILURE:
+                draft.employeeSalesOverviewLoading = false;
+                draft.employeeSalesOverviewSuccess = [];
+                draft.employeeSalesOverviewFailure = true;
                 break;
             default:
                 break;

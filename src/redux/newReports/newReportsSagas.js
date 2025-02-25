@@ -66,7 +66,10 @@ import {
     dailyCheckInStatusSuccess,
     dailyCheckInStatusFailure,
     billerUnbilledSuccess,
-    billerUnbilledFailure
+    billerUnbilledFailure,
+    employeeSalesOverviewRequest,
+    employeeSalesOverviewSuccess,
+    employeeSalesOverviewFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -83,6 +86,7 @@ import {
     DAY_CHECKIN_REQUEST,
     DAY_OVER_DAY_GUEST_REQUEST,
     DISCOUNT_SUMMARY_REQUEST,
+    EMPLOYEE_SALES_OVERVIEW_REQUEST,
     EMPLOYEE_STAFF_ACTIVITY_REQUEST,
     EMPLOYEE_STAFF_DISCOUNT_REQUEST,
     EMPLOYEE_STAFF_PERFORMANCE_REQUEST,
@@ -117,6 +121,7 @@ import {
     getDayCheckIn,
     getDayOverDayGuest,
     getDiscountSummary,
+    getEmployeeSalesOverview,
     getEmployeeStaffActivity,
     getEmployeeStaffDiscount,
     getEmployeeStaffPerformance,
@@ -733,6 +738,27 @@ export function* billedUnbilledRequestSaga(action) {
     }
 }
 
+
+// employeeSalesOverViewSaga
+export function* employeeSalesOverViewSaga(action) {
+    try {
+        const response = yield call(getEmployeeSalesOverview, action.payload);
+        // const decryptedData = response?.data
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            // console.log("response of employeeSalesOverViewSaga", { decryptedData });
+            yield put(employeeSalesOverviewSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(employeeSalesOverviewFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(employeeSalesOverviewFailure(error));
+    }
+}
+
+
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
@@ -767,4 +793,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_CHECKIN_STATUS_REQUEST, liveCheckInStatusRequestSaga);
     yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga);
     yield takeLatest(BILLED_UNBILLED_REQUEST, billedUnbilledRequestSaga);
+    yield takeLatest(EMPLOYEE_SALES_OVERVIEW_REQUEST, employeeSalesOverViewSaga);
 }

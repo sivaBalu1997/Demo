@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from 'interface/newReportsInterface';
 import { useDispatch, useSelector } from 'react-redux';
-import { employeeStaffActivityRequest } from 'redux/newReports/newReportsActions';
+import { employeeSalesOverviewRequest, employeeStaffActivityRequest } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
@@ -14,6 +14,16 @@ import "./style.scss";
 const Employees: React.FC = () => {
 
     const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
+
+    const employeeSalesOverViewFromAPIRedux = useSelector(
+        (state: any) => state?.newReports?.employeeSalesOverviewSuccess
+    );
+
+    const employeeSalesOverViewFromAPIReduxLoader = useSelector(
+        (state: any) => state?.newReports?.employeeSalesOverviewLoading
+    );
+
+    console.log("qqqq", { employeeSalesOverViewFromAPIRedux })
 
     const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
 
@@ -49,6 +59,15 @@ const Employees: React.FC = () => {
     const employeeVoidActivityLoading = useSelector(
         (state: any) => state?.newReports?.employeeStaffActivityLoading
     );
+
+    const [appliedStartDate, setAppliedStartDate] = useState<string>("");
+    const [appliedEndDate, setAppliedEndDate] = useState<string>("");
+
+    const datepickerApply = (data1: any, data2: any) => {
+        console.log(data1, data2, "selected Date is here");
+        setAppliedStartDate(data1);
+        setAppliedEndDate(data2);
+    };
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -86,8 +105,8 @@ const Employees: React.FC = () => {
                     dispatch(
                         employeeStaffActivityRequest({
                             locationid: selectedLocationidFromDropDown,
-                            startDate: "2025-01-25",
-                            endDate: "2025-02-24",
+                            startDate: appliedStartDate,
+                            endDate: appliedEndDate,
                             tablePageNo: currentPageEmployeeVoidActivity,
                             tableRecordLimit: employeeVoidRecordLimit,
                         })
@@ -138,8 +157,8 @@ const Employees: React.FC = () => {
             dispatch(
                 employeeStaffActivityRequest({
                     locationid: selectedLocationidFromDropDown,
-                    startDate: "2025-01-25",
-                    endDate: "2025-02-24",
+                    startDate: appliedStartDate,
+                    endDate: appliedEndDate,
                     tablePageNo: currentPageEmployeeVoidActivity,
                     tableRecordLimit: employeeVoidRecordLimit,
                 })
@@ -147,25 +166,37 @@ const Employees: React.FC = () => {
         }
     }, [
         selectedLocationidFromDropDown,
-        // startDate,
-        // endDate,
+        appliedStartDate,
+        appliedEndDate,
         currentPageEmployeeVoidActivity,
         employeeVoidRecordLimit,
     ]);
+
 
     const handleGoBackToChart = () => {
         setShowAllActivityTable(false);
     }
 
-    const getDates = (startDate: any, endDate: any) => {
-        console.log("startDate", startDate);
-        console.log("endDate", endDate);
-        console.log("Hi from fun")
-    }
+
+    useEffect(() => {
+        if (selectedLocationidFromDropDown) {
+            dispatch(
+                employeeSalesOverviewRequest({
+                    locationid: selectedLocationidFromDropDown,
+                    startDate: appliedStartDate,
+                    endDate: appliedEndDate,
+                })
+            );
+        }
+    }, [
+        selectedLocationidFromDropDown,
+        appliedStartDate,
+        appliedEndDate,
+    ]);
 
     return (
         <div className='report-sales-employee-container'>
-            <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={getDates} />
+            <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={datepickerApply} />
             <div className="employee-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="select-employee-container">
@@ -186,14 +217,14 @@ const Employees: React.FC = () => {
                     </div>
                 </div>
                 <div className="employee-report-sales-overview-box-container">
-                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={8500.90} isMonetary={true} loader={false} incrementDecrementValue={"21"} graphType='chart' incrementOrDecrement='decrement' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={6990.90} isMonetary={true} loader={false} incrementDecrementValue={"20"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={425.00} isMonetary={true} loader={false} incrementDecrementValue={"18"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={250.00} isMonetary={true} loader={false} incrementDecrementValue={"19"} graphType='chart' incrementOrDecrement='decrement' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={350.00} isMonetary={true} loader={false} incrementDecrementValue={"41"} graphType='chart' incrementOrDecrement='decrement' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} incrementDecrementValue={"31"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Discount" cardValue={155.50} isMonetary={true} loader={false} incrementDecrementValue={"11"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={80.00} isMonetary={true} loader={false} incrementDecrementValue={"21"} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilSales} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalSalesPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalSalesPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilNetSales} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.netSalesPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.netSalesPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTax} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTaxPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTips} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={employeeSalesOverViewFromAPIRedux?.gratuity} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.gratuityPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.gratuityPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                    {/* <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.transactionPercentage} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} /> */}
+                    <CardWithMiniGraph cardTitle="Discount" cardValue={employeeSalesOverViewFromAPIRedux?.discounts} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.discountPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.discountPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={employeeSalesOverViewFromAPIRedux?.cancelledOrders} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.cancelledPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.cancelledPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                 </div>
             </div>
             {!showAllActivityTable ? <CustomBarChart
