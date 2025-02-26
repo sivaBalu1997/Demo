@@ -1,18 +1,17 @@
 import React from 'react';
 import "./ToggleSliderAvail.scss";
 
-const Toggle = ({ toggle, setToggle, Enable,pen,hidden }) => {
+const Toggle = ({ toggle, setToggle, Enable,pen }) => {
   return (
     <div>
       <button
-        className={`toggleBtnAvail${toggle ? " ToggledAvail" : ""} ${(!Enable || hidden==0 )? "DisabledAvail" : ""}`}
-        style={{opacity:hidden==0?"50%":"100%"}}
+        className={`toggleBtnAvail${toggle ? " ToggledAvail" : ""} ${!Enable ? "DisabledAvail" : ""}`}
         onClick={() => {
-          //if (Enable) {
+          if (Enable) {
             setToggle?.((prev) => !prev);
-          //}
+          }
         }}
-        disabled={hidden==0} 
+        disabled={!Enable} 
       >
         <div className={`thumbAvail`}></div>
       </button>

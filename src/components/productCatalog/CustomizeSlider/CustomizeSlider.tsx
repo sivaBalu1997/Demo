@@ -309,7 +309,6 @@ const CustomizeSlider = () => {
                     toggle={elem.isEnabled}
                     setToggle={() => handleParentToggle(index)}
                     Enable={true}
-                    hidden={1}
                     pen={pen}
                   />
                 </div>
@@ -337,7 +336,6 @@ const CustomizeSlider = () => {
                           toggle={subitem.isEnabled}
                           setToggle={() => handleChildToggle(index, subindex)}
                           pen={pen}
-                          hidden={1}
                           Enable={true}
                         />
 
