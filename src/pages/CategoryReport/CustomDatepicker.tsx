@@ -18,6 +18,7 @@ export interface CustomDatePickerProps {
   containerClassName?: string;
   arrowClassName?: string;
   offsetY?: number;
+  selectedDates?: any;
 }
 
 // forwardRef will allow an optional ref to be passed. If none is provided, ref is undefined.
@@ -36,27 +37,28 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
       containerClassName = "",
       arrowClassName = "",
       offsetY,
+      selectedDates,
     },
     ref
   ) => {
-    const [selectedDates, setSelectedDates] = useState<any[]>([]);
+    // const [selectedDates, setSelectedDates] = useState<any[]>([]);
 
-    const handleApply = (dates: any) => {
-      console.log("Applied Dates:", dates);
-      setSelectedDates(dates);
-    };
+    // const handleApply = (dates: any) => {
+    //   console.log("Applied Dates:", dates);
+    //   setSelectedDates(dates);
+    // };
 
-    const handleCancel = () => {
-      console.log("Canceled");
-      setSelectedDates([]);
-    };
+    // const handleCancel = () => {
+    //   console.log("Canceled");
+    //   setSelectedDates([]);
+    // };
 
     return (
       <div className={containerClassName}>
         <DatePicker
           ref={ref as React.MutableRefObject<any>}
           arrowClassName={arrowClassName}
-          // value={selectedDates}
+          value={selectedDates}
           containerClassName={datePickerContainerClassName}
           onChange={handleOnChange}
           range
