@@ -349,7 +349,7 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
