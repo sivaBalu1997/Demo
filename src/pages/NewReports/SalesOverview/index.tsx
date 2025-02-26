@@ -213,6 +213,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const voidedOrderSummary = useSelector(
     (state: any) => state?.newReports?.voidedOrderSummaryData?.content
   );
+  const getPremisesSummary = useSelector(
+    (state: any) => state?.newReports?.premisesSummaryData?.content
+  );
+
   //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
   const dispatch = useDispatch();
   useEffect(() => {
