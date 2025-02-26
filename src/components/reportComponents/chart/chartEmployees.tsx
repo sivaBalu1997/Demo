@@ -1,9 +1,30 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
-import "./chart.scss";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartOptions,
+  TooltipItem,
+} from "chart.js";
+// @ts-ignore
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ChartData } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register required components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 interface EmployeeSalesChartProps {
   dataList: Record<string, any>[];
@@ -16,21 +37,22 @@ interface EmployeeSalesChartProps {
 //   "total": "2162.56",
 //   "orders": 18
 // }
-const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({ dataList }) => {
+const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
+  dataList,
+}) => {
   const data = {
-    labels: Array.from(new Set(dataList?.map((item:any) => item?.fullName))),
+    labels: Array.from(new Set(dataList?.map((item: any) => item?.fullName))),
     datasets: [
       {
         label: "Sales ($)",
-        data:dataList?.map((item:any) => item?.total||0),
+        data: dataList?.map((item: any) => item?.total || 0),
         backgroundColor: "#2196F3", // Blue color
-        barPercentage: 0.6,    // Thinner bars
+        barPercentage: 0.6, // Thinner bars
         categoryPercentage: 0.6,
-  
       },
     ],
   };
-  
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -43,9 +65,9 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({ dataList }) => 
           },
         },
       },
-            datalabels: {
-          display: false,
-        },
+      datalabels: {
+        display: false,
+      },
     },
     scales: {
       x: { grid: { display: false } },
@@ -53,7 +75,7 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({ dataList }) => 
     },
   };
   return (
-    <div style={{ width: "100%", height: "500px" }}>   
+    <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>
   );

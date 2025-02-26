@@ -11,7 +11,14 @@ import {
 } from "chart.js";
 
 // Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function LinearBarChart({ barColorCode, dataList  }) {
   // Prepare the Chart.js data object
@@ -22,7 +29,7 @@ function LinearBarChart({ barColorCode, dataList  }) {
         label: "Sales",
         data: dataList?.map((cat) => Number(cat?.voidedAmount||0))||[],
         backgroundColor: barColorCode,
-        barPercentage: 0.4,    // Thinner bars
+        barPercentage: 0.4, // Thinner bars
         categoryPercentage: 0.6,
       },
     ],
@@ -37,7 +44,8 @@ function LinearBarChart({ barColorCode, dataList  }) {
       tooltip: {
         // Customize tooltip styling
         backgroundColor: "#fff",
-        borderColor: barColorCode??"#6F6F6F",
+        borderColor: barColorCode ?? "#6F6F6F",
+        caretSize: 0,
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",
@@ -57,7 +65,6 @@ function LinearBarChart({ barColorCode, dataList  }) {
             return [`Qty: ${cat?.itemCount}`, `Sales: $${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },
-
       },
       datalabels: {
         display: false,

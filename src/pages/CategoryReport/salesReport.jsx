@@ -58,6 +58,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
         titleColor: "#000",
         bodyColor: "#000",
         cornerRadius: 4,
+        caretSize: 0,
         // Custom tooltip content
         callbacks: {
           // The title callback returns the x-axis label

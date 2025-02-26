@@ -9,6 +9,7 @@ import ReportsRefreshButton from "../ReportsRefreshButton";
 import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 import { DateObject } from "react-multi-date-picker";
 import { useSelector } from "react-redux";
+import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";
 
 interface StoreFilterProps {
   selectedDate?: StoreOption;
@@ -21,11 +22,12 @@ interface StoreFilterProps {
   showStore?: boolean;
   showRefresh?: boolean;
   handleRefreshClick?: () => void;
-  storeOptions?: StoreOption[]
+  storeOptions?: StoreOption[];
 }
 interface StoreOption {
   label: string;
   value: string;
+  icon?: React.ReactNode;
 }
 
 const dateOptions: StoreOption[] = [
@@ -34,21 +36,21 @@ const dateOptions: StoreOption[] = [
   { label: "This week", value: "This week" },
   { label: "This month", value: "This month" },
   { label: "This year", value: "This year" },
-  { label: "Custom Date", value: "Custom Date" },
+  { label: "Custom Date", value: "Custom Date", icon: <CalendarIcon /> },
 ];
 
 const StoreFilter = ({
   selectedDate,
-  setSelectedDate = () => { },
+  setSelectedDate = () => {},
   selectedStore,
-  setSelectedStore = () => { },
+  setSelectedStore = () => {},
   datePickerApplyFunction,
   dateDropdownFunction,
-  handleRefreshClick = () => { },
+  handleRefreshClick = () => {},
   showDate = true,
   showStore = true,
   showRefresh = false,
-  storeOptions = []
+  storeOptions = [],
 }: StoreFilterProps) => {
   // const dispatch = useDispatch();
   // const history = useHistory();
@@ -98,7 +100,10 @@ const StoreFilter = ({
           : new DateObject(selectedDates[1]);
 
       if (datePickerApplyFunction != null && datePickerApplyFunction) {
-        datePickerApplyFunction(startDate.format("YYYY-MM-DD"), endDate.format("YYYY-MM-DD"));
+        datePickerApplyFunction(
+          startDate.format("YYYY-MM-DD"),
+          endDate.format("YYYY-MM-DD")
+        );
       }
       calendarRef.current?.closeCalendar();
 
@@ -168,12 +173,15 @@ const StoreFilter = ({
               value={
                 isDateSelected
                   ? {
-                    value: "Custom Date",
-                    label: `${rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
+                      value: "Custom Date",
+                      label: `${
+                        rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
                       }`,
-                  }
+                      icon: <CalendarIcon />,
+                    }
                   : selectedDate
               }
+              placeholderClass={isDateSelected ? " range-date-selected" : ""}
               className="category-dropdown"
             />
             <CustomDatePicker
