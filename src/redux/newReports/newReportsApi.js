@@ -41,7 +41,6 @@ const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `${reportsBaseUrl}/sales/employee/st
 
 const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffActivity?`;
 
-const token = `eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJwZjRyOEFsQVdraGNpMGhZbkFWRW5SMUE0VUpWUlNpM014V2FQS3hpZlNjIn0.eyJleHAiOjE3NDI0Njk4MDEsImlhdCI6MTczOTg3NzgwMSwianRpIjoiNmVhNmYzOTYtNWE5ZS00ZTA0LTg0NTMtMDcyZDRmZDkwMjJiIiwiaXNzIjoiaHR0cHM6Ly9hdXRoZC5nY3AubWFnaWxodWIuY29tL3JlYWxtcy9tZXJjaGFudCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyM2Y5MWQ0YS02MDA5LTRkNDctODI0OS02ZjY4MmQxZmFmOTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJraW9zayIsInNpZCI6IjYzZDQ3ZjE4LTQzMTEtNDczNy1iMjY1LWExNzc0NDMyY2ExOSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODEiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWVyY2hhbnQiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsia2lvc2siOnsicm9sZXMiOlsiUmVzdGF1cmFudF9Pd25lciJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6ImpvaG5AYTJiZGVtbzIiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIn0.qc0jrtzaWCcXOXfwrsTLsrBaOSXMNy8lw-6UOjDpt7CDoc2TgEbR3RjjfxooF3P4fUZbMdlcaDq9rG1ztkYSfKNH2Qwm6LpoNdJBwF9t812YE8YmrTOaa4HrnHj9Dl3giNJgT92b0rKgFI_PILdbXvmzxKxLYQNnvTkMVsMKgrYqxKDFIdhBtHmFN0a-4Kd2gnHLopOGtqcSPFND27ikS8tHWX9JBsEVJTAfITCv_H8uyNrsebVIW88EHnhLZNbLWgNUCs4wCwPQ1LiBmlkO-WYin4E2eG7grMy6JgLb2t3c39kkNJYBHuB55XdLSAKlUZLPkhlSgJhgQHBUh8lrHg`
 
 // const routes={
 //     test_api: "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/cardType?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-12-01&endDate=2024-12-11&page=1&size=15"
@@ -50,7 +49,7 @@ const token = `eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJwZjRyOEFsQVdra
 
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${SALES_SUMMARY_API_ENDPOINT}?locationId=${getSalesLocationStartEndDate?.locationid}&startDate=${getSalesLocationStartEndDate?.startDate}&endDate=${getSalesLocationStartEndDate?.endDate}`,
@@ -61,7 +60,7 @@ export const getSalesSummary = (getSalesLocationStartEndDate) => {
 };
 
 export const getSalesByItemCategory = (salesByItemCategoryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${SALES_BY_ITEM_CATEGORY_ENDPOINT}?locationId=${salesByItemCategoryPayload?.locationid}&startDate=${salesByItemCategoryPayload?.startDate}&endDate=${salesByItemCategoryPayload?.endDate}&page=${salesByItemCategoryPayload?.tablePageNo}&size=${salesByItemCategoryPayload?.tableRecordLimit}`,
@@ -72,7 +71,7 @@ export const getSalesByItemCategory = (salesByItemCategoryPayload) => {
 }
 
 export const getSalesByRevenueClass = (salesByRevenueClassPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${SALES_BY_REVENUE_CLASS_ENDPOINT}locationId=${salesByRevenueClassPayload?.locationid}&startDate=${salesByRevenueClassPayload?.startDate}&endDate=${salesByRevenueClassPayload?.endDate}&page=${salesByRevenueClassPayload?.tablePageNo}&size=${salesByRevenueClassPayload?.tableRecordLimit}`,
@@ -83,7 +82,7 @@ export const getSalesByRevenueClass = (salesByRevenueClassPayload) => {
 }
 
 export const getActualSales = (actualSalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${ACTUAL_SALES_ENDPOINT}locationId=${actualSalesPayload?.locationid}&startDate=${actualSalesPayload?.startDate}&endDate=${actualSalesPayload?.endDate}&page=${actualSalesPayload?.tablePageNo}&size=${actualSalesPayload?.tableRecordLimit}`,
@@ -94,7 +93,7 @@ export const getActualSales = (actualSalesPayload) => {
 }
 
 export const getHourlySalesChart = (hourlySalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid}&startDate=${hourlySalesPayload?.startDate}&endDate=${hourlySalesPayload?.endDate}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
@@ -105,7 +104,7 @@ export const getHourlySalesChart = (hourlySalesPayload) => {
 }
 
 export const getLiveDiscount = (liveDiscountPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${LIVE_DISCOUNT_ENDPOINT}locationId=${liveDiscountPayload?.locationid}`,
@@ -116,7 +115,7 @@ export const getLiveDiscount = (liveDiscountPayload) => {
 }
 
 export const getLiveOpenSales = (liveOpenSalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${LIVE_OPEN_SALES_ENDPOINT}locationId=${liveOpenSalesPayload?.locationid}`,
@@ -128,7 +127,7 @@ export const getLiveOpenSales = (liveOpenSalesPayload) => {
 
 
 export const getLiveOrders = (liveOrdersPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}`,
@@ -139,7 +138,7 @@ export const getLiveOrders = (liveOrdersPayload) => {
 }
 
 export const getLiveRefunds = (liveRefundsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${LIVE_REFUNDS_ENDPOINT}locationId=${liveRefundsPayload?.locationid}`,
@@ -150,7 +149,7 @@ export const getLiveRefunds = (liveRefundsPayload) => {
 }
 
 export const getLiveNetSales = (liveNetSalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${LIVE_NET_SALES_ENDPOINT}locationId=${liveNetSalesPayload?.locationid}`,
@@ -161,7 +160,7 @@ export const getLiveNetSales = (liveNetSalesPayload) => {
 }
 
 export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&customerName=${liveOrderNonDineInPayload?.searchQuery || ""}&orderNumber=${liveOrderNonDineInPayload?.searchQuery || ""}`,
@@ -172,7 +171,7 @@ export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
 }
 
 export const getDiscountSummary = (discountSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${DISCOUNT_SUMMARY_ENDPOINT}locationId=${discountSummaryPayload?.locationid}&startDate=${discountSummaryPayload?.startDate}&endDate=${discountSummaryPayload?.endDate}&page=${discountSummaryPayload?.tablePageNo}&size=${discountSummaryPayload?.tableRecordLimit}`,
@@ -183,7 +182,7 @@ export const getDiscountSummary = (discountSummaryPayload) => {
 }
 
 export const getCancellationSummary = (cancellationSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${CANCELLATION_SUMMARY_ENDPOINT}locationId=${cancellationSummaryPayload?.locationid}&startDate=${cancellationSummaryPayload?.startDate}&endDate=${cancellationSummaryPayload?.endDate}&page=${cancellationSummaryPayload?.tablePageNo}&size=${cancellationSummaryPayload?.tableRecordLimit}`,
@@ -194,7 +193,7 @@ export const getCancellationSummary = (cancellationSummaryPayload) => {
 }
 
 export const getEmployeeStaffTipGratuity = (employeeStaffTipGratuityPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT}locationId=${employeeStaffTipGratuityPayload?.locationid}&startDate=${employeeStaffTipGratuityPayload?.startDate}&endDate=${employeeStaffTipGratuityPayload?.endDate}&page=${employeeStaffTipGratuityPayload?.tablePageNo}&size=${employeeStaffTipGratuityPayload?.tableRecordLimit}`,
@@ -205,7 +204,7 @@ export const getEmployeeStaffTipGratuity = (employeeStaffTipGratuityPayload) => 
 }
 
 export const getEmployeeStaffDiscount = (employeeStaffDiscountPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${EMPLOYEE_STAFF_DISCOUNT_ENDPOINT}locationId=${employeeStaffDiscountPayload?.locationid}&startDate=${employeeStaffDiscountPayload?.startDate}&endDate=${employeeStaffDiscountPayload?.endDate}&page=${employeeStaffDiscountPayload?.tablePageNo}&size=${employeeStaffDiscountPayload?.tableRecordLimit}`,
@@ -216,7 +215,7 @@ export const getEmployeeStaffDiscount = (employeeStaffDiscountPayload) => {
 }
 
 export const getEmployeeStaffPerformance = (employeeStaffPerformancePayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT}locationId=${employeeStaffPerformancePayload?.locationid}&startDate=${employeeStaffPerformancePayload?.startDate}&endDate=${employeeStaffPerformancePayload?.endDate}&page=${employeeStaffPerformancePayload?.tablePageNo}&size=${employeeStaffPerformancePayload?.tableRecordLimit}`,
@@ -227,7 +226,7 @@ export const getEmployeeStaffPerformance = (employeeStaffPerformancePayload) => 
 }
 
 export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${EMPLOYEE_STAFF_ACTIVITY_ENDPOINT}locationId=${employeeStaffActivityPayload?.locationid}&startDate=${employeeStaffActivityPayload?.startDate}&endDate=${employeeStaffActivityPayload?.endDate}&page=${employeeStaffActivityPayload?.tablePageNo}&size=${employeeStaffActivityPayload?.tableRecordLimit}`,
@@ -239,7 +238,7 @@ export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
 
 // New ======================= New //
 export const getDayCheckIn = (dayCheckInPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dayCheckIn?locationId=${dayCheckInPayload?.locationid}&startDate=${dayCheckInPayload?.startDate}&endDate=${dayCheckInPayload?.endDate}&page=${dayCheckInPayload?.tablePageNo}&size=${dayCheckInPayload?.tableRecordLimit}`,
@@ -250,7 +249,7 @@ export const getDayCheckIn = (dayCheckInPayload) => {
 }
 
 export const getDailyCheckIn = (dailyCheckInPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckIn?locationId=${dailyCheckInPayload?.locationid}&startDate=${dailyCheckInPayload?.startDate}&endDate=${dailyCheckInPayload?.endDate}&page=${dailyCheckInPayload?.tablePageNo || null}&size=${dailyCheckInPayload?.tableRecordLimit || null}`,
@@ -261,7 +260,7 @@ export const getDailyCheckIn = (dailyCheckInPayload) => {
 }
 
 export const getDailyGuest = (dailyGuestPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyGuests?locationId=${dailyGuestPayload?.locationid}&startDate=${dailyGuestPayload?.startDate}&endDate=${dailyGuestPayload?.endDate}&page=${dailyGuestPayload?.tablePageNo}&size=${dailyGuestPayload?.tableRecordLimit}`,
@@ -272,7 +271,7 @@ export const getDailyGuest = (dailyGuestPayload) => {
 }
 
 export const getDailyCancellation = (dailyCancellationPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCancellation?locationId=${dailyCancellationPayload?.locationid}&startDate=${dailyCancellationPayload?.startDate}&endDate=${dailyCancellationPayload?.endDate}&page=${dailyCancellationPayload?.tablePageNo}&size=${dailyCancellationPayload?.tableRecordLimit}`,
@@ -283,7 +282,7 @@ export const getDailyCancellation = (dailyCancellationPayload) => {
 }
 
 export const getHourlyGuests = (hourlyGuestsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/hourlyGuests?locationId=${hourlyGuestsPayload?.locationid}&startDate=${hourlyGuestsPayload?.startDate}&endDate=${hourlyGuestsPayload?.endDate}&page=${hourlyGuestsPayload?.tablePageNo || null}&size=${hourlyGuestsPayload?.tableRecordLimit || null}`,
@@ -294,7 +293,7 @@ export const getHourlyGuests = (hourlyGuestsPayload) => {
 }
 
 export const getDailyHourlyCheckIn = (dailyHouryCheckInPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyHourlyCheckin?locationId=${dailyHouryCheckInPayload?.locationid}&startDate=${dailyHouryCheckInPayload?.startDate}&endDate=${dailyHouryCheckInPayload?.endDate}&page=${dailyHouryCheckInPayload?.tablePageNo}&size=${dailyHouryCheckInPayload?.tableRecordLimit}`,
@@ -305,7 +304,7 @@ export const getDailyHourlyCheckIn = (dailyHouryCheckInPayload) => {
 }
 
 export const getDayOverDayGuest = (dayOverDayGuestPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dayOverDayGuest?locationId=${dayOverDayGuestPayload?.locationid}&startDate=${dayOverDayGuestPayload?.startDate}&endDate=${dayOverDayGuestPayload?.endDate}&page=${dayOverDayGuestPayload?.tablePageNo}&size=${dayOverDayGuestPayload?.tableRecordLimit}`,
@@ -316,7 +315,7 @@ export const getDayOverDayGuest = (dayOverDayGuestPayload) => {
 }
 
 export const getPeakSummary = (peakSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/peakSummary?locationId=${peakSummaryPayload?.locationid}&startDate=${peakSummaryPayload?.startDate}&endDate=${peakSummaryPayload?.endDate}&page=${peakSummaryPayload?.tablePageNo}&size=${peakSummaryPayload?.tableRecordLimit}`,
@@ -327,7 +326,7 @@ export const getPeakSummary = (peakSummaryPayload) => {
 }
 
 export const getPartySize = (partySizePayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/partySize?locationId=${partySizePayload?.locationid}&startDate=${partySizePayload?.startDate}&endDate=${partySizePayload?.endDate}&page=${partySizePayload?.tablePageNo}&size=${partySizePayload?.tableRecordLimit}`,
@@ -338,7 +337,7 @@ export const getPartySize = (partySizePayload) => {
 }
 
 export const getCustomerSize = (customerSizePayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/customerSize?locationId=${customerSizePayload?.locationid}&startDate=${customerSizePayload?.startDate}&endDate=${customerSizePayload?.endDate}&page=${customerSizePayload?.tablePageNo}&size=${customerSizePayload?.tableRecordLimit}`,
@@ -349,7 +348,7 @@ export const getCustomerSize = (customerSizePayload) => {
 }
 
 export const getNewCustomerSize = (newCustomerSizePayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/newCustomerSize?locationId=${newCustomerSizePayload?.locationid}&startDate=${newCustomerSizePayload?.startDate}&endDate=${newCustomerSizePayload?.endDate}&page=${newCustomerSizePayload?.tablePageNo}&size=${newCustomerSizePayload?.tableRecordLimit}`,
@@ -360,7 +359,7 @@ export const getNewCustomerSize = (newCustomerSizePayload) => {
 }
 
 export const getCustomerDetails = (customerDetailsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/customerDetails?locationId=${customerDetailsPayload?.locationid}&startDate=${customerDetailsPayload?.startDate}&endDate=${customerDetailsPayload?.endDate}&page=${customerDetailsPayload?.tablePageNo}&size=${customerDetailsPayload?.tableRecordLimit}`,
@@ -371,7 +370,7 @@ export const getCustomerDetails = (customerDetailsPayload) => {
 }
 
 export const getLiveCheckInStatus = (liveCheckInStatusPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/liveCheckInStatus?locationId=${liveCheckInStatusPayload?.locationid}&startDate=${liveCheckInStatusPayload?.startDate}&endDate=${liveCheckInStatusPayload?.endDate}&page=${liveCheckInStatusPayload?.tablePageNo}&size=${liveCheckInStatusPayload?.tableRecordLimit}`,
@@ -382,7 +381,7 @@ export const getLiveCheckInStatus = (liveCheckInStatusPayload) => {
 }
 
 export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/checkIn/dailyCheckInStatus?locationId=${dailyCheckInStatusPayload?.locationid}&startDate=${dailyCheckInStatusPayload?.startDate}&endDate=${dailyCheckInStatusPayload?.endDate}&page=${dailyCheckInStatusPayload?.tablePageNo}&size=${dailyCheckInStatusPayload?.tableRecordLimit}`,
@@ -419,7 +418,7 @@ export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
 
 
 export const getVoidedSummary = (voidedSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     let query = "";
     if (voidedSummaryPayload?.itemIds?.length > 0) {
         query += `&itemIds=${voidedSummaryPayload?.itemIds.join(',')}`;
@@ -437,7 +436,7 @@ export const getVoidedSummary = (voidedSummaryPayload) => {
 
 
 export const getDropDownDetails = (dropDownDetailsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${reportsBaseUrl}/sales/category/getDropDownDetails?locationId=${dropDownDetailsPayload?.locationid}`,
@@ -448,7 +447,7 @@ export const getDropDownDetails = (dropDownDetailsPayload) => {
 }
 
 export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     const categoryIds = categoryChannelSummaryPayload?.categoryIds?.join(',');
     const itemIds = categoryChannelSummaryPayload?.itemIds?.join(',');
     let url = `${reportsBaseUrl}/sales/category/getCategoryChannelSummary?locationId=${categoryChannelSummaryPayload?.locationId}&startDate=${categoryChannelSummaryPayload?.startDate}&endDate=${categoryChannelSummaryPayload?.endDate}`;
@@ -471,7 +470,7 @@ export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
 
 
 export const getSalesSummaryReport = (salesSummaryReportPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     let query=""
 
     if(salesSummaryReportPayload?.itemIds?.length>0){
@@ -500,7 +499,7 @@ export const getSalesSummaryReport = (salesSummaryReportPayload) => {
 // }
 
 export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     const categoryIds = categorySalesSummaryPayload?.categoryIds?.join(',');
     return API({
         method: "get",
@@ -512,7 +511,7 @@ export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
 }
 
 export const getSalesByChannel = (salesByChannelPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/channel?locationId=${salesByChannelPayload?.locationid}&startDate=${salesByChannelPayload?.startDate}&endDate=${salesByChannelPayload?.endDate}&page=${salesByChannelPayload?.tablePageNo}&size=${salesByChannelPayload?.tableRecordLimit}`,
@@ -524,7 +523,7 @@ export const getSalesByChannel = (salesByChannelPayload) => {
 
 
 export const getCategorySales = (categorySalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     const categoryIds = categorySalesPayload?.categoryIds?.join(',');
     return API({
         method: "get",
@@ -535,7 +534,7 @@ export const getCategorySales = (categorySalesPayload) => {
     });
 }
 export const getOfferSummary = (offerSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/offerSummary?locationId=${offerSummaryPayload?.locationid}&startDate=${offerSummaryPayload?.startDate}&endDate=${offerSummaryPayload?.endDate}&page=${offerSummaryPayload?.tablePageNo}&size=${offerSummaryPayload?.tableRecordLimit}`,
@@ -546,7 +545,7 @@ export const getOfferSummary = (offerSummaryPayload) => {
 }
 
 export const getVoidedOrderSummary = (voidedSummaryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/voidedSummary?locationId=${voidedSummaryPayload?.locationid}&startDate=${voidedSummaryPayload?.startDate}&endDate=${voidedSummaryPayload?.endDate}&page=${voidedSummaryPayload?.tablePageNo || 1}&size=${voidedSummaryPayload?.tableRecordLimit || 100}`,
@@ -557,7 +556,7 @@ export const getVoidedOrderSummary = (voidedSummaryPayload) => {
 }
 
 export const getStaffSales = (staffSalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/staff?locationId=${staffSalesPayload?.locationid}&startDate=${staffSalesPayload?.startDate}&endDate=${staffSalesPayload?.endDate}&page=${staffSalesPayload?.tablePageNo || 1}&size=${staffSalesPayload?.tableRecordLimit || 100}`,
@@ -568,7 +567,7 @@ export const getStaffSales = (staffSalesPayload) => {
 }
 
 export const getSalesTags = (salesTagsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${SALES_BY_REVENUE_CLASS_ENDPOINT}locationId=${salesTagsPayload?.locationid}&startDate=${salesTagsPayload?.startDate}&endDate=${salesTagsPayload?.endDate}&page=${salesTagsPayload?.tablePageNo || 1}&size=${salesTagsPayload?.tableRecordLimit || 100}`,
@@ -579,7 +578,7 @@ export const getSalesTags = (salesTagsPayload) => {
 }
 
 export const getPaymentDetails = (paymentDetailsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     // return API({
     //     method: "get",
     //     url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
@@ -600,7 +599,7 @@ export const getPaymentDetails = (paymentDetailsPayload) => {
 //     });
 // }
 export const getSalesCategory = (salesCategoryPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/category?locationId=${salesCategoryPayload?.locationid}&startDate=${salesCategoryPayload?.startDate}&endDate=${salesCategoryPayload?.endDate}&page=${salesCategoryPayload?.tablePageNo || 1}&size=${salesCategoryPayload?.tableRecordLimit || 100}`,
@@ -611,7 +610,7 @@ export const getSalesCategory = (salesCategoryPayload) => {
 }
 
 export const getSalesCardType = (salesCardTypePayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/cardType?locationId=${salesCardTypePayload?.locationid}&startDate=${salesCardTypePayload?.startDate}&endDate=${salesCardTypePayload?.endDate}&page=${salesCardTypePayload?.tablePageNo || 1}&size=${salesCardTypePayload?.tableRecordLimit || 100}`,
@@ -621,7 +620,7 @@ export const getSalesCardType = (salesCardTypePayload) => {
     });
 }
 export const getLocationDetails = (LocationDetailsPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/location?locationId=${LocationDetailsPayload?.locationId}`,
@@ -631,7 +630,7 @@ export const getLocationDetails = (LocationDetailsPayload) => {
     });
 }
 export const getHourlySalesReportChart = (hourlySalesPayload) => {
-    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/hourly?locationId=${hourlySalesPayload?.locationid}&startDate=${hourlySalesPayload?.startDate}&endDate=${hourlySalesPayload?.endDate}&page=${hourlySalesPayload?.tablePageNo || 1}&size=${hourlySalesPayload?.tableRecordLimit || 100}`,
