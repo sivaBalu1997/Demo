@@ -94,9 +94,11 @@ const ChannelSalesChart = ({ dataList }: { dataList: any[] }) => {
         titleColor: "#333",
         bodyColor: "#333",
         borderColor: "#e76f51",
-        borderWidth: 1,
-        padding: 8,
         displayColors: false,
+        borderWidth: 1,
+        padding: 10, // Padding inside tooltip container
+        titleFont: { weight: "normal", size: 14 }, // Title font size set to 14px
+        bodyFont: { size: 14 }, // Body font size set to 14px        displayColors: false,
         caretSize: 0,
       },
       // tooltip: {

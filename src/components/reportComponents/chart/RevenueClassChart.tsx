@@ -50,7 +50,11 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList }) => {
     datasets: [
       {
         label: "Sales",
-        data: dataList?.map((item: any) => item?.totalSales || 0),
+        data: dataList?.map((item: any) => ({
+          x: item.revenueClass, // X-axis label
+          y: Number(item.totalSales || 0), // Y-axis sales value
+          itemsSold: item.itemsSold, // Store orders for tooltips
+        })),
         backgroundColor: "#B8860B",
         borderRadius: 5,
         barPercentage: 0.7,
@@ -59,26 +63,44 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList }) => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      legend: { display: false },
       tooltip: {
+        enabled: true,
         callbacks: {
-          label: (tooltipItem: any) => `Sales: $${tooltipItem.raw || 0}`,
+          title: (tooltipItem: any) => {
+            return "";
+          },
+          label: (tooltipItem: any) => {
+            const dataPoint = tooltipItem.raw;
+            return [
+              `Items sold: ${dataPoint.itemsSold}`,
+              `Sales: $${dataPoint.y.toFixed(2)}`,
+            ];
+          },
         },
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
+
+        titleColor: "#333",
+        bodyColor: "#333",
+        borderColor: "#CE9E0F",
+        titleFont: { weight: "normal", size: 14 }, // Title font size set to 14px
+        bodyFont: { size: 14 }, // Body font size set to 14px
+        borderWidth: 1,
+        padding: 15,
+        displayColors: false,
+        caretSize: 0,
       },
       datalabels: {
         display: false,
       },
     },
     scales: {
-      x: {
-        grid: { display: false },
-      },
-      y: {
-        beginAtZero: true,
-      },
+      x: { grid: { display: false } },
+      y: { beginAtZero: true },
     },
   };
 
