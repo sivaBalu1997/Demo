@@ -36,6 +36,8 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
         (state: any) => state?.auth?.restaurantDetails?.country
     );
 
+    console.log("5555", { cardTitle, incrementDecrementValue, showMiniGraph })
+
     const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
 
     if (loader) return <ShimmerCardMiniGraph />
@@ -57,7 +59,7 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
                         {incrementOrDecrement === "increment" ? (
                             <>
                                 <IncrementArrow />
-                                <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>+{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}{isPercent ? "%" : ""}</span>
+                                <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}{isPercent ? "%" : ""}</span>
                             </>
                         ) : (
                             <>
