@@ -784,9 +784,7 @@ export function* billedUnbilledRequestSaga(action) {
     // console.log('inside saga')
     try {
         const response = yield call(getBilledAndUnbilled, action.payload);
-        const decryptedData = response?.data
-        // const decryptedData = decryptJson(response?.data?.encryptedText)
-        // console.log("response of billedUnbilledRequestSaga", { decryptedData })
+        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(billerUnbilledSuccess(decryptedData));
         } else {

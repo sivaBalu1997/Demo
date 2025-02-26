@@ -38,15 +38,9 @@ import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
 import { NewTableHeader } from "interface/newReportsInterface";
+// import { useSalesOverview } from "./useSalessOverview";
 
-const tabs = [
-  "Today's report",
-  "Sales Overview",
-  "Categories",
-  "Employees",
-  "Trends",
-];
-interface ReportProps { }
+interface ReportProps {}
 
 interface TenderTypeItem {
   paymentMode: string;
@@ -79,55 +73,73 @@ interface TenderTypeItem {
 }
 
 const SalesOverview: React.FC<ReportProps> = () => {
-  const restaurantDetails = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.branch
+  
+
+//   const {viewType,locations, locationId, selectedLocation, selectedDate, setSelectedDate, datepickerApply,dispatch, salesSummary, tenderType, staffSalesData,salesByChannel,salesCardTypeData,salesByRevenueClass,handleGoBackToChart, searchQuery,setSearchQuery,newTableHeaders, discountSummary, currentPageOfferDiscount,
+//     discountSummaryTotalPages, 
+//     setCurrentPageOfferDiscount,
+//     currentRowsOfferDiscount,
+//     setCurrentRowsOfferDiscount,
+//     discountSummaryLoading,
+//     handleSearch,
+//     cancellationSummary,
+//     currentPageVoiddedOrders,
+//     setCurrentPageVoiddedOrders,
+// cancellationSummaryTotalPages,
+// currentRowsVoiddedOrders,
+// setCurrentRowsVoiddedOrders,
+// cancellationSummaryLoading
+//   } = useSalesOverview({})
+
+const restaurantDetails = useSelector(
+  (state: any) => state?.auth?.restaurantDetails?.branch
+);
+const [viewType, setViewType] = useState("default")
+const [searchQuery, setSearchQuery] = useState('');
+const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
+useState<number>(1);
+const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] =
+useState<number>(10);
+const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] =
+useState<number>(1);
+const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
+useState<number>(10);
+
+const mappedIdWithBranchName = restaurantDetails?.map(
+  (branchWithId: any) => ({
+    value: branchWithId?.id,
+    label: branchWithId?.locationName,
+  })
+);
+
+const [selectedDate, setSelectedDate] = useState({
+  label: "Yesterday",
+  value: "Yesterday",
+});
+const [selectedStore, setSelectedStore] = useState(
+  mappedIdWithBranchName?.[0]
+);
+const datepickerApply = (data1: any, data2: any) => {
+  console.log(data1, data2, "selected Date is here");
+};
+
+const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>({})
+/******************************************************************************************* */
+const locationId = useSelector((state: any) => state?.auth?.credentials?.locationId)
+const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
+const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData?.content)
+const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData)
+const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content)
+const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content)
+const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess)
+
+const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content)
+const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading)
+    const discountSummaryTotalPages = useSelector(
+      (state: any) => state?.newReports?.discountSummarySuccess?.totalPages
   );
-  const [viewType, setViewType] = useState("default")
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
-    useState<number>(1);
-  const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] =
-    useState<number>(10);
-  const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] =
-    useState<number>(1);
-  const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
-    useState<number>(10);
-
-  const mappedIdWithBranchName = restaurantDetails?.map(
-    (branchWithId: any) => ({
-      value: branchWithId?.id,
-      label: branchWithId?.locationName,
-    })
-  );
-
-  const [selectedDate, setSelectedDate] = useState({
-    label: "Yesterday",
-    value: "Yesterday",
-  });
-  const [selectedStore, setSelectedStore] = useState(
-    mappedIdWithBranchName?.[0]
-  );
-  const datepickerApply = (data1: any, data2: any) => {
-    console.log(data1, data2, "selected Date is here");
-  };
-
-  const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>({})
-  /******************************************************************************************* */
-  const locationId = useSelector((state: any) => state?.auth?.credentials?.locationId)
-  const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
-  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
-  const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData?.content)
-  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData)
-  const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content)
-  const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content)
-  const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess)
-
-  const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content)
-  const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading)
-  const discountSummaryTotalPages = useSelector(
-    (state: any) => state?.newReports?.discountSummarySuccess?.totalPages
-  );
-
+  
   const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
   const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
   const cancellationSummaryTotalPages = useSelector(
@@ -222,55 +234,55 @@ const SalesOverview: React.FC<ReportProps> = () => {
       label: `Voided amount (${currencySymbol})`,
       isSortable: true,
       alignment: "right",
-    },
-    {
+  },
+  {
       key: "voidedItems",
       label: `Voided items`,
       isSortable: false,
       alignment: "left",
-    },
-    {
+  },
+  {
       key: "voidedReasons",
       label: `Voided reasons`,
       isSortable: false,
       alignment: "left",
-    },
-  ];
+  },
+];
 
-  const handleSearch = (value: string, kpiTitle: string) => {
-    switch (viewType) {
-      case "discountOffer":
-        dispatch(
-          discountSummaryRequest({
-            locationid: selectedLocation?.value,
-            startDate: "2025-01-25",
-            endDate: "2025-02-24",
-            tablePageNo: currentPageOfferDiscount,
-            tableRecordLimit: currentRowsOfferDiscount,
-          })
-        );
+const handleSearch = (value: string, kpiTitle: string) => {
+switch (viewType) {
+    case "discountOffer": 
+            dispatch(
+              discountSummaryRequest({
+                    locationid: selectedLocation?.value,
+                    startDate: "2025-01-25",
+                    endDate: "2025-02-24",
+                    tablePageNo: currentPageOfferDiscount,
+                    tableRecordLimit: currentRowsOfferDiscount,
+                })
+            );
         break;
-      case "voidedOffer":
+        case "voidedOffer": 
         dispatch(
           cancellationSummaryRequest({
-            locationid: selectedLocation?.value,
-            startDate: "2025-01-25",
-            endDate: "2025-02-24",
-            tablePageNo: currentPageVoiddedOrders,
-            tableRecordLimit: currentRowsVoiddedOrders,
-            search: searchQuery,
-          })
+                locationid: selectedLocation?.value,
+                startDate: "2025-01-25",
+                endDate: "2025-02-24",
+                tablePageNo: currentPageVoiddedOrders,
+                tableRecordLimit: currentRowsVoiddedOrders,
+                search:searchQuery,
+            })
         );
-        break;
+    break;
 
-      // case 'Live Orders Non Dine-in':
-      //   currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-      //   break;
+    // case 'Live Orders Non Dine-in':
+    //   currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+    //   break;
 
-      default:
+    default:
         console.warn(`Unknown KPI title: ${kpiTitle}`);
-    }
-  };
+}
+};
 
   return (
     <>

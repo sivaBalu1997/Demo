@@ -302,7 +302,7 @@ const initialNewReportsState = {
 
     // dropdown details
     dropdownDetailsLoading: false,
-    dropdownDetailsData: null,
+    dropdownDetailsData: [],
     dropdownDetailsError: null,
 
     // category channel summary
@@ -970,7 +970,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 break;
             case DROPDOWN_DETAILS_FAILURE:
                 draft.dropdownDetailsLoading = false;
-                draft.dropdownDetailsData = null;
+                draft.dropdownDetailsData = [];
                 draft.dropdownDetailsError = action.payload;
                 break;
 

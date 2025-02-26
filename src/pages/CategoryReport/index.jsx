@@ -35,11 +35,15 @@ const CategoryReport = (props) => {
   const locations = useSelector((state) => state?.newReports?.locationDetailsData?.content)
   const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
-  const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData?.content)
-const categorySalesData = useSelector((state) => state?.newReports?.categorySalesSuccess?.content)
-const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummarySuccess)
-const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummarySuccess?.content)
-const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummarySuccess?.content)
+  const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData)
+const categorySalesData = useSelector((state) => state?.newReports?.categorySalesSuccess)
+const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
+const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
+const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData?.content)
+
+useEffect(() => {
+ console.log({locationId,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
+}, [locationId,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
 
 
   useEffect(() => {
@@ -52,28 +56,32 @@ const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummar
   }, [locations])
   
 
-
   useEffect(() => {
-    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value,startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
+    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
   }, [selectedLocation])
 
+
+
+useEffect(() => {
+  setSelectedCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}])
+}, [dropdownDetailsData])
   useEffect(() => {
 
     const categoryIds=selectedCategories?.map((item)=>item.value)
     const itemIds=selectedItems?.map((item)=>item.value)
+    console.log({categoryIds, itemIds});
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
-    dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
-    dispatch(categorySalesSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
-    dispatch(categoryChannelSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
-    dispatch(voidedSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
+    dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds?.join(","),categoryIds:categoryIds?.join(",") }))
+    dispatch(categorySalesSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds?.join(","),categoryIds:categoryIds?.join(",") })) 
+    dispatch(categoryChannelSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds?.join(","),categoryIds:categoryIds?.join(",") })) 
+    dispatch(voidedSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds}))
   }, [selectedLocation, selectedCategories, selectedItems])
   
   const [activeBtn, setActiveBtn] = useState("categories");
 
 
   const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
-  const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
   
 
   const calendarRef = useRef();
@@ -114,10 +122,9 @@ const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummar
       cat => cat.categoryId === selectedCategoriesData.value
     );
     if (category) {
-      setSelectedCategories((prevData) => [
-        ...prevData,
-        { value: category.categoryId, label: category.categoryName }
-      ]);
+      const tempCategories = [...selectedCategories]
+      tempCategories.push({ value: category.categoryId, label: category.categoryName })
+      setSelectedCategories(tempCategories)
     }
   };
 
@@ -126,25 +133,26 @@ const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummar
       item => item.itemId === selectedItemsData.value
     );
     if (item) {
-      setSelectedItems((prevData) => [
-        ...prevData,
-        { value: item.itemId, label: item.itemName }
-      ]);
+      const tempItems = [...selectedItems]
+      tempItems.push({ value: item.itemId, label: item.itemName })
+      setSelectedItems(tempItems)
     }
   };
 
-  const categoryCloseOnClick = (categoryName) => {
-    setSelectedCategories((prevCategoryData) =>
-      prevCategoryData.filter(
-        (selectedData) => selectedData.name !== categoryName
-      )
+  const categoryCloseOnClick = (categoryId) => {
+    let tempCategories = [...selectedCategories]
+    tempCategories = tempCategories.filter(
+      (selectedData) => selectedData.value !== categoryId
     );
+    setSelectedCategories(tempCategories)
   };
 
-  const itemsCloseOnClick = (itemName) => {
-    setSelectedItems((prevItemData) =>
-      prevItemData.filter((selectedData) => selectedData.name !== itemName)
+  const itemsCloseOnClick = (itemId) => {
+    let tempItems = [...selectedItems]
+    tempItems = tempItems.filter(
+      (selectedData) => selectedData.value !== itemId
     );
+    setSelectedItems(tempItems)
   };
 
   const handleSelectDateOnClick = (dropDownData) => {

@@ -16,6 +16,8 @@ const SalesReport: React.FC<ReportProps> = () => {
     const [activeTab, setActiveTab] = useState("Today's report");
     const [isExpanded, setIsExpanded] = useState(false); //TODO: use redux
 
+    
+
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
