@@ -198,8 +198,51 @@ const TodaysReport: React.FC = () => {
     };
 
     const handleRefreshClick = () => {
-        console.log('Refresh button clicked')
-    }
+        console.log('Refresh button clicked');
+
+        // Reset states to initial values
+        setSelectedDate({ label: "Yesterday", value: "Yesterday" });
+        setSelectedStore(mappedIdWithBranchName?.[0]);
+        setLiveOrdersSearchQuery('');
+        setLiveOrdersPageLimit(10);
+        setLiveOrderNonDineInSearchQuery('');
+        setLiveOrderNonDineInPageLimit(10);
+        setCurrentPageLiveOrders(1);
+        setCurrentPageLiveOrdersNonDineIn(1);
+        setIsSwitchActive(false);
+        setActiveTextForSwitchableBox(textOne);
+        setSelectedOptionStore("Sales");
+
+        // Fetch latest data by dispatching all necessary actions
+        dispatch(liveDiscountRequest({ locationid: selectedStore?.value }));
+        dispatch(liveOpenSalesRequest({ locationid: selectedStore?.value }));
+        dispatch(liveNetSalesRequest({ locationid: selectedStore?.value }));
+        dispatch(liveRefundsRequest({ locationid: selectedStore?.value }));
+        dispatch(liveOrdersRequest({
+            locationid: selectedStore?.value,
+            tablePageNo: 1,
+            tableRecordLimit: 10,
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD'),
+            searchQuery: ''
+        }));
+        dispatch(liveOrderNonDineInRequest({
+            locationid: selectedStore?.value,
+            tablePageNo: 1,
+            tableRecordLimit: 10,
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD'),
+            searchQuery: ''
+        }));
+        dispatch(billerUnbilledRequest({
+            locationid: selectedStore?.value,
+            startDate: moment().format('YYYY-MM-DD'),
+            type: isSwitchActive === true ? 'notcompleted' : 'completed'
+        }));
+
+        console.log('All states reset, and API requests re-triggered');
+    };
+
 
 
 

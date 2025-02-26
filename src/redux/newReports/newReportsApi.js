@@ -127,9 +127,10 @@ export const getLiveOpenSales = (liveOpenSalesPayload) => {
 
 export const getLiveOrders = (liveOrdersPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    // &search=${liveOrdersPayload?.searchQuery || ""}
     return API({
         method: "get",
-        url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}`,
+        url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}&search=${liveOrdersPayload?.searchQuery || ""}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -160,9 +161,10 @@ export const getLiveNetSales = (liveNetSalesPayload) => {
 
 export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
     return API({
         method: "get",
-        url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&customerName=${liveOrderNonDineInPayload?.searchQuery || ""}&orderNumber=${liveOrderNonDineInPayload?.searchQuery || ""}`,
+        url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&search=${liveOrderNonDineInPayload?.searchQuery || ""}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -447,19 +449,19 @@ export const getDropDownDetails = (dropDownDetailsPayload) => {
 
 export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    let query=""
+    let query = ""
     if (categoryChannelSummaryPayload?.itemIds?.length > 0) {
 
-        query += `&itemIds=${(categoryChannelSummaryPayload?.itemIds||[])?.join(",")}`;
+        query += `&itemIds=${(categoryChannelSummaryPayload?.itemIds || [])?.join(",")}`;
     } else if (categoryChannelSummaryPayload?.categoryIds?.length > 0) {
-        query += `&categoryIds=${(categoryChannelSummaryPayload?.categoryIds||[])?.join(",")}`;
+        query += `&categoryIds=${(categoryChannelSummaryPayload?.categoryIds || [])?.join(",")}`;
     }
 
 
     let url = `${reportsBaseUrl}/sales/category/getCategoryChannelSummary?locationId=${categoryChannelSummaryPayload?.locationId}&startDate=${categoryChannelSummaryPayload?.startDate}&endDate=${categoryChannelSummaryPayload?.endDate}${query}`;
 
 
-    
+
     return API({
         method: "get",
         url: url,
