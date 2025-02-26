@@ -39,7 +39,7 @@ const selectedLocation = useSelector((state) => state?.newReports?.selectedLocat
 const categorySalesData = useSelector((state) => state?.newReports?.categorySalesSuccess)
 const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
 const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
-const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData?.content)
+const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData)
 
 useEffect(() => {
  console.log({locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
@@ -60,23 +60,34 @@ const [appliedStartDate, setAppliedStartDate] = useState("");
     setAppliedEndDate(yesterday)
   }, []);
 
-
   useEffect(() => {
-    setSelectedCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}])
-  }, [dropdownDetailsData])
+    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
+  }, [selectedLocation])
 
+
+
+useEffect(() => {
+  setSelectedCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}])
+}, [dropdownDetailsData])
+
+
+const fetchData=(categoryIds, itemIds)=>{
+  dispatch(categoryChannelSummaryRequest({locationId:selectedLocation?.value,startDate:"2024-12-01" , endDate:"2024-12-31", tablePageNo:1,tableRecordLimit:100,categoryIds:categoryIds||[],itemIds:itemIds||[]}))
+  dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds }))
+  dispatch(categorySalesSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds})) 
+  dispatch(categoryChannelSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds })) 
+  dispatch(voidedSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds}))
+}
   useEffect(() => {
 
     const categoryIds=selectedCategories?.map((item)=>item.value)
     const itemIds=selectedItems?.map((item)=>item.value)
     console.log({categoryIds, itemIds});
+    fetchData(categoryIds,itemIds )
 
-    // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100 }))
-    dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
-    dispatch(categorySalesSummaryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
-    dispatch(categoryChannelSummaryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
-    dispatch(voidedSummaryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
-  }, [selectedLocation, selectedCategories, selectedItems, appliedStartDate, appliedEndDate])
+    // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
+
+  }, [selectedLocation, selectedCategories, selectedItems])
   
   const [activeBtn, setActiveBtn] = useState("categories");
 
@@ -130,7 +141,7 @@ const [appliedStartDate, setAppliedStartDate] = useState("");
 
   const handleSelectItemsOnChange = (selectedItemsData) => {
     const item = dropdownDetailsData?.find(
-      item => item.itemId === selectedItemsData.value
+      item => item.itemId === selectedItemsData.value 
     );
     if (item) {
       const tempItems = [...selectedItems]

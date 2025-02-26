@@ -153,7 +153,12 @@ import {
     STORE_LOCATIONS_LIST,
     GET_EMPLOYEE_ACTIVITY_REQUEST,
     GET_EMPLOYEE_ACTIVITY_SUCCESS,
-    GET_EMPLOYEE_ACTIVITY_FAILURE
+    GET_EMPLOYEE_ACTIVITY_FAILURE,
+    SELCTED_ITEMS,
+    SELCTED_CATEGORIES,
+    GET_PREMISES_SUMMARARY_REQUEST,
+    GET_PREMISES_SUMMARARY_SUCCESS,
+    GET_PREMISES_SUMMARARY_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1093,6 +1098,21 @@ export const storeLocationsList = (data) => {
     }
 }
 
+export const selectCategories = (data) => {
+    return {
+        type: SELCTED_CATEGORIES,
+        payload: data
+    }
+}
+
+
+export const selectItems = (data) => {
+    return {
+        type: SELCTED_ITEMS,
+        payload: data
+    }
+}
+
 
 // Staff Sales Actions
 export const staffSalesRequest = (data) => ({
@@ -1184,5 +1204,20 @@ export const getEmployeeActivitySuccess = (data) => ({
 
 export const getEmployeeActivityFailure = (error) => ({
     type: GET_EMPLOYEE_ACTIVITY_FAILURE,
+    payload: error
+})
+
+export const getPremisesSummaryRequest = (data) => ({
+    type: GET_PREMISES_SUMMARARY_REQUEST,
+    payload: data
+})
+
+export const getPremisesSummarySuccess = (data) => ({
+    type: GET_PREMISES_SUMMARARY_SUCCESS,
+    payload: data
+})
+
+export const getPremisesSummaryFailure = (error) => ({
+    type: GET_PREMISES_SUMMARARY_FAILURE,
     payload: error
 })

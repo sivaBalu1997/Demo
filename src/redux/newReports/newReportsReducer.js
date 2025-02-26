@@ -151,7 +151,9 @@ import {
     STORE_LOCATIONS_LIST,
     GET_EMPLOYEE_ACTIVITY_REQUEST,
     GET_EMPLOYEE_ACTIVITY_SUCCESS,
-    GET_EMPLOYEE_ACTIVITY_FAILURE
+    GET_EMPLOYEE_ACTIVITY_FAILURE,
+    SELCTED_CATEGORIES,
+    SELCTED_ITEMS,
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -311,7 +313,7 @@ const initialNewReportsState = {
 
     // category channel summary
     categoryChannelSummaryLoading: false,
-    categoryChannelSummaryData: null,
+    categoryChannelSummaryData: [],
     categoryChannelSummaryError: null,
 
     // category sales
@@ -380,13 +382,20 @@ const initialNewReportsState = {
     offerSummaryData: [],
     offerSummaryError: null,
 
-    selectedLocation: {},
-    storeLocationsList: [],
+        // get premises summary
+        getPremisesSummaryLoading: false,
+        getPremisesSummaryData: [],
+        getPremisesSummaryError: null,
+
+        selectedLocation: {},
+        storeLocationsList: [],
 
     // get Employee Activity
     getemployeeActivityLoading: false,
     getemployeeActivitySuccess: [],
     getemployeeActivityFailure: false,
+    selectedCategories: [],
+    selectedItems: []
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1068,6 +1077,14 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.storeLocationsList = action.payload;
                 break;
 
+            case SELCTED_CATEGORIES:
+                draft.selectedCategories = action.payload;
+                break;
+
+            case SELCTED_ITEMS:
+                draft.selectedItems = action.payload;
+                break;
+
             // Staff Sales
             case STAFF_SALES_REQUEST:
                 draft.staffSalesData = [];
@@ -1217,6 +1234,23 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.getemployeeActivityLoading = false;
                 draft.getemployeeActivitySuccess = [];
                 draft.getemployeeActivityFailure = true;
+                break;
+
+            // get premises summary
+            case 'GET_PREMISES_SUMMARY_REQUEST':
+                draft.getPremisesSummaryLoading = true;
+                draft.getPremisesSummaryData = [];
+                draft.getPremisesSummaryError = null;
+                break;
+            case 'GET_PREMISES_SUMMARY_SUCCESS':
+                draft.getPremisesSummaryLoading = false;
+                draft.getPremisesSummaryData = action.payload;
+                draft.getPremisesSummaryError = null;
+                break;
+            case 'GET_PREMISES_SUMMARY_FAILURE':
+                draft.getPremisesSummaryLoading = false;
+                draft.getPremisesSummaryData = [];
+                draft.getPremisesSummaryError = action.payload;
                 break;
             default:
                 break;

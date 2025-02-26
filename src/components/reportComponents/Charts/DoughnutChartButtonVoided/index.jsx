@@ -2,15 +2,11 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { getRandomColor } from "util";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-// 0
-// : 
-// {offerName: 'studentoffer', offerType: 'FLATFEE', totalSales: '105426.40', totalOrders: 303, totalDiscount: '1884.48'}
 
-function DoughnutChartWithButton({ dataList }) {
+function DoughnutChartWithButtonVoided({ dataList }) {
   const chartRef = useRef(null);
   console.log({dataList});
   
@@ -45,7 +41,6 @@ function DoughnutChartWithButton({ dataList }) {
     "#B33BB3",
     "#14C9C9",
     "#E3313C",
-    ...Array(100)?.map(()=>getRandomColor())
   ];
   useEffect(()=>{
     const totalDisplay = dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0) || 0;
@@ -266,4 +261,4 @@ function DoughnutChartWithButton({ dataList }) {
   );
 }
 
-export default DoughnutChartWithButton;
+export default DoughnutChartWithButtonVoided;

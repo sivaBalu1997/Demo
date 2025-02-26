@@ -41,7 +41,6 @@ const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `${reportsBaseUrl}/sales/employee/st
 
 const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffActivity?`;
 
-
 // const routes={
 //     test_api: "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/cardType?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-12-01&endDate=2024-12-11&page=1&size=15"
 // }
@@ -448,17 +447,19 @@ export const getDropDownDetails = (dropDownDetailsPayload) => {
 
 export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const categoryIds = categoryChannelSummaryPayload?.categoryIds?.join(',');
-    const itemIds = categoryChannelSummaryPayload?.itemIds?.join(',');
-    let url = `${reportsBaseUrl}/sales/category/getCategoryChannelSummary?locationId=${categoryChannelSummaryPayload?.locationId}&startDate=${categoryChannelSummaryPayload?.startDate}&endDate=${categoryChannelSummaryPayload?.endDate}`;
-
-
+    let query=""
     if (categoryChannelSummaryPayload?.itemIds?.length > 0) {
-        url += `&itemIds=${itemIds}`;
+
+        query += `&itemIds=${(categoryChannelSummaryPayload?.itemIds||[])?.join(",")}`;
     } else if (categoryChannelSummaryPayload?.categoryIds?.length > 0) {
-        url += `&categoryIds=${categoryIds}`;
+        query += `&categoryIds=${(categoryChannelSummaryPayload?.categoryIds||[])?.join(",")}`;
     }
 
+
+    let url = `${reportsBaseUrl}/sales/category/getCategoryChannelSummary?locationId=${categoryChannelSummaryPayload?.locationId}&startDate=${categoryChannelSummaryPayload?.startDate}&endDate=${categoryChannelSummaryPayload?.endDate}${query}`;
+
+
+    
     return API({
         method: "get",
         url: url,
@@ -487,16 +488,6 @@ export const getSalesSummaryReport = (salesSummaryReportPayload) => {
     });
 }
 
-// export const getHourlySales = (hourlySalesPayload) => {
-// const token = Store.getState()?.auth?.credentials?.accessToken;
-//     return API({
-//         method: "get",
-//         url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid||"d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate||"2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
-//         headers: {
-//             Authorization: 'bearer ' + token,
-//         }
-//     });
-// }
 
 export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -588,17 +579,6 @@ export const getPaymentDetails = (paymentDetailsPayload) => {
     });
 }
 
-export const getHourlySales = (hourlySalesPayload) => {
-    const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
-        method: "get",
-        url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid || "d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate || "2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
-}
-
 export const getSalesCategory = (salesCategoryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
@@ -650,6 +630,17 @@ export const getEmployeeActivity = (employeeActivityPayload) => {
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/employee/activity?locationId=${employeeActivityPayload?.locationid}&startDate=${employeeActivityPayload?.startDate}&endDate=${employeeActivityPayload?.endDate}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getPremisesSummary = (premisesSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/premisesSummary?locationId=${premisesSummaryPayload?.locationId}&startDate=${premisesSummaryPayload?.startDate}&endDate=${premisesSummaryPayload?.endDate}&page=${premisesSummaryPayload?.tablePageNo}&size=${premisesSummaryPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

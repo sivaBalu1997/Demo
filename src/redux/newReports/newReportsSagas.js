@@ -103,7 +103,9 @@ import {
     offerSummarySuccess,
     getEmployeeActivitySuccess,
     getEmployeeActivityFailure,
-    getEmployeeActivityRequest
+    getEmployeeActivityRequest,
+    getPremisesSummarySuccess,
+    getPremisesSummaryFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -155,7 +157,8 @@ import {
     SALES_BY_CHANNEL_REQUEST,
     GET_OFFER_SUMMARY_REQUEST,
     GET_VOIDED_ORDER_SUMMARY_REQUEST,
-    GET_EMPLOYEE_ACTIVITY_REQUEST
+    GET_EMPLOYEE_ACTIVITY_REQUEST,
+    GET_PREMISES_SUMMARARY_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -207,6 +210,7 @@ import {
     getVoidedOrderSummary,
     getOfferSummary,
     getEmployeeActivity,
+    getPremisesSummary,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -1095,7 +1099,22 @@ export function* getEmployeeActivityRequestSaga(action) {
     }
 }
 
-
+// getPremisesSummaryRequestSaga
+export function* getPremisesSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getPremisesSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(getPremisesSummarySuccess(decryptedData));
+        } else {
+            yield put(getPremisesSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(getPremisesSummaryFailure(error));
+        showErrorToast(error.message);
+    }
+}
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
@@ -1148,4 +1167,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_OFFER_SUMMARY_REQUEST, offerSummaryRequestSaga);
     yield takeLatest(GET_VOIDED_ORDER_SUMMARY_REQUEST, voidedOrderSummaryRequestSaga);
     yield takeLatest(GET_EMPLOYEE_ACTIVITY_REQUEST, getEmployeeActivityRequestSaga);
+    yield takeLatest(GET_PREMISES_SUMMARARY_REQUEST, getPremisesSummaryRequestSaga);
 }

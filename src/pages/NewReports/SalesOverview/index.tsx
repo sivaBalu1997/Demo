@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { billerUnbilledRequest, cancellationSummaryRequest, changeLocation, discountSummaryRequest, hourlySalesReportChartRequest, locationDetailsRequest, offerSummaryRequest, paymentDetailsRequest, salesByChannelRequest, salesByRevenueClassRequest, salesCardTypeRequest, salesCategoryRequest, salesSummaryReportRequest, staffSalesRequest, voidedOrderSummaryRequest } from 'redux/newReports/newReportsActions';
+import { billerUnbilledRequest, cancellationSummaryRequest, changeLocation, discountSummaryRequest, getPremisesSummaryRequest, hourlySalesReportChartRequest, locationDetailsRequest, offerSummaryRequest, paymentDetailsRequest, salesByChannelRequest, salesByRevenueClassRequest, salesCardTypeRequest, salesCategoryRequest, salesSummaryReportRequest, staffSalesRequest, voidedOrderSummaryRequest } from 'redux/newReports/newReportsActions';
 import ReportsNotFound from "components/reportComponents/ReportsNotFound";
 // import SalesCard from "components/reportComponents/SalesCard";
 import TenderType from "components/reportComponents/TendorTypeCard";
@@ -39,6 +39,7 @@ import DoughnutChartWithButton from "components/reportComponents/Charts/Doughnut
 import NewTable from "components/reportComponents/NewTable";
 import { NewTableHeader } from "interface/newReportsInterface";
 import moment from "moment";
+import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 // import { useSalesOverview } from "./useSalessOverview";
 
 interface ReportProps { }
@@ -56,6 +57,7 @@ interface TenderTypeItem {
   onPremSales?: number;
   offPremOrders?: number;
   offPremSales?: number;
+  premise?: Record<string, { totalSales: number; totalOrders: number }>;
 }
 
 interface TenderTypeItem {
@@ -152,9 +154,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     (state: any) => state?.newReports?.discountSummarySuccess?.totalPages
   );
 
-  const [selectedStore, setSelectedStore] = useState(
-    mappedIdWithBranchName?.[0]
-  );
 
   const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
   const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
@@ -165,6 +164,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content)
   const offerSummary = useSelector((state: any) => state?.newReports?.offerSummaryData?.content)
   const voidedOrderSummary = useSelector((state: any) => state?.newReports?.voidedOrderSummaryData?.content)
+  const getPremisesSummary = useSelector((state: any) => state?.newReports?.premisesSummaryData?.content)
   //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
   const dispatch = useDispatch();
   useEffect(() => {
@@ -186,8 +186,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, salesSummary, staffSalesData, salesCardTypeData, salesCategory, discountSummary, cancellationSummary, salesByChannel, salesByRevenueClass, offerSummary, voidedOrderSummary])
 
 
-
-
   /******************************************************************************************* */
 
   useEffect(() => {
@@ -202,17 +200,25 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(discountSummaryRequest({ locationid: selectedLocation?.value, tableRecordLimit: 100, tablePageNo: 1, startDate: appliedStartDate, endDate: appliedEndDate })),
       dispatch(cancellationSummaryRequest({ locationid: selectedLocation?.value, tableRecordLimit: 100, tablePageNo: 1, startDate: appliedStartDate, endDate: appliedEndDate })),
       dispatch(offerSummaryRequest({ locationid: selectedLocation?.value, tableRecordLimit: 100, tablePageNo: 1, startDate: appliedStartDate, endDate: appliedEndDate })),
-      dispatch(voidedOrderSummaryRequest({ locationid: selectedLocation?.value, tableRecordLimit: 100, tablePageNo: 1, startDate: appliedStartDate, endDate: appliedEndDate }))
+      dispatch(voidedOrderSummaryRequest({ locationid: selectedLocation?.value, tableRecordLimit: 100, tablePageNo: 1, startDate: appliedStartDate, endDate: appliedEndDate })),
+    dispatch(getPremisesSummaryRequest({ locationid: selectedLocation?.value, tableRecordLimit: 100, tablePageNo: 1, startDate: appliedStartDate, endDate: appliedEndDate }))
     ])
 
   }, [selectedLocation, appliedStartDate, appliedEndDate])
 
-
-
   const arrayToObject = (arr: TenderTypeItem[] = []) => {
+    const premise:any = (arr: TenderTypeItem[] = []) => {
+      return getPremisesSummary?.reduce((acc:any, item:any):any => {
+        const prevData=acc[`${item?.paymentMode}-${item?.cardType}-${item?.premises}`]
+        acc[`${item?.paymentMode}-${item?.cardType}-${item?.premises}`] =item?.premises==="OFFPREM"?{...prevData,offPremSales:item?.totalSales,offPremOrders: item?.totalOrders }:{...prevData,onPremSales:item?.totalSales,onPremOrders: item?.totalOrders }
+  
+        return acc;
+      }, {} as Record<string, TenderTypeItem>); 
+    }
+  
     return arr?.reduce((acc, item) => {
       if (item?.paymentMode === "Online/Key-In" || item?.paymentMode === "Card Swipe") {
-        acc[`${item?.paymentMode + "-" + item?.cardType}`] = item;
+        acc[`${item?.paymentMode + "-" + item?.cardType}`] = {...item, "premise": premise[`${item?.paymentMode}-${item?.cardType}`]};
       } else {
         acc[`${item?.paymentMode}`] = item;
 
@@ -591,10 +597,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         <div className="sales-overview-doughnut-chart-container">
           <div className="" style={{ width: "50%", height: "100%" }}>
             <h2 className="sales-overview-sub-heading ">By Discount</h2>
-            {/* <DoughnutChartWithButton dataList={offerSummary} /> */}
+            <DoughnutChartWithButton dataList={offerSummary} />
           </div>
           <div className="" style={{ width: "50%", height: "100%" }}>
             <h2 className="sales-overview-sub-heading ">Voided orders</h2>
+            <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} />
             {/* <DiscountAndVoidedOrders dataList={offerSummary} /> */}
           </div>
         </div>

@@ -20,7 +20,7 @@ function LinearBarChart({ barColorCode, dataList  }) {
     datasets: [
       {
         label: "Sales",
-        data: dataList?.map((cat) => cat?.totalItemPrice)||[],
+        data: dataList?.map((cat) => Number(cat?.voidedAmount||0))||[],
         backgroundColor: barColorCode,
         barPercentage: 0.4,    // Thinner bars
         categoryPercentage: 0.6,
@@ -54,7 +54,7 @@ function LinearBarChart({ barColorCode, dataList  }) {
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
             const cat = dataList[idx];
-            return [`Qty: ${cat?.itemCount}`, `Sales: $${cat?.totalItemPrice.toFixed(2)}`];
+            return [`Qty: ${cat?.itemCount}`, `Sales: $${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },
 

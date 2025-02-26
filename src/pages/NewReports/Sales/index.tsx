@@ -8,7 +8,7 @@ import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
 import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLocation, dropdownDetailsRequest, storeLocationsList } from "redux/newReports/newReportsActions";
+import { changeLocation, dropdownDetailsRequest, selectCategories,  storeLocationsList } from "redux/newReports/newReportsActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
@@ -23,7 +23,8 @@ const SalesReport: React.FC<ReportProps> = () => {
     const restaurantDetails = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.branch
       );
-    
+          // const dropdownDetailsData = useSelector((state:any) => state?.newReports?.dropdownDetailsData)
+
     useEffect(() => {
         const mappedIdWithBranchName = restaurantDetails?.map(
             (branchWithId: any) => ({
@@ -41,6 +42,11 @@ const selectedLocation = useSelector((state:any) => state?.newReports?.selectedL
   useEffect(() => {
     dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
   }, [selectedLocation])
+
+
+  // useEffect(() => {
+  //   dispatch(selectCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}]))
+  // }, [dropdownDetailsData])
     
 
     return (
