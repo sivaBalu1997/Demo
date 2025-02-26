@@ -200,6 +200,7 @@ const AvailabilityChangesUntil = ({
   const handleTimeChange = () => {
     if (selectedOption !== -1) {
       if (parentToggle === "") {
+        alert("hi")
         const datamatched = patchedData?.itemAvailabilityInfo.filter(
           (data) => data.orderTypeId === selectedtypeid
         );
@@ -242,24 +243,70 @@ const AvailabilityChangesUntil = ({
           ),
         }));
       } else {
+        alert("hello")
+
         setPartialData((prev) => {
-          const dataToAdd = ParentToggles.filter(
-            (item) => item.isEnabled === 1
-          ).map((item) => ({
-            orderTypeId: item.typeId,
-            unAvailableUntilTime: timeToSet,
-          }));
+          const existedArray=prev.itemAvailabilityInfo||[]
+
+          
+          const dataToAdd=[];
+          ParentToggles.map((item,index)=>{
+           
+              const existeingindex=existedArray.findIndex((id)=>id.orderTypeId===item.typeId)
+              if(existeingindex>-1)
+              {
+               existedArray[existeingindex].unAvailableUntilTime=timeToSet
+                
+              }
+              else{
+                dataToAdd.push({
+                  orderTypeId: item.typeId,
+                unAvailableUntilTime: timeToSet,
+
+                })
+              }
+
+            })
+
+
+          // })
+
+
+
+        //   const dataToAdd = ParentToggles.filter(
+        //     (item) => item.isEnabled === 1
+        //   ).map((item) => {
+            
+            
+        //     const existingIndex=existedArray.findIndex((item1)=>item1.orderTypeId===item.typeId)
+        //     if(existingIndex>-1)
+        //     {
+        //       return{
+        //         orderTypeId: item.typeId,
+        //         unAvailableUntilTime: timeToSet,
+
+        //       }
+           
+        //   }
+        //   // else{
+        //   //   return existedArray
+        //   // }
+        
+        // });
 
           return {
             ...prev,
             itemId: dataFromRedux[0].itemId,
-            itemAvailabilityInfo: dataToAdd,
+            itemAvailabilityInfo: [...existedArray,...dataToAdd],
           };
         });
       }
       setSelectPeriod(false);
     }
   };
+
+  console.log({partialData});
+  
   useEffect(()=>{
     const todayDay = getTodayDay();
     // const todayDay = "Sunday"; 
