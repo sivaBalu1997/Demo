@@ -73,10 +73,21 @@ const CardTypeChart = ({ dataList }: { dataList: any[] }) => {
         titleMarginBottom: 0,
         bodySpacing: 0,
         callbacks: {
-          label: (tooltipItem: any) => {
-            return `${tooltipItem?.dataset?.label}: $${
-              tooltipItem?.raw?.toFixed(2) || 0
-            }`;
+          title: (tooltipItems: TooltipItem<"bar">[]) => {
+            if (!tooltipItems.length) return "";
+            const index = tooltipItems[0].dataIndex;
+            const total = data.datasets.reduce((sum, dataset) => {
+              return sum + (dataset.data[index] as number);
+            }, 0);
+            return `${tooltipItems[0].label} - $${total.toFixed(2)}`;
+          },
+          label: (tooltipItem: TooltipItem<"bar">) => {
+            const index = tooltipItem.dataIndex;
+            return data.datasets.map((dataset) => {
+              const cardType = dataset.label || "";
+              const value = dataset.data[index] as number;
+              return `${cardType}:  $${value.toFixed(2)}`;
+            });
           },
         },
       },

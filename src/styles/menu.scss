@@ -1261,6 +1261,13 @@ height: 14px;
     background-color: #f5f5f5;
     color: #393939 !important;
   }
+  .select-food-item-dropdown-prefix__option--is-selected {
+    background-color: #f5f5f5;
+  }
+  .select-food-item-dropdown-prefix__option:active{
+    background-color: #f5f5f5;
+
+  }
   .select-food-item-dropdown-prefix__input {
     font-family: "Poppins";
     font-size: 16px;
