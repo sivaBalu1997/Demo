@@ -226,6 +226,9 @@ const Employees: React.FC = () => {
         }
     }, [selectedLocationidFromDropDown]);
 
+    // const
+    // const number = Math.floor(+floatString);
+
     return (
         <div className='report-sales-employee-container'>
             {showAllActivityTable ? <div className="void-activity-table-container" style={{ marginTop: showAllActivityTable ? "5vh" : "" }}>
@@ -287,7 +290,6 @@ const Employees: React.FC = () => {
                         <CardWithMiniGraph cardTitle="Total Tax" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTax} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTaxPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                         <CardWithMiniGraph cardTitle="Total Tips" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTips} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                         <CardWithMiniGraph cardTitle="Gratuity" cardValue={employeeSalesOverViewFromAPIRedux?.gratuity} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.gratuityPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.gratuityPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                        {/* <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.transactionPercentage} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} /> */}
                         <CardWithMiniGraph cardTitle="Discount" cardValue={employeeSalesOverViewFromAPIRedux?.discounts} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.discountPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.discountPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                         <CardWithMiniGraph cardTitle="Cancelled" cardValue={employeeSalesOverViewFromAPIRedux?.cancelledOrders} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.cancelledPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.cancelledPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                     </div>
