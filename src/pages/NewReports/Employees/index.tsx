@@ -135,6 +135,14 @@ const Employees: React.FC = () => {
         }
     };
 
+    const chartDataFromAPIRedux = getEmployeeActivityDataFromAPIRedux?.map((data: any) => ({ "name": data?.actionType, "value": data?.extractedValue }))
+    // const chartDataFromAPIReduxTooltip = getEmployeeActivityDataFromAPIRedux?.map((data: any) => ({ "name": data?.actionType }))
+
+    const tooltipDataFromAPI = getEmployeeActivityDataFromAPIRedux?.reduce((acc: any, data: any) => {
+        acc[data.actionType] = { tooltipContent: `Value: ${data.extractedValue}` };
+        return acc;
+    }, {});
+
     // Chart Data
     const chartData = [
         { name: "Add discount", value: 240.5 },
@@ -211,12 +219,12 @@ const Employees: React.FC = () => {
             dispatch(
                 getEmployeeActivityRequest({
                     locationid: selectedLocationidFromDropDown,
-                    startDate: appliedStartDate,
-                    endDate: appliedEndDate,
+                    startDate: '2024-02-04',
+                    endDate: '2025-02-24',
                 })
             );
         }
-    }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate]);
+    }, [selectedLocationidFromDropDown]);
 
     return (
         <div className='report-sales-employee-container'>
@@ -285,8 +293,8 @@ const Employees: React.FC = () => {
                     </div>
                 </div>
                 <CustomBarChart
-                    data={chartData}
-                    tooltipData={tooltipData}
+                    data={chartDataFromAPIRedux}
+                    tooltipData={tooltipDataFromAPI}
                     barColor="#67823D"
                     barStyle={customBarStyle}
                     showGrid={true} // Enable grid
