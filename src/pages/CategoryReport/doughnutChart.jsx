@@ -71,7 +71,7 @@ const centerTextPlugin = {
 
 function DoughnutChart({ dataList }) {
   const data = {
-    labels: dataList?.map((slice) => slice?.label),
+    labels: dataList?.map((slice) => slice?.categoryName),
     datasets: [
       {
         data: dataList?.map((slice) => slice?.value),

@@ -26,6 +26,7 @@ import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import moment from "moment";
+import LinearBarChartCategorySales from "./barChart1";
 
 const CategoryReport = (props) => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const locations = useSelector((state) => state?.newReports?.storeLocationsList)
 const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
   const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData)
-const categorySalesData = useSelector((state) => state?.newReports?.categorySalesSuccess)
+const categorySalesData = useSelector((state) => state?.newReports?.categorySalesData)
 const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
 const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
 const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData)
@@ -361,7 +362,7 @@ const fetchData=(categoryIds, itemIds)=>{
                 </h1>
                 <DownloadPopOver />
               </div>
-              <LinearBarChart  dataList={voidedSummaryData} barColorCode={"#7D7774"} />
+              <LinearBarChartCategorySales  dataList={voidedSummaryData} barColorCode={"#7D7774"} />
             </div>
           ) : (
             ""
@@ -372,7 +373,7 @@ const fetchData=(categoryIds, itemIds)=>{
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 <DownloadPopOver />
               </div>
-              <DoughnutChart  dataList={voidedSummaryData} />
+              {/* <DoughnutChart  dataList={voidedSummaryData} /> */}
             </div>
           ) : (
             ""
