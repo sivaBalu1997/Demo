@@ -1,4 +1,4 @@
-import { put, call, takeLatest, debounce } from "redux-saga/effects";
+import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
 import {
     salesSummarySuccess,
@@ -67,9 +67,40 @@ import {
     dailyCheckInStatusFailure,
     billerUnbilledSuccess,
     billerUnbilledFailure,
-    employeeSalesOverviewRequest,
     employeeSalesOverviewSuccess,
-    employeeSalesOverviewFailure
+    employeeSalesOverviewFailure,
+    voidedSummarySuccess,
+    voidedSummaryFailure,
+    dropdownDetailsSuccess,
+    dropdownDetailsFailure,
+    categoryChannelSummarySuccess,
+    categoryChannelSummaryFailure,
+    categorySalesSuccess,
+    categorySalesFailure,
+    categorySalesSummarySuccess,
+    categorySalesSummaryFailure,
+    locationDetailsSuccess,
+    locationDetailsFailure,
+    paymentDetailsSuccess,
+    paymentDetailsFailure,
+    salesSummaryReportSuccess,
+    salesSummaryReportFailure,
+    staffSalesSuccess,
+    staffSalesFailure,
+    salesCategorySuccess,
+    salesCategoryFailure,
+    salesCardTypeSuccess,
+    salesCardTypeFailure,
+    hourlySalesReportChartSuccess,
+    hourlySalesReportChartFailure,
+    salesByChannelSuccess,
+    salesByChannelFailure,
+    getVoidedOrderSummarySuccess,
+    getOfferSummaryFailure,
+    voidedOrderSummarySuccess,
+    voidedOrderSummaryFailure,
+    offerSummaryFailure,
+    offerSummarySuccess,
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -93,6 +124,7 @@ import {
     EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST,
     HOURLY_GUESTS_REQUEST,
     HOURLY_SALES_REQUEST,
+    HOURLY_SALES_REPORT_CHART_REQUEST,
     LIVE_CHECKIN_STATUS_REQUEST,
     LIVE_DISCOUNT_REQUEST,
     LIVE_NET_SALES_REQUEST,
@@ -105,7 +137,21 @@ import {
     PEAK_SUMMARY_REQUEST,
     SALES_BY_ITEM_CATEGORY_REQUEST,
     SALES_BY_REVENUE_CLASS_REQUEST,
-    SALES_SUMMARY_REQUEST
+    SALES_CATEGORY_REQUEST,
+    SALES_CARD_TYPE_REQUEST,
+    SALES_SUMMARY_REQUEST,
+    SALES_SUMMARY_REPORT_REQUEST,
+    STAFF_SALES_REQUEST,
+    VOIDED_SUMMARY_REQUEST,
+    DROPDOWN_DETAILS_REQUEST,
+    CATEGORY_CHANNEL_SUMMARY_REQUEST,
+    CATEGORY_SALES_REQUEST,
+    CATEGORY_SALES_SUMMARY_REQUEST,
+    LOCATION_DETAILS_REQUEST,
+    PAYMENT_DETAILS_REQUEST,
+    SALES_BY_CHANNEL_REQUEST,
+    GET_OFFER_SUMMARY_REQUEST,
+    GET_VOIDED_ORDER_SUMMARY_REQUEST,
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -128,6 +174,7 @@ import {
     getEmployeeStaffTipGratuity,
     getHourlyGuests,
     getHourlySalesChart,
+    getHourlySalesReportChart,
     getLiveCheckInStatus,
     getLiveDiscount,
     getLiveNetSales,
@@ -140,7 +187,21 @@ import {
     getPeakSummary,
     getSalesByItemCategory,
     getSalesByRevenueClass,
-    getSalesSummary
+    getSalesCategory,
+    getSalesCardType,
+    getSalesSummary,
+    getSalesSummaryReport,
+    getStaffSales,
+    getVoidedSummary,
+    getDropDownDetails,
+    getCategoryChannelSummary,
+    getCategorySales,
+    getCategorySalesSummary,
+    getLocationDetails,
+    getPaymentDetails,
+    getSalesByChannel,
+    getVoidedOrderSummary,
+    getOfferSummary,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -288,6 +349,7 @@ export function* liveOrdersRequestSaga(action) {
     try {
         const response = yield call(getLiveOrders, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of liveOrdersRequestSaga", { decryptedData })
         if (response.status === 200) {
             console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
@@ -306,8 +368,8 @@ export function* liveRefundsRequestSaga(action) {
     try {
         const response = yield call(getLiveRefunds, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of liveRefundsRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of liveRefundsRequestSaga", { decryptedData })
             yield put(liveRefundsSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -324,8 +386,8 @@ export function* liveNetSalesRequestSaga(action) {
     try {
         const response = yield call(getLiveNetSales, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of liveNetSalesRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of liveNetSalesRequestSaga", { decryptedData })
             yield put(liveNetSalesSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -342,8 +404,8 @@ export function* liveOrderNonDineInRequestSaga(action) {
     try {
         const response = yield call(getLiveOrderNonDineIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
             yield put(liveOrderNonDineInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -360,8 +422,8 @@ export function* discountSummaryRequestSaga(action) {
     try {
         const response = yield call(getDiscountSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of discountSummaryRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of discountSummaryRequestSaga", { decryptedData })
             yield put(discountSummarySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -378,8 +440,8 @@ export function* cancellationSummaryRequestSaga(action) {
     try {
         const response = yield call(getCancellationSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of cancellationSummaryRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of cancellationSummaryRequestSaga", { decryptedData })
             yield put(cancellationSummarySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -396,8 +458,8 @@ export function* employeeStaffTipGratuityRequestSaga(action) {
     try {
         const response = yield call(getEmployeeStaffTipGratuity, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of employeeStaffTipGratuityRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of employeeStaffTipGratuityRequestSaga", { decryptedData })
             yield put(employeeStaffTipGratuitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -414,8 +476,8 @@ export function* employeeStaffDiscountRequestSaga(action) {
     try {
         const response = yield call(getEmployeeStaffDiscount, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of employeeStaffDiscountRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of employeeStaffDiscountRequestSaga", { decryptedData })
             yield put(employeeStaffDiscountSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -432,8 +494,8 @@ export function* employeeStaffPerformanceRequestSaga(action) {
     try {
         const response = yield call(getEmployeeStaffPerformance, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of employeeStaffPerformanceRequestSaga", { decryptedData })
         if (response.status === 200) {
-            // console.log("response of employeeStaffPerformanceRequestSaga", { decryptedData })
             yield put(employeeStaffPerformanceSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -727,7 +789,6 @@ export function* billedUnbilledRequestSaga(action) {
         // console.log("response of billedUnbilledRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(billerUnbilledSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(billerUnbilledFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -735,6 +796,261 @@ export function* billedUnbilledRequestSaga(action) {
     } catch (error) {
         // console.log('inside catch')
         yield put(billerUnbilledFailure(error))
+        showErrorToast(error.message);
+    }
+}
+
+// Voided Summary Saga
+function* voidedSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getVoidedSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(voidedSummarySuccess(decryptedData));
+        } else {
+            yield put(voidedSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+
+    } catch (error) {
+        yield put(voidedSummaryFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Dropdown Details Saga
+function* dropdownDetailsRequestSaga(action) {
+    try {
+        const response = yield call(getDropDownDetails, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(dropdownDetailsSuccess(decryptedData));
+        } else {
+            yield put(dropdownDetailsFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(dropdownDetailsFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Category Channel Summary Saga
+function* categoryChannelSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getCategoryChannelSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(categoryChannelSummarySuccess(decryptedData));
+        } else {
+            yield put(categoryChannelSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(categoryChannelSummaryFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Category Sales Saga
+function* categorySalesRequestSaga(action) {
+    try {
+        const response = yield call(getCategorySales, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(categorySalesSuccess(decryptedData));
+        } else {
+            yield put(categorySalesFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(categorySalesFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Category Sales Summary Saga
+function* categorySalesSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getCategorySalesSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(categorySalesSummarySuccess(decryptedData));
+        } else {
+            yield put(categorySalesSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(categorySalesSummaryFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Location Details Saga
+function* locationDetailsRequestSaga(action) {
+    try {
+        const response = yield call(getLocationDetails, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(locationDetailsSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(locationDetailsFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(locationDetailsFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+function* paymentDetailsRequestSaga(action) {
+    try {
+        const response = yield call(getPaymentDetails, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(paymentDetailsSuccess(decryptedData));
+        } else {
+            yield put(paymentDetailsFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(paymentDetailsFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+function* salesSummaryReportRequestSaga(action) {
+    try {
+        const response = yield call(getSalesSummaryReport, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(salesSummaryReportSuccess(decryptedData));
+        } else {
+            yield put(salesSummaryReportFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(salesSummaryReportFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+function* staffSalesRequestSaga(action) {
+    try {
+        const response = yield call(getStaffSales, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(staffSalesSuccess(decryptedData));
+        } else {
+            yield put(staffSalesFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(staffSalesFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Sales Category Saga
+function* salesCategoryRequestSaga(action) {
+    try {
+        const response = yield call(getSalesCategory, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(salesCategorySuccess(decryptedData));
+        } else {
+            yield put(salesCategoryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(salesCategoryFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Sales Card Type Saga
+function* salesCardTypeRequestSaga(action) {
+    try {
+        const response = yield call(getSalesCardType, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(salesCardTypeSuccess(decryptedData));
+        } else {
+            yield put(salesCardTypeFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(salesCardTypeFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Hourly Sales Report Chart Saga
+function* hourlySalesReportChartRequestSaga(action) {
+    try {
+        const response = yield call(getHourlySalesReportChart, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(hourlySalesReportChartSuccess(decryptedData));
+        } else {
+            yield put(hourlySalesReportChartFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(hourlySalesReportChartFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Sales By Channel Saga
+function* salesByChannelRequestSaga(action) {
+    try {
+        const response = yield call(getSalesByChannel, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(salesByChannelSuccess(decryptedData));
+        } else {
+            yield put(salesByChannelFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(salesByChannelFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Offer Summary Saga
+function* offerSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getOfferSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(offerSummarySuccess(decryptedData));
+        } else {
+            yield put(offerSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(offerSummaryFailure(error.message));
+        showErrorToast(error.message);
+    }
+}
+
+// Voided Order Summary Saga
+function* voidedOrderSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getVoidedOrderSummary, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(voidedOrderSummarySuccess(decryptedData));
+        } else {
+            yield put(voidedOrderSummaryFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(voidedOrderSummaryFailure(error.message));
+        showErrorToast(error.message);
     }
 }
 
@@ -794,4 +1110,20 @@ export default function* watchNewReportRequest() {
     yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga);
     yield takeLatest(BILLED_UNBILLED_REQUEST, billedUnbilledRequestSaga);
     yield takeLatest(EMPLOYEE_SALES_OVERVIEW_REQUEST, employeeSalesOverViewSaga);
+    yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga)
+    yield takeLatest(VOIDED_SUMMARY_REQUEST, voidedSummaryRequestSaga);
+    yield takeLatest(DROPDOWN_DETAILS_REQUEST, dropdownDetailsRequestSaga);
+    yield takeLatest(CATEGORY_CHANNEL_SUMMARY_REQUEST, categoryChannelSummaryRequestSaga);
+    yield takeLatest(CATEGORY_SALES_REQUEST, categorySalesRequestSaga);
+    yield takeLatest(CATEGORY_SALES_SUMMARY_REQUEST, categorySalesSummaryRequestSaga);
+    yield takeLatest(LOCATION_DETAILS_REQUEST, locationDetailsRequestSaga);
+    yield takeLatest(PAYMENT_DETAILS_REQUEST, paymentDetailsRequestSaga);
+    yield takeLatest(SALES_SUMMARY_REPORT_REQUEST, salesSummaryReportRequestSaga);
+    yield takeLatest(STAFF_SALES_REQUEST, staffSalesRequestSaga);
+    yield takeLatest(SALES_CATEGORY_REQUEST, salesCategoryRequestSaga);
+    yield takeLatest(SALES_CARD_TYPE_REQUEST, salesCardTypeRequestSaga);
+    yield takeLatest(HOURLY_SALES_REPORT_CHART_REQUEST, hourlySalesReportChartRequestSaga);
+    yield takeLatest(SALES_BY_CHANNEL_REQUEST, salesByChannelRequestSaga);
+    yield takeLatest(GET_OFFER_SUMMARY_REQUEST, offerSummaryRequestSaga);
+    yield takeLatest(GET_VOIDED_ORDER_SUMMARY_REQUEST, voidedOrderSummaryRequestSaga);
 }

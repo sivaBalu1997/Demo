@@ -6,43 +6,45 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 // Register Chart.js components and plugins
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const slices = [
-  {
-    label: "Service delay",
-    value: 22,
-    color: "#0FB36A",
-    items: 125,
-    amount: 87.5,
-  },
-  {
-    label: "Wrong order",
-    value: 13,
-    color: "#F99D2B",
-    items: 55,
-    amount: 45.25,
-  },
-  {
-    label: "Taste issue",
-    value: 21,
-    color: "#B33BB3",
-    items: 78,
-    amount: 60.0,
-  },
-  {
-    label: "Missing item",
-    value: 21,
-    color: "#14C9C9",
-    items: 90,
-    amount: 72.1,
-  },
-  {
-    label: "Extra order",
-    value: 23,
-    color: "#E3313C",
-    items: 100,
-    amount: 80.0,
-  },
-];
+// const slices = [
+//   {
+//     label: "Service delay",
+//     value: 22,
+//     color: "#0FB36A",
+//     items: 125,
+//     amount: 87.5,
+//   },
+//   {
+//     label: "Wrong order",
+//     value: 13,
+//     color: "#F99D2B",
+//     items: 55,
+//     amount: 45.25,
+//   },
+//   {
+//     label: "Taste issue",
+//     value: 21,
+//     color: "#B33BB3",
+//     items: 78,
+//     amount: 60.0,
+//   },
+//   {
+//     label: "Missing item",
+//     value: 21,
+//     color: "#14C9C9",
+//     items: 90,
+//     amount: 72.1,
+//   },
+//   {
+//     label: "Extra order",
+//     value: 23,
+//     color: "#E3313C",
+//     items: 100,
+//     amount: 80.0,
+//   },
+// ];
+
+const colorList=["#0FB36A", "#F99D2B", "#B33BB3", "#14C9C9", "#E3313C"]
 
 const totalDisplay = "$1200.50";
 
@@ -67,13 +69,13 @@ const centerTextPlugin = {
   },
 };
 
-function DoughnutChart() {
+function DoughnutChart({ dataList }) {
   const data = {
-    labels: slices.map((slice) => slice.label),
+    labels: dataList?.map((slice) => slice?.label),
     datasets: [
       {
-        data: slices.map((slice) => slice.value),
-        backgroundColor: slices.map((slice) => slice.color),
+        data: dataList?.map((slice) => slice?.value),
+        backgroundColor: colorList,
         borderWidth: 0,
       },
     ],
@@ -114,16 +116,16 @@ function DoughnutChart() {
             }
           });
           if (isActive) {
-            const slice = slices[context.dataIndex];
+            const slice = dataList[context.dataIndex];
             return [
-              `Total item: ${slice.items}`,
-              `Amount: $${slice.amount.toFixed(2)}`,
+              `Total item: ${slice?.items}`,
+              `Amount: $${slice?.amount.toFixed(2)}`,
             ];
           }
           return `${value}%`;
         },
         backgroundColor: "#fff",
-        borderColor: (context) => slices[context.dataIndex].color,
+        borderColor: (context) => colorList[context.dataIndex],
         borderWidth: 2,
         borderRadius: 4,
         padding: 6,

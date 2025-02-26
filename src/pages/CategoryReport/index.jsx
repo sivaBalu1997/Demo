@@ -1,15 +1,22 @@
 import React, {
-  forwardRef,
-  useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Tabs.css";
+import {
+  voidedSummaryRequest,
+  dropdownDetailsRequest,
+  categoryChannelSummaryRequest,
+  categorySalesRequest,
+  categorySalesSummaryRequest,
+  locationDetailsRequest,
+  changeLocation,
+  salesByItemCategoryRequest,
+} from "../../redux/newReports/newReportsActions";
 
 
-import CustomDropdown from "../../components/common/customDropdown/index";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import SalesChart from "./salesReport";
@@ -18,46 +25,114 @@ import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdow
 import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import CustomDatePicker from "./CustomDatepicker";
-import { ReactComponent as CalendarIcon } from "../../assets/svg/calendar.svg";
-import DatePicker from "react-multi-date-picker";
 
 const CategoryReport = (props) => {
+  const dispatch = useDispatch();
+    //TODO: move to redux
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+ const locationId = useSelector((state) => state?.auth?.credentials?.locationId)
+  const locations = useSelector((state) => state?.newReports?.locationDetailsData?.content)
+  const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
+  const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
+  const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData?.content)
+const categorySalesData = useSelector((state) => state?.newReports?.categorySalesSuccess?.content)
+const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummarySuccess)
+const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummarySuccess?.content)
+const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummarySuccess?.content)
+
+
+  useEffect(() => {
+    dispatch(locationDetailsRequest({ locationId }))
+  }, [locationId])
+
+
+  useEffect(() => {
+    dispatch(changeLocation({ label: locations?.[0], value: locationId }))
+  }, [locations])
+  
+
+
+  useEffect(() => {
+    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value,startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
+  }, [selectedLocation])
+
+  useEffect(() => {
+
+    const categoryIds=selectedCategories?.map((item)=>item.value)
+    const itemIds=selectedItems?.map((item)=>item.value)
+
+    // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
+    dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
+    dispatch(categorySalesSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
+    dispatch(categoryChannelSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
+    dispatch(voidedSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
+  }, [selectedLocation, selectedCategories, selectedItems])
+  
   const [activeBtn, setActiveBtn] = useState("categories");
-  const tabList = [
-    { key: "todaySummary", label: "Today summary" },
-    { key: "customers", label: "Customers" },
-    { key: "categories", label: "Categories" },
-    { key: "employees", label: "Employees" },
-    { key: "trends", label: "Trends" },
-  ];
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [itemsList, setItemsList] = useState([]);
+
 
   const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
   const [selectedStore, setSelectedStore] = useState({ label: "A2B Princeton", value: "A2B Princeton" });
+  
 
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
   const calendarRef = useRef();
-  // const CustomDatePickers = forwardRef(({ value, onChange }, ref) => (
-  //   <DatePicker selected={value} onChange={onChange} ref={ref} />
-  // ));
+
+  // Date formatting function
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const getDateFromOption = (option) => {
+    const today = new Date();
+    switch (option) {
+      case "Today":
+        return formatDate(today);
+      case "Yesterday":
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        return formatDate(yesterday);
+      case "This week":
+        const weekStart = new Date(today);
+        weekStart.setDate(weekStart.getDate() - 7);
+        return formatDate(weekStart);
+      case "This month":
+        const monthStart = new Date(today);
+        monthStart.setDate(1);
+        return formatDate(monthStart);
+      default:
+        return formatDate(today);
+    }
+  };
+
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
-    console.log(selectedCategoriesData);
-    setSelectedCategories((prevData) => [
-      ...prevData,
-      { name: selectedCategoriesData.value },
-    ]);
+    const category = dropdownDetailsData?.find(
+      cat => cat.categoryId === selectedCategoriesData.value
+    );
+    if (category) {
+      setSelectedCategories((prevData) => [
+        ...prevData,
+        { value: category.categoryId, label: category.categoryName }
+      ]);
+    }
   };
+
   const handleSelectItemsOnChange = (selectedItemsData) => {
-    setSelectedItems((prevData) => [
-      ...prevData,
-      { name: selectedItemsData.value },
-    ]);
+    const item = dropdownDetailsData?.find(
+      item => item.itemId === selectedItemsData.value
+    );
+    if (item) {
+      setSelectedItems((prevData) => [
+        ...prevData,
+        { value: item.itemId, label: item.itemName }
+      ]);
+    }
   };
-  // Track which tab is active
-  const [activeTab, setActiveTab] = useState(tabList[0].key);
+
   const categoryCloseOnClick = (categoryName) => {
     setSelectedCategories((prevCategoryData) =>
       prevCategoryData.filter(
@@ -65,70 +140,75 @@ const CategoryReport = (props) => {
       )
     );
   };
+
   const itemsCloseOnClick = (itemName) => {
     setSelectedItems((prevItemData) =>
       prevItemData.filter((selectedData) => selectedData.name !== itemName)
     );
   };
+
   const handleSelectDateOnClick = (dropDownData) => {
-    console.log(dropDownData.value);
-    if (dropDownData.value == "Custom date") {
-      console.log("Custom Date Selected", calendarRef);
+    if (dropDownData.value === "Custom date") {
       calendarRef.current?.openCalendar();
+    } else {
+      setSelectedDate({
+        label: dropDownData.value,
+        value: getDateFromOption(dropDownData.value)
+      });
     }
   };
+
+
+  // Fetch category data when date, store, or selections change
+  // useEffect(() => {
+  //   if (selectedStore?.value && selectedDate?.value) {
+  //     try {
+  //       const payload = {
+  //         locationid: selectedStore.value,
+  //         startDate: selectedDate.value,
+  //         endDate: selectedDate.value,
+  //         categoryIds: selectedCategories.map(cat => cat.id).filter(Boolean),
+  //         itemIds: selectedItems.map(item => item.id).filter(Boolean)
+  //       };
+
+  //       // Dispatch all requests simultaneously for better performance
+  //       Promise.all([
+
+  //         dispatch(voidedSummaryRequest()),
+  //         dispatch(categoryChannelSummaryRequest()),
+  //         dispatch(categorySalesRequest()),
+  //         dispatch(categorySalesSummaryRequest()),
+  //       ]).catch(error => {
+  //         console.error('Error fetching category data:', error);
+  //       });
+  //     } catch (error) {
+  //       console.error('Error preparing category data request:', error);
+  //     }
+  //   }
+  // }, [dispatch, selectedStore, selectedDate, selectedCategories, selectedItems]);
+
+
+
+
+  // Loading state
+  // const isLoading = voidedSummaryLoading ||
+  //   dropdownDetailsLoading ||
+  //   categoryChannelSummaryLoading ||
+  //   categorySalesLoading ||
+  //   categorySalesSummaryLoading;
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
         <div className="category-page-body">
-          <div className="category-filters-section">
-            <div className="category-store-name">
-              <span>Store name</span>
-              <h1>A2B, Princeton</h1>
-            </div>
-            <div className="category-dropdown-container">
-              <div className="category-dropdown-sub-container">
-                <span className="category-dropdown-text">Select date</span>
-                <div className="category-dropdown-sub-dropdown-container">
-                  <CustomDropdown
-                    onSelect={handleSelectDateOnClick}
-                    options={[
-                      { value: "Yesterday", label: "Yesterday" },
-                      { value: "Today", label: "Today" },
-                      { value: "This week", label: "This week" },
-                      { value: "This month", label: "This month" },
-                      {
-                        value: "Custom date",
-                        label: "Custom date",
-                        icon: <CalendarIcon />,
-                      },
-                    ]}
-                    value={"Sales"}
-                    className="category-dropdown"
-                  />
-                  <CustomDatePicker
-                    containerClassName={"category-date-picker-container"}
-                    datePickerContainerClassName="category-custom-datepicker-container"
-                    ref={calendarRef}
-                    className="category-custom-datepicker"
-                    render={<></>}
-                    arrowClassName="category-custom-datepicker-arrow"
-                    offsetY={-15}
-                  />
-                </div>
-
-                {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
-              </div>
-              <div className="category-dropdown-sub-container">
-                <span className="category-dropdown-text">Select store</span>
-                <CustomDropdown
-                  options={[{ value: "Sales", label: "Sales" }]}
-                  value={"Sales"}
-                  className="category-dropdown"
-                />
-              </div>
-            </div>
-          </div>
+      
+            <StoreFilter
+              storeOptions={locations?.map(((data) => ({ label: data, value: locationId })))}
+              selectedDate={selectedDate}
+              selectedStore={selectedLocation}
+              setSelectedDate={setSelectedDate}
+              setSelectedStore={(store) => dispatch(changeLocation(store))}
+            />
           <div className="category-btn-switch">
             <button
               className={`category-btn  ${activeBtn == "categories" ? "active-btn" : ""
@@ -164,12 +244,9 @@ const CategoryReport = (props) => {
               placeholder="Select Categories"
             /> */}
                 <ReusableDropdown
-                  options={[
-                    { value: "Sales", label: "Sales" },
-                    { value: "Dosai", label: "Dosai" },
-                    { value: "Veg Briyani", label: "Veg Briyani" },
-                  ]}
-                  value={"Sales"}
+                  // categorySalesData?.map((data)=>({ value: data?.categoryName, label: data?.categoryName  }))||
+                  options={dropdownDetailsData?.map((data)=>({ value: data?.categoryId, label: data?.categoryName  }))||[]}
+                  value={selectedCategories}
                   placeholder={"Select categories"}
                   dropdownContainerClassName="select-food-item-dropdown-cotainer"
                   dropdownClassName="select-food-item-dropdown"
@@ -192,12 +269,9 @@ const CategoryReport = (props) => {
                     <span className="font-color-red poppins-fw400-fs16">*</span>
                   </div>
                   <ReusableDropdown
-                    options={[
-                      { value: "Sales", label: "Sales" },
-                      { value: "Dosai", label: "Dosai" },
-                      { value: "Veg Briyani", label: "Veg Briyani" },
-                    ]}
-                    value={"Sales"}
+                    options={dropdownDetailsData?.map((data)=>({ value: data?.itemId, label: data?.itemName  }))||[]}
+                    //TODO: confirm if we nee to filter items based on categry
+                    value={selectedItems}
                     placeholder={"Select items"}
                     dropdownContainerClassName="select-food-item-dropdown-cotainer"
                     dropdownClassName="select-food-item-dropdown"
@@ -224,11 +298,12 @@ const CategoryReport = (props) => {
             </div>
             <MiniCard
               data={[
-                { title: "TOTAL SALES", value: "8500.90" },
-                { title: "TOTAL SALES", value: "8500.90" },
-                { title: "TOTAL SALES", value: "8500.90" },
-                { title: "TOTAL SALES", value: "8500.90" },
-                { title: "TOTAL SALES", value: "8500.90" },
+                { title: "TOTAL SALES", value: `$ ${categorySalesSummaryData?.totalSales?.toFixed(2) ||0}` },
+                { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) ||0}` },
+                { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) ||0}` },
+                { title: "VOID", value: `$ ${categorySalesSummaryData?.void?.toFixed(2) ||0}` },
+                { title: "ADD-ON", value: `$ ${categorySalesSummaryData?.addOn?.toFixed(2) ||0}` },
+                { title: "TOTAL QUANTITY", value: `${categorySalesSummaryData?.totalQuantity ||0}` },
               ]}
             />
           </div>
@@ -241,6 +316,7 @@ const CategoryReport = (props) => {
               <DownloadPopOver />
             </div>
             <LinearBarChart
+            dataList={categorySalesData}
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
             />
           </div>
@@ -253,7 +329,7 @@ const CategoryReport = (props) => {
               <DownloadPopOver />
             </div>
 
-            <SalesChart />
+            <SalesChart dataList={categoryChannelSummaryData}/>
           </div>
           {activeBtn == "categories" ? (
             <div>
@@ -263,7 +339,7 @@ const CategoryReport = (props) => {
                 </h1>
                 <DownloadPopOver />
               </div>
-              <LinearBarChart barColorCode={"#7D7774"} />
+              <LinearBarChart  dataList={voidedSummaryData} barColorCode={"#7D7774"} />
             </div>
           ) : (
             ""
@@ -274,7 +350,7 @@ const CategoryReport = (props) => {
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 <DownloadPopOver />
               </div>
-              <DoughnutChart />
+              <DoughnutChart  dataList={voidedSummaryData} />
             </div>
           ) : (
             ""

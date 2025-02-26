@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from 'interface/newReportsInterface';
 import { useDispatch, useSelector } from 'react-redux';
-import { employeeSalesOverviewRequest, employeeStaffActivityRequest } from 'redux/newReports/newReportsActions';
+import { changeLocation, employeeStaffActivityRequest, locationDetailsRequest, employeeSalesOverviewRequest } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
@@ -37,12 +37,23 @@ const Employees: React.FC = () => {
     const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
     const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
-
+    const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
+    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
     const dispatch = useDispatch();
 
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
     );
+    useEffect(() => {
+        dispatch(locationDetailsRequest({ locationid }))
+    }, [locationid])
+
+
+    useEffect(() => {
+        dispatch(changeLocation({ label: locations?.[0], value: locationid }))
+    }, [locations])
+
+
 
 
 
@@ -196,74 +207,81 @@ const Employees: React.FC = () => {
 
     return (
         <div className='report-sales-employee-container'>
-            {!showAllActivityTable && <StoreFilter selectedDate={selectedDate} selectedStore={selectedStore} setSelectedDate={setSelectedDate} setSelectedStore={setSelectedStore} datePickerApplyFunction={datepickerApply} />}
-            {!showAllActivityTable && <div className="employee-report-sales-overview-box-container-parent">
-                <h2>Sales Overview</h2>
-                <div className="select-employee-container">
-                    <p>Select employee</p>
-                    <div className="select-employee-dropdown">
-                        <CustomDropdown
-                            options={[
-                                { value: "All", label: "All" },
-                                { value: "Lloyd Forger", label: "Lloyd Forger" },
-                                { value: "Anya Forger", label: "Anya Forger" },
-                                { value: "Daybreak", label: "Daybreak" },
-                                { value: "stuart little", label: "stuart little" },
-                            ]}
-                            value={"Sales"}
-                            className="category-dropdown"
-                            onSelect={handleDropdownChangeStore}
-                        />
+            {showAllActivityTable ? <div className="void-activity-table-container" style={{ marginTop: showAllActivityTable ? "5vh" : "" }}>
+                <div className="void-activity-button-container">
+                    <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
+                </div>
+                <NewTable
+                    kpiTitle="Employee Void Activity"
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    headerData={newTableHeaders}
+                    tableData={
+                        employeeVoidActivityAPIRedux &&
+                        employeeVoidActivityAPIRedux?.length > 0 &&
+                        employeeVoidActivityAPIRedux
+                    }
+                    currentPage={currentPageEmployeeVoidActivity}
+                    totalPages={employeeVoidActivityTotalPagesRedux}
+                    onPageChange={setCurrentPageEmployeeVoidActivity}
+                    rowsPerPage={employeeVoidRecordLimit}
+                    setRowsPerPage={setEmployeeVoidRecordLimit}
+                    loader={employeeVoidActivityLoading}
+                    count={employeeVoidActivityAPIRedux?.length}
+                    searchPlaceHolder="Search By Steward, Voided reasons"
+                    onSearch={handleSearch}
+                />
+            </div> : <>
+                <StoreFilter
+                    storeOptions={locations?.map(((data: any) => ({ label: data, value: locationid })))}
+                    selectedDate={selectedDate}
+                    selectedStore={selectedLocation}
+                    setSelectedDate={setSelectedDate}
+                    setSelectedStore={(store) => dispatch(changeLocation(store))}
+                />
+                <div className="employee-report-sales-overview-box-container-parent">
+                    <h2>Sales Overview</h2>
+                    <div className="select-employee-container">
+                        <p>Select employee</p>
+                        <div className="select-employee-dropdown">
+                            <CustomDropdown
+                                options={[
+                                    { value: "All", label: "All" },
+                                    { value: "Lloyd Forger", label: "Lloyd Forger" },
+                                    { value: "Anya Forger", label: "Anya Forger" },
+                                    { value: "Daybreak", label: "Daybreak" },
+                                    { value: "stuart little", label: "stuart little" },
+                                ]}
+                                value={"Sales"}
+                                className="category-dropdown"
+                                onSelect={handleDropdownChangeStore}
+                            />
+                        </div>
+                    </div>
+                    <div className="employee-report-sales-overview-box-container">
+                        <CardWithMiniGraph cardTitle="Total Sales" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilSales} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalSalesPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalSalesPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                        <CardWithMiniGraph cardTitle="Net Sales" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilNetSales} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.netSalesPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.netSalesPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                        <CardWithMiniGraph cardTitle="Total Tax" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTax} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTaxPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                        <CardWithMiniGraph cardTitle="Total Tips" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTips} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                        <CardWithMiniGraph cardTitle="Gratuity" cardValue={employeeSalesOverViewFromAPIRedux?.gratuity} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.gratuityPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.gratuityPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                        {/* <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.transactionPercentage} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} /> */}
+                        <CardWithMiniGraph cardTitle="Discount" cardValue={employeeSalesOverViewFromAPIRedux?.discounts} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.discountPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.discountPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
+                        <CardWithMiniGraph cardTitle="Cancelled" cardValue={employeeSalesOverViewFromAPIRedux?.cancelledOrders} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.cancelledPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.cancelledPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
                     </div>
                 </div>
-                <div className="employee-report-sales-overview-box-container">
-                    <CardWithMiniGraph cardTitle="Total Sales" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilSales} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalSalesPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalSalesPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Net Sales" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilNetSales} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.netSalesPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.netSalesPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Total Tax" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTax} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTaxPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Total Tips" cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTips} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Gratuity" cardValue={employeeSalesOverViewFromAPIRedux?.gratuity} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.gratuityPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.gratuityPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                    {/* <CardWithMiniGraph cardTitle="Transactions" cardValue={2135} isMonetary={false} loader={false} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.transactionPercentage} graphType='chart' incrementOrDecrement='increment' showMiniGraph={true} /> */}
-                    <CardWithMiniGraph cardTitle="Discount" cardValue={employeeSalesOverViewFromAPIRedux?.discounts} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.discountPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.discountPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                    <CardWithMiniGraph cardTitle="Cancelled" cardValue={employeeSalesOverViewFromAPIRedux?.cancelledOrders} isMonetary={true} loader={employeeSalesOverViewFromAPIReduxLoader} incrementDecrementValue={employeeSalesOverViewFromAPIRedux?.cancelledPercentage} graphType='chart' incrementOrDecrement={employeeSalesOverViewFromAPIRedux?.cancelledPercentage > 0 ? 'increment' : 'decrement'} showMiniGraph={true} />
-                </div>
-            </div>}
-            {!showAllActivityTable ? <CustomBarChart
-                data={chartData}
-                tooltipData={tooltipData}
-                barColor="#67823D"
-                barStyle={customBarStyle}
-                showGrid={true} // Enable grid
-                gridColor="#ccc" // Light gray grid
-                gridStrokeWidth={0.5} // Subtle grid lines
-                kpiTitle='All Activity'
-                showRelatedTable={showAllActivityTable}
-                setShowRelatedTable={setShowAllActivityTable}
-            /> :
-                <div className="void-activity-table-container" style={{ marginTop: showAllActivityTable ? "5vh" : "" }}>
-                    <div className="void-activity-button-container">
-                        <button className='back-to-chart-btn' onClick={handleGoBackToChart}><ArrowLeft />Back</button>
-                    </div>
-                    <NewTable
-                        kpiTitle="Employee Void Activity"
-                        searchQuery={searchQuery}
-                        onSearchChange={setSearchQuery}
-                        headerData={newTableHeaders}
-                        tableData={
-                            employeeVoidActivityAPIRedux &&
-                            employeeVoidActivityAPIRedux?.length > 0 &&
-                            employeeVoidActivityAPIRedux
-                        }
-                        currentPage={currentPageEmployeeVoidActivity}
-                        totalPages={employeeVoidActivityTotalPagesRedux}
-                        onPageChange={setCurrentPageEmployeeVoidActivity}
-                        rowsPerPage={employeeVoidRecordLimit}
-                        setRowsPerPage={setEmployeeVoidRecordLimit}
-                        loader={employeeVoidActivityLoading}
-                        count={employeeVoidActivityAPIRedux?.length}
-                        searchPlaceHolder="Search By Steward, Voided reasons"
-                        onSearch={handleSearch}
-                    />
-                </div>}
+                <CustomBarChart
+                    data={chartData}
+                    tooltipData={tooltipData}
+                    barColor="#67823D"
+                    barStyle={customBarStyle}
+                    showGrid={true} // Enable grid
+                    gridColor="#ccc" // Light gray grid
+                    gridStrokeWidth={0.5} // Subtle grid lines
+                    kpiTitle='All Activity'
+                    showRelatedTable={showAllActivityTable}
+                    setShowRelatedTable={setShowAllActivityTable}
+                />
+            </>}
         </div>
     );
 };

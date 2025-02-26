@@ -41,6 +41,11 @@ const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `${reportsBaseUrl}/sales/employee/st
 
 const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffActivity?`;
 
+// const routes={
+//     test_api: "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/cardType?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-12-01&endDate=2024-12-11&page=1&size=15"
+// }
+//    https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/checkIn/dayCheckIn?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2025-01-01&endDate=2025-02-28&page=1&size=15
+
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -411,10 +416,226 @@ export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
 }
 
 
+export const getVoidedSummary = (voidedSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    let query = "";
+    if (voidedSummaryPayload?.itemIds?.length > 0) {
+        query += `&itemIds=${voidedSummaryPayload?.itemIds.join(',')}`;
+    }else if(voidedSummaryPayload?.categoryIds?.length>0){
+        query += `&categoryIds=${voidedSummaryPayload?.categoryIds.join(',')}`;
+    }
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/category/getVoidedDetailsSummary?locationId=${voidedSummaryPayload?.locationId}&startDate=${voidedSummaryPayload?.startDate}&endDate=${voidedSummaryPayload?.endDate}${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
+export const getDropDownDetails = (dropDownDetailsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/category/getDropDownDetails?locationId=${dropDownDetailsPayload?.locationid}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const categoryIds = categoryChannelSummaryPayload?.categoryIds?.join(',');
+    const itemIds = categoryChannelSummaryPayload?.itemIds?.join(',');
+    let url = `${reportsBaseUrl}/sales/category/getCategoryChannelSummary?locationId=${categoryChannelSummaryPayload?.locationid}&startDate=${categoryChannelSummaryPayload?.startDate}&endDate=${categoryChannelSummaryPayload?.endDate}`;
 
 
 
+    if (itemIds) {
+        url += `&itemIds=${itemIds}`;
+    }else if(categoryIds){
+        url += `&categoryIds=${categoryIds}`;
+    }
+
+    return API({
+        method: "get",
+        url: url,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
 
 
+export const getSalesSummaryReport = (salesSummaryReportPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    let query=""
+
+    if(salesSummaryReportPayload?.itemIds?.length>0){
+        query += `&itemIds=${salesSummaryReportPayload?.itemIds.join(',')}`;
+    }else if(salesSummaryReportPayload?.categoryIds?.length>0){
+        query += `&categoryIds=${salesSummaryReportPayload?.categoryIds.join(',')}`;
+    }
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/summary?locationId=${salesSummaryReportPayload?.locationid}&startDate=${salesSummaryReportPayload?.startDate}&endDate=${salesSummaryReportPayload?.endDate}&page=${salesSummaryReportPayload?.tablePageNo || 1}&size=${salesSummaryReportPayload?.tableRecordLimit}${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+// export const getHourlySales = (hourlySalesPayload) => {
+// const token = Store.getState()?.auth?.credentials?.accessToken;
+//     return API({
+//         method: "get",
+//         url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid||"d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate||"2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
+//         headers: {
+//             Authorization: 'bearer ' + token,
+//         }
+//     });
+// }
+
+export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const categoryIds = categorySalesSummaryPayload?.categoryIds?.join(',');
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/category/getCategorySalesSummary?locationId=${categorySalesSummaryPayload?.locationid}&startDate=${categorySalesSummaryPayload?.startDate}&endDate=${categorySalesSummaryPayload?.endDate}&categoryIds=${categoryIds}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getSalesByChannel = (salesByChannelPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/channel?locationId=${salesByChannelPayload?.locationid}&startDate=${salesByChannelPayload?.startDate}&endDate=${salesByChannelPayload?.endDate}&page=${salesByChannelPayload?.tablePageNo}&size=${salesByChannelPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
 
 
+export const getCategorySales = (categorySalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const categoryIds = categorySalesPayload?.categoryIds?.join(',');
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationid}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}&categoryIds=${categoryIds}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+export const getOfferSummary = (offerSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/offerSummary?locationId=${offerSummaryPayload?.locationid}&startDate=${offerSummaryPayload?.startDate}&endDate=${offerSummaryPayload?.endDate}&page=${offerSummaryPayload?.tablePageNo}&size=${offerSummaryPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getVoidedOrderSummary = (voidedSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/voidedSummary?locationId=${voidedSummaryPayload?.locationid}&startDate=${voidedSummaryPayload?.startDate}&endDate=${voidedSummaryPayload?.endDate}&page=${voidedSummaryPayload?.tablePageNo || 1}&size=${voidedSummaryPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getStaffSales = (staffSalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/staff?locationId=${staffSalesPayload?.locationid}&startDate=${staffSalesPayload?.startDate}&endDate=${staffSalesPayload?.endDate}&page=${staffSalesPayload?.tablePageNo || 1}&size=${staffSalesPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getSalesTags = (salesTagsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${SALES_BY_REVENUE_CLASS_ENDPOINT}locationId=${salesTagsPayload?.locationid}&startDate=${salesTagsPayload?.startDate}&endDate=${salesTagsPayload?.endDate}&page=${salesTagsPayload?.tablePageNo || 1}&size=${salesTagsPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getPaymentDetails = (paymentDetailsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // return API({
+    //     method: "get",
+    //     url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
+    //     headers: {
+    //         Authorization: 'bearer ' + token,
+    //     }
+    // });
+}
+
+// export const getHourlySales = (hourlySalesPayload) => {
+// const token = Store.getState()?.auth?.credentials?.accessToken;
+//     return API({
+//         method: "get",
+//         url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid||"d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate||"2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
+//         headers: {
+//             Authorization: 'bearer ' + token,
+//         }
+//     });
+// }
+export const getSalesCategory = (salesCategoryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/category?locationId=${salesCategoryPayload?.locationid}&startDate=${salesCategoryPayload?.startDate}&endDate=${salesCategoryPayload?.endDate}&page=${salesCategoryPayload?.tablePageNo || 1}&size=${salesCategoryPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getSalesCardType = (salesCardTypePayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/cardType?locationId=${salesCardTypePayload?.locationid}&startDate=${salesCardTypePayload?.startDate}&endDate=${salesCardTypePayload?.endDate}&page=${salesCardTypePayload?.tablePageNo || 1}&size=${salesCardTypePayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+export const getLocationDetails = (LocationDetailsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/location?locationId=${LocationDetailsPayload?.locationId}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+export const getHourlySalesReportChart = (hourlySalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/hourly?locationId=${hourlySalesPayload?.locationid}&startDate=${hourlySalesPayload?.startDate}&endDate=${hourlySalesPayload?.endDate}&page=${hourlySalesPayload?.tablePageNo || 1}&size=${hourlySalesPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
