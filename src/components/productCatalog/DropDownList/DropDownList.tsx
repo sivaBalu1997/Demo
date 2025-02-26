@@ -620,7 +620,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       id: value,
       type: dropDownType,
       locationid: locationid,
-      parentId: parentId && parentId,
+      parentId: subcategorydataforApi?.parentId ?subcategorydataforApi?.parentId:'',
     };
 
     if (deletedItem) {
@@ -642,7 +642,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       locationId: locationid,
       name: newValue,
       type: dropDownType,
-      parentId: dropDownType === "SUB_CATEGORY" ? parentId : "",
+      parentId: dropDownType === "SUB_CATEGORY" ? subcategorydataforApi?.parentId ?subcategorydataforApi?.parentId:'':""
     };
 
     setOptions([
@@ -655,7 +655,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     const viewdata = {
       locationId: locationid,
       type: dropDownType,
-      parentId: SubcategoryParentId && SubcategoryParentId,
+      parentId: subcategorydataforApi?.parentId ?subcategorydataforApi?.parentId:'',
     };
     if (addNewButton && newItem) {
       dispatch(addDropDowRequest(newItem));
