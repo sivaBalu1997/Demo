@@ -44,6 +44,16 @@ useEffect(() => {
  console.log({locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
 }, [selectedLocation,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
 
+const [appliedStartDate, setAppliedStartDate] = useState("");
+  const [appliedEndDate, setAppliedEndDate] = useState("");
+
+  const datepickerApply = (data1, data2) => {
+      console.log(data1, data2, "selected Date is here");
+      setAppliedStartDate(data1);
+      setAppliedEndDate(data2);
+  };
+
+
 
 
 
@@ -56,12 +66,12 @@ useEffect(() => {
     const itemIds=selectedItems?.map((item)=>item.value)
     console.log({categoryIds, itemIds});
 
-    // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
-    dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds?.join(","),categoryIds:categoryIds?.join(",") }))
-    dispatch(categorySalesSummaryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds?.join(","),categoryIds:categoryIds?.join(",") })) 
-    dispatch(categoryChannelSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds?.join(","),categoryIds:categoryIds?.join(",") })) 
-    dispatch(voidedSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds}))
-  }, [selectedLocation, selectedCategories, selectedItems])
+    // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100 }))
+    dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
+    dispatch(categorySalesSummaryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
+    dispatch(categoryChannelSummaryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds })) 
+    dispatch(voidedSummaryRequest({ locationid:selectedLocation?.value, startDate:appliedStartDate , endDate:appliedEndDate,tablePageNo:1,tableRecordLimit:100,itemIds,categoryIds }))
+  }, [selectedLocation, selectedCategories, selectedItems, appliedStartDate, appliedEndDate])
   
   const [activeBtn, setActiveBtn] = useState("categories");
 
@@ -190,6 +200,7 @@ useEffect(() => {
   //   categorySalesLoading ||
   //   categorySalesSummaryLoading;
 
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
@@ -201,6 +212,8 @@ useEffect(() => {
               selectedStore={selectedLocation}
               setSelectedDate={setSelectedDate}
               setSelectedStore={(store) => dispatch(changeLocation(store))}
+              datePickerApplyFunction={datepickerApply}
+              dateDropdownFunction={datepickerApply}
             />
           <div className="category-btn-switch">
             <button

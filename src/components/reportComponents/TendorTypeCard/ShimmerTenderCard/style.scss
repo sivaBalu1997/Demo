@@ -1,0 +1,32 @@
+.ten-shimmer-box {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: ten-shimmer-animation 1.5s infinite linear;
+    border-radius: 4px;
+  }
+  
+  @keyframes ten-shimmer-animation {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  .ten-tender-type,
+  .ten-tender-container,
+  .ten-tender-section,
+  .ten-tender-grid,
+  .ten-tender-card,
+  .ten-tender-header,
+  .ten-tender-details,
+  .ten-tender-amount-order-container,
+  .ten-tender-expand,
+  .ten-expand-row,
+  .ten-expand-item {
+    @extend .ten-shimmer-box;
+    height: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+  }

@@ -3,6 +3,8 @@ import "./TenderType.scss";
 import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow_down.svg";
 import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow_up.svg";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
+import { S } from "assets/mockData/originalAPIData/OsalesReportData";
+import ShimmerTenderCard from "./ShimmerTenderCard";
 
 interface PaymentMethod {
   expandable?: boolean;
@@ -15,6 +17,7 @@ interface PaymentMethod {
   onPremSales?: number;
   offPremOrders?: number;
   offPremSales?: number;
+  loader?: boolean;
 }
 
 const TenderType: React.FC<PaymentMethod> = ({
@@ -28,12 +31,15 @@ const TenderType: React.FC<PaymentMethod> = ({
   onPremSales = 0,
   offPremOrders = 0,
   offPremSales = 0,
+  loader = false,
 }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
+
+  if (loader) return <ShimmerTenderCard />;
 
   return (
     <div className="tender-type">
@@ -57,9 +63,8 @@ const TenderType: React.FC<PaymentMethod> = ({
                   </div>
                 </div>
                 <div
-                  className={`tender-percentage ${
-                    percentage > 0 ? "positive" : "negative"
-                  }`}
+                  className={`tender-percentage ${percentage > 0 ? "positive" : "negative"
+                    }`}
                 >
                   {percentage}%{" "}
                   {expandable && (expanded ? <ArrowUp /> : <ArrowDown />)}

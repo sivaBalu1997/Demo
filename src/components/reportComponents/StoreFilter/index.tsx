@@ -21,7 +21,7 @@ interface StoreFilterProps {
   showStore?: boolean;
   showRefresh?: boolean;
   handleRefreshClick?: () => void;
-  storeOptions?:StoreOption[]
+  storeOptions?: StoreOption[]
 }
 interface StoreOption {
   label: string;
@@ -36,7 +36,7 @@ const dateOptions: StoreOption[] = [
   { label: "This year", value: "This year" },
   { label: "Custom Date", value: "Custom Date" },
 ];
-  
+
 const StoreFilter = ({
   selectedDate,
   setSelectedDate = () => { },
@@ -48,7 +48,7 @@ const StoreFilter = ({
   showDate = true,
   showStore = true,
   showRefresh = false,
-  storeOptions=[]
+  storeOptions = []
 }: StoreFilterProps) => {
   // const dispatch = useDispatch();
   // const history = useHistory();

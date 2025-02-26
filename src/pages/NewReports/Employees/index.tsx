@@ -36,8 +36,8 @@ const Employees: React.FC = () => {
 
     const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
-const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
-const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+    const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
+    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
     const dispatch = useDispatch();
 
     const countryCode = useSelector(
@@ -227,6 +227,8 @@ const selectedLocation = useSelector((state: any) => state?.newReports?.selected
                     selectedStore={selectedLocation}
                     setSelectedDate={setSelectedDate}
                     setSelectedStore={(store) => dispatch(changeLocation(store))}
+                    datePickerApplyFunction={datepickerApply}
+                    dateDropdownFunction={datepickerApply}
                 />
                 <div className="employee-report-sales-overview-box-container-parent">
                     <h2>Sales Overview</h2>

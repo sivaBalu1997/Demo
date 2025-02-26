@@ -41,7 +41,7 @@ const TodaysReport: React.FC = () => {
     const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
 
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
-    console.log("qqqq", { liveOrdersAPIRedux })
+    // console.log("qqqq", { liveOrdersAPIRedux })
 
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
 
@@ -50,7 +50,7 @@ const TodaysReport: React.FC = () => {
     const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
 
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
-    // console.log("qqqq", { liveOrderNonDineInAPIRedux })
+    console.log("qqqq", { liveOrderNonDineInAPIRedux })
 
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
 
@@ -62,10 +62,23 @@ const TodaysReport: React.FC = () => {
         (state: any) => state?.auth?.restaurantDetails?.country
     );
 
-const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
-const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+    const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
+    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
 
-   
+
+    // const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
+    // const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+
+
+    // useEffect(() => {
+    //     dispatch(locationDetailsRequest({ locationid }))
+    // }, [locationid])
+
+
+    // useEffect(() => {
+    //     dispatch(changeLocation({ label: locations?.[0], value: locationid }))
+    // }, [locations])
+
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
@@ -192,8 +205,8 @@ const selectedLocation = useSelector((state: any) => state?.newReports?.selected
 
     return (
         <div className='todays-report-container'>
-            <StoreFilter  storeOptions={locations}
-            selectedStore={selectedLocation}  setSelectedStore={(store)=>dispatch(changeLocation(store))} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
+            <StoreFilter storeOptions={locations}
+                selectedStore={selectedLocation} setSelectedStore={(store) => dispatch(changeLocation(store))} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
 
             <SwitchableBox
                 textOne="Overall"
@@ -250,7 +263,7 @@ const selectedLocation = useSelector((state: any) => state?.newReports?.selected
                     onSearch={handleSearch}
                 />
             </div>
-        </div>
+        </div >
 
     )
 }

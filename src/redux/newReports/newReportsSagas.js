@@ -351,7 +351,7 @@ export function* liveOrdersRequestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         // console.log("response of liveOrdersRequestSaga", { decryptedData })
         if (response.status === 200) {
-            console.log("response of liveOrdersRequestSaga", { decryptedData })
+            // console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
@@ -404,7 +404,7 @@ export function* liveOrderNonDineInRequestSaga(action) {
     try {
         const response = yield call(getLiveOrderNonDineIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        // console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
+        console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(liveOrderNonDineInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
