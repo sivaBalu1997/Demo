@@ -39,12 +39,12 @@ const dateOptions: StoreOption[] = [
   
 const StoreFilter = ({
   selectedDate,
-  setSelectedDate = () => {},
+  setSelectedDate = () => { },
   selectedStore,
-  setSelectedStore = () => {},
+  setSelectedStore = () => { },
   datePickerApplyFunction,
   dateDropdownFunction,
-  handleRefreshClick = () => {},
+  handleRefreshClick = () => { },
   showDate = true,
   showStore = true,
   showRefresh = false,
@@ -140,7 +140,11 @@ const StoreFilter = ({
     const formattedFromDate = formatDateToYYYYMMDD(from);
     const formattedToDate = formatDateToYYYYMMDD(to);
 
-    dateDropdownFunction(formattedFromDate, formattedToDate);
+    if (dateDropdownFunction) {
+      dateDropdownFunction(formattedFromDate, formattedToDate);
+      console.log("formattedFromDate 1111", formattedFromDate);
+      console.log("formattedToDate 1111", formattedToDate);
+    }
     if (option.value == "Custom Date") {
       calendarRef.current?.openCalendar();
     } else {
@@ -164,11 +168,10 @@ const StoreFilter = ({
               value={
                 isDateSelected
                   ? {
-                      value: "Custom Date",
-                      label: `${
-                        rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
+                    value: "Custom Date",
+                    label: `${rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
                       }`,
-                    }
+                  }
                   : selectedDate
               }
               className="category-dropdown"
