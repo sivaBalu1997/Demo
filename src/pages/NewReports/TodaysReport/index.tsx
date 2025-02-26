@@ -50,7 +50,7 @@ const TodaysReport: React.FC = () => {
     const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
 
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
-    console.log("qqqq", { liveOrderNonDineInAPIRedux })
+    // console.log("qqqq", { liveOrderNonDineInAPIRedux })
 
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
 

@@ -150,7 +150,10 @@ import {
     EMPLOYEE_SALES_OVERVIEW_REQUEST,
     EMPLOYEE_SALES_OVERVIEW_SUCCESS,
     EMPLOYEE_SALES_OVERVIEW_FAILURE,
-    STORE_LOCATIONS_LIST
+    STORE_LOCATIONS_LIST,
+    GET_EMPLOYEE_ACTIVITY_REQUEST,
+    GET_EMPLOYEE_ACTIVITY_SUCCESS,
+    GET_EMPLOYEE_ACTIVITY_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1166,5 +1169,20 @@ export const voidedOrderSummarySuccess = (data) => ({
 
 export const voidedOrderSummaryFailure = (error) => ({
     type: GET_VOIDED_ORDER_SUMMARY_FAILURE,
+    payload: error
+})
+
+export const getEmployeeActivityRequest = (data) => ({
+    type: GET_EMPLOYEE_ACTIVITY_REQUEST,
+    payload: data
+})
+
+export const getEmployeeActivitySuccess = (data) => ({
+    type: GET_EMPLOYEE_ACTIVITY_SUCCESS,
+    payload: data
+})
+
+export const getEmployeeActivityFailure = (error) => ({
+    type: GET_EMPLOYEE_ACTIVITY_FAILURE,
     payload: error
 })

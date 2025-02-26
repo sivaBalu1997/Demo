@@ -61,8 +61,8 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
                             </>
                         ) : (
                             <>
-                                    <DecrementArrow />
-                                <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>-{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}
+                                <DecrementArrow />
+                                <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}
                                     {isPercent ? "%" : ""}
                                 </span>
                             </>

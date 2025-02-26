@@ -422,7 +422,7 @@ export const getVoidedSummary = (voidedSummaryPayload) => {
     let query = "";
     if (voidedSummaryPayload?.itemIds?.length > 0) {
         query += `&itemIds=${voidedSummaryPayload?.itemIds.join(',')}`;
-    }else if(voidedSummaryPayload?.categoryIds?.length>0){
+    } else if (voidedSummaryPayload?.categoryIds?.length > 0) {
         query += `&categoryIds=${voidedSummaryPayload?.categoryIds.join(',')}`;
     }
     return API({
@@ -455,7 +455,7 @@ export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
 
     if (categoryChannelSummaryPayload?.itemIds?.length > 0) {
         url += `&itemIds=${itemIds}`;
-    }else if(categoryChannelSummaryPayload?.categoryIds?.length > 0){
+    } else if (categoryChannelSummaryPayload?.categoryIds?.length > 0) {
         url += `&categoryIds=${categoryIds}`;
     }
 
@@ -471,11 +471,11 @@ export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
 
 export const getSalesSummaryReport = (salesSummaryReportPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    let query=""
+    let query = ""
 
-    if(salesSummaryReportPayload?.itemIds?.length>0){
+    if (salesSummaryReportPayload?.itemIds?.length > 0) {
         query += `&itemIds=${salesSummaryReportPayload?.itemIds.join(',')}`;
-    }else if(salesSummaryReportPayload?.categoryIds?.length>0){
+    } else if (salesSummaryReportPayload?.categoryIds?.length > 0) {
         query += `&categoryIds=${salesSummaryReportPayload?.categoryIds.join(',')}`;
     }
     return API({
@@ -579,25 +579,26 @@ export const getSalesTags = (salesTagsPayload) => {
 
 export const getPaymentDetails = (paymentDetailsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    // return API({
-    //     method: "get",
-    //     url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
-    //     headers: {
-    //         Authorization: 'bearer ' + token,
-    //     }
-    // });
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/payment?locationId=${paymentDetailsPayload?.locationid}&startDate=${paymentDetailsPayload?.startDate}&endDate=${paymentDetailsPayload?.endDate}&page=${paymentDetailsPayload?.tablePageNo || 1}&size=${paymentDetailsPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
 }
 
-// export const getHourlySales = (hourlySalesPayload) => {
-// const token = Store.getState()?.auth?.credentials?.accessToken;
-//     return API({
-//         method: "get",
-//         url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid||"d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate||"2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
-//         headers: {
-//             Authorization: 'bearer ' + token,
-//         }
-//     });
-// }
+export const getHourlySales = (hourlySalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid || "d15139f6-ea2b-4b4c-8541-7a9112bfd8bf"}&startDate=${hourlySalesPayload?.startDa}&endDate=${hourlySalesPayload?.endDate || "2024-12-31"}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
 export const getSalesCategory = (salesCategoryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
@@ -634,6 +635,21 @@ export const getHourlySalesReportChart = (hourlySalesPayload) => {
     return API({
         method: "get",
         url: `${REPORTS_API_ENDPOINT}/sales/hourly?locationId=${hourlySalesPayload?.locationid}&startDate=${hourlySalesPayload?.startDate}&endDate=${hourlySalesPayload?.endDate}&page=${hourlySalesPayload?.tablePageNo || 1}&size=${hourlySalesPayload?.tableRecordLimit || 100}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+// http://localhost:9081/magilhub-data-services-reports/sales/employee/activity?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-12-01&endDate=2024-12-31
+
+// /sales/employee/activity?locationId
+
+export const getEmployeeActivity = (employeeActivityPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity?locationId=${employeeActivityPayload?.locationid}&startDate=${employeeActivityPayload?.startDate}&endDate=${employeeActivityPayload?.endDate}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

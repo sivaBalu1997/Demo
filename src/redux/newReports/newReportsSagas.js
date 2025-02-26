@@ -101,6 +101,9 @@ import {
     voidedOrderSummaryFailure,
     offerSummaryFailure,
     offerSummarySuccess,
+    getEmployeeActivitySuccess,
+    getEmployeeActivityFailure,
+    getEmployeeActivityRequest
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -152,6 +155,7 @@ import {
     SALES_BY_CHANNEL_REQUEST,
     GET_OFFER_SUMMARY_REQUEST,
     GET_VOIDED_ORDER_SUMMARY_REQUEST,
+    GET_EMPLOYEE_ACTIVITY_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -202,6 +206,7 @@ import {
     getSalesByChannel,
     getVoidedOrderSummary,
     getOfferSummary,
+    getEmployeeActivity,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -404,7 +409,7 @@ export function* liveOrderNonDineInRequestSaga(action) {
     try {
         const response = yield call(getLiveOrderNonDineIn, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
+        // console.log("response of liveOrderNonDineInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(liveOrderNonDineInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -1072,6 +1077,24 @@ export function* employeeSalesOverViewSaga(action) {
     }
 }
 
+// getEmployeeActivityRequestSaga
+export function* getEmployeeActivityRequestSaga(action) {
+    try {
+        const response = yield call(getEmployeeActivity, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of getEmployeeActivityRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(getEmployeeActivitySuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(getEmployeeActivityFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(getEmployeeActivityFailure(error));
+    }
+}
+
 
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
@@ -1124,4 +1147,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(SALES_BY_CHANNEL_REQUEST, salesByChannelRequestSaga);
     yield takeLatest(GET_OFFER_SUMMARY_REQUEST, offerSummaryRequestSaga);
     yield takeLatest(GET_VOIDED_ORDER_SUMMARY_REQUEST, voidedOrderSummaryRequestSaga);
+    yield takeLatest(GET_EMPLOYEE_ACTIVITY_REQUEST, getEmployeeActivityRequestSaga);
 }

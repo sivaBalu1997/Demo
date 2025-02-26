@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from 'interface/newReportsInterface';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeLocation, employeeStaffActivityRequest, locationDetailsRequest, employeeSalesOverviewRequest } from 'redux/newReports/newReportsActions';
+import { changeLocation, employeeStaffActivityRequest, locationDetailsRequest, employeeSalesOverviewRequest, getEmployeeActivityRequest } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
@@ -10,6 +10,7 @@ import CustomDropdown from 'components/common/customDropdown';
 import NewTable from 'components/reportComponents/NewTable';
 import useSalesLocationDates from 'hooks/useSalesLocationDates';
 import "./style.scss";
+import moment from 'moment';
 
 const Employees: React.FC = () => {
 
@@ -23,7 +24,7 @@ const Employees: React.FC = () => {
         (state: any) => state?.newReports?.employeeSalesOverviewLoading
     );
 
-    console.log("qqqq", { employeeSalesOverViewFromAPIRedux })
+    // console.log("qqqq", { employeeSalesOverViewFromAPIRedux })
 
     const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
 
@@ -60,8 +61,19 @@ const Employees: React.FC = () => {
         (state: any) => state?.newReports?.employeeStaffActivityLoading
     );
 
+    const getEmployeeActivityDataFromAPIRedux = useSelector(
+        (state: any) => state?.newReports?.getemployeeActivitySuccess);
+
+    console.log("22", { getEmployeeActivityDataFromAPIRedux })
+
     const [appliedStartDate, setAppliedStartDate] = useState<string>("");
     const [appliedEndDate, setAppliedEndDate] = useState<string>("");
+
+    useEffect(() => {
+        const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
+        setAppliedStartDate(yesterday);
+        setAppliedEndDate(yesterday)
+    }, []);
 
     const datepickerApply = (data1: any, data2: any) => {
         console.log(data1, data2, "selected Date is here");
@@ -193,6 +205,18 @@ const Employees: React.FC = () => {
         appliedStartDate,
         appliedEndDate,
     ]);
+
+    useEffect(() => {
+        if (selectedLocationidFromDropDown) {
+            dispatch(
+                getEmployeeActivityRequest({
+                    locationid: selectedLocationidFromDropDown,
+                    startDate: appliedStartDate,
+                    endDate: appliedEndDate,
+                })
+            );
+        }
+    }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate]);
 
     return (
         <div className='report-sales-employee-container'>

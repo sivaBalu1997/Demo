@@ -149,6 +149,9 @@ import {
     GET_OFFER_SUMMARY_SUCCESS,
     GET_OFFER_SUMMARY_FAILURE,
     STORE_LOCATIONS_LIST,
+    GET_EMPLOYEE_ACTIVITY_REQUEST,
+    GET_EMPLOYEE_ACTIVITY_SUCCESS,
+    GET_EMPLOYEE_ACTIVITY_FAILURE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -378,7 +381,12 @@ const initialNewReportsState = {
     offerSummaryError: null,
 
     selectedLocation: {},
-    storeLocationsList: []
+    storeLocationsList: [],
+
+    // get Employee Activity
+    getemployeeActivityLoading: false,
+    getemployeeActivitySuccess: [],
+    getemployeeActivityFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1195,7 +1203,21 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.voidedOrderSummaryData = [];
                 draft.voidedOrderSummaryError = action.payload;
                 break;
-
+            case GET_EMPLOYEE_ACTIVITY_REQUEST:
+                draft.getemployeeActivityLoading = true;
+                draft.getemployeeActivitySuccess = [];
+                draft.getemployeeActivityFailure = false;
+                break;
+            case GET_EMPLOYEE_ACTIVITY_SUCCESS:
+                draft.getemployeeActivityLoading = false;
+                draft.getemployeeActivitySuccess = action.payload;
+                draft.getemployeeActivityFailure = false;
+                break;
+            case GET_EMPLOYEE_ACTIVITY_FAILURE:
+                draft.getemployeeActivityLoading = false;
+                draft.getemployeeActivitySuccess = [];
+                draft.getemployeeActivityFailure = true;
+                break;
             default:
                 break;
         }

@@ -38,6 +38,7 @@ import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
 import { NewTableHeader } from "interface/newReportsInterface";
+import moment from "moment";
 // import { useSalesOverview } from "./useSalessOverview";
 
 interface ReportProps { }
@@ -125,6 +126,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     setAppliedStartDate(data1);
     setAppliedEndDate(data2);
   };
+
+  useEffect(() => {
+    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
+    setAppliedStartDate(yesterday);
+    setAppliedEndDate(yesterday)
+  }, []);
 
   const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>({})
   /******************************************************************************************* */
@@ -435,6 +442,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 offPremOrders={tenderType?.["Card Swipe-DEBIT"]?.offPremOrders || 0}
                 offPremSales={tenderType?.["Card Swipe-DEBIT"]?.offPremSales || 0}
                 loader={tendorTypesLoader}
+              // loader={true}
               />
               <TenderType
                 icon={<KeyedInIcon />}

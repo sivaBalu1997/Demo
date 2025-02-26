@@ -25,6 +25,7 @@ import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdow
 import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
+import moment from "moment";
 
 const CategoryReport = (props) => {
   const dispatch = useDispatch();
@@ -53,13 +54,17 @@ const [appliedStartDate, setAppliedStartDate] = useState("");
       setAppliedEndDate(data2);
   };
 
+  useEffect(() => {
+    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
+    setAppliedStartDate(yesterday);
+    setAppliedEndDate(yesterday)
+  }, []);
 
 
+  useEffect(() => {
+    setSelectedCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}])
+  }, [dropdownDetailsData])
 
-
-useEffect(() => {
-  setSelectedCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}])
-}, [dropdownDetailsData])
   useEffect(() => {
 
     const categoryIds=selectedCategories?.map((item)=>item.value)
