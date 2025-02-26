@@ -553,7 +553,7 @@ const handleSearch = (value: string, kpiTitle: string) => {
         <div className="sales-overview-doughnut-chart-container">
           <div className="" style={{ width: "50%", height: "100%" }}>
             <h2 className="sales-overview-sub-heading ">By Discount</h2>
-            <DoughnutChartWithButton dataList={offerSummary} />
+            {/* <DoughnutChartWithButton dataList={offerSummary} /> */}
           </div>
           <div className="" style={{ width: "50%", height: "100%" }}>
             <h2 className="sales-overview-sub-heading ">Voided orders</h2>
