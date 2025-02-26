@@ -135,8 +135,12 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     value: "Yesterday",
   });
 
-  const [appliedStartDate, setAppliedStartDate] = useState<string>("");
-  const [appliedEndDate, setAppliedEndDate] = useState<string>("");
+  const [appliedStartDate, setAppliedStartDate] = useState<string>(
+    moment().subtract(1, "days").format("YYYY-MM-DD")
+  );
+  const [appliedEndDate, setAppliedEndDate] = useState<string>(
+    moment().subtract(1, "days").format("YYYY-MM-DD")
+  );
 
   const datepickerApply = (data1: any, data2: any) => {
     console.log(data1, data2, "selected Date is here");
@@ -252,6 +256,12 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   /******************************************************************************************* */
 
   useEffect(() => {
+    console.log(
+      "Heree eit iss 00000000000000",
+      appliedEndDate,
+      appliedStartDate
+    );
+
     Promise.all([
       dispatch(
         paymentDetailsRequest({
