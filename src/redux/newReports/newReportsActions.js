@@ -149,7 +149,8 @@ import {
     GET_OFFER_SUMMARY_REQUEST,
     EMPLOYEE_SALES_OVERVIEW_REQUEST,
     EMPLOYEE_SALES_OVERVIEW_SUCCESS,
-    EMPLOYEE_SALES_OVERVIEW_FAILURE
+    EMPLOYEE_SALES_OVERVIEW_FAILURE,
+    STORE_LOCATIONS_LIST
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1075,10 +1076,16 @@ export const employeeSalesOverviewFailure = (error) => {
     }
 }
 
-
 export const changeLocation = (data) => {
     return {
         type: SELCTED_LOCATION,
+        payload: data
+    }
+}
+
+export const storeLocationsList = (data) => {
+    return {
+        type: STORE_LOCATIONS_LIST,
         payload: data
     }
 }

@@ -148,6 +148,7 @@ import {
     GET_OFFER_SUMMARY_REQUEST,
     GET_OFFER_SUMMARY_SUCCESS,
     GET_OFFER_SUMMARY_FAILURE,
+    STORE_LOCATIONS_LIST,
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -376,7 +377,8 @@ const initialNewReportsState = {
     offerSummaryData: [],
     offerSummaryError: null,
 
-    selectedLocation: {}
+    selectedLocation: {},
+    storeLocationsList: []
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1052,6 +1054,10 @@ export default function reportsReducer(state = initialNewReportsState, action) {
 
             case SELCTED_LOCATION:
                 draft.selectedLocation = action.payload;
+                break;
+
+            case STORE_LOCATIONS_LIST:
+                draft.storeLocationsList = action.payload;
                 break;
 
             // Staff Sales

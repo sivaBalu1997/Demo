@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./report.scss";
 import SalesOverview from "../SalesOverview/index";
 import Header from "components/reportComponents/Header";
@@ -7,6 +7,8 @@ import CategoryReport from "pages/CategoryReport";
 import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
 import SidePanel from "pages/SidePanel";
+import { useDispatch, useSelector } from "react-redux";
+import { changeLocation, dropdownDetailsRequest, storeLocationsList } from "redux/newReports/newReportsActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
@@ -16,6 +18,29 @@ const SalesReport: React.FC<ReportProps> = () => {
     const [activeTab, setActiveTab] = useState("Today's report");
     const [isExpanded, setIsExpanded] = useState(false); //TODO: use redux
 
+    const dispatch = useDispatch();
+    /*********************************************************** */
+    const restaurantDetails = useSelector(
+        (state: any) => state?.auth?.restaurantDetails?.branch
+      );
+    
+    useEffect(() => {
+        const mappedIdWithBranchName = restaurantDetails?.map(
+            (branchWithId: any) => ({
+              value: branchWithId?.id,
+              label: branchWithId?.locationName,
+            })
+          );
+          dispatch(storeLocationsList(mappedIdWithBranchName))
+          dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+          
+    }, [restaurantDetails]);
+    
+const selectedLocation = useSelector((state:any) => state?.newReports?.selectedLocation)
+
+  useEffect(() => {
+    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
+  }, [selectedLocation])
     
 
     return (

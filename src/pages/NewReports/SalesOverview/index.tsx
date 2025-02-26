@@ -72,7 +72,7 @@ interface TenderTypeItem {
   offPremSales?: number;
 }
 
-const SalesOverview: React.FC<ReportProps> = () => {
+const SalesOverview: React.FC<ReportProps> = ({}) => {
   
 
 //   const {viewType,locations, locationId, selectedLocation, selectedDate, setSelectedDate, datepickerApply,dispatch, salesSummary, tenderType, staffSalesData,salesByChannel,salesCardTypeData,salesByRevenueClass,handleGoBackToChart, searchQuery,setSearchQuery,newTableHeaders, discountSummary, currentPageOfferDiscount,
@@ -91,9 +91,7 @@ const SalesOverview: React.FC<ReportProps> = () => {
 // cancellationSummaryLoading
 //   } = useSalesOverview({})
 
-const restaurantDetails = useSelector(
-  (state: any) => state?.auth?.restaurantDetails?.branch
-);
+
 const [viewType, setViewType] = useState("default")
 const [searchQuery, setSearchQuery] = useState('');
 const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
@@ -105,28 +103,20 @@ useState<number>(1);
 const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
 useState<number>(10);
 
-const mappedIdWithBranchName = restaurantDetails?.map(
-  (branchWithId: any) => ({
-    value: branchWithId?.id,
-    label: branchWithId?.locationName,
-  })
-);
+
 
 const [selectedDate, setSelectedDate] = useState({
   label: "Yesterday",
   value: "Yesterday",
 });
-const [selectedStore, setSelectedStore] = useState(
-  mappedIdWithBranchName?.[0]
-);
+
 const datepickerApply = (data1: any, data2: any) => {
   console.log(data1, data2, "selected Date is here");
 };
 
 const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>({})
 /******************************************************************************************* */
-const locationId = useSelector((state: any) => state?.auth?.credentials?.locationId)
-const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
+const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
 const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
 const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData?.content)
 const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData)
@@ -169,14 +159,9 @@ const discountSummaryLoading = useSelector((state: any) => state?.newReports?.di
     })
   }, [selectedLocation, salesSummary, staffSalesData, salesCardTypeData, salesCategory, discountSummary, cancellationSummary, salesByChannel, salesByRevenueClass, offerSummary, voidedOrderSummary])
 
-  useEffect(() => {
-    dispatch(locationDetailsRequest({ locationId }))
-  }, [locationId])
 
 
-  useEffect(() => {
-    dispatch(changeLocation({ label: locations?.[0], value: locationId }))
-  }, [locations])
+
   /******************************************************************************************* */
 
   useEffect(() => {
@@ -289,7 +274,7 @@ switch (viewType) {
       {viewType === "default" ? <>
         {/* Date and Store */}
         <StoreFilter
-          storeOptions={locations?.map(((data: any) => ({ label: data, value: locationId })))}
+          storeOptions={locations}
           selectedDate={selectedDate}
           selectedStore={selectedLocation}
           setSelectedDate={setSelectedDate}

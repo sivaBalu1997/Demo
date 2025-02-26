@@ -35,7 +35,6 @@ const TodaysReport: React.FC = () => {
 
     const selectedLocationidFromDropDown = selectedStore?.value
 
-    const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
 
     const liveDiscountDataAPIRedux = useSelector((state: any) => state?.newReports?.liveDiscountSuccess);
 
@@ -63,19 +62,10 @@ const TodaysReport: React.FC = () => {
         (state: any) => state?.auth?.restaurantDetails?.country
     );
 
-  const locations = useSelector((state:any) => state?.newReports?.locationDetailsData?.content)
-  const selectedLocation = useSelector((state:any) => state?.newReports?.selectedLocation)
+const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
+const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
 
-
-  useEffect(() => {
-    dispatch(locationDetailsRequest({ locationid }))
-  }, [locationid])
-
-
-  useEffect(() => {
-    dispatch(changeLocation({ label: locations?.[0], value: locationid }))
-  }, [locations])
-    
+   
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
@@ -202,7 +192,7 @@ const TodaysReport: React.FC = () => {
 
     return (
         <div className='todays-report-container'>
-            <StoreFilter  storeOptions={locations?.map(((data:any)=>({label:data,value:locationid })))}
+            <StoreFilter  storeOptions={locations}
             selectedStore={selectedLocation}  setSelectedStore={(store)=>dispatch(changeLocation(store))} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
 
             <SwitchableBox

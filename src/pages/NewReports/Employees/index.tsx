@@ -36,24 +36,13 @@ const Employees: React.FC = () => {
 
     const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
-    const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
-    const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
-    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
+const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
     const dispatch = useDispatch();
 
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
     );
-    useEffect(() => {
-        dispatch(locationDetailsRequest({ locationid }))
-    }, [locationid])
-
-
-    useEffect(() => {
-        dispatch(changeLocation({ label: locations?.[0], value: locationid }))
-    }, [locations])
-
-
 
 
 
@@ -233,7 +222,7 @@ const Employees: React.FC = () => {
                 />
             </div> : <>
                 <StoreFilter
-                    storeOptions={locations?.map(((data: any) => ({ label: data, value: locationid })))}
+                    storeOptions={locations}
                     selectedDate={selectedDate}
                     selectedStore={selectedLocation}
                     setSelectedDate={setSelectedDate}

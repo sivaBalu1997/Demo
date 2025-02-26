@@ -31,9 +31,8 @@ const CategoryReport = (props) => {
     //TODO: move to redux
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
- const locationId = useSelector((state) => state?.auth?.credentials?.locationId)
-  const locations = useSelector((state) => state?.newReports?.locationDetailsData?.content)
-  const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
+const locations = useSelector((state) => state?.newReports?.storeLocationsList)
+const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
   const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData)
 const categorySalesData = useSelector((state) => state?.newReports?.categorySalesSuccess)
@@ -42,23 +41,9 @@ const categoryChannelSummaryData = useSelector((state) => state?.newReports?.cat
 const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData?.content)
 
 useEffect(() => {
- console.log({locationId,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
-}, [locationId,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
+ console.log({locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
+}, [selectedLocation,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
 
-
-  useEffect(() => {
-    dispatch(locationDetailsRequest({ locationId }))
-  }, [locationId])
-
-
-  useEffect(() => {
-    dispatch(changeLocation({ label: locations?.[0], value: locationId }))
-  }, [locations])
-  
-
-  useEffect(() => {
-    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
-  }, [selectedLocation])
 
 
 
@@ -211,7 +196,7 @@ useEffect(() => {
         <div className="category-page-body">
       
             <StoreFilter
-              storeOptions={locations?.map(((data) => ({ label: data, value: locationId })))}
+              storeOptions={locations}
               selectedDate={selectedDate}
               selectedStore={selectedLocation}
               setSelectedDate={setSelectedDate}
