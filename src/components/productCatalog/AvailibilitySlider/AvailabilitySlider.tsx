@@ -271,8 +271,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       tempOnPremarray?.filter((data: any, index: number) => {
         return (
           data?.availabilityEnabled === false ||
-          data?.isEnabled === 0 ||
-          data?.isNotHide === 0
+          data?.isEnabled === 0 
+          // data?.isNotHide === 0
         );
       }).length == 0;
     const isOffPremEnabledCount =
