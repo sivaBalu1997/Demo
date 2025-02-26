@@ -218,8 +218,8 @@ const SidePanel = () => {
                   value={selectedBranch}
                 >
                   {restaurantDetails &&
-                    restaurantDetails.branch &&
-                    restaurantDetails.branch.map((u, i) => {
+                    restaurantDetails?.branch &&
+                    restaurantDetails?.branch?.map((u, i) => {
                       return (
                         <option
                           value={`${JSON.stringify(u)}`}
@@ -345,6 +345,26 @@ const SidePanel = () => {
           </div> */}
 
           <div
+            className={
+              showOptions === "reportOptions" ? "activePath" : "not-active"
+            }
+            onClick={() => {
+              dispatch(removeDataRequest());
+              if (showOptions !== "Product Catalog") {
+                setShowOptions("Product Catalog");
+              }
+              if (!location.pathname.includes("/old-reports")) {
+                history.push("/old-reports");
+              }
+            }}
+          >
+            <Stats className="menu-items-icon" />
+            {isExpanded && (
+              <span className="menu-items-name">Reports & Insights</span>
+            )}
+          </div>
+
+          {/* <div
 
           style={{marginTop:showOfferOptions === "MenuOptions"&&offerMenuOptions.length>0?"-1.2rem":"0" }}
             className={
@@ -417,7 +437,7 @@ const SidePanel = () => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <div
             style={{ display: "flex", flexDirection: "column" }}
