@@ -200,7 +200,7 @@ const AvailabilityChangesUntil = ({
   const handleTimeChange = () => {
     if (selectedOption !== -1) {
       if (parentToggle === "") {
-        alert("hi")
+        
         const datamatched = patchedData?.itemAvailabilityInfo.filter(
           (data) => data.orderTypeId === selectedtypeid
         );
@@ -243,7 +243,7 @@ const AvailabilityChangesUntil = ({
           ),
         }));
       } else {
-        alert("hello")
+       
 
         setPartialData((prev) => {
           const existedArray=prev.itemAvailabilityInfo||[]
