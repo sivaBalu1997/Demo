@@ -519,12 +519,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       ),
     }));
   };
-  console.log({availabilityOrderTypes});
+
   
 
   const handleSetPartialData = (parentName: string) => {
+
+
     
-    let filteredArray = [];
+    let filteredArray:any = [];
     if (parentName === "On-prem") {
       filteredArray = dataFromRedux[0]?.orderTypes?.filter(
         (data: any) => data?.typeGroup === "D"&&data?.typeGroup !== "I"
@@ -535,27 +537,13 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       );
     }
     setParentToggles(filteredArray);
-    const dataToAdd = filteredArray
-      // .filter((item: any) => item.isEnabled === 1)
-      .map((item: any) => ({
-        orderTypeId: item.typeId,
-        unAvailableUntilTime: "",
-      }));
-
-    // setPartialData((prev: any) => {
-      
-    //   return {
-    //     ...prev,
-    //     itemId: dataFromRedux[0]?.itemId,
-    //     itemAvailabilityInfo: [...prev.itemAvailabilityInfo,...dataToAdd],
-    //   };
-    // });
     setPartialData((prev:any) => {
-      const existedArray=prev.itemAvailabilityInfo||[]
+    
+      const existedArray=prev.itemAvailabilityInfo||[];
 
       
       const dataToAdd:any=[];
-      ParentToggles.map((item:any,index:number)=>{
+      filteredArray.map((item:any,index:number)=>{
        
           const existeingindex=existedArray.findIndex((id:any)=>id.orderTypeId===item.typeId)
           if(existeingindex>-1)
@@ -600,14 +588,34 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     
     // });
 
+   
+    
+
       return {
         ...prev,
         itemId: dataFromRedux[0].itemId,
         itemAvailabilityInfo: [...existedArray,...dataToAdd],
       };
     });
+    // const dataToAdd = filteredArray
+    //   // .filter((item: any) => item.isEnabled === 1)
+    //   .map((item: any) => ({
+    //     orderTypeId: item.typeId,
+    //     unAvailableUntilTime: "",
+    //   }));
+
+    // setPartialData((prev: any) => {
+      
+    //   return {
+    //     ...prev,
+    //     itemId: dataFromRedux[0]?.itemId,
+    //     itemAvailabilityInfo: [...prev.itemAvailabilityInfo,...dataToAdd],
+    //   };
+    // });
+   
     
   };
+
 
   
  
@@ -645,9 +653,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
                         handleParentTogglesstae(elem.mainHeading);
                         handleToggleDisableParent(elem.mainHeading);
+                        handleSetPartialData(elem.mainHeading);
+
                       }
                       
-                      handleSetPartialData(elem.mainHeading);
+                     
                     }
                   }}
                   pen={pen}
