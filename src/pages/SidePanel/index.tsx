@@ -46,7 +46,8 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS"];
+  // const reportInsightsOptions = ["Reports & Insights", "Chart JS"];
+  const reportInsightsOptions = ["Reports & Insights"];
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -269,7 +270,7 @@ const SidePanel = () => {
               <span className="menu-items-name">Product Catalog</span>
             )}
           </div>
-
+{/* 
           <div
 
             className={
@@ -341,7 +342,7 @@ const SidePanel = () => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div
 
