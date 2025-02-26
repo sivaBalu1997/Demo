@@ -1,7 +1,8 @@
 {
   "projects": {
     "default": "customerapp-2d3e1",
-    "staging": "customerapp-2d3e1"
+    "staging": "customerapp-2d3e1",
+    "beta": "customerapp-2d3e1"
   },
   "targets": {
     "customerapp-2d3e1": {
@@ -11,6 +12,9 @@
         ],
         "dev": [
           "merchantportal-dev"
+        ],
+        "beta": [
+          "merchantportal-beta"
         ]
       }
     }
