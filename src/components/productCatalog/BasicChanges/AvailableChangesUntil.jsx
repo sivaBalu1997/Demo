@@ -305,7 +305,7 @@ const AvailabilityChangesUntil = ({
     }
   };
 
-  console.log({partialData});
+ 
   
   useEffect(()=>{
     const todayDay = getTodayDay();

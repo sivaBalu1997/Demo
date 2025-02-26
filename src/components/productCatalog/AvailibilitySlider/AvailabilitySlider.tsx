@@ -576,7 +576,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
       // })
 
-console.log("partialData sssee",partialData);
+
 
 
     //   const dataToAdd = ParentToggles.filter(
@@ -608,7 +608,7 @@ console.log("partialData sssee",partialData);
     });
     
   };
-  console.log({ParentToggles});
+
   
  
 
@@ -623,7 +623,7 @@ console.log("partialData sssee",partialData);
               <h2 className="sub-head">{elem.mainHeading}</h2>
 
               <div className="toggle-btnfor-subhead">
-                {console.log("kkkkk",elem.isHidden)}
+                
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
                   Enable={elem.isEnabled}
