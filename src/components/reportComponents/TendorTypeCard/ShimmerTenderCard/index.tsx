@@ -21,7 +21,7 @@ const ShimmerTenderCard = () => {
                                 </div>
                                 <div className="ten-tender-percentage ten-shimmer-box"></div>
                             </div>
-                            <div className="ten-tender-expand">
+                            {/* <div className="ten-tender-expand">
                                 <div className="ten-expand-row ten-top">
                                     <div className="ten-expand-item ten-shimmer-box"></div>
                                     <div className="ten-expand-item ten-shimmer-box"></div>
@@ -30,7 +30,7 @@ const ShimmerTenderCard = () => {
                                     <div className="ten-expand-item ten-shimmer-box"></div>
                                     <div className="ten-expand-item ten-shimmer-box"></div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
