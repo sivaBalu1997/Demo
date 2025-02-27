@@ -96,7 +96,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
 
-  const [viewType, setViewType] = useState("discountOffer");
+  const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
     useState<number>(1);
