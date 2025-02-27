@@ -77,18 +77,18 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!ingredientsdata.length) {
+    if (!ingredientsdata?.length) {
       dispatch(getIngredientsRequest(locationid));
     }
   }, [dispatch, ingredientsdata?.length, locationid]);
 
   useEffect(() => {
     if (imageselected) {
-      const selectedIngredients = ingredientsdata.filter((ingredient: any) =>
-        imageselected.Ingredients?.includes(ingredient.id)
+      const selectedIngredients = ingredientsdata?.filter((ingredient: any) =>
+        imageselected?.Ingredients?.includes(ingredient?.id)
       );
-      const selectedAllergens = allergensData.filter((allergen: any) =>
-        imageselected.allergens?.includes(allergen.id)
+      const selectedAllergens = allergensData?.filter((allergen: any) =>
+        imageselected?.allergens?.includes(allergen?.id)
       );
 
       setImageFromApi(selectedIngredients);
