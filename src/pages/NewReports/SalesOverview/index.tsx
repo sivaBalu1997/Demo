@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  billerUnbilledRequest,
   cancellationSummaryRequest,
   changeLocation,
   discountSummaryRequest,
-  hourlySalesReportChartRequest,
-  locationDetailsRequest,
   offerSummaryRequest,
   paymentDetailsRequest,
   salesByChannelRequest,
@@ -22,7 +19,6 @@ import ReportsNotFound from "components/reportComponents/ReportsNotFound";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
 import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
-import DiscountAndVoidedOrders from "components/reportComponents/chart/DiscountAndVoidedOrders";
 import ChannelSalesChart from "components/reportComponents/chart/channelChart";
 import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
 import StoreFilter from "components/reportComponents/StoreFilter";
@@ -48,14 +44,14 @@ import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 
 // import TenderType from "components/reportComponents/TendorTypeCard";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
-import LinearBarChart from "pages/CategoryReport/barChart";
-import DoughnutChart from "pages/CategoryReport/doughnutChart";
+// import DownloadPopOver from "pages/CategoryReport/downloadOption";
+// import LinearBarChart from "pages/CategoryReport/barChart";
+// import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
 import { NewTableHeader } from "interface/newReportsInterface";
-import moment from "moment";
 import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
+import useDateFilter from "hooks/useDateFilter";
 // import { useSalesOverview } from "./useSalessOverview";
 
 interface ReportProps {}
@@ -106,37 +102,19 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     useState<number>(1);
   const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
     useState<number>(10);
-
-  const mappedIdWithBranchName = restaurantDetails?.map(
-    (branchWithId: any) => ({
-      value: branchWithId?.id,
-      label: branchWithId?.locationName,
-    })
-  );
+    
+    const { startDate, endDate,  handleDateChange } = useDateFilter();
 
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
     value: "Yesterday",
   });
 
-  const [appliedStartDate, setAppliedStartDate] = useState<string>(
-    moment().subtract(1, "days").format("YYYY-MM-DD")
-  );
-  const [appliedEndDate, setAppliedEndDate] = useState<string>(
-    moment().subtract(1, "days").format("YYYY-MM-DD")
-  );
 
   const datepickerApply = (data1: any, data2: any) => {
-    console.log(data1, data2, "selected Date is here");
-    setAppliedStartDate(data1);
-    setAppliedEndDate(data2);
+handleDateChange("Custom Date", data1, data2);
   };
 
-  useEffect(() => {
-    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
-    setAppliedStartDate(yesterday);
-    setAppliedEndDate(yesterday);
-  }, []);
   const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>(
     {}
   );
@@ -243,8 +221,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   useEffect(() => {
     console.log(
       "Heree eit iss 00000000000000",
-      appliedEndDate,
-      appliedStartDate
+      endDate,
+      startDate
     );
 
     Promise.all([
@@ -253,8 +231,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -262,8 +240,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -271,8 +249,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -280,8 +258,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -289,8 +267,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -298,8 +276,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -307,8 +285,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -316,8 +294,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate:endDate
         })
       ),
       dispatch(
@@ -325,8 +303,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -334,8 +312,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -343,12 +321,12 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
     ]);
-  }, [selectedLocation, appliedStartDate, appliedEndDate]);
+  }, [selectedLocation, startDate, endDate]);
 
   const arrayToObject = (arr: TenderTypeItem[] = []) => {
     const premise: any = (arr: TenderTypeItem[] = []) => {
@@ -397,8 +375,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const countryCode = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.country
   );
-  const currencySymbol = countryCode === "US" ? "$" : "₹";
-  
+
   const discountTableHeaders: NewTableHeader[] = [
     { key: "orderNo", label: `Order number`, isSortable: true, alignment: "left" },
     {
@@ -466,10 +443,11 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         dispatch(
           discountSummaryRequest({
             locationid: selectedLocation?.value,
-            startDate: "2025-01-25",
-            endDate: "2025-02-24",
+            startDate: startDate,
+            endDate: endDate,
             tablePageNo: currentPageOfferDiscount,
             tableRecordLimit: currentRowsOfferDiscount,
+            search:value,
           })
         );
         break;
@@ -477,8 +455,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         dispatch(
           cancellationSummaryRequest({
             locationid: selectedLocation?.value,
-            startDate: "2025-01-25",
-            endDate: "2025-02-24",
+            startDate:  startDate,
+            endDate: endDate,
             tablePageNo: currentPageVoiddedOrders,
             tableRecordLimit: currentRowsVoiddedOrders,
             search: searchQuery,

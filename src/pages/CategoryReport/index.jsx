@@ -7,13 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Tabs.css";
 import {
   voidedSummaryRequest,
-  dropdownDetailsRequest,
   categoryChannelSummaryRequest,
   categorySalesRequest,
   categorySalesSummaryRequest,
-  locationDetailsRequest,
   changeLocation,
-  salesByItemCategoryRequest,
+  dropdownDetailsRequest,
 } from "../../redux/newReports/newReportsActions";
 
 
@@ -25,74 +23,73 @@ import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdow
 import DoughnutChart from "./doughnutChart";
 import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import moment from "moment";
 import LinearBarChartCategorySales from "./barChart1";
+import useDateFilter from "hooks/useDateFilter";
 
 const CategoryReport = (props) => {
   const dispatch = useDispatch();
-    //TODO: move to redux
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
-const locations = useSelector((state) => state?.newReports?.storeLocationsList)
-const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
+  //TODO: move to redux
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const locations = useSelector((state) => state?.newReports?.storeLocationsList)
+  const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
   const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData)
-const categorySalesData = useSelector((state) => state?.newReports?.categorySalesData)
-const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
-const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
-const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData)
-const countryCode = useSelector((state) => state?.auth?.countryCode)
+  const categorySalesData = useSelector((state) => state?.newReports?.categorySalesData)
+  const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
+  const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
+  const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData)
+  const countryCode = useSelector((state) => state?.auth?.countryCode)
+  const categoryList = useSelector((state) => state?.newReports?.categoryList)
 
-useEffect(() => {
- console.log({locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
-}, [selectedLocation,locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
-
-const [appliedStartDate, setAppliedStartDate] = useState("");
-  const [appliedEndDate, setAppliedEndDate] = useState("");
-
-  const categoryList= useSelector((state)=>state?.newReports?.categoryList)
-  const itemList= useSelector((state)=>state?.newReports?.itemList)
-
-  const datepickerApply = (data1, data2) => {
-      console.log(data1, data2, "selected Date is here");
-      setAppliedStartDate(data1);
-      setAppliedEndDate(data2);
-  };
+  const { startDate, endDate, handleDateChange } = useDateFilter();
 
   useEffect(() => {
-    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
-    setAppliedStartDate(yesterday);
-    setAppliedEndDate(yesterday)
-  }, []);
-
-useEffect(() => {
-  setSelectedCategories([{label:categoryList?.[0]?.categoryName, value:categoryList?.[0]?.categoryId}])
-}, [categoryList])
+    console.log({ locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData, })
+  }, [selectedLocation, locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
 
 
-const fetchData=(categoryIds, itemIds)=>{
-  dispatch(categoryChannelSummaryRequest({locationId:selectedLocation?.value,startDate:"2024-12-01" , endDate:"2024-12-31", tablePageNo:1,tableRecordLimit:100,categoryIds:categoryIds||[],itemIds:itemIds||[]}))
-  dispatch(categorySalesRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds }))
-  dispatch(categorySalesSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds})) 
-  dispatch(categoryChannelSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds })) 
-  dispatch(voidedSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds}))
-}
+  // const itemList = useSelector((state) => state?.newReports?.itemList)
+
+
+  useEffect(() => {
+    if (!categoryList?.length) {
+      dispatch(dropdownDetailsRequest({ locationid: selectedLocation?.value }))
+    }
+  }, [categoryList, selectedLocation])
+
+  useEffect(() => {
+    setSelectedCategories([{ label: categoryList?.[0]?.categoryName, value: categoryList?.[0]?.categoryId }])
+  }, [categoryList])
+
+
+  const fetchData = (categoryIds, itemIds) => {
+    const requests = [
+      categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, categoryIds: categoryIds || [], itemIds: itemIds || [] }),
+      categorySalesRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+      categorySalesSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+      categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+      voidedSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+    ];
+    // TODO: mode to redux parlllelization
+    Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
+  }
   useEffect(() => {
 
-    const categoryIds=selectedCategories?.map((item)=>item.value)
-    const itemIds=selectedItems?.map((item)=>item.value)
+    const categoryIds = selectedCategories?.map((item) => item.value)
+    const itemIds = selectedItems?.map((item) => item.value)
 
-    fetchData(categoryIds,itemIds )
+    fetchData(categoryIds, itemIds)
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
 
-  }, [selectedLocation, selectedCategories, selectedItems])
-  
+  }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate])
+
   const [activeBtn, setActiveBtn] = useState("categories");
 
 
   const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
-  
+
 
   const calendarRef = useRef();
 
@@ -140,7 +137,7 @@ const fetchData=(categoryIds, itemIds)=>{
 
   const handleSelectItemsOnChange = (selectedItemsData) => {
     const item = dropdownDetailsData?.find(
-      item => item.itemId === selectedItemsData.value 
+      item => item.itemId === selectedItemsData.value
     );
     if (item) {
       const tempItems = [...selectedItems]
@@ -181,16 +178,16 @@ const fetchData=(categoryIds, itemIds)=>{
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
         <div className="category-page-body">
-      
-            <StoreFilter
-              storeOptions={locations}
-              selectedDate={selectedDate}
-              selectedStore={selectedLocation}
-              setSelectedDate={setSelectedDate}
-              setSelectedStore={(store) => dispatch(changeLocation(store))}
-              datePickerApplyFunction={datepickerApply}
-              dateDropdownFunction={datepickerApply}
-            />
+
+          <StoreFilter
+            storeOptions={locations}
+            selectedDate={selectedDate}
+            selectedStore={selectedLocation}
+            setSelectedDate={setSelectedDate}
+            setSelectedStore={(store) => dispatch(changeLocation(store))}
+            datePickerApplyFunction={(date1, date2) => handleDateChange("Custom Date", date1, date2)}
+            dateDropdownFunction={(date1, date2) => handleDateChange("Custom Date", date1, date2)}
+          />
           <div className="category-btn-switch">
             <button
               className={`category-btn  ${activeBtn == "categories" ? "active-btn" : ""
@@ -227,7 +224,7 @@ const fetchData=(categoryIds, itemIds)=>{
             /> */}
                 <ReusableDropdown
                   // categorySalesData?.map((data)=>({ value: data?.categoryName, label: data?.categoryName  }))||
-                  options={categoryList||[]}
+                  options={categoryList || []}
                   value={selectedCategories}
                   placeholder={"Select categories"}
                   dropdownContainerClassName="select-food-item-dropdown-cotainer"
@@ -251,7 +248,7 @@ const fetchData=(categoryIds, itemIds)=>{
                     <span className="font-color-red poppins-fw400-fs16">*</span>
                   </div>
                   <ReusableDropdown
-                    options={dropdownDetailsData?.map((data)=>({ value: data?.itemId, label: data?.itemName  }))||[]}
+                    options={dropdownDetailsData?.map((data) => ({ value: data?.itemId, label: data?.itemName })) || []}
                     value={selectedItems}
                     placeholder={"Select items"}
                     dropdownContainerClassName="select-food-item-dropdown-cotainer"
@@ -279,12 +276,12 @@ const fetchData=(categoryIds, itemIds)=>{
             </div>
             <MiniCard
               data={[
-                { title: "TOTAL SALES", value: `$ ${categorySalesSummaryData?.totalSales?.toFixed(2) ||0}` },
-                { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) ||0}` },
-                { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) ||0}` },
-                { title: "VOID", value: `$ ${categorySalesSummaryData?.void?.toFixed(2) ||0}` },
-                { title: "ADD-ON", value: `$ ${categorySalesSummaryData?.addOn?.toFixed(2) ||0}` },
-                { title: "TOTAL QUANTITY", value: `${categorySalesSummaryData?.totalQuantity ||0}` },
+                { title: "TOTAL SALES", value: `$ ${categorySalesSummaryData?.totalSales?.toFixed(2) || 0}` },
+                { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) || 0}` },
+                { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) || 0}` },
+                { title: "VOID", value: `$ ${categorySalesSummaryData?.void?.toFixed(2) || 0}` },
+                { title: "ADD-ON", value: `$ ${categorySalesSummaryData?.addOn?.toFixed(2) || 0}` },
+                { title: "TOTAL QUANTITY", value: `${categorySalesSummaryData?.totalQuantity || 0}` },
               ]}
             />
           </div>
@@ -297,7 +294,7 @@ const fetchData=(categoryIds, itemIds)=>{
               <DownloadPopOver />
             </div>
             <LinearBarChart
-            dataList={categorySalesData}
+              dataList={categorySalesData}
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
             />
           </div>
@@ -310,7 +307,7 @@ const fetchData=(categoryIds, itemIds)=>{
               <DownloadPopOver />
             </div>
 
-            <SalesChart dataList={categoryChannelSummaryData}/>
+            <SalesChart dataList={categoryChannelSummaryData} />
           </div>
           {activeBtn == "categories" ? (
             <div>
@@ -320,7 +317,7 @@ const fetchData=(categoryIds, itemIds)=>{
                 </h1>
                 <DownloadPopOver />
               </div>
-              <LinearBarChartCategorySales  dataList={voidedSummaryData} barColorCode={"#7D7774"} />
+              <LinearBarChartCategorySales dataList={voidedSummaryData} barColorCode={"#7D7774"} />
             </div>
           ) : (
             ""
@@ -331,7 +328,7 @@ const fetchData=(categoryIds, itemIds)=>{
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 <DownloadPopOver />
               </div>
-              <DoughnutChart  dataList={voidedSummaryData} countryCode={countryCode}/>
+              <DoughnutChart dataList={voidedSummaryData} countryCode={countryCode} />
             </div>
           ) : (
             ""
