@@ -13,7 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 //   "voidedReasons": "CHEF NOT AVAILABLE",
 //   "orderCount": 51128547
 // }
-function DoughnutChartWithButtonVoided({dataList=[], countryCode,handleClick}) {
+function DoughnutChartWithButtonVoided({dataList=[], countryCode, handleClick=()=>{}}) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
@@ -24,7 +24,27 @@ function DoughnutChartWithButtonVoided({dataList=[], countryCode,handleClick}) {
   const [slices, setSlices] = useState([]);
   const [reRenderChart, setReRenderChart] = useState(false);
 
+const Colors = [
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffff00", // Yellow
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+  "#808080", // Gray  
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffff00", // Yellow
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
 
+  "#808080", // Gray
+];
 const [centerTextPlugin, setCenterTextPlugin] = useState(  {
   id: "centerText",
   beforeDraw: (chart) => {
@@ -76,6 +96,8 @@ useEffect(()=>{
     "#E3313C",
     ...Array(dataList?.length)?.map(()=>getRandomColor())
   ];
+  console.log({Colors});
+  
  
   const sliceData = dataList?.map((slice, index) => ({
     label: slice?.steward,

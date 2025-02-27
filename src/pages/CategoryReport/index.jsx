@@ -72,7 +72,7 @@ useEffect(() => {
 
 const fetchData=(categoryIds, itemIds)=>{
   dispatch(categoryChannelSummaryRequest({locationId:selectedLocation?.value,startDate:"2024-12-01" , endDate:"2024-12-31", tablePageNo:1,tableRecordLimit:100,categoryIds:categoryIds||[],itemIds:itemIds||[]}))
-  dispatch(categorySalesRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds }))
+  dispatch(categorySalesRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds }))
   dispatch(categorySalesSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds})) 
   dispatch(categoryChannelSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds })) 
   dispatch(voidedSummaryRequest({ locationId:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100,itemIds:itemIds,categoryIds:categoryIds}))

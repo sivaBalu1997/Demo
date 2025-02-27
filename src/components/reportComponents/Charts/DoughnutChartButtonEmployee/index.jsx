@@ -15,7 +15,7 @@ function DoughnutChartButtonEmployee({dataList=[], countryCode,handleClick}) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [voidedAmount, setvoidedAmount] = useState("$0");
   const [slices, setSlices] = useState([]);
-  const [reRenderChart, setReRenderChart] = useState(false);
+  // const [reRenderChart, setReRenderChart] = useState(false);
 
 
 const [centerTextPlugin, setCenterTextPlugin] = useState(  {
@@ -43,7 +43,7 @@ useEffect(()=>{
     console.log(totalDisplay, dataList);
   const formattedTotal = amountFormatter(totalDisplay, countryCode);
   setvoidedAmount(formattedTotal);
-  setReRenderChart(true);
+  // setReRenderChart(true);
   setCenterTextPlugin(  {
     id: "centerText",
     beforeDraw: (chart) => {
@@ -67,7 +67,25 @@ useEffect(()=>{
     "#B33BB3",
     "#14C9C9",
     "#E3313C",
-    ...Array(dataList?.length)?.map(()=>getRandomColor())
+   
+      "#ff0000", // Red
+      "#0000ff", // Blue
+      "#008000", // Green
+      "#ffff00", // Yellow
+      "#ffA500", // Orange
+      "#800080", // Purple
+      "#ffc0cb", // Pink
+      "#a52a2a", // Brown
+      "#808080", // Gray
+      "#ff0000", // Red
+      "#0000ff", // Blue
+      "#008000", // Green
+      "#ffff00", // Yellow
+      "#ffA500", // Orange
+      "#800080", // Purple
+      "#ffc0cb", // Pink
+      "#a52a2a", // Brown
+      "#808080", // Gray
   ];
  
   const sliceData = dataList?.map((slice, index) => ({
@@ -78,10 +96,10 @@ useEffect(()=>{
     amount: Number(slice?.voidedItems||0),
   }));
   setSlices(sliceData);
-  const initTimer = setTimeout(() => {
-    // setReRenderChart(false);
-  }, 1000); 
-  return () => clearTimeout(initTimer);
+  // const initTimer = setTimeout(() => {
+  //   // setReRenderChart(false);
+  // }, 1000); 
+  // return () => clearTimeout(initTimer);
 }
 },[dataList,countryCode])
  
@@ -198,7 +216,7 @@ useEffect(()=>{
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-        redraw={reRenderChart}
+  
       />
  
       {/* Render floating labels for each slice using computed positions */}
