@@ -345,7 +345,7 @@ export const MenulistingPage = () => {
 
   useEffect(() => {
     dispatch(removeDataRequest());
-    dispatch(getModifierRequest({ name: '', locationId }));
+    // dispatch(getModifierRequest({ name: '', locationId }));
   }, []);
 
   const locationid = useSelector((state) => state.auth.selectedBranch?.id);
