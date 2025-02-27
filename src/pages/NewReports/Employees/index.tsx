@@ -104,7 +104,7 @@ const Employees: React.FC = () => {
   }, []);
 
   const datepickerApply = (data1: any, data2: any) => {
-    console.log(data1, data2, "selected Date is here");
+    // console.log(data1, data2, "selected Date is here");
     setAppliedStartDate(data1);
     setAppliedEndDate(data2);
   };
@@ -223,15 +223,16 @@ const Employees: React.FC = () => {
     }));
 
 
-  const [employeeList, setEmployeeList] = useState("Employee");
+  const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.label);
 
   // employeeDropdownOptions?.[0]?.value
 
-  const handleDropdownChangeStore = (selectedValue: string) => {
-    setEmployeeList(selectedValue);
+  const handleDropdownChangeStore = (selectedValue: any) => {
+    // console.log("Selected Value:", selectedValue);
+    setEmployeeList(selectedValue?.value);
   };
 
-  console.log("OOOO", { selectedLocationidFromDropDown, employeeDropdownOptions, employeeList, })
+  // console.log("OOOO", { selectedLocationidFromDropDown, employeeDropdownOptions, employeeList, })
 
 
   useEffect(() => {
@@ -340,9 +341,9 @@ const Employees: React.FC = () => {
               <div className="select-employee-dropdown">
                 <CustomDropdown
                   options={employeeDropdownOptions}
-                  value={"Employee"}
+                  value={employeeDropdownOptions?.[0]?.label}
                   className="category-dropdown"
-                  onSelect={handleDropdownChangeStore}
+                  onSelect={(selected: any) => handleDropdownChangeStore(selected as { label: React.ReactNode; value: string })}
                 />
               </div>
             </div>
