@@ -353,7 +353,7 @@ const Report = (props) => {
           arrowClassName={"report-dropdown-arrow"}
         /> */}
         </div>
-        {reportData ? (
+        {reportData && window.innerWidth >= 575  ? (
           <iframe
             className="reportData-deskTop"
             src={reportData}
