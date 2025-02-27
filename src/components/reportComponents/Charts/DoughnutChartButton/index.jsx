@@ -6,20 +6,15 @@ import { amountFormatter, getRandomColor } from "utils";
  
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
  
-
-function DoughnutChartWithButton({dataList=[], countryCode,handleClick}) {
-  const chartRef = useRef(null);
-  const containerRef = useRef(null);
-  const [hoverInfo, setHoverInfo] = useState(null);
-  const [labelPositions, setLabelPositions] = useState([]);
-  const overlayHoverRef = useRef(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [totalSales, setTotalSales] = useState("$0");
-  const [slices, setSlices] = useState([]);
-  const [reRenderChart, setReRenderChart] = useState(false);
+const predefinedColors = [
+  "#0FB36A", "#F99D2B", "#B33BB3", "#14C9C9", "#E3313C",
+  "#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD",
+  "#774F38", "#E1A679", "#0366d6", "#28a745", "#6f42c1",
+  "#d73a49", "#f66a0a", "#17a2b8", "#e83e8c", "#6c757d"
+];
 
 
-const [centerTextPlugin, setCenterTextPlugin] = useState(  {
+const centerTextPlugin={
   id: "centerText",
   beforeDraw: (chart) => {
     const { ctx, chartArea: { left, right, top, bottom } } = chart;
@@ -32,59 +27,138 @@ const [centerTextPlugin, setCenterTextPlugin] = useState(  {
     ctx.font = "16px Poppins";
     ctx.fillText("Total", centerX, centerY - 10);
     ctx.font = "24px Poppins";
-    ctx.fillText(totalSales, centerX, centerY + 15);
+    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 15);
     ctx.restore();
   },
-});
-
-useEffect(()=>{
-  if(dataList?.length) {
-
-    const totalDisplay =dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0);
-    console.log(totalDisplay, dataList);
-  const formattedTotal = amountFormatter(totalDisplay, countryCode);
-  setTotalSales(formattedTotal);
-  setReRenderChart(true);
-  setCenterTextPlugin(  {
-    id: "centerText",
-    beforeDraw: (chart) => {
-      const { ctx, chartArea: { left, right, top, bottom } } = chart;
-      const centerX = (left + right) / 2;
-      const centerY = (top + bottom) / 2;
-      ctx.save();
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#000";
-      ctx.font = "16px Poppins";
-      ctx.fillText("Total", centerX, centerY - 10);
-      ctx.font = "24px Poppins";
-      ctx.fillText(formattedTotal, centerX, centerY + 15);
-      ctx.restore();
-    },
-  }); 
-  const colors = [
-    "#0FB36A",
-    "#F99D2B",
-    "#B33BB3",
-    "#14C9C9",
-    "#E3313C",
-    ...Array(dataList?.length)?.map(()=>getRandomColor())
-  ];
- 
-  const sliceData = dataList?.map((slice, index) => ({
-    label: slice?.offerName,
-    value: (Number(slice?.totalSales||0)*100/totalDisplay)?.toFixed(2),
-    color:colors[index],
-    items: Number(slice?.totalOrders||0),
-    amount: Number(slice?.totalSales||0),
-  }));
-  setSlices(sliceData);
-  const initTimer = setTimeout(() => {
-    // setReRenderChart(fasle);
-  }, 1000); 
-  return () => clearTimeout(initTimer);
 }
-},[dataList,countryCode])
+function DoughnutChartWithButton({dataList=[], countryCode,handleClick}) {
+  const chartRef = useRef(null);
+  const containerRef = useRef(null);
+  const [hoverInfo, setHoverInfo] = useState(null);
+  const [labelPositions, setLabelPositions] = useState([]);
+  const overlayHoverRef = useRef(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [totalSales, setTotalSales] = useState("$0");
+  const [slices, setSlices] = useState([]);
+  const [reRenderChart, setReRenderChart] = useState(true);
+
+
+// const [centerTextPlugin, setCenterTextPlugin] = useState(  {
+//   id: "centerText",
+//   beforeDraw: (chart) => {
+//     const { ctx, chartArea: { left, right, top, bottom } } = chart;
+//     const centerX = (left + right) / 2;
+//     const centerY = (top + bottom) / 2;
+//     ctx.save();
+//     ctx.textAlign = "center";
+//     ctx.textBaseline = "middle";
+//     ctx.fillStyle = "#000";
+//     ctx.font = "16px Poppins";
+//     ctx.fillText("Total", centerX, centerY - 10);
+//     ctx.font = "24px Poppins";
+//     ctx.fillText(totalSales, centerX, centerY + 15);
+//     ctx.restore();
+//   },
+// });
+useEffect(() => {
+  if (dataList?.length) {
+    console.log(dataList,"this the datalist shown here");
+    const totalDisplay = dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0);
+    console.log(totalDisplay);
+
+    const formattedTotal = amountFormatter(totalDisplay, countryCode);
+    
+    // Assign colors from predefined palette
+    const colors = dataList.map((_, index) => 
+      predefinedColors[index % predefinedColors.length]
+    );
+
+    const sliceData = dataList?.map((slice, index) => ({
+      label: slice?.offerName,
+      value: ((Number(slice?.totalSales || 0) * 100 / totalDisplay)?.toFixed(2)),
+      color: colors[index],
+      items: Number(slice?.totalOrders || 0),
+      amount: Number(slice?.totalSales || 0),
+    }));
+
+    setTotalSales(formattedTotal);
+    setSlices(sliceData);
+    setReRenderChart(true);
+
+    // Update center text plugin
+    // setCenterTextPlugin({
+    //   id: "centerText",
+    //   beforeDraw: (chart) => {
+    //     const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    //     const centerX = (left + right) / 2;
+    //     const centerY = (top + bottom) / 2;
+    //     ctx.save();
+    //     ctx.textAlign = "center";
+    //     ctx.textBaseline = "middle";
+    //     ctx.fillStyle = "#000";
+    //     ctx.font = "16px Poppins";
+    //     ctx.fillText("Total", centerX, centerY - 10);
+    //     ctx.font = "24px Poppins";
+    //     ctx.fillText(formattedTotal, centerX, centerY + 15);
+    //     ctx.restore();
+    //   },
+    // });
+  }
+}, [dataList, countryCode]);
+useEffect(()=>{
+  if(reRenderChart){
+    setReRenderChart(false)
+    
+  }
+},[reRenderChart])
+// useEffect(()=>{
+//   if(dataList?.length) {
+
+//     const totalDisplay =dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0);
+//     console.log(totalDisplay, dataList);
+//   const formattedTotal = amountFormatter(totalDisplay, countryCode);
+//   setTotalSales(formattedTotal);
+//   setReRenderChart(true);
+//   setCenterTextPlugin(  {
+//     id: "centerText",
+//     beforeDraw: (chart) => {
+//       const { ctx, chartArea: { left, right, top, bottom } } = chart;
+//       const centerX = (left + right) / 2;
+//       const centerY = (top + bottom) / 2;
+//       ctx.save();
+//       ctx.textAlign = "center";
+//       ctx.textBaseline = "middle";
+//       ctx.fillStyle = "#000";
+//       ctx.font = "16px Poppins";
+//       ctx.fillText("Total", centerX, centerY - 10);
+//       ctx.font = "24px Poppins";
+//       ctx.fillText(formattedTotal, centerX, centerY + 15);
+//       ctx.restore();
+//     },
+//   }); 
+//   const colors = [
+//     "#0FB36A",
+//     "#F99D2B",
+//     "#B33BB3",
+//     "#14C9C9",
+//     "#E3313C",
+//     ...Array(dataList?.length)?.map(()=>getRandomColor())
+//   ];
+ 
+//   const sliceData = dataList?.map((slice, index) => ({
+//     label: slice?.offerName,
+//     value: (Number(slice?.totalSales||0)*100/totalDisplay)?.toFixed(2),
+//     color:colors[index],
+//     items: Number(slice?.totalOrders||0),
+//     amount: Number(slice?.totalSales||0),
+//   }));
+//   setSlices(sliceData);
+//   const initTimer = setTimeout(() => {
+//     // setReRenderChart(fasle);
+//   }, 1000); 
+//   return () => clearTimeout(initTimer);
+// }
+// },[dataList,countryCode])
  
   // Update window width on resize to trigger re-render.
   useEffect(() => {
@@ -111,13 +185,22 @@ useEffect(()=>{
     }
   }, []);
   // Force recalculation on initial render after a short delay.
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     computeLabelPositions();
+  //   }, 500); // 500ms delay to allow chart rendering
+  //   return () => clearTimeout(timer);
+  // }, [computeLabelPositions]);
   useEffect(() => {
-    const timer = setTimeout(() => {
-      computeLabelPositions();
-    }, 500); // 500ms delay to allow chart rendering
-    return () => clearTimeout(timer);
-  }, [computeLabelPositions]);
- 
+    let observer;
+    if (containerRef.current) {
+      observer = new ResizeObserver(() => {
+        computeLabelPositions();
+      });
+      observer.observe(containerRef.current);
+    }
+    return () => observer?.disconnect();
+  }, []);
   // Recompute label positions when windowWidth changes.
   useEffect(() => {
     computeLabelPositions();
@@ -168,6 +251,7 @@ useEffect(()=>{
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    totalSales: totalSales, // Pass total sales to plugin
     cutout: "80%",
     onHover: handleHover,
     plugins: {
@@ -175,6 +259,10 @@ useEffect(()=>{
       legend: { position: "bottom", labels: { padding: 20 } },
       datalabels: { display: false },
     },
+    animation: {
+      onComplete: () => {
+        computeLabelPositions();
+      }}
   };
  
   return (
@@ -226,7 +314,7 @@ useEffect(()=>{
                 fontWeight: "bold",
                 pointerEvents: "auto",
                 transition: "all 0.2s ease-in-out",
-                zIndex: 10,
+                zIndex: isHovered ? 1000 : index, // Dynamic z-index based on hover and position
                 minWidth: "50px",
               }}
               onMouseEnter={() => {
@@ -258,8 +346,8 @@ useEffect(()=>{
                       borderRadius: "5px",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleClick(slice)}
-                  >
+                    onClick={() => handleClick && handleClick(slice)}
+                    >
                     View Details
                   </button>
                 </>
