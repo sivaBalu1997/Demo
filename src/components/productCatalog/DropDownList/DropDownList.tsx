@@ -737,7 +737,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         <div>
           <input
             placeholder={
-              (name === "kitchenstation" ? "Kitchen station*" : "") ||
+              (name === "kitchenstation" ? "Kitchen station" : "") ||
               (name === "tax" ? placeholder : "")
             }
             type="text"
