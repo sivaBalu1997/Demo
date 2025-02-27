@@ -96,23 +96,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
 
-  //   const {viewType,locations, locationId, selectedLocation, selectedDate, setSelectedDate, datepickerApply,dispatch, salesSummary, tenderType, staffSalesData,salesByChannel,salesCardTypeData,salesByRevenueClass,handleGoBackToChart, searchQuery,setSearchQuery,newTableHeaders, discountSummary, currentPageOfferDiscount,
-  //     discountSummaryTotalPages,
-  //     setCurrentPageOfferDiscount,
-  //     currentRowsOfferDiscount,
-  //     setCurrentRowsOfferDiscount,
-  //     discountSummaryLoading,
-  //     handleSearch,
-  //     cancellationSummary,
-  //     currentPageVoiddedOrders,
-  //     setCurrentPageVoiddedOrders,
-  // cancellationSummaryTotalPages,
-  // currentRowsVoiddedOrders,
-  // setCurrentRowsVoiddedOrders,
-  // cancellationSummaryLoading
-  //   } = useSalesOverview({})
-
-  const [viewType, setViewType] = useState("default");
+  const [viewType, setViewType] = useState("discountOffer");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
     useState<number>(1);
@@ -220,6 +204,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const getPremisesSummary = useSelector(
     (state: any) => state?.newReports?.premisesSummaryData?.content
   );
+
 
   //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
   const dispatch = useDispatch();
@@ -413,27 +398,66 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     (state: any) => state?.auth?.restaurantDetails?.country
   );
   const currencySymbol = countryCode === "US" ? "$" : "₹";
-
-  const newTableHeaders: NewTableHeader[] = [
-    { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
+  
+  const discountTableHeaders: NewTableHeader[] = [
+    { key: "orderNo", label: `Order number`, isSortable: true, alignment: "left" },
     {
-      key: "voidedAmount",
-      label: `Voided amount (${currencySymbol})`,
+      key: "orderType",
+      label: `Order type`,
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "stew",
+      label: `Staff name`,
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "orderTotal",
+      label: `Order Total`,
       isSortable: true,
       alignment: "right",
     },
     {
-      key: "voidedItems",
-      label: `Voided items`,
-      isSortable: false,
+      key: "discountAmount",
+      label: `Discounted amount`,
+      isSortable: true,
+      alignment: "right",
+    }
+  ];
+  const voidedTableHeaders: NewTableHeader[] = [
+    { key: "orderNo", label: `Order number`, isSortable: true, alignment: "left" },
+    {
+      key: "orderType",
+      label: `Order type`,
+      isSortable: true,
       alignment: "left",
     },
     {
-      key: "voidedReasons",
-      label: `Voided reasons`,
-      isSortable: false,
+      key: "itemName",
+      label: `Item name`,
+      isSortable: true,
       alignment: "left",
     },
+    {
+      key: "steward",
+      label: `Staff name`,
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "refundedQuantity",
+      label: `Quantity`,
+      isSortable: true,
+      alignment: "right",
+    },
+    {
+      key: "amount",
+      label: `Refunded amount`,
+      isSortable: true,
+      alignment: "right",
+    }
   ];
 
   const handleSearch = (value: string, kpiTitle: string) => {
@@ -471,6 +495,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     }
   };
 
+  const handleSummaryView=(view:string)=>{
+    setViewType(view);
+  }
+  
   return (
     <>
       {viewType === "default" ? (
@@ -826,11 +854,11 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           <div className="sales-overview-doughnut-chart-container">
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              {/* <DoughnutChartWithButton dataList={offerSummary} /> */}
+              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={()=>handleSummaryView("discountOffer")}/>
             </div>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              {/* <DiscountAndVoidedOrders dataList={offerSummary} /> */}
+              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={()=>handleSummaryView("voidedOrder")}/>
             </div>
           </div>
           <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
@@ -849,10 +877,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               </button>
             </div>
             <NewTable
-              kpiTitle="Employee Void Activity"
+              kpiTitle="By Discount - Student offer"
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
-              headerData={newTableHeaders}
+              headerData={discountTableHeaders}
               tableData={
                 discountSummary &&
                 discountSummary?.length > 0 &&
@@ -864,7 +892,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               rowsPerPage={currentRowsOfferDiscount}
               setRowsPerPage={setCurrentRowsOfferDiscount}
               loader={discountSummaryLoading}
-              count={discountSummary?.length}
+              // count={discountSummary?.length}
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
             />
@@ -879,10 +907,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             </button>
           </div>
           <NewTable
-            kpiTitle="Employee Void Activity"
+            kpiTitle="Voided Orders - Closing Time"
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
-            headerData={newTableHeaders}
+            headerData={voidedTableHeaders}
             tableData={
               cancellationSummary &&
               cancellationSummary?.length > 0 &&
@@ -894,7 +922,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             rowsPerPage={currentRowsVoiddedOrders}
             setRowsPerPage={setCurrentRowsVoiddedOrders}
             loader={cancellationSummaryLoading}
-            count={cancellationSummary?.length}
+            // count={cancellationSummary?.length}
             searchPlaceHolder="Search By Staff name"
             onSearch={handleSearch}
           />

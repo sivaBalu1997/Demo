@@ -41,6 +41,7 @@ const categorySalesData = useSelector((state) => state?.newReports?.categorySale
 const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
 const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
 const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData)
+const countryCode = useSelector((state) => state?.auth?.countryCode)
 
 useEffect(() => {
  console.log({locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData,  })
@@ -48,6 +49,9 @@ useEffect(() => {
 
 const [appliedStartDate, setAppliedStartDate] = useState("");
   const [appliedEndDate, setAppliedEndDate] = useState("");
+
+  const categoryList= useSelector((state)=>state?.newReports?.categoryList)
+  const itemList= useSelector((state)=>state?.newReports?.itemList)
 
   const datepickerApply = (data1, data2) => {
       console.log(data1, data2, "selected Date is here");
@@ -61,15 +65,9 @@ const [appliedStartDate, setAppliedStartDate] = useState("");
     setAppliedEndDate(yesterday)
   }, []);
 
-  useEffect(() => {
-    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
-  }, [selectedLocation])
-
-
-
 useEffect(() => {
-  setSelectedCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}])
-}, [dropdownDetailsData])
+  setSelectedCategories([{label:categoryList?.[0]?.categoryName, value:categoryList?.[0]?.categoryId}])
+}, [categoryList])
 
 
 const fetchData=(categoryIds, itemIds)=>{
@@ -83,7 +81,7 @@ const fetchData=(categoryIds, itemIds)=>{
 
     const categoryIds=selectedCategories?.map((item)=>item.value)
     const itemIds=selectedItems?.map((item)=>item.value)
-    console.log({categoryIds, itemIds});
+
     fetchData(categoryIds,itemIds )
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
@@ -179,45 +177,6 @@ const fetchData=(categoryIds, itemIds)=>{
   };
 
 
-  // Fetch category data when date, store, or selections change
-  // useEffect(() => {
-  //   if (selectedStore?.value && selectedDate?.value) {
-  //     try {
-  //       const payload = {
-  //         locationid: selectedStore.value,
-  //         startDate: selectedDate.value,
-  //         endDate: selectedDate.value,
-  //         categoryIds: selectedCategories.map(cat => cat.id).filter(Boolean),
-  //         itemIds: selectedItems.map(item => item.id).filter(Boolean)
-  //       };
-
-  //       // Dispatch all requests simultaneously for better performance
-  //       Promise.all([
-
-  //         dispatch(voidedSummaryRequest()),
-  //         dispatch(categoryChannelSummaryRequest()),
-  //         dispatch(categorySalesRequest()),
-  //         dispatch(categorySalesSummaryRequest()),
-  //       ]).catch(error => {
-  //         console.error('Error fetching category data:', error);
-  //       });
-  //     } catch (error) {
-  //       console.error('Error preparing category data request:', error);
-  //     }
-  //   }
-  // }, [dispatch, selectedStore, selectedDate, selectedCategories, selectedItems]);
-
-
-
-
-  // Loading state
-  // const isLoading = voidedSummaryLoading ||
-  //   dropdownDetailsLoading ||
-  //   categoryChannelSummaryLoading ||
-  //   categorySalesLoading ||
-  //   categorySalesSummaryLoading;
-
-
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
@@ -268,7 +227,7 @@ const fetchData=(categoryIds, itemIds)=>{
             /> */}
                 <ReusableDropdown
                   // categorySalesData?.map((data)=>({ value: data?.categoryName, label: data?.categoryName  }))||
-                  options={dropdownDetailsData?.map((data)=>({ value: data?.categoryId, label: data?.categoryName  }))||[]}
+                  options={categoryList||[]}
                   value={selectedCategories}
                   placeholder={"Select categories"}
                   dropdownContainerClassName="select-food-item-dropdown-cotainer"
@@ -293,7 +252,6 @@ const fetchData=(categoryIds, itemIds)=>{
                   </div>
                   <ReusableDropdown
                     options={dropdownDetailsData?.map((data)=>({ value: data?.itemId, label: data?.itemName  }))||[]}
-                    //TODO: confirm if we nee to filter items based on categry
                     value={selectedItems}
                     placeholder={"Select items"}
                     dropdownContainerClassName="select-food-item-dropdown-cotainer"
@@ -373,7 +331,7 @@ const fetchData=(categoryIds, itemIds)=>{
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 <DownloadPopOver />
               </div>
-              {/* <DoughnutChart  dataList={voidedSummaryData} /> */}
+              <DoughnutChart  dataList={voidedSummaryData} countryCode={countryCode}/>
             </div>
           ) : (
             ""

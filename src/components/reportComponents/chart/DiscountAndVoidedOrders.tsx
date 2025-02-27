@@ -5,7 +5,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const DiscountChart = ({ dataList }: { dataList: any[] }) => {
+const DiscountChart = ({ dataList=[] }: { dataList: any[] }) => {
   // Calculate total sales for percentage calculation
   const totalSales = dataList?.reduce((sum, item) => sum + parseFloat(item?.totalSales), 0);
 

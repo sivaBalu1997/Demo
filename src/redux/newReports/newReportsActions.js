@@ -158,7 +158,9 @@ import {
     SELCTED_CATEGORIES,
     GET_PREMISES_SUMMARARY_REQUEST,
     GET_PREMISES_SUMMARARY_SUCCESS,
-    GET_PREMISES_SUMMARARY_FAILURE
+    GET_PREMISES_SUMMARARY_FAILURE,
+    ADD_CATEGORY_LIST,
+    ADD_ITEMS_LIST
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1094,6 +1096,21 @@ export const changeLocation = (data) => {
 export const storeLocationsList = (data) => {
     return {
         type: STORE_LOCATIONS_LIST,
+        payload: data
+    }
+}
+
+export const addCategoryList = (data) => {
+    return {
+        type: ADD_CATEGORY_LIST,
+        payload: data
+    }
+}
+
+
+export const addItemList = (data) => {
+    return {
+        type: ADD_ITEMS_LIST,
         payload: data
     }
 }

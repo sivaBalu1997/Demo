@@ -8,7 +8,7 @@ import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
 import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLocation, dropdownDetailsRequest, selectCategories,  storeLocationsList } from "redux/newReports/newReportsActions";
+import { addCategoryList, addItemList, changeLocation, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
@@ -23,7 +23,7 @@ const SalesReport: React.FC<ReportProps> = () => {
     const restaurantDetails = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.branch
       );
-          // const dropdownDetailsData = useSelector((state:any) => state?.newReports?.dropdownDetailsData)
+          const dropdownDetailsData = useSelector((state:any) => state?.newReports?.dropdownDetailsData)
 
     useEffect(() => {
         const mappedIdWithBranchName = restaurantDetails?.map(
@@ -39,10 +39,33 @@ const SalesReport: React.FC<ReportProps> = () => {
     
 const selectedLocation = useSelector((state:any) => state?.newReports?.selectedLocation)
 
-  useEffect(() => {
-    dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
-  }, [selectedLocation])
 
+
+useEffect(()=>{
+  const uniqueCategories = [
+    ...new Map(
+      (dropdownDetailsData ?? []).map(
+        ({ categoryName, categoryId }:{ categoryName:string, categoryId:string }) => [categoryId, { label: categoryName, value: categoryId }]
+      )
+    ).values()
+  ];
+
+  const uniqueItems = [
+    ...new Map(
+      (dropdownDetailsData ?? []).map(
+        ({ itemName, itemId,categoryId }:{ itemName:string, itemId:string,categoryId:string }) => [itemId, { label: itemName, value: itemId,categoryId, }]
+      )
+    ).values()
+  ];
+  dispatch(addCategoryList(uniqueCategories))
+  dispatch(addItemList(uniqueItems))
+
+
+},[dropdownDetailsData])
+
+useEffect(() => {
+  dispatch(dropdownDetailsRequest({ locationid:selectedLocation?.value }))
+}, [selectedLocation])
 
   // useEffect(() => {
   //   dispatch(selectCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}]))

@@ -85,13 +85,13 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     //         window.removeEventListener('error', resizeObserverError);
     //     };
     // }, []);
-    const chartRef = useRef<HTMLDivElement>(null);
+    const chartRef2 = useRef<HTMLDivElement>(null);
     return (
         <div className="chart-wrapper">
-            <div className="custom-chart-container" ref={chartRef}>
+            <div className="custom-chart-container" ref={chartRef2}>
                 <div className="title-and-downloadable">
                     <h3 className="chart-title">{kpiTitle}</h3>
-                    <DownloadReport downloadRef={chartRef} kpiTitle={kpiTitle} tableData={data} />
+                    <DownloadReport downloadRef={chartRef2} kpiTitle={kpiTitle} tableData={data} />
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>

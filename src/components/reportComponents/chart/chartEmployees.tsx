@@ -38,7 +38,7 @@ interface EmployeeSalesChartProps {
 //   "orders": 18
 // }
 const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
-  dataList,
+  dataList = [],
 }) => {
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.fullName))),
