@@ -225,8 +225,31 @@ const Employees: React.FC = () => {
     employeeVoidRecordLimit,
   ]);
 
+
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
+  console.log({ selectedValueForChartSlice })
+
+
+  // Function to dispatch actions based on selected value (YET TO INTEGRATE)
+  // const dispatchAction = (value: string) => {
+  //   switch (value) {
+  //     case "Remove Tax":
+  //       dispatch(removeTaxRequest());
+  //       break;
+  //     case "Refund":
+  //       dispatch(refundRequest());
+  //       break;
+  //     // Add more cases as needed
+  //     default:
+  //       console.log("No matching action for", value);
+  //   }
+  // };
+
+
+
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
+    setSelectedValueForChartSlice("");
   };
 
   useEffect(() => {
@@ -257,6 +280,7 @@ const Employees: React.FC = () => {
 
   // const
   // const number = Math.floor(+floatString)
+
 
 
   return (
@@ -445,6 +469,7 @@ const Employees: React.FC = () => {
             kpiTitle="All Activity"
             showRelatedTable={showAllActivityTable}
             setShowRelatedTable={setShowAllActivityTable}
+            setSelectedValueForChartSlice={setSelectedValueForChartSlice}
           />
         </>
       )}
