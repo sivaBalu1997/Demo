@@ -34,7 +34,7 @@ const Employees: React.FC = () => {
   const employeeSalesOverViewFromAPIReduxLoader = useSelector(
     (state: any) => state?.newReports?.employeeSalesOverviewLoading
   );
-  const { startDate, endDate,  handleDateChange } = useDateFilter();
+  const { startDate, endDate, handleDateChange } = useDateFilter();
 
 
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
@@ -197,11 +197,11 @@ const Employees: React.FC = () => {
   // employeeDropdownOptions?.[0]?.value
 
   const handleDropdownChangeStore = (selectedValue: any) => {
-    // console.log("Selected Value:", selectedValue);
+    console.log("Selected Value:", selectedValue);
     setEmployeeList(selectedValue?.value);
   };
 
-  // console.log("OOOO", { selectedLocationidFromDropDown, employeeDropdownOptions, employeeList, })
+  console.log("OOOO", { employeeDropdownOptions, employeeList })
 
 
   useEffect(() => {
@@ -215,7 +215,7 @@ const Employees: React.FC = () => {
           tableRecordLimit: employeeVoidRecordLimit,
         })
       );
-      
+
     }
   }, [
     selectedLocation,
@@ -230,28 +230,30 @@ const Employees: React.FC = () => {
   };
 
   useEffect(() => {
-    if ( selectedLocation?.value) {
+    if (selectedLocation?.value) {
       dispatch(
         employeeSalesOverviewRequest({
-          locationid:  selectedLocation?.value,
+          locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
+          staffId: employeeList,
         })
       );
     }
-  }, [ selectedLocation?.value, startDate, endDate,employeeList]);
+  }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
   useEffect(() => {
-    if ( selectedLocation?.value) {
+    if (selectedLocation?.value) {
       dispatch(
         getEmployeeActivityRequest({
-          locationid:  selectedLocation?.value,
+          locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
+          staffId: employeeList,
         })
       );
     }
-  }, [ selectedLocation?.value, startDate, endDate,employeeList]);
+  }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
   // const
   // const number = Math.floor(+floatString)
