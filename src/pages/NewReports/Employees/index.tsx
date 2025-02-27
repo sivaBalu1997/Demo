@@ -17,6 +17,9 @@ import NewTable from "components/reportComponents/NewTable";
 import useSalesLocationDates from "hooks/useSalesLocationDates";
 import "./style.scss";
 import moment from "moment";
+import { getEmployees } from "redux/employee/employeeActions";
+import { EmployeeType } from "interface/employeeInterface";
+import { RootState } from "redux/rootReducer";
 
 const Employees: React.FC = () => {
   const restaurantDetails = useSelector(
@@ -85,7 +88,7 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
 
-  console.log("22", { getEmployeeActivityDataFromAPIRedux });
+  // console.log("22", { getEmployeeActivityDataFromAPIRedux });
 
   const [appliedStartDate, setAppliedStartDate] = useState<string>(
     moment().subtract(1, "days").format("YYYY-MM-DD")
@@ -199,11 +202,37 @@ const Employees: React.FC = () => {
   const [showAllActivityTable, setShowAllActivityTable] =
     useState<boolean>(false);
 
-  const [employeeList, setEmployeeList] = useState("Sales");
+  useEffect(() => {
+    if (selectedLocationidFromDropDown) {
+      dispatch(
+        getEmployees(
+          selectedLocationidFromDropDown,
+        )
+      );
+    }
+  }, [selectedLocationidFromDropDown])
+
+  const employeeLists: EmployeeType[] = useSelector(
+    (state: RootState) => state.employee.employeeDetails
+  );
+
+  const employeeDropdownOptions =
+    employeeLists?.map((employee) => ({
+      value: employee?.staffId,
+      label: `${employee?.firstName} ${employee?.lastName}`,
+    }));
+
+
+  const [employeeList, setEmployeeList] = useState("Employee");
+
+  // employeeDropdownOptions?.[0]?.value
 
   const handleDropdownChangeStore = (selectedValue: string) => {
     setEmployeeList(selectedValue);
   };
+
+  console.log("OOOO", { selectedLocationidFromDropDown, employeeDropdownOptions, employeeList, })
+
 
   useEffect(() => {
     if (selectedLocationidFromDropDown) {
@@ -236,25 +265,28 @@ const Employees: React.FC = () => {
           locationid: selectedLocationidFromDropDown,
           startDate: appliedStartDate,
           endDate: appliedEndDate,
+          staffId: employeeList,
         })
       );
     }
-  }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate]);
+  }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate, employeeList]);
 
   useEffect(() => {
     if (selectedLocationidFromDropDown) {
       dispatch(
         getEmployeeActivityRequest({
           locationid: selectedLocationidFromDropDown,
-          startDate: "2024-02-04",
-          endDate: "2025-02-24",
+          startDate: appliedStartDate,
+          endDate: appliedEndDate,
+          staffId: employeeList,
         })
       );
     }
-  }, [selectedLocationidFromDropDown]);
+  }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate, employeeList]);
 
   // const
-  // const number = Math.floor(+floatString);
+  // const number = Math.floor(+floatString)
+
 
   return (
     <div className="report-sales-employee-container">
@@ -307,14 +339,8 @@ const Employees: React.FC = () => {
               <p>Select employee</p>
               <div className="select-employee-dropdown">
                 <CustomDropdown
-                  options={[
-                    { value: "All", label: "All" },
-                    { value: "Lloyd Forger", label: "Lloyd Forger" },
-                    { value: "Anya Forger", label: "Anya Forger" },
-                    { value: "Daybreak", label: "Daybreak" },
-                    { value: "stuart little", label: "stuart little" },
-                  ]}
-                  value={"Sales"}
+                  options={employeeDropdownOptions}
+                  value={"Employee"}
                   className="category-dropdown"
                   onSelect={handleDropdownChangeStore}
                 />

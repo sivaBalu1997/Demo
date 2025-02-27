@@ -404,13 +404,12 @@ export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
     });
 }
 
-// https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/overview?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-12-02&endDate=2024-12-02
 
 export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/employee/overview?locationId=${employeeSalesOverviewPayload?.locationid}&startDate=${employeeSalesOverviewPayload?.startDate}&endDate=${employeeSalesOverviewPayload?.endDate}`,
+        url: `${REPORTS_API_ENDPOINT}/sales/employee/overview?locationId=${employeeSalesOverviewPayload?.locationid}&startDate=${employeeSalesOverviewPayload?.startDate}&endDate=${employeeSalesOverviewPayload?.endDate}&staffId=${employeeSalesOverviewPayload?.staffId || ""}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -631,7 +630,7 @@ export const getEmployeeActivity = (employeeActivityPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity?locationId=${employeeActivityPayload?.locationid}&startDate=${employeeActivityPayload?.startDate}&endDate=${employeeActivityPayload?.endDate}`,
+        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity?locationId=${employeeActivityPayload?.locationid}&startDate=${employeeActivityPayload?.startDate}&endDate=${employeeActivityPayload?.endDate}&staffId=${employeeActivityPayload?.staffId || ""}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

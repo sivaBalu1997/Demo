@@ -36,7 +36,7 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
         (state: any) => state?.auth?.restaurantDetails?.country
     );
 
-    console.log("5555", { cardTitle, incrementDecrementValue, showMiniGraph })
+    // console.log("5555", { cardTitle, incrementDecrementValue, showMiniGraph })
 
     const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
 

@@ -40,6 +40,8 @@ const Employees = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
+  console.log({ employeeList })
+
   useEffect(() => {
     selectedBranch?.id && dispatch(getEmployees(selectedBranch?.id));
   }, [selectedBranch?.id]);
