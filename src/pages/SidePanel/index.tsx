@@ -126,8 +126,6 @@ const SidePanel = () => {
 
         return (
           STORAGE_BUCKET_URL +
-          logoMedia.mimeType.split("/")[0] +
-          "/" +
           logoMedia.id +
           "." +
           logoMedia.mimeType.split("/")[1]
