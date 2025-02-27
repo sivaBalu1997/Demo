@@ -33,9 +33,9 @@ import {
     LIVE_NET_SALES_REQUEST,
     LIVE_NET_SALES_SUCCESS,
     LIVE_NET_SALES_FAILURE,
+    LIVE_ORDER_NON_DINE_IN_REQUEST,
     LIVE_ORDER_NON_DINE_IN_SUCCESS,
     LIVE_ORDER_NON_DINE_IN_FAILURE,
-    LIVE_ORDER_NON_DINE_IN_REQUEST,
     DISCOUNT_SUMMARY_REQUEST,
     DISCOUNT_SUMMARY_SUCCESS,
     DISCOUNT_SUMMARY_FAILURE,
@@ -154,6 +154,11 @@ import {
     GET_EMPLOYEE_ACTIVITY_FAILURE,
     SELCTED_CATEGORIES,
     SELCTED_ITEMS,
+    ADD_CATEGORY_LIST,
+    ADD_ITEMS_LIST,
+    GET_PREMISES_SUMMARARY_REQUEST,
+    GET_PREMISES_SUMMARARY_FAILURE,
+    GET_PREMISES_SUMMARARY_SUCCESS
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -395,7 +400,9 @@ const initialNewReportsState = {
     getemployeeActivitySuccess: [],
     getemployeeActivityFailure: false,
     selectedCategories: [],
-    selectedItems: []
+    selectedItems: [],
+    categoryList: [],
+    itemsList: []
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1237,20 +1244,24 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 break;
 
             // get premises summary
-            case 'GET_PREMISES_SUMMARY_REQUEST':
+            case GET_PREMISES_SUMMARARY_REQUEST:
                 draft.getPremisesSummaryLoading = true;
-                draft.getPremisesSummaryData = [];
                 draft.getPremisesSummaryError = null;
                 break;
-            case 'GET_PREMISES_SUMMARY_SUCCESS':
+            case GET_PREMISES_SUMMARARY_SUCCESS:
                 draft.getPremisesSummaryLoading = false;
                 draft.getPremisesSummaryData = action.payload;
                 draft.getPremisesSummaryError = null;
                 break;
-            case 'GET_PREMISES_SUMMARY_FAILURE':
+            case GET_PREMISES_SUMMARARY_FAILURE:
                 draft.getPremisesSummaryLoading = false;
-                draft.getPremisesSummaryData = [];
                 draft.getPremisesSummaryError = action.payload;
+                break;
+            case ADD_CATEGORY_LIST:
+                draft.categoryList = action.payload;
+                break;
+            case ADD_ITEMS_LIST:
+                draft.itemsList = action.payload;
                 break;
             default:
                 break;

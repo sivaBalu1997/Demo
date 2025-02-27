@@ -1,52 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { amountFormatter, getRandomColor } from "utils";
 
 // Register Chart.js components and plugins
-ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels, Colors );
 
-// const slices = [
-//   {
-//     label: "Service delay",
-//     value: 22,
-//     color: "#0FB36A",
-//     items: 125,
-//     amount: 87.5,
-//   },
-//   {
-//     label: "Wrong order",
-//     value: 13,
-//     color: "#F99D2B",
-//     items: 55,
-//     amount: 45.25,
-//   },
-//   {
-//     label: "Taste issue",
-//     value: 21,
-//     color: "#B33BB3",
-//     items: 78,
-//     amount: 60.0,
-//   },
-//   {
-//     label: "Missing item",
-//     value: 21,
-//     color: "#14C9C9",
-//     items: 90,
-//     amount: 72.1,
-//   },
-//   {
-//     label: "Extra order",
-//     value: 23,
-//     color: "#E3313C",
-//     items: 100,
-//     amount: 80.0,
-//   },
-// ];
 
-const colorList=["#0FB36A", "#F99D2B", "#B33BB3", "#14C9C9", "#E3313C"]
+function DoughnutChart({ dataList=[] ,countryCode}) {
 
-const totalDisplay = "$1200.50";
+  // categoryName
+  // : 
+  // null
+  // itemName
+  // : 
+  // "Veg Clear Soup"
+  // percent
+  // : 
+  // "0.200799"
+  // voidedAmount
+  // : 
+  // "6.39"
+  // voidedQuantity
+  // : 
+  // "1"
+  // voidedReason
+  // : 
+  // "ORDER ENTRY ERROR"
+const [totalDisplay, setTotalDisplay] = useState("$0.00");
+
 
 const centerTextPlugin = {
   id: "centerText",
@@ -69,13 +52,18 @@ const centerTextPlugin = {
   },
 };
 
-function DoughnutChart({ dataList }) {
+useEffect(() => {
+  if(dataList?.length > 0) {
+    const total = dataList?.reduce((sum, slice) => sum + Number(slice?.voidedAmount||0), 0);
+    setTotalDisplay(amountFormatter(total, countryCode));
+  }
+  },[dataList])
   const data = {
-    labels: dataList?.map((slice) => slice?.categoryName),
+    labels: dataList?.map((slice) => slice?.itemName)||[],
     datasets: [
       {
-        data: dataList?.map((slice) => slice?.value),
-        backgroundColor: colorList,
+        data: dataList?.map((slice) => Number(slice?.voidedAmount||0))||[],
+        backgroundColor: Colors,
         borderWidth: 0,
       },
     ],
@@ -118,14 +106,14 @@ function DoughnutChart({ dataList }) {
           if (isActive) {
             const slice = dataList[context.dataIndex];
             return [
-              `Total item: ${slice?.items}`,
-              `Amount: $${slice?.amount.toFixed(2)}`,
+              `Total item: ${Number(slice?.voidedQuantity||0)}`,
+              `Amount: $${Number(slice?.voidedAmount||0).toFixed(2)}`,
             ];
           }
           return `${value}%`;
         },
         backgroundColor: "#fff",
-        borderColor: (context) => colorList[context.dataIndex],
+        borderColor: (context) => Colors[context.dataIndex],
         borderWidth: 2,
         borderRadius: 4,
         padding: 6,

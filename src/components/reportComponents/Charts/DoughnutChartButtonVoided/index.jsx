@@ -2,21 +2,76 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-
+import { amountFormatter, getRandomColor } from "utils";
+ 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
-
-
-function DoughnutChartWithButtonVoided({ dataList }) {
+ 
+// {
+//   "steward": "",
+//   "voidedAmount": "798.72",
+//   "voidedItems": "",
+//   "voidedReasons": "CHEF NOT AVAILABLE",
+//   "orderCount": 51128547
+// }
+function DoughnutChartWithButtonVoided({dataList=[], countryCode, handleClick=()=>{}}) {
   const chartRef = useRef(null);
-  console.log({dataList});
-  
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [voidedAmount, setvoidedAmount] = useState("$0");
   const [slices, setSlices] = useState([]);
-  const [centerTextPlugin, setCenterTextPlugin] = useState( {
+  const [reRenderChart, setReRenderChart] = useState(false);
+
+const Colors = [
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffff00", // Yellow
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+  "#808080", // Gray  
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffff00", // Yellow
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+
+  "#808080", // Gray
+];
+const [centerTextPlugin, setCenterTextPlugin] = useState(  {
+  id: "centerText",
+  beforeDraw: (chart) => {
+    const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    const centerX = (left + right) / 2;
+    const centerY = (top + bottom) / 2;
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#000";
+    ctx.font = "16px Poppins";
+    ctx.fillText("Total", centerX, centerY - 10);
+    ctx.font = "24px Poppins";
+    ctx.fillText(voidedAmount, centerX, centerY + 15);
+    ctx.restore();
+  },
+});
+
+useEffect(()=>{
+  if(dataList?.length) {
+
+    const totalDisplay =dataList?.reduce((sum, item) => sum + (Number(item?.voidedAmount) || 0), 0);
+    console.log(totalDisplay, dataList);
+  const formattedTotal = amountFormatter(totalDisplay, countryCode);
+  setvoidedAmount(formattedTotal);
+  setReRenderChart(true);
+  setCenterTextPlugin(  {
     id: "centerText",
     beforeDraw: (chart) => {
       const { ctx, chartArea: { left, right, top, bottom } } = chart;
@@ -29,51 +84,36 @@ function DoughnutChartWithButtonVoided({ dataList }) {
       ctx.font = "16px Poppins";
       ctx.fillText("Total", centerX, centerY - 10);
       ctx.font = "24px Poppins";
-      ctx.fillText("$0", centerX, centerY + 15);
+      ctx.fillText(formattedTotal, centerX, centerY + 15);
       ctx.restore();
     },
-  });
-  const [totalSales, setTotalSales] = useState(0);
-
+  }); 
   const colors = [
     "#0FB36A",
     "#F99D2B",
     "#B33BB3",
     "#14C9C9",
     "#E3313C",
+    ...Array(dataList?.length)?.map(()=>getRandomColor())
   ];
-  useEffect(()=>{
-    const totalDisplay = dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0) || 0;
-    setTotalSales(totalDisplay);
-    const sliceData = dataList?.map((slice) => ({
-      label: slice?.offerName,
-      value: Number(slice?.totalSales||0)*100/totalSales,
-      color: "#E3313C",
-      items: slice?.totalOrders,
-      amount: Number(slice?.totalSales||0),
-    }));
-    setSlices(sliceData);
-
-
-  setCenterTextPlugin( {
-    id: "centerText",
-    beforeDraw: (chart) => {
-      const { ctx, chartArea: { left, right, top, bottom } } = chart;
-      const centerX = (left + right) / 2;
-      const centerY = (top + bottom) / 2;
-      ctx.save();
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#000";
-      ctx.font = "16px Poppins";
-      ctx.fillText("Total", centerX, centerY - 10);
-      ctx.font = "24px Poppins";
-      ctx.fillText(totalDisplay, centerX, centerY + 15);
-      ctx.restore();
-    },
-  }); 
-
-},[dataList])
+  console.log({Colors});
+  
+ 
+  const sliceData = dataList?.map((slice, index) => ({
+    label: slice?.steward,
+    value: (Number(slice?.voidedAmount||0)*100/totalDisplay)?.toFixed(2),
+    color:colors[index],
+    items: Number(slice?.orderCount||0),
+    amount: Number(slice?.voidedItems||0),
+  }));
+  setSlices(sliceData);
+  const initTimer = setTimeout(() => {
+    // setReRenderChart(false);
+  }, 1000); 
+  return () => clearTimeout(initTimer);
+}
+},[dataList,countryCode])
+ 
   // Update window width on resize to trigger re-render.
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -84,7 +124,7 @@ function DoughnutChartWithButtonVoided({ dataList }) {
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
-        const positions = meta?.data?.map((arc) => {
+        const positions = meta.data.map((arc) => {
           const centerX = arc.x;
           const centerY = arc.y;
           const angle = (arc.startAngle + arc.endAngle) / 2;
@@ -105,12 +145,12 @@ function DoughnutChartWithButtonVoided({ dataList }) {
     }, 500); // 500ms delay to allow chart rendering
     return () => clearTimeout(timer);
   }, [computeLabelPositions]);
-
+ 
   // Recompute label positions when windowWidth changes.
   useEffect(() => {
     computeLabelPositions();
   }, [windowWidth, computeLabelPositions]);
-
+ 
   // Also re-calc positions when container size changes.
   useEffect(() => {
     if (containerRef.current) {
@@ -121,10 +161,10 @@ function DoughnutChartWithButtonVoided({ dataList }) {
       return () => resizeObserver.disconnect();
     }
   }, [containerRef, computeLabelPositions]);
-
+ 
   // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
-
-
+ 
+ 
   const handleHover = (event, elements) => {
     if (elements.length > 0) {
       const index = elements[0].index;
@@ -140,22 +180,19 @@ function DoughnutChartWithButtonVoided({ dataList }) {
       }
     }
   };
-
+ 
   const data = {
-    labels: dataList?.map((data)=>data?.offerName||"")||[],
-    //
+    labels: slices.map((slice) => slice.label),
     datasets: [
       {
-        data:dataList?.map((data)=>Number(data?.totalSales||0))||[],
-        // ,
-        //  slices?.map((slice) => slice?.value||0),
-        backgroundColor: slices?.map((slice) => slice?.color||"#0FB36A"),
+        data: slices.map((slice) => slice.value),
+        backgroundColor: slices.map((slice) => slice.color),
         borderWidth: 0,
         hoverOffset: 15,
       },
     ],
   };
-
+ 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -167,7 +204,7 @@ function DoughnutChartWithButtonVoided({ dataList }) {
       datalabels: { display: false },
     },
   };
-
+ 
   return (
     <div
       ref={containerRef}
@@ -190,11 +227,12 @@ function DoughnutChartWithButtonVoided({ dataList }) {
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
+        redraw={reRenderChart}
       />
-
+ 
       {/* Render floating labels for each slice using computed positions */}
-      {labelPositions?.length > 0 &&
-        slices?.map((slice, index) => {
+      {labelPositions.length > 0 &&
+        slices.map((slice, index) => {
           const pos = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;
@@ -203,11 +241,11 @@ function DoughnutChartWithButtonVoided({ dataList }) {
               key={index}
               style={{
                 position: "absolute",
-                left: `${isHovered && hoverInfo ? hoverInfo?.x : pos?.x}px`,
-                top: `${isHovered && hoverInfo ? hoverInfo?.y : pos?.y}px`,
+                left: `${isHovered && hoverInfo ? hoverInfo.x : pos.x}px`,
+                top: `${isHovered && hoverInfo ? hoverInfo.y : pos.y}px`,
                 transform: "translate(-50%, -50%)",
                 background: "#fff",
-                border: `2px solid ${slice?.color}`,
+                border: `2px solid ${slice.color}`,
                 borderRadius: isHovered ? "8px" : "6px",
                 padding: isHovered ? "12px" : "6px",
                 boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
@@ -229,26 +267,26 @@ function DoughnutChartWithButtonVoided({ dataList }) {
               }}
             >
               {!hoverInfo || hoverInfo.index !== index ? (
-                <span style={{ color: slice?.color }}>{slice?.value}%</span>
+                <span style={{ color: slice.color }}>{slice.value}%</span>
               ) : (
                 <>
-                  <div style={{ color: slice?.color, marginBottom: "5px" }}>
-                    {slice?.label}
+                  <div style={{ color: slice.color, marginBottom: "5px" }}>
+                    {slice.label}
                   </div>
                   <div style={{ marginBottom: "5px" }}>
-                    Total items: {slice?.items} <br />
-                    Amount: ${slice?.amount.toFixed(2)}
+                    Total items: {slice.items} <br />
+                    Amount: ${slice.amount.toFixed(2)}
                   </div>
                   <button
                     style={{
-                      background: slice?.color,
+                      background: slice.color,
                       color: "#fff",
                       border: "none",
                       padding: "5px 10px",
                       borderRadius: "5px",
                       cursor: "pointer",
                     }}
-                    onClick={() => alert(`Viewing details for ${slice?.label}`)}
+                    onClick={() => handleClick(slice)}
                   >
                     View Details
                   </button>
@@ -260,5 +298,5 @@ function DoughnutChartWithButtonVoided({ dataList }) {
     </div>
   );
 }
-
+ 
 export default DoughnutChartWithButtonVoided;

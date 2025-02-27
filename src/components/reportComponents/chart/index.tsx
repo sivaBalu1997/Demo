@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-const CardTypeChart = ({ dataList }: { dataList: any[] }) => {
+const CardTypeChart = ({ dataList=[] }: { dataList: any[] }) => {
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.cardName))),
     datasets: [

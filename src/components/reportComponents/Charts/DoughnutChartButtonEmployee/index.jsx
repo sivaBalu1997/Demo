@@ -6,17 +6,16 @@ import { amountFormatter, getRandomColor } from "utils";
  
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
  
-
-function DoughnutChartWithButton({dataList=[], countryCode,handleClick}) {
+function DoughnutChartButtonEmployee({dataList=[], countryCode,handleClick}) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [totalSales, setTotalSales] = useState("$0");
+  const [voidedAmount, setvoidedAmount] = useState("$0");
   const [slices, setSlices] = useState([]);
-  const [reRenderChart, setReRenderChart] = useState(false);
+  // const [reRenderChart, setReRenderChart] = useState(false);
 
 
 const [centerTextPlugin, setCenterTextPlugin] = useState(  {
@@ -32,7 +31,7 @@ const [centerTextPlugin, setCenterTextPlugin] = useState(  {
     ctx.font = "16px Poppins";
     ctx.fillText("Total", centerX, centerY - 10);
     ctx.font = "24px Poppins";
-    ctx.fillText(totalSales, centerX, centerY + 15);
+    ctx.fillText(voidedAmount, centerX, centerY + 15);
     ctx.restore();
   },
 });
@@ -40,11 +39,11 @@ const [centerTextPlugin, setCenterTextPlugin] = useState(  {
 useEffect(()=>{
   if(dataList?.length) {
 
-    const totalDisplay =dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0);
+    const totalDisplay =dataList?.reduce((sum, item) => sum + (Number(item?.voidedAmount) || 0), 0);
     console.log(totalDisplay, dataList);
   const formattedTotal = amountFormatter(totalDisplay, countryCode);
-  setTotalSales(formattedTotal);
-  setReRenderChart(true);
+  setvoidedAmount(formattedTotal);
+  // setReRenderChart(true);
   setCenterTextPlugin(  {
     id: "centerText",
     beforeDraw: (chart) => {
@@ -68,21 +67,39 @@ useEffect(()=>{
     "#B33BB3",
     "#14C9C9",
     "#E3313C",
-    ...Array(dataList?.length)?.map(()=>getRandomColor())
+   
+      "#ff0000", // Red
+      "#0000ff", // Blue
+      "#008000", // Green
+      "#ffff00", // Yellow
+      "#ffA500", // Orange
+      "#800080", // Purple
+      "#ffc0cb", // Pink
+      "#a52a2a", // Brown
+      "#808080", // Gray
+      "#ff0000", // Red
+      "#0000ff", // Blue
+      "#008000", // Green
+      "#ffff00", // Yellow
+      "#ffA500", // Orange
+      "#800080", // Purple
+      "#ffc0cb", // Pink
+      "#a52a2a", // Brown
+      "#808080", // Gray
   ];
  
   const sliceData = dataList?.map((slice, index) => ({
-    label: slice?.offerName,
-    value: (Number(slice?.totalSales||0)*100/totalDisplay)?.toFixed(2),
+    label: slice?.steward,
+    value: (Number(slice?.voidedAmount||0)*100/totalDisplay)?.toFixed(2),
     color:colors[index],
-    items: Number(slice?.totalOrders||0),
-    amount: Number(slice?.totalSales||0),
+    items: Number(slice?.orderCount||0),
+    amount: Number(slice?.voidedItems||0),
   }));
   setSlices(sliceData);
-  const initTimer = setTimeout(() => {
-    // setReRenderChart(fasle);
-  }, 1000); 
-  return () => clearTimeout(initTimer);
+  // const initTimer = setTimeout(() => {
+  //   // setReRenderChart(false);
+  // }, 1000); 
+  // return () => clearTimeout(initTimer);
 }
 },[dataList,countryCode])
  
@@ -199,7 +216,7 @@ useEffect(()=>{
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-        redraw={reRenderChart}
+  
       />
  
       {/* Render floating labels for each slice using computed positions */}
@@ -271,4 +288,4 @@ useEffect(()=>{
   );
 }
  
-export default DoughnutChartWithButton;
+export default DoughnutChartButtonEmployee;

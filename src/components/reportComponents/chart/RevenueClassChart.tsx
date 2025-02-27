@@ -9,7 +9,6 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
-import "./RevenueChart.scss";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 interface ChartData {
@@ -37,7 +36,7 @@ interface RevenueChartProps {
       };
 }
 
-const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList }) => {
+const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList=[] }) => {
   //   {
   //     "revenueClass": "Beverages",
   //     "itemsSold": 23,

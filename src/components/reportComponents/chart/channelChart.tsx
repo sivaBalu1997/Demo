@@ -26,18 +26,7 @@ interface ChartData {
   qty: number;
 }
 
-// Sample data
-const chartDatas: ChartData[] = [
-  { label: "Dinein", sales: 2100, qty: 280 },
-  { label: "Instore", sales: 1600, qty: 220 },
-  { label: "Kiosk", sales: 2200, qty: 350 },
-  { label: "Direct Online", sales: 2100, qty: 12 },
-  { label: "Doordash", sales: 2000, qty: 300 },
-  { label: "UberEats", sales: 2300, qty: 250 },
-  { label: "Grubhub", sales: 2400, qty: 108 },
-];
-
-const ChannelSalesChart = ({ dataList }: { dataList: any[] }) => {
+const ChannelSalesChart = ({ dataList=[] }: { dataList: any[] }) => {
   //   {
   //     "channelName": "Dinein",
   //     "orders": 369,
