@@ -494,8 +494,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }
   };
 
-  const handleSummaryView = (view: string) => {
+  const [offerType, setOfferType] = useState<string>("")
+
+  const handleSummaryView = (view: string, data: any) => {
     setViewType(view);
+    setOfferType(data?.label);
   }
 
   return (
@@ -853,11 +856,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           <div className="sales-overview-doughnut-chart-container">
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={() => handleSummaryView("discountOffer")} loader={offerSummaryLoading} />
+              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={(data: any) => handleSummaryView("discountOffer", data)} loader={offerSummaryLoading} />
             </div>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={() => handleSummaryView("voidedOrder")} loader={voidedOrderSummaryLoader} />
+              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={(data: any) => handleSummaryView("voidedOrder", data)} loader={voidedOrderSummaryLoader} />
             </div>
           </div>
           <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
@@ -876,7 +879,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               </button>
             </div>
             <NewTable
-              kpiTitle="By Discount - Student offer"
+              kpiTitle={`By discount - ${offerType}`}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
               headerData={discountTableHeaders}
@@ -906,7 +909,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </button>
           </div>
           <NewTable
-            kpiTitle="Voided Orders - Closing Time"
+            kpiTitle={`Voided orders - ${offerType}`}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             headerData={voidedTableHeaders}

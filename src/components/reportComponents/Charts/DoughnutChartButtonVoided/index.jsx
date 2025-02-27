@@ -38,7 +38,7 @@ const centerTextPlugin = {
 function DoughnutChartWithButtonVoided({
   dataList = [],
   countryCode,
-  handleClick = () => {},
+  handleClick = (data) => {},
   loader
 }) {
   const chartRef = useRef(null);
