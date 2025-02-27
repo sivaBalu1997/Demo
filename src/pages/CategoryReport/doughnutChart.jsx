@@ -3,12 +3,13 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter, getRandomColor } from "utils";
+import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
 
 // Register Chart.js components and plugins
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels, Colors );
 
 
-function DoughnutChart({ dataList=[] ,countryCode}) {
+function DoughnutChart({ dataList=[] ,countryCode, loader}) {
 
   // categoryName
   // : 
@@ -120,6 +121,8 @@ useEffect(() => {
       },
     },
   };
+
+  if(loader) return <DoughnutChartShimmer />
 
   return (
     <div

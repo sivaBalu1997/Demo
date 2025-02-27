@@ -3,6 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter, getRandomColor } from "utils";
+import DoughnutChartShimmer from "../DoughnutChartShimmer";
  
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
  
@@ -13,7 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 //   "voidedReasons": "CHEF NOT AVAILABLE",
 //   "orderCount": 51128547
 // }
-function DoughnutChartWithButtonVoided({dataList=[], countryCode, handleClick=()=>{}}) {
+function DoughnutChartWithButtonVoided({dataList=[], countryCode, handleClick=()=>{}, loader}) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
@@ -204,6 +205,8 @@ useEffect(()=>{
       datalabels: { display: false },
     },
   };
+
+  if(loader) return <DoughnutChartShimmer />
  
   return (
     <div

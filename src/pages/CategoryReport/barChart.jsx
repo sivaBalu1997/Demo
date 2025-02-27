@@ -9,6 +9,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
+import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
 
 // Register Chart.js components
 ChartJS.register(
@@ -20,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-function LinearBarChart({ barColorCode, dataList  }) {
+function LinearBarChart({ barColorCode, dataList, loader  }) {
   // Prepare the Chart.js data object
   const data = {
     labels: dataList?.map((cat) => cat?.categoryName)||[],
@@ -89,6 +91,8 @@ function LinearBarChart({ barColorCode, dataList  }) {
       },
     },
   };
+
+  if(loader) return <BarChartShimmer />
 
   return (
     <div style={{ width: "100%", height: "500px" }}>

@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import { ChartData } from "chart.js";
 import "./chart.scss";
+import BarChartShimmer from "../Charts/BarChartShimmer";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-const CardTypeChart = ({ dataList=[] }: { dataList: any[] }) => {
+const CardTypeChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.cardName))),
     datasets: [
@@ -98,6 +99,8 @@ const CardTypeChart = ({ dataList=[] }: { dataList: any[] }) => {
       y: { stacked: true },
     },
   } as ChartOptions<"bar"> & { plugins: { datalabels?: any } };
+
+  if (loader) return <BarChartShimmer />
 
   return (
     <div style={{ width: "100%", height: "500px" }}>

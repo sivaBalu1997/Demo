@@ -3,11 +3,12 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter, getRandomColor } from "utils";
+import DoughnutChartShimmer from "../DoughnutChartShimmer";
  
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
  
 
-function DoughnutChartWithButton({dataList=[], countryCode,handleClick}) {
+function DoughnutChartWithButton({dataList=[], countryCode,handleClick, loader}) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
@@ -176,6 +177,8 @@ useEffect(()=>{
       datalabels: { display: false },
     },
   };
+
+  if (loader) return <DoughnutChartShimmer />
  
   return (
     <div

@@ -14,6 +14,7 @@ import {
 // @ts-ignore
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { ChartData } from "chart.js";
+import BarChartShimmer from "../Charts/BarChartShimmer";
 
 // Register required components
 ChartJS.register(
@@ -28,6 +29,7 @@ ChartJS.register(
 
 interface EmployeeSalesChartProps {
   dataList: Record<string, any>[];
+  loader: boolean
 }
 // {
 //   "date": "",
@@ -39,6 +41,7 @@ interface EmployeeSalesChartProps {
 // }
 const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
   dataList = [],
+  loader,
 }) => {
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.fullName))),
@@ -97,6 +100,9 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
       y: { beginAtZero: true },
     },
   };
+
+  if (loader) return <BarChartShimmer />
+
   return (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />

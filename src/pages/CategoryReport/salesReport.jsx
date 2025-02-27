@@ -8,10 +8,11 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SalesChart = ({dataList}) => {
+const SalesChart = ({dataList, loader}) => {
 const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
   function transformData(datalist) {
     const categorySet = new Set();
@@ -108,6 +109,9 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
     },
   };
 const data=transformData(dataList)
+
+if(loader) return <BarChartShimmer />
+
   return (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />

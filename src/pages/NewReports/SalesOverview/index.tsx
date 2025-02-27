@@ -54,7 +54,7 @@ import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/Do
 import useDateFilter from "hooks/useDateFilter";
 // import { useSalesOverview } from "./useSalessOverview";
 
-interface ReportProps {}
+interface ReportProps { }
 
 interface TenderTypeItem {
   paymentMode: string;
@@ -87,7 +87,7 @@ interface TenderTypeItem {
   offPremSales?: number;
 }
 
-const SalesOverview: React.FC<ReportProps> = ({}) => {
+const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
@@ -102,8 +102,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     useState<number>(1);
   const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
     useState<number>(10);
-    
-    const { startDate, endDate,  handleDateChange } = useDateFilter();
+
+  const { startDate, endDate, handleDateChange } = useDateFilter();
 
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
@@ -112,7 +112,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
 
 
   const datepickerApply = (data1: any, data2: any) => {
-handleDateChange("Custom Date", data1, data2);
+    handleDateChange("Custom Date", data1, data2);
   };
 
   const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>(
@@ -141,9 +141,16 @@ handleDateChange("Custom Date", data1, data2);
   const staffSalesData = useSelector(
     (state: any) => state?.newReports?.staffSalesData?.content
   );
+
+  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading)
+
   const salesCardTypeData = useSelector(
     (state: any) => state?.newReports?.salesCardTypeData?.content
   );
+
+  const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
+
+
   const salesCategory = useSelector(
     (state: any) => state?.newReports?.salesByItemCategorySuccess
   );
@@ -170,15 +177,29 @@ handleDateChange("Custom Date", data1, data2);
   const salesByChannel = useSelector(
     (state: any) => state?.newReports?.salesByChannelData?.content
   );
+
+  const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading)
+
   const salesByRevenueClass = useSelector(
     (state: any) => state?.newReports?.salesByRevenueClassSuccess?.content
   );
+
+  const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading)
+
   const offerSummary = useSelector(
     (state: any) => state?.newReports?.offerSummaryData?.content
   );
+
+  const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading)
+
   const voidedOrderSummary = useSelector(
     (state: any) => state?.newReports?.voidedOrderSummaryData?.content
   );
+
+  const voidedOrderSummaryLoader = useSelector(
+    (state: any) => state?.newReports?.voidedOrderSummaryLoading
+  );
+
   const getPremisesSummary = useSelector(
     (state: any) => state?.newReports?.premisesSummaryData?.content
   );
@@ -295,7 +316,7 @@ handleDateChange("Custom Date", data1, data2);
           tableRecordLimit: 100,
           tablePageNo: 1,
           startDate: startDate,
-          endDate:endDate
+          endDate: endDate
         })
       ),
       dispatch(
@@ -336,15 +357,15 @@ handleDateChange("Custom Date", data1, data2);
         acc[`${item?.paymentMode}-${item?.cardType}-${item?.premises}`] =
           item?.premises === "OFFPREM"
             ? {
-                ...prevData,
-                offPremSales: item?.totalSales,
-                offPremOrders: item?.totalOrders,
-              }
+              ...prevData,
+              offPremSales: item?.totalSales,
+              offPremOrders: item?.totalOrders,
+            }
             : {
-                ...prevData,
-                onPremSales: item?.totalSales,
-                onPremOrders: item?.totalOrders,
-              };
+              ...prevData,
+              onPremSales: item?.totalSales,
+              onPremOrders: item?.totalOrders,
+            };
 
         return acc;
       }, {} as Record<string, TenderTypeItem>);
@@ -447,7 +468,7 @@ handleDateChange("Custom Date", data1, data2);
             endDate: endDate,
             tablePageNo: currentPageOfferDiscount,
             tableRecordLimit: currentRowsOfferDiscount,
-            search:value,
+            search: value,
           })
         );
         break;
@@ -455,7 +476,7 @@ handleDateChange("Custom Date", data1, data2);
         dispatch(
           cancellationSummaryRequest({
             locationid: selectedLocation?.value,
-            startDate:  startDate,
+            startDate: startDate,
             endDate: endDate,
             tablePageNo: currentPageVoiddedOrders,
             tableRecordLimit: currentRowsVoiddedOrders,
@@ -473,10 +494,10 @@ handleDateChange("Custom Date", data1, data2);
     }
   };
 
-  const handleSummaryView=(view:string)=>{
+  const handleSummaryView = (view: string) => {
     setViewType(view);
   }
-  
+
   return (
     <>
       {viewType === "default" ? (
@@ -634,7 +655,7 @@ handleDateChange("Custom Date", data1, data2);
                     tenderType?.["Card Swipe-DEBIT"]?.offPremSales || 0
                   }
                   loader={tendorTypesLoader}
-                  // loader={true}
+                // loader={true}
                 />
                 <TenderType
                   icon={<KeyedInIcon />}
@@ -821,26 +842,26 @@ handleDateChange("Custom Date", data1, data2);
           </div>
 
           <h2 className="sales-overview-sub-heading ">By Card Type</h2>
-          <CardTypeChart dataList={salesCardTypeData} />
+          <CardTypeChart dataList={salesCardTypeData} loader={salesCardTypeDataLoading} />
 
           <h2 className="sales-overview-sub-heading ">By Employees</h2>
-          <EmployeeSalesChart dataList={staffSalesData} />
+          <EmployeeSalesChart dataList={staffSalesData} loader={staffSalesLoading} />
 
           <h2 className="sales-overview-sub-heading ">By Channel</h2>
-          <ChannelSalesChart dataList={salesByChannel} />
+          <ChannelSalesChart dataList={salesByChannel} loader={salesByChannelLoading} />
 
           <div className="sales-overview-doughnut-chart-container">
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={()=>handleSummaryView("discountOffer")}/>
+              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={() => handleSummaryView("discountOffer")} loader={offerSummaryLoading} />
             </div>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={()=>handleSummaryView("voidedOrder")}/>
+              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={() => handleSummaryView("voidedOrder")} loader={voidedOrderSummaryLoader} />
             </div>
           </div>
           <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-          <RevenueClassChart dataList={salesByRevenueClass} />
+          <RevenueClassChart dataList={salesByRevenueClass} loader={salesByRevenueClassLoading} />
         </>
       ) : viewType === "discountOffer" ? (
         <>

@@ -36,9 +36,14 @@ const CategoryReport = (props) => {
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
   const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData)
   const categorySalesData = useSelector((state) => state?.newReports?.categorySalesData)
+  const categorySalesDataLoading = useSelector((state) => state?.newReports?.categorySalesLoading)
   const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
+  const categorySalesSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading)
   const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData)
+  const categoryChannelSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading)
   const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData)
+  const voidedSummaryDataLoading = useSelector((state) => state?.newReports?.voidedSummaryLoading)
+
   const countryCode = useSelector((state) => state?.auth?.countryCode)
   const categoryList = useSelector((state) => state?.newReports?.categoryList)
 
@@ -296,6 +301,7 @@ const CategoryReport = (props) => {
             <LinearBarChart
               dataList={categorySalesData}
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
+              loader={categorySalesDataLoading}
             />
           </div>
           <div>
@@ -307,7 +313,7 @@ const CategoryReport = (props) => {
               <DownloadPopOver />
             </div>
 
-            <SalesChart dataList={categoryChannelSummaryData} />
+            <SalesChart dataList={categoryChannelSummaryData} loader={categoryChannelSummaryDataLoading}/>
           </div>
           {activeBtn == "categories" ? (
             <div>
@@ -317,7 +323,7 @@ const CategoryReport = (props) => {
                 </h1>
                 <DownloadPopOver />
               </div>
-              <LinearBarChartCategorySales dataList={voidedSummaryData} barColorCode={"#7D7774"} />
+              <LinearBarChartCategorySales dataList={voidedSummaryData} barColorCode={"#7D7774"} loader={voidedSummaryDataLoading}/>
             </div>
           ) : (
             ""
@@ -328,7 +334,7 @@ const CategoryReport = (props) => {
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 <DownloadPopOver />
               </div>
-              <DoughnutChart dataList={voidedSummaryData} countryCode={countryCode} />
+              <DoughnutChart dataList={voidedSummaryData} countryCode={countryCode} loader={voidedSummaryDataLoading}/>
             </div>
           ) : (
             ""
