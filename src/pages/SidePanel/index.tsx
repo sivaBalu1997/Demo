@@ -5,7 +5,7 @@ import React, {
   useContext,
 } from "react";
 import "../../styles/menu.scss";
-import {  useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   SELECTED_BRANCH_DATA,
   STORAGE_BUCKET_URL,
@@ -229,8 +229,8 @@ const SidePanel = () => {
                   value={selectedBranch}
                 >
                   {restaurantDetails &&
-                    restaurantDetails.branch &&
-                    restaurantDetails.branch.map((u, i) => {
+                    restaurantDetails?.branch &&
+                    restaurantDetails?.branch?.map((u, i) => {
                       return (
                         <option
                           value={`${JSON.stringify(u)}`}
@@ -284,7 +284,7 @@ const SidePanel = () => {
               <span className="menu-items-name">Product Catalog</span>
             )}
           </div>
-
+          {/* 
           <div
             className={
               showOfferOptions === "MenuOptions" ? "activePath" : "not-active"
@@ -383,7 +383,7 @@ const SidePanel = () => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div
             style={{
@@ -499,7 +499,7 @@ const SidePanel = () => {
                               else if (option === "Sales") {
                                 history.push("/sales-reports");
                               }
-                              
+
                             }}
                           >
                             {option}

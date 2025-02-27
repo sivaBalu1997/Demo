@@ -109,9 +109,9 @@ const Report = (props) => {
   const getReportData = async (locationId) => {
     const token = credentials?.accessToken;
     let reportId =
-      restaurantDetails.country == "US" && location.pathname === "report/32"
+      restaurantDetails?.country == "US" && location.pathname === "report/32"
         ? 41
-        : restaurantDetails.country == "IN" && location.pathname === "report/32"
+        : restaurantDetails?.country == "IN" && location.pathname === "report/32"
           ? 32
           : location.pathname === "/report/51"
             ? 51
@@ -234,7 +234,7 @@ const Report = (props) => {
             </div>
           } */}
 
-            {restaurantDetails.vertical == IS_SPORT_DOMAIN && (
+            {restaurantDetails?.vertical == IS_SPORT_DOMAIN && (
               <div
                 className={`tab ${location.pathname === "/management/report/67"
                   ? "selected"
@@ -274,9 +274,9 @@ const Report = (props) => {
                 Customer Insights
               </div>
             )}
-            {branchDetails.cusine != null &&
-              branchDetails.cusine[0] != null &&
-              branchDetails.cusine[0] == IS_SPORT_VERTICAL &&
+            {branchDetails?.cusine != null &&
+              branchDetails?.cusine[0] != null &&
+              branchDetails?.cusine[0] == IS_SPORT_VERTICAL &&
               selectValue === "Sales" && (
                 <div
                   className={` ${location.pathname === "/management/report/63"

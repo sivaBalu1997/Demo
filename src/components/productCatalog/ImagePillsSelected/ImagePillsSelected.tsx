@@ -96,7 +96,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
     }
   }, [imageselected, ingredientsdata, allergensData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   return (
     <div className="imagesselected">

@@ -13,7 +13,7 @@ import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import DatePicker from "react-datepicker";
 import plusicon from "../../../assets/svg/plusIcon.svg";
 import {ReactComponent as Icon } from "../../../assets/svg/cloud.svg";
-import { removeDataRequest, triggerFcm } from "redux/productCatalog/productCatalogActions";
+import { removeDataRequest, scheduleFCM, triggerFcm } from "redux/productCatalog/productCatalogActions";
 import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   const { isExpanded } = useContext(Contextpagejs);
@@ -37,32 +37,37 @@ const Header = () => {
       );
     
   const syncByFcm=()=>{
-
     const cuurentMenuTypes=restaurantDetails.orderTypes?.filter((type)=>{
       return type.typeGroup!=="I"
     }).map((type)=>{
       return type.typeGroup!=="I" && type.typeName
     })
 
-   
       dispatch(triggerFcm({
         topic:restaurantDetails.id, // restaurantDetails.topicToSubscribe,
         eventName: 'MENU_UPDATE',
         locationId: restaurantDetails.id,
         updateMenuType: cuurentMenuTypes,
         sendToDefaultDeviceOnly:false
-
       }))
 
-
-
-
-     
+      const date = new Date();
+      let day = date.getDate() + 1;
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = String(date.getFullYear()).slice(-2);
+      day = String(day).padStart(2, "0"); 
     
+      const formattedDate = `${day}-${month}-${year}`;
+
+      dispatch(scheduleFCM({
+        topic:restaurantDetails.id, 
+        eventName: 'SCHEDULE_UPDATE',
+        locationId: restaurantDetails.id,
+        updateMenuType: cuurentMenuTypes,
+        sendToDefaultDeviceOnly:false,
+        scheduledTime:`${formattedDate} 11:00:00`
+      }))
   }
-
-
-  
 
   return (
     <div className={isExpanded ? "Header-Container1" : "Header-Container"}>

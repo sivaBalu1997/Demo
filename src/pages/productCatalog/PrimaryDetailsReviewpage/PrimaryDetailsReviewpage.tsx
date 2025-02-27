@@ -471,6 +471,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog?.addMenuLoading
   );
 
+
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.DietaryType?.includes(dietary.name)
   );
@@ -485,17 +486,19 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const matchedKitchenStation = Array.isArray(kitchenStationData)
     ? kitchenStationData.find(
-        (kitchen: any) =>
-          kitchen.name?.toLowerCase() ===
-          prizingDetail?.kitchenstation?.toLowerCase()
-      )
+      (kitchen: any) =>
+        kitchen.name?.toLowerCase() ===
+        prizingDetail?.kitchenstation?.toLowerCase()
+    )
     : undefined;
+  const data = typeof (primarydata?.bestPair) == 'string' ? primarydata?.bestPair.split(", ") : []
 
-  const matchedBestPair =
-    primarydata?.bestPair &&
-    primarydata?.bestPair?.map((best: any) => {
-      return bestPairData?.find((b: any) => b.name == best);
-    });
+  const matchedBestPair = typeof (primarydata?.bestPair) == 'string' ? (primarydata?.bestPair &&
+    data?.map((best: any) => {
+      return bestPairData?.find((b: any) => b.name == best)
+    })) : primarydata?.bestPair && primarydata?.bestPair?.map((best: any) => {
+      return bestPairData?.find((b: any) => b.name == best)
+    })
 
   // const matchedBestPair = bestPairData?.filter((bestPair: any) =>
   //   primarydata?.bestPair?.includes(bestPair?.name)
@@ -610,8 +613,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         dineInDetails?.Enabled === true || dineInDetails?.Enabled === 1 ? 1 : 0,
       isNotHide:
         dineInDetails &&
-        dineInDetails?.price &&
-        parseFloat(dineInDetails?.price) > 0.0
+          dineInDetails?.price &&
+          parseFloat(dineInDetails?.price) > 0.0
           ? 1
           : 0,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
@@ -625,8 +628,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           ...availability,
           availabilityDays:
             availability.availabilityDays &&
-            availability.availabilityDays.length === 0 &&
-            Dineinresult.length === 0
+              availability.availabilityDays.length === 0 &&
+              Dineinresult.length === 0
               ? result
               : Dineinresult,
         })
@@ -638,8 +641,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         pickupDetails.Enabled === true || pickupDetails.Enabled === 1 ? 1 : 0,
       isNotHide:
         pickupDetails &&
-        pickupDetails?.price &&
-        parseFloat(pickupDetails?.price) > 0.0
+          pickupDetails?.price &&
+          parseFloat(pickupDetails?.price) > 0.0
           ? 1
           : 0,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
@@ -652,7 +655,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           ...availability,
           availabilityDays:
             availability.availabilityDays &&
-            availability.availabilityDays.length === 0
+              availability.availabilityDays.length === 0
               ? result
               : availability.availabilityDays,
         })
@@ -670,8 +673,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
       isNotHide:
         deliveryDetails &&
-        deliveryDetails?.price &&
-        parseFloat(deliveryDetails?.price) > 0.0
+          deliveryDetails?.price &&
+          parseFloat(deliveryDetails?.price) > 0.0
           ? 1
           : 0,
       availabilities: deliveryDetails.availabilities?.map(
@@ -679,7 +682,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           ...availability,
           availabilityDays:
             availability.availabilityDays &&
-            availability.availabilityDays.length === 0
+              availability.availabilityDays.length === 0
               ? result
               : availability.availabilityDays,
         })
@@ -688,24 +691,24 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails?.map((detail) => ({
-          ...detail,
-          isEnabled:
-            detail.Enabled === true || deliveryDetails.Enabled === 1 ? 1 : 0,
-          isNotHide:
-            detail && detail?.price && parseFloat(detail?.price) > 0.0 ? 1 : 0,
-          inActiveUntil: detail?.inActiveUntil
-            ? detail.inActiveUntil.split(".")[0]
-            : null,
+        ...detail,
+        isEnabled:
+          detail.Enabled === true || deliveryDetails.Enabled === 1 ? 1 : 0,
+        isNotHide:
+          detail && detail?.price && parseFloat(detail?.price) > 0.0 ? 1 : 0,
+        inActiveUntil: detail?.inActiveUntil
+          ? detail.inActiveUntil.split(".")[0]
+          : null,
 
-          availabilities: detail.availabilities?.map((availability: any) => ({
-            ...availability,
-            availabilityDays:
-              availability.availabilityDays &&
+        availabilities: detail.availabilities?.map((availability: any) => ({
+          ...availability,
+          availabilityDays:
+            availability.availabilityDays &&
               availability.availabilityDays.length === 0
-                ? result
-                : availability.availabilityDays,
-          })),
-        }))
+              ? result
+              : availability.availabilityDays,
+        })),
+      }))
       : []),
   ]
     .filter(Boolean)
@@ -729,8 +732,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     typeof primarydata?.tax === "string"
       ? primarydata.tax
       : Array.isArray(primarydata?.tax)
-      ? (primarydata.tax as any[])?.join(", ")
-      : "";
+        ? (primarydata.tax as any[])?.join(", ")
+        : "";
 
   const menuPayload = {
     locationId: locationid,
@@ -819,8 +822,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       filteredSubCategory?.length !== 0 || filteredSubCategory !== undefined
         ? filteredSubCategory?.subCategoryId !== matchedSubCategoryId
         : filteredCategory?.length !== 0
-        ? filteredCategory?.categoryId !== matchedCategoryId
-        : false,
+          ? filteredCategory?.categoryId !== matchedCategoryId
+          : false,
 
     // isCategoryUpdated:filteredCategory.length===0?filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category:filteredSubCategory.length===0?filteredSubCategory?. !==primarypagedetails.primarypage.data.category:filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category,
 
@@ -1103,19 +1106,19 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                             label="Dietary type"
                             textvalue={
                               primarydata?.DietaryType &&
-                              typeof primarydata?.DietaryType[0] === "string" &&
-                              primarydata?.DietaryType?.length > 0
+                                typeof primarydata?.DietaryType[0] === "string" &&
+                                primarydata?.DietaryType?.length > 0
                                 ? Array.isArray(primarydata?.DietaryType)
                                   ? primarydata?.DietaryType?.map(
-                                      (type: any) => type
-                                    ).join(", ")
+                                    (type: any) => type
+                                  ).join(", ")
                                   : primarydata?.DietaryType
                                 : Array.isArray(primarydata?.DietaryType) &&
                                   primarydata?.DietaryType?.length > 0
-                                ? primarydata?.DietaryType.map(
+                                  ? primarydata?.DietaryType.map(
                                     (type: any) => type?.name
                                   ).join(", ")
-                                : "N/A"
+                                  : "N/A"
                             }
                           />
                         </div>
@@ -1309,7 +1312,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         selectedImages[0]?.url?.file
                                           ? selectedImages[0].url.preview
                                           : selectedImages[0].url ||
-                                            emptyfoodimg
+                                          emptyfoodimg
                                       }
                                       alt={`Preview of `}
                                     />
@@ -1423,19 +1426,19 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <div className="bestpairfoods">
                         <p>
                           {primarydata?.bestPair &&
-                          typeof primarydata?.bestPair[0] === "string" &&
-                          primarydata?.bestPair?.length > 0
+                            typeof primarydata?.bestPair[0] === "string" &&
+                            primarydata?.bestPair?.length > 0
                             ? Array.isArray(primarydata?.bestPair)
                               ? primarydata?.bestPair
-                                  ?.map((type: any) => type)
-                                  .join(", ")
+                                ?.map((type: any) => type)
+                                .join(", ")
                               : primarydata?.bestPair
                             : Array.isArray(primarydata?.bestPair) &&
                               primarydata?.bestPair?.length > 0
-                            ? primarydata?.bestPair
+                              ? primarydata?.bestPair
                                 .map((type: any) => type?.name)
                                 .join(", ")
-                            : "N/A"}
+                              : "N/A"}
                         </p>
                       </div>
                     </div>

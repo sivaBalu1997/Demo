@@ -130,7 +130,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       currentPage === "Pricing and kitchen details" &&
       triggerValidation
     ) {
-      setKitchenError(true)
+      // setKitchenError(true)
       const isValid = handleValidate && handleValidate();
       setNavigate(true)
       let PricingDetails:any = { ...mainForm };
@@ -190,7 +190,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
           ...PricingDetails,
          dataStored:true
         };
-        if (category==="Item customizations" &&isValid && ( PricingDetails.kitchenstation!=="" && PricingDetails.kitchenstation!==undefined)) {
+        if (category==="Item customizations" &&isValid) {
           dispatch(PricingDetailRequest(PricingDetails));
           setNavigate(true)
           setCurrentPage(category);

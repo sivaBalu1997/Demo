@@ -69,6 +69,7 @@ import {
   deleteimageSuccess,
   deleteimageFailure,
   triggeredFcm,
+  scheduleFCMResponse,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -101,6 +102,7 @@ import {
   hideMockData,
   deleteImage,
   triggerFcmUrl,
+  scheduleTriggerFCM,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -140,6 +142,8 @@ import {
   DELETE_IMAGE_REQUEST,
   UPDATE_TRIGGER_FCM,
   TRIGGER_FCM,
+  SCHEDULE_FCM,
+  UPDATE_SCHEDULE_TRIGGER_FCM,
 } from "./productCatalogConstants";
 import { showSuccessToast } from "util/toastUtils";
 import {
@@ -434,7 +438,13 @@ function* imageUploadSaga (action) {
 
     try {
       const response = yield call(uploadImageApi, image, itemId);
-      yield put(imageUploadSuccess(itemId));
+
+      if(i===images.length-1 && response.status===200)
+      {
+        yield put(imageUploadSuccess(itemId));
+      }
+
+      
     } catch (error) {
       failureArray.push({
         file: image.file,
@@ -644,6 +654,24 @@ function* triggerFcmSaga(action) {
   }
 }
 
+function* scheduleFCMSaga(action) {
+  try {
+    console.log('Sagas')
+    yield put({ type: UPDATE_SCHEDULE_TRIGGER_FCM, payload: true })
+    const response = yield call(scheduleTriggerFCM,action.payload);
+    if (response) {
+      yield put(
+        scheduleFCMResponse({
+          message: response.data,
+        })
+      );
+    }
+    yield put({ type: UPDATE_SCHEDULE_TRIGGER_FCM ,payload:false})
+  } catch (err) {
+    yield put({ type: UPDATE_SCHEDULE_TRIGGER_FCM, payload: false })
+  }
+}
+
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
@@ -675,5 +703,5 @@ export default function* productCatalog() {
   yield takeLatest(ADD_MOCK_DATA_HIDDEN_REQUEST, addMockDataHiddenSaga);
   yield takeLatest(DELETE_IMAGE_REQUEST, deleteimage);
   yield takeLatest(TRIGGER_FCM,triggerFcmSaga)
-
+  yield takeLatest(SCHEDULE_FCM, scheduleFCMSaga)
 }

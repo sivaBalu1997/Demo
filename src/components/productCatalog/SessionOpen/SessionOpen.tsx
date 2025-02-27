@@ -22,7 +22,6 @@ const SessionOpen: React.FC<ModelShowProps> = ({
 }) => {
 
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
-  const [selctedDateSession, setselctedDateSession] = useState("");
   const [filteredsession,setfilteredsession]=useState<any>([]);
   const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails);
  
@@ -77,6 +76,19 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   //   }
   //   return null;
   // };
+  useEffect(()=>{
+    const todayDay = getTodayDay();
+    // const todayDay = "Thursday";
+
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item:any) => item.weekday === todayDay||item.weekday === "All"
+    );
+ 
+    
+    setfilteredsession(todayWorkinghours);
+
+  },[restaurantDetails])
+
   const [selectedSession, setSelectedSession] = useState<string>(filteredsession[0]?.closingTime);
   const getFormattedDate = () => {
     const today = new Date();
@@ -85,15 +97,17 @@ const SessionOpen: React.FC<ModelShowProps> = ({
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+  const [selctedDateSession, setselctedDateSession] = useState(filteredsession[0]?.closingTime);
 
 
   const handleChangesession = (session: string) => {
     setSelectedSession(session);
     setselctedDateSession(session);
   };
+  const formattedDate = getFormattedDate();
 
   const handleSessionSave = () => {
-    const formattedDate = getFormattedDate();
+   
     // const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
     // console.log("sessionClosingHours",sessionClosingHours?.closingTime);
     
@@ -138,16 +152,7 @@ setTimeToSet(`${formattedDate}T${selctedDateSession}`)
     setshowsession(false);
     setshowAvailchanges(true)
   };
-  useEffect(()=>{
-    const todayDay = getTodayDay();
-    // const todayDay = "Thursday";
-
-    const todayWorkinghours = restaurantDetails?.workingHours.filter(
-      (item:any) => item.weekday === todayDay||item.weekday === "All"
-    );
-    setfilteredsession(todayWorkinghours);
-
-  },[restaurantDetails])
+ 
   
 const handleSessionCancel=()=>{
   setshowsession(false);
@@ -157,11 +162,29 @@ const handleSessionCancel=()=>{
   
 
 }
+
+
+useEffect(()=>{
+  if (filteredsession && filteredsession.length > 0) {
+    setselctedDateSession(filteredsession[0]?.closingTime)
+
+
+  setTimeToSet(`${formattedDate}T${filteredsession[0]?.closingTime}`)
+
+}
+
+},[])
+
+
 useEffect(() => {
   if (filteredsession && filteredsession.length > 0) {
     setSelectedSession(filteredsession[0]?.closingTime);
+    setselctedDateSession(filteredsession[0]?.closingTime)
+
+
   }
 }, [filteredsession]);
+
   return (
     <div className="session-container">
       <div className="session-window">

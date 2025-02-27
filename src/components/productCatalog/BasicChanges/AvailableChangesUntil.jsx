@@ -110,25 +110,18 @@ const AvailabilityChangesUntil = ({
   };
   const [filteredsession, setfilteredsession] = useState([]);
   useEffect(() => {
-    const todayDay = getTodayDay();
+    // const todayDay = getTodayDay();
+    const todayDay = "Sunday"; 
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item) => item.weekday === todayDay || item.weekday === "All"
     );
+   
+    
     setfilteredsession(todayWorkinghours);
   }, [restaurantDetails]);
-  const filterWorkingHoursBySession = (session) => {
-    const todayDay = getTodayDay();
-    const todayWorkinghours = restaurantDetails?.workingHours.filter(
-      (item) => item.weekday === todayDay
-    );
 
-    if (session === "morning") {
-      return todayWorkinghours.find((item) => item.closingTime <= "11:59:59");
-    } else if (session === "evening") {
-      return todayWorkinghours.find((item) => item.openingTime >= "12:00:00");
-    }
-    return null;
-  };
+
+ 
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -149,7 +142,7 @@ const AvailabilityChangesUntil = ({
 
     if (elem === "End of Today") {
       const todayDay = getTodayDay();
-      
+      // const todayDay = "Sunday"; 
       const formattedDate = getFormattedDate();
       // console.log("todayWorkinghours",todayWorkinghours);
       const todayWorkinghours = restaurantDetails?.workingHours.filter(
@@ -157,13 +150,28 @@ const AvailabilityChangesUntil = ({
       );
 
       const Time = `${formattedDate}T${
-        todayWorkinghours&& todayWorkinghours[todayWorkinghours.length - 1]?.closingTime
+        todayWorkinghours?.length
+          ? todayWorkinghours[todayWorkinghours.length - 1]?.closingTime ?? "23:59:00"
+          : "23:59:00"
       }`;
+
+      // const Time = `${formattedDate}T${
+      //   todayWorkinghours? todayWorkinghours[todayWorkinghours.length - 1]?.closingTime:"23:59:00"
+      // }`;
       setTimeToSet(Time);
     } else if (elem === "End of Sessions") {
       const formattedDate = getFormattedDate();
-      const SessionTime = `${formattedDate}T${filteredsession&& filteredsession[0].closingTime}`;
-      if (filteredsession?.length ===1) {
+     
+      
+      const SessionTime = `${formattedDate}T${
+        filteredsession && filteredsession.length > 0
+          ? filteredsession[filteredsession.length - 1].closingTime ?? "23:59:00"
+          : "23:59:00"
+      }`;    
+      // const SessionTime = `${formattedDate}T${filteredsession&& filteredsession[filteredsession?.length-1]?.closingTime}`;
+
+      
+      if (filteredsession?.length ===1||filteredsession?.length ===0) {
         setTimeToSet(SessionTime);
        
         // setshowAvailchanges(false)
@@ -186,11 +194,13 @@ const AvailabilityChangesUntil = ({
       setTimeToSet("9999-01-01T00:00:00");
     }
   };
+
   const [matchedChildArray, setMatchedChildArray] = useState([]);
 
   const handleTimeChange = () => {
     if (selectedOption !== -1) {
       if (parentToggle === "") {
+        
         const datamatched = patchedData?.itemAvailabilityInfo.filter(
           (data) => data.orderTypeId === selectedtypeid
         );
@@ -233,24 +243,90 @@ const AvailabilityChangesUntil = ({
           ),
         }));
       } else {
+       
+
         setPartialData((prev) => {
-          const dataToAdd = ParentToggles.filter(
-            (item) => item.isEnabled === 1
-          ).map((item) => ({
-            orderTypeId: item.typeId,
-            unAvailableUntilTime: timeToSet,
-          }));
+          const existedArray=prev.itemAvailabilityInfo||[]
+
+          
+          const dataToAdd=[];
+          ParentToggles.map((item,index)=>{
+           
+              const existeingindex=existedArray.findIndex((id)=>id.orderTypeId===item.typeId)
+              if(existeingindex>-1)
+              {
+               existedArray[existeingindex].unAvailableUntilTime=timeToSet
+                
+              }
+              else{
+                dataToAdd.push({
+                  orderTypeId: item.typeId,
+                unAvailableUntilTime: timeToSet,
+
+                })
+              }
+
+            })
+
+
+          // })
+
+
+
+        //   const dataToAdd = ParentToggles.filter(
+        //     (item) => item.isEnabled === 1
+        //   ).map((item) => {
+            
+            
+        //     const existingIndex=existedArray.findIndex((item1)=>item1.orderTypeId===item.typeId)
+        //     if(existingIndex>-1)
+        //     {
+        //       return{
+        //         orderTypeId: item.typeId,
+        //         unAvailableUntilTime: timeToSet,
+
+        //       }
+           
+        //   }
+        //   // else{
+        //   //   return existedArray
+        //   // }
+        
+        // });
 
           return {
             ...prev,
             itemId: dataFromRedux[0].itemId,
-            itemAvailabilityInfo: dataToAdd,
+            itemAvailabilityInfo: [...existedArray,...dataToAdd],
           };
         });
       }
       setSelectPeriod(false);
     }
   };
+
+ 
+  
+  useEffect(()=>{
+    const todayDay = getTodayDay();
+    // const todayDay = "Sunday"; 
+    const formattedDate = getFormattedDate();
+    // console.log("todayWorkinghours",todayWorkinghours);
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item) => item.weekday === todayDay || item.weekday === "All"
+    );
+    const Time = `${formattedDate}T${
+      todayWorkinghours?.length
+        ? todayWorkinghours[todayWorkinghours.length - 1]?.closingTime ?? "23:59:00"
+        : "23:59:00"
+    }`;
+ 
+    // const Time = `${formattedDate}T${
+    //   todayWorkinghours&& todayWorkinghours[todayWorkinghours.length - 1]?.closingTime
+    // }`;
+    setTimeToSet(Time);
+ 
+  },[])
 
   const handleTimeChangeCancel = () => {
     if (parentToggle === "") {

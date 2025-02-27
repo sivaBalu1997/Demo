@@ -83,17 +83,29 @@
         padding-left: 5px;
         cursor: pointer;
 
-        &:hover {
-          width: 30vw;
-          margin-left: -18px;
-          padding-left: 20px;
-          background-color: rgba(0, 0, 0, 0.1);
-          border-top-right-radius: 50px;
-          border-bottom-right-radius: 50px; 
-          // border-left: 5px solid #E52333;
+        // &:hover {
+        //   width: 30vw;
+        //   margin-left: -16px;
+        //   padding-left: 20px;
+        //   background-color: rgba(0, 0, 0, 0.1);
+        //   border-top-right-radius: 50px;
+        //   border-bottom-right-radius: 50px; 
+        //   // border-left: 5px solid #E52333;
 
-        }
+        // }
       }
+      .hover
+{
+  
+  &:hover {
+    width: 30vw;
+    margin-left: -16px;
+    padding-left: 18px;
+    background-color: lightgray;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px; 
+    // border-left: 5px solid #E52333;
+  }}
 
       .MLSearch-Container-options-none{
         width: 32vw;
@@ -163,17 +175,30 @@
         cursor: pointer;
         
 
-        &:hover {
-          width: 30vw;
-          margin-left: -18px;
-          padding-left: 18px;
-          background-color: lightgray;
-          border-top-right-radius: 50px;
-          border-bottom-right-radius: 50px; 
-          // border-left: 5px solid #E52333;
-        }
+        // &:hover {
+        //   width: 30vw;
+        //   margin-left: -18px;
+        //   padding-left: 18px;
+        //   background-color: lightgray;
+        //   border-top-right-radius: 50px;
+        //   border-bottom-right-radius: 50px; 
+        //   // border-left: 5px solid #E52333;
+        // }
       }
-
+      
+.hover
+{
+  
+  &:hover {
+    width: 30vw;
+    margin-left: -16px;
+    padding-left: 18px;
+    background-color: lightgray;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px; 
+    // border-left: 5px solid #E52333;
+  }
+}
       .MLSearch-Container-options1-none{
         width: 32vw;
         height: 40vh;
