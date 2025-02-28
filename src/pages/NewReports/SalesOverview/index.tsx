@@ -124,13 +124,21 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
+  // const tendorTypes = useSelector(
+  //   (state: any) => state?.newReports?.paymentDetailsData?.content
+  // );
+
   const tendorTypes = useSelector(
     (state: any) => state?.newReports?.paymentDetailsData
   );
+
+
+  // console.log("LLLLLLLLL", { tendorTypes })
+
   const tendorTypesLoader = useSelector(
     (state: any) => state?.newReports?.paymentDetailsLoading
   );
-  console.log("TTL", { tendorTypesLoader });
+  // console.log("TTL", { tendorTypesLoader });
   const salesSummary = useSelector(
     (state: any) => state?.newReports?.salesSummaryReportData
   );
@@ -215,7 +223,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log({
+    console.log("use", {
       selectedLocation,
       tendorTypes,
       salesSummary,
