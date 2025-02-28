@@ -14,6 +14,8 @@ import "./style.scss";
 // import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
 // import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
+import SalesErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
+import ErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
 
 
 const TodaysReport: React.FC = () => {
@@ -306,6 +308,8 @@ const TodaysReport: React.FC = () => {
                     onSearch={handleSearch}
                 />
             </div>
+            <ErrorState pageTitle='Sales' isNotAvailable={true} />
+            <ErrorState pageTitle='Todays Report' isError={true} />
         </div >
 
     )
