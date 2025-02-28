@@ -308,8 +308,8 @@ const TodaysReport: React.FC = () => {
                     onSearch={handleSearch}
                 />
             </div>
-            <ErrorState pageTitle='Sales' isNotAvailable={true} />
-            <ErrorState pageTitle='Todays Report' isError={true} />
+            {/* <ErrorState pageTitle='Sales' isNotAvailable={true} />
+            <ErrorState pageTitle='Sales' isError={true} /> */}
         </div >
 
     )
