@@ -137,24 +137,24 @@ const NormalStep2 = () => {
   // const formattedMeals = meals?.[0]?.join(", "); // Join the first array with commas
   // console.log({ formattedMeals });
 
-  const onlinePickup =
-    prizingDetail?.normalForm?.pickupDetails?.availabilities &&
-    prizingDetail?.normalForm?.pickupDetails?.availabilities[0] &&
-    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions &&
-    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
-      (elem) => elem
-    );
+  // const onlinePickup =
+  //   prizingDetail?.normalForm?.pickupDetails?.availabilities &&
+  //   prizingDetail?.normalForm?.pickupDetails?.availabilities[0] &&
+  //   prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions &&
+  //   prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
+  //     (elem) => elem
+  //   );
 
-  const onlinePickupFormatted = onlinePickup?.join(", ");
-  // console.log("O", online?.join(", "));
+  // const onlinePickupFormatted = onlinePickup?.join(", ");
+  // // console.log("O", online?.join(", "));
 
-  const onlineDelivery =
-    prizingDetail?.normalForm?.deliveryDetails?.availabilities &&
-    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions &&
-    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
-      (elem) => elem
-    );
-  const onlineDeliveryFormatted = onlineDelivery?.join(", ");
+  // const onlineDelivery =
+  //   prizingDetail?.normalForm?.deliveryDetails?.availabilities &&
+  //   prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions &&
+  //   prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
+  //     (elem) => elem
+  //   );
+  // const onlineDeliveryFormatted = onlineDelivery?.join(", ");
   // console.log({ onlinePickupFormatted });
 
   return (

@@ -236,7 +236,7 @@ const Routers = () => {
               <Route exact path="/offer/special" component={offerSpecial} />
             </div>
 
-            <div>
+            <div style={{height:'100% !important'}}>
               <Route exact path="/old-reports" component={Report} />
               <Route
                 exact
