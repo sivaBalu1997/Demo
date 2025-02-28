@@ -160,7 +160,7 @@ function DoughnutChartWithButtonVoided({
       // console.log({Colors});
 
       const sliceData = dataList?.map((slice, index) => ({
-        label: slice?.steward,
+        label: slice?.voidedReasons,
         value: (
           (Number(slice?.voidedAmount || 0) * 100) /
           totalDisplay
@@ -168,6 +168,7 @@ function DoughnutChartWithButtonVoided({
         color: colors[index],
         items: Number(slice?.orderCount || 0),
         amount: Number(slice?.voidedItems || 0),
+        voidedAmount:Number(slice?.voidedAmount || 0),
       }));
       console.log(dataList,"here is the slice data 77777777777777777777777777777777")
       setSlices(sliceData);
@@ -274,7 +275,15 @@ function DoughnutChartWithButtonVoided({
     responsive: true,
     maintainAspectRatio: false,
     cutout: "80%",
-    onHover: handleHover,
+    onHover: handleHover,   
+    layout: {
+      padding: {
+        top: 35,
+        // bottom: 60,
+        // left: 25,
+        // right: 25
+      }
+    },
     voidedAmount: voidedAmount, // Pass total sales to plugin
     plugins: {
       tooltip: { enabled: false },
@@ -295,7 +304,7 @@ function DoughnutChartWithButtonVoided({
       style={{
         width: "100%",
         maxWidth: "550px",
-        height: "450px",
+        height: dataList?.length>7?"650px": "450px",
         position: "relative",
         overflow: "visible",
         padding: "20px 5px",
@@ -358,8 +367,8 @@ function DoughnutChartWithButtonVoided({
                     {slice.label}
                   </div>
                   <div style={{ marginBottom: "5px" }}>
-                    Total items: {slice.items} <br />
-                    Amount: ${slice.amount.toFixed(2)}
+                    Orders: {slice.items} <br />
+                    Refund: ${slice.voidedAmount}
                   </div>
                   <button
                     style={{

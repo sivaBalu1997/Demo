@@ -255,7 +255,15 @@ useEffect(()=>{
     maintainAspectRatio: false,
     totalSales: totalSales, // Pass total sales to plugin
     cutout: "80%",
-    onHover: handleHover,
+    onHover: handleHover, 
+    layout: {
+      padding: {
+        top: 35,
+        // bottom: 60,
+        // left: 25,
+        // right: 25
+      }
+    },
     plugins: {
       tooltip: { enabled: false },
       legend: { position: "bottom", labels: { padding: 20 } },
@@ -275,7 +283,7 @@ useEffect(()=>{
       style={{
         width: "100%",
         maxWidth: "550px",
-        height: "450px",
+        height:  "450px",
         position: "relative",
         overflow: "visible",
         padding: "20px 5px",
@@ -338,8 +346,8 @@ useEffect(()=>{
                     {slice.label}
                   </div>
                   <div style={{ marginBottom: "5px" }}>
-                    Total items: {slice.items} <br />
-                    Amount: ${slice.amount.toFixed(2)}
+                    Order: {slice.items} <br />
+                    Sales: ${slice.amount.toFixed(2)}
                   </div>
                   <button
                     style={{
