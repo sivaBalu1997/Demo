@@ -30,11 +30,13 @@ const CategoryReport = (props) => {
   const dispatch = useDispatch();
   //TODO: move to redux
   const [selectedCategories, setSelectedCategories] = useState([]);
+  // console.log("DDDD",{selectedCategories})
   const [selectedItems, setSelectedItems] = useState([]);
   const locations = useSelector((state) => state?.newReports?.storeLocationsList)
   const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation)
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content)
   const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData)
+  // console.log("BBBBBB",{dropdownDetailsData})
   const categorySalesData = useSelector((state) => state?.newReports?.categorySalesData)
   const categorySalesDataLoading = useSelector((state) => state?.newReports?.categorySalesLoading)
   const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData)
@@ -47,10 +49,12 @@ const CategoryReport = (props) => {
   const countryCode = useSelector((state) => state?.auth?.countryCode)
   const categoryList = useSelector((state) => state?.newReports?.categoryList)
 
+  // console.log("CCCCCC",{categoryList})
+
   const { startDate, endDate, handleDateChange } = useDateFilter();
 
   useEffect(() => {
-    console.log({ locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData, })
+    console.log("use",{ locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData, })
   }, [selectedLocation, locations, selectedLocation, salesByItemCategoryData, dropdownDetailsData, categorySalesData, categorySalesSummaryData, categoryChannelSummaryData, voidedSummaryData])
 
 
@@ -64,21 +68,37 @@ const CategoryReport = (props) => {
   }, [categoryList, selectedLocation])
 
   useEffect(() => {
-    setSelectedCategories([{ label: categoryList?.[0]?.categoryName, value: categoryList?.[0]?.categoryId }])
+    if(categoryList?.length > 0){
+      setSelectedCategories([{ label: categoryList?.[0]?.label, value: categoryList?.[0]?.value }])
+    }
   }, [categoryList])
 
 
-  const fetchData = (categoryIds, itemIds) => {
-    const requests = [
-      categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, categoryIds: categoryIds || [], itemIds: itemIds || [] }),
-      categorySalesRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-      categorySalesSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-      categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-      voidedSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-    ];
+  // const fetchData = (categoryIds, itemIds) => {
+  //   const requests = [
+  //     categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, categoryIds: categoryIds || [], itemIds: itemIds || [] }),
+  //     categorySalesRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+  //     categorySalesSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+  //     categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+  //     voidedSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
+  //   ];
+  //   // TODO: mode to redux parlllelization
+  //   Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
+  // }
+
+    const fetchData = (categoryIds, itemIds) => {
+      if(selectedLocation?.value){
+        dispatch(categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, categoryIds: categoryIds || [], itemIds: itemIds || [] }));
+        dispatch(categorySalesRequest({ locationid: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }));
+        dispatch(categorySalesSummaryRequest({ locationid: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }));
+        dispatch(categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }));
+        dispatch(voidedSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }))
+      }
     // TODO: mode to redux parlllelization
-    Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
+    // Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
   }
+
+
   useEffect(() => {
 
     const categoryIds = selectedCategories?.map((item) => item.value)

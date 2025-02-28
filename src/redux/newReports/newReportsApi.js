@@ -517,6 +517,7 @@ export const getSalesByChannel = (salesByChannelPayload) => {
 export const getCategorySales = (categorySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const categoryIds = categorySalesPayload?.categoryIds?.join(',');
+    // console.log("AAAAAAAAA", { categorySalesPayload })
     return API({
         method: "get",
         url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationid}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}&categoryIds=${categoryIds}`,

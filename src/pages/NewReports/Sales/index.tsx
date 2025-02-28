@@ -48,7 +48,7 @@ const SalesReport: React.FC<ReportProps> = () => {
   }, [selectedLocation])
 
   useEffect(() => {
-    if (!dropdownDetailsData?.length) {
+    if (dropdownDetailsData?.length) {
       const uniqueCategories = [
         ...new Map(
           (dropdownDetailsData ?? []).map(
