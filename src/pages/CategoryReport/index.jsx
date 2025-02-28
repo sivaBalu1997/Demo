@@ -302,9 +302,9 @@ const CategoryReport = (props) => {
             <MiniCard
               data={[
                 { title: "TOTAL SALES", value: `$ ${categorySalesSummaryData?.totalSales?.toFixed(2) || 0}` },
-                { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) || 0}` },
-                { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) || 0}` },
-                { title: "VOID", value: `$ ${categorySalesSummaryData?.void?.toFixed(2) || 0}` },
+                // { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) || 0}` },
+                // { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) || 0}` },
+                { title: "VOID", value: `$ ${categorySalesSummaryData?.voidAmount?.toFixed(2) || 0}` },
                 { title: "ADD-ON", value: `$ ${categorySalesSummaryData?.addOn?.toFixed(2) || 0}` },
                 { title: "TOTAL QUANTITY", value: `${categorySalesSummaryData?.totalQuantity || 0}` },
               ]}
