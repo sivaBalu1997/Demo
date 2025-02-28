@@ -24,7 +24,13 @@ ChartJS.register(
   Legend
 );
 
-const CardTypeChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
+const CardTypeChart = ({
+  dataList = [],
+  loader,
+}: {
+  dataList: any[];
+  loader: boolean;
+}) => {
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.cardName))),
     datasets: [
@@ -69,8 +75,8 @@ const CardTypeChart = ({ dataList = [], loader }: { dataList: any[], loader: boo
         caretSize: 0, // Remove tooltip arrow
         caretPadding: 0,
         padding: 10, // Padding inside tooltip container
-        titleFont: { weight: "normal", size: 14 }, // Title font size set to 14px
-        bodyFont: { size: 14 }, // Body font size set to 14px
+        titleFont: { weight: "normal", size: 14, family: "Poppins" }, // Title font size set to 14px
+        bodyFont: { size: 14, family: "Poppins" }, // Body font size set to 14px
         titleMarginBottom: 0,
         bodySpacing: 0,
         callbacks: {
@@ -100,7 +106,7 @@ const CardTypeChart = ({ dataList = [], loader }: { dataList: any[], loader: boo
     },
   } as ChartOptions<"bar"> & { plugins: { datalabels?: any } };
 
-  if (loader) return <BarChartShimmer />
+  if (loader) return <BarChartShimmer />;
 
   return (
     <div style={{ width: "100%", height: "500px" }}>
