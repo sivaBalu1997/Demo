@@ -192,16 +192,20 @@ const Employees: React.FC = () => {
     }));
 
 
-  const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.label);
+  const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.value);
 
   // employeeDropdownOptions?.[0]?.value
 
   const handleDropdownChangeStore = (selectedValue: any) => {
-    console.log("Selected Value:", selectedValue);
+    // console.log("Selected Value:", selectedValue);
     setEmployeeList(selectedValue?.value);
   };
 
-  console.log("OOOO", { employeeDropdownOptions, employeeList })
+  // console.log("OOOO", { employeeDropdownOptions, employeeList })
+
+  // useEffect(() => {
+  //   console.log("useEff OOOO", { employeeDropdownOptions, employeeList })
+  // }, [])
 
 
   useEffect(() => {
@@ -253,7 +257,7 @@ const Employees: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedLocation?.value) {
+    if (selectedLocation?.value && employeeList) {
       dispatch(
         employeeSalesOverviewRequest({
           locationid: selectedLocation?.value,
