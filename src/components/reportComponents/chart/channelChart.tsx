@@ -11,6 +11,7 @@ import {
   ChartOptions,
 } from "chart.js";
 import "./chart.scss";
+import BarChartShimmer from "../Charts/BarChartShimmer";
 
 ChartJS.register(
   CategoryScale,
@@ -26,7 +27,7 @@ interface ChartData {
   qty: number;
 }
 
-const ChannelSalesChart = ({ dataList=[] }: { dataList: any[] }) => {
+const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
   //   {
   //     "channelName": "Dinein",
   //     "orders": 369,
@@ -111,6 +112,9 @@ const ChannelSalesChart = ({ dataList=[] }: { dataList: any[] }) => {
       },
     },
   };
+
+  if (loader) return <BarChartShimmer />
+
   return (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />

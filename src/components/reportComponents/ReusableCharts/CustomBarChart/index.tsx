@@ -26,6 +26,7 @@ interface CustomBarChartProps {
     kpiTitle?: string;
     showRelatedTable: boolean;
     setShowRelatedTable: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface CustomTooltipProps {
@@ -34,10 +35,11 @@ interface CustomTooltipProps {
     tooltipData: TooltipData;
     showRelatedTable: boolean;
     setShowRelatedTable: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Custom Tooltip Component
-const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShowRelatedTable }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0].payload;
         const tooltipInfo = tooltipData[name];
@@ -46,6 +48,7 @@ const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShow
 
         const handleClick = () => {
             // alert(`Viewing details for: ${name}`);
+            setSelectedValueForChartSlice(name);
             setShowRelatedTable(true);
         };
 
@@ -72,7 +75,8 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     gridStrokeWidth = 1,
     kpiTitle = "KPI Title",
     showRelatedTable,
-    setShowRelatedTable
+    setShowRelatedTable,
+    setSelectedValueForChartSlice
 }) => {
     // useEffect(() => {
     //     const resizeObserverError = (event: any) => {
@@ -104,6 +108,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                     tooltipData={tooltipData}
                                     showRelatedTable={showRelatedTable}
                                     setShowRelatedTable={setShowRelatedTable}
+                                    setSelectedValueForChartSlice={setSelectedValueForChartSlice}
                                 />
                             }
                             wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip

@@ -9,11 +9,12 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function LinearBarChartCategorySales({ barColorCode, dataList  }) {
+function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
   // Prepare the Chart.js data object
   const data = {
     labels: dataList?.map((cat) => cat?.categoryName)||[],
@@ -82,6 +83,8 @@ function LinearBarChartCategorySales({ barColorCode, dataList  }) {
       },
     },
   };
+
+  if(loader) return <BarChartShimmer />
 
   return (
     <div style={{ width: "100%", height: "500px" }}>

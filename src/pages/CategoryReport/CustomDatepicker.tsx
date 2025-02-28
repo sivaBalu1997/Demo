@@ -14,7 +14,7 @@ export interface CustomDatePickerProps {
   themeColor?: string;
   closeBtnOnclick?: () => void;
   applyBtnOnclick?: () => void;
-  handleOnChange?: () => void;
+  handleOnChange?: (dates: any) => void;
   containerClassName?: string;
   arrowClassName?: string;
   offsetY?: number;

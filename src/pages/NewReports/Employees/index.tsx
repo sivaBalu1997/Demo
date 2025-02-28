@@ -20,12 +20,13 @@ import moment from "moment";
 import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
 import { RootState } from "redux/rootReducer";
+import useDateFilter from "hooks/useDateFilter";
 
 const Employees: React.FC = () => {
-  const restaurantDetails = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.branch
-  );
-
+  const [selectedDate, setSelectedDate] = useState({
+    label: "Yesterday",
+    value: "Yesterday",
+  });
   const employeeSalesOverViewFromAPIRedux = useSelector(
     (state: any) => state?.newReports?.employeeSalesOverviewSuccess
   );
@@ -33,27 +34,8 @@ const Employees: React.FC = () => {
   const employeeSalesOverViewFromAPIReduxLoader = useSelector(
     (state: any) => state?.newReports?.employeeSalesOverviewLoading
   );
+  const { startDate, endDate, handleDateChange } = useDateFilter();
 
-  // console.log("qqqq", { employeeSalesOverViewFromAPIRedux })
-
-  const mappedIdWithBranchName = restaurantDetails?.map(
-    (branchWithId: any) => ({
-      value: branchWithId?.id,
-      label: branchWithId?.locationName,
-    })
-  );
-
-  const [selectedDate, setSelectedDate] = useState({
-    label: "Yesterday",
-    value: "Yesterday",
-  });
-  const [selectedStore, setSelectedStore] = useState(
-    mappedIdWithBranchName?.[0]
-  );
-
-  // console.log("2222", selectedStore?.value)
-
-  const selectedLocationidFromDropDown = selectedStore?.value;
 
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
     useState<number>(10);
@@ -90,23 +72,10 @@ const Employees: React.FC = () => {
 
   // console.log("22", { getEmployeeActivityDataFromAPIRedux });
 
-  const [appliedStartDate, setAppliedStartDate] = useState<string>(
-    moment().subtract(1, "days").format("YYYY-MM-DD")
-  );
-  const [appliedEndDate, setAppliedEndDate] = useState<string>(
-    moment().subtract(1, "days").format("YYYY-MM-DD")
-  );
 
-  useEffect(() => {
-    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
-    setAppliedStartDate(yesterday);
-    setAppliedEndDate(yesterday);
-  }, []);
 
   const datepickerApply = (data1: any, data2: any) => {
-    // console.log(data1, data2, "selected Date is here");
-    setAppliedStartDate(data1);
-    setAppliedEndDate(data2);
+    handleDateChange("Custom Date", data1, data2);
   };
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -141,12 +110,12 @@ const Employees: React.FC = () => {
   const handleSearch = (value: string, kpiTitle: string) => {
     switch (kpiTitle) {
       case "Employee Void Activity":
-        if (selectedLocationidFromDropDown) {
+        if (selectedLocation?.value) {
           dispatch(
             employeeStaffActivityRequest({
-              locationid: selectedLocationidFromDropDown,
-              startDate: appliedStartDate,
-              endDate: appliedEndDate,
+              locationid: selectedLocation?.value,
+              startDate: startDate,
+              endDate: endDate,
               tablePageNo: currentPageEmployeeVoidActivity,
               tableRecordLimit: employeeVoidRecordLimit,
             })
@@ -203,14 +172,14 @@ const Employees: React.FC = () => {
     useState<boolean>(false);
 
   useEffect(() => {
-    if (selectedLocationidFromDropDown) {
+    if (selectedLocation?.value) {
       dispatch(
         getEmployees(
-          selectedLocationidFromDropDown,
+          selectedLocation?.value,
         )
       );
     }
-  }, [selectedLocationidFromDropDown])
+  }, [selectedLocation?.value])
 
   const employeeLists: EmployeeType[] = useSelector(
     (state: RootState) => state.employee.employeeDetails
@@ -223,7 +192,7 @@ const Employees: React.FC = () => {
     }));
 
 
-  const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.label);
+  const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.value);
 
   // employeeDropdownOptions?.[0]?.value
 
@@ -232,61 +201,90 @@ const Employees: React.FC = () => {
     setEmployeeList(selectedValue?.value);
   };
 
-  // console.log("OOOO", { selectedLocationidFromDropDown, employeeDropdownOptions, employeeList, })
+  // console.log("OOOO", { employeeDropdownOptions, employeeList })
+
+  // useEffect(() => {
+  //   console.log("useEff OOOO", { employeeDropdownOptions, employeeList })
+  // }, [])
 
 
   useEffect(() => {
-    if (selectedLocationidFromDropDown) {
+    if (selectedLocation?.value) {
       dispatch(
         employeeStaffActivityRequest({
-          locationid: selectedLocationidFromDropDown,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
           tablePageNo: currentPageEmployeeVoidActivity,
           tableRecordLimit: employeeVoidRecordLimit,
         })
       );
+
     }
   }, [
-    selectedLocationidFromDropDown,
-    appliedStartDate,
-    appliedEndDate,
+    selectedLocation,
+    startDate,
+    endDate,
     currentPageEmployeeVoidActivity,
     employeeVoidRecordLimit,
   ]);
 
+
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
+  console.log({ selectedValueForChartSlice })
+
+
+  // Function to dispatch actions based on selected value (YET TO INTEGRATE)
+  // const dispatchAction = (value: string) => {
+  //   switch (value) {
+  //     case "Remove Tax":
+  //       dispatch(removeTaxRequest());
+  //       break;
+  //     case "Refund":
+  //       dispatch(refundRequest());
+  //       break;
+  //     // Add more cases as needed
+  //     default:
+  //       console.log("No matching action for", value);
+  //   }
+  // };
+
+
+
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
+    setSelectedValueForChartSlice("");
   };
 
   useEffect(() => {
-    if (selectedLocationidFromDropDown) {
+    if (selectedLocation?.value && employeeList) {
       dispatch(
         employeeSalesOverviewRequest({
-          locationid: selectedLocationidFromDropDown,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
           staffId: employeeList,
         })
       );
     }
-  }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate, employeeList]);
+  }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
   useEffect(() => {
-    if (selectedLocationidFromDropDown) {
+    if (selectedLocation?.value) {
       dispatch(
         getEmployeeActivityRequest({
-          locationid: selectedLocationidFromDropDown,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
           staffId: employeeList,
         })
       );
     }
-  }, [selectedLocationidFromDropDown, appliedStartDate, appliedEndDate, employeeList]);
+  }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
   // const
   // const number = Math.floor(+floatString)
+
 
 
   return (
@@ -475,6 +473,7 @@ const Employees: React.FC = () => {
             kpiTitle="All Activity"
             showRelatedTable={showAllActivityTable}
             setShowRelatedTable={setShowAllActivityTable}
+            setSelectedValueForChartSlice={setSelectedValueForChartSlice}
           />
         </>
       )}

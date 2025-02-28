@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  billerUnbilledRequest,
   cancellationSummaryRequest,
   changeLocation,
   discountSummaryRequest,
-  hourlySalesReportChartRequest,
-  locationDetailsRequest,
   offerSummaryRequest,
   paymentDetailsRequest,
   salesByChannelRequest,
@@ -22,7 +19,6 @@ import ReportsNotFound from "components/reportComponents/ReportsNotFound";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
 import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
-import DiscountAndVoidedOrders from "components/reportComponents/chart/DiscountAndVoidedOrders";
 import ChannelSalesChart from "components/reportComponents/chart/channelChart";
 import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
 import StoreFilter from "components/reportComponents/StoreFilter";
@@ -48,17 +44,17 @@ import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 
 // import TenderType from "components/reportComponents/TendorTypeCard";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
-import LinearBarChart from "pages/CategoryReport/barChart";
-import DoughnutChart from "pages/CategoryReport/doughnutChart";
+// import DownloadPopOver from "pages/CategoryReport/downloadOption";
+// import LinearBarChart from "pages/CategoryReport/barChart";
+// import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
 import { NewTableHeader } from "interface/newReportsInterface";
-import moment from "moment";
 import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
+import useDateFilter from "hooks/useDateFilter";
 // import { useSalesOverview } from "./useSalessOverview";
 
-interface ReportProps {}
+interface ReportProps { }
 
 interface TenderTypeItem {
   paymentMode: string;
@@ -91,7 +87,7 @@ interface TenderTypeItem {
   offPremSales?: number;
 }
 
-const SalesOverview: React.FC<ReportProps> = ({}) => {
+const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
@@ -107,36 +103,18 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
     useState<number>(10);
 
-  const mappedIdWithBranchName = restaurantDetails?.map(
-    (branchWithId: any) => ({
-      value: branchWithId?.id,
-      label: branchWithId?.locationName,
-    })
-  );
+  const { startDate, endDate, handleDateChange } = useDateFilter();
 
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
     value: "Yesterday",
   });
 
-  const [appliedStartDate, setAppliedStartDate] = useState<string>(
-    moment().subtract(1, "days").format("YYYY-MM-DD")
-  );
-  const [appliedEndDate, setAppliedEndDate] = useState<string>(
-    moment().subtract(1, "days").format("YYYY-MM-DD")
-  );
 
   const datepickerApply = (data1: any, data2: any) => {
-    console.log(data1, data2, "selected Date is here");
-    setAppliedStartDate(data1);
-    setAppliedEndDate(data2);
+    handleDateChange("Custom Date", data1, data2);
   };
 
-  useEffect(() => {
-    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
-    setAppliedStartDate(yesterday);
-    setAppliedEndDate(yesterday);
-  }, []);
   const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>(
     {}
   );
@@ -163,9 +141,16 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const staffSalesData = useSelector(
     (state: any) => state?.newReports?.staffSalesData?.content
   );
+
+  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading)
+
   const salesCardTypeData = useSelector(
     (state: any) => state?.newReports?.salesCardTypeData?.content
   );
+
+  const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
+
+
   const salesCategory = useSelector(
     (state: any) => state?.newReports?.salesByItemCategorySuccess
   );
@@ -192,15 +177,29 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const salesByChannel = useSelector(
     (state: any) => state?.newReports?.salesByChannelData?.content
   );
+
+  const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading)
+
   const salesByRevenueClass = useSelector(
     (state: any) => state?.newReports?.salesByRevenueClassSuccess?.content
   );
+
+  const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading)
+
   const offerSummary = useSelector(
     (state: any) => state?.newReports?.offerSummaryData?.content
   );
+
+  const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading)
+
   const voidedOrderSummary = useSelector(
     (state: any) => state?.newReports?.voidedOrderSummaryData?.content
   );
+
+  const voidedOrderSummaryLoader = useSelector(
+    (state: any) => state?.newReports?.voidedOrderSummaryLoading
+  );
+
   const getPremisesSummary = useSelector(
     (state: any) => state?.newReports?.premisesSummaryData?.content
   );
@@ -243,8 +242,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   useEffect(() => {
     console.log(
       "Heree eit iss 00000000000000",
-      appliedEndDate,
-      appliedStartDate
+      endDate,
+      startDate
     );
 
     Promise.all([
@@ -253,8 +252,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -262,8 +261,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -271,8 +270,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -280,8 +279,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -289,8 +288,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -298,8 +297,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -307,8 +306,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -316,8 +315,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate
         })
       ),
       dispatch(
@@ -325,8 +324,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -334,8 +333,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -343,12 +342,12 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           locationid: selectedLocation?.value,
           tableRecordLimit: 100,
           tablePageNo: 1,
-          startDate: appliedStartDate,
-          endDate: appliedEndDate,
+          startDate: startDate,
+          endDate: endDate,
         })
       ),
     ]);
-  }, [selectedLocation, appliedStartDate, appliedEndDate]);
+  }, [selectedLocation, startDate, endDate]);
 
   const arrayToObject = (arr: TenderTypeItem[] = []) => {
     const premise: any = (arr: TenderTypeItem[] = []) => {
@@ -358,15 +357,15 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         acc[`${item?.paymentMode}-${item?.cardType}-${item?.premises}`] =
           item?.premises === "OFFPREM"
             ? {
-                ...prevData,
-                offPremSales: item?.totalSales,
-                offPremOrders: item?.totalOrders,
-              }
+              ...prevData,
+              offPremSales: item?.totalSales,
+              offPremOrders: item?.totalOrders,
+            }
             : {
-                ...prevData,
-                onPremSales: item?.totalSales,
-                onPremOrders: item?.totalOrders,
-              };
+              ...prevData,
+              onPremSales: item?.totalSales,
+              onPremOrders: item?.totalOrders,
+            };
 
         return acc;
       }, {} as Record<string, TenderTypeItem>);
@@ -397,8 +396,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const countryCode = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.country
   );
-  const currencySymbol = countryCode === "US" ? "$" : "₹";
-  
+
   const discountTableHeaders: NewTableHeader[] = [
     { key: "orderNo", label: `Order number`, isSortable: true, alignment: "left" },
     {
@@ -466,10 +464,11 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         dispatch(
           discountSummaryRequest({
             locationid: selectedLocation?.value,
-            startDate: "2025-01-25",
-            endDate: "2025-02-24",
+            startDate: startDate,
+            endDate: endDate,
             tablePageNo: currentPageOfferDiscount,
             tableRecordLimit: currentRowsOfferDiscount,
+            search: value,
           })
         );
         break;
@@ -477,8 +476,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         dispatch(
           cancellationSummaryRequest({
             locationid: selectedLocation?.value,
-            startDate: "2025-01-25",
-            endDate: "2025-02-24",
+            startDate: startDate,
+            endDate: endDate,
             tablePageNo: currentPageVoiddedOrders,
             tableRecordLimit: currentRowsVoiddedOrders,
             search: searchQuery,
@@ -495,10 +494,13 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     }
   };
 
-  const handleSummaryView=(view:string)=>{
+  const [offerType, setOfferType] = useState<string>("")
+
+  const handleSummaryView = (view: string, data: any) => {
     setViewType(view);
+    setOfferType(data?.label);
   }
-  
+
   return (
     <>
       {viewType === "default" ? (
@@ -656,7 +658,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
                     tenderType?.["Card Swipe-DEBIT"]?.offPremSales || 0
                   }
                   loader={tendorTypesLoader}
-                  // loader={true}
+                // loader={true}
                 />
                 <TenderType
                   icon={<KeyedInIcon />}
@@ -843,26 +845,26 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           </div>
 
           <h2 className="sales-overview-sub-heading ">By Card Type</h2>
-          <CardTypeChart dataList={salesCardTypeData} />
+          <CardTypeChart dataList={salesCardTypeData} loader={salesCardTypeDataLoading} />
 
           <h2 className="sales-overview-sub-heading ">By Employees</h2>
-          <EmployeeSalesChart dataList={staffSalesData} />
+          <EmployeeSalesChart dataList={staffSalesData} loader={staffSalesLoading} />
 
           <h2 className="sales-overview-sub-heading ">By Channel</h2>
-          <ChannelSalesChart dataList={salesByChannel} />
+          <ChannelSalesChart dataList={salesByChannel} loader={salesByChannelLoading} />
 
           <div className="sales-overview-doughnut-chart-container">
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={()=>handleSummaryView("discountOffer")}/>
+              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={(data: any) => handleSummaryView("discountOffer", data)} loader={offerSummaryLoading} />
             </div>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={()=>handleSummaryView("voidedOrder")}/>
+              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={(data: any) => handleSummaryView("voidedOrder", data)} loader={voidedOrderSummaryLoader} />
             </div>
           </div>
           <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-          <RevenueClassChart dataList={salesByRevenueClass} />
+          <RevenueClassChart dataList={salesByRevenueClass} loader={salesByRevenueClassLoading} />
         </>
       ) : viewType === "discountOffer" ? (
         <>
@@ -877,7 +879,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               </button>
             </div>
             <NewTable
-              kpiTitle="By Discount - Student offer"
+              kpiTitle={`By discount - ${offerType}`}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
               headerData={discountTableHeaders}
@@ -907,7 +909,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             </button>
           </div>
           <NewTable
-            kpiTitle="Voided Orders - Closing Time"
+            kpiTitle={`Voided orders - ${offerType}`}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             headerData={voidedTableHeaders}

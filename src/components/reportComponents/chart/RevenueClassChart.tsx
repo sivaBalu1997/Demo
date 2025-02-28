@@ -9,6 +9,7 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
+import BarChartShimmer from "../Charts/BarChartShimmer";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 interface ChartData {
@@ -28,15 +29,16 @@ const chartDatas: ChartData[] = [
 
 interface RevenueChartProps {
   dataList:
-    | Array<{
-        [key: string]: any;
-      }>
-    | {
-        [key: string]: any;
-      };
+  | Array<{
+    [key: string]: any;
+  }>
+  | {
+    [key: string]: any;
+  };
+  loader: boolean;
 }
 
-const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList=[] }) => {
+const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader }) => {
   //   {
   //     "revenueClass": "Beverages",
   //     "itemsSold": 23,
@@ -102,6 +104,8 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList=[] }) => {
       y: { beginAtZero: true },
     },
   };
+
+  if (loader) return <BarChartShimmer />
 
   return (
     <div style={{ width: "100%", height: "500px" }}>
