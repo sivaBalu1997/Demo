@@ -183,6 +183,7 @@
     padding-right: 108px;
     padding-top: 4.5%;
     box-sizing: border-box;
+
     @media (max-width: 1024px) {
       padding-right: 39px;
     }
@@ -333,6 +334,7 @@
       justify-content: center;
       width: 100%;
       margin-top: 83px;
+      
       & img {
         width: 245.41px;
         height: 215px;
@@ -347,6 +349,7 @@
     }
     @media (max-width: 575px) {
       width: 100%;
+
     }
   }
 
@@ -725,6 +728,8 @@ iframe {
 .restaurant-name-container {
   padding-left: 1rem;
   line-height: 1em;
+  color: #000000;
+
   @media (max-width: 1024px) {
     padding-left: 0;
   }
@@ -745,10 +750,11 @@ iframe {
 
 .reportData-mobile {
   margin-top: 25px;
-  display: none;
+  // display: none;
 
   @media (max-width: 575px) {
     display: flex;
+    padding-bottom: 50px;
   }
 }
 
