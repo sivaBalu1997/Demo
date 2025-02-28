@@ -126,7 +126,9 @@ const CategoryReport = (props) => {
     const day = String(d.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-
+useEffect(()=>{
+  console.log(categoryChannelSummaryData,"Here is the voided summary")
+},[categoryChannelSummaryData])
   const getDateFromOption = (option) => {
     const today = new Date();
     switch (option) {
@@ -343,7 +345,7 @@ const CategoryReport = (props) => {
                 </h1>
                 <DownloadPopOver />
               </div>
-              <LinearBarChartCategorySales dataList={voidedSummaryData} barColorCode={"#7D7774"} loader={voidedSummaryDataLoading}/>
+              <LinearBarChartCategorySales dataList={voidedSummaryData} barColorCode={"#AA562A"} loader={voidedSummaryDataLoading}/>
             </div>
           ) : (
             ""
