@@ -132,7 +132,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     (state: any) => state?.newReports?.paymentDetailsData
   );
 
-
   // console.log("LLLLLLLLL", { tendorTypes })
 
   const tendorTypesLoader = useSelector(

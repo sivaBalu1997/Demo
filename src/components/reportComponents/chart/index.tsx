@@ -86,14 +86,14 @@ const CardTypeChart = ({
             const total = data.datasets.reduce((sum, dataset) => {
               return sum + (dataset.data[index] as number);
             }, 0);
-            return `${tooltipItems[0].label} - $${total.toFixed(2)}`;
+            return `${tooltipItems[0].label} - $${total?.toFixed(2)}`;
           },
           label: (tooltipItem: TooltipItem<"bar">) => {
             const index = tooltipItem.dataIndex;
             return data.datasets.map((dataset) => {
               const cardType = dataset.label || "";
               const value = dataset.data[index] as number;
-              return `${cardType}:  $${value.toFixed(2)}`;
+              return `${cardType}:  $${value?.toFixed(2)}`;
             });
           },
         },
