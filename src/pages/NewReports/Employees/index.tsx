@@ -21,6 +21,7 @@ import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
 import { RootState } from "redux/rootReducer";
 import useDateFilter from "hooks/useDateFilter";
+import { transformSalesData } from "utils";
 
 const Employees: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState({
@@ -355,11 +356,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.totalSalesPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalSalesPercentage)}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -373,11 +370,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.netSalesPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.netSalesPercentage)}       
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -389,11 +382,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.totalTaxPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)} 
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -405,11 +394,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)} 
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -421,11 +406,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.gratuityPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.gratuityPercentage)} 
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -437,11 +418,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.discountPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.discountPercentage)} 
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -453,11 +430,8 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={
-                  employeeSalesOverViewFromAPIRedux?.cancelledPercentage > 0
-                    ? "increment"
-                    : "decrement"
-                }
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.cancelledPercentage)} 
+  
                 showMiniGraph={true}
               />
             </div>

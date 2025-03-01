@@ -60,3 +60,21 @@ export interface SortConfig {
   key: string;
   direction: 'asc' | 'desc' | null;
 }
+
+export interface ICardWithMiniGraphProps {
+  cardTitle: string | undefined | null | "";
+  cardValue: number | string | undefined | "" | null;
+  isMonetary: boolean;
+  showMiniGraph?: boolean;
+  incrementDecrementValue?: number | string | undefined | "" | null;
+  incrementOrDecrement?:IncrementOrDecrementTypeEnum;
+  loader?: boolean;
+  isPercent?: boolean;
+  graphType?: "chart" | "arrow"
+}
+
+export enum IncrementOrDecrementTypeEnum {
+  INCREMENT = "increment",
+  DECREMENT = "decrement",
+  NULL=""
+}

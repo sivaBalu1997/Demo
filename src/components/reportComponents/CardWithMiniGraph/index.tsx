@@ -8,20 +8,10 @@ import { ReactComponent as GainArrowIcon } from "../../../assets/svg/gainarrow1.
 import { useSelector } from "react-redux";
 import "./style.scss";
 import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
+import { ICardWithMiniGraphProps } from "interface/newReportsInterface";
 
-interface CardWithMiniGraphProps {
-    cardTitle: string | undefined | null | "";
-    cardValue: number | string | undefined | "" | null;
-    isMonetary: boolean;
-    showMiniGraph?: boolean;
-    incrementDecrementValue?: number | string | undefined | "" | null;
-    incrementOrDecrement?: "increment" | "decrement";
-    loader?: boolean;
-    isPercent?: boolean;
-    graphType?: "chart" | "arrow"
-}
 
-const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
+const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
     cardTitle,
     cardValue,
     showMiniGraph,
@@ -30,6 +20,7 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
     incrementOrDecrement,
     loader,
     isPercent,
+    
     graphType = "chart"
 }) => {
     const countryCode = useSelector(
@@ -53,7 +44,7 @@ const CardWithMiniGraph: React.FC<CardWithMiniGraphProps> = ({
             </div>
 
 
-            {showMiniGraph && (
+            {showMiniGraph && incrementOrDecrement && (
                 <div className="mini-graph-container">
                     <div className="increment-decrement-value">
                         {incrementOrDecrement === "increment" ? (
