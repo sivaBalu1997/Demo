@@ -112,7 +112,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     value: "Yesterday",
   });
 
-
   const datepickerApply = (data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
@@ -135,7 +134,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     (state: any) => state?.newReports?.paymentDetailsData
   );
 
-
   // console.log("LLLLLLLLL", { tendorTypes })
 
   const tendorTypesLoader = useSelector(
@@ -152,14 +150,17 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     (state: any) => state?.newReports?.staffSalesData?.content
   );
 
-  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading)
+  const staffSalesLoading = useSelector(
+    (state: any) => state?.newReports?.staffSalesLoading
+  );
 
   const salesCardTypeData = useSelector(
     (state: any) => state?.newReports?.salesCardTypeData?.content
   );
 
-  const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
-
+  const salesCardTypeDataLoading = useSelector(
+    (state: any) => state?.newReports?.salesCardTypeLoading
+  );
 
   const salesCategory = useSelector(
     (state: any) => state?.newReports?.salesByItemCategorySuccess
@@ -188,19 +189,25 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     (state: any) => state?.newReports?.salesByChannelData?.content
   );
 
-  const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading)
+  const salesByChannelLoading = useSelector(
+    (state: any) => state?.newReports?.salesByChannelLoading
+  );
 
   const salesByRevenueClass = useSelector(
     (state: any) => state?.newReports?.salesByRevenueClassSuccess?.content
   );
 
-  const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading)
+  const salesByRevenueClassLoading = useSelector(
+    (state: any) => state?.newReports?.salesByRevenueClassLoading
+  );
 
   const offerSummary = useSelector(
     (state: any) => state?.newReports?.offerSummaryData?.content
   );
 
-  const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading)
+  const offerSummaryLoading = useSelector(
+    (state: any) => state?.newReports?.offerSummaryLoading
+  );
 
   const voidedOrderSummary = useSelector(
     (state: any) => state?.newReports?.voidedOrderSummaryData?.content
@@ -213,7 +220,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const getPremisesSummary = useSelector(
     (state: any) => state?.newReports?.premisesSummaryData?.content
   );
-
 
   //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
   const dispatch = useDispatch();
@@ -247,15 +253,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     voidedOrderSummary,
   ]);
 
+  useEffect(() => {
+    console.log(tenderType);
+  }, [tenderType]);
   /******************************************************************************************* */
 
   useEffect(() => {
-    console.log(
-      "Heree eit iss 00000000000000",
-      endDate,
-      startDate
-    );
-
     Promise.all([
       dispatch(
         paymentDetailsRequest({
@@ -326,7 +329,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           tableRecordLimit: 100,
           tablePageNo: 1,
           startDate: startDate,
-          endDate: endDate
+          endDate: endDate,
         })
       ),
       dispatch(
@@ -408,7 +411,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   );
 
   const discountTableHeaders: NewTableHeader[] = [
-    { key: "orderNo", label: `Order number`, isSortable: true, alignment: "left" },
+    {
+      key: "orderNo",
+      label: `Order number`,
+      isSortable: true,
+      alignment: "left",
+    },
     {
       key: "orderType",
       label: `Order type`,
@@ -432,10 +440,15 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       label: `Discounted amount`,
       isSortable: true,
       alignment: "right",
-    }
+    },
   ];
   const voidedTableHeaders: NewTableHeader[] = [
-    { key: "orderNo", label: `Order number`, isSortable: true, alignment: "left" },
+    {
+      key: "orderNo",
+      label: `Order number`,
+      isSortable: true,
+      alignment: "left",
+    },
     {
       key: "orderType",
       label: `Order type`,
@@ -465,7 +478,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       label: `Refunded amount`,
       isSortable: true,
       alignment: "right",
-    }
+    },
   ];
 
   const handleSearch = (value: string, kpiTitle: string) => {
@@ -504,7 +517,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }
   };
 
-  const [offerType, setOfferType] = useState<string>("")
+  const [offerType, setOfferType] = useState<string>("");
 
   const handleSummaryView = (view: string, data: any) => {
     setViewType(view);
@@ -919,26 +932,52 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </div>
 
           <h2 className="sales-overview-sub-heading ">By Card Type</h2>
-          <CardTypeChart dataList={salesCardTypeData} loader={salesCardTypeDataLoading} />
+          <CardTypeChart
+            dataList={salesCardTypeData}
+            loader={salesCardTypeDataLoading}
+          />
 
           <h2 className="sales-overview-sub-heading ">By Employees</h2>
-          <EmployeeSalesChart dataList={staffSalesData} loader={staffSalesLoading} />
+          <EmployeeSalesChart
+            dataList={staffSalesData}
+            loader={staffSalesLoading}
+          />
 
           <h2 className="sales-overview-sub-heading ">By Channel</h2>
-          <ChannelSalesChart dataList={salesByChannel} loader={salesByChannelLoading} />
+          <ChannelSalesChart
+            dataList={salesByChannel}
+            loader={salesByChannelLoading}
+          />
 
           <div className="sales-overview-doughnut-chart-container">
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              <DoughnutChartWithButton dataList={offerSummary} countryCode={countryCode} handleClick={(data: any) => handleSummaryView("discountOffer", data)} loader={offerSummaryLoading} />
+              <DoughnutChartWithButton
+                dataList={offerSummary}
+                countryCode={countryCode}
+                handleClick={(data: any) =>
+                  handleSummaryView("discountOffer", data)
+                }
+                loader={offerSummaryLoading}
+              />
             </div>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              <DoughnutChartWithButtonVoided dataList={voidedOrderSummary} countryCode={countryCode} handleClick={(data: any) => handleSummaryView("voidedOrder", data)} loader={voidedOrderSummaryLoader} />
+              <DoughnutChartWithButtonVoided
+                dataList={voidedOrderSummary}
+                countryCode={countryCode}
+                handleClick={(data: any) =>
+                  handleSummaryView("voidedOrder", data)
+                }
+                loader={voidedOrderSummaryLoader}
+              />
             </div>
           </div>
           <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-          <RevenueClassChart dataList={salesByRevenueClass} loader={salesByRevenueClassLoading} />
+          <RevenueClassChart
+            dataList={salesByRevenueClass}
+            loader={salesByRevenueClassLoading}
+          />
         </>
       ) : viewType === "discountOffer" ? (
         <>

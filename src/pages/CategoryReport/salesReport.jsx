@@ -22,7 +22,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
       categorySet.add(categoryName);
       channelSet.add(channelName);
     });
-    
+    console.log(datalist ,"The whole data i")
     const labels = Array.from(categorySet);
     const channels = Array.from(channelSet);
     
@@ -32,16 +32,16 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
         backgroundColor: colorList?.[index]||"#E87C3D",
         data: labels.map((category) => {
           const entry = datalist.find(
-            (item) => item.categoryName === category );
-          return entry ? entry.totalAmount : 0;
+            (item) => item.categoryName === category &&item.channelName === channel );
+          return entry ? entry?.totalAmount : 0;
         }),
       };
     });
-    
+
     return { labels, datasets };
+    
   }
   
-
 
 
 
@@ -57,6 +57,9 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
         borderWidth: 1,
         displayColors: false, // Hide color boxes
         titleColor: "#000",
+        titleFont: { weight: "normal", size: 14, family: "Poppins" }, // Title font size set to 14px
+        titleMarginBottom: 2,
+        bodyFont: { size: 14, family: "Poppins" }, // Body font size set to 14px
         bodyColor: "#000",
         cornerRadius: 4,
         caretSize: 0,
@@ -69,9 +72,12 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
           },
           // The label callback returns two lines: Channel and Sales
           label: (tooltipItem) => {
+            // tooltipItem.label="appetizers"
+            // tooltipItem.dataset.label="dineIn"
+            // console.log(tooltipItem,"Here is th tooltip item");
             const channel = tooltipItem.dataset.label;
-            const value = tooltipItem.raw;
-            return [`Channel: ${channel}`, `Sales: $${value.toFixed(2)}`];
+            const value = dataList?.find(data=>data.categoryName==tooltipItem.label&&data.channelName==tooltipItem.dataset.label)?.totalAmount
+            return [`Channel: ${channel}`, `Sales: $${value?.toFixed(2)}`];
           },
         },
       },
@@ -109,7 +115,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
     },
   };
 const data=transformData(dataList)
-
+console.log("data is loaded from",data)
 if(loader) return <BarChartShimmer />
 
   return (

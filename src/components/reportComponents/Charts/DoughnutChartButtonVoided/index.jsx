@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter, getRandomColor } from "utils";
 import DoughnutChartShimmer from "../DoughnutChartShimmer";
- 
+
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 // {
@@ -31,7 +31,11 @@ const centerTextPlugin = {
     ctx.font = "16px Poppins";
     ctx.fillText("Total", centerX, centerY - 10);
     ctx.font = "24px Poppins";
-    ctx.fillText(chart.config.options.voidedAmount, centerX, centerY + 15);
+    ctx.fillText(
+      chart.config.options.voidedAmount || "$0",
+      centerX,
+      centerY + 15
+    );
     ctx.restore();
   },
 };
@@ -39,7 +43,7 @@ function DoughnutChartWithButtonVoided({
   dataList = [],
   countryCode,
   handleClick = (data) => {},
-  loader
+  loader,
 }) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
@@ -168,22 +172,33 @@ function DoughnutChartWithButtonVoided({
         color: colors[index],
         items: Number(slice?.orderCount || 0),
         amount: Number(slice?.voidedItems || 0),
-        voidedAmount:Number(slice?.voidedAmount || 0),
+        voidedAmount: Number(slice?.voidedAmount || 0),
       }));
-      console.log(dataList,"here is the slice data 77777777777777777777777777777777")
+      console.log(
+        dataList,
+        "here is the slice data 77777777777777777777777777777777"
+      );
+      setvoidedAmount(formattedTotal);
       setSlices(sliceData);
+      setReRenderChart(true);
+
       // const initTimer = setTimeout(() => {
       //   // setReRenderChart(false);
       // }, 1000);
       // return () => clearTimeout(initTimer);
+    } else {
+      setSlices([]);
+
+      // Handle empty state
+      setvoidedAmount("$0");
+      // setSlices([]);
     }
   }, [dataList, countryCode]);
-  useEffect(()=>{
-    if(reRenderChart){
-      setReRenderChart(false)
-      
+  useEffect(() => {
+    if (reRenderChart) {
+      setReRenderChart(false);
     }
-  },[reRenderChart])
+  }, [reRenderChart]);
   // Update window width on resize to trigger re-render.
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -191,6 +206,12 @@ function DoughnutChartWithButtonVoided({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const computeLabelPositions = useCallback(() => {
+    if (
+      !chartRef.current ||
+      !chartRef.current.canvas ||
+      !document.body.contains(chartRef.current.canvas)
+    )
+      return; // Guard clause
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
@@ -223,7 +244,11 @@ function DoughnutChartWithButtonVoided({
       });
       observer.observe(containerRef.current);
     }
-    return () => observer?.disconnect();
+    return () => {
+      if (observer.current && containerRef.current) {
+        observer.current.unobserve(containerRef.current);
+      }
+    };
   }, []);
   // Recompute label positions when windowWidth changes.
   useEffect(() => {
@@ -237,7 +262,18 @@ function DoughnutChartWithButtonVoided({
         computeLabelPositions();
       });
       resizeObserver.observe(containerRef.current);
-      return () => resizeObserver.disconnect();
+      return () => {
+        // Cleanup chart instance
+        if (chartRef.current) {
+          chartRef.current.destroy();
+          chartRef.current = null;
+        }
+
+        // Cleanup resize observer
+        if (resizeObserver.current && containerRef.current) {
+          resizeObserver.current.unobserve(containerRef.current);
+        }
+      };
     }
   }, [containerRef, computeLabelPositions]);
 
@@ -275,14 +311,14 @@ function DoughnutChartWithButtonVoided({
     responsive: true,
     maintainAspectRatio: false,
     cutout: "80%",
-    onHover: handleHover,   
+    onHover: handleHover,
     layout: {
       padding: {
         top: 35,
         // bottom: 60,
         // left: 25,
         // right: 25
-      }
+      },
     },
     voidedAmount: voidedAmount, // Pass total sales to plugin
     plugins: {
@@ -293,18 +329,27 @@ function DoughnutChartWithButtonVoided({
     animation: {
       onComplete: () => {
         computeLabelPositions();
-      }}
+      },
+    },
   };
 
-  if(loader) return <DoughnutChartShimmer />
- 
+  if (loader) return <DoughnutChartShimmer />;
+  const renderChart = () => (
+    <Doughnut
+      ref={chartRef}
+      data={data}
+      options={options}
+      plugins={[centerTextPlugin]}
+      //  redraw={reRenderChart}
+    />
+  );
   return (
     <div
       ref={containerRef}
       style={{
         width: "100%",
         maxWidth: "550px",
-        height: dataList?.length>7?"650px": "450px",
+        height: dataList?.length > 7 ? "650px" : "450px",
         position: "relative",
         overflow: "visible",
         padding: "20px 5px",
@@ -316,13 +361,15 @@ function DoughnutChartWithButtonVoided({
       }}
     >
       <Doughnut
+              key={JSON.stringify(
+   
+              )}
         ref={chartRef}
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-        // redraw={reRenderChart}
+         redraw={reRenderChart}
       />
-
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
         slices.map((slice, index) => {
