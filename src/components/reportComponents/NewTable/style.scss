@@ -37,7 +37,7 @@ $text-secondary: #6b7280;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 95%;
-  height: 66.5vh;
+  height: 120%;
   // background-color: pink;
   // border: 1px solid red;
   position: relative;
@@ -185,7 +185,8 @@ $text-secondary: #6b7280;
   }
 
   .table-wrapper {
-    max-height: calc(66.5vh - 3rem);
+    // max-height: calc(66.5vh - 3rem); //max height commented out in-order to get the dynamic height based on the record limit
+    height: fit-content;
     // max-height: fit-content;
     // max-height: max-content;
     overflow-x: auto;

@@ -870,7 +870,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
           </div>
 
-          <h2 className="sales-overview-sub-heading ">By Card Type</h2>
+          <h2 className="sales-overview-sub-heading ">Card Type</h2>
           <CardTypeChart
             dataList={salesCardTypeData}
             loader={salesCardTypeDataLoading}

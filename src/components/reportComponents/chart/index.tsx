@@ -39,7 +39,7 @@ const CardTypeChart = ({
         data: dataList
           ?.filter((item: any) => item?.cardType === "CREDIT")
           ?.map((item: any) => item?.totalSales || 0),
-        backgroundColor: "#2196F3", // Blue
+        backgroundColor: "#2682D9", // Blue
         barPercentage: 0.7,
         categoryPercentage: 0.6,
         // barThickness: 80,
@@ -50,7 +50,7 @@ const CardTypeChart = ({
         data: dataList
           ?.filter((item: any) => item?.cardType === "DEBIT")
           ?.map((item: any) => item?.totalSales || 0),
-        backgroundColor: "#D98F2B", // Orange
+        backgroundColor: "#F89B29", // Orange
         barPercentage: 0.7,
         categoryPercentage: 0.6,
         // barThickness: 80,//TODO: check for larger no of bars

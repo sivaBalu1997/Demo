@@ -370,7 +370,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.netSalesPercentage)}       
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.netSalesPercentage)}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -382,7 +382,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.totalTaxPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)} 
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -394,7 +394,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)} 
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -406,7 +406,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.gratuityPercentage)} 
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.gratuityPercentage)}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -418,7 +418,7 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.discountPercentage)} 
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.discountPercentage)}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
@@ -430,8 +430,8 @@ const Employees: React.FC = () => {
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.cancelledPercentage)} 
-  
+                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.cancelledPercentage)}
+
                 showMiniGraph={true}
               />
             </div>
@@ -449,6 +449,26 @@ const Employees: React.FC = () => {
             setShowRelatedTable={setShowAllActivityTable}
             setSelectedValueForChartSlice={setSelectedValueForChartSlice}
           />
+          {/* <NewTable
+            kpiTitle="Employee Void Activity"
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            headerData={newTableHeaders}
+            tableData={
+              employeeVoidActivityAPIRedux &&
+              employeeVoidActivityAPIRedux?.length > 0 &&
+              employeeVoidActivityAPIRedux
+            }
+            currentPage={currentPageEmployeeVoidActivity}
+            totalPages={employeeVoidActivityTotalPagesRedux}
+            onPageChange={setCurrentPageEmployeeVoidActivity}
+            rowsPerPage={employeeVoidRecordLimit}
+            setRowsPerPage={setEmployeeVoidRecordLimit}
+            loader={employeeVoidActivityLoading}
+            count={employeeVoidActivityAPIRedux?.length}
+            searchPlaceHolder="Search By Steward, Voided reasons"
+            onSearch={handleSearch}
+          /> */}
         </>
       )}
     </div>

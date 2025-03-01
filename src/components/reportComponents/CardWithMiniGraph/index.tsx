@@ -20,7 +20,7 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
     incrementOrDecrement,
     loader,
     isPercent,
-    
+
     graphType = "chart"
 }) => {
     const countryCode = useSelector(
@@ -49,12 +49,12 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
                     <div className="increment-decrement-value">
                         {incrementOrDecrement === "increment" ? (
                             <>
-                                <IncrementArrow />
+                                {/* <IncrementArrow /> */}
                                 <span style={{ color: incrementOrDecrement === "increment" ? "#14AE26" : "#FB2C36" }}>{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}{isPercent ? "%" : ""}</span>
                             </>
                         ) : (
                             <>
-                                <DecrementArrow />
+                                {/* <DecrementArrow /> */}
                                 <span style={{ color: incrementOrDecrement === "decrement" ? "#FB2C36" : "#14AE26" }}>{incrementDecrementValue !== null && incrementDecrementValue !== undefined && incrementDecrementValue !== "" ? incrementDecrementValue : "0"}
                                     {isPercent ? "%" : ""}
                                 </span>

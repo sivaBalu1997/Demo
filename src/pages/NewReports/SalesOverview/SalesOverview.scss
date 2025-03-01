@@ -83,6 +83,10 @@
 
   .total-sales-info-container {
     position: relative;
+    // background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .total-sales-info-content {
       display: none;
     }
