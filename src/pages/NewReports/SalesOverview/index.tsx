@@ -87,6 +87,8 @@ interface TenderTypeItem {
   offPremSales?: number;
 }
 
+type SalesData = Record<string, string | number>;
+
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
@@ -509,6 +511,69 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     setOfferType(data?.label);
   }
 
+  const transformSalesData = (data: SalesData): SalesData => {
+    const transformedData: SalesData = {};
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (typeof value === "string") {
+        let numValue = parseFloat(value);
+
+        // If value is negative and decimal, divide by 10
+        if (numValue < 0 && numValue > -1) {
+          numValue = parseFloat((numValue / 10).toFixed(2));
+        }
+
+        // If value is 0 or "0.00", return as "0.00"
+        if (numValue === 0) {
+          transformedData[key] = "0.00";
+        } else {
+          transformedData[key] = numValue % 1 === 0 ? numValue : parseFloat(numValue.toFixed(2));
+        }
+      } else {
+        // Ensure numeric 0 is also returned as "0.00"
+        transformedData[key] = value === 0 ? "0.00" : value;
+      }
+    });
+
+    return transformedData;
+  };
+
+
+  // Example usage:
+  const rawData = {
+    totalMagilOrders: 906,
+    totalMagilSales: "134575.43",
+    totalMagilNetSales: "113512.04",
+    totalMagilTax: "7131.25",
+    totalMagilServiceFee: "8677.05",
+    totalMagilTips: "4008.57",
+    totalMagilDeliveryCharges: 0,
+    totalConvenienceFee: "1246.52",
+    totalCardProcessingFee: "142.91",
+    totalOrdersIncludingThirdparty: 913,
+    totalGrossSalesIncludingThirdparty: "135587.78",
+    totalNetSalesIncludingThirdparty: "114461.03",
+    totalTaxIncludingThirdparty: "7194.13",
+    discounts: "2128.24",
+    gratuity: "0",
+    cancelledOrders: "17806",
+    totalSalesPercentage: "-1.00",
+    netSalesPercentage: "-2",
+    totalTaxPercentage: "-0.09",
+    totalTipsPercentage: "0.00",
+    gratuityPercentage: "0.00",
+    transactionPercentage: 0,
+    discountPercentage: "0.00",
+    cancelledPercentage: 0,
+  };
+
+  const convertedData = transformSalesData(rawData);
+  console.log({ convertedData });
+
+  const convertedToNumSummary = transformSalesData(salesSummary)
+  console.log({ convertedToNumSummary })
+
+
   return (
     <>
       {viewType === "default" ? (
@@ -546,92 +611,93 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             <div className="todays-report-sales-overview-box-container">
               <CardWithMiniGraph
                 cardTitle="Total Sales"
-                cardValue={salesSummary?.totalMagilSales}
-                incrementDecrementValue={salesSummary?.totalSalesPercentage}
+                cardValue={convertedToNumSummary?.totalMagilSales}
+                incrementDecrementValue={convertedToNumSummary?.totalSalesPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="increment"
+                showMiniGraph={convertedToNumSummary?.totalSalesPercentage !== "0.00" && convertedToNumSummary?.totalSalesPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.totalSalesPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Net Sales"
-                cardValue={salesSummary?.totalMagilNetSales}
-                incrementDecrementValue={salesSummary?.netSalesPercentage}
+                cardValue={convertedToNumSummary?.totalMagilNetSales}
+                incrementDecrementValue={convertedToNumSummary?.netSalesPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="increment"
+                showMiniGraph={convertedToNumSummary?.netSalesPercentage !== "0.00" && convertedToNumSummary?.netSalesPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.netSalesPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Total Tax"
-                cardValue={salesSummary?.totalMagilTax}
-                incrementDecrementValue={salesSummary?.totalTaxPercentage}
+                cardValue={convertedToNumSummary?.totalMagilTax}
+                incrementDecrementValue={convertedToNumSummary?.totalTaxPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="increment"
+                showMiniGraph={convertedToNumSummary?.totalTaxPercentage !== "0.00" && convertedToNumSummary?.totalTaxPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.totalTaxPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Total Tips"
-                cardValue={salesSummary?.totalMagilTips}
-                incrementDecrementValue={salesSummary?.totalTipsPercentage}
+                cardValue={convertedToNumSummary?.totalMagilTips}
+                incrementDecrementValue={convertedToNumSummary?.totalTipsPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="decrement"
+                showMiniGraph={convertedToNumSummary?.totalTipsPercentage !== "0.00" && convertedToNumSummary?.totalTipsPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.totalTipsPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Gratuity"
-                cardValue={salesSummary?.gratuity}
-                incrementDecrementValue={salesSummary?.gratuityPercentage}
+                cardValue={convertedToNumSummary?.gratuity}
+                incrementDecrementValue={convertedToNumSummary?.gratuityPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="decrement"
+                showMiniGraph={convertedToNumSummary?.gratuityPercentage !== "0.00" && convertedToNumSummary?.gratuityPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.gratuityPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Transactions"
-                cardValue={salesSummary?.totalMagilOrders}
-                incrementDecrementValue={salesSummary?.transactionPercentage}
+                cardValue={convertedToNumSummary?.totalMagilOrders}
+                incrementDecrementValue={convertedToNumSummary?.transactionPercentage}
                 isMonetary={false}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="increment"
+                showMiniGraph={convertedToNumSummary?.transactionPercentage !== "0.00" && convertedToNumSummary?.transactionPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.transactionPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Discount"
-                cardValue={salesSummary?.discounts}
-                incrementDecrementValue={salesSummary?.discountPercentage}
+                cardValue={convertedToNumSummary?.discounts}
+                incrementDecrementValue={convertedToNumSummary?.discountPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="decrement"
+                showMiniGraph={convertedToNumSummary?.discountPercentage !== "0.00" && convertedToNumSummary?.discountPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.discountPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
               <CardWithMiniGraph
                 cardTitle="Cancelled"
-                cardValue={salesSummary?.cancelledOrders}
-                incrementDecrementValue={salesSummary?.cancelledPercentage}
+                cardValue={convertedToNumSummary?.cancelledOrders}
+                incrementDecrementValue={convertedToNumSummary?.cancelledPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement="decrement"
+                showMiniGraph={convertedToNumSummary?.cancelledPercentage !== "0.00" && convertedToNumSummary?.cancelledPercentage !== 0}
+                incrementOrDecrement={Number(convertedToNumSummary?.cancelledPercentage) > 0 ? "increment" : "decrement"}
                 graphType="arrow"
                 isPercent={true}
               />
+
             </div>
           </div>
 
@@ -905,6 +971,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               // count={discountSummary?.length}
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
+
             />
           </div>
         </>
