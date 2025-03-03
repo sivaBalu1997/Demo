@@ -11,7 +11,6 @@ const predefinedColors = [
   "#ff0000", // Red
   "#0000ff", // Blue
   "#008000", // Green
-  "#ffff00", // Yellow
   "#ffA500", // Orange
   "#800080", // Purple
   "#ffc0cb", // Pink
@@ -20,7 +19,6 @@ const predefinedColors = [
   "#ff0000", // Red
   "#0000ff", // Blue
   "#008000", // Green
-  "#ffff00", // Yellow
   "#ffA500", // Orange
   "#800080", // Purple
   "#ffc0cb", // Pink
@@ -65,11 +63,11 @@ function DoughnutChartButtonVoided({
   const [totalSales, setTotalSales] = useState("$0");
   const [reRenderChart, setReRenderChart] = useState(true);
   const [slices, setSlices] = useState([]);
-  const [data, setData]=useState({
+  const [data, setData] = useState({
     labels: [],
     datasets: [
       {
-        data:[],
+        data: [],
         backgroundColor: [],
         borderWidth: 0,
         hoverOffset: 15,
@@ -173,7 +171,23 @@ function DoughnutChartButtonVoided({
     },
     plugins: {
       tooltip: { enabled: false },
-      legend: { position: "bottom", labels: { padding: 20, padding: 20,boxWidth: 12, boxHeight: 12,usePointStyle: true,pointStyle: "rectRounded", } },
+      legend: {
+        position: "bottom", labels: {
+          generateLabels: (chart) => {
+            const original = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
+            const labels = original(chart);
+
+            return labels.map(label => ({
+              ...label,
+              // Custom draw function to add border-radius
+              pointStyle: 'rectRounded',
+              borderRadius: 4, // This is not default, but helps if supported in future versions
+            }));
+          },
+          usePointStyle: true, // Needed to apply the pointStyle shape 
+          padding: 20, boxWidth: 12, boxHeight: 12
+        }
+      },
       datalabels: { display: false },
     },
     animation: {
@@ -184,92 +198,87 @@ function DoughnutChartButtonVoided({
   };
 
 
-// {
-//   "steward": "",
-//   "voidedAmount": "798.72",
-//   "voidedItems": "",
-//   "voidedReasons": "CHEF NOT AVAILABLE",
-//   "orderCount": 51128547
-// }
+  // {
+  //   "steward": "",
+  //   "voidedAmount": "798.72",
+  //   "voidedItems": "",
+  //   "voidedReasons": "CHEF NOT AVAILABLE",
+  //   "orderCount": 51128547
+  // }
 
 
   useEffect(() => {
 
     if (dataList?.length) {
-    const totalDisplay = dataList?.reduce(
-      (sum, item) => sum + (Number(item?.voidedAmount) || 0),
-      0
-    );
-
-    const formattedTotal = amountFormatter(totalDisplay, countryCode);
-    // Assign colors from predefined palette
-    const colors = dataList.map(
-      (_, index) => predefinedColors[index % predefinedColors.length]
-    );
-
-    setTotalSales(formattedTotal);
-
-    // Sort by totalSales (descending) **ensuring correct numeric sorting**
-    const sortedData = [...dataList].sort(
-      (a, b) => Number(b?.voidedAmount||0) - Number(a?.voidedAmount||0) 
-    );
-
-    // Get the top 10 records
-    const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-      label: slice?.voidedReasons,
-      value: ((Number(slice?.voidedAmount || 0) * 100) / totalDisplay)?.toFixed(
-        2
-      ),
-      color: colors[index],
-      items: Number(slice?.orderCount || 0),
-      amount: Number(slice?.voidedItems || 0),
-      voidedAmount: Number(slice?.voidedAmount || 0),
-    }));
-
-    // Sum remaining records into "Other"
-    const otherRecords = sortedData.slice(10);
-    let tempSlice=top10
-    if (otherRecords.length > 0) {
-      const otherSummary = otherRecords.reduce(
-        (acc, item) => {
-
-          acc.value += ((Number(item?.voidedAmount || 0) * 100) / totalDisplay)?.toFixed(
-            2
-          )
-
-          acc.items += Number(item?.orderCount || 0)
-          acc.amount += Number(item?.voidedItems || 0)
-          
-          acc.voidedAmount+= Number(item?.voidedAmount || 0)
-          return acc;
-        },
-        { label: "Other", value: 0, color: colors[10], items: 0, amount: 0,voidedAmount:0 }
+      const totalDisplay = dataList?.reduce(
+        (sum, item) => sum + (Number(item?.voidedAmount) || 0),
+        0
       );
-  
 
-      tempSlice=[...top10, otherSummary]
+      const formattedTotal = amountFormatter(totalDisplay, countryCode);
+      // Assign colors from predefined palette
+      const colors = dataList.map(
+        (_, index) => predefinedColors[index % predefinedColors.length]
+      );
 
-    }
-    const tempData = {
-      labels: tempSlice?.map((slice) => slice.label),
-      datasets: [
-        {
-          data: tempSlice.map((slice) => slice.value),
-          backgroundColor: tempSlice.map((slice) => slice.color),
-          borderWidth: 0,
-          hoverOffset: 15,
-        },
-      ],
-    };
-    setData(tempData);
+      setTotalSales(formattedTotal);
 
-    setReRenderChart(true);
-    setSlices(tempSlice);
+      // Sort by totalSales (descending) **ensuring correct numeric sorting**
+      const sortedData = [...dataList].sort(
+        (a, b) => Number(b?.voidedAmount || 0) - Number(a?.voidedAmount || 0)
+      );
+
+      // Get the top 10 records
+      const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
+        label: slice?.voidedReasons,
+        value: ((Number(slice?.voidedAmount || 0) * 100) / totalDisplay),
+        color: colors[index],
+        items: Number(slice?.orderCount || 0),
+        amount: Number(slice?.voidedItems || 0),
+        voidedAmount: Number(slice?.voidedAmount || 0),
+      }));
+
+      // Sum remaining records into "Other"
+      const otherRecords = sortedData.slice(10);
+      let tempSlice = top10
+      if (otherRecords.length > 0) {
+        const otherSummary = otherRecords.reduce(
+          (acc, item) => {
+
+            acc.value += ((Number(item?.voidedAmount || 0) * 100) / totalDisplay)
+            acc.items += Number(item?.orderCount || 0)
+            acc.amount += Number(item?.voidedItems || 0)
+
+            acc.voidedAmount += Number(item?.voidedAmount || 0)
+            return acc;
+          },
+          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, voidedAmount: 0 }
+        );
+
+
+        tempSlice = [...top10, otherSummary]
+
+      }
+      const tempData = {
+        labels: tempSlice?.map((slice) => slice.label),
+        datasets: [
+          {
+            data: tempSlice.map((slice) => slice.value),
+            backgroundColor: tempSlice.map((slice) => slice.color),
+            borderWidth: 0,
+            hoverOffset: 15,
+          },
+        ],
+      };
+      setData(tempData);
+
+      setReRenderChart(true);
+      setSlices(tempSlice);
     }
   }, [dataList, countryCode]);
 
 
-  
+
   if (loader) return <DoughnutChartShimmer />;
   return (
     <div
@@ -336,7 +345,7 @@ function DoughnutChartButtonVoided({
               }}
             >
               {!hoverInfo || hoverInfo.index !== index ? (
-                <span style={{ color: slice.color }}>{slice.value}%</span>
+                <span style={{ color: slice.color }}>{slice.value?.toFixed(2)}%</span>
               ) : (
                 <>
                   <div style={{ color: slice.color, marginBottom: "5px" }}>
