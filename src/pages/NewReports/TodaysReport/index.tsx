@@ -121,8 +121,8 @@ const TodaysReport: React.FC = () => {
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
 
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
-    const textOne: string = "Overall";
-    const textTwo: string = "Live Orders";
+    const textOne: string = "Live Orders";
+    const textTwo: string = "Overall";
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(textOne);
 
     const handleToggleSwitch = () => {
@@ -190,7 +190,7 @@ const TodaysReport: React.FC = () => {
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocationidFromDropDown, startDate: currentDate, type: isSwitchActive === true ? 'notcompleted' : 'completed' }))
+        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocationidFromDropDown, startDate: currentDate, type: isSwitchActive === true ? 'completed':'notcompleted' }))
     }, [isSwitchActive, currentDate, selectedLocationidFromDropDown])
 
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
@@ -254,8 +254,8 @@ const TodaysReport: React.FC = () => {
                 selectedStore={selectedLocation} setSelectedStore={(store) => dispatch(changeLocation(store))} handleRefreshClick={handleRefreshClick} showRefresh={true} showDate={false} />
 
             <SwitchableBox
-                textOne="Overall"
-                textTwo="Live Orders"
+                textOne={textOne}
+                textTwo={textTwo}
                 isActive={isSwitchActive}
                 toggleSwitch={handleToggleSwitch}
             />
