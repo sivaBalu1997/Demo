@@ -5,6 +5,7 @@ import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow_up.svg";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
 import { S } from "assets/mockData/originalAPIData/OsalesReportData";
 import ShimmerTenderCard from "./ShimmerTenderCard";
+import { roundNum } from "utils";
 
 interface PaymentMethod {
   expandable?: boolean;
@@ -58,7 +59,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     <p className="tender-title">{tendorTitle}</p>
                   </div>
                   <div className="tender-amount-order-container">
-                    <span className="tender-amount">${amount.toFixed(2)}</span>
+                    <span className="tender-amount">${roundNum(amount)}</span>
                     <span className="tender-orders">{orders} Orders</span>
                   </div>
                 </div>
@@ -66,7 +67,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                   className={`tender-percentage ${percentage > 0 ? "positive" : "negative"
                     }`}
                 >
-                  {percentage}%{" "}
+                  {roundNum(percentage)}%{" "}
                   {expandable && (expanded ? <ArrowUp /> : <ArrowDown />)}
                 </div>
               </div>
@@ -79,7 +80,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${onPremSales.toFixed(2)}</strong>
+                      <strong>${roundNum(onPremSales)}</strong>
                     </div>
                   </div>
                   <div className="expand-row">
@@ -89,7 +90,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${offPremSales.toFixed(2)}</strong>
+                      <strong>${roundNum(offPremSales)}</strong>
                     </div>
                   </div>
                 </div>

@@ -21,3 +21,8 @@ export function getRandomColor() {
   else if(percentVal<0)return IncrementOrDecrementTypeEnum.DECREMENT
   return percentType
   };
+
+  export const roundNum=(num:string|number|null, round=2):string=>{
+    return Number(num||0)?.toFixed(round)
+
+  }
