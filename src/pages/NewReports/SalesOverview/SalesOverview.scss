@@ -121,7 +121,6 @@
   flex-direction: column;
   gap: 1vh;
 
-  // background-color: lightseagreen;
   h2 {
     font-weight: 500;
   }
@@ -130,11 +129,8 @@
     display: flex;
     flex-basis: 25%;
     flex-wrap: wrap;
-    // grid-template-columns: repeat(4, 1fr);
-    // grid-template-rows: repeat(2, auto);
     gap: 18px;
     width: 100%;
-    // max-width: 1200px;
 
     // margin: auto;
     @media (max-width: 1024px) {
@@ -157,5 +153,4 @@
   width: 100%;
   height: fit-content;
   gap: 5vh;
-  // background-color: lightsalmon;
 }

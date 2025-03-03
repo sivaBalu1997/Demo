@@ -71,12 +71,6 @@ const SalesReport: React.FC<ReportProps> = () => {
   }, [dropdownDetailsData])
 
 
-
-  // useEffect(() => {
-  //   dispatch(selectCategories([{label:dropdownDetailsData?.[0]?.categoryName, value:dropdownDetailsData?.[0]?.categoryId}]))
-  // }, [dropdownDetailsData])
-
-
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>

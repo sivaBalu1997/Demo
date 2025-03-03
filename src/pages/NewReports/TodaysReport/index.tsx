@@ -8,25 +8,19 @@ import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import moment from 'moment';
 import NewTable from 'components/reportComponents/NewTable';
-// import CustomDropdown from "../../../../src/components/common/customDropdown/index";
 import "./style.scss";
-// import CustomDropdown from 'components/common/customDropdown';
-// import ReportsRefreshButton from 'components/reportComponents/ReportsRefreshButton';
-// import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
-import SalesErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
-import ErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
+// import SalesErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
+// import ErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
 
 
 const TodaysReport: React.FC = () => {
-
+    const [currentDate, setCurrentDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
-
+   
     const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
 
-
-    const { isExpanded } = useContext(Contextpagejs);
-    const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
 
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
@@ -37,19 +31,10 @@ const TodaysReport: React.FC = () => {
 
     const selectedLocationidFromDropDown = selectedStore?.value
 
-
-    const liveDiscountDataAPIRedux = useSelector((state: any) => state?.newReports?.liveDiscountSuccess);
-
-    const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
-
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
     // console.log("qqqq", { liveOrdersAPIRedux })
 
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
-
-    const liveRefundsAPIRedux = useSelector((state: any) => state?.newReports?.liveRefundsSuccess)
-
-    const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
 
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
     // console.log("qqqq", { liveOrderNonDineInAPIRedux })
@@ -68,23 +53,9 @@ const TodaysReport: React.FC = () => {
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
 
 
-    // const locations = useSelector((state: any) => state?.newReports?.locationDetailsData?.content)
-    // const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
-
-
-    // useEffect(() => {
-    //     dispatch(locationDetailsRequest({ locationid }))
-    // }, [locationid])
-
-
-    // useEffect(() => {
-    //     dispatch(changeLocation({ label: locations?.[0], value: locationid }))
-    // }, [locations])
-
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
-    // console.log("6666", { billedOrUnbilledDataAPIRedux })
 
     const billedOrUnbilledDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedUnbilledLoading)
 
@@ -114,10 +85,7 @@ const TodaysReport: React.FC = () => {
 
     // const RECORDS_PER_PAGE_LIMIT = 15
 
-    const [totalPageNoCurrentPageLiveOrders, setTotalPageNoCurrentPageLiveOrders] = useState<number>(liveOrdersTotalPageNo || 1)
     const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
-
-    const [totalPageNoCurrentPageLiveOrdersNonDineIn, setTotalPageNoCurrentPageLiveOrdersNonDineIn] = useState<number>(liveOrderNonDineInTotalPageNo || 1)
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
 
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
@@ -133,14 +101,7 @@ const TodaysReport: React.FC = () => {
 
     const dispatch = useDispatch();
 
-    // const [currentDate, setCurrentDate] = useState('');
-    // const formattedDate = moment().format('YYYY-MM-DD');
-    // setCurrentDate(formattedDate);
-    const [currentDate, setCurrentDate] = useState('');
 
-    // const handleSearchDebounce = (value: string, kpiTitle: string) => {
-    //     dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
-    // }
 
 
     const handleSearch = (value: string, kpiTitle: string) => {
