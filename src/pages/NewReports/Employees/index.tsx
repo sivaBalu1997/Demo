@@ -180,8 +180,12 @@ const Employees: React.FC = () => {
       label: `${employee?.firstName}`,
     }));
 
+    console.log({employeeDropdownOptions});
+    const employeeTempArray = [...employeeDropdownOptions, {label:"all", value:"all"}]
 
-  const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.value);
+
+  const [employeeList, setEmployeeList] = useState(employeeTempArray?.[0]?.value);
+  console.log({employeeList})
 
 
   const handleDropdownChangeStore = (selectedValue: any) => {
@@ -296,8 +300,8 @@ const Employees: React.FC = () => {
               <p>Select employee</p>
               <div className="select-employee-dropdown">
                 <CustomDropdown
-                  options={employeeDropdownOptions}
-                  value={employeeDropdownOptions?.[0]?.label}
+                  options={employeeTempArray}
+                  value={employeeTempArray?.[0]?.label}
                   className="category-dropdown"
                   onSelect={(selected: any) => handleDropdownChangeStore(selected as { label: React.ReactNode; value: string })}
                 />
