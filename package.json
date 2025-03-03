@@ -1,6 +1,6 @@
 {
   "name": "merchant-app",
-  "version": "13.0.3",
+  "version": "20.0.0",
   "private": true,
   "proxy": "https://apid.gcp.magilhub.com/magilhub-data-services",
   "dependencies": {
