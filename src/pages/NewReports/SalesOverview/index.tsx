@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cancellationSummaryRequest,
@@ -72,6 +72,8 @@ type TenderItem = {
 
 
 const SalesOverview: React.FC<ReportProps> = ({}) => {
+
+  const offerRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
 
@@ -429,6 +431,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
 
   const handleGoBackToChart = () => {
     setViewType("default");
+    setTimeout(()=>{offerRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })},0) 
   };
 
   const countryCode = useSelector(
@@ -762,7 +768,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             loader={salesByChannelLoading}
           />
 
-          <div className="sales-overview-doughnut-chart-container">
+          <div className="sales-overview-doughnut-chart-container" ref={offerRef}>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <DoughnutChartWithButton
@@ -794,7 +800,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         </>
       ) : viewType === "discountOffer" ? (
         <>
-          <div className="void-activity-table-container">
+          <div className="void-activity-table-container" >
             <div className="void-activity-button-container">
               <button
                 className="back-to-chart-btn"
@@ -826,7 +832,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           </div>
         </>
       ) : (
-        <div className="void-activity-table-container">
+        <div className="void-activity-table-container" >
           <div className="void-activity-button-container">
             <button className="back-to-chart-btn" onClick={handleGoBackToChart}>
               <ArrowLeft />
