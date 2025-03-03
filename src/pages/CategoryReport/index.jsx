@@ -109,7 +109,10 @@ const CategoryReport = (props) => {
 
 
 
-  const fetchData = (categoryIds=[], itemIds=[],activeBtn) => {
+  useEffect(() => {
+    const categoryIds = selectedCategories?.map((item) => item.value);
+    const itemIds = selectedItems?.map((item) => item.value);
+console.log({categoryIds, itemIds, activeBtn})
     if (selectedLocation?.value) {
       let params={
         locationId: selectedLocation?.value,
@@ -121,39 +124,29 @@ const CategoryReport = (props) => {
       console.log({activeBtn});
       
       if(activeBtn==="categories"){
-        if(categoryIds?.length)    {    params.categoryIds=categoryIds}
+        if(categoryIds?.length&& categoryIds[0]!=="")    {    params.categoryIds=categoryIds}
         else{
           params.groupByCategory=true
         }
       }else if(activeBtn==="items"){
-        if(itemIds?.length) { params.itemIds=itemIds}
+        if(itemIds?.length&& itemIds[0]!=="") { params.itemIds=itemIds}
         else  { params.groupByCategory=false}
       }
       dispatch(
         categoryChannelSummaryRequest(params)
       );
-      dispatch(
-        categorySalesRequest(params)
-      );
+      if(activeBtn==="categories"){
+        dispatch(
+          categorySalesRequest(params)
+        );
+      } 
       dispatch(
         categorySalesSummaryRequest(params)
-      );
-      dispatch(
-        categoryChannelSummaryRequest(params)
       );
       dispatch(
         voidedSummaryRequest(params)
       );
     }
-    // TODO: mode to redux parlllelization
-    // Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    const categoryIds = selectedCategories?.map((item) => item.value);
-    const itemIds = selectedItems?.map((item) => item.value);
-
-    fetchData(categoryIds, itemIds, activeBtn);
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
   }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate,activeBtn]);
@@ -238,12 +231,21 @@ const CategoryReport = (props) => {
 
 
   const handleSelectItemsOnChange = (selectedItemsData) => {
+    if (!selectedItemsData.value) {
+      setSelectedItems([{ label: "All", value: "" }]);
+      return;
+    }
     const item = dropdownDetailsData?.find(
       (item) => item.itemId === selectedItemsData.value
     );
     if (item) {
-      const tempItems = [...selectedItems];
+      let tempItems = [...selectedItems];
+
+      tempItems = tempItems.filter(cat => cat.value !== "");
+      if (!tempItems.some(a => a.value === item.itemId)) {
       tempItems.push({ value: item.itemId, label: item.itemName });
+      }
+
       setSelectedItems(tempItems);
     }
   };
