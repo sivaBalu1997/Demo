@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   changeLocation,
   employeeStaffActivityRequest,
-  locationDetailsRequest,
   employeeSalesOverviewRequest,
   getEmployeeActivityRequest,
 } from "redux/newReports/newReportsActions";
@@ -15,9 +14,7 @@ import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBar
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import CustomDropdown from "components/common/customDropdown";
 import NewTable from "components/reportComponents/NewTable";
-import useSalesLocationDates from "hooks/useSalesLocationDates";
 import "./style.scss";
-import moment from "moment";
 import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
 import { RootState } from "redux/rootReducer";
@@ -125,10 +122,6 @@ const Employees: React.FC = () => {
         }
         break;
 
-      // case 'Live Orders Non Dine-in':
-      //   currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-      //   break;
-
       default:
         console.warn(`Unknown KPI title: ${kpiTitle}`);
     }
@@ -137,7 +130,6 @@ const Employees: React.FC = () => {
   const chartDataFromAPIRedux = getEmployeeActivityDataFromAPIRedux?.map(
     (data: any) => ({ name: data?.actionType, value: data?.extractedValue })
   );
-  // const chartDataFromAPIReduxTooltip = getEmployeeActivityDataFromAPIRedux?.map((data: any) => ({ "name": data?.actionType }))
 
   const tooltipDataFromAPI = getEmployeeActivityDataFromAPIRedux?.reduce(
     (acc: any, data: any) => {
@@ -191,24 +183,15 @@ const Employees: React.FC = () => {
     employeeLists?.map((employee) => ({
       value: employee?.staffId,
       label: `${employee?.firstName}`,
-      // ${employee?.lastName}
     }));
 
 
   const [employeeList, setEmployeeList] = useState(employeeDropdownOptions?.[0]?.value);
 
-  // employeeDropdownOptions?.[0]?.value
 
   const handleDropdownChangeStore = (selectedValue: any) => {
-    // console.log("Selected Value:", selectedValue);
     setEmployeeList(selectedValue?.value);
   };
-
-  // console.log("OOOO", { employeeDropdownOptions, employeeList })
-
-  // useEffect(() => {
-  //   console.log("useEff OOOO", { employeeDropdownOptions, employeeList })
-  // }, [])
 
 
   useEffect(() => {
@@ -234,25 +217,6 @@ const Employees: React.FC = () => {
 
 
   const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
-  console.log({ selectedValueForChartSlice })
-
-
-  // Function to dispatch actions based on selected value (YET TO INTEGRATE)
-  // const dispatchAction = (value: string) => {
-  //   switch (value) {
-  //     case "Remove Tax":
-  //       dispatch(removeTaxRequest());
-  //       break;
-  //     case "Refund":
-  //       dispatch(refundRequest());
-  //       break;
-  //     // Add more cases as needed
-  //     default:
-  //       console.log("No matching action for", value);
-  //   }
-  // };
-
-
 
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
@@ -284,10 +248,6 @@ const Employees: React.FC = () => {
       );
     }
   }, [selectedLocation?.value, startDate, endDate, employeeList]);
-
-  // const
-  // const number = Math.floor(+floatString)
-
 
 
   return (

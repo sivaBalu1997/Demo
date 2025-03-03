@@ -14,8 +14,7 @@ import {
   staffSalesRequest,
   voidedOrderSummaryRequest,
 } from "redux/newReports/newReportsActions";
-import ReportsNotFound from "components/reportComponents/ReportsNotFound";
-// import SalesCard from "components/reportComponents/SalesCard";
+// import ReportsNotFound from "components/reportComponents/ReportsNotFound";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
 import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
@@ -24,10 +23,6 @@ import RevenueClassChart from "components/reportComponents/chart/RevenueClassCha
 import StoreFilter from "components/reportComponents/StoreFilter";
 import "./SalesOverview.scss";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
-// import TenderCard from "components/reportComponents/TendorTypeCard/TendorCard";
-
-// import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow-down.svg";
-// import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow-down.svg";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
 import { ReactComponent as KeyedInIcon } from "../../../assets/svg/pay-card.svg";
 import { ReactComponent as CashIcon } from "../../../assets/svg/pay-cash.svg";
@@ -43,17 +38,13 @@ import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 
-// import TenderType from "components/reportComponents/TendorTypeCard";
-// import DownloadPopOver from "pages/CategoryReport/downloadOption";
-// import LinearBarChart from "pages/CategoryReport/barChart";
-// import DoughnutChart from "pages/CategoryReport/doughnutChart";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
 import { NewTableHeader } from "interface/newReportsInterface";
 import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
 import { transformSalesData } from "utils";
-// import { useSalesOverview } from "./useSalessOverview";
+
 
 interface ReportProps {}
 
@@ -82,15 +73,6 @@ type TenderItem = {
   salesPercentage: number;
 };
 
-type GroupedData = {
-  debit: Record<string, TenderItem>;
-  credit: Record<string, TenderItem>;
-  cash: Record<string, TenderItem>[];
-  aggregators: Record<string, TenderItem>[];
-  coupons: Record<string, TenderItem>[];
-  digitalPayments: Record<string, TenderItem>[];
-  others: Record<string, TenderItem>[];
-};
 
 const SalesOverview: React.FC<ReportProps> = ({}) => {
   const restaurantDetails = useSelector(
@@ -225,6 +207,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   const getPremisesSummary = useSelector(
     (state: any) => state?.newReports?.premisesSummaryData?.content
   );
+
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
@@ -592,10 +575,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         );
         break;
 
-      // case 'Live Orders Non Dine-in':
-      //   currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-      //   break;
-
       default:
         console.warn(`Unknown KPI title: ${kpiTitle}`);
     }
@@ -610,18 +589,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
       setVoidedReason(data?.label);
     }
   };
-  //   {
-  // "paymentMode": "CASH",
-  // "totalSales": 88819.93,
-  // "totalOrders": 527,
-  // "type": "maghil",
-  // "salesPercentage": "65.91",
-  // "cardName": null,
-  // "premises": "ONPREM",
-  // "cardType": null,
-  // "wholeTotalSales": 0,
-  // "wholeTotalOrders": 0
-  // },
+
 
   console.log({ groupedData });
 
@@ -824,218 +792,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             ))}
           </div>
 
-          {/* <div className="reports-tendor-container">
-            <div className="left-section">
-              <h3 className="tender-type-sub-heading">Debit card</h3>
-              <div className="tender-type-container">
-                <TenderType
-                  icon={<PayTapIcon />}
-                  tendorTitle="Swipe/Tap/Dip"
-                  expandable={true}
-                  amount={tenderType?.["Card Swipe-DEBIT"]?.totalSales || 0}
-                  orders={tenderType?.["Card Swipe-DEBIT"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Card Swipe-DEBIT"]?.salesPercentage || 0
-                  )}
-                  onPremOrders={
-                    tenderType?.["Card Swipe-DEBIT"]?.onPremOrders || 0
-                  }
-                  onPremSales={
-                    tenderType?.["Card Swipe-DEBIT"]?.onPremSales || 0
-                  }
-                  offPremOrders={
-                    tenderType?.["Card Swipe-DEBIT"]?.offPremOrders || 0
-                  }
-                  offPremSales={
-                    tenderType?.["Card Swipe-DEBIT"]?.offPremSales || 0
-                  }
-                  loader={tendorTypesLoader}
-                  // loader={true}
-                />
-                <TenderType
-                  icon={<KeyedInIcon />}
-                  tendorTitle="Keyed In"
-                  expandable={true}
-                  amount={tenderType?.["Online/Key-In-DEBIT"]?.totalSales || 0}
-                  orders={tenderType?.["Online/Key-In-DEBIT"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Online/Key-In-DEBIT"]?.salesPercentage || 0
-                  )}
-                  onPremOrders={
-                    tenderType?.["Online/Key-In-DEBIT"]?.onPremOrders || 0
-                  }
-                  onPremSales={
-                    tenderType?.["Online/Key-In-DEBIT"]?.onPremSales || 0
-                  }
-                  offPremOrders={
-                    tenderType?.["Online/Key-In-DEBIT"]?.offPremOrders || 0
-                  }
-                  offPremSales={
-                    tenderType?.["Online/Key-In-DEBIT"]?.offPremSales || 0
-                  }
-                  loader={tendorTypesLoader}
-                />
-              </div>
-              <div className="tender-type-container">
-                <h3 className="tender-type-sub-heading">Cash</h3>
-                <TenderType
-                  icon={<CashIcon />}
-                  tendorTitle="Cash"
-                  amount={tenderType?.["CASH"]?.totalSales || 0}
-                  orders={tenderType?.["CASH"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["CASH"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-              </div>
-              <h3 className="tender-type-sub-heading">Aggregators</h3>
-              <div className="tender-type-container">
-                <TenderType
-                  icon={<UberEatsIcon />}
-                  tendorTitle="UberEats"
-                  amount={tenderType?.["Uber eats"]?.totalSales || 0}
-                  orders={tenderType?.["Uber eats"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Uber eats"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-                <TenderType
-                  icon={<GrubHubIcon />}
-                  tendorTitle="Grubhub"
-                  amount={tenderType?.["Grubhub"]?.totalSales || 0}
-                  orders={tenderType?.["Grubhub"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Grubhub"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-                <TenderType
-                  icon={<DoordashIcon />}
-                  tendorTitle="Doordash"
-                  amount={tenderType?.["Doordash"]?.totalSales || 0}
-                  orders={tenderType?.["Doordash"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Doordash"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-              </div>
-            </div>
-            <div className="right-section">
-              <h3 className="tender-type-sub-heading">Credit card</h3>
-              <div className="tender-type-container">
-                <TenderType
-                  icon={<PayTapIcon />}
-                  tendorTitle="Swipe/Tap/Dip"
-                  expandable={true}
-                  amount={tenderType?.["Card Swipe-CREDIT"]?.totalSales || 0}
-                  orders={tenderType?.["Card Swipe-CREDIT"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Card Swipe-CREDIT"]?.salesPercentage || 0
-                  )}
-                  onPremOrders={
-                    tenderType?.["Card Swipe-CREDIT"]?.onPremOrders || 0
-                  }
-                  onPremSales={
-                    tenderType?.["Card Swipe-CREDIT"]?.onPremSales || 0
-                  }
-                  offPremOrders={
-                    tenderType?.["Card Swipe-CREDIT"]?.offPremOrders || 0
-                  }
-                  offPremSales={
-                    tenderType?.["Card Swipe-CREDIT"]?.offPremSales || 0
-                  }
-                  loader={tendorTypesLoader}
-                />
-                <TenderType
-                  icon={<KeyedInIcon />}
-                  tendorTitle="Keyed In"
-                  expandable={true}
-                  amount={tenderType?.["Online/Key-In-CREDIT"]?.totalSales || 0}
-                  orders={
-                    tenderType?.["Online/Key-In-CREDIT"]?.totalOrders || 0
-                  }
-                  percentage={Number(
-                    tenderType?.["Online/Key-In-CREDIT"]?.salesPercentage || 0
-                  )}
-                  onPremOrders={
-                    tenderType?.["Online/Key-In-CREDIT"]?.onPremOrders || 0
-                  }
-                  onPremSales={
-                    tenderType?.["Online/Key-In-CREDIT"]?.onPremSales || 0
-                  }
-                  offPremOrders={
-                    tenderType?.["Online/Key-In-CREDIT"]?.offPremOrders || 0
-                  }
-                  offPremSales={
-                    tenderType?.["Online/Key-In-CREDIT"]?.offPremSales || 0
-                  }
-                  loader={tendorTypesLoader}
-                />
-              </div>
-
-              <h3 className="tender-type-sub-heading">Coupons</h3>
-              <div className="tender-type-container">
-                <TenderType
-                  icon={<CouponsIcon />}
-                  tendorTitle="Coupons"
-                  amount={tenderType?.["Coupons"]?.totalSales || 0}
-                  orders={tenderType?.["Coupons"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Coupons"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-                <TenderType
-                  icon={<GiftCardIcon />}
-                  tendorTitle="Gift Card"
-                  amount={tenderType?.["Gift Card"]?.totalSales || 0}
-                  orders={tenderType?.["Gift Card"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Gift Card"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-              </div>
-
-              <h3 className="tender-type-sub-heading">Digital Payments</h3>
-              <div className="tender-type-container">
-                <TenderType
-                  icon={<GooglePayIcon />}
-                  tendorTitle="Google Pay"
-                  amount={tenderType?.["Google Pay"]?.totalSales || 0}
-                  orders={tenderType?.["Google Pay"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Google Pay"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-                <TenderType
-                  icon={<ApplePayIcon />}
-                  tendorTitle="Apple Pay"
-                  amount={tenderType?.["Apple Pay"]?.totalSales || 0}
-                  orders={tenderType?.["Apple Pay"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["Apple Pay"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-                <TenderType
-                  icon={<OfflineQRIcon />}
-                  tendorTitle="Offline QR"
-                  amount={tenderType?.["OFFLINE_QR"]?.totalSales || 0}
-                  orders={tenderType?.["OFFLINE_QR"]?.totalOrders || 0}
-                  percentage={Number(
-                    tenderType?.["OFFLINE_QR"]?.salesPercentage || 0
-                  )}
-                  loader={tendorTypesLoader}
-                />
-              </div>
-            </div>
-          </div>*/}
-
+    
           <h2 className="sales-overview-sub-heading ">By Card Type</h2>
           <CardTypeChart
             dataList={salesCardTypeData}

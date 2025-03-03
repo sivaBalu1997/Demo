@@ -49,7 +49,12 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom" },
+      legend: { position: "bottom",labels: {
+        boxWidth: 12, // Set legend box width
+        boxHeight: 12, // Set legend box height
+        usePointStyle: true,
+        pointStyle: "rectRounded", // Rounded rectangle legend symbol
+      },  },
       tooltip: {
         // Tooltip style
         backgroundColor: "#fff",
