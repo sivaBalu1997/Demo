@@ -26,3 +26,28 @@ export function getRandomColor() {
     return Number(num||0)?.toFixed(round)
 
   }
+
+
+export function formatNumberByCountry(
+  input: string | number | null | undefined, 
+  countryCode: 'US' | 'India', 
+  isMonetary: boolean = true
+): string {
+  if (input === null || input === undefined || input === "") {
+    return "0"; // Default to "0" if input is invalid
+  }
+
+  let number = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(number)) return "0";
+
+  const locale = countryCode === 'US' ? 'en-US' : 'en-IN';
+  const options: Intl.NumberFormatOptions = {
+    minimumFractionDigits: isMonetary ? 2 : 0,
+    maximumFractionDigits: isMonetary ? 2 : 0,
+    useGrouping: true, // Ensures proper comma formatting
+  };
+
+  return new Intl.NumberFormat(locale, options).format(number);
+}
+
+
