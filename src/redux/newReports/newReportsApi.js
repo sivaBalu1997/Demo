@@ -175,7 +175,7 @@ export const getDiscountSummary = (discountSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${DISCOUNT_SUMMARY_ENDPOINT}locationId=${discountSummaryPayload?.locationid}&startDate=${discountSummaryPayload?.startDate}&endDate=${discountSummaryPayload?.endDate}&page=${discountSummaryPayload?.tablePageNo}&size=${discountSummaryPayload?.tableRecordLimit}`,
+        url: `${DISCOUNT_SUMMARY_ENDPOINT}locationId=${discountSummaryPayload?.locationid}&startDate=${discountSummaryPayload?.startDate}&endDate=${discountSummaryPayload?.endDate}&page=${discountSummaryPayload?.tablePageNo}&size=${discountSummaryPayload?.tableRecordLimit}&offer=${discountSummaryPayload?.offer}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -186,7 +186,7 @@ export const getCancellationSummary = (cancellationSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${CANCELLATION_SUMMARY_ENDPOINT}locationId=${cancellationSummaryPayload?.locationid}&startDate=${cancellationSummaryPayload?.startDate}&endDate=${cancellationSummaryPayload?.endDate}&page=${cancellationSummaryPayload?.tablePageNo}&size=${cancellationSummaryPayload?.tableRecordLimit}`,
+        url: `${CANCELLATION_SUMMARY_ENDPOINT}locationId=${cancellationSummaryPayload?.locationid}&startDate=${cancellationSummaryPayload?.startDate}&endDate=${cancellationSummaryPayload?.endDate}&page=${cancellationSummaryPayload?.tablePageNo}&size=${cancellationSummaryPayload?.tableRecordLimit}&reason=${cancellationSummaryPayload?.reason}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
