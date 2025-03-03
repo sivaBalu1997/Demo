@@ -25,9 +25,9 @@ import "./Tabs.css";
 const CategoryReport = (props) => {
   const dispatch = useDispatch();
   //TODO: move to redux
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  // console.log("DDDD",{selectedCategories})
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
+  const [selectedItems, setSelectedItems] = useState([{ label: "All", value: "" }]);
+  const [activeBtn, setActiveBtn] = useState("categories");
   const locations = useSelector(
     (state) => state?.newReports?.storeLocationsList
   );
@@ -74,6 +74,7 @@ const CategoryReport = (props) => {
   // console.log("CCCCCC",{categoryList})
 
   const { startDate, endDate, handleDateChange } = useDateFilter();
+  
 
   useEffect(() => {
     console.log("use", {
@@ -106,72 +107,42 @@ const CategoryReport = (props) => {
     }
   }, [categoryList, selectedLocation]);
 
-  useEffect(() => {
-    if (categoryList?.length > 0) {
-      setSelectedCategories([
-        { label: categoryList?.[0]?.label, value: categoryList?.[0]?.value },
-      ]);
-    }
-  }, [categoryList]);
 
 
-
-  const fetchData = (categoryIds, itemIds) => {
+  const fetchData = (categoryIds=[], itemIds=[],activeBtn) => {
     if (selectedLocation?.value) {
+      let params={
+        locationId: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+        tablePageNo: 1,
+        tableRecordLimit: 100,
+      }
+      console.log({activeBtn});
+      
+      if(activeBtn==="categories"){
+        if(categoryIds?.length)    {    params.categoryIds=categoryIds}
+        else{
+          params.groupByCategory=true
+        }
+      }else if(activeBtn==="items"){
+        if(itemIds?.length) { params.itemIds=itemIds}
+        else  { params.groupByCategory=false}
+      }
       dispatch(
-        categoryChannelSummaryRequest({
-          locationId: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          categoryIds: categoryIds || [],
-          itemIds: itemIds || [],
-        })
+        categoryChannelSummaryRequest(params)
       );
       dispatch(
-        categorySalesRequest({
-          locationid: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
+        categorySalesRequest(params)
       );
       dispatch(
-        categorySalesSummaryRequest({
-          locationid: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
+        categorySalesSummaryRequest(params)
       );
       dispatch(
-        categoryChannelSummaryRequest({
-          locationId: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
+        categoryChannelSummaryRequest(params)
       );
       dispatch(
-        voidedSummaryRequest({
-          locationId: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
+        voidedSummaryRequest(params)
       );
     }
     // TODO: mode to redux parlllelization
@@ -182,12 +153,12 @@ const CategoryReport = (props) => {
     const categoryIds = selectedCategories?.map((item) => item.value);
     const itemIds = selectedItems?.map((item) => item.value);
 
-    fetchData(categoryIds, itemIds);
+    fetchData(categoryIds, itemIds, activeBtn);
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
-  }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate]);
+  }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate,activeBtn]);
 
-  const [activeBtn, setActiveBtn] = useState("categories");
+
 
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
@@ -227,18 +198,44 @@ const CategoryReport = (props) => {
   };
 
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
+    if (!selectedCategoriesData.value) {
+      setSelectedCategories([{ label: "All", value: "" }]);
+      setSelectedItems([{ label: "All", value: "" }]);
+      return;
+    }
+  
     const category = dropdownDetailsData?.find(
       (cat) => cat.categoryId === selectedCategoriesData.value
     );
+  
     if (category) {
-      const tempCategories = [...selectedCategories];
-      tempCategories.push({
-        value: category.categoryId,
-        label: category.categoryName,
-      });
-      setSelectedCategories(tempCategories);
+      let tempCategories = [...selectedCategories];
+  
+      tempCategories = tempCategories.filter(cat => cat.value !== "");
+  
+      // Add new category if it's not already selected
+      if (!tempCategories.some(cat => cat.value === category.categoryId)) {
+        tempCategories.push({
+          value: category.categoryId,
+          label: category.categoryName,
+        });
+        setSelectedCategories(tempCategories);
+        const selectedCategoryIds = tempCategories.map((cat) => cat.value);
+        const filteredItems = [
+          ...new Map(
+            dropdownDetailsData
+              .filter((item) => selectedCategoryIds.includes(item.categoryId))
+              .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
+          ).values(),
+        ];
+      
+        // Update selected items state
+        setSelectedItems(filteredItems);
+      }
+  
     }
   };
+
 
   const handleSelectItemsOnChange = (selectedItemsData) => {
     const item = dropdownDetailsData?.find(
@@ -278,6 +275,14 @@ const CategoryReport = (props) => {
     }
   };
 
+  const handleCategoryClear=()=>{
+  setSelectedCategories([{ label: "All", value: "" }]);
+  setSelectedItems([{ label: "All", value: "" }]);
+  }
+  const handleItemsClear=()=>{
+    // setSelectedCategories([{ label: "All", value: "" }]);
+    setSelectedItems([{ label: "All", value: "" }]);
+    }
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
@@ -297,9 +302,8 @@ const CategoryReport = (props) => {
           />
           <div className="category-btn-switch">
             <button
-              className={`category-btn  ${
-                activeBtn == "categories" ? "active-btn" : ""
-              }`}
+              className={`category-btn  ${activeBtn == "categories" ? "active-btn" : ""
+                }`}
               onClick={() => {
                 setActiveBtn("categories");
               }}
@@ -307,9 +311,8 @@ const CategoryReport = (props) => {
               Categories
             </button>
             <button
-              className={`category-btn  ${
-                activeBtn == "items" ? "active-btn" : ""
-              }`}
+              className={`category-btn  ${activeBtn == "items" ? "active-btn" : ""
+                }`}
               onClick={() => {
                 setActiveBtn("items");
               }}
@@ -326,14 +329,8 @@ const CategoryReport = (props) => {
                   </span>
                   <span className="font-color-red poppins-fw400-fs16">*</span>
                 </div>
-                {/* <CustomDropdown
-              options={[{ value: "Sales", label: "Sales" }]}
-              className="select-food-item-dropdown"
-              placeholder="Select Categories"
-            /> */}
                 <ReusableDropdown
-                  // categorySalesData?.map((data)=>({ value: data?.categoryName, label: data?.categoryName  }))||
-                  options={categoryList || []}
+                  options={    [{ label: "All", value: "" },  ...categoryList || []]}
                   value={selectedCategories}
                   placeholder={"Select categories"}
                   dropdownContainerClassName="select-food-item-dropdown-cotainer"
@@ -345,6 +342,7 @@ const CategoryReport = (props) => {
               <RoundedPill
                 data={selectedCategories}
                 closeIconOnClick={categoryCloseOnClick}
+                handeClear={handleCategoryClear}
               />
             </div>
             {activeBtn == "items" ? (
@@ -358,10 +356,11 @@ const CategoryReport = (props) => {
                   </div>
                   <ReusableDropdown
                     options={
-                      dropdownDetailsData?.map((data) => ({
+                      [{ label: "All", value: "" },
+                      ...dropdownDetailsData?.map((data) => ({
                         value: data?.itemId,
                         label: data?.itemName,
-                      })) || []
+                      })) || []]
                     }
                     value={selectedItems}
                     placeholder={"Select items"}
@@ -374,6 +373,7 @@ const CategoryReport = (props) => {
                 <RoundedPill
                   data={selectedItems}
                   closeIconOnClick={itemsCloseOnClick}
+                  handeClear={handleItemsClear}
                 />
               </div>
             ) : (
