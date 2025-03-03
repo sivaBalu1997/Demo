@@ -69,7 +69,12 @@ const CardTypeChart = ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom" },
+      legend: { position: "bottom",       labels: {
+        boxWidth: 12, // Set legend box width
+        boxHeight: 12, // Set legend box height
+        usePointStyle: true,
+        pointStyle: "rectRounded", // Rounded rectangle legend symbol
+      }, },
       tooltip: {
         backgroundColor: "#fff", // White background
         borderColor: "#E0E0E0", // Border color

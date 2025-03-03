@@ -111,17 +111,7 @@ const CategoryReport = (props) => {
     }
   }, [categoryList]);
 
-  // const fetchData = (categoryIds, itemIds) => {
-  //   const requests = [
-  //     categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, categoryIds: categoryIds || [], itemIds: itemIds || [] }),
-  //     categorySalesRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-  //     categorySalesSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-  //     categoryChannelSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-  //     voidedSummaryRequest({ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, tablePageNo: 1, tableRecordLimit: 100, itemIds: itemIds, categoryIds: categoryIds }),
-  //   ];
-  //   // TODO: mode to redux parlllelization
-  //   Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
-  // }
+
 
   const fetchData = (categoryIds, itemIds) => {
     if (selectedLocation?.value) {
@@ -284,23 +274,7 @@ const CategoryReport = (props) => {
       });
     }
   };
-  // const [categoryDropdown, setCategoryDropdown] = useState([]);
-  // useEffect(() => {
-  //   if (categoryList.length > 0) {
-  //     setCategoryDropdown(
-  //       categoryList.filter(
-  //         (item, index, self) =>
-  //           index === self.findIndex((t) => t.id === item.id)
-  //       )
-  //     );
-  //     setCategoryDropdown(
-  //       categoryList.filter(
-  //         (item, index, self) =>
-  //           index === self.findIndex((t) => t.id === item.id)
-  //       )
-  //     );
-  //   }
-  // }, [categoryList]);
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
