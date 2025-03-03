@@ -53,6 +53,7 @@
       flex-direction: column;
     }
   }
+
   .reports-discount-countainer {
     display: flex;
     flex-direction: row;
@@ -119,7 +120,7 @@
 .todays-report-sales-overview-box-container-parent {
   display: flex;
   flex-direction: column;
-  gap: 1vh;
+  gap: 2vh;
 
   h2 {
     font-weight: 500;
@@ -154,3 +155,4 @@
   height: fit-content;
   gap: 5vh;
 }
+
