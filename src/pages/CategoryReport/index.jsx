@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./Tabs.css";
 import {
   voidedSummaryRequest,
   categoryChannelSummaryRequest,
@@ -9,6 +8,7 @@ import {
   changeLocation,
   dropdownDetailsRequest,
 } from "../../redux/newReports/newReportsActions";
+import { formatNumberByCountry } from "utils";
 
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
@@ -20,13 +20,14 @@ import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
+import "./Tabs.css";
 
 const CategoryReport = (props) => {
   const dispatch = useDispatch();
   //TODO: move to redux
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  // console.log("DDDD",{selectedCategories})
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
+  const [selectedItems, setSelectedItems] = useState([{ label: "All", value: "" }]);
+  const [activeBtn, setActiveBtn] = useState("categories");
   const locations = useSelector(
     (state) => state?.newReports?.storeLocationsList
   );
@@ -65,12 +66,15 @@ const CategoryReport = (props) => {
     (state) => state?.newReports?.voidedSummaryLoading
   );
 
-  const countryCode = useSelector((state) => state?.auth?.countryCode);
+    const countryCode = useSelector(
+      (state) => state?.auth?.restaurantDetails?.country
+    );
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
 
   // console.log("CCCCCC",{categoryList})
 
   const { startDate, endDate, handleDateChange } = useDateFilter();
+  
 
   useEffect(() => {
     console.log("use", {
@@ -103,88 +107,51 @@ const CategoryReport = (props) => {
     }
   }, [categoryList, selectedLocation]);
 
-  useEffect(() => {
-    if (categoryList?.length > 0) {
-      setSelectedCategories([
-        { label: categoryList?.[0]?.label, value: categoryList?.[0]?.value },
-      ]);
-    }
-  }, [categoryList]);
 
-
-
-  const fetchData = (categoryIds, itemIds) => {
-    if (selectedLocation?.value) {
-      dispatch(
-        categoryChannelSummaryRequest({
-          locationId: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          categoryIds: categoryIds || [],
-          itemIds: itemIds || [],
-        })
-      );
-      dispatch(
-        categorySalesRequest({
-          locationid: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
-      );
-      dispatch(
-        categorySalesSummaryRequest({
-          locationid: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
-      );
-      dispatch(
-        categoryChannelSummaryRequest({
-          locationId: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
-      );
-      dispatch(
-        voidedSummaryRequest({
-          locationId: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: 1,
-          tableRecordLimit: 100,
-          itemIds: itemIds,
-          categoryIds: categoryIds,
-        })
-      );
-    }
-    // TODO: mode to redux parlllelization
-    // Promise.all(requests.map((request) => dispatch(request))).catch((err) => console.log(err));
-  };
 
   useEffect(() => {
     const categoryIds = selectedCategories?.map((item) => item.value);
     const itemIds = selectedItems?.map((item) => item.value);
-
-    fetchData(categoryIds, itemIds);
+console.log({categoryIds, itemIds, activeBtn})
+    if (selectedLocation?.value) {
+      let params={
+        locationId: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+        tablePageNo: 1,
+        tableRecordLimit: 100,
+      }
+      console.log({activeBtn});
+      
+      if(activeBtn==="categories"){
+        if(categoryIds?.length&& categoryIds[0]!=="")    {    params.categoryIds=categoryIds}
+        else{
+          params.groupByCategory=true
+        }
+      }else if(activeBtn==="items"){
+        if(itemIds?.length&& itemIds[0]!=="") { params.itemIds=itemIds}
+        else  { params.groupByCategory=false}
+      }
+      dispatch(
+        categoryChannelSummaryRequest(params)
+      );
+      if(activeBtn==="categories"){
+        dispatch(
+          categorySalesRequest(params)
+        );
+      } 
+      dispatch(
+        categorySalesSummaryRequest(params)
+      );
+      dispatch(
+        voidedSummaryRequest(params)
+      );
+    }
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
-  }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate]);
+  }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate,activeBtn]);
 
-  const [activeBtn, setActiveBtn] = useState("categories");
+
 
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
@@ -224,26 +191,61 @@ const CategoryReport = (props) => {
   };
 
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
+    if (!selectedCategoriesData.value) {
+      setSelectedCategories([{ label: "All", value: "" }]);
+      setSelectedItems([{ label: "All", value: "" }]);
+      return;
+    }
+  
     const category = dropdownDetailsData?.find(
       (cat) => cat.categoryId === selectedCategoriesData.value
     );
+  
     if (category) {
-      const tempCategories = [...selectedCategories];
-      tempCategories.push({
-        value: category.categoryId,
-        label: category.categoryName,
-      });
-      setSelectedCategories(tempCategories);
+      let tempCategories = [...selectedCategories];
+  
+      tempCategories = tempCategories.filter(cat => cat.value !== "");
+  
+      // Add new category if it's not already selected
+      if (!tempCategories.some(cat => cat.value === category.categoryId)) {
+        tempCategories.push({
+          value: category.categoryId,
+          label: category.categoryName,
+        });
+        setSelectedCategories(tempCategories);
+        const selectedCategoryIds = tempCategories.map((cat) => cat.value);
+        const filteredItems = [
+          ...new Map(
+            dropdownDetailsData
+              .filter((item) => selectedCategoryIds.includes(item.categoryId))
+              .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
+          ).values(),
+        ];
+      
+        // Update selected items state
+        setSelectedItems(filteredItems);
+      }
+  
     }
   };
 
+
   const handleSelectItemsOnChange = (selectedItemsData) => {
+    if (!selectedItemsData.value) {
+      setSelectedItems([{ label: "All", value: "" }]);
+      return;
+    }
     const item = dropdownDetailsData?.find(
       (item) => item.itemId === selectedItemsData.value
     );
     if (item) {
-      const tempItems = [...selectedItems];
+      let tempItems = [...selectedItems];
+
+      tempItems = tempItems.filter(cat => cat.value !== "");
+      if (!tempItems.some(a => a.value === item.itemId)) {
       tempItems.push({ value: item.itemId, label: item.itemName });
+      }
+
       setSelectedItems(tempItems);
     }
   };
@@ -275,6 +277,14 @@ const CategoryReport = (props) => {
     }
   };
 
+  const handleCategoryClear=()=>{
+  setSelectedCategories([{ label: "All", value: "" }]);
+  setSelectedItems([{ label: "All", value: "" }]);
+  }
+  const handleItemsClear=()=>{
+    // setSelectedCategories([{ label: "All", value: "" }]);
+    setSelectedItems([{ label: "All", value: "" }]);
+    }
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
@@ -294,9 +304,8 @@ const CategoryReport = (props) => {
           />
           <div className="category-btn-switch">
             <button
-              className={`category-btn  ${
-                activeBtn == "categories" ? "active-btn" : ""
-              }`}
+              className={`category-btn  ${activeBtn == "categories" ? "active-btn" : ""
+                }`}
               onClick={() => {
                 setActiveBtn("categories");
               }}
@@ -304,9 +313,8 @@ const CategoryReport = (props) => {
               Categories
             </button>
             <button
-              className={`category-btn  ${
-                activeBtn == "items" ? "active-btn" : ""
-              }`}
+              className={`category-btn  ${activeBtn == "items" ? "active-btn" : ""
+                }`}
               onClick={() => {
                 setActiveBtn("items");
               }}
@@ -323,14 +331,8 @@ const CategoryReport = (props) => {
                   </span>
                   <span className="font-color-red poppins-fw400-fs16">*</span>
                 </div>
-                {/* <CustomDropdown
-              options={[{ value: "Sales", label: "Sales" }]}
-              className="select-food-item-dropdown"
-              placeholder="Select Categories"
-            /> */}
                 <ReusableDropdown
-                  // categorySalesData?.map((data)=>({ value: data?.categoryName, label: data?.categoryName  }))||
-                  options={categoryList || []}
+                  options={    [{ label: "All", value: "" },  ...categoryList || []]}
                   value={selectedCategories}
                   placeholder={"Select categories"}
                   dropdownContainerClassName="select-food-item-dropdown-cotainer"
@@ -342,6 +344,7 @@ const CategoryReport = (props) => {
               <RoundedPill
                 data={selectedCategories}
                 closeIconOnClick={categoryCloseOnClick}
+                handeClear={handleCategoryClear}
               />
             </div>
             {activeBtn == "items" ? (
@@ -355,10 +358,11 @@ const CategoryReport = (props) => {
                   </div>
                   <ReusableDropdown
                     options={
-                      dropdownDetailsData?.map((data) => ({
+                      [{ label: "All", value: "" },
+                      ...dropdownDetailsData?.map((data) => ({
                         value: data?.itemId,
                         label: data?.itemName,
-                      })) || []
+                      })) || []]
                     }
                     value={selectedItems}
                     placeholder={"Select items"}
@@ -371,6 +375,7 @@ const CategoryReport = (props) => {
                 <RoundedPill
                   data={selectedItems}
                   closeIconOnClick={itemsCloseOnClick}
+                  handeClear={handleItemsClear}
                 />
               </div>
             ) : (
@@ -390,26 +395,24 @@ const CategoryReport = (props) => {
                 {
                   title: "TOTAL SALES",
                   value: `$ ${
-                    categorySalesSummaryData?.totalSales?.toFixed(2) || 0
+                    formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0
                   }`,
                 },
-                // { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) || 0}` },
-                // { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) || 0}` },
                 {
                   title: "VOID",
                   value: `$ ${
-                    categorySalesSummaryData?.voidAmount?.toFixed(2) || 0
+                    formatNumberByCountry(categorySalesSummaryData?.voidAmount, countryCode, true) || 0
                   }`,
                 },
                 {
                   title: "ADD-ON",
                   value: `$ ${
-                    categorySalesSummaryData?.addOn?.toFixed(2) || 0
+                    formatNumberByCountry(categorySalesSummaryData?.addOn, countryCode, true) || 0
                   }`,
                 },
                 {
                   title: "TOTAL QUANTITY",
-                  value: `${categorySalesSummaryData?.totalQuantity || 0}`,
+                  value: `${ formatNumberByCountry(categorySalesSummaryData?.totalQuantity, countryCode, false) || 0}`,
                 },
               ]}
             />

@@ -38,7 +38,6 @@ interface CustomTooltipProps {
     setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// Custom Tooltip Component
 const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0].payload;
@@ -55,7 +54,6 @@ const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShow
         return (
             <div className="custom-tooltip">
                 <p className="label"><strong>{name}</strong></p>
-                {/* <p className="desc">{tooltipInfo.tooltipContent}</p> */}
                 <p>Tax amount: <strong>${value}</strong></p>
                 <button onClick={handleClick}>VIEW DETAILS</button>
             </div>
@@ -64,7 +62,7 @@ const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShow
     return null;
 };
 
-// Reusable Bar Chart Component
+
 const CustomBarChart: React.FC<CustomBarChartProps> = ({
     data,
     tooltipData,
@@ -78,17 +76,6 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     setShowRelatedTable,
     setSelectedValueForChartSlice
 }) => {
-    // useEffect(() => {
-    //     const resizeObserverError = (event: any) => {
-    //         if (event.message === 'ResizeObserver loop completed with undelivered notifications.') {
-    //             event.stopImmediatePropagation();
-    //         }
-    //     };
-    //     window.addEventListener('error', resizeObserverError);
-    //     return () => {
-    //         window.removeEventListener('error', resizeObserverError);
-    //     };
-    // }, []);
     const chartRef2 = useRef<HTMLDivElement>(null);
     return (
         <div className="chart-wrapper">

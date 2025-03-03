@@ -421,9 +421,12 @@ export const getVoidedSummary = (voidedSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     let query = "";
     if (voidedSummaryPayload?.itemIds?.length > 0) {
-        query += `&itemIds=${voidedSummaryPayload?.itemIds.join(',')}`;
+
+        query += `&itemIds=${(voidedSummaryPayload?.itemIds || [])?.join(",")}`;
     } else if (voidedSummaryPayload?.categoryIds?.length > 0) {
-        query += `&categoryIds=${voidedSummaryPayload?.categoryIds.join(',')}`;
+        query += `&categoryIds=${(voidedSummaryPayload?.categoryIds || [])?.join(",")}`;
+    }else{
+        query+=`&groupByCategory=${voidedSummaryPayload?.groupByCategory}`
     }
     return API({
         method: "get",
@@ -454,6 +457,8 @@ export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
         query += `&itemIds=${(categoryChannelSummaryPayload?.itemIds || [])?.join(",")}`;
     } else if (categoryChannelSummaryPayload?.categoryIds?.length > 0) {
         query += `&categoryIds=${(categoryChannelSummaryPayload?.categoryIds || [])?.join(",")}`;
+    }else{
+        query+=`&groupByCategory=${categoryChannelSummaryPayload?.groupByCategory}`
     }
 
 
@@ -492,10 +497,17 @@ export const getSalesSummaryReport = (salesSummaryReportPayload) => {
 
 export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const categoryIds = categorySalesSummaryPayload?.categoryIds?.join(',');
+    let query = "";
+    if (categorySalesSummaryPayload?.itemIds?.length > 0) {
+        query += `&itemIds=${(categorySalesSummaryPayload?.itemIds || [])?.join(",")}`;
+    } else if (categorySalesSummaryPayload?.categoryIds?.length > 0) {
+        query += `&categoryIds=${(categorySalesSummaryPayload?.categoryIds || [])?.join(",")}`;
+    }else{
+        query+=`&groupByCategory=${categorySalesSummaryPayload?.groupByCategory}`
+    }
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category/getCategorySalesSummary?locationId=${categorySalesSummaryPayload?.locationid}&startDate=${categorySalesSummaryPayload?.startDate}&endDate=${categorySalesSummaryPayload?.endDate}&categoryIds=${categoryIds}`,
+        url: `${reportsBaseUrl}/sales/category/getCategorySalesSummary?locationId=${categorySalesSummaryPayload?.locationid}&startDate=${categorySalesSummaryPayload?.startDate}&endDate=${categorySalesSummaryPayload?.endDate}${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -517,10 +529,16 @@ export const getSalesByChannel = (salesByChannelPayload) => {
 export const getCategorySales = (categorySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const categoryIds = categorySalesPayload?.categoryIds?.join(',');
-    // console.log("AAAAAAAAA", { categorySalesPayload })
+    let query = "";
+   if (categorySalesPayload?.categoryIds?.length > 0) {
+        query += `&categoryIds=${(categorySalesPayload?.categoryIds || [])?.join(",")}`;
+    }else{
+        query+=`&groupByCategory=${categorySalesPayload?.groupByCategory}`
+    }
+
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationid}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}&categoryIds=${categoryIds}`,
+        url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationId}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

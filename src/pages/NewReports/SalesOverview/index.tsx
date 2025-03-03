@@ -14,21 +14,11 @@ import {
   staffSalesRequest,
   voidedOrderSummaryRequest,
 } from "redux/newReports/newReportsActions";
-// import ReportsNotFound from "components/reportComponents/ReportsNotFound";
-import TenderType from "components/reportComponents/TendorTypeCard";
-import CardTypeChart from "components/reportComponents/chart";
-import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
-import ChannelSalesChart from "components/reportComponents/chart/channelChart";
-import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
-import StoreFilter from "components/reportComponents/StoreFilter";
-import "./SalesOverview.scss";
-import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
 import { ReactComponent as KeyedInIcon } from "../../../assets/svg/pay-card.svg";
 import { ReactComponent as CashIcon } from "../../../assets/svg/pay-cash.svg";
 import { ReactComponent as CouponsIcon } from "../../../assets/svg/pay-coupon.svg";
 import { ReactComponent as GiftCardIcon } from "../../../assets/svg/pay-gift-card.svg";
-
 import { ReactComponent as UberEatsIcon } from "../../../assets/svg/pay-uber-eats.svg";
 import { ReactComponent as GooglePayIcon } from "../../../assets/svg/pay-gpay.svg";
 import { ReactComponent as GrubHubIcon } from "../../../assets/svg/pay-grub-hub.svg";
@@ -37,13 +27,20 @@ import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash
 import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
-
+import { NewTableHeader } from "interface/newReportsInterface";
+import { formatNumberByCountry, transformSalesData } from "utils";
+import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
+import TenderType from "components/reportComponents/TendorTypeCard";
+import CardTypeChart from "components/reportComponents/chart";
+import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
+import ChannelSalesChart from "components/reportComponents/chart/channelChart";
+import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
+import StoreFilter from "components/reportComponents/StoreFilter";
 import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
-import { NewTableHeader } from "interface/newReportsInterface";
 import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
-import { transformSalesData } from "utils";
+import "./SalesOverview.scss";
 
 
 interface ReportProps {}
@@ -75,6 +72,9 @@ type TenderItem = {
 
 
 const SalesOverview: React.FC<ReportProps> = ({}) => {
+
+  const dispatch = useDispatch();
+
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
@@ -91,42 +91,38 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     useState<number>(10);
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
-
-  const { startDate, endDate, handleDateChange } = useDateFilter();
-
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
     value: "Yesterday",
   });
+  const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>(
+    {}
+  );
+  
+  const { startDate, endDate, handleDateChange } = useDateFilter();
 
   const datepickerApply = (data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
-  const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>(
-    {}
-  );
-  /******************************************************************************************* */
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
   );
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
-  // const tendorTypes = useSelector(
-  //   (state: any) => state?.newReports?.paymentDetailsData?.content
-  // );
+
 
   const tendorTypes = useSelector(
     (state: any) => state?.newReports?.paymentDetailsData
   );
 
-  // console.log("LLLLLLLLL", { tendorTypes })
+
 
   const tendorTypesLoader = useSelector(
     (state: any) => state?.newReports?.paymentDetailsLoading
   );
-  // console.log("TTL", { tendorTypesLoader });
+  
   const salesSummary = useSelector(
     (state: any) => state?.newReports?.salesSummaryReportData
   );
@@ -252,7 +248,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
       tempdataObj[`${item?.paymentMode}-${item?.cardType}`] = key;
     });
 
-    console.log({ tempdataObj });
 
     Object.entries(tempdataObj)?.forEach(([itemkey, value]: [string, any]) => {
       const parts = itemkey.split("-");
@@ -282,47 +277,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         tendorGroups["Others"].push(value);
       }
     });
-
-    console.log({ tendorGroups });
+    
 
     return tendorGroups;
   }, [tendorTypes]);
-  //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
-  const dispatch = useDispatch();
-  useEffect(() => {
-    console.log("use", {
-      selectedLocation,
-      tendorTypes,
-      salesSummary,
-      staffSalesData,
-      salesCardTypeData,
-      salesCategory,
-      discountSummary,
-      offerSummary,
-      voidedOrderSummary,
-      cancellationSummary,
-      salesByChannel,
-      salesByRevenueClass,
-      // hourlySalesReportChartData
-    });
-  }, [
-    selectedLocation,
-    salesSummary,
-    staffSalesData,
-    salesCardTypeData,
-    salesCategory,
-    discountSummary,
-    cancellationSummary,
-    salesByChannel,
-    salesByRevenueClass,
-    offerSummary,
-    voidedOrderSummary,
-  ]);
-
-  useEffect(() => {
-    console.log(tenderType);
-  }, [tenderType]);
-  /******************************************************************************************* */
 
   useEffect(() => {
     Promise.all([
@@ -611,7 +569,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     <>
       {viewType === "default" ? (
         <>
-          {/* Date and Store */}
           <StoreFilter
             storeOptions={locations}
             selectedDate={selectedDate}
@@ -621,12 +578,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             dateDropdownFunction={datepickerApply}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
-
-          {/*  ReportsNotFound*/}
-          {/* <ReportsNotFound status="notFound"/>
-          <ReportsNotFound status="error"/> */}
-
-          {/*  Total Sales*/}
 
           <div className="todays-report-sales-overview-box-container-parent">
             <div className="total-sales-heading-container">
@@ -644,7 +595,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             <div className="todays-report-sales-overview-box-container">
               <CardWithMiniGraph
                 cardTitle="Total Sales"
-                cardValue={salesSummary?.totalMagilSales}
+                cardValue={formatNumberByCountry(salesSummary?.totalMagilSales, countryCode, true)}
                 incrementDecrementValue={salesSummary?.totalSalesPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -657,7 +608,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Net Sales"
-                cardValue={salesSummary?.totalMagilNetSales}
+                cardValue={formatNumberByCountry(salesSummary?.totalMagilNetSales, countryCode, true)}
                 incrementDecrementValue={salesSummary?.netSalesPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -670,7 +621,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Total Tax"
-                cardValue={salesSummary?.totalMagilTax}
+                cardValue={formatNumberByCountry(salesSummary?.totalMagilTax, countryCode, true)}
                 incrementDecrementValue={salesSummary?.totalTaxPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -686,7 +637,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Total Tips"
-                cardValue={salesSummary?.totalMagilTips}
+                cardValue={formatNumberByCountry(salesSummary?.totalMagilTips, countryCode, true)}
                 incrementDecrementValue={salesSummary?.totalTipsPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -699,7 +650,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Gratuity"
-                cardValue={salesSummary?.gratuity}
+                cardValue={formatNumberByCountry(salesSummary?.gratuity, countryCode, true)}
                 incrementDecrementValue={salesSummary?.gratuityPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -712,7 +663,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Transactions"
-                cardValue={salesSummary?.totalMagilOrders}
+                cardValue={formatNumberByCountry(salesSummary?.totalMagilOrders, countryCode, false)}
                 incrementDecrementValue={salesSummary?.transactionPercentage}
                 isMonetary={false}
                 loader={salesSummaryLoader}
@@ -725,7 +676,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Discount"
-                cardValue={salesSummary?.discounts}
+                cardValue={formatNumberByCountry(salesSummary?.discounts, countryCode, true)}
                 incrementDecrementValue={salesSummary?.discountPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -738,7 +689,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
               <CardWithMiniGraph
                 cardTitle="Cancelled"
-                cardValue={salesSummary?.cancelledOrders}
+                cardValue={formatNumberByCountry(salesSummary?.cancelledOrders, countryCode, true)}
                 incrementDecrementValue={salesSummary?.cancelledPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
@@ -752,7 +703,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             </div>
           </div>
 
-          {/* Tendor type */}
+
 
           <div>
             <h2 className="sales-overview-sub-heading ">Tendor Type</h2>
@@ -869,7 +820,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               rowsPerPage={currentRowsOfferDiscount}
               setRowsPerPage={setCurrentRowsOfferDiscount}
               loader={discountSummaryLoading}
-              // count={discountSummary?.length}
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
             />
@@ -899,7 +849,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             rowsPerPage={currentRowsVoiddedOrders}
             setRowsPerPage={setCurrentRowsVoiddedOrders}
             loader={cancellationSummaryLoading}
-            // count={cancellationSummary?.length}
             searchPlaceHolder="Search By Staff name"
             onSearch={handleSearch}
           />
