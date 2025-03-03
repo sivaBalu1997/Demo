@@ -718,26 +718,32 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             ))}
           </div>
 
-    
-          <h2 className="sales-overview-sub-heading ">By Card Type</h2>
-          <CardTypeChart
-            dataList={salesCardTypeData}
-            loader={salesCardTypeDataLoading}
-          />
+        {/* <div className="sales-charts-container">   */}
+          <div>
+            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Card Type</h2>
+            <CardTypeChart
+              dataList={salesCardTypeData}
+              loader={salesCardTypeDataLoading}
+            />
+          </div>  
 
-          <h2 className="sales-overview-sub-heading ">By Employees</h2>
-          <EmployeeSalesChart
-            dataList={staffSalesData}
-            loader={staffSalesLoading}
-          />
+         <div>
+            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Employees</h2>
+            <EmployeeSalesChart
+              dataList={staffSalesData}
+              loader={staffSalesLoading}
+              />
+          </div>   
 
-          <h2 className="sales-overview-sub-heading ">By Channel</h2>
-          <ChannelSalesChart
-            dataList={salesByChannel}
-            loader={salesByChannelLoading}
-          />
+          <div>
+            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Channel</h2>
+            <ChannelSalesChart
+              dataList={salesByChannel}
+              loader={salesByChannelLoading}
+              />
+          </div>   
 
-          <div className="sales-overview-doughnut-chart-container" ref={offerRef}>
+          <div className="sales-overview-doughnut-chart-container" style={{marginTop: "10vh"}}ref={offerRef}>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <DoughnutChartWithButton
@@ -761,11 +767,14 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
               />
             </div>
           </div>
-          <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-          <RevenueClassChart
-            dataList={salesByRevenueClass}
-            loader={salesByRevenueClassLoading}
-          />
+          <div>
+            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Revenue class</h2>
+            <RevenueClassChart
+              dataList={salesByRevenueClass}
+              loader={salesByRevenueClassLoading}
+            />
+          </div>
+        {/* </div> */}
         </>
       ) : viewType === "discountOffer" ? (
         <>

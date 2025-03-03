@@ -33,12 +33,14 @@ export function formatNumberByCountry(
   countryCode: 'US' | 'India', 
   isMonetary: boolean = true
 ): string {
-  if (input === null || input === undefined || input === "") {
+  if (input === null || input === undefined || input === "" || input === 0) {
     return "0"; // Default to "0" if input is invalid
   }
 
   let number = typeof input === 'number' ? input : parseFloat(input);
-  if (isNaN(number)) return "0";
+  if (isNaN(number)) {
+    return "0"
+  };
 
   const locale = countryCode === 'US' ? 'en-US' : 'en-IN';
   const options: Intl.NumberFormatOptions = {
