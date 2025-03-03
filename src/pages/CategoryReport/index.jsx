@@ -107,8 +107,11 @@ const CategoryReport = (props) => {
       dispatch(dropdownDetailsRequest({ locationid: selectedLocation?.value }));
     }
   }, [categoryList, selectedLocation]);
-
-
+useEffect(() => {
+  setSelectedCategories([{label:"All", value:""}]);
+  setSelectedItems([{label:"All", value:""}]);
+  setItemList([{label:"All", value:""},...dropdownDetailsData?.map((item) => ({label:item.itemName, value:item.itemId}))]);
+},[dropdownDetailsData])
 
   useEffect(() => {
     const categoryIds = selectedCategories?.map((item) => item.value);
