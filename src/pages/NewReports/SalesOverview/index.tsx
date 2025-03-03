@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cancellationSummaryRequest,
@@ -15,6 +15,7 @@ import {
   voidedOrderSummaryRequest,
 } from "redux/newReports/newReportsActions";
 import ReportsNotFound from "components/reportComponents/ReportsNotFound";
+// import SalesCard from "components/reportComponents/SalesCard";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
 import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
@@ -23,6 +24,7 @@ import RevenueClassChart from "components/reportComponents/chart/RevenueClassCha
 import StoreFilter from "components/reportComponents/StoreFilter";
 import "./SalesOverview.scss";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
+// import TenderCard from "components/reportComponents/TendorTypeCard/TendorCard";
 
 // import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow-down.svg";
 // import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow-down.svg";
@@ -53,9 +55,7 @@ import useDateFilter from "hooks/useDateFilter";
 import { transformSalesData } from "utils";
 // import { useSalesOverview } from "./useSalessOverview";
 
-interface ReportProps { }
-
-
+interface ReportProps {}
 
 interface TenderTypeItem {
   paymentMode: string;
@@ -70,9 +70,7 @@ interface TenderTypeItem {
   onPremSales?: number;
   offPremOrders?: number;
   offPremSales?: number;
-
 }
-
 
 type TenderItem = {
   totalSales: number;
@@ -94,9 +92,11 @@ type GroupedData = {
   others: Record<string, TenderItem>[];
 };
 
+const SalesOverview: React.FC<ReportProps> = ({}) => {
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.branch
+  );
 
-const SalesOverview: React.FC<ReportProps> = ({ }) => {
-  const [offerType, setOfferType] = useState<string>("");
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
@@ -107,6 +107,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     useState<number>(1);
   const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
     useState<number>(10);
+  const [offerType, setOfferType] = useState<string>("");
+  const [voidedReason, setVoidedReason] = useState<string>("");
 
   const { startDate, endDate, handleDateChange } = useDateFilter();
 
@@ -129,14 +131,20 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
+  // const tendorTypes = useSelector(
+  //   (state: any) => state?.newReports?.paymentDetailsData?.content
+  // );
+
   const tendorTypes = useSelector(
     (state: any) => state?.newReports?.paymentDetailsData
   );
 
+  // console.log("LLLLLLLLL", { tendorTypes })
+
   const tendorTypesLoader = useSelector(
     (state: any) => state?.newReports?.paymentDetailsLoading
   );
-
+  // console.log("TTL", { tendorTypesLoader });
   const salesSummary = useSelector(
     (state: any) => state?.newReports?.salesSummaryReportData
   );
@@ -217,7 +225,85 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const getPremisesSummary = useSelector(
     (state: any) => state?.newReports?.premisesSummaryData?.content
   );
+  const groupedData: any = useMemo(() => {
+    const tendorGroups: any = {
+      "Debit card": [],
+      "Credit card": [],
+      Cash: [],
+      Aggregator: [],
+      Coupon: [],
+      "Digital payment": [],
+      Others: [],
+    };
 
+    const tempdataObj: any = {};
+    tendorTypes?.forEach((item: any) => {
+      let key = tempdataObj[`${item?.paymentMode}-${item?.cardType}`] || {
+        onPremiseSales: 0,
+        onPremiseOrders: 0,
+        offPremiseSales: 0,
+        offPremiseOrders: 0,
+        paymentMode: item?.paymentMode,
+        totalSales: Number(item?.totalSales || 0),
+        totalOrders: Number(item?.totalOrders || 0),
+        salesPercentage: 0,
+        cardName: item?.cardName,
+        cardType: item?.cardType,
+        isExpandable: false,
+      };
+      if (item?.cardType && key) {
+        key.isExpandable = true;
+        if (item?.premises === "ONPREM") {
+          key.onPremiseSales += Number(item?.totalSales || 0);
+          key.onPremiseOrders += Number(item?.totalOrders || 0);
+        } else if (item?.premises === "OFFPREM") {
+          key.offPremiseSales += Number(item?.totalSales || 0);
+          key.offPremiseOrders += Number(item?.totalOrders || 0);
+        }
+        key.totalSales = Number(item?.wholeTotalSales || 0);
+        key.totalOrders = Number(item?.wholeTotalOrders || 0);
+        key.salesPercentage += Number(item?.salesPercentage || 0);
+      } else {
+        key.salesPercentage = Number(item?.salesPercentage || 0);
+      }
+      tempdataObj[`${item?.paymentMode}-${item?.cardType}`] = key;
+    });
+
+    console.log({ tempdataObj });
+
+    Object.entries(tempdataObj)?.forEach(([itemkey, value]: [string, any]) => {
+      const parts = itemkey.split("-");
+      const cardType = parts.pop() || ""; // Extract the last element (credit/debit)
+      const key = parts.join("-");
+      if (["Swipe/Tap/Dip", "Card Swipe"]?.includes(key)) {
+        if (cardType === "CREDIT") {
+          tendorGroups["Credit card"].push(value);
+        } else if (cardType === "DEBIT") {
+          tendorGroups["Debit card"].push(value);
+        }
+      } else if (["Keyed In", "Online/Key-In"]?.includes(key)) {
+        if (cardType === "CREDIT") {
+          tendorGroups["Credit card"].push(value);
+        } else if (cardType === "DEBIT") {
+          tendorGroups["Debit card"].push(value);
+        }
+      } else if (["CASH"]?.includes(key)) {
+        tendorGroups["Cash"].push(value);
+      } else if (["Doordash", "Swiggy", "Grubhub", "Zomato"]?.includes(key)) {
+        tendorGroups["Aggregator"].push(value);
+      } else if (["Coupon"]?.includes(key)) {
+        tendorGroups["Coupon"].push(value);
+      } else if (["Digital payment", "OFFLINE_QR"]?.includes(key)) {
+        tendorGroups["Digital payment"].push(value);
+      } else {
+        tendorGroups["Others"].push(value);
+      }
+    });
+
+    console.log({ tendorGroups });
+
+    return tendorGroups;
+  }, [tendorTypes]);
   //  const hourlySalesReportChartData=useSelector((state: any) => state?.newReports?.hourlySalesReportChartData)
   const dispatch = useDispatch();
   useEffect(() => {
@@ -248,7 +334,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     salesByRevenueClass,
     offerSummary,
     voidedOrderSummary,
-  ])
+  ]);
+
+  useEffect(() => {
+    console.log(tenderType);
+  }, [tenderType]);
   /******************************************************************************************* */
 
   useEffect(() => {
@@ -328,7 +418,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         cancellationSummaryRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
+          tableRecordLimit: currentRowsVoiddedOrders,
           tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
@@ -355,7 +445,46 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     ]);
   }, [selectedLocation, startDate, endDate]);
 
-
+  useEffect(() => {
+    dispatch(
+      cancellationSummaryRequest({
+        locationid: selectedLocation?.value,
+        tableRecordLimit: currentRowsVoiddedOrders,
+        tablePageNo: currentPageVoiddedOrders,
+        startDate: startDate,
+        endDate: endDate,
+        search: searchQuery,
+        reason: voidedReason,
+      })
+    );
+  }, [
+    voidedReason,
+    startDate,
+    endDate,
+    currentRowsVoiddedOrders,
+    currentPageVoiddedOrders,
+    searchQuery,
+  ]);
+  useEffect(() => {
+    dispatch(
+      discountSummaryRequest({
+        locationid: selectedLocation?.value,
+        tableRecordLimit: currentRowsOfferDiscount,
+        tablePageNo: currentPageOfferDiscount,
+        startDate: startDate,
+        endDate: endDate,
+        search: searchQuery,
+        offer: offerType,
+      })
+    );
+  }, [
+    offerType,
+    startDate,
+    endDate,
+    currentRowsOfferDiscount,
+    currentPageOfferDiscount,
+    searchQuery,
+  ]);
 
   const handleGoBackToChart = () => {
     setViewType("default");
@@ -436,7 +565,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     },
   ];
 
-
   const handleSearch = (value: string, kpiTitle: string) => {
     switch (viewType) {
       case "discountOffer":
@@ -473,13 +601,15 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }
   };
 
-
-
   const handleSummaryView = (view: string, data: any) => {
     setViewType(view);
-    setOfferType(data?.label);
-  }
-
+    if (view == "discountOffer") {
+      setOfferType(data?.label);
+    }
+    if (view === "voidedOrder") {
+      setVoidedReason(data?.label);
+    }
+  };
   //   {
   // "paymentMode": "CASH",
   // "totalSales": 88819.93,
@@ -493,105 +623,21 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   // "wholeTotalOrders": 0
   // },
 
-  const groupedData: any = useMemo(() => {
-    const tendorGroups: any = {
-      "Debit card": [],
-      "Credit card": [],
-      "Cash": [],
-      "Aggregator": [],
-      "Coupon": [],
-      "Digital payment": [],
-      "Others": []
-    }
-
-    const tempdataObj: any = {}
-    tendorTypes?.forEach((item: any) => {
-      let key = tempdataObj[`${item?.paymentMode}-${item?.cardType}`] || {
-        onPremiseSales: 0,
-        onPremiseOrders: 0,
-        offPremiseSales: 0,
-        offPremiseOrders: 0,
-        paymentMode: item?.paymentMode,
-        totalSales: Number(item?.totalSales || 0),
-        totalOrders: Number(item?.totalOrders || 0),
-        salesPercentage: 0,
-        cardName: item?.cardName,
-        cardType: item?.cardType,
-        isExpandable: false
-      };
-      if (item?.cardType && key) {
-        key.isExpandable = true
-          if (item?.premises === "ONPREM") {
-            key.onPremiseSales += Number(item?.totalSales || 0)
-            key.onPremiseOrders += Number(item?.totalOrders || 0)
-          } else if (item?.premises === "OFFPREM") {
-            key.offPremiseSales += Number(item?.totalSales || 0)
-            key.offPremiseOrders += Number(item?.totalOrders || 0)
-          }
-          key.totalSales = Number(item?.wholeTotalSales || 0)
-          key.totalOrders = Number(item?.wholeTotalOrders || 0)
-          key.salesPercentage += Number(item?.salesPercentage || 0)
-      
-      }else{
-        key.salesPercentage=Number(item?.salesPercentage || 0)
-      }
-      tempdataObj[`${item?.paymentMode}-${item?.cardType}`] = key
-    })
-
-    console.log({ tempdataObj });
-
-
-    Object.entries(tempdataObj)?.forEach(([itemkey, value]: [string, any]) => {
-      const parts = itemkey.split("-");
-      const cardType = parts.pop() || ""; // Extract the last element (credit/debit)
-      const key = parts.join("-");
-      if (["Swipe/Tap/Dip", "Card Swipe"]?.includes(key)) {
-        if (cardType === "CREDIT") {
-          tendorGroups["Credit card"].push(value)
-        } else if (cardType === "DEBIT") { tendorGroups["Debit card"].push(value) }
-
-      } else if (["Keyed In", "Online/Key-In"]?.includes(key)) {
-        if (cardType === "CREDIT") {
-          tendorGroups["Credit card"].push(value)
-        } else if (cardType === "DEBIT") { tendorGroups["Debit card"].push(value) }
-
-      } else if (["CASH"]?.includes(key)) {
-        tendorGroups["Cash"].push(value)
-      } else if (["Doordash", "Swiggy", "Grubhub", "Zomato"]?.includes(key)) {
-        tendorGroups["Aggregator"].push(value)
-      } else if (["Coupon"]?.includes(key)) {
-        tendorGroups["Coupon"].push(value)
-      } else if (["Digital payment", "OFFLINE_QR"]?.includes(key)) {
-        tendorGroups["Digital payment"].push(value)
-      } else {
-        tendorGroups["Others"].push(value)
-      }
-    })
-
-    console.log({ tendorGroups });
-
-    return tendorGroups;
-  }, [tendorTypes]);
-
-
   console.log({ groupedData });
 
-const knownTendorIcons:any={
-  "Swipe/Tap/Dip":<PayTapIcon />,
-  "Keyed In":<KeyedInIcon />,
-  "Cash":<CashIcon />,
-  "UberEats":<UberEatsIcon />,
-  "Grubhub":<GrubHubIcon />,
-  "Doordash":<DoordashIcon />,
-  "Coupons":<CouponsIcon />,
-  "Gift Card":<GiftCardIcon />,
-"Google Pay":<GooglePayIcon />,
-"Apple Pay":<ApplePayIcon />,
-"Offline QR":<OfflineQRIcon />
-
-}
-
-
+  const knownTendorIcons: any = {
+    "Swipe/Tap/Dip": <PayTapIcon />,
+    "Keyed In": <KeyedInIcon />,
+    Cash: <CashIcon />,
+    UberEats: <UberEatsIcon />,
+    Grubhub: <GrubHubIcon />,
+    Doordash: <DoordashIcon />,
+    Coupons: <CouponsIcon />,
+    "Gift Card": <GiftCardIcon />,
+    "Google Pay": <GooglePayIcon />,
+    "Apple Pay": <ApplePayIcon />,
+    "Offline QR": <OfflineQRIcon />,
+  };
 
   return (
     <>
@@ -627,7 +673,6 @@ const knownTendorIcons:any={
               </div>
             </div>
 
-
             <div className="todays-report-sales-overview-box-container">
               <CardWithMiniGraph
                 cardTitle="Total Sales"
@@ -636,7 +681,9 @@ const knownTendorIcons:any={
                 isMonetary={true}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.totalSalesPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.totalSalesPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -647,7 +694,9 @@ const knownTendorIcons:any={
                 isMonetary={true}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.netSalesPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.netSalesPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -657,8 +706,13 @@ const knownTendorIcons:any={
                 incrementDecrementValue={salesSummary?.totalTaxPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
-                showMiniGraph={salesSummary?.totalTaxPercentage !== "0.00" && salesSummary?.totalTaxPercentage !== 0}
-                incrementOrDecrement={transformSalesData(salesSummary?.totalTaxPercentage)}
+                showMiniGraph={
+                  salesSummary?.totalTaxPercentage !== "0.00" &&
+                  salesSummary?.totalTaxPercentage !== 0
+                }
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.totalTaxPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -669,7 +723,9 @@ const knownTendorIcons:any={
                 isMonetary={true}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.totalTipsPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.totalTipsPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -680,7 +736,9 @@ const knownTendorIcons:any={
                 isMonetary={true}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.gratuityPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.gratuityPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -691,7 +749,9 @@ const knownTendorIcons:any={
                 isMonetary={false}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.transactionPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.transactionPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -702,7 +762,9 @@ const knownTendorIcons:any={
                 isMonetary={true}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.discountPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.discountPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
@@ -713,11 +775,12 @@ const knownTendorIcons:any={
                 isMonetary={true}
                 loader={salesSummaryLoader}
                 showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(salesSummary?.cancelledPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  salesSummary?.cancelledPercentage
+                )}
                 graphType="arrow"
                 isPercent={true}
               />
-
             </div>
           </div>
 
@@ -726,53 +789,40 @@ const knownTendorIcons:any={
           <div>
             <h2 className="sales-overview-sub-heading ">Tendor Type</h2>
           </div>
-
           <div className="reports-tendor-container">
-            {
-              Object?.entries(groupedData || {})?.map(([key, value]) => (
-                <>
-                  {(!Array.isArray(value) || !value?.length) ? null :
-                    <div className="left-section">
-                      <h3 className="tender-type-sub-heading">{key}</h3>
-                      <div className="tender-type-container">
-                        {Array.isArray(value) && value.map((item: any, index: number) => (
-                                              <TenderType
-                              icon={knownTendorIcons?.[item?.paymentMode]||<KeyedInIcon />}
-                              key={index}
-                              tendorTitle={item?.paymentMode}
-                              expandable={item?.isExpandable}
-                              amount={item?.totalSales || 0}
-                              orders={item?.totalOrders || 0}
-                              percentage={Number(
-                                item?.salesPercentage || 0
-                              )}
-                              onPremOrders={
-                                item?.onPremiseOrders || 0
-                              }
-                              onPremSales={
-                                item?.onPremiseSales || 0
-                              }
-                              offPremOrders={
-                                item?.offPremiseOrders || 0
-                              }
-                              offPremSales={
-                                item?.offPremiseSales || 0
-                              }
-                              loader={tendorTypesLoader}
-                            />
-             
+            {Object?.entries(groupedData || {})?.map(([key, value]) => (
+              <>
+                {!Array.isArray(value) || !value?.length ? null : (
+                  <div className="left-section">
+                    <h3 className="tender-type-sub-heading">{key}</h3>
+                    <div className="tender-type-container">
+                      {Array.isArray(value) &&
+                        value.map((item: any, index: number) => (
+                          <TenderType
+                            icon={
+                              knownTendorIcons?.[item?.paymentMode] || (
+                                <KeyedInIcon />
+                              )
+                            }
+                            key={index}
+                            tendorTitle={item?.paymentMode}
+                            expandable={item?.isExpandable}
+                            amount={item?.totalSales || 0}
+                            orders={item?.totalOrders || 0}
+                            percentage={Number(item?.salesPercentage || 0)}
+                            onPremOrders={item?.onPremiseOrders || 0}
+                            onPremSales={item?.onPremiseSales || 0}
+                            offPremOrders={item?.offPremiseOrders || 0}
+                            offPremSales={item?.offPremiseSales || 0}
+                            loader={tendorTypesLoader}
+                          />
                         ))}
-
-                      </div>
                     </div>
-                  }
-                </>
-              ))
-            }
+                  </div>
+                )}
+              </>
+            ))}
           </div>
-
-
-
 
           {/* <div className="reports-tendor-container">
             <div className="left-section">
@@ -800,7 +850,7 @@ const knownTendorIcons:any={
                     tenderType?.["Card Swipe-DEBIT"]?.offPremSales || 0
                   }
                   loader={tendorTypesLoader}
-                // loader={true}
+                  // loader={true}
                 />
                 <TenderType
                   icon={<KeyedInIcon />}
@@ -984,9 +1034,9 @@ const knownTendorIcons:any={
                 />
               </div>
             </div>
-          </div> */}
+          </div>*/}
 
-          <h2 className="sales-overview-sub-heading ">Card Type</h2>
+          <h2 className="sales-overview-sub-heading ">By Card Type</h2>
           <CardTypeChart
             dataList={salesCardTypeData}
             loader={salesCardTypeDataLoading}
@@ -1065,7 +1115,6 @@ const knownTendorIcons:any={
               // count={discountSummary?.length}
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
-
             />
           </div>
         </>
@@ -1078,7 +1127,7 @@ const knownTendorIcons:any={
             </button>
           </div>
           <NewTable
-            kpiTitle={`Voided orders - ${offerType}`}
+            kpiTitle={`Voided orders - ${voidedReason}`}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             headerData={voidedTableHeaders}
