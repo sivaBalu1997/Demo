@@ -528,14 +528,14 @@ export const getSalesByChannel = (salesByChannelPayload) => {
 
 export const getCategorySales = (categorySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const categoryIds = categorySalesPayload?.categoryIds?.join(',');
     let query = "";
-   if (categorySalesPayload?.categoryIds?.length > 0) {
+    if (categorySalesPayload?.itemIds?.length > 0) {
+        query += `&itemIds=${(categorySalesPayload?.itemIds || [])?.join(",")}`;
+    } else if (categorySalesPayload?.categoryIds?.length > 0) {
         query += `&categoryIds=${(categorySalesPayload?.categoryIds || [])?.join(",")}`;
     }else{
         query+=`&groupByCategory=${categorySalesPayload?.groupByCategory}`
     }
-
     return API({
         method: "get",
         url: `${reportsBaseUrl}/sales/category/getCategorySales?locationId=${categorySalesPayload?.locationId}&startDate=${categorySalesPayload?.startDate}&endDate=${categorySalesPayload?.endDate}${query}`,

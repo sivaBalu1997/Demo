@@ -45,41 +45,12 @@ import "./SalesOverview.scss";
 
 interface ReportProps {}
 
-interface TenderTypeItem {
-  paymentMode: string;
-  totalSales: number;
-  totalOrders: number;
-  type?: string;
-  salesPercentage: string;
-  cardName?: string | null;
-  premises: "ONPREM" | "third party" | string;
-  cardType?: string | null;
-  onPremOrders?: number;
-  onPremSales?: number;
-  offPremOrders?: number;
-  offPremSales?: number;
-}
-
-type TenderItem = {
-  totalSales: number;
-  totalOrders: number;
-  onPremiseSales: number;
-  onPremiseOrders: number;
-  offPremiseSales: number;
-  offPremiseOrders: number;
-  salesPercentage: number;
-};
-
-
 const SalesOverview: React.FC<ReportProps> = ({}) => {
 
   const offerRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
 
-  const restaurantDetails = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.branch
-  );
 
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
@@ -97,9 +68,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     label: "Yesterday",
     value: "Yesterday",
   });
-  const [tenderType, setTenderType] = useState<Record<string, TenderTypeItem>>(
-    {}
-  );
+
   
   const { startDate, endDate, handleDateChange } = useDateFilter();
 
@@ -114,12 +83,9 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     (state: any) => state?.newReports?.selectedLocation
   );
 
-
   const tendorTypes = useSelector(
     (state: any) => state?.newReports?.paymentDetailsData
   );
-
-
 
   const tendorTypesLoader = useSelector(
     (state: any) => state?.newReports?.paymentDetailsLoading
@@ -559,8 +525,10 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
 
   const knownTendorIcons: any = {
     "Swipe/Tap/Dip": <PayTapIcon />,
+    "Online/Key-In":<PayTapIcon />,
     "Keyed In": <KeyedInIcon />,
     Cash: <CashIcon />,
+    "CASH": <CashIcon />,
     UberEats: <UberEatsIcon />,
     Grubhub: <GrubHubIcon />,
     Doordash: <DoordashIcon />,
@@ -569,6 +537,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     "Google Pay": <GooglePayIcon />,
     "Apple Pay": <ApplePayIcon />,
     "Offline QR": <OfflineQRIcon />,
+    "OFFLINE_QR": <OfflineQRIcon />,
   };
 
   return (
