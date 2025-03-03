@@ -1,25 +1,42 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { amountFormatter, getRandomColor } from "utils";
+import { amountFormatter } from "utils";
 import DoughnutChartShimmer from "../DoughnutChartShimmer";
- 
+
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
- 
 
 const predefinedColors = [
-  "#0FB36A", "#F99D2B", "#B33BB3", "#14C9C9", "#E3313C",
-  "#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD",
-  "#774F38", "#E1A679", "#0366d6", "#28a745", "#6f42c1",
-  "#d73a49", "#f66a0a", "#17a2b8", "#e83e8c", "#6c757d"
+  "#0FB36A",
+  "#F99D2B",
+  "#B33BB3",
+  "#14C9C9",
+  "#E3313C",
+  "#FF6B6B",
+  "#4ECDC4",
+  "#45B7D1",
+  "#96CEB4",
+  "#FFEEAD",
+  "#774F38",
+  "#E1A679",
+  "#0366d6",
+  "#28a745",
+  "#6f42c1",
+  "#d73a49",
+  "#f66a0a",
+  "#17a2b8",
+  "#e83e8c",
+  "#6c757d",
 ];
 
-
-const centerTextPlugin={
+const centerTextPlugin = {
   id: "centerText",
   beforeDraw: (chart) => {
-    const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    const {
+      ctx,
+      chartArea: { left, right, top, bottom },
+    } = chart;
     const centerX = (left + right) / 2;
     const centerY = (top + bottom) / 2;
     ctx.save();
@@ -32,8 +49,13 @@ const centerTextPlugin={
     ctx.fillText(chart.config.options.totalSales, centerX, centerY + 15);
     ctx.restore();
   },
-}
-function DoughnutChartWithButton({dataList=[], countryCode,handleClick, loader}) {
+};
+function DoughnutChartWithButton({
+  dataList = [],
+  countryCode,
+  handleClick,
+  loader,
+}) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
@@ -41,127 +63,26 @@ function DoughnutChartWithButton({dataList=[], countryCode,handleClick, loader})
   const overlayHoverRef = useRef(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [totalSales, setTotalSales] = useState("$0");
-  const [slices, setSlices] = useState([]);
   const [reRenderChart, setReRenderChart] = useState(true);
+  const [slices, setSlices] = useState([]);
+  const [data, setData]=useState({
+    labels: [],
+    datasets: [
+      {
+        data:[],
+        backgroundColor: [],
+        borderWidth: 0,
+        hoverOffset: 15,
+      },
+    ],
+  });
 
+  useEffect(() => {
+    if (reRenderChart) {
+      setReRenderChart(false);
+    }
+  }, [reRenderChart]);
 
-// const [centerTextPlugin, setCenterTextPlugin] = useState(  {
-//   id: "centerText",
-//   beforeDraw: (chart) => {
-//     const { ctx, chartArea: { left, right, top, bottom } } = chart;
-//     const centerX = (left + right) / 2;
-//     const centerY = (top + bottom) / 2;
-//     ctx.save();
-//     ctx.textAlign = "center";
-//     ctx.textBaseline = "middle";
-//     ctx.fillStyle = "#000";
-//     ctx.font = "16px Poppins";
-//     ctx.fillText("Total", centerX, centerY - 10);
-//     ctx.font = "24px Poppins";
-//     ctx.fillText(totalSales, centerX, centerY + 15);
-//     ctx.restore();
-//   },
-// });
-useEffect(() => {
-  if (dataList?.length) {
-    console.log(dataList,"this the datalist shown here");
-    const totalDisplay = dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0);
-    console.log(totalDisplay);
-
-    const formattedTotal = amountFormatter(totalDisplay, countryCode);
-    
-    // Assign colors from predefined palette
-    const colors = dataList.map((_, index) => 
-      predefinedColors[index % predefinedColors.length]
-    );
-
-    const sliceData = dataList?.map((slice, index) => ({
-      label: slice?.offerName,
-      value: ((Number(slice?.totalSales || 0) * 100 / totalDisplay)?.toFixed(2)),
-      color: colors[index],
-      items: Number(slice?.totalOrders || 0),
-      amount: Number(slice?.totalSales || 0),
-    }));
-
-    setTotalSales(formattedTotal);
-    setSlices(sliceData);
-    setReRenderChart(true);
-
-    // Update center text plugin
-    // setCenterTextPlugin({
-    //   id: "centerText",
-    //   beforeDraw: (chart) => {
-    //     const { ctx, chartArea: { left, right, top, bottom } } = chart;
-    //     const centerX = (left + right) / 2;
-    //     const centerY = (top + bottom) / 2;
-    //     ctx.save();
-    //     ctx.textAlign = "center";
-    //     ctx.textBaseline = "middle";
-    //     ctx.fillStyle = "#000";
-    //     ctx.font = "16px Poppins";
-    //     ctx.fillText("Total", centerX, centerY - 10);
-    //     ctx.font = "24px Poppins";
-    //     ctx.fillText(formattedTotal, centerX, centerY + 15);
-    //     ctx.restore();
-    //   },
-    // });
-  }
-}, [dataList, countryCode]);
-useEffect(()=>{
-  if(reRenderChart){
-    setReRenderChart(false)
-    
-  }
-},[reRenderChart])
-// useEffect(()=>{
-//   if(dataList?.length) {
-
-//     const totalDisplay =dataList?.reduce((sum, item) => sum + (Number(item?.totalSales) || 0), 0);
-//     console.log(totalDisplay, dataList);
-//   const formattedTotal = amountFormatter(totalDisplay, countryCode);
-//   setTotalSales(formattedTotal);
-//   setReRenderChart(true);
-//   setCenterTextPlugin(  {
-//     id: "centerText",
-//     beforeDraw: (chart) => {
-//       const { ctx, chartArea: { left, right, top, bottom } } = chart;
-//       const centerX = (left + right) / 2;
-//       const centerY = (top + bottom) / 2;
-//       ctx.save();
-//       ctx.textAlign = "center";
-//       ctx.textBaseline = "middle";
-//       ctx.fillStyle = "#000";
-//       ctx.font = "16px Poppins";
-//       ctx.fillText("Total", centerX, centerY - 10);
-//       ctx.font = "24px Poppins";
-//       ctx.fillText(formattedTotal, centerX, centerY + 15);
-//       ctx.restore();
-//     },
-//   }); 
-//   const colors = [
-//     "#0FB36A",
-//     "#F99D2B",
-//     "#B33BB3",
-//     "#14C9C9",
-//     "#E3313C",
-//     ...Array(dataList?.length)?.map(()=>getRandomColor())
-//   ];
- 
-//   const sliceData = dataList?.map((slice, index) => ({
-//     label: slice?.offerName,
-//     value: (Number(slice?.totalSales||0)*100/totalDisplay)?.toFixed(2),
-//     color:colors[index],
-//     items: Number(slice?.totalOrders||0),
-//     amount: Number(slice?.totalSales||0),
-//   }));
-//   setSlices(sliceData);
-//   const initTimer = setTimeout(() => {
-//     // setReRenderChart(fasle);
-//   }, 1000); 
-//   return () => clearTimeout(initTimer);
-// }
-// },[dataList,countryCode])
- 
   // Update window width on resize to trigger re-render.
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -169,6 +90,12 @@ useEffect(()=>{
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const computeLabelPositions = useCallback(() => {
+    if (
+      !chartRef.current ||
+      !chartRef.current.canvas ||
+      !document.body.contains(chartRef.current.canvas)
+    )
+      return; // Guard clause
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
@@ -187,12 +114,6 @@ useEffect(()=>{
     }
   }, []);
   // Force recalculation on initial render after a short delay.
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     computeLabelPositions();
-  //   }, 500); // 500ms delay to allow chart rendering
-  //   return () => clearTimeout(timer);
-  // }, [computeLabelPositions]);
   useEffect(() => {
     let observer;
     if (containerRef.current) {
@@ -207,7 +128,7 @@ useEffect(()=>{
   useEffect(() => {
     computeLabelPositions();
   }, [windowWidth, computeLabelPositions]);
- 
+
   // Also re-calc positions when container size changes.
   useEffect(() => {
     if (containerRef.current) {
@@ -218,10 +139,9 @@ useEffect(()=>{
       return () => resizeObserver.disconnect();
     }
   }, [containerRef, computeLabelPositions]);
- 
+
   // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
- 
- 
+
   const handleHover = (event, elements) => {
     if (elements.length > 0) {
       const index = elements[0].index;
@@ -237,32 +157,19 @@ useEffect(()=>{
       }
     }
   };
- 
-  const data = {
-    labels: slices.map((slice) => slice.label),
-    datasets: [
-      {
-        data: slices.map((slice) => slice.value),
-        backgroundColor: slices.map((slice) => slice.color),
-        borderWidth: 0,
-        hoverOffset: 15,
-      },
-    ],
-  };
- 
+
+
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     totalSales: totalSales, // Pass total sales to plugin
     cutout: "80%",
-    onHover: handleHover, 
+    onHover: handleHover,
     layout: {
       padding: {
         top: 35,
-        // bottom: 60,
-        // left: 25,
-        // right: 25
-      }
+      },
     },
     plugins: {
       tooltip: { enabled: false },
@@ -272,18 +179,94 @@ useEffect(()=>{
     animation: {
       onComplete: () => {
         computeLabelPositions();
-      }}
+      },
+    },
   };
 
-  if (loader) return <DoughnutChartShimmer />
- 
+
+  useEffect(() => {
+
+    if (dataList?.length) {
+    const totalDisplay = dataList?.reduce(
+      (sum, item) => sum + (Number(item?.totalSales) || 0),
+      0
+    );
+
+    const formattedTotal = amountFormatter(totalDisplay, countryCode);
+    // Assign colors from predefined palette
+    const colors = dataList.map(
+      (_, index) => predefinedColors[index % predefinedColors.length]
+    );
+
+    setTotalSales(formattedTotal);
+
+    // Sort by totalSales (descending) **ensuring correct numeric sorting**
+    const sortedData = [...dataList].sort(
+      (a, b) => Number(b.totalSales) - Number(a.totalSales) 
+    );
+
+    // Get the top 10 records
+    const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
+      label: slice?.offerName,
+      value: ((Number(slice?.totalSales || 0) * 100) / totalDisplay)?.toFixed(
+        2
+      ),
+      color: colors[index],
+      items: Number(slice?.totalOrders || 0),
+      amount: Number(slice?.totalSales || 0),
+    }));
+
+    // Sum remaining records into "Other"
+    const otherRecords = sortedData.slice(10);
+    let tempSlice=top10
+    if (otherRecords.length > 0) {
+      const otherSummary = otherRecords.reduce(
+        (acc, item) => {
+
+          acc.value += ((Number(item?.totalSales || 0) * 100) / totalDisplay)?.toFixed(
+            2
+          )
+
+          acc.items += Number(item?.totalOrders || 0)
+          acc.amount += Number(item?.totalSales || 0)
+
+          return acc;
+        },
+        { label: "Other", value: 0, color: colors[10], items: 0, amount: 0 }
+      );
+  
+
+      tempSlice=[...top10, otherSummary]
+
+    }
+    const tempData = {
+      labels: tempSlice?.map((slice) => slice.label),
+      datasets: [
+        {
+          data: tempSlice.map((slice) => slice.value),
+          backgroundColor: tempSlice.map((slice) => slice.color),
+          borderWidth: 0,
+          hoverOffset: 15,
+        },
+      ],
+    };
+    setData(tempData);
+
+    setReRenderChart(true);
+    setSlices(tempSlice);
+    }
+  }, [dataList, countryCode]);
+
+
+  
+  if (loader) return <DoughnutChartShimmer />;
   return (
     <div
       ref={containerRef}
       style={{
         width: "100%",
         maxWidth: "550px",
-        height:  "450px",
+        height: "450px",
         position: "relative",
         overflow: "visible",
         padding: "20px 5px",
@@ -295,16 +278,19 @@ useEffect(()=>{
       }}
     >
       <Doughnut
+        key={JSON.stringify(
+
+        )}
         ref={chartRef}
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-        redraw={reRenderChart}
+      // redraw={reRenderChart}
       />
- 
+
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
-        slices.map((slice, index) => {
+        slices?.map((slice, index) => {
           const pos = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;
@@ -359,7 +345,7 @@ useEffect(()=>{
                       cursor: "pointer",
                     }}
                     onClick={() => handleClick && handleClick(slice)}
-                    >
+                  >
                     View Details
                   </button>
                 </>
@@ -370,5 +356,5 @@ useEffect(()=>{
     </div>
   );
 }
- 
+
 export default DoughnutChartWithButton;

@@ -68,24 +68,33 @@
           .tender-title {
             margin-left: 5px;
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 500;
+            // background-color: pink;
+            line-height: 24px;
+            letter-spacing: -0.2px;
           }
 
           .tender-amount {
             font-size: 18px;
             font-weight: 500;
+            line-height: 22px;
+            letter-spacing: -0.2px;
           }
 
           .tender-orders {
             font-size: 14px;
             color: #777;
             font-weight: 400;
+            line-height: 18px;
+            letter-spacing: -0.2px;
           }
         }
 
         .tender-percentage {
           font-size: 24px;
-          font-weight: 600;
+          font-weight: 500;
+          line-height: 32px;
+          letter-spacing: -0.5px;
           display: flex;
           align-items: center;
           gap: 12px;

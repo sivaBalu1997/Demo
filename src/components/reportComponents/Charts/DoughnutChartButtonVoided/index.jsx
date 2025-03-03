@@ -1,19 +1,33 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { amountFormatter, getRandomColor } from "utils";
+import { amountFormatter } from "utils";
 import DoughnutChartShimmer from "../DoughnutChartShimmer";
- 
+
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-// {
-//   "steward": "",
-//   "voidedAmount": "798.72",
-//   "voidedItems": "",
-//   "voidedReasons": "CHEF NOT AVAILABLE",
-//   "orderCount": 51128547
-// }
+const predefinedColors = [
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffff00", // Yellow
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+  "#808080", // Gray
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffff00", // Yellow
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+
+  "#808080", // Gray
+];
 
 const centerTextPlugin = {
   id: "centerText",
@@ -31,15 +45,15 @@ const centerTextPlugin = {
     ctx.font = "16px Poppins";
     ctx.fillText("Total", centerX, centerY - 10);
     ctx.font = "24px Poppins";
-    ctx.fillText(chart.config.options.voidedAmount, centerX, centerY + 15);
+    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 15);
     ctx.restore();
   },
 };
-function DoughnutChartWithButtonVoided({
+function DoughnutChartButtonVoided({
   dataList = [],
   countryCode,
-  handleClick = (data) => {},
-  loader
+  handleClick,
+  loader,
 }) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
@@ -47,143 +61,27 @@ function DoughnutChartWithButtonVoided({
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [voidedAmount, setvoidedAmount] = useState("$0");
-  const [slices, setSlices] = useState([]);
+  const [totalSales, setTotalSales] = useState("$0");
   const [reRenderChart, setReRenderChart] = useState(true);
-  // const mockData = [
-  //   {
-  //     steward: "John Smith",
-  //     voidedAmount: "798.72",
-  //     voidedItems: "45",
-  //     voidedReasons: "CHEF NOT AVAILABLE",
-  //     orderCount: 156,
-  //   },
-  //   {
-  //     steward: "Emma Johnson",
-  //     voidedAmount: "523.45",
-  //     voidedItems: "37",
-  //     voidedReasons: "CUSTOMER CHANGED MIND",
-  //     orderCount: 124,
-  //   },
-  //   {
-  //     steward: "Michael Davis",
-  //     voidedAmount: "325.19",
-  //     voidedItems: "29",
-  //     voidedReasons: "WRONG ORDER",
-  //     orderCount: 85,
-  //   },
-  //   {
-  //     steward: "Sarah Wilson",
-  //     voidedAmount: "412.60",
-  //     voidedItems: "31",
-  //     voidedReasons: "FOOD QUALITY ISSUE",
-  //     orderCount: 97,
-  //   },
-  //   {
-  //     steward: "Robert Taylor",
-  //     voidedAmount: "678.33",
-  //     voidedItems: "42",
-  //     voidedReasons: "SYSTEM ERROR",
-  //     orderCount: 138,
-  //   },
-  //   {
-  //     steward: "Jennifer Brown",
-  //     voidedAmount: "245.87",
-  //     voidedItems: "19",
-  //     voidedReasons: "ITEM UNAVAILABLE",
-  //     orderCount: 72,
-  //   },
-  //   {
-  //     steward: "David Miller",
-  //     voidedAmount: "189.50",
-  //     voidedItems: "15",
-  //     voidedReasons: "PREPARATION TIME TOO LONG",
-  //     orderCount: 63,
-  //   },
-  // ];
-  // dataList = mockData;
-  const predefinedColors = [
-    "#ff0000", // Red
-    "#0000ff", // Blue
-    "#008000", // Green
-    "#ffff00", // Yellow
-    "#ffA500", // Orange
-    "#800080", // Purple
-    "#ffc0cb", // Pink
-    "#a52a2a", // Brown
-    "#808080", // Gray
-    "#ff0000", // Red
-    "#0000ff", // Blue
-    "#008000", // Green
-    "#ffff00", // Yellow
-    "#ffA500", // Orange
-    "#800080", // Purple
-    "#ffc0cb", // Pink
-    "#a52a2a", // Brown
-
-    "#808080", // Gray
-  ];
-  // const [centerTextPlugin, setCenterTextPlugin] = useState(  {
-  //   id: "centerText",
-  //   beforeDraw: (chart) => {
-  //     const { ctx, chartArea: { left, right, top, bottom } } = chart;
-  //     const centerX = (left + right) / 2;
-  //     const centerY = (top + bottom) / 2;
-  //     ctx.save();
-  //     ctx.textAlign = "center";
-  //     ctx.textBaseline = "middle";
-  //     ctx.fillStyle = "#000";
-  //     ctx.font = "16px Poppins";
-  //     ctx.fillText("Total", centerX, centerY - 10);
-  //     ctx.font = "24px Poppins";
-  //     ctx.fillText(voidedAmount, centerX, centerY + 15);
-  //     ctx.restore();
-  //   },
-  // });
+  const [slices, setSlices] = useState([]);
+  const [data, setData]=useState({
+    labels: [],
+    datasets: [
+      {
+        data:[],
+        backgroundColor: [],
+        borderWidth: 0,
+        hoverOffset: 15,
+      },
+    ],
+  });
 
   useEffect(() => {
-    if (dataList?.length) {
-      const totalDisplay = dataList?.reduce(
-        (sum, item) => sum + (Number(item?.voidedAmount) || 0),
-        0
-      );
-      console.log(totalDisplay, dataList);
-      const formattedTotal = amountFormatter(totalDisplay, countryCode);
-      // Assign colors from predefined palette
-      const colors = dataList.map(
-        (_, index) => predefinedColors[index % predefinedColors.length]
-      );
-      setvoidedAmount(formattedTotal);
-      setReRenderChart(true);
-      // setCenterTextPlugin(  );
-
-      // console.log({Colors});
-
-      const sliceData = dataList?.map((slice, index) => ({
-        label: slice?.voidedReasons,
-        value: (
-          (Number(slice?.voidedAmount || 0) * 100) /
-          totalDisplay
-        )?.toFixed(2),
-        color: colors[index],
-        items: Number(slice?.orderCount || 0),
-        amount: Number(slice?.voidedItems || 0),
-        voidedAmount:Number(slice?.voidedAmount || 0),
-      }));
-      console.log(dataList,"here is the slice data 77777777777777777777777777777777")
-      setSlices(sliceData);
-      // const initTimer = setTimeout(() => {
-      //   // setReRenderChart(false);
-      // }, 1000);
-      // return () => clearTimeout(initTimer);
+    if (reRenderChart) {
+      setReRenderChart(false);
     }
-  }, [dataList, countryCode]);
-  useEffect(()=>{
-    if(reRenderChart){
-      setReRenderChart(false)
-      
-    }
-  },[reRenderChart])
+  }, [reRenderChart]);
+
   // Update window width on resize to trigger re-render.
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -191,6 +89,12 @@ function DoughnutChartWithButtonVoided({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const computeLabelPositions = useCallback(() => {
+    if (
+      !chartRef.current ||
+      !chartRef.current.canvas ||
+      !document.body.contains(chartRef.current.canvas)
+    )
+      return; // Guard clause
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
@@ -209,12 +113,6 @@ function DoughnutChartWithButtonVoided({
     }
   }, []);
   // Force recalculation on initial render after a short delay.
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     computeLabelPositions();
-  //   }, 500); // 500ms delay to allow chart rendering
-  //   return () => clearTimeout(timer);
-  // }, [computeLabelPositions]);
   useEffect(() => {
     let observer;
     if (containerRef.current) {
@@ -259,32 +157,19 @@ function DoughnutChartWithButtonVoided({
     }
   };
 
-  const data = {
-    labels: slices.map((slice) => slice.label),
-    datasets: [
-      {
-        data: slices.map((slice) => slice.value),
-        backgroundColor: slices.map((slice) => slice.color),
-        borderWidth: 0,
-        hoverOffset: 15,
-      },
-    ],
-  };
+
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    totalSales: totalSales, // Pass total sales to plugin
     cutout: "80%",
-    onHover: handleHover,   
+    onHover: handleHover,
     layout: {
       padding: {
         top: 35,
-        // bottom: 60,
-        // left: 25,
-        // right: 25
-      }
+      },
     },
-    voidedAmount: voidedAmount, // Pass total sales to plugin
     plugins: {
       tooltip: { enabled: false },
       legend: { position: "bottom", labels: { padding: 20 } },
@@ -293,18 +178,105 @@ function DoughnutChartWithButtonVoided({
     animation: {
       onComplete: () => {
         computeLabelPositions();
-      }}
+      },
+    },
   };
 
-  if(loader) return <DoughnutChartShimmer />
- 
+
+// {
+//   "steward": "",
+//   "voidedAmount": "798.72",
+//   "voidedItems": "",
+//   "voidedReasons": "CHEF NOT AVAILABLE",
+//   "orderCount": 51128547
+// }
+
+
+  useEffect(() => {
+
+    if (dataList?.length) {
+    const totalDisplay = dataList?.reduce(
+      (sum, item) => sum + (Number(item?.voidedAmount) || 0),
+      0
+    );
+
+    const formattedTotal = amountFormatter(totalDisplay, countryCode);
+    // Assign colors from predefined palette
+    const colors = dataList.map(
+      (_, index) => predefinedColors[index % predefinedColors.length]
+    );
+
+    setTotalSales(formattedTotal);
+
+    // Sort by totalSales (descending) **ensuring correct numeric sorting**
+    const sortedData = [...dataList].sort(
+      (a, b) => Number(b?.voidedAmount||0) - Number(a?.voidedAmount||0) 
+    );
+
+    // Get the top 10 records
+    const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
+      label: slice?.voidedReasons,
+      value: ((Number(slice?.voidedAmount || 0) * 100) / totalDisplay)?.toFixed(
+        2
+      ),
+      color: colors[index],
+      items: Number(slice?.orderCount || 0),
+      amount: Number(slice?.voidedItems || 0),
+      voidedAmount: Number(slice?.voidedAmount || 0),
+    }));
+
+    // Sum remaining records into "Other"
+    const otherRecords = sortedData.slice(10);
+    let tempSlice=top10
+    if (otherRecords.length > 0) {
+      const otherSummary = otherRecords.reduce(
+        (acc, item) => {
+
+          acc.value += ((Number(item?.voidedAmount || 0) * 100) / totalDisplay)?.toFixed(
+            2
+          )
+
+          acc.items += Number(item?.orderCount || 0)
+          acc.amount += Number(item?.voidedItems || 0)
+          
+          acc.voidedAmount+= Number(item?.voidedAmount || 0)
+          return acc;
+        },
+        { label: "Other", value: 0, color: colors[10], items: 0, amount: 0,voidedAmount:0 }
+      );
+  
+
+      tempSlice=[...top10, otherSummary]
+
+    }
+    const tempData = {
+      labels: tempSlice?.map((slice) => slice.label),
+      datasets: [
+        {
+          data: tempSlice.map((slice) => slice.value),
+          backgroundColor: tempSlice.map((slice) => slice.color),
+          borderWidth: 0,
+          hoverOffset: 15,
+        },
+      ],
+    };
+    setData(tempData);
+
+    setReRenderChart(true);
+    setSlices(tempSlice);
+    }
+  }, [dataList, countryCode]);
+
+
+  
+  if (loader) return <DoughnutChartShimmer />;
   return (
     <div
       ref={containerRef}
       style={{
         width: "100%",
         maxWidth: "550px",
-        height: dataList?.length>7?"650px": "450px",
+        height: "450px",
         position: "relative",
         overflow: "visible",
         padding: "20px 5px",
@@ -316,16 +288,19 @@ function DoughnutChartWithButtonVoided({
       }}
     >
       <Doughnut
+        key={JSON.stringify(
+
+        )}
         ref={chartRef}
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-        // redraw={reRenderChart}
+      // redraw={reRenderChart}
       />
 
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
-        slices.map((slice, index) => {
+        slices?.map((slice, index) => {
           const pos = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;
@@ -367,8 +342,8 @@ function DoughnutChartWithButtonVoided({
                     {slice.label}
                   </div>
                   <div style={{ marginBottom: "5px" }}>
-                    Orders: {slice.items} <br />
-                    Refund: ${slice.voidedAmount}
+                    Order: {slice.items} <br />
+                    Sales: ${slice?.voidedAmount.toFixed(2)}
                   </div>
                   <button
                     style={{
@@ -379,7 +354,7 @@ function DoughnutChartWithButtonVoided({
                       borderRadius: "5px",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleClick(slice)}
+                    onClick={() => handleClick && handleClick(slice)}
                   >
                     View Details
                   </button>
@@ -392,4 +367,4 @@ function DoughnutChartWithButtonVoided({
   );
 }
 
-export default DoughnutChartWithButtonVoided;
+export default DoughnutChartButtonVoided;

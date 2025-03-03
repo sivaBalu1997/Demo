@@ -31,15 +31,19 @@ const CardTypeChart = ({
   dataList: any[];
   loader: boolean;
 }) => {
+  const cardNames= Array.from(new Set(dataList?.map((item: any) => item?.cardName)))
   const data = {
-    labels: Array.from(new Set(dataList?.map((item: any) => item?.cardName))),
+    labels: cardNames,
     datasets: [
       {
         label: "Credit card",
-        data: dataList
-          ?.filter((item: any) => item?.cardType === "CREDIT")
-          ?.map((item: any) => item?.totalSales || 0),
-        backgroundColor: "#2196F3", // Blue
+        data: cardNames.map((cardName) => {
+          const creditCard = dataList.find(
+            (item: any) => item?.cardType === "CREDIT" && item?.cardName === cardName
+          );
+          return creditCard ? Number(creditCard?.totalSales || 0) : 0;
+        }),
+        backgroundColor: "#2682D9", // Blue
         barPercentage: 0.7,
         categoryPercentage: 0.6,
         // barThickness: 80,
@@ -47,14 +51,16 @@ const CardTypeChart = ({
       },
       {
         label: "Debit card",
-        data: dataList
-          ?.filter((item: any) => item?.cardType === "DEBIT")
-          ?.map((item: any) => item?.totalSales || 0),
-        backgroundColor: "#D98F2B", // Orange
+        data: cardNames.map((cardName) => {
+          const creditCard = dataList.find(
+            (item: any) => item?.cardType === "DEBIT" && item?.cardName === cardName
+          );
+          return creditCard ? Number(creditCard?.totalSales || 0) : 0;
+        }),
+        backgroundColor: "#F89B29", // Orange
         barPercentage: 0.7,
         categoryPercentage: 0.6,
-        // barThickness: 80,//TODO: check for larger no of bars
-        // minBarLength: 5,
+
       },
     ],
   };
@@ -86,14 +92,14 @@ const CardTypeChart = ({
             const total = data.datasets.reduce((sum, dataset) => {
               return sum + (dataset.data[index] as number);
             }, 0);
-            return `${tooltipItems[0].label} - $${total.toFixed(2)}`;
+            return `${tooltipItems[0].label} - $${total?.toFixed(2)}`;
           },
           label: (tooltipItem: TooltipItem<"bar">) => {
             const index = tooltipItem.dataIndex;
             return data.datasets.map((dataset) => {
               const cardType = dataset.label || "";
               const value = dataset.data[index] as number;
-              return `${cardType}:  $${value.toFixed(2)}`;
+              return `${cardType}:  $${value?.toFixed(2)}`;
             });
           },
         },

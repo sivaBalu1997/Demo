@@ -53,7 +53,7 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
           y: Number(item.total || 0), // Y-axis sales value
           orders: item.orders, // Store orders for tooltips
         })),
-        backgroundColor: "#2196F3", // Blue color
+        backgroundColor: "#1F77B4", // Blue color
         barPercentage: 0.6, // Thinner bars
         categoryPercentage: 0.6,
       },

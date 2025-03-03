@@ -46,13 +46,13 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
           orders: item.orders, // Store orders for tooltips
         })),
         backgroundColor: [
-          "#E53935",
-          "#4CAF50",
-          "#E67E22",
-          "#26A69A",
-          "#D32F2F",
-          "#2ECC71",
-          "#F39C12",
+          "#E52333",
+          "#67833E",
+          "#E4601B",
+          "#14B292",
+          "#EE2637",
+          "#06C167",
+          "#FF8C00",
         ],
         //TODO: check if it changes based on data
         barPercentage: 0.7, // Thinner bars

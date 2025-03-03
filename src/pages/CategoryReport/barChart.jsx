@@ -51,14 +51,19 @@ function LinearBarChart({ barColorCode, dataList, loader  }) {
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",
+        bodyFont: { size: 14, family: "Poppins" }, // Body font size set to 14px
+        titleFont: { weight: "normal", size: 14, family: "Poppins" }, // Title font size set to 14px
+        titleMarginBottom: 0,
         cornerRadius: 4,
         displayColors: false, // Hide color box in tooltip
+        padding: 10, // Padding inside tooltip container
         callbacks: {
           // Show the x-axis label in the tooltip title
           title: (tooltipItems) => {
-            if (!tooltipItems.length) return "";
-            const { dataIndex } = tooltipItems[0];
-            return dataList[dataIndex].categoryName;
+            // if (!tooltipItems.length) return "";
+            return "";
+            // const { dataIndex } = tooltipItems[0];
+            // return dataList[dataIndex].categoryName;
           },
           // Multi-line body: Qty and Sales
           label: (tooltipItem) => {

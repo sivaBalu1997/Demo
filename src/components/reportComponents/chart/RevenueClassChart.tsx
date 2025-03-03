@@ -56,7 +56,7 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader 
           y: Number(item.totalSales || 0), // Y-axis sales value
           itemsSold: item.itemsSold, // Store orders for tooltips
         })),
-        backgroundColor: "#B8860B",
+        backgroundColor: "#CE9E0F",
         borderRadius: 5,
         barPercentage: 0.7,
         categoryPercentage: 0.6,

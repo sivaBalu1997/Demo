@@ -15,7 +15,12 @@ function DoughnutChartButtonEmployee({dataList=[], countryCode,handleClick}) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [voidedAmount, setvoidedAmount] = useState("$0");
   const [slices, setSlices] = useState([]);
+  
   // const [reRenderChart, setReRenderChart] = useState(false);
+
+
+
+
 
 
 const [centerTextPlugin, setCenterTextPlugin] = useState(  {
