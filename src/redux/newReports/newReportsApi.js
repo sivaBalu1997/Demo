@@ -407,14 +407,22 @@ export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
 
 export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const { locationid, startDate, endDate, staffId } = employeeSalesOverviewPayload || {};
+
+    let url = `${REPORTS_API_ENDPOINT}/sales/employee/overview?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
+
+    if (staffId && staffId !== "all") {
+        url += `&staffId=${staffId}`;
+    }
+
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/employee/overview?locationId=${employeeSalesOverviewPayload?.locationid}&startDate=${employeeSalesOverviewPayload?.startDate}&endDate=${employeeSalesOverviewPayload?.endDate}&staffId=${employeeSalesOverviewPayload?.staffId || ""}`,
+        url,
         headers: {
-            Authorization: 'bearer ' + token,
+            Authorization: `bearer ${token}`,
         }
     });
-}
+};
 
 
 export const getVoidedSummary = (voidedSummaryPayload) => {
@@ -641,20 +649,25 @@ export const getHourlySalesReportChart = (hourlySalesPayload) => {
     });
 }
 
-// http://localhost:9081/magilhub-data-services-reports/sales/employee/activity?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-12-01&endDate=2024-12-31
-
-// /sales/employee/activity?locationId
 
 export const getEmployeeActivity = (employeeActivityPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const { locationid, startDate, endDate, staffId } = employeeActivityPayload || {};
+
+    let url = `${REPORTS_API_ENDPOINT}/sales/employee/activity?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
+
+    if (staffId && staffId !== "all") {
+        url += `&staffId=${staffId}`;
+    }
+
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity?locationId=${employeeActivityPayload?.locationid}&startDate=${employeeActivityPayload?.startDate}&endDate=${employeeActivityPayload?.endDate}&staffId=${employeeActivityPayload?.staffId || ""}`,
+        url,
         headers: {
-            Authorization: 'bearer ' + token,
+            Authorization: `bearer ${token}`,
         }
     });
-}
+};
 
 export const getPremisesSummary = (premisesSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
