@@ -41,11 +41,12 @@ const centerTextPlugin = {
     ctx.save();
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.fillStyle = "#8D8D8D";
+    ctx.font = "400 16px Poppins";
+    ctx.fillText("Total", centerX, centerY - 15);
     ctx.fillStyle = "#000";
-    ctx.font = "16px Poppins";
-    ctx.fillText("Total", centerX, centerY - 10);
-    ctx.font = "24px Poppins";
-    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 15);
+    ctx.font = "600 28px Poppins";
+    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 20);
     ctx.restore();
   },
 };
@@ -172,7 +173,7 @@ function DoughnutChartButtonVoided({
     },
     plugins: {
       tooltip: { enabled: false },
-      legend: { position: "bottom", labels: { padding: 20 } },
+      legend: { position: "bottom", labels: { padding: 20, padding: 20,boxWidth: 12, boxHeight: 12,usePointStyle: true,pointStyle: "rectRounded", } },
       datalabels: { display: false },
     },
     animation: {
