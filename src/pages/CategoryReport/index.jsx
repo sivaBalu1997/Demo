@@ -135,11 +135,9 @@ console.log({categoryIds, itemIds, activeBtn})
       dispatch(
         categoryChannelSummaryRequest(params)
       );
-      if(activeBtn==="categories"){
         dispatch(
           categorySalesRequest(params)
         );
-      } 
       dispatch(
         categorySalesSummaryRequest(params)
       );
