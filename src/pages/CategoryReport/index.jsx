@@ -27,6 +27,7 @@ const CategoryReport = (props) => {
   //TODO: move to redux
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
   const [selectedItems, setSelectedItems] = useState([{ label: "All", value: "" }]);
+  const [itemlList, setItemList] = useState([{ label: "All", value: "" }]);
   const [activeBtn, setActiveBtn] = useState("categories");
   const locations = useSelector(
     (state) => state?.newReports?.storeLocationsList
@@ -106,8 +107,11 @@ const CategoryReport = (props) => {
       dispatch(dropdownDetailsRequest({ locationid: selectedLocation?.value }));
     }
   }, [categoryList, selectedLocation]);
-
-
+useEffect(() => {
+  setSelectedCategories([{label:"All", value:""}]);
+  setSelectedItems([{label:"All", value:""}]);
+  setItemList([{label:"All", value:""},...dropdownDetailsData?.map((item) => ({label:item.itemName, value:item.itemId}))]);
+},[dropdownDetailsData])
 
   useEffect(() => {
     const categoryIds = selectedCategories?.map((item) => item.value);
@@ -227,7 +231,28 @@ console.log({categoryIds, itemIds, activeBtn})
     }
   };
 
+useEffect(() => {
+  const selectedCategoryIds = selectedCategories.map((cat) => cat.value);
+  let filteredItems =[];
+  if(!selectedCategories?.[0]?.value){
+    filteredItems = [
+      ...new Map( dropdownDetailsData
+        .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
+      ).values(),
+    ];
+  }else{
+    filteredItems = [
+      ...new Map( dropdownDetailsData
+        .filter((item) => selectedCategoryIds.includes(item.categoryId)) 
+        .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
+      ).values(),
+    ];
+  }
 
+  setItemList(filteredItems);
+
+
+},[selectedCategories])
   const handleSelectItemsOnChange = (selectedItemsData) => {
     if (!selectedItemsData.value) {
       setSelectedItems([{ label: "All", value: "" }]);
@@ -244,7 +269,7 @@ console.log({categoryIds, itemIds, activeBtn})
       tempItems.push({ value: item.itemId, label: item.itemName });
       }
 
-      setSelectedItems(tempItems);
+      setSelectedItems([{label:"All", value:""},...tempItems]);
     }
   };
 
@@ -253,6 +278,9 @@ console.log({categoryIds, itemIds, activeBtn})
     tempCategories = tempCategories.filter(
       (selectedData) => selectedData.value !== categoryId
     );
+    if(!tempCategories?.length){
+      tempCategories=[{ label: "All", value: "" }]
+    }
     setSelectedCategories(tempCategories);
   };
 
@@ -261,6 +289,9 @@ console.log({categoryIds, itemIds, activeBtn})
     tempItems = tempItems.filter(
       (selectedData) => selectedData.value !== itemId
     );
+    if(!tempItems?.length){
+      tempItems=[{ label: "All", value: "" }]
+    }
     setSelectedItems(tempItems);
   };
 
@@ -355,13 +386,7 @@ console.log({categoryIds, itemIds, activeBtn})
                     <span className="font-color-red poppins-fw400-fs16">*</span>
                   </div>
                   <ReusableDropdown
-                    options={
-                      [{ label: "All", value: "" },
-                      ...dropdownDetailsData?.map((data) => ({
-                        value: data?.itemId,
-                        label: data?.itemName,
-                      })) || []]
-                    }
+                    options={itemlList}                  
                     value={selectedItems}
                     placeholder={"Select items"}
                     dropdownContainerClassName="select-food-item-dropdown-cotainer"

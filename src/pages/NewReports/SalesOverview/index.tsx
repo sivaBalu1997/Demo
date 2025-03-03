@@ -520,9 +520,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     }
   };
 
-
-  console.log({ groupedData });
-
   const knownTendorIcons: any = {
     "Swipe/Tap/Dip": <PayTapIcon />,
     "Online/Key-In":<PayTapIcon />,
