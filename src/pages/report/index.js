@@ -454,7 +454,7 @@ const Report = (props) => {
             src={reportData}
             frameBorder="0"
             width="1000"
-            height="6950"
+            height="7550"
             allowtransparency="true"
             scrolling="no"
           ></iframe>
