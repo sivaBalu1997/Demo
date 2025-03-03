@@ -5,7 +5,8 @@ import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow_up.svg";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
 import { S } from "assets/mockData/originalAPIData/OsalesReportData";
 import ShimmerTenderCard from "./ShimmerTenderCard";
-import { roundNum } from "utils";
+import { formatNumberByCountry, roundNum } from "utils";
+import { useSelector } from "react-redux";
 
 interface PaymentMethod {
   expandable?: boolean;
@@ -39,6 +40,10 @@ const TenderType: React.FC<PaymentMethod> = ({
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
+  
+    const countryCode = useSelector(
+      (state: any) => state?.auth?.restaurantDetails?.country
+    );
 
   if (loader) return <ShimmerTenderCard />;
 
@@ -59,7 +64,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     <p className="tender-title">{tendorTitle}</p>
                   </div>
                   <div className="tender-amount-order-container">
-                    <span className="tender-amount">${roundNum(amount)}</span>
+                    <span className="tender-amount">${formatNumberByCountry(amount, countryCode, true)}</span>
                     <span className="tender-orders">{orders} Orders</span>
                   </div>
                 </div>
@@ -76,21 +81,21 @@ const TenderType: React.FC<PaymentMethod> = ({
                   <div className="expand-row top">
                     <div>
                       <span>On Prem orders:</span>{" "}
-                      <strong>{onPremOrders}</strong>
+                      <strong>{formatNumberByCountry(onPremOrders, countryCode, false)}</strong>
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${roundNum(onPremSales)}</strong>
+                      <strong>${formatNumberByCountry(onPremSales, countryCode, true)}</strong>
                     </div>
                   </div>
                   <div className="expand-row">
                     <div>
                       <span>Off Prem orders:</span>{" "}
-                      <strong>{offPremOrders}</strong>
+                      <strong>{formatNumberByCountry(offPremOrders, countryCode, false)}</strong>
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${roundNum(offPremSales)}</strong>
+                      <strong>${formatNumberByCountry(offPremSales, countryCode, true)}</strong>
                     </div>
                   </div>
                 </div>
