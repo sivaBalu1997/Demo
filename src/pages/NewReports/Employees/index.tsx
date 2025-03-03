@@ -1,7 +1,5 @@
 //      NewReports/Employee/index.tsx
 import React, { useEffect, useState } from "react";
-import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
-import { NewTableHeader } from "interface/newReportsInterface";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeLocation,
@@ -9,17 +7,19 @@ import {
   employeeSalesOverviewRequest,
   getEmployeeActivityRequest,
 } from "redux/newReports/newReportsActions";
+import { RootState } from "redux/rootReducer";
+import { getEmployees } from "redux/employee/employeeActions";
+import { EmployeeType } from "interface/employeeInterface";
+import { formatNumberByCountry, transformSalesData } from "utils";
+import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
+import { NewTableHeader } from "interface/newReportsInterface";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import CustomDropdown from "components/common/customDropdown";
 import NewTable from "components/reportComponents/NewTable";
-import "./style.scss";
-import { getEmployees } from "redux/employee/employeeActions";
-import { EmployeeType } from "interface/employeeInterface";
-import { RootState } from "redux/rootReducer";
 import useDateFilter from "hooks/useDateFilter";
-import { transformSalesData } from "utils";
+import "./style.scss";
 
 const Employees: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState({
@@ -69,10 +69,6 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
 
-  // console.log("22", { getEmployeeActivityDataFromAPIRedux });
-
-
-
   const datepickerApply = (data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
@@ -82,7 +78,6 @@ const Employees: React.FC = () => {
   const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
     useState<number>(1);
 
-  // const getLocationDates = useSalesLocationDates(state, locationid);
 
   const newTableHeaders: NewTableHeader[] = [
     { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
@@ -311,7 +306,7 @@ const Employees: React.FC = () => {
             <div className="employee-report-sales-overview-box-container">
               <CardWithMiniGraph
                 cardTitle="Total Sales"
-                cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilSales}
+                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilSales, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
@@ -324,7 +319,7 @@ const Employees: React.FC = () => {
               <CardWithMiniGraph
                 cardTitle="Net Sales"
                 cardValue={
-                  employeeSalesOverViewFromAPIRedux?.totalMagilNetSales
+                  formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilNetSales, countryCode, true)
                 }
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
@@ -337,7 +332,7 @@ const Employees: React.FC = () => {
               />
               <CardWithMiniGraph
                 cardTitle="Total Tax"
-                cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTax}
+                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilTax, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
@@ -349,7 +344,7 @@ const Employees: React.FC = () => {
               />
               <CardWithMiniGraph
                 cardTitle="Total Tips"
-                cardValue={employeeSalesOverViewFromAPIRedux?.totalMagilTips}
+                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilTips, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
@@ -361,7 +356,7 @@ const Employees: React.FC = () => {
               />
               <CardWithMiniGraph
                 cardTitle="Gratuity"
-                cardValue={employeeSalesOverViewFromAPIRedux?.gratuity}
+                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.gratuity, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
@@ -373,7 +368,7 @@ const Employees: React.FC = () => {
               />
               <CardWithMiniGraph
                 cardTitle="Discount"
-                cardValue={employeeSalesOverViewFromAPIRedux?.discounts}
+                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.discounts, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
@@ -385,7 +380,7 @@ const Employees: React.FC = () => {
               />
               <CardWithMiniGraph
                 cardTitle="Cancelled"
-                cardValue={employeeSalesOverViewFromAPIRedux?.cancelledOrders}
+                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.cancelledOrders, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
@@ -393,7 +388,6 @@ const Employees: React.FC = () => {
                 }
                 graphType="chart"
                 incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.cancelledPercentage)}
-
                 showMiniGraph={true}
               />
             </div>
@@ -403,9 +397,9 @@ const Employees: React.FC = () => {
             tooltipData={tooltipDataFromAPI}
             barColor="#67823D"
             barStyle={customBarStyle}
-            showGrid={true} // Enable grid
-            gridColor="#ccc" // Light gray grid
-            gridStrokeWidth={0.5} // Subtle grid lines
+            showGrid={true} 
+            gridColor="#ccc" 
+            gridStrokeWidth={0.5} 
             kpiTitle="All Activity"
             showRelatedTable={showAllActivityTable}
             setShowRelatedTable={setShowAllActivityTable}

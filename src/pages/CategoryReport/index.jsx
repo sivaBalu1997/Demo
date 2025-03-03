@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./Tabs.css";
 import {
   voidedSummaryRequest,
   categoryChannelSummaryRequest,
@@ -9,6 +8,7 @@ import {
   changeLocation,
   dropdownDetailsRequest,
 } from "../../redux/newReports/newReportsActions";
+import { formatNumberByCountry } from "utils";
 
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
@@ -20,6 +20,7 @@ import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
+import "./Tabs.css";
 
 const CategoryReport = (props) => {
   const dispatch = useDispatch();
@@ -65,7 +66,9 @@ const CategoryReport = (props) => {
     (state) => state?.newReports?.voidedSummaryLoading
   );
 
-  const countryCode = useSelector((state) => state?.auth?.countryCode);
+    const countryCode = useSelector(
+      (state) => state?.auth?.restaurantDetails?.country
+    );
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
 
   // console.log("CCCCCC",{categoryList})
@@ -390,26 +393,24 @@ const CategoryReport = (props) => {
                 {
                   title: "TOTAL SALES",
                   value: `$ ${
-                    categorySalesSummaryData?.totalSales?.toFixed(2) || 0
+                    formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0
                   }`,
                 },
-                // { title: "NET SALES", value: `$ ${categorySalesSummaryData?.netSales?.toFixed(2) || 0}` },
-                // { title: "DISCOUNT", value: `$ ${categorySalesSummaryData?.discount?.toFixed(2) || 0}` },
                 {
                   title: "VOID",
                   value: `$ ${
-                    categorySalesSummaryData?.voidAmount?.toFixed(2) || 0
+                    formatNumberByCountry(categorySalesSummaryData?.voidAmount, countryCode, true) || 0
                   }`,
                 },
                 {
                   title: "ADD-ON",
                   value: `$ ${
-                    categorySalesSummaryData?.addOn?.toFixed(2) || 0
+                    formatNumberByCountry(categorySalesSummaryData?.addOn, countryCode, true) || 0
                   }`,
                 },
                 {
                   title: "TOTAL QUANTITY",
-                  value: `${categorySalesSummaryData?.totalQuantity || 0}`,
+                  value: `${ formatNumberByCountry(categorySalesSummaryData?.totalQuantity, countryCode, false) || 0}`,
                 },
               ]}
             />
