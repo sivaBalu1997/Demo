@@ -6,7 +6,7 @@ import TabNavigation from "components/common/TabNavigation";
 import CategoryReport from "pages/CategoryReport";
 import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexNew";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeLocation, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 

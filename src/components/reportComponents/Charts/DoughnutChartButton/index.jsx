@@ -65,11 +65,11 @@ function DoughnutChartWithButton({
   const [totalSales, setTotalSales] = useState("$0");
   const [reRenderChart, setReRenderChart] = useState(true);
   const [slices, setSlices] = useState([]);
-  const [data, setData]=useState({
+  const [data, setData] = useState({
     labels: [],
     datasets: [
       {
-        data:[],
+        data: [],
         backgroundColor: [],
         borderWidth: 0,
         hoverOffset: 15,
@@ -173,7 +173,23 @@ function DoughnutChartWithButton({
     },
     plugins: {
       tooltip: { enabled: false },
-      legend: { position: "bottom", labels: { padding: 20 } },
+      legend: {
+        position: "bottom", labels: {
+          generateLabels: (chart) => {
+            const original = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
+            const labels = original(chart);
+
+            return labels.map(label => ({
+              ...label,
+              // Custom draw function to add border-radius
+              pointStyle: 'rectRounded',
+              borderRadius: 4, // This is not default, but helps if supported in future versions
+            }));
+          },
+          usePointStyle: true, // Needed to apply the pointStyle shape 
+          padding: 20, boxWidth: 12, boxHeight: 12
+        }
+      },
       datalabels: { display: false },
     },
     animation: {
@@ -187,78 +203,73 @@ function DoughnutChartWithButton({
   useEffect(() => {
 
     if (dataList?.length) {
-    const totalDisplay = dataList?.reduce(
-      (sum, item) => sum + (Number(item?.totalSales) || 0),
-      0
-    );
-
-    const formattedTotal = amountFormatter(totalDisplay, countryCode);
-    // Assign colors from predefined palette
-    const colors = dataList.map(
-      (_, index) => predefinedColors[index % predefinedColors.length]
-    );
-
-    setTotalSales(formattedTotal);
-
-    // Sort by totalSales (descending) **ensuring correct numeric sorting**
-    const sortedData = [...dataList].sort(
-      (a, b) => Number(b.totalSales) - Number(a.totalSales) 
-    );
-
-    // Get the top 10 records
-    const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-      label: slice?.offerName,
-      value: ((Number(slice?.totalSales || 0) * 100) / totalDisplay)?.toFixed(
-        2
-      ),
-      color: colors[index],
-      items: Number(slice?.totalOrders || 0),
-      amount: Number(slice?.totalSales || 0),
-    }));
-
-    // Sum remaining records into "Other"
-    const otherRecords = sortedData.slice(10);
-    let tempSlice=top10
-    if (otherRecords.length > 0) {
-      const otherSummary = otherRecords.reduce(
-        (acc, item) => {
-
-          acc.value += ((Number(item?.totalSales || 0) * 100) / totalDisplay)?.toFixed(
-            2
-          )
-
-          acc.items += Number(item?.totalOrders || 0)
-          acc.amount += Number(item?.totalSales || 0)
-
-          return acc;
-        },
-        { label: "Other", value: 0, color: colors[10], items: 0, amount: 0 }
+      const totalDisplay = dataList?.reduce(
+        (sum, item) => sum + (Number(item?.totalSales) || 0),
+        0
       );
-  
 
-      tempSlice=[...top10, otherSummary]
+      const formattedTotal = amountFormatter(totalDisplay, countryCode);
+      // Assign colors from predefined palette
+      const colors = dataList.map(
+        (_, index) => predefinedColors[index % predefinedColors.length]
+      );
 
-    }
-    const tempData = {
-      labels: tempSlice?.map((slice) => slice.label),
-      datasets: [
-        {
-          data: tempSlice.map((slice) => slice.value),
-          backgroundColor: tempSlice.map((slice) => slice.color),
-          borderWidth: 0,
-          hoverOffset: 15,
-        },
-      ],
-    };
-    setData(tempData);
+      setTotalSales(formattedTotal);
 
-    setReRenderChart(true);
-    setSlices(tempSlice);
+      // Sort by totalSales (descending) **ensuring correct numeric sorting**
+      const sortedData = [...dataList].sort(
+        (a, b) => Number(b.totalSales) - Number(a.totalSales)
+      );
+
+      // Get the top 10 records
+      const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
+        label: slice?.offerName,
+        value: ((Number(slice?.totalSales || 0) * 100) / totalDisplay),
+        color: colors[index],
+        items: Number(slice?.totalOrders || 0),
+        amount: Number(slice?.totalSales || 0),
+      }));
+
+      // Sum remaining records into "Other"
+      const otherRecords = sortedData.slice(10);
+      let tempSlice = top10
+      if (otherRecords.length > 0) {
+        const otherSummary = otherRecords.reduce(
+          (acc, item) => {
+
+            acc.value += ((Number(item?.totalSales || 0) * 100) / totalDisplay)
+            acc.items += Number(item?.totalOrders || 0)
+            acc.amount += Number(item?.totalSales || 0)
+
+            return acc;
+          },
+          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0 }
+        );
+
+
+        tempSlice = [...top10, otherSummary]
+
+      }
+      const tempData = {
+        labels: tempSlice?.map((slice) => slice.label),
+        datasets: [
+          {
+            data: tempSlice.map((slice) => slice.value),
+            backgroundColor: tempSlice.map((slice) => slice.color),
+            borderWidth: 0,
+            hoverOffset: 15,
+          },
+        ],
+      };
+      setData(tempData);
+
+      setReRenderChart(true);
+      setSlices(tempSlice);
     }
   }, [dataList, countryCode]);
 
 
-  
+
   if (loader) return <DoughnutChartShimmer />;
   return (
     <div
@@ -325,7 +336,7 @@ function DoughnutChartWithButton({
               }}
             >
               {!hoverInfo || hoverInfo.index !== index ? (
-                <span style={{ color: slice.color }}>{slice.value}%</span>
+                <span style={{ color: slice.color }}>{slice.value?.toFixed(2)}%</span>
               ) : (
                 <>
                   <div style={{ color: slice.color, marginBottom: "5px" }}>
