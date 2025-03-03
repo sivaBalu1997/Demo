@@ -589,9 +589,10 @@ const knownTendorIcons:any={
 "Apple Pay":<ApplePayIcon />,
 "Offline QR":<OfflineQRIcon />
 
-
-
 }
+
+
+
   return (
     <>
       {viewType === "default" ? (
