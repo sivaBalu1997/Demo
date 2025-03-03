@@ -190,7 +190,8 @@ const Employees: React.FC = () => {
   const employeeDropdownOptions =
     employeeLists?.map((employee) => ({
       value: employee?.staffId,
-      label: `${employee?.firstName} ${employee?.lastName}`,
+      label: `${employee?.firstName}`,
+      // ${employee?.lastName}
     }));
 
 
