@@ -27,8 +27,6 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
         (state: any) => state?.auth?.restaurantDetails?.country
     );
 
-    // console.log("5555", { cardTitle, incrementDecrementValue, showMiniGraph })
-
     const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
 
     if (loader) return <ShimmerCardMiniGraph />
