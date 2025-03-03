@@ -9,6 +9,7 @@ import moment from 'moment';
 import NewTable from 'components/reportComponents/NewTable';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import "./style.scss";
+import { formatNumberByCountry } from 'utils';
 
 
 const TodaysReport: React.FC = () => {
@@ -203,7 +204,7 @@ const TodaysReport: React.FC = () => {
                         <CardWithMiniGraph
                             key={key}
                             cardTitle={title}
-                            cardValue={billedOrUnbilledDataAPIRedux?.[key]}
+                            cardValue={formatNumberByCountry(billedOrUnbilledDataAPIRedux?.[key], countryCode, isMonetary)}
                             isMonetary={isMonetary}
                             loader={billedOrUnbilledDataAPIReduxLoading}
                         />
