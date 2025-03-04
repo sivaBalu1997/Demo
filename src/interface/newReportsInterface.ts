@@ -40,7 +40,8 @@ export interface NewTableProps {
   kpiTitle: string;
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  headerData: NewTableHeader[];
+  // headerData: NewTableHeader[];
+  headerData: any;
   tableData: NewTableData[];
   currentPage: number;
   totalPages: number;
@@ -53,6 +54,7 @@ export interface NewTableProps {
   searchPlaceHolder?: string;
   // searchDebounce?: (value: string) => void;
   onSearch: (value: string, kpiTitle: string) => void;
+  getChartSliceTableHeaders?: any;
 }
 
 export interface SortConfig {

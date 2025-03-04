@@ -105,7 +105,9 @@ import {
     getEmployeeActivityFailure,
     getEmployeeActivityRequest,
     getPremisesSummarySuccess,
-    getPremisesSummaryFailure
+    getPremisesSummaryFailure,
+    getEmployeeChartSliceTableSuccess,
+    getEmployeeChartSliceTableFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -158,7 +160,8 @@ import {
     GET_OFFER_SUMMARY_REQUEST,
     GET_VOIDED_ORDER_SUMMARY_REQUEST,
     GET_EMPLOYEE_ACTIVITY_REQUEST,
-    GET_PREMISES_SUMMARARY_REQUEST
+    GET_PREMISES_SUMMARARY_REQUEST,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -211,6 +214,7 @@ import {
     getOfferSummary,
     getEmployeeActivity,
     getPremisesSummary,
+    getEmployeeChartSliceTable,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -1132,6 +1136,27 @@ export function* getPremisesSummaryRequestSaga(action) {
         showErrorToast(error.message);
     }
 }
+
+
+//  getEmployeeChartSliceTableRequestSaga
+export function* getEmployeeChartSliceTableRequestSaga(action) {
+    try {
+        const response = yield call(getEmployeeChartSliceTable, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of getEmployeeChartSliceTableRequestSaga PPP2", { decryptedData })
+        if (response.status === 200) {
+            yield put(getEmployeeChartSliceTableSuccess(decryptedData));
+        } else {
+            yield put(getEmployeeChartSliceTableFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(getEmployeeChartSliceTableFailure(error));
+        showErrorToast(error.message);
+    }
+}
+
+
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
@@ -1185,4 +1210,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_VOIDED_ORDER_SUMMARY_REQUEST, voidedOrderSummaryRequestSaga);
     yield takeLatest(GET_EMPLOYEE_ACTIVITY_REQUEST, getEmployeeActivityRequestSaga);
     yield takeLatest(GET_PREMISES_SUMMARARY_REQUEST, getPremisesSummaryRequestSaga);
+    yield takeLatest(GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST, getEmployeeChartSliceTableRequestSaga);
 }

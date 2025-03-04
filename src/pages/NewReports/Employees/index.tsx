@@ -5,6 +5,7 @@ import {
   employeeStaffActivityRequest,
   employeeSalesOverviewRequest,
   getEmployeeActivityRequest,
+  getEmployeeChartSliceTableRequest,
 } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
@@ -60,6 +61,144 @@ const Employees: React.FC = () => {
     }
   }, [selectedLocation?.value])
 
+
+  const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
+
+
+
+  const getChartSliceTableHeaders = (selectedValueForChartSlice:string) => {
+    console.log("PPP5", {selectedValueForChartSlice})
+    switch(selectedValueForChartSlice) {
+      case "Remove tax":
+        return [
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+        ];
+      
+      case "Apply discount":
+        return [
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+        ];
+
+      case "Order edited":
+        return [
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+        ];
+
+      case "Order cancelled":
+        return [
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+        ];
+
+
+      case "Void payment":
+        return [
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+        ];
+
+      case "Remove tip":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
+          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+
+      case "Remove service tax":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
+          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+      
+      default:
+        return [];
+    }
+  }
+
+  console.log("LLL3 getChartSliceTableHeaders(selectedValueForChartSlice)",getChartSliceTableHeaders(selectedValueForChartSlice))
+  console.log("LLL4 selectedValueStateData", selectedValueStateData)
+
+    // useSelector for Table states :
+    const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.content)
+    const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
+    const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableLoading)
+    console.log("PPP",{getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux})
+
+  // Generic table states :
+  const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
+  const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
+  const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
+
+
+
+  // // Table States for Order cancelled :
+  // const [orderCancelledRecordLimit, setOrderCancelledRecordLimit] = useState<number>(10);
+  // const [searchQueryForOrdersCancelled, setSearchQueryForOrdersCancelled] = useState("");
+  // const [currectPageOrdersCancelled, setCurrentPageOrdersCancelled] = useState<number>(1);
+
+  // // Table states for Apply discount :
+  // const [applyDiscountRecordLimit, setApplyDiscountRecordLimit] = useState<number>(10);
+  // const [searchQueryForApplyDiscount, setSearchQueryForApplyDiscount] = useState("");
+  // const [currectPageApplyDiscount, setCurrentPageApplyDiscount] = useState<number>(1);
+
+  // // Table states for Order edited :
+  // const [orderEditedRecordLimit, setOrderEditedRecordLimit] = useState<number>(10);
+  // const [searchQueryForOrderEdited, setSearchQueryForOrderEdited] = useState("");
+  // const [currectPageOrderEdited, setCurrentPageOrderEdited] = useState<number>(1);
+
+  // // Table states for Remove tax :
+  // const [removeTaxRecordLimit, setRemoveTaxRecordLimit] = useState<number>(10);
+  // const [searchQueryForvRemoveTax, setSearchQueryForRemoveTax] = useState("");
+  // const [currectPageRemoveTax, setCurrentPageRemoveTax] = useState<number>(1);
+
+  // // Table states for Void payment :
+  // const [voidPaymentRecordLimit, setVoidPaymentRecordLimit] = useState<number>(10);
+  // const [searchQueryForvVoidPayment, setSearchQueryForVoidPayment] = useState("");
+  // const [currectPageVoidPayment, setCurrentPageVoidPayment] = useState<number>(1);
+
+  // // Table states for Remove tip :
+  // const [removeTipRecordLimit, setRemoveTipRecordLimit] = useState<number>(10);
+  // const [searchQueryForvRemoveTip, setSearchQueryForRemoveTip] = useState("");
+  // const [currectPageRemoveTip, setCurrentPageRemoveTip] = useState<number>(1);
+
+  // // Table for Remove service tax :
+  // const [removeServiceTaxRecordLimit, setRemoveServiceTaxRecordLimit] = useState<number>(10);
+  // const [searchQueryForvRemoveServiceTax, setSearchQueryForRemoveServiceTax] = useState("");
+  // const [currectPageRemoveServiceTax, setCurrentPageRemoveServiceTax] = useState<number>(1);
+
+
+
+
+
+
   useEffect(() => {
     if (selectedLocation?.value) {
       dispatch(
@@ -107,6 +246,8 @@ const Employees: React.FC = () => {
     },
   ];
 
+
+
   const handleSearch = (value: string, kpiTitle: string) => {
     switch (kpiTitle) {
       case "Employee Void Activity":
@@ -142,6 +283,38 @@ const Employees: React.FC = () => {
     {}
   );
 
+  // Chart Data
+  const chartData = [
+    { name: "Add discount", value: 240.5 },
+    { name: "Others", value: 180.0 },
+    { name: "Complementary", value: 320.75 },
+    { name: "Remove Gratuity", value: 200.0 },
+  ];
+
+  // Tooltip Data
+  const tooltipData = {
+    "Add discount": { tooltipContent: "Discount applied successfully!" },
+    Others: { tooltipContent: "Miscellaneous changes recorded." },
+    Complementary: { tooltipContent: "This item was given for free." },
+    "Remove Gratuity": { tooltipContent: "Gratuity charges removed." },
+  };
+
+  // Custom Bar Style
+  const customBarStyle = {
+    borderRadius: "8px",
+  };
+
+
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        getEmployees(
+          selectedLocation?.value,
+        )
+      );
+    }
+  }, [selectedLocation?.value])
 
   const employeeLists: EmployeeType[] = useSelector(
     (state: RootState) => state.employee.employeeDetails
@@ -159,6 +332,30 @@ const Employees: React.FC = () => {
   const handleDropdownChangeStore = (selectedValue: any) => {
     setEmployeeList(selectedValue?.value);
   };
+
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        employeeStaffActivityRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: employeeVoidRecordLimit,
+        })
+      );
+
+    }
+  }, [
+    selectedLocation,
+    startDate,
+    endDate,
+    currentPageEmployeeVoidActivity,
+    employeeVoidRecordLimit,
+  ]);
+
+
 
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
@@ -191,6 +388,21 @@ const Employees: React.FC = () => {
     }
   }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
+  useEffect(()=>{
+    if(selectedLocation?.value && selectedValueForChartSlice){
+      dispatch(
+        getEmployeeChartSliceTableRequest({
+          locationid:  selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          chartSliceName: selectedValueForChartSlice,
+          tablePageNo: currentPageGenericTable,
+          tableRecordLimit: genericTableRecordLimit,
+        })
+      )
+    }
+  },[selectedLocation?.value, startDate, endDate, selectedValueForChartSlice, currentPageGenericTable, genericTableRecordLimit])
+
 
   return (
     <div className="report-sales-employee-container">
@@ -206,22 +418,22 @@ const Employees: React.FC = () => {
             </button>
           </div>
           <NewTable
-            kpiTitle="Employee Void Activity"
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            headerData={newTableHeaders}
+            kpiTitle={`${selectedValueForChartSlice}`}
+            searchQuery={searchQueryForGenericTable}
+            onSearchChange={setSearchQueryForGenericTable}
+            headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
             tableData={
-              employeeVoidActivityAPIRedux &&
-              employeeVoidActivityAPIRedux?.length > 0 &&
-              employeeVoidActivityAPIRedux
+              getEmployeeChartSliceTableDataFromAPIRedux &&
+              getEmployeeChartSliceTableDataFromAPIRedux?.length > 0 &&
+              getEmployeeChartSliceTableDataFromAPIRedux
             }
-            currentPage={currentPageEmployeeVoidActivity}
-            totalPages={employeeVoidActivityTotalPagesRedux}
-            onPageChange={setCurrentPageEmployeeVoidActivity}
-            rowsPerPage={employeeVoidRecordLimit}
-            setRowsPerPage={setEmployeeVoidRecordLimit}
-            loader={employeeVoidActivityLoading}
-            count={employeeVoidActivityAPIRedux?.length}
+            currentPage={currentPageGenericTable}
+            totalPages={getEmployeeChartSliceTotalPagesFromAPIRedux}
+            onPageChange={setCurrentPageGenericTable}
+            rowsPerPage={genericTableRecordLimit}
+            setRowsPerPage={setGenericTableRecordLimit}
+            loader={getEmployeeChartSliceTableDataLoaderFromAPIRedux}
+            count={getEmployeeChartSliceTableDataFromAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"
             onSearch={handleSearch}
           />

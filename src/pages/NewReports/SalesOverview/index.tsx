@@ -143,6 +143,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] = useState<number>(10);
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
+  const [otherOffer, setOtherOffer] = useState<string>("");
+  const [otherVoided, setOtherVoided] = useState<string>("");
 
   const offerRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
@@ -343,7 +345,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, startDate, endDate]);
 
   useEffect(() => {
-    if (viewType === "voidedOffer") {
       dispatch(
         cancellationSummaryRequest({
           locationid: selectedLocation?.value,
@@ -356,7 +357,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           reason: voidedReason,
         })
       );
-    }
   }, [
     voidedReason,
     startDate,
@@ -367,7 +367,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   ]);
 
   useEffect(() => {
-    if (viewType === "discountOffer") {
       dispatch(
         discountSummaryRequest({
           locationid: selectedLocation?.value,
@@ -379,7 +378,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           offer: offerType,
         })
       );
-    }
+  
   }, [
     offerType, startDate, endDate, currentRowsOfferDiscount, currentPageOfferDiscount, searchQuery,
   ]);
@@ -394,33 +393,26 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }, 0)
   };
 
-
-
-
   const handleSearch = (value: string, kpiTitle: string) => {
+    let params:any={
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      tablePageNo: currentPageOfferDiscount,
+      tableRecordLimit: currentRowsOfferDiscount,
+      search: value,
+    }
     switch (viewType) {
       case "discountOffer":
+        params.offer=offerType
         dispatch(
-          discountSummaryRequest({
-            locationid: selectedLocation?.value,
-            startDate: startDate,
-            endDate: endDate,
-            tablePageNo: currentPageOfferDiscount,
-            tableRecordLimit: currentRowsOfferDiscount,
-            search: value,
-          })
+          discountSummaryRequest(params)
         );
         break;
       case "voidedOffer":
+        params.reason=voidedReason
         dispatch(
-          cancellationSummaryRequest({
-            locationid: selectedLocation?.value,
-            startDate: startDate,
-            endDate: endDate,
-            tablePageNo: currentPageVoiddedOrders,
-            tableRecordLimit: currentRowsVoiddedOrders,
-            search: searchQuery,
-          })
+          cancellationSummaryRequest(params)
         );
         break;
 
@@ -430,12 +422,32 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSummaryView = (view: string, data: any) => {
+    let params:any={
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      tablePageNo: currentPageOfferDiscount,
+      tableRecordLimit: currentRowsOfferDiscount,
+    }
     setViewType(view);
     if (view == "discountOffer") {
       setOfferType(data?.label);
+      let label=data?.label
+      if(data?.label==="Other"){
+        label=otherOffer
+      }
+        setOtherOffer(label)
+      params.offer=label
+      dispatch(  discountSummaryRequest(params))
     }
     if (view === "voidedOrder") {
-      setVoidedReason(data?.label);
+      let label=data?.label
+      if(data?.label==="Other"){
+        label=otherVoided
+      }
+      setVoidedReason(label)
+      params.reason=label
+      dispatch(cancellationSummaryRequest(params))
     }
   };
 
@@ -443,6 +455,17 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
+
+
+const handleOther=(type:string, other:string)=>{
+  if(type==="discountOffer"){
+    setOtherOffer(other)
+  }
+  if(type==="voidedOffer"){
+    setOtherVoided(other)
+  }
+
+}
   return (
     <>
       {viewType === "default" ? (
@@ -652,6 +675,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <DoughnutChartWithButton
                 dataList={offerSummary}
                 countryCode={countryCode}
+                handleOther={(other:string)=>handleOther("discountOffer",other )}
                 handleClick={(data: any) =>
                   handleSummaryView("discountOffer", data)
                 }
@@ -663,6 +687,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <DoughnutChartWithButtonVoided
                 dataList={voidedOrderSummary}
                 countryCode={countryCode}
+                handleOther={(other:string)=>handleOther("voidedOffer",other )}
                 handleClick={(data: any) =>
                   handleSummaryView("voidedOrder", data)
                 }

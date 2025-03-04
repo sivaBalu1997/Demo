@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import "./report.scss";
 import SalesOverview from "../SalesOverview/index";
@@ -6,7 +7,7 @@ import TabNavigation from "components/common/TabNavigation";
 import CategoryReport from "pages/CategoryReport";
 import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
-import SidePanel from "pages/SidePanel/indexNew";
+import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 
@@ -30,8 +31,8 @@ const SalesReport: React.FC<ReportProps> = () => {
       label: "Today",
       value: "Today",
     }))
-    dispatch(changeStartDate(new Date()))
-    dispatch(changeEndDate())
+    dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
+    dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
   }, [])  
 
   useEffect(() => {

@@ -286,7 +286,7 @@ const NewTable: React.FC<NewTableProps> = ({
           <table>
             <thead>
               <tr>
-                {headerData?.map((header) => (
+                {headerData?.map((header:any) => (
                   <th
                     key={header?.key}
                     style={{ textAlign: header?.alignment || "left" }}
@@ -322,7 +322,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 ? // Shimmer Effect for Table Rows (only when search, pagination, row-limit changes)
                   [...Array(rowsPerPage)].map((_, index) => (
                     <tr key={index} className="skeleton-row">
-                      {headerData.map((header, i) => (
+                      {headerData.map((header:any, i:number) => (
                         <td key={i}>
                           <div className="skeleton-box"></div>
                         </td>
@@ -332,7 +332,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 : // Actual Data Rendering
                   paginatedData?.map((row, index) => (
                     <tr key={index}>
-                      {headerData?.map((header) => (
+                      {headerData?.map((header:any) => (
                         <td
                           key={header?.key}
                           style={{ textAlign: header?.alignment || "left" }}
