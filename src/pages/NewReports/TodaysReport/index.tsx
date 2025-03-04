@@ -136,9 +136,6 @@ const TodaysReport: React.FC = () => {
 
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
 
-    const handleDropdownChangeStore = (selectedValue: string) => {
-        setSelectedOptionStore(selectedValue);
-    };
 
     const handleRefreshClick = () => {
 

@@ -52,6 +52,7 @@ function DoughnutChartButtonVoided({
   dataList = [],
   countryCode,
   handleClick,
+  handleOther,
   loader,
 }) {
   const chartRef = useRef(null);
@@ -242,9 +243,11 @@ function DoughnutChartButtonVoided({
       const otherRecords = sortedData.slice(10);
       let tempSlice = top10
       if (otherRecords.length > 0) {
+        const other=[]    
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
 
+            other.push(item?.voidedReasons)
             acc.value += ((Number(item?.voidedAmount || 0) * 100) / totalDisplay)
             acc.items += Number(item?.orderCount || 0)
             acc.amount += Number(item?.voidedItems || 0)
@@ -257,6 +260,7 @@ function DoughnutChartButtonVoided({
 
 
         tempSlice = [...top10, otherSummary]
+        handleOther(other?.join(","))
 
       }
       const tempData = {

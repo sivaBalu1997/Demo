@@ -56,6 +56,7 @@ function DoughnutChartWithButton({
   countryCode,
   handleClick,
   loader,
+  handleOther,
 }) {
   const chartRef = useRef(null);
   const containerRef = useRef(null);
@@ -234,9 +235,11 @@ function DoughnutChartWithButton({
       // Sum remaining records into "Other"
       const otherRecords = sortedData.slice(10);
       let tempSlice = top10
+      const otherLabel=[]
       if (otherRecords.length > 0) {
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
+            otherLabel.push(item?.offerName)
 
             acc.value += ((Number(item?.totalSales || 0) * 100) / totalDisplay)
             acc.items += Number(item?.totalOrders || 0)
@@ -251,6 +254,7 @@ function DoughnutChartWithButton({
         tempSlice = [...top10, otherSummary]
 
       }
+      handleOther(otherLabel?.join(","))
       const tempData = {
         labels: tempSlice?.map((slice) => slice.label),
         datasets: [
