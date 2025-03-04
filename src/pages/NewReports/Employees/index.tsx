@@ -1,5 +1,5 @@
 //      NewReports/Employee/index.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeLocation,
@@ -27,6 +27,10 @@ const Employees: React.FC = () => {
     label: "Yesterday",
     value: "Yesterday",
   });
+
+
+  const employeeChartRef = useRef<HTMLDivElement>(null);
+
   const employeeSalesOverViewFromAPIRedux = useSelector(
     (state: any) => state?.newReports?.employeeSalesOverviewSuccess
   );
@@ -49,9 +53,9 @@ const Employees: React.FC = () => {
   const currencySymbol = countryCode === "US" ? "$" : "₹";
 
 
-  const getChartSliceTableHeaders = (selectedValueForChartSlice:string) => {
-    console.log("PPP5", {selectedValueForChartSlice})
-    switch(selectedValueForChartSlice) {
+  const getChartSliceTableHeaders = (selectedValueForChartSlice: string) => {
+    // console.log("PPP5", { selectedValueForChartSlice })
+    switch (selectedValueForChartSlice) {
       case "Remove tax":
         return [
           { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
@@ -62,7 +66,7 @@ const Employees: React.FC = () => {
           { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
           { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
         ];
-      
+
       case "Apply discount":
         return [
           { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
@@ -120,20 +124,20 @@ const Employees: React.FC = () => {
           { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
           { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
         ];
-      
+
       default:
         return [];
     }
   }
 
-  console.log("LLL3 getChartSliceTableHeaders(selectedValueForChartSlice)",getChartSliceTableHeaders(selectedValueForChartSlice))
-  console.log("LLL4 selectedValueStateData", selectedValueStateData)
+  // console.log("LLL3 getChartSliceTableHeaders(selectedValueForChartSlice)", getChartSliceTableHeaders(selectedValueForChartSlice))
+  // console.log("LLL4 selectedValueStateData", selectedValueStateData)
 
-    // useSelector for Table states :
-    const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.content)
-    const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
-    const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableLoading)
-    console.log("PPP",{getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux})
+  // useSelector for Table states :
+  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
+  const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
+  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
+  // console.log("PPP", { getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux })
 
   // Generic table states :
   const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
@@ -144,43 +148,6 @@ const Employees: React.FC = () => {
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
-
-  // // Table States for Order cancelled :
-  // const [orderCancelledRecordLimit, setOrderCancelledRecordLimit] = useState<number>(10);
-  // const [searchQueryForOrdersCancelled, setSearchQueryForOrdersCancelled] = useState("");
-  // const [currectPageOrdersCancelled, setCurrentPageOrdersCancelled] = useState<number>(1);
-
-  // // Table states for Apply discount :
-  // const [applyDiscountRecordLimit, setApplyDiscountRecordLimit] = useState<number>(10);
-  // const [searchQueryForApplyDiscount, setSearchQueryForApplyDiscount] = useState("");
-  // const [currectPageApplyDiscount, setCurrentPageApplyDiscount] = useState<number>(1);
-
-  // // Table states for Order edited :
-  // const [orderEditedRecordLimit, setOrderEditedRecordLimit] = useState<number>(10);
-  // const [searchQueryForOrderEdited, setSearchQueryForOrderEdited] = useState("");
-  // const [currectPageOrderEdited, setCurrentPageOrderEdited] = useState<number>(1);
-
-  // // Table states for Remove tax :
-  // const [removeTaxRecordLimit, setRemoveTaxRecordLimit] = useState<number>(10);
-  // const [searchQueryForvRemoveTax, setSearchQueryForRemoveTax] = useState("");
-  // const [currectPageRemoveTax, setCurrentPageRemoveTax] = useState<number>(1);
-
-  // // Table states for Void payment :
-  // const [voidPaymentRecordLimit, setVoidPaymentRecordLimit] = useState<number>(10);
-  // const [searchQueryForvVoidPayment, setSearchQueryForVoidPayment] = useState("");
-  // const [currectPageVoidPayment, setCurrentPageVoidPayment] = useState<number>(1);
-
-  // // Table states for Remove tip :
-  // const [removeTipRecordLimit, setRemoveTipRecordLimit] = useState<number>(10);
-  // const [searchQueryForvRemoveTip, setSearchQueryForRemoveTip] = useState("");
-  // const [currectPageRemoveTip, setCurrentPageRemoveTip] = useState<number>(1);
-
-  // // Table for Remove service tax :
-  // const [removeServiceTaxRecordLimit, setRemoveServiceTaxRecordLimit] = useState<number>(10);
-  // const [searchQueryForvRemoveServiceTax, setSearchQueryForRemoveServiceTax] = useState("");
-  // const [currectPageRemoveServiceTax, setCurrentPageRemoveServiceTax] = useState<number>(1);
-
-
 
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
@@ -319,12 +286,12 @@ const Employees: React.FC = () => {
       label: `${employee?.firstName}`,
     }));
 
-    console.log({employeeDropdownOptions});
-    const employeeTempArray = [{label:"all", value:"all"}, ...employeeDropdownOptions]
+  // console.log({ employeeDropdownOptions });
+  const employeeTempArray = [{ label: "all", value: "all" }, ...employeeDropdownOptions]
 
 
   const [employeeList, setEmployeeList] = useState(employeeTempArray?.[0]?.value);
-  console.log({employeeList})
+  // console.log({ employeeList })
 
 
   const handleDropdownChangeStore = (selectedValue: any) => {
@@ -358,6 +325,12 @@ const Employees: React.FC = () => {
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
     setSelectedValueForChartSlice("");
+    setTimeout(() => {
+      employeeChartRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }, 0)
   };
 
   useEffect(() => {
@@ -386,11 +359,11 @@ const Employees: React.FC = () => {
     }
   }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
-  useEffect(()=>{
-    if(selectedLocation?.value && selectedValueForChartSlice){
+  useEffect(() => {
+    if (selectedLocation?.value && selectedValueForChartSlice) {
       dispatch(
         getEmployeeChartSliceTableRequest({
-          locationid:  selectedLocation?.value,
+          locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
           chartSliceName: selectedValueForChartSlice,
@@ -399,7 +372,7 @@ const Employees: React.FC = () => {
         })
       )
     }
-  },[selectedLocation?.value, startDate, endDate, selectedValueForChartSlice, currentPageGenericTable, genericTableRecordLimit])
+  }, [selectedLocation?.value, startDate, endDate, selectedValueForChartSlice, currentPageGenericTable, genericTableRecordLimit])
 
 
   return (
@@ -549,39 +522,21 @@ const Employees: React.FC = () => {
               />
             </div>
           </div>
-          <CustomBarChart
-            data={chartDataFromAPIRedux}
-            tooltipData={tooltipDataFromAPI}
-            barColor="#67823D"
-            barStyle={customBarStyle}
-            showGrid={true} 
-            gridColor="#ccc" 
-            gridStrokeWidth={0.5} 
-            kpiTitle="All Activity"
-            showRelatedTable={showAllActivityTable}
-            setShowRelatedTable={setShowAllActivityTable}
-            setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-          />
-          {/* <NewTable
-            kpiTitle="Employee Void Activity"
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            headerData={newTableHeaders}
-            tableData={
-              employeeVoidActivityAPIRedux &&
-              employeeVoidActivityAPIRedux?.length > 0 &&
-              employeeVoidActivityAPIRedux
-            }
-            currentPage={currentPageEmployeeVoidActivity}
-            totalPages={employeeVoidActivityTotalPagesRedux}
-            onPageChange={setCurrentPageEmployeeVoidActivity}
-            rowsPerPage={employeeVoidRecordLimit}
-            setRowsPerPage={setEmployeeVoidRecordLimit}
-            loader={employeeVoidActivityLoading}
-            count={employeeVoidActivityAPIRedux?.length}
-            searchPlaceHolder="Search By Steward, Voided reasons"
-            onSearch={handleSearch}
-          /> */}
+          <div ref={employeeChartRef}>
+            <CustomBarChart
+              data={chartDataFromAPIRedux}
+              tooltipData={tooltipDataFromAPI}
+              barColor="#67823D"
+              barStyle={customBarStyle}
+              showGrid={true}
+              gridColor="#ccc"
+              gridStrokeWidth={0.5}
+              kpiTitle="All Activity"
+              showRelatedTable={showAllActivityTable}
+              setShowRelatedTable={setShowAllActivityTable}
+              setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+            />
+          </div>
         </>
       )}
     </div>
