@@ -162,6 +162,9 @@ import {
     GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
     GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS,
     GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
+    SELCTED_DATE_FILTER_TYPE,
+    SELCTED_START_DATE,
+    SELCTED_END_DATE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -395,6 +398,12 @@ const initialNewReportsState = {
         getPremisesSummaryData: [],
         getPremisesSummaryError: null,
 
+        selectedDateFilterType:{
+            label: "Today",
+            value: "Today",
+          },
+          selectedStartDate: null,
+          selectedEndDate: null,
         selectedLocation: {},
         storeLocationsList: [],
 
@@ -1084,6 +1093,15 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.paymentDetailsError = action.payload;
                 break;
 
+            case SELCTED_DATE_FILTER_TYPE:
+                    draft.selectedDateFilterType = action.payload;
+                    break;
+            case SELCTED_START_DATE:
+                draft.selectedStartDate = action.payload;
+                break;
+            case SELCTED_END_DATE:
+                draft.selectedEndDate = action.payload;
+                break;
             case SELCTED_LOCATION:
                 draft.selectedLocation = action.payload;
                 break;

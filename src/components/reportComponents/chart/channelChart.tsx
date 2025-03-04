@@ -28,11 +28,6 @@ interface ChartData {
 }
 
 const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
-  //   {
-  //     "channelName": "Dinein",
-  //     "orders": 369,
-  //     "sales": "42429.03"
-  // }
   const data = {
     labels: Array.from(
       new Set(dataList?.map((item: any) => item?.channelName))
@@ -54,8 +49,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
           "#06C167",
           "#FF8C00",
         ],
-        //TODO: check if it changes based on data
-        barPercentage: 0.7, // Thinner bars
+        barPercentage: 0.7, 
         categoryPercentage: 0.6,
       },
     ],
@@ -91,11 +85,6 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
         bodyFont: { size: 14 }, // Body font size set to 14px        displayColors: false,
         caretSize: 0,
       },
-      // tooltip: {
-      //   callbacks: {
-      //     label: (tooltipItem: any) => `Sales: $${tooltipItem.raw.toFixed(2)}`,
-      //   },
-      // },
       datalabels: {
         display: false,
       },

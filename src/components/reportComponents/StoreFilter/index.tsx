@@ -1,8 +1,4 @@
 import React, { useRef, useState } from "react";
-// import { useDispatch, useSelector } from 'react-redux';
-// import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
-// import { Contextpagejs } from 'pages/productCatalog/contextpage';
-// import { useHistory } from 'react-router-dom';
 import "./StoreFilter.scss";
 import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
@@ -52,18 +48,6 @@ const StoreFilter = ({
   showRefresh = false,
   storeOptions = [],
 }: StoreFilterProps) => {
-  // const dispatch = useDispatch();
-  // const history = useHistory();
-  // const { storeList } = useContext(Contextpagejs);
-
-  // const [selectedStore, setSelectedStore] = useState(null);
-
-  // const onSelectStore = (store) => {
-  //     setSelectedStore(store);
-  //     dispatch(storeMockDataRequest(store.storeId));
-  //     history.push(`/product-catalog?storeId=${store.storeId}`);
-  // };
-
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
@@ -81,10 +65,10 @@ const StoreFilter = ({
   const datePickerHandleOnChange: any = (dates: any): void => {
     setSelectedDates(dates);
   };
-  const closeBtnOnclick = () => {
+  const closeBtnOnclick = () => { 
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();
-    setSelectedDate(dateOptions[0]);
+    setSelectedDate(dateOptions[1]);
   };
   const applyBtnOnclick = () => {
     if (selectedDates.length === 2) {

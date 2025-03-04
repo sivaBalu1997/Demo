@@ -163,7 +163,10 @@ import {
     ADD_ITEMS_LIST,
     GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
     GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS,
-    GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE
+    GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
+    SELCTED_DATE_FILTER_TYPE,
+    SELCTED_START_DATE,
+    SELCTED_END_DATE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1089,12 +1092,34 @@ export const employeeSalesOverviewFailure = (error) => {
     }
 }
 
+export const changeDateFilterType = (data) => {
+    return {
+        type: SELCTED_DATE_FILTER_TYPE,
+        payload: data
+    }
+}
+
+export const changeStartDate = (data) => {
+    return {
+        type: SELCTED_START_DATE,
+        payload: data
+    }
+}
+
+export const changeEndDate = (data) => {
+    return {
+        type: SELCTED_END_DATE,
+        payload: data
+    }
+}
+
 export const changeLocation = (data) => {
     return {
         type: SELCTED_LOCATION,
         payload: data
     }
 }
+
 
 export const storeLocationsList = (data) => {
     return {
