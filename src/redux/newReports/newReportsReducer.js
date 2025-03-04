@@ -158,7 +158,10 @@ import {
     ADD_ITEMS_LIST,
     GET_PREMISES_SUMMARARY_REQUEST,
     GET_PREMISES_SUMMARARY_FAILURE,
-    GET_PREMISES_SUMMARARY_SUCCESS
+    GET_PREMISES_SUMMARARY_SUCCESS,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -402,7 +405,12 @@ const initialNewReportsState = {
     selectedCategories: [],
     selectedItems: [],
     categoryList: [],
-    itemsList: []
+    itemsList: [],
+
+    // get employee chart slice table
+    employeeChartSliceTableLoading: false,
+    employeeChartSliceTableSuccess: [],
+    employeeChartSliceTableFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1263,6 +1271,20 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case ADD_ITEMS_LIST:
                 draft.itemsList = action.payload;
                 break;
+
+            // employee chart slice table
+            case GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST:
+                draft.employeeChartSliceTableLoading = true;
+                draft.employeeChartSliceTableSuccess = [];
+                draft.employeeChartSliceTableFailure = false;
+            case GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS:
+                draft.employeeChartSliceTableLoading = false;
+                draft.employeeChartSliceTableSuccess = action.payload;
+                draft.employeeChartSliceTableFailure = false;
+            case GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE:
+                draft.employeeChartSliceTableLoading = false;
+                draft.employeeChartSliceTableSuccess = [];
+                draft.employeeChartSliceTableFailure = true;
             default:
                 break;
         }

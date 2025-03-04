@@ -6,6 +6,7 @@ import {
   employeeStaffActivityRequest,
   employeeSalesOverviewRequest,
   getEmployeeActivityRequest,
+  getEmployeeChartSliceTableRequest,
 } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
@@ -35,9 +36,123 @@ const Employees: React.FC = () => {
   );
   const { startDate, endDate, handleDateChange } = useDateFilter();
 
+  const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
 
-  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
-    useState<number>(10);
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
+
+  const getChartSliceTableHeaders = (selectedValueForChartSlice:string) => {
+    switch(selectedValueForChartSlice) {
+      case "Remove tax":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
+          { key: "removeTaxAmount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+      
+      case "Discount applied":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
+          { key: "discountName", label: "Discount Name", isSortable: true, alignment: "left" },
+          { key: "discountAmount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+
+      // others    // action ?
+      case "Order edited":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+
+      case "Orders cancelled":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+      // others
+
+
+      case "Void payment":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
+          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+
+      case "Remove tip":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
+          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+
+      case "Remove service tax":
+        return [
+          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
+          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+        ];
+      
+      default:
+        return [];
+    }
+  }
+
+  // Generic table states :
+  const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
+  const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
+  const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
+
+  // Table Employee Void Activity States :
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
+
+  // // Table States for Order cancelled :
+  // const [orderCancelledRecordLimit, setOrderCancelledRecordLimit] = useState<number>(10);
+  // const [searchQueryForOrdersCancelled, setSearchQueryForOrdersCancelled] = useState("");
+  // const [currectPageOrdersCancelled, setCurrentPageOrdersCancelled] = useState<number>(1);
+
+  // // Table states for Apply discount :
+  // const [applyDiscountRecordLimit, setApplyDiscountRecordLimit] = useState<number>(10);
+  // const [searchQueryForApplyDiscount, setSearchQueryForApplyDiscount] = useState("");
+  // const [currectPageApplyDiscount, setCurrentPageApplyDiscount] = useState<number>(1);
+
+  // // Table states for Order edited :
+  // const [orderEditedRecordLimit, setOrderEditedRecordLimit] = useState<number>(10);
+  // const [searchQueryForOrderEdited, setSearchQueryForOrderEdited] = useState("");
+  // const [currectPageOrderEdited, setCurrentPageOrderEdited] = useState<number>(1);
+
+  // // Table states for Remove tax :
+  // const [removeTaxRecordLimit, setRemoveTaxRecordLimit] = useState<number>(10);
+  // const [searchQueryForvRemoveTax, setSearchQueryForRemoveTax] = useState("");
+  // const [currectPageRemoveTax, setCurrentPageRemoveTax] = useState<number>(1);
+
+  // // Table states for Void payment :
+  // const [voidPaymentRecordLimit, setVoidPaymentRecordLimit] = useState<number>(10);
+  // const [searchQueryForvVoidPayment, setSearchQueryForVoidPayment] = useState("");
+  // const [currectPageVoidPayment, setCurrentPageVoidPayment] = useState<number>(1);
+
+  // // Table states for Remove tip :
+  // const [removeTipRecordLimit, setRemoveTipRecordLimit] = useState<number>(10);
+  // const [searchQueryForvRemoveTip, setSearchQueryForRemoveTip] = useState("");
+  // const [currectPageRemoveTip, setCurrentPageRemoveTip] = useState<number>(1);
+
+  // // Table for Remove service tax :
+  // const [removeServiceTaxRecordLimit, setRemoveServiceTaxRecordLimit] = useState<number>(10);
+  // const [searchQueryForvRemoveServiceTax, setSearchQueryForRemoveServiceTax] = useState("");
+  // const [currectPageRemoveServiceTax, setCurrentPageRemoveServiceTax] = useState<number>(1);
+
+  // useSelector for Table states :
+  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess)
+  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableLoading)
 
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
@@ -69,14 +184,14 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
 
+
+
+
   const datepickerApply = (data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
-    useState<number>(1);
 
 
   const newTableHeaders: NewTableHeader[] = [
@@ -100,6 +215,8 @@ const Employees: React.FC = () => {
       alignment: "left",
     },
   ];
+
+
 
   const handleSearch = (value: string, kpiTitle: string) => {
     switch (kpiTitle) {
@@ -157,8 +274,7 @@ const Employees: React.FC = () => {
     borderRadius: "8px",
   };
 
-  const [showAllActivityTable, setShowAllActivityTable] =
-    useState<boolean>(false);
+
 
   useEffect(() => {
     if (selectedLocation?.value) {
@@ -215,7 +331,6 @@ const Employees: React.FC = () => {
   ]);
 
 
-  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
 
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
@@ -247,6 +362,21 @@ const Employees: React.FC = () => {
       );
     }
   }, [selectedLocation?.value, startDate, endDate, employeeList]);
+
+  useEffect(()=>{
+    if(selectedLocation?.value){
+      dispatch(
+        getEmployeeChartSliceTableRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          chartSliceName: selectedValueForChartSlice,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: employeeVoidRecordLimit,
+        })
+      )
+    }
+  },[selectedLocation?.value, startDate, endDate, selectedValueForChartSlice])
 
 
   return (

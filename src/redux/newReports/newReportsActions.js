@@ -160,7 +160,10 @@ import {
     GET_PREMISES_SUMMARARY_SUCCESS,
     GET_PREMISES_SUMMARARY_FAILURE,
     ADD_CATEGORY_LIST,
-    ADD_ITEMS_LIST
+    ADD_ITEMS_LIST,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS,
+    GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1236,5 +1239,20 @@ export const getPremisesSummarySuccess = (data) => ({
 
 export const getPremisesSummaryFailure = (error) => ({
     type: GET_PREMISES_SUMMARARY_FAILURE,
+    payload: error
+})
+
+export const getEmployeeChartSliceTableRequest = (data) => ({
+    type: GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
+    payload: data
+})
+
+export const getEmployeeChartSliceTableSuccess = (data) => ({
+    type: GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS,
+    payload: data
+})
+
+export const getEmployeeChartSliceTableFailure = (error) => ({
+    type: GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
     payload: error
 })

@@ -683,3 +683,16 @@ export const getPremisesSummary = (premisesSummaryPayload) => {
         }
     });
 }
+
+// https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/employee/activity/actions?locationId=d15139f6-ea2b-4b4c-8541-7a9112bfd8bf&startDate=2024-11-01&endDate=2024-12-31&action=Void payment,Remove Tax
+
+export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity/actions?locationId=${employeeChartSliceTablePayload?.locationId}&startDate=${employeeChartSliceTablePayload?.startDate}&endDate=${employeeChartSliceTablePayload?.endDate}&page=${employeeChartSliceTablePayload?.tablePageNo}&size=${employeeChartSliceTablePayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
