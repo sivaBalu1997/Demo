@@ -15,6 +15,8 @@ import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
+import NewTable from "components/reportComponents/NewTable";
+import SwitchableBox from "components/reportComponents/SwitchableBox";
 interface CustomBarChartData {
   xAxisValue: string;
   yAxisValue: number;
@@ -31,11 +33,19 @@ const CategoryReport = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
+
   const [selectedDate, setSelectedDate] = useState({
     label: "Yesterday",
     value: "Yesterday",
   });
+  const [liveCheckInSearchQuery, setLiveCheckInSearchQuery] = useState("");
+  const [liveCheckInCurrentPage, setLiveCheckInCurrentPage] = useState(1);
+  const [liveCheckInPageLimit, setLiveCheckInPageLimit] = useState(10);
 
+  const [todayCheckInSearchQuery, setTodayCheckInSearchQuery] = useState("");
+  const [todayCheckInCurrentPage, setTodayCheckInCurrentPage] = useState(1);
+  const [todayCheckInPageLimit, setTodayCheckInPageLimit] = useState(10);
+  const [activeBtn, setActiveBtn] = useState("Live Check-ins");
   const calendarRef = useRef();
 
   // Date formatting function
@@ -46,28 +56,268 @@ const CategoryReport = () => {
     const day = String(d.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-  const getDateFromOption = (option: any) => {
-    const today = new Date();
-    switch (option) {
-      case "Today":
-        return formatDate(today);
-      case "Yesterday":
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
-        return formatDate(yesterday);
-      case "This week":
-        const weekStart = new Date(today);
-        weekStart.setDate(weekStart.getDate() - 7);
-        return formatDate(weekStart);
-      case "This month":
-        const monthStart = new Date(today);
-        monthStart.setDate(1);
-        return formatDate(monthStart);
-      default:
-        return formatDate(today);
-    }
-  };
+  const handleLiveCheckInSearch = (value: string) => {};
+  const handleTodayCheckInSearch = (value: string) => {};
 
+  const headerData = [
+    {
+      key: "checkinId",
+      label: "Check-in",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "guestName",
+      label: "Guest name",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "phone",
+      label: "Phone",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "channel",
+      label: "Channel",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "tableNo",
+      label: "Table",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "checkinTime",
+      label: "Check-in time",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "assignedTime",
+      label: "Assigned time",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "status",
+      label: "Status",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "waitTime",
+      label: "Wait time",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "guestSize",
+      label: "Guest size",
+      alignment: "center",
+      isSortable: true,
+    },
+  ];
+
+  const todayTableData = [
+    {
+      checkinId: "#5852",
+      guestName: "Albert Flores",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "A43",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Completed",
+      waitTime: "13 Mins",
+      guestSize: 4,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Arlene McCoy",
+      phone: "(308) 555-0121",
+      channel: "Kiosk",
+      tableNo: "-",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Late show",
+      waitTime: "13 Mins",
+      guestSize: 3,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Devon Lane",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "A43",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Cancelled",
+      waitTime: "13 Mins",
+      guestSize: 6,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Esther Fox",
+      phone: "(308) 555-0121",
+      channel: "Kiosk",
+      tableNo: "A45",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Completed",
+      waitTime: "13 Mins",
+      guestSize: 5,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Esther Howard",
+      phone: "(308) 555-0121",
+      channel: "Merchant",
+      tableNo: "A46",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Cancelled",
+      waitTime: "13 Mins",
+      guestSize: 12,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Robert Fox",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "D23",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Completed",
+      waitTime: "13 Mins",
+      guestSize: 9,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Esther Fox",
+      phone: "(308) 555-0121",
+      channel: "Kiosk",
+      tableNo: "-",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Completed",
+      waitTime: "13 Mins",
+      guestSize: 8,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Devon Lane",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "A50",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Late show",
+      waitTime: "13 Mins",
+      guestSize: 4,
+    },
+  ];
+  const liveTableData = [
+    {
+      checkinId: "#5852",
+      guestName: "Albert Flores",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "A43",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Assigned",
+      waitTime: "13 Mins",
+      guestSize: 4,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Arlene McCoy",
+      phone: "(308) 555-0121",
+      channel: "Kiosk",
+      tableNo: "-",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Late show",
+      waitTime: "13 Mins",
+      guestSize: 3,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Devon Lane",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "A43",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "In Queue",
+      waitTime: "13 Mins",
+      guestSize: 6,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Esther Fox",
+      phone: "(308) 555-0121",
+      channel: "Kiosk",
+      tableNo: "A45",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Assigned",
+      waitTime: "13 Mins",
+      guestSize: 5,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Esther Howard",
+      phone: "(308) 555-0121",
+      channel: "Merchant",
+      tableNo: "A46",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Seated",
+      waitTime: "13 Mins",
+      guestSize: 12,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Robert Fox",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "D23",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "In Queue",
+      waitTime: "13 Mins",
+      guestSize: 9,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Esther Fox",
+      phone: "(308) 555-0121",
+      channel: "Kiosk",
+      tableNo: "-",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Assigned",
+      waitTime: "13 Mins",
+      guestSize: 8,
+    },
+    {
+      checkinId: "#5852",
+      guestName: "Devon Lane",
+      phone: "(308) 555-0121",
+      channel: "Online",
+      tableNo: "A50",
+      checkinTime: "12:09 AM",
+      assignedTime: "01:09 PM",
+      status: "Late show",
+      waitTime: "13 Mins",
+      guestSize: 4,
+    },
+  ];
   const dataList1: CustomBarChartData[] = [
     {
       xAxisValue: "Group of 2",
@@ -170,19 +420,19 @@ const CategoryReport = () => {
               data={[
                 {
                   title: "TOTAL ACTIVE",
-                  value: `$ ${10}`,
+                  value: `${10}`,
                 },
                 {
                   title: "IN-QUEUE",
-                  value: `$ ${140}`,
+                  value: `${140}`,
                 },
                 {
                   title: "ASSIGNED",
-                  value: `$ ${200}`,
+                  value: `${200}`,
                 },
                 {
                   title: "LATE SHOW",
-                  value: `$ ${40}`,
+                  value: `${40}`,
                 },
               ]}
             />
@@ -273,6 +523,72 @@ const CategoryReport = () => {
               dataList={dataList3}
               
             /> */}
+          </div>
+          <div className="category-btn-switch checkin-btn-switch">
+            <button
+              className={`category-btn  ${
+                activeBtn == "Live Check-ins" ? "active-btn" : ""
+              }`}
+              onClick={() => {
+                setActiveBtn("Live Check-ins");
+              }}
+            >
+              Live Check-ins
+            </button>
+            <button
+              className={`category-btn  ${
+                activeBtn == "Today Check-ins" ? "active-btn" : ""
+              }`}
+              onClick={() => {
+                setActiveBtn("Today Check-ins");
+              }}
+            >
+              Today Check-ins
+            </button>
+          </div>
+          <div className="todays-report-tables-container">
+            {activeBtn == "Live Check-ins" && (
+              <NewTable
+                kpiTitle="Live Check-ins"
+                searchQuery={liveCheckInSearchQuery}
+                onSearchChange={setLiveCheckInSearchQuery}
+                headerData={headerData as any}
+                tableData={liveTableData as any}
+                currentPage={liveCheckInCurrentPage}
+                totalPages={50}
+                onPageChange={setLiveCheckInCurrentPage}
+                rowsPerPage={liveCheckInPageLimit}
+                setRowsPerPage={setLiveCheckInPageLimit}
+                loader={false}
+                count={40}
+                // // loader={true}
+                // count={liveOrdersAPIRedux?.length}
+                searchPlaceHolder="Search by table number, customer name"
+                onSearch={handleLiveCheckInSearch}
+                // // searchDebounce={()=>searchDebounce()}
+              />
+            )}
+            {activeBtn == "Today Check-ins" && (
+              <NewTable
+                kpiTitle="Today Check-ins"
+                searchQuery={todayCheckInSearchQuery}
+                onSearchChange={setTodayCheckInSearchQuery}
+                headerData={headerData as any}
+                tableData={todayTableData as any}
+                currentPage={todayCheckInCurrentPage}
+                totalPages={50}
+                count={56}
+                onPageChange={setTodayCheckInCurrentPage}
+                rowsPerPage={todayCheckInPageLimit}
+                setRowsPerPage={setTodayCheckInPageLimit}
+                loader={false}
+                // // loader={true}
+                // count={liveOrdersAPIRedux?.length}
+                searchPlaceHolder="Search by table number, customer name"
+                onSearch={handleTodayCheckInSearch}
+                // // searchDebounce={()=>searchDebounce()}
+              />
+            )}
           </div>
         </div>
       </div>
