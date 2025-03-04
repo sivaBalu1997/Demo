@@ -39,11 +39,6 @@ interface RevenueChartProps {
 }
 
 const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader }) => {
-  //   {
-  //     "revenueClass": "Beverages",
-  //     "itemsSold": 23,
-  //     "totalSales": "742.00"
-  // }
   const data = {
     labels: Array.from(
       new Set(dataList?.map((item: any) => item?.revenueClass))

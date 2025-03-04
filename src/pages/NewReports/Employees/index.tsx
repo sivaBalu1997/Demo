@@ -1,4 +1,3 @@
-//      NewReports/Employee/index.tsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,7 +5,6 @@ import {
   employeeStaffActivityRequest,
   employeeSalesOverviewRequest,
   getEmployeeActivityRequest,
-  changeDateFilterType,
 } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
@@ -22,63 +20,70 @@ import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
 
+
+  // Custom Bar Style
+  const customBarStyle = {
+    borderRadius: "8px",
+  };
+
 const Employees: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState({
-    label: "Today",
-    value: "Today",
-  });
-  const employeeSalesOverViewFromAPIRedux = useSelector(
-    (state: any) => state?.newReports?.employeeSalesOverviewSuccess
-  );
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
 
-  const employeeSalesOverViewFromAPIReduxLoader = useSelector(
-    (state: any) => state?.newReports?.employeeSalesOverviewLoading
-  );
-  const { startDate, endDate, handleDateChange } = useDateFilter();
+  const employeeSalesOverViewFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeSalesOverviewSuccess);
+  const employeeSalesOverViewFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.employeeSalesOverviewLoading);
 
-
-  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
-    useState<number>(10);
-
-  const locations = useSelector(
-    (state: any) => state?.newReports?.storeLocationsList
-  );
-  const selectedLocation = useSelector(
-    (state: any) => state?.newReports?.selectedLocation
-  );
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
   const dispatch = useDispatch();
 
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
 
+
+  const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
+  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
+  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
   const currencySymbol = countryCode === "US" ? "$" : "₹";
+  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.content);
+  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
+  const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
+  const getEmployeeActivityDataFromAPIRedux = useSelector((state: any) => state?.newReports?.getemployeeActivitySuccess);
 
-  const employeeVoidActivityAPIRedux = useSelector(
-    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
-  );
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        getEmployees(
+          selectedLocation?.value,
+        )
+      );
+    }
+  }, [selectedLocation?.value])
 
-  const employeeVoidActivityTotalPagesRedux = useSelector(
-    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
-  );
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        employeeStaffActivityRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: employeeVoidRecordLimit,
+        })
+      );
 
-  const employeeVoidActivityLoading = useSelector(
-    (state: any) => state?.newReports?.employeeStaffActivityLoading
-  );
-
-  const getEmployeeActivityDataFromAPIRedux = useSelector(
-    (state: any) => state?.newReports?.getemployeeActivitySuccess
-  );
+    }
+  }, [
+    selectedLocation,
+    startDate,
+    endDate,
+    currentPageEmployeeVoidActivity,
+    employeeVoidRecordLimit,
+  ]);
 
   const datepickerApply = (data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
-    useState<number>(1);
-
 
   const newTableHeaders: NewTableHeader[] = [
     { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
@@ -137,39 +142,6 @@ const Employees: React.FC = () => {
     {}
   );
 
-  // Chart Data
-  const chartData = [
-    { name: "Add discount", value: 240.5 },
-    { name: "Others", value: 180.0 },
-    { name: "Complementary", value: 320.75 },
-    { name: "Remove Gratuity", value: 200.0 },
-  ];
-
-  // Tooltip Data
-  const tooltipData = {
-    "Add discount": { tooltipContent: "Discount applied successfully!" },
-    Others: { tooltipContent: "Miscellaneous changes recorded." },
-    Complementary: { tooltipContent: "This item was given for free." },
-    "Remove Gratuity": { tooltipContent: "Gratuity charges removed." },
-  };
-
-  // Custom Bar Style
-  const customBarStyle = {
-    borderRadius: "8px",
-  };
-
-  const [showAllActivityTable, setShowAllActivityTable] =
-    useState<boolean>(false);
-
-  useEffect(() => {
-    if (selectedLocation?.value) {
-      dispatch(
-        getEmployees(
-          selectedLocation?.value,
-        )
-      );
-    }
-  }, [selectedLocation?.value])
 
   const employeeLists: EmployeeType[] = useSelector(
     (state: RootState) => state.employee.employeeDetails
@@ -181,42 +153,12 @@ const Employees: React.FC = () => {
       label: `${employee?.firstName}`,
     }));
 
-    console.log({employeeDropdownOptions});
-    const employeeTempArray = [...employeeDropdownOptions, {label:"all", value:"all"}]
-
-
+  const employeeTempArray = [...employeeDropdownOptions, { label: "all", value: "all" }]
   const [employeeList, setEmployeeList] = useState(employeeTempArray?.[0]?.value);
-  console.log({employeeList})
-
 
   const handleDropdownChangeStore = (selectedValue: any) => {
     setEmployeeList(selectedValue?.value);
   };
-
-
-  useEffect(() => {
-    if (selectedLocation?.value) {
-      dispatch(
-        employeeStaffActivityRequest({
-          locationid: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          tablePageNo: currentPageEmployeeVoidActivity,
-          tableRecordLimit: employeeVoidRecordLimit,
-        })
-      );
-
-    }
-  }, [
-    selectedLocation,
-    startDate,
-    endDate,
-    currentPageEmployeeVoidActivity,
-    employeeVoidRecordLimit,
-  ]);
-
-
-  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
 
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
@@ -288,9 +230,9 @@ const Employees: React.FC = () => {
         <>
           <StoreFilter
             storeOptions={locations}
-            selectedDate={selectedDate}
+            selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={setSelectedDate}
+            setSelectedDate={(data) => handleDateChange(data?.value)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
             datePickerApplyFunction={datepickerApply}
             dateDropdownFunction={datepickerApply}
@@ -402,9 +344,9 @@ const Employees: React.FC = () => {
             tooltipData={tooltipDataFromAPI}
             barColor="#67823D"
             barStyle={customBarStyle}
-            showGrid={true} 
-            gridColor="#ccc" 
-            gridStrokeWidth={0.5} 
+            showGrid={true}
+            gridColor="#ccc"
+            gridStrokeWidth={0.5}
             kpiTitle="All Activity"
             showRelatedTable={showAllActivityTable}
             setShowRelatedTable={setShowAllActivityTable}

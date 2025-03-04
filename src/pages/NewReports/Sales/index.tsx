@@ -8,7 +8,7 @@ import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
 import SidePanel from "pages/SidePanel/indexNew";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategoryList, addItemList, changeDateFilterType, changeLocation, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
+import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
@@ -16,7 +16,7 @@ interface ReportProps { }
 
 const SalesReport: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Today's report");
-  const [isExpanded, setIsExpanded] = useState(false); //TODO: use redux
+  const [isExpanded, setIsExpanded] = useState(false); 
 
   const dispatch = useDispatch();
   /*********************************************************** */
@@ -30,7 +30,9 @@ const SalesReport: React.FC<ReportProps> = () => {
       label: "Today",
       value: "Today",
     }))
-  }, [])
+    dispatch(changeStartDate(new Date()))
+    dispatch(changeEndDate())
+  }, [])  
 
   useEffect(() => {
     if (restaurantDetails?.length) {

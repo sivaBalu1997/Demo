@@ -11,7 +11,6 @@ import {
   ChartOptions,
   TooltipItem,
 } from "chart.js";
-import { ChartData } from "chart.js";
 import "./chart.scss";
 import BarChartShimmer from "../Charts/BarChartShimmer";
 
