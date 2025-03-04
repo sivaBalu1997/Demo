@@ -6,6 +6,7 @@ import {
   employeeStaffActivityRequest,
   employeeSalesOverviewRequest,
   getEmployeeActivityRequest,
+  changeDateFilterType,
 } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
@@ -23,8 +24,8 @@ import "./style.scss";
 
 const Employees: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState({
-    label: "Yesterday",
-    value: "Yesterday",
+    label: "Today",
+    value: "Today",
   });
   const employeeSalesOverViewFromAPIRedux = useSelector(
     (state: any) => state?.newReports?.employeeSalesOverviewSuccess

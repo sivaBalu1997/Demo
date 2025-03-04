@@ -8,7 +8,7 @@ import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
 import SidePanel from "pages/SidePanel/indexNew";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategoryList, addItemList, changeLocation, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
+import { addCategoryList, addItemList, changeDateFilterType, changeLocation, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
@@ -25,6 +25,12 @@ const SalesReport: React.FC<ReportProps> = () => {
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
   const dropdownDetailsData = useSelector((state: any) => state?.newReports?.dropdownDetailsData)
+  useEffect(() => {
+    dispatch(changeDateFilterType({
+      label: "Today",
+      value: "Today",
+    }))
+  }, [])
 
   useEffect(() => {
     if (restaurantDetails?.length) {
@@ -69,6 +75,7 @@ const SalesReport: React.FC<ReportProps> = () => {
     }
 
   }, [dropdownDetailsData])
+
 
 
   return (

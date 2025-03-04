@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cancellationSummaryRequest,
+  changeDateFilterType,
   changeLocation,
   discountSummaryRequest,
   offerSummaryRequest,
@@ -64,15 +65,16 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     useState<number>(10);
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
+
   const [selectedDate, setSelectedDate] = useState({
-    label: "Yesterday",
-    value: "Yesterday",
+    label: "Today",
+    value: "Today",
   });
 
   
-  const { startDate, endDate, handleDateChange } = useDateFilter();
+  const { startDate, endDate,selectedDateFilterType, handleDateChange } = useDateFilter();
 
-  const datepickerApply = (data1: any, data2: any) => {
+  const datepickerApply = (type?:string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
@@ -168,9 +170,6 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     (state: any) => state?.newReports?.voidedOrderSummaryLoading
   );
 
-  const getPremisesSummary = useSelector(
-    (state: any) => state?.newReports?.premisesSummaryData?.content
-  );
 
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
@@ -315,24 +314,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
           endDate: endDate,
         })
       ),
-      dispatch(
-        discountSummaryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        cancellationSummaryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: currentRowsVoiddedOrders,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
+
       dispatch(
         offerSummaryRequest({
           locationid: selectedLocation?.value,
@@ -355,9 +337,11 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   }, [selectedLocation, startDate, endDate]);
 
   useEffect(() => {
+    if(viewType==="voidedOffer"){
     dispatch(
       cancellationSummaryRequest({
         locationid: selectedLocation?.value,
+        
         tableRecordLimit: currentRowsVoiddedOrders,
         tablePageNo: currentPageVoiddedOrders,
         startDate: startDate,
@@ -366,6 +350,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         reason: voidedReason,
       })
     );
+  }
   }, [
     voidedReason,
     startDate,
@@ -375,6 +360,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     searchQuery,
   ]);
   useEffect(() => {
+    if(viewType==="discountOffer"){
     dispatch(
       discountSummaryRequest({
         locationid: selectedLocation?.value,
@@ -386,6 +372,7 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         offer: offerType,
       })
     );
+  }
   }, [
     offerType,
     startDate,
@@ -536,6 +523,9 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     "Offline QR": <OfflineQRIcon />,
     "OFFLINE_QR": <OfflineQRIcon />,
   };
+  const handleDateType = (data:any) => {
+    dispatch(changeDateFilterType(data));
+  };
 
   return (
     <>
@@ -546,8 +536,8 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             selectedDate={selectedDate}
             selectedStore={selectedLocation}
             setSelectedDate={setSelectedDate}
-            datePickerApplyFunction={datepickerApply}
-            dateDropdownFunction={datepickerApply}
+            datePickerApplyFunction={(date1:any, date2:any)=>datepickerApply("Custom Date", date1, date2)}
+            dateDropdownFunction={(date1:any, date2:any)=>datepickerApply("Custom Date", date1, date2)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
 

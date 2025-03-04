@@ -7,6 +7,7 @@ import {
   categorySalesSummaryRequest,
   changeLocation,
   dropdownDetailsRequest,
+  changeDateFilterType,
 } from "../../redux/newReports/newReportsActions";
 import { formatNumberByCountry } from "utils";
 
@@ -76,7 +77,6 @@ const CategoryReport = (props) => {
 
   const { startDate, endDate, handleDateChange } = useDateFilter();
   
-
   useEffect(() => {
     console.log("use", {
       locations,
@@ -152,13 +152,11 @@ console.log({categoryIds, itemIds, activeBtn})
 
     // dispatch(salesByItemCategoryRequest({ locationid:selectedLocation?.value, startDate:"2024-12-01" , endDate:"2024-12-31",tablePageNo:1,tableRecordLimit:100 }))
   }, [selectedLocation, selectedCategories, selectedItems, startDate, endDate,activeBtn]);
-
-
-
   const [selectedDate, setSelectedDate] = useState({
-    label: "Yesterday",
-    value: "Yesterday",
+    label: "Today",
+    value: "Today",
   });
+
 
   const calendarRef = useRef();
 
@@ -269,7 +267,7 @@ useEffect(() => {
       tempItems.push({ value: item.itemId, label: item.itemName });
       }
 
-      setSelectedItems([{label:"All", value:""},...tempItems]);
+      setSelectedItems(tempItems);
     }
   };
 
@@ -295,17 +293,6 @@ useEffect(() => {
     setSelectedItems(tempItems);
   };
 
-  const handleSelectDateOnClick = (dropDownData) => {
-    if (dropDownData.value === "Custom date") {
-      calendarRef.current?.openCalendar();
-    } else {
-      setSelectedDate({
-        label: dropDownData.value,
-        value: getDateFromOption(dropDownData.value),
-      });
-    }
-  };
-
   const handleCategoryClear=()=>{
   setSelectedCategories([{ label: "All", value: "" }]);
   setSelectedItems([{ label: "All", value: "" }]);
@@ -314,6 +301,12 @@ useEffect(() => {
     // setSelectedCategories([{ label: "All", value: "" }]);
     setSelectedItems([{ label: "All", value: "" }]);
     }
+  
+
+    const datepickerApply = (type, data1, data2) => {
+      handleDateChange("Custom Date", data1, data2);
+    };
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
@@ -322,14 +315,10 @@ useEffect(() => {
             storeOptions={locations}
             selectedDate={selectedDate}
             selectedStore={selectedLocation}
-            setSelectedDate={setSelectedDate}
+            setSelectedDate={selectedDate}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
-            datePickerApplyFunction={(date1, date2) =>
-              handleDateChange("Custom Date", date1, date2)
-            }
-            dateDropdownFunction={(date1, date2) =>
-              handleDateChange("Custom Date", date1, date2)
-            }
+            datePickerApplyFunction={(date1, date2)=>datepickerApply("Custom Date", date1, date2)}
+            dateDropdownFunction={(date1, date2)=>datepickerApply("Custom Date", date1, date2)}
           />
           <div className="category-btn-switch">
             <button
@@ -355,10 +344,13 @@ useEffect(() => {
             <div className="categories-items-content">
               <div>
                 <div className="select-categories-title-container">
+                  <div>
                   <span className="select-categories-title poppins-fw400-fs16">
                     Select Categories{" "}
                   </span>
                   <span className="font-color-red poppins-fw400-fs16">*</span>
+                  </div>
+                  {!selectedCategories?.[0]?.value?null:<span className="font-color-red poppins-fw400-fs16 pointer"  onClick={handleCategoryClear}>Clear all</span>}
                 </div>
                 <ReusableDropdown
                   options={    [{ label: "All", value: "" },  ...categoryList || []]}
@@ -380,10 +372,13 @@ useEffect(() => {
               <div className="categories-items-content">
                 <div>
                   <div className="select-categories-title-container">
+                    <div>
                     <span className="select-categories-title poppins-fw400-fs16">
                       Select Items
                     </span>
                     <span className="font-color-red poppins-fw400-fs16">*</span>
+                    </div>
+                   {!selectedItems?.[0]?.value?null:<span className="font-color-red poppins-fw400-fs16 pointer"  onClick={handleItemsClear}>Clear all</span>}
                   </div>
                   <ReusableDropdown
                     options={itemlList}                  
