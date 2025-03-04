@@ -1,8 +1,4 @@
 import React, { useRef, useState } from "react";
-// import { useDispatch, useSelector } from 'react-redux';
-// import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
-// import { Contextpagejs } from 'pages/productCatalog/contextpage';
-// import { useHistory } from 'react-router-dom';
 import "./StoreFilter.scss";
 import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";

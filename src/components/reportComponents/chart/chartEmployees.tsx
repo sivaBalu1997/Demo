@@ -9,11 +9,9 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
-  TooltipItem,
 } from "chart.js";
 // @ts-ignore
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { ChartData } from "chart.js";
 import BarChartShimmer from "../Charts/BarChartShimmer";
 
 // Register required components
@@ -31,14 +29,7 @@ interface EmployeeSalesChartProps {
   dataList: Record<string, any>[];
   loader: boolean
 }
-// {
-//   "date": "",
-//   "fullName": "AdminDemo",
-//   "tip": "0.00",
-//   "serviceFee": "0.00",
-//   "total": "2162.56",
-//   "orders": 18
-// }
+
 const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
   dataList = [],
   loader,

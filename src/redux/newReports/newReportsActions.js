@@ -161,7 +161,9 @@ import {
     GET_PREMISES_SUMMARARY_FAILURE,
     ADD_CATEGORY_LIST,
     ADD_ITEMS_LIST,
-    SELCTED_DATE_FILTER_TYPE
+    SELCTED_DATE_FILTER_TYPE,
+    SELCTED_START_DATE,
+    SELCTED_END_DATE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1090,6 +1092,20 @@ export const employeeSalesOverviewFailure = (error) => {
 export const changeDateFilterType = (data) => {
     return {
         type: SELCTED_DATE_FILTER_TYPE,
+        payload: data
+    }
+}
+
+export const changeStartDate = (data) => {
+    return {
+        type: SELCTED_START_DATE,
+        payload: data
+    }
+}
+
+export const changeEndDate = (data) => {
+    return {
+        type: SELCTED_END_DATE,
         payload: data
     }
 }

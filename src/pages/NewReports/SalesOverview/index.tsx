@@ -44,131 +44,136 @@ import useDateFilter from "hooks/useDateFilter";
 import "./SalesOverview.scss";
 
 
-interface ReportProps {}
+interface ReportProps { }
 
-const SalesOverview: React.FC<ReportProps> = ({}) => {
+const knownTendorIcons: any = {
+  "Swipe/Tap/Dip": <PayTapIcon />,
+  "Online/Key-In": <PayTapIcon />,
+  "Keyed In": <KeyedInIcon />,
+  Cash: <CashIcon />,
+  "CASH": <CashIcon />,
+  UberEats: <UberEatsIcon />,
+  Grubhub: <GrubHubIcon />,
+  Doordash: <DoordashIcon />,
+  Coupons: <CouponsIcon />,
+  "Gift Card": <GiftCardIcon />,
+  "Google Pay": <GooglePayIcon />,
+  "Apple Pay": <ApplePayIcon />,
+  "Offline QR": <OfflineQRIcon />,
+  "OFFLINE_QR": <OfflineQRIcon />,
+};
 
-  const offerRef = useRef<HTMLDivElement>(null);
+const discountTableHeaders: NewTableHeader[] = [
+  {
+    key: "orderNo",
+    label: `Order number`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "orderType",
+    label: `Order type`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "stew",
+    label: `Staff name`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "orderTotal",
+    label: `Order Total`,
+    isSortable: true,
+    alignment: "right",
+  },
+  {
+    key: "discountAmount",
+    label: `Discounted amount`,
+    isSortable: true,
+    alignment: "right",
+  },
+];
+const voidedTableHeaders: NewTableHeader[] = [
+  {
+    key: "orderNo",
+    label: `Order number`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "orderType",
+    label: `Order type`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "itemName",
+    label: `Item name`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "steward",
+    label: `Staff name`,
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "refundedQuantity",
+    label: `Quantity`,
+    isSortable: true,
+    alignment: "right",
+  },
+  {
+    key: "amount",
+    label: `Refunded amount`,
+    isSortable: true,
+    alignment: "right",
+  },
+];
 
-  const dispatch = useDispatch();
-
-
+const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
-    useState<number>(1);
-  const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] =
-    useState<number>(10);
-  const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] =
-    useState<number>(1);
-  const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
-    useState<number>(10);
+  const [currentPageOfferDiscount, setCurrentPageOfferDiscount] = useState<number>(1);
+  const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] = useState<number>(10);
+  const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] = useState<number>(1);
+  const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] = useState<number>(10);
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
 
-  const [selectedDate, setSelectedDate] = useState({
-    label: "Today",
-    value: "Today",
-  });
+  const offerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
-  
-  const { startDate, endDate,selectedDateFilterType, handleDateChange } = useDateFilter();
-
-  const datepickerApply = (type?:string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-
-  const locations = useSelector(
-    (state: any) => state?.newReports?.storeLocationsList
-  );
-  const selectedLocation = useSelector(
-    (state: any) => state?.newReports?.selectedLocation
-  );
-
-  const tendorTypes = useSelector(
-    (state: any) => state?.newReports?.paymentDetailsData
-  );
-
-  const tendorTypesLoader = useSelector(
-    (state: any) => state?.newReports?.paymentDetailsLoading
-  );
-  
-  const salesSummary = useSelector(
-    (state: any) => state?.newReports?.salesSummaryReportData
-  );
-  const salesSummaryLoader = useSelector(
-    (state: any) => state?.newReports?.salesSummaryReportLoading
-  );
-  const staffSalesData = useSelector(
-    (state: any) => state?.newReports?.staffSalesData?.content
-  );
-
-  const staffSalesLoading = useSelector(
-    (state: any) => state?.newReports?.staffSalesLoading
-  );
-
-  const salesCardTypeData = useSelector(
-    (state: any) => state?.newReports?.salesCardTypeData?.content
-  );
-
-  const salesCardTypeDataLoading = useSelector(
-    (state: any) => state?.newReports?.salesCardTypeLoading
-  );
-
-  const salesCategory = useSelector(
-    (state: any) => state?.newReports?.salesByItemCategorySuccess
-  );
-
-  const discountSummary = useSelector(
-    (state: any) => state?.newReports?.discountSummarySuccess?.content
-  );
-  const discountSummaryLoading = useSelector(
-    (state: any) => state?.newReports?.discountSummaryLoading
-  );
-  const discountSummaryTotalPages = useSelector(
-    (state: any) => state?.newReports?.discountSummarySuccess?.totalPages
-  );
-
-  const cancellationSummary = useSelector(
-    (state: any) => state?.newReports?.cancellationSummarySuccess?.content
-  );
-  const cancellationSummaryLoading = useSelector(
-    (state: any) => state?.newReports?.cancellationSummaryLoading
-  );
-  const cancellationSummaryTotalPages = useSelector(
-    (state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages
-  );
-  const salesByChannel = useSelector(
-    (state: any) => state?.newReports?.salesByChannelData?.content
-  );
-
-  const salesByChannelLoading = useSelector(
-    (state: any) => state?.newReports?.salesByChannelLoading
-  );
-
-  const salesByRevenueClass = useSelector(
-    (state: any) => state?.newReports?.salesByRevenueClassSuccess?.content
-  );
-
-  const salesByRevenueClassLoading = useSelector(
-    (state: any) => state?.newReports?.salesByRevenueClassLoading
-  );
-
-  const offerSummary = useSelector(
-    (state: any) => state?.newReports?.offerSummaryData?.content
-  );
-
-  const offerSummaryLoading = useSelector(
-    (state: any) => state?.newReports?.offerSummaryLoading
-  );
-
-  const voidedOrderSummary = useSelector(
-    (state: any) => state?.newReports?.voidedOrderSummaryData?.content
-  );
-
-  const voidedOrderSummaryLoader = useSelector(
-    (state: any) => state?.newReports?.voidedOrderSummaryLoading
-  );
+  const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
+  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
+  const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData);
+  const tendorTypesLoader = useSelector((state: any) => state?.newReports?.paymentDetailsLoading);
+  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData);
+  const salesSummaryLoader = useSelector((state: any) => state?.newReports?.salesSummaryReportLoading);
+  const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content);
+  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading);
+  const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
+  const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
+  const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
+  const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content);
+  const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
+  const discountSummaryTotalPages = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages);
+  const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content);
+  const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading);
+  const cancellationSummaryTotalPages = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages);
+  const salesByChannel = useSelector((state: any) => state?.newReports?.salesByChannelData?.content);
+  const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading);
+  const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
+  const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading);
+  const offerSummary = useSelector((state: any) => state?.newReports?.offerSummaryData?.content);
+  const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading);
+  const voidedOrderSummary = useSelector((state: any) => state?.newReports?.voidedOrderSummaryData?.content);
+  const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
+  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
 
 
   const groupedData: any = useMemo(() => {
@@ -244,10 +249,11 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
         tendorGroups["Others"].push(value);
       }
     });
-    
+
 
     return tendorGroups;
   }, [tendorTypes]);
+  console.log({startDate, endDate})
 
   useEffect(() => {
     Promise.all([
@@ -337,20 +343,20 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
   }, [selectedLocation, startDate, endDate]);
 
   useEffect(() => {
-    if(viewType==="voidedOffer"){
-    dispatch(
-      cancellationSummaryRequest({
-        locationid: selectedLocation?.value,
-        
-        tableRecordLimit: currentRowsVoiddedOrders,
-        tablePageNo: currentPageVoiddedOrders,
-        startDate: startDate,
-        endDate: endDate,
-        search: searchQuery,
-        reason: voidedReason,
-      })
-    );
-  }
+    if (viewType === "voidedOffer") {
+      dispatch(
+        cancellationSummaryRequest({
+          locationid: selectedLocation?.value,
+
+          tableRecordLimit: currentRowsVoiddedOrders,
+          tablePageNo: currentPageVoiddedOrders,
+          startDate: startDate,
+          endDate: endDate,
+          search: searchQuery,
+          reason: voidedReason,
+        })
+      );
+    }
   }, [
     voidedReason,
     startDate,
@@ -359,111 +365,37 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     currentPageVoiddedOrders,
     searchQuery,
   ]);
+
   useEffect(() => {
-    if(viewType==="discountOffer"){
-    dispatch(
-      discountSummaryRequest({
-        locationid: selectedLocation?.value,
-        tableRecordLimit: currentRowsOfferDiscount,
-        tablePageNo: currentPageOfferDiscount,
-        startDate: startDate,
-        endDate: endDate,
-        search: searchQuery,
-        offer: offerType,
-      })
-    );
-  }
+    if (viewType === "discountOffer") {
+      dispatch(
+        discountSummaryRequest({
+          locationid: selectedLocation?.value,
+          tableRecordLimit: currentRowsOfferDiscount,
+          tablePageNo: currentPageOfferDiscount,
+          startDate: startDate,
+          endDate: endDate,
+          search: searchQuery,
+          offer: offerType,
+        })
+      );
+    }
   }, [
-    offerType,
-    startDate,
-    endDate,
-    currentRowsOfferDiscount,
-    currentPageOfferDiscount,
-    searchQuery,
+    offerType, startDate, endDate, currentRowsOfferDiscount, currentPageOfferDiscount, searchQuery,
   ]);
 
   const handleGoBackToChart = () => {
     setViewType("default");
-    setTimeout(()=>{offerRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })},0) 
+    setTimeout(() => {
+      offerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }, 0)
   };
 
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
 
-  const discountTableHeaders: NewTableHeader[] = [
-    {
-      key: "orderNo",
-      label: `Order number`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "orderType",
-      label: `Order type`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "stew",
-      label: `Staff name`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "orderTotal",
-      label: `Order Total`,
-      isSortable: true,
-      alignment: "right",
-    },
-    {
-      key: "discountAmount",
-      label: `Discounted amount`,
-      isSortable: true,
-      alignment: "right",
-    },
-  ];
-  const voidedTableHeaders: NewTableHeader[] = [
-    {
-      key: "orderNo",
-      label: `Order number`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "orderType",
-      label: `Order type`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "itemName",
-      label: `Item name`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "steward",
-      label: `Staff name`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "refundedQuantity",
-      label: `Quantity`,
-      isSortable: true,
-      alignment: "right",
-    },
-    {
-      key: "amount",
-      label: `Refunded amount`,
-      isSortable: true,
-      alignment: "right",
-    },
-  ];
+
 
   const handleSearch = (value: string, kpiTitle: string) => {
     switch (viewType) {
@@ -507,37 +439,21 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
     }
   };
 
-  const knownTendorIcons: any = {
-    "Swipe/Tap/Dip": <PayTapIcon />,
-    "Online/Key-In":<PayTapIcon />,
-    "Keyed In": <KeyedInIcon />,
-    Cash: <CashIcon />,
-    "CASH": <CashIcon />,
-    UberEats: <UberEatsIcon />,
-    Grubhub: <GrubHubIcon />,
-    Doordash: <DoordashIcon />,
-    Coupons: <CouponsIcon />,
-    "Gift Card": <GiftCardIcon />,
-    "Google Pay": <GooglePayIcon />,
-    "Apple Pay": <ApplePayIcon />,
-    "Offline QR": <OfflineQRIcon />,
-    "OFFLINE_QR": <OfflineQRIcon />,
-  };
-  const handleDateType = (data:any) => {
-    dispatch(changeDateFilterType(data));
-  };
 
+  const datepickerApply = (type: string, data1?: any, data2?: any) => {
+    handleDateChange("Custom Date", data1, data2);
+  };
   return (
     <>
       {viewType === "default" ? (
         <>
           <StoreFilter
             storeOptions={locations}
-            selectedDate={selectedDate}
+            selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={setSelectedDate}
-            datePickerApplyFunction={(date1:any, date2:any)=>datepickerApply("Custom Date", date1, date2)}
-            dateDropdownFunction={(date1:any, date2:any)=>datepickerApply("Custom Date", date1, date2)}
+            setSelectedDate={(data) => handleDateChange(data?.value)}
+            datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
+            dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
 
@@ -705,32 +621,32 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             ))}
           </div>
 
-        {/* <div className="sales-charts-container">   */}
+          {/* <div className="sales-charts-container">   */}
           <div>
-            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Card Type</h2>
+            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Card Type</h2>
             <CardTypeChart
               dataList={salesCardTypeData}
               loader={salesCardTypeDataLoading}
             />
-          </div>  
+          </div>
 
-         <div>
-            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Employees</h2>
+          <div>
+            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Employees</h2>
             <EmployeeSalesChart
               dataList={staffSalesData}
               loader={staffSalesLoading}
-              />
-          </div>   
+            />
+          </div>
 
           <div>
-            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Channel</h2>
+            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Channel</h2>
             <ChannelSalesChart
               dataList={salesByChannel}
               loader={salesByChannelLoading}
-              />
-          </div>   
+            />
+          </div>
 
-          <div className="sales-overview-doughnut-chart-container" style={{marginTop: "10vh"}}ref={offerRef}>
+          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh" }} ref={offerRef}>
             <div className="" style={{ width: "50%", height: "100%" }}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <DoughnutChartWithButton
@@ -755,13 +671,13 @@ const SalesOverview: React.FC<ReportProps> = ({}) => {
             </div>
           </div>
           <div>
-            <h2 className="sales-overview-sub-heading " style={{marginTop: "10vh"}}>By Revenue class</h2>
+            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Revenue class</h2>
             <RevenueClassChart
               dataList={salesByRevenueClass}
               loader={salesByRevenueClassLoading}
             />
           </div>
-        {/* </div> */}
+          {/* </div> */}
         </>
       ) : viewType === "discountOffer" ? (
         <>

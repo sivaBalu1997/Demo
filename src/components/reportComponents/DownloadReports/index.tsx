@@ -24,7 +24,6 @@ interface DownloadReportProps {
 const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, kpiTitle, downloadRef }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
-    // console.log("1111", { showDownloadables })
 
     const generatePdfFromRef = async () => {
         if (downloadRef?.current) {
