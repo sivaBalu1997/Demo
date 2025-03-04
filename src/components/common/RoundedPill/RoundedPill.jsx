@@ -17,7 +17,7 @@ const RoundedPill = ({ data, closeIconOnClick, handeClear }) => {
             </div>
           </div>
         ))}
-        {!data?.[0]?.value?null:<span className="selected-categories-text" style={{ cursor: "pointer", border: "1px solid grey", padding: "0.5rem", borderRadius: "8px" }} onClick={handeClear}>Clear</span>}
+        {/* {!data?.[0]?.value?null:<span className="selected-categories-text" style={{ cursor: "pointer", border: "1px solid grey", padding: "0.5rem", borderRadius: "8px" }} onClick={handeClear}>Clear</span>} */}
       </div>
     </>
   );

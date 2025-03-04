@@ -1,20 +1,28 @@
 import moment from "moment";
 import { useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeDateFilterType } from "redux/newReports/newReportsActions";
 
 const useDateFilter = () => {
     const today = useMemo(() => moment(), []);
     const yesterday = useMemo(() => moment().subtract(1, "day"), []);
 
-    const [startDate, setStartDate] = useState(yesterday.format("YYYY-MM-DD"));
-    const [endDate, setEndDate] = useState(yesterday.format("YYYY-MM-DD"));
-    const [dateSelectionType, setDateSelectionType] = useState("Yesterday");
+    const [startDate, setStartDate] = useState(today.format("YYYY-MM-DD"));
+    const [endDate, setEndDate] = useState(today.format("YYYY-MM-DD"));
+    const [dateSelectionType, setDateSelectionType] = useState({
+        label: "Today",
+        value: "Today",
+      });
 
-    // const handleDateTypeChange = (type:string) => {
-    //     setDateSelectionType(type);
-    // };
+        const selectedDateFilterType = useSelector((state: any) => state?.newReports?.selectedDateFilterType)
+const dispatch = useDispatch();
+    const handleDateTypeChange = (type:{label:string, value:string}) => {
+        setDateSelectionType(type);
+    };
 
     const handleDateChange = (type:string, customStartDate?: string, customEndDate?: string) => {
-        setDateSelectionType(type);
+           dispatch(changeDateFilterType({ label: type, value: type }))
+        setDateSelectionType({ label: type, value: type });
 
         switch (type) {
             case "Yesterday":
@@ -62,8 +70,8 @@ const useDateFilter = () => {
         // setStartDate,
         // setEndDate,
         // setDateSelectionType,
-        // dateSelectionType,
-        // handleDateTypeChange,
+        selectedDateFilterType,
+        handleDateTypeChange,
         handleDateChange,
     };
 };

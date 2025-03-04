@@ -158,7 +158,8 @@ import {
     ADD_ITEMS_LIST,
     GET_PREMISES_SUMMARARY_REQUEST,
     GET_PREMISES_SUMMARARY_FAILURE,
-    GET_PREMISES_SUMMARARY_SUCCESS
+    GET_PREMISES_SUMMARARY_SUCCESS,
+    SELCTED_DATE_FILTER_TYPE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -392,6 +393,10 @@ const initialNewReportsState = {
         getPremisesSummaryData: [],
         getPremisesSummaryError: null,
 
+        selectedDateFilterType:{
+            label: "Today",
+            value: "Today",
+          },
         selectedLocation: {},
         storeLocationsList: [],
 
@@ -1076,6 +1081,9 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.paymentDetailsError = action.payload;
                 break;
 
+            case SELCTED_DATE_FILTER_TYPE:
+                    draft.selectedDateFilterType = action.payload;
+                    break;
             case SELCTED_LOCATION:
                 draft.selectedLocation = action.payload;
                 break;
