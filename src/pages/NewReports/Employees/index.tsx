@@ -40,19 +40,30 @@ const Employees: React.FC = () => {
 
   const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
 
-  // const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
+  const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
+
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
+
+  const currencySymbol = countryCode === "US" ? "$" : "₹";
+
 
   const getChartSliceTableHeaders = (selectedValueForChartSlice:string) => {
+    console.log("PPP5", {selectedValueForChartSlice})
     switch(selectedValueForChartSlice) {
       case "Remove tax":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
-          { key: "removeTaxAmount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
         ];
       
-      case "Discount applied":
+      case "Apply discount":
         return [
           { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
           { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
@@ -61,29 +72,37 @@ const Employees: React.FC = () => {
           { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
         ];
 
-      // others    // action ?
       case "Order edited":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
         ];
 
-      case "Orders cancelled":
+      case "Order cancelled":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
         ];
-      // others
 
 
       case "Void payment":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
-          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
         ];
 
       case "Remove tip":
@@ -107,7 +126,8 @@ const Employees: React.FC = () => {
     }
   }
 
-  console.log("PPP3",getChartSliceTableHeaders(selectedValueForChartSlice))
+  console.log("LLL3 getChartSliceTableHeaders(selectedValueForChartSlice)",getChartSliceTableHeaders(selectedValueForChartSlice))
+  console.log("LLL4 selectedValueStateData", selectedValueStateData)
 
     // useSelector for Table states :
     const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.content)
@@ -170,11 +190,6 @@ const Employees: React.FC = () => {
   );
   const dispatch = useDispatch();
 
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
-
-  const currencySymbol = countryCode === "US" ? "$" : "₹";
 
   const employeeVoidActivityAPIRedux = useSelector(
     (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
@@ -372,7 +387,7 @@ const Employees: React.FC = () => {
   }, [selectedLocation?.value, startDate, endDate, employeeList]);
 
   useEffect(()=>{
-    if(selectedLocation?.value){
+    if(selectedLocation?.value && selectedValueForChartSlice){
       dispatch(
         getEmployeeChartSliceTableRequest({
           locationid:  selectedLocation?.value,
