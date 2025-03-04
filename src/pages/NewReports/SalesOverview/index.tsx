@@ -343,7 +343,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, startDate, endDate]);
 
   useEffect(() => {
-    if (viewType === "voidedOffer") {
       dispatch(
         cancellationSummaryRequest({
           locationid: selectedLocation?.value,
@@ -356,7 +355,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           reason: voidedReason,
         })
       );
-    }
   }, [
     voidedReason,
     startDate,
@@ -367,7 +365,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   ]);
 
   useEffect(() => {
-    if (viewType === "discountOffer") {
       dispatch(
         discountSummaryRequest({
           locationid: selectedLocation?.value,
@@ -379,7 +376,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           offer: offerType,
         })
       );
-    }
+  
   }, [
     offerType, startDate, endDate, currentRowsOfferDiscount, currentPageOfferDiscount, searchQuery,
   ]);
@@ -398,29 +395,25 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
 
   const handleSearch = (value: string, kpiTitle: string) => {
+    let params:any={
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      tablePageNo: currentPageOfferDiscount,
+      tableRecordLimit: currentRowsOfferDiscount,
+      search: value,
+    }
     switch (viewType) {
       case "discountOffer":
+        params.offer=offerType
         dispatch(
-          discountSummaryRequest({
-            locationid: selectedLocation?.value,
-            startDate: startDate,
-            endDate: endDate,
-            tablePageNo: currentPageOfferDiscount,
-            tableRecordLimit: currentRowsOfferDiscount,
-            search: value,
-          })
+          discountSummaryRequest(params)
         );
         break;
       case "voidedOffer":
+        params.reason=voidedReason
         dispatch(
-          cancellationSummaryRequest({
-            locationid: selectedLocation?.value,
-            startDate: startDate,
-            endDate: endDate,
-            tablePageNo: currentPageVoiddedOrders,
-            tableRecordLimit: currentRowsVoiddedOrders,
-            search: searchQuery,
-          })
+          cancellationSummaryRequest(params)
         );
         break;
 
@@ -430,12 +423,23 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSummaryView = (view: string, data: any) => {
+    let params:any={
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      tablePageNo: currentPageOfferDiscount,
+      tableRecordLimit: currentRowsOfferDiscount,
+    }
     setViewType(view);
     if (view == "discountOffer") {
       setOfferType(data?.label);
+      params.offer=offerType
+      dispatch(  discountSummaryRequest(params))
     }
     if (view === "voidedOrder") {
       setVoidedReason(data?.label);
+      params.reason=voidedReason
+      dispatch(cancellationSummaryRequest(params))
     }
   };
 
