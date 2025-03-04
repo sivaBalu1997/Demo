@@ -1288,6 +1288,8 @@ height: 14px;
   }
 }
 .select-categories-title-container {
+  display: flex;
+  justify-content: space-between;
   margin: 15px 0px 16px 0px;
 }
 .select-food-item-dropdown {

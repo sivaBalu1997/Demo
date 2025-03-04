@@ -160,7 +160,8 @@ import {
     GET_PREMISES_SUMMARARY_SUCCESS,
     GET_PREMISES_SUMMARARY_FAILURE,
     ADD_CATEGORY_LIST,
-    ADD_ITEMS_LIST
+    ADD_ITEMS_LIST,
+    SELCTED_DATE_FILTER_TYPE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1086,12 +1087,20 @@ export const employeeSalesOverviewFailure = (error) => {
     }
 }
 
+export const changeDateFilterType = (data) => {
+    return {
+        type: SELCTED_DATE_FILTER_TYPE,
+        payload: data
+    }
+}
+
 export const changeLocation = (data) => {
     return {
         type: SELCTED_LOCATION,
         payload: data
     }
 }
+
 
 export const storeLocationsList = (data) => {
     return {

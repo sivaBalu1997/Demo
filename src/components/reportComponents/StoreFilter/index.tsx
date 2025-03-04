@@ -52,18 +52,6 @@ const StoreFilter = ({
   showRefresh = false,
   storeOptions = [],
 }: StoreFilterProps) => {
-  // const dispatch = useDispatch();
-  // const history = useHistory();
-  // const { storeList } = useContext(Contextpagejs);
-
-  // const [selectedStore, setSelectedStore] = useState(null);
-
-  // const onSelectStore = (store) => {
-  //     setSelectedStore(store);
-  //     dispatch(storeMockDataRequest(store.storeId));
-  //     history.push(`/product-catalog?storeId=${store.storeId}`);
-  // };
-
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
@@ -81,10 +69,10 @@ const StoreFilter = ({
   const datePickerHandleOnChange: any = (dates: any): void => {
     setSelectedDates(dates);
   };
-  const closeBtnOnclick = () => {
+  const closeBtnOnclick = () => { 
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();
-    setSelectedDate(dateOptions[0]);
+    setSelectedDate(dateOptions[1]);
   };
   const applyBtnOnclick = () => {
     if (selectedDates.length === 2) {
