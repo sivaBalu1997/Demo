@@ -690,7 +690,7 @@ export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     return API({
         method: "get",
-        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity/actions?locationId=${employeeChartSliceTablePayload?.locationId}&startDate=${employeeChartSliceTablePayload?.startDate}&endDate=${employeeChartSliceTablePayload?.endDate}&page=${employeeChartSliceTablePayload?.tablePageNo}&size=${employeeChartSliceTablePayload?.tableRecordLimit}`,
+        url: `${REPORTS_API_ENDPOINT}/sales/employee/activity/actions?locationId=${employeeChartSliceTablePayload?.locationid}&startDate=${employeeChartSliceTablePayload?.startDate}&endDate=${employeeChartSliceTablePayload?.endDate}&page=${employeeChartSliceTablePayload?.tablePageNo}&size=${employeeChartSliceTablePayload?.tableRecordLimit}&action=${employeeChartSliceTablePayload?.chartSliceName}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

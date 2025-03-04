@@ -1277,14 +1277,18 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.employeeChartSliceTableLoading = true;
                 draft.employeeChartSliceTableSuccess = [];
                 draft.employeeChartSliceTableFailure = false;
+                break;
             case GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS:
                 draft.employeeChartSliceTableLoading = false;
                 draft.employeeChartSliceTableSuccess = action.payload;
+                console.log(action.payload)
                 draft.employeeChartSliceTableFailure = false;
+                break;
             case GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE:
                 draft.employeeChartSliceTableLoading = false;
                 draft.employeeChartSliceTableSuccess = [];
                 draft.employeeChartSliceTableFailure = true;
+                break;
             default:
                 break;
         }

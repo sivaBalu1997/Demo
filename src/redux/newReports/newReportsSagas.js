@@ -1143,7 +1143,7 @@ export function* getEmployeeChartSliceTableRequestSaga(action) {
     try {
         const response = yield call(getEmployeeChartSliceTable, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of getEmployeeChartSliceTableRequestSaga", { decryptedData })
+        console.log("response of getEmployeeChartSliceTableRequestSaga PPP2", { decryptedData })
         if (response.status === 200) {
             yield put(getEmployeeChartSliceTableSuccess(decryptedData));
         } else {

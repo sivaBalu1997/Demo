@@ -40,6 +40,8 @@ const Employees: React.FC = () => {
 
   const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
 
+  // const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
+
   const getChartSliceTableHeaders = (selectedValueForChartSlice:string) => {
     switch(selectedValueForChartSlice) {
       case "Remove tax":
@@ -52,11 +54,11 @@ const Employees: React.FC = () => {
       
       case "Discount applied":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
-          { key: "discountName", label: "Discount Name", isSortable: true, alignment: "left" },
-          { key: "discountAmount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details (${currencySymbol})`, isSortable: true, alignment: "right" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
         ];
 
       // others    // action ?
@@ -105,6 +107,14 @@ const Employees: React.FC = () => {
     }
   }
 
+  console.log("PPP3",getChartSliceTableHeaders(selectedValueForChartSlice))
+
+    // useSelector for Table states :
+    const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.content)
+    const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
+    const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableLoading)
+    console.log("PPP",{getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux})
+
   // Generic table states :
   const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
   const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
@@ -150,9 +160,7 @@ const Employees: React.FC = () => {
   // const [searchQueryForvRemoveServiceTax, setSearchQueryForRemoveServiceTax] = useState("");
   // const [currectPageRemoveServiceTax, setCurrentPageRemoveServiceTax] = useState<number>(1);
 
-  // useSelector for Table states :
-  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableSuccess)
-  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state:any)=>state?.newReports?.employeeChartSliceTableLoading)
+
 
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
@@ -367,16 +375,16 @@ const Employees: React.FC = () => {
     if(selectedLocation?.value){
       dispatch(
         getEmployeeChartSliceTableRequest({
-          locationid: selectedLocation?.value,
+          locationid:  selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
           chartSliceName: selectedValueForChartSlice,
-          tablePageNo: currentPageEmployeeVoidActivity,
-          tableRecordLimit: employeeVoidRecordLimit,
+          tablePageNo: currentPageGenericTable,
+          tableRecordLimit: genericTableRecordLimit,
         })
       )
     }
-  },[selectedLocation?.value, startDate, endDate, selectedValueForChartSlice])
+  },[selectedLocation?.value, startDate, endDate, selectedValueForChartSlice, currentPageGenericTable, genericTableRecordLimit])
 
 
   return (
@@ -393,22 +401,22 @@ const Employees: React.FC = () => {
             </button>
           </div>
           <NewTable
-            kpiTitle="Employee Void Activity"
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            headerData={newTableHeaders}
+            kpiTitle={`${selectedValueForChartSlice}`}
+            searchQuery={searchQueryForGenericTable}
+            onSearchChange={setSearchQueryForGenericTable}
+            headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
             tableData={
-              employeeVoidActivityAPIRedux &&
-              employeeVoidActivityAPIRedux?.length > 0 &&
-              employeeVoidActivityAPIRedux
+              getEmployeeChartSliceTableDataFromAPIRedux &&
+              getEmployeeChartSliceTableDataFromAPIRedux?.length > 0 &&
+              getEmployeeChartSliceTableDataFromAPIRedux
             }
-            currentPage={currentPageEmployeeVoidActivity}
-            totalPages={employeeVoidActivityTotalPagesRedux}
-            onPageChange={setCurrentPageEmployeeVoidActivity}
-            rowsPerPage={employeeVoidRecordLimit}
-            setRowsPerPage={setEmployeeVoidRecordLimit}
-            loader={employeeVoidActivityLoading}
-            count={employeeVoidActivityAPIRedux?.length}
+            currentPage={currentPageGenericTable}
+            totalPages={getEmployeeChartSliceTotalPagesFromAPIRedux}
+            onPageChange={setCurrentPageGenericTable}
+            rowsPerPage={genericTableRecordLimit}
+            setRowsPerPage={setGenericTableRecordLimit}
+            loader={getEmployeeChartSliceTableDataLoaderFromAPIRedux}
+            count={getEmployeeChartSliceTableDataFromAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"
             onSearch={handleSearch}
           />
@@ -431,7 +439,7 @@ const Employees: React.FC = () => {
               <div className="select-employee-dropdown">
                 <CustomDropdown
                   options={employeeTempArray}
-                  value={employeeTempArray?.[0]?.label}
+                  value={employeeTempArray?.[employeeTempArray?.length - 1]?.label}
                   className="category-dropdown"
                   onSelect={(selected: any) => handleDropdownChangeStore(selected as { label: React.ReactNode; value: string })}
                 />
