@@ -48,7 +48,7 @@ const NewTable: React.FC<NewTableProps> = ({
   const [tableLoader, setTableLoader] = useState(false);
   const [searchFlag, setSearchFlag] = useState(false);
 
-  // console.log("9999", { tableData })
+    // console.log("PPP4", { tableData })
 
   useEffect(() => {
     if (loader) {

@@ -13,26 +13,31 @@ import { formatNumberByCountry } from 'utils';
 
 
 const TodaysReport: React.FC = () => {
-
+    
     const dispatch = useDispatch();
-
+    
+    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
     const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
     const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+
+    // console.log("MAP",{mappedIdWithBranchName})
 
     const [currentDate, setCurrentDate] = useState('');
     const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
-    const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
+    const [selectedStore, setSelectedStore] = useState(selectedLocation);
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
     const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
     const [liveOrderNonDineInSearchQuery, setLiveOrderNonDineInSearchQuery] = useState('')
     const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(10)
     
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
+    // console.log("ONE",{liveOrdersAPIRedux})
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
+    // console.log("ONE",{liveOrderNonDineInAPIRedux})
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
     const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
@@ -40,7 +45,7 @@ const TodaysReport: React.FC = () => {
         (state: any) => state?.auth?.restaurantDetails?.country
     );
     const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
-    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+    // console.log("MAP",{selectedLocation})
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
     const billedOrUnbilledDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedUnbilledLoading)
     
@@ -49,7 +54,6 @@ const TodaysReport: React.FC = () => {
 
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(textOne);
     
-    const selectedLocationidFromDropDown = selectedStore?.value
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
 
@@ -89,28 +93,28 @@ const TodaysReport: React.FC = () => {
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
-    }, [selectedLocationidFromDropDown, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
+        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
+    }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
 
     useEffect(() => {
-        dispatch(liveDiscountRequest({ locationid: selectedLocationidFromDropDown }))
-        dispatch(liveOpenSalesRequest({ locationid: selectedLocationidFromDropDown }))
-        dispatch(liveRefundsRequest({ locationid: selectedLocationidFromDropDown }))
-        dispatch(liveNetSalesRequest({ locationid: selectedLocationidFromDropDown }))
-    }, [selectedLocationidFromDropDown])
+        dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }))
+        dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }))
+        dispatch(liveRefundsRequest({ locationid: selectedLocation?.value }))
+        dispatch(liveNetSalesRequest({ locationid: selectedLocation?.value }))
+    }, [selectedLocation])
 
-
-    useEffect(() => {
-        const formattedDate = moment().format('YYYY-MM-DD');
-        setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
-    }, [selectedLocationidFromDropDown, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocationidFromDropDown, startDate: currentDate, type: isSwitchActive === true ? 'completed':'notcompleted' }))
-    }, [isSwitchActive, currentDate, selectedLocationidFromDropDown])
+        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
+    }, [selectedLocation, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
+
+    useEffect(() => {
+        const formattedDate = moment().format('YYYY-MM-DD');
+        setCurrentDate(formattedDate);
+        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: isSwitchActive === true ? 'completed':'notcompleted' }))
+    }, [isSwitchActive, currentDate, selectedLocation])
 
     
     const handleToggleSwitch = () => {
@@ -122,11 +126,11 @@ const TodaysReport: React.FC = () => {
     const handleSearch = (value: string, kpiTitle: string) => {
         switch (kpiTitle) {
             case 'Live Orders':
-                dispatch(liveOrdersRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
+                dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
 
             case 'Live Orders Non Dine-in':
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
                 break;
 
             default:
@@ -140,7 +144,7 @@ const TodaysReport: React.FC = () => {
     const handleRefreshClick = () => {
 
         setSelectedDate({ label: "Yesterday", value: "Yesterday" });
-        setSelectedStore(mappedIdWithBranchName?.[0]);
+        setSelectedStore(selectedLocation);
         setLiveOrdersSearchQuery('');
         setLiveOrdersPageLimit(10);
         setLiveOrderNonDineInSearchQuery('');
@@ -188,6 +192,7 @@ const TodaysReport: React.FC = () => {
                 handleRefreshClick={handleRefreshClick}
                 showRefresh={true} showDate={false}
             />
+
             <SwitchableBox
                 textOne={textOne}
                 textTwo={textTwo}

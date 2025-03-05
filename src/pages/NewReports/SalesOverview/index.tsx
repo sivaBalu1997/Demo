@@ -422,6 +422,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSummaryView = (view: string, data: any) => {
+    resetPagination()
     let params:any={
       locationid: selectedLocation?.value,
       startDate: startDate,
@@ -455,9 +456,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
-
+const resetPagination=()=>{
+  setCurrentPageOfferDiscount(1)
+  setCurrentRowsOfferDiscount(10)
+  setCurrentPageVoiddedOrders(1)
+  setCurrentRowsVoiddedOrders(10)
+  setSearchQuery("")
+}
 
 const handleOther=(type:string, other:string)=>{
+  resetPagination()
   if(type==="discountOffer"){
     setOtherOffer(other)
   }

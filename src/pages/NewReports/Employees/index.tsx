@@ -141,6 +141,17 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
         ];
 
+      case "Others":
+        return [
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+        ]
+
       default:
         return [];
     }
@@ -234,6 +245,26 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     (data: any) => ({ name: data?.actionType, value: data?.extractedValue })
   );
 
+
+  const chartDataFromAPIReduxOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
+    (acc: any[], data: any) => {
+      if (data.actionType === "Order edited" || data.actionType === "Order cancelled") {
+        const existingOthers = acc.find((item) => item.name === "Others");
+        if (existingOthers) {
+          existingOthers.value += data.extractedValue;
+        } else {
+          acc.push({ name: "Others", value: data.extractedValue });
+        }
+      } else {
+        acc.push({ name: data.actionType, value: data.extractedValue });
+      }
+      return acc;
+    },
+    []
+  );
+
+  // console.log("RRR",{chartDataFromAPIReduxOthers})
+
   const tooltipDataFromAPI = getEmployeeActivityDataFromAPIRedux?.reduce(
     (acc: any, data: any) => {
       acc[data.actionType] = {
@@ -243,6 +274,28 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     },
     {}
   );
+
+
+  const tooltipDataFromAPIOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
+    (acc: any, data: any) => {
+      if (data.actionType === "Order edited" || data.actionType === "Order cancelled") {
+        if (acc["Others"]) {
+          acc["Others"].tooltipContent = `Value: ${
+            parseFloat(acc["Others"].tooltipContent.split(": ")[1]) + data.extractedValue
+          }`;
+        } else {
+          acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
+        }
+      } else {
+        acc[data.actionType] = { tooltipContent: `Value: ${data.extractedValue}` };
+      }
+      return acc;
+    },
+    {}
+  );
+
+  // console.log("RR",{tooltipDataFromAPIOthers})
+  
 
   // Chart Data
   const chartData = [
@@ -363,7 +416,7 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          chartSliceName: selectedValueForChartSlice,
+          chartSliceName: selectedValueForChartSlice === "Others" ? "Order cancelled,Order edited" : selectedValueForChartSlice,
           tablePageNo: currentPageGenericTable,
           tableRecordLimit: genericTableRecordLimit,
         })
@@ -521,8 +574,10 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           </div>
           <div ref={employeeChartRef}>
             <CustomBarChart
-              data={chartDataFromAPIRedux}
-              tooltipData={tooltipDataFromAPI}
+              // data={chartDataFromAPIRedux}
+              data={chartDataFromAPIReduxOthers}
+              // tooltipData={tooltipDataFromAPI}
+              tooltipData={tooltipDataFromAPIOthers}
               barColor="#67823D"
               barStyle={customBarStyle}
               showGrid={true}
