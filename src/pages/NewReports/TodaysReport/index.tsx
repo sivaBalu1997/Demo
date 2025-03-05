@@ -96,13 +96,6 @@ const TodaysReport: React.FC = () => {
         currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
     }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
 
-    useEffect(() => {
-        dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }))
-        dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }))
-        dispatch(liveRefundsRequest({ locationid: selectedLocation?.value }))
-        dispatch(liveNetSalesRequest({ locationid: selectedLocation?.value }))
-    }, [selectedLocation])
-
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
