@@ -226,6 +226,28 @@ const NewTable: React.FC<NewTableProps> = ({
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div>
                     </div>
+                    <div className="table-header-small-screen">
+                        <div className="table-name-with-download-container">
+                        <div className="table-title-with-count-container-small-screen">
+                            <h2 className="table-title-small-screen">{kpiTitle}</h2>
+                            {!!count && <p className='table-title-count-small-screen'>{count}</p>}
+                        </div>
+                        {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
+                        </div> 
+                        <div className="table-search-small-screen">
+                            <div className="search-container-small-screen">
+                                <SearchIcon className="search-icon-small-screen" />
+                                <input
+                                    type="text"
+                                    placeholder={searchPlaceHolder ? searchPlaceHolder : "Search..."}
+                                    value={searchQuery}
+                                    onChange={handleInputChange}
+                                    className="search-input-small-screen"
+                                />
+                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() => onSearchChange('')} />
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="table-wrapper">
                         {/* Case 1: No data available at all */}
