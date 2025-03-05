@@ -97,7 +97,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
     }, []);
 
     const handleDownload = () => {
-        if (downloadRef?.current) {
+        if (downloadRef?.current && selectedFormat === "pdf") {
             generatePdfFromRef(); // Invoke if downloadRef is present
         } else if (selectedFormat === "pdf") {
             pdfDownloadFn(tableData, headerData);

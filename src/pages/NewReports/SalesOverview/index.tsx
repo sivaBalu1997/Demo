@@ -654,7 +654,7 @@ const handleOther=(type:string, other:string)=>{
 
           {/* <div className="sales-charts-container">   */}
           <div>
-            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Card Type</h2>
+            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>Card Type</h2>
             <CardTypeChart
               dataList={salesCardTypeData}
               loader={salesCardTypeDataLoading}

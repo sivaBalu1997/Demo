@@ -96,13 +96,6 @@ const TodaysReport: React.FC = () => {
         currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
     }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
 
-    useEffect(() => {
-        dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }))
-        dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }))
-        dispatch(liveRefundsRequest({ locationid: selectedLocation?.value }))
-        dispatch(liveNetSalesRequest({ locationid: selectedLocation?.value }))
-    }, [selectedLocation])
-
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
@@ -140,11 +133,12 @@ const TodaysReport: React.FC = () => {
 
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
 
+    
+
 
     const handleRefreshClick = () => {
 
         setSelectedDate({ label: "Yesterday", value: "Yesterday" });
-        setSelectedStore(selectedLocation);
         setLiveOrdersSearchQuery('');
         setLiveOrdersPageLimit(10);
         setLiveOrderNonDineInSearchQuery('');
@@ -155,12 +149,12 @@ const TodaysReport: React.FC = () => {
         setActiveTextForSwitchableBox(textOne);
         setSelectedOptionStore("Sales");
 
-        dispatch(liveDiscountRequest({ locationid: selectedStore?.value }));
-        dispatch(liveOpenSalesRequest({ locationid: selectedStore?.value }));
-        dispatch(liveNetSalesRequest({ locationid: selectedStore?.value }));
-        dispatch(liveRefundsRequest({ locationid: selectedStore?.value }));
+        dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }));
+        dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }));
+        dispatch(liveNetSalesRequest({ locationid: selectedLocation?.value }));
+        dispatch(liveRefundsRequest({ locationid: selectedLocation?.value }));
         dispatch(liveOrdersRequest({
-            locationid: selectedStore?.value,
+            locationid: selectedLocation?.value,
             tablePageNo: 1,
             tableRecordLimit: 10,
             startDate: moment().format('YYYY-MM-DD'),
@@ -168,7 +162,7 @@ const TodaysReport: React.FC = () => {
             searchQuery: ''
         }));
         dispatch(liveOrderNonDineInRequest({
-            locationid: selectedStore?.value,
+            locationid: selectedLocation?.value,
             tablePageNo: 1,
             tableRecordLimit: 10,
             startDate: moment().format('YYYY-MM-DD'),
@@ -176,7 +170,7 @@ const TodaysReport: React.FC = () => {
             searchQuery: ''
         }));
         dispatch(billerUnbilledRequest({
-            locationid: selectedStore?.value,
+            locationid: selectedLocation?.value,
             startDate: moment().format('YYYY-MM-DD'),
             type: isSwitchActive === true ? 'notcompleted' : 'completed'
         }));
