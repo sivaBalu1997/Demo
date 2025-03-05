@@ -34,10 +34,10 @@ const TodaysReport: React.FC = () => {
     const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(10)
     
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
-    console.log("ONE",{liveOrdersAPIRedux})
+    // console.log("ONE",{liveOrdersAPIRedux})
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
-    console.log("ONE",{liveOrderNonDineInAPIRedux})
+    // console.log("ONE",{liveOrderNonDineInAPIRedux})
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
     const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
