@@ -46,7 +46,6 @@ const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShow
         if (!tooltipInfo) return null;
 
         const handleClick = () => {
-            // alert(`Viewing details for: ${name}`);
             setSelectedValueForChartSlice(name);
             setShowRelatedTable(true);
         };
@@ -54,7 +53,7 @@ const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShow
         return (
             <div className="custom-tooltip">
                 <p className="label"><strong>{name}</strong></p>
-                <p>Tax amount: <strong>${value}</strong></p>
+                <p>{name} Amount: <strong>${value}</strong></p>
                 <button onClick={handleClick}>VIEW DETAILS</button>
             </div>
         );
