@@ -13,26 +13,31 @@ import { formatNumberByCountry } from 'utils';
 
 
 const TodaysReport: React.FC = () => {
-
+    
     const dispatch = useDispatch();
-
+    
+    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
     const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
     const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
+
+    // console.log("MAP",{mappedIdWithBranchName})
 
     const [currentDate, setCurrentDate] = useState('');
     const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
-    const [selectedStore, setSelectedStore] = useState(mappedIdWithBranchName?.[0]);
+    const [selectedStore, setSelectedStore] = useState(selectedLocation);
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
     const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
     const [liveOrderNonDineInSearchQuery, setLiveOrderNonDineInSearchQuery] = useState('')
     const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(10)
     
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
+    console.log("ONE",{liveOrdersAPIRedux})
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
+    console.log("ONE",{liveOrderNonDineInAPIRedux})
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
     const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
@@ -40,7 +45,7 @@ const TodaysReport: React.FC = () => {
         (state: any) => state?.auth?.restaurantDetails?.country
     );
     const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
-    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+    // console.log("MAP",{selectedLocation})
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
     const billedOrUnbilledDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedUnbilledLoading)
     
@@ -140,7 +145,7 @@ const TodaysReport: React.FC = () => {
     const handleRefreshClick = () => {
 
         setSelectedDate({ label: "Yesterday", value: "Yesterday" });
-        setSelectedStore(mappedIdWithBranchName?.[0]);
+        setSelectedStore(selectedLocation);
         setLiveOrdersSearchQuery('');
         setLiveOrdersPageLimit(10);
         setLiveOrderNonDineInSearchQuery('');
