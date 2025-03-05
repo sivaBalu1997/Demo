@@ -1,3 +1,13 @@
+  /**
+   * A container for the sales overview page.
+   *
+   * This component is a container for the sales overview page. It contains
+   * a heading, a grid of sales overview cards, a container for the tender
+   * types, and a container for the discount cards.
+   *
+   * @example
+   *   <SalesOverview />
+   */
 .sales-overview {
   margin-top: 8px;
   margin-bottom: 24px;

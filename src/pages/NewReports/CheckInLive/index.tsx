@@ -22,11 +22,8 @@ interface CustomBarChartData {
   yAxisValue: number;
   tooltipValue: number;
 }
-const CategoryReport = () => {
+const CheckInLiveReport = () => {
   const dispatch = useDispatch();
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
   );
@@ -596,4 +593,4 @@ const CategoryReport = () => {
   );
 };
 
-export default CategoryReport;
+export default CheckInLiveReport;

@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import "./style.scss";
 import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
 import { ICardWithMiniGraphProps } from "interface/newReportsInterface";
+import { transformSalesData } from "utils";
 
 
 const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
@@ -17,12 +18,12 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
     showMiniGraph,
     isMonetary,
     incrementDecrementValue,
-    incrementOrDecrement,
     loader,
     isPercent,
 
     graphType = "chart"
 }) => {
+    const incrementOrDecrement = useMemo(() => transformSalesData(incrementDecrementValue || 0), [incrementDecrementValue]);
     const countryCode = useSelector(
         (state: any) => state?.auth?.restaurantDetails?.country
     );
