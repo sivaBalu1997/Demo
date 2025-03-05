@@ -1,6 +1,5 @@
 import React, { forwardRef, useState } from "react";
 import DatePicker from "react-multi-date-picker";
-import Toolbar from "react-multi-date-picker/plugins/toolbar";
 import "./datePicker.scss"; // Your custom styles
 import "react-multi-date-picker/styles/layouts/mobile.css"; // Mobile-friendly layout
 
@@ -41,17 +40,6 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
     },
     ref
   ) => {
-    // const [selectedDates, setSelectedDates] = useState<any[]>([]);
-
-    // const handleApply = (dates: any) => {
-    //   console.log("Applied Dates:", dates);
-    //   setSelectedDates(dates);
-    // };
-
-    // const handleCancel = () => {
-    //   console.log("Canceled");
-    //   setSelectedDates([]);
-    // };
 
     return (
       <div className={containerClassName}>
