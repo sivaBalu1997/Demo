@@ -125,6 +125,17 @@ const Employees: React.FC = () => {
           { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
         ];
 
+      case "Others":
+        return [
+          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
+          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
+          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
+          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
+          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
+        ]
+
       default:
         return [];
     }
