@@ -38,12 +38,12 @@ import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 
 
 //TODO: Conert in this format
-const menuOptions=[{
+const menuOptions = [{
   name: "Reports & Insights",
   path: "/old-reports",
   icon: <div />, // Replace with the correct SVG import
   submenu: [],
-}]  
+}]
 const SidePanel = () => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
@@ -53,40 +53,40 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-const reportInsightsOptions = [
-  {
-    name:"Reports & Insights",
-    path:"/old-reports"
-  },
-  {
-    name:"Chart JS",
-    path:"/live-reports"
-  },
-  {
-    name:"Sales",
-    path:"/sales-reports"
-  },
-  // {
-  //   name:"Product",
-  //   path:""
-  // },
-  // {
-  //   name:"Staff",
-  //   path:""
-  // },
-  // {
-  //   name:"Check-in",
-  //   path:""
-  // },
-  // {
-  //   name:"Customer",
-  //   path:""
-  // },
-  // {
-  //   name:"Event",
-  //   path:""
-  // }
-];
+  const reportInsightsOptions = [
+    {
+      name: "Reports & Insights",
+      path: "/old-reports"
+    },
+    {
+      name: "Chart JS",
+      path: "/live-reports"
+    },
+    {
+      name: "Sales",
+      path: "/sales-reports"
+    },
+    // {
+    //   name:"Product",
+    //   path:""
+    // },
+    // {
+    //   name:"Staff",
+    //   path:""
+    // },
+    // {
+    //   name:"Check-in",
+    //   path:""
+    // },
+    // {
+    //   name:"Customer",
+    //   path:""
+    // },
+    // {
+    //   name:"Event",
+    //   path:""
+    // }
+  ];
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -123,7 +123,7 @@ const reportInsightsOptions = [
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
       setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/sales-reports")) {      
+    } else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
     } else if (
@@ -166,9 +166,12 @@ const reportInsightsOptions = [
         const logoMedia = restaurantDetails.media.filter(
           (media) => media.entityType == type
         )[0];
+        console.log("Image failed reason  ", { logoMedia });
 
         return (
           STORAGE_BUCKET_URL +
+          (logoMedia.mimeType.split("/")[0] || "img") +
+          "/" +
           logoMedia.id +
           "." +
           logoMedia.mimeType.split("/")[1]
@@ -223,16 +226,15 @@ const reportInsightsOptions = [
     history.replace("/");
   };
 
-  const handlePathChange=(path:string)=>{
-    history.push(path);  
+  const handlePathChange = (path: string) => {
+    history.push(path);
   }
 
   return (
     <>
       <div
-        className={`menu menu-rebranded is-sticky ${
-          isExpanded ? "expanded" : ""
-        }`}
+        className={`menu menu-rebranded is-sticky ${isExpanded ? "expanded" : ""
+          }`}
       >
         <div className="logo-container logo-container-rebranded">
           <div>
@@ -241,7 +243,7 @@ const reportInsightsOptions = [
                 src={getImageURL("LOGO")}
                 className="restaurant-logo restaurant-logo-rebranded"
               />
-            ):(
+            ) : (
               (
                 <img
                   src={getImageURL("LOGO")}
@@ -257,7 +259,7 @@ const reportInsightsOptions = [
                   restaurantDetails.branchName &&
                   restaurantDetails.branchName.split(",")[0]}
               </span>
-            ):(
+            ) : (
               <span className="restaurant-name restaurant-name-rebranded-min ">
               </span>
             )}
@@ -269,7 +271,7 @@ const reportInsightsOptions = [
                     restaurantDetails.branchName.split(",")[1]}
                 </span>
               </div>
-            ): (
+            ) : (
               <div>
                 <span className="branch-name-min">
                 </span>
@@ -281,7 +283,7 @@ const reportInsightsOptions = [
           <div
             className={
               showOptions === "employees" &&
-              location.pathname.includes("employees")
+                location.pathname.includes("employees")
                 ? "activePath"
                 : "not-active  menu-items-name-rebranded"
             }
@@ -402,26 +404,26 @@ const reportInsightsOptions = [
                   >
                     {showOfferOptions === "MenuOptions"
                       ? offerMenuOptions.map((option) => (
-                          <li
-                            className="menuList-offers-sub-category"
-                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        <li
+                          className="menuList-offers-sub-category"
+                          style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        >
+                          <span
+                            style={{
+                              color:
+                                SelectSub == option ? "#E52333" : "#000000",
+                            }}
+                            onClick={() => {
+                              option === "Offers"
+                                ? history.push("/Offer")
+                                : history.push("/Offers/active");
+                              setSelectedSub(option);
+                            }}
                           >
-                            <span
-                              style={{
-                                color:
-                                  SelectSub == option ? "#E52333" : "#000000",
-                              }}
-                              onClick={() => {
-                                option === "Offers"
-                                  ? history.push("/Offer")
-                                  : history.push("/Offers/active");
-                                setSelectedSub(option);
-                              }}
-                            >
-                              {option}
-                            </span>
-                          </li>
-                        ))
+                            {option}
+                          </span>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -433,7 +435,7 @@ const reportInsightsOptions = [
             style={{
               marginTop:
                 showOfferOptions === "MenuOptions" &&
-                offerMenuOptions.length > 0
+                  offerMenuOptions.length > 0
                   ? "-1.2rem"
                   : "0",
             }}
@@ -488,8 +490,8 @@ const reportInsightsOptions = [
                     (showOptions === "reportOptions" ? (
                       <Uparrow
                         className="arrow-dimensions"
-                        // className="dropdown-arrow"
-                        // style={{ marginLeft: "15px" }}
+                      // className="dropdown-arrow"
+                      // style={{ marginLeft: "15px" }}
                       />
                     ) : (
                       <Downarrow
@@ -528,24 +530,24 @@ const reportInsightsOptions = [
                   >
                     {showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
-                          <li
+                        <li
                           key={option?.path}
-                            className="menuList-offers-sub-category"
-                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                          className="menuList-offers-sub-category"
+                          style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        >
+                          <span
+                            style={{
+                              color:
+                                SelectSubForReport == option?.name
+                                  ? "#E52333"
+                                  : "#000000",
+                            }}
+                            onClick={() => handlePathChange(option?.path)}
                           >
-                            <span
-                              style={{
-                                color:
-                                  SelectSubForReport == option?.name
-                                    ? "#E52333"
-                                    : "#000000",
-                              }}
-                              onClick={() => handlePathChange(option?.path)}      
-                            >
-                              {option?.name}
-                            </span>
-                          </li>
-                        ))
+                            {option?.name}
+                          </span>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -562,7 +564,7 @@ const reportInsightsOptions = [
             //     ? "activePath"
             //     : "not-active"
             // }
-            onClick={() => {}}
+            onClick={() => { }}
           >
             {
               <>
