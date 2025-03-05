@@ -1,159 +1,189 @@
-.custom-date-button {
-  background: #fff;
-  // border: 1px solid #ccc;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.rmdp-day {
-  color: #393939;
-  margin: 3px;
-}
-.selected-day {
-  background-color: red !important;
-  border-radius: 50%;
-}
+.category-date-picker-container {
+  .rmdp-week-day {
+    color: #a8a8a8 !important;
+    font-weight: bold;
+  }
 
-.default-day {
-  background-color: #eee;
-  border-radius: 50%;
-  color: black;
-}
+  .rmdp-calendar {
+    &:focus {
+      outline-color: #a8a8a8 !important;
+    }
+  }
 
-.rmdp-wrapper {
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+  .custom-date-button {
+    background: #fff !important;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
 
-.rmdp-week-day {
-  color: #a8a8a8;
-  font-weight: bold;
-}
+  .rmdp-day {
+    color: #393939;
+    margin: 3px;
+  }
 
-.rmdp-months {
-  display: flex;
-  gap: 10px;
-}
-
-.rmdp-month {
-  border-right: 2px solid #ddd; /* Adds a border between the two months */
-  padding-right: 10px;
-}
-
-.rmdp-month:last-child {
-  border-right: none; /* Remove border from last month */
-}
-
-.footer-buttons {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-}
-
-.cancel-btn,
-.apply-btn {
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  border: none;
-}
-
-.cancel-btn {
-  background: #eee;
-  color: black;
-}
-
-.apply-btn {
-  background: #e52333;
-  color: #393939;
-}
-.rmdp-range {
-  background-color: #f4f4f4 !important;
-  border-radius: 50%;
-  .sd {
+  .selected-day {
+    background-color: red !important;
     border-radius: 50%;
   }
-  &.start {
-    color: #fff;
-    background-color: #e52333 !important;
-  }
-  &.end {
-    color: #fff;
-    background-color: #e52333 !important;
-  }
-}
-.rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover {
-  background-color: #e52333;
-}
-.rmdp-today {
-  span {
-    background-color: transparent !important;
-    color: inherit !important;
-  }
-}
-.rmdp-arrow-container {
-  .rmdp-arrow {
-    border-color: #e52333;
-  }
-}
-.rmdp-day.rmdp-selected span:not(.highlight) {
-  background-color: #f4f4f4;
-  color: #393939;
-  font-weight: 500;
-}
 
-.datepicker-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 10px 15px;
-  background-color: #ffff;
-  border-top: 1px solid #e0e0e0;
+  .default-day {
+    background-color: #eee;
+    border-radius: 50%;
+    color: black;
+  }
 
-  .datepicker-btn {
+  .rmdp-wrapper {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+
+
+  .rmdp-months {
+    display: flex;
+    gap: 10px;
+  }
+
+  .rmdp-month {
+    border-right: 2px solid #ddd;
+    /* Adds a border between the two months */
+    padding-right: 10px;
+  }
+
+  .rmdp-month:last-child {
+    border-right: none;
+    /* Remove border from last month */
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+  }
+
+  .cancel-btn,
+  .apply-btn {
+    padding: 8px 16px;
     border-radius: 5px;
-    font-size: 12px;
-    font-weight: 400;
-    padding: 4px 12px;
     cursor: pointer;
-  }
-  .datepicker-apply-btn {
-    background-color: #e52333;
-    color: #ffffff;
-    border: 1px solid #e52333;
+    font-size: 14px;
+    border: none;
   }
 
-  .datepicker-cancel-btn {
-    background-color: #ffffff;
-    color: #6f6f6f;
-    border: 1px solid #6f6f6f;
+  .cancel-btn {
+    background: #eee;
+    color: black;
   }
-}
-.rmdp-arrow-container:hover {
-  background-color: #e52333;
-  box-shadow: 0 0 3px #8798ad;
-}
-.rmdp-day,
-.rmdp-week-day {
-  width: 30px;
-  height: 30px;
+
+  .apply-btn {
+    background: #e52333;
+    color: #393939;
+  }
+
+  .rmdp-range {
+    background-color: #f4f4f4 !important;
+    border-radius: 50%;
+    color: #000 !important;
+
+    .sd {
+      border-radius: 50%;
+    }
+
+    &.start {
+      color: #fff !important;
+      background-color: #e52333 !important;
+    }
+
+    &.end {
+      color: #fff !important;
+      background-color: #e52333 !important;
+    }
+  }
+
+  .rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover {
+    background-color: #e52333 !important;
+  }
+
+  .rmdp-today {
+    span {
+      background-color: transparent !important;
+      color: inherit !important;
+    }
+  }
+
+  .rmdp-arrow-container {
+    .rmdp-arrow {
+      border-color: #e52333;
+    }
+  }
+
+  .rmdp-day.rmdp-selected span:not(.highlight) {
+    background-color: #f4f4f4;
+    color: #393939;
+    font-weight: 500;
+  }
+
+  .datepicker-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: #ffff;
+    border-top: 1px solid #e0e0e0;
+
+    .datepicker-btn {
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 400;
+      padding: 4px 12px;
+      cursor: pointer;
+    }
+
+    .datepicker-apply-btn {
+      background-color: #e52333;
+      color: #ffffff;
+      border: 1px solid #e52333;
+    }
+
+    .datepicker-cancel-btn {
+      background-color: #ffffff;
+      color: #6f6f6f;
+      border: 1px solid #6f6f6f;
+    }
+  }
+
+  .rmdp-arrow-container:hover {
+    background-color: #e52333;
+    box-shadow: 0 0 3px #8798ad;
+  }
+
+  .rmdp-day,
+  .rmdp-week-day {
+    width: 30px;
+    height: 30px;
+
+    @media (max-width: 768px) {
+      width: 25px;
+      height: 25px;
+    }
+
+    @media (max-width: 500px) {
+      font-size: 10px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   @media (max-width: 768px) {
-    width: 25px;
-    height: 25px;
+    .datepicker-footer {
+      padding: 8px 10px;
+
+      .datepicker-btn {
+        font-size: 9px;
+      }
+    }
   }
-  @media (max-width: 500px) {
-    font-size: 10px;
-    width: 20px;
-    height: 20px;
-  }
-}
-@media (max-width: 768px) {
-.datepicker-footer{  
-  padding: 8px 10px;
-  .datepicker-btn {
-    font-size: 9px;
-  }}
 }
