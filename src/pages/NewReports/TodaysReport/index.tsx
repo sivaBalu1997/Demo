@@ -54,7 +54,6 @@ const TodaysReport: React.FC = () => {
 
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(textOne);
     
-    const selectedLocationidFromDropDown = selectedStore?.value
     const currencySymbol = countryCode === "US" ? "$" : "₹";
 
 
@@ -94,28 +93,28 @@ const TodaysReport: React.FC = () => {
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
-    }, [selectedLocationidFromDropDown, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
+        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
+    }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
 
     useEffect(() => {
-        dispatch(liveDiscountRequest({ locationid: selectedLocationidFromDropDown }))
-        dispatch(liveOpenSalesRequest({ locationid: selectedLocationidFromDropDown }))
-        dispatch(liveRefundsRequest({ locationid: selectedLocationidFromDropDown }))
-        dispatch(liveNetSalesRequest({ locationid: selectedLocationidFromDropDown }))
-    }, [selectedLocationidFromDropDown])
+        dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }))
+        dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }))
+        dispatch(liveRefundsRequest({ locationid: selectedLocation?.value }))
+        dispatch(liveNetSalesRequest({ locationid: selectedLocation?.value }))
+    }, [selectedLocation])
 
-
-    useEffect(() => {
-        const formattedDate = moment().format('YYYY-MM-DD');
-        setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
-    }, [selectedLocationidFromDropDown, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocationidFromDropDown, startDate: currentDate, type: isSwitchActive === true ? 'completed':'notcompleted' }))
-    }, [isSwitchActive, currentDate, selectedLocationidFromDropDown])
+        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
+    }, [selectedLocation, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
+
+    useEffect(() => {
+        const formattedDate = moment().format('YYYY-MM-DD');
+        setCurrentDate(formattedDate);
+        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: isSwitchActive === true ? 'completed':'notcompleted' }))
+    }, [isSwitchActive, currentDate, selectedLocation])
 
     
     const handleToggleSwitch = () => {
@@ -127,11 +126,11 @@ const TodaysReport: React.FC = () => {
     const handleSearch = (value: string, kpiTitle: string) => {
         switch (kpiTitle) {
             case 'Live Orders':
-                dispatch(liveOrdersRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
+                dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
 
             case 'Live Orders Non Dine-in':
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocationidFromDropDown, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
                 break;
 
             default:
@@ -193,6 +192,7 @@ const TodaysReport: React.FC = () => {
                 handleRefreshClick={handleRefreshClick}
                 showRefresh={true} showDate={false}
             />
+
             <SwitchableBox
                 textOne={textOne}
                 textTwo={textTwo}
