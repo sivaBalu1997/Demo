@@ -8,6 +8,7 @@ import paymentReducer from "./payment/paymentReducer";
 import productCatalogReducer, { primarypagereducer, itemCustomizationsReducer, PricingDetailReducer, imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer, imageUploadReducer, addMockDataHiddenReducer, getItemCodeReducer, selectedMockDataReducer, getPopularItemReducer, searchforamitemreducer, storeDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 import newReportsReducer from "./newReports/newReportsReducer";
+import checkInReportsReducer from "./checkInReports/checkInReportsReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   menuReducer: menuReducer,
   storeDataReducer: storeDataReducer,
   newReports: newReportsReducer,
+  checkInReports: checkInReportsReducer
 });
 
 export { rootReducer };
