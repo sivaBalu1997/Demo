@@ -174,6 +174,8 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
 
+  console.log("RRRRRR",{getEmployeeActivityDataFromAPIRedux})
+
 
 
 
@@ -233,6 +235,26 @@ const Employees: React.FC = () => {
     (data: any) => ({ name: data?.actionType, value: data?.extractedValue })
   );
 
+
+  const chartDataFromAPIReduxOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
+    (acc: any[], data: any) => {
+      if (data.actionType === "Order edited" || data.actionType === "Order cancelled") {
+        const existingOthers = acc.find((item) => item.name === "Others");
+        if (existingOthers) {
+          existingOthers.value += data.extractedValue;
+        } else {
+          acc.push({ name: "Others", value: data.extractedValue });
+        }
+      } else {
+        acc.push({ name: data.actionType, value: data.extractedValue });
+      }
+      return acc;
+    },
+    []
+  );
+
+  // console.log("RRR",{chartDataFromAPIReduxOthers})
+
   const tooltipDataFromAPI = getEmployeeActivityDataFromAPIRedux?.reduce(
     (acc: any, data: any) => {
       acc[data.actionType] = {
@@ -242,6 +264,28 @@ const Employees: React.FC = () => {
     },
     {}
   );
+
+
+  const tooltipDataFromAPIOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
+    (acc: any, data: any) => {
+      if (data.actionType === "Order edited" || data.actionType === "Order cancelled") {
+        if (acc["Others"]) {
+          acc["Others"].tooltipContent = `Value: ${
+            parseFloat(acc["Others"].tooltipContent.split(": ")[1]) + data.extractedValue
+          }`;
+        } else {
+          acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
+        }
+      } else {
+        acc[data.actionType] = { tooltipContent: `Value: ${data.extractedValue}` };
+      }
+      return acc;
+    },
+    {}
+  );
+
+  // console.log("RR",{tooltipDataFromAPIOthers})
+  
 
   // Chart Data
   const chartData = [
@@ -366,7 +410,7 @@ const Employees: React.FC = () => {
           locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          chartSliceName: selectedValueForChartSlice,
+          chartSliceName: selectedValueForChartSlice === "Others" ? "Order cancelled,Order edited" : selectedValueForChartSlice,
           tablePageNo: currentPageGenericTable,
           tableRecordLimit: genericTableRecordLimit,
         })
@@ -524,8 +568,10 @@ const Employees: React.FC = () => {
           </div>
           <div ref={employeeChartRef}>
             <CustomBarChart
-              data={chartDataFromAPIRedux}
-              tooltipData={tooltipDataFromAPI}
+              // data={chartDataFromAPIRedux}
+              data={chartDataFromAPIReduxOthers}
+              // tooltipData={tooltipDataFromAPI}
+              tooltipData={tooltipDataFromAPIOthers}
               barColor="#67823D"
               barStyle={customBarStyle}
               showGrid={true}
