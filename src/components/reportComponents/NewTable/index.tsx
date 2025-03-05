@@ -44,6 +44,8 @@ const NewTable: React.FC<NewTableProps> = ({
     const [initialLoader, setInitialLoader] = useState(true);
     const [tableLoader, setTableLoader] = useState(false);
     const [searchFlag, setSearchFlag] = useState(false)
+    const [width, setWidth] = useState(window.innerWidth);
+
 
     // console.log("PPP4", { tableData })
 
@@ -117,6 +119,14 @@ const NewTable: React.FC<NewTableProps> = ({
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
+
+    useEffect(() => {
+      const handleResize = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+  
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onSearchChange(event.target.value);
         onSearch(event.target.value, kpiTitle);
@@ -179,6 +189,8 @@ const NewTable: React.FC<NewTableProps> = ({
     //     }
     // }
 
+    // console.log("Window width", width)
+
     const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
         if (headerValue === "Order Status") {
             if (rowvalue === 'In Queue') {
@@ -192,6 +204,8 @@ const NewTable: React.FC<NewTableProps> = ({
             } else if (rowvalue === 'Order Ready') {
                 return 'bubble-text-green-one'
             } else if (rowvalue === 'In Delivery') {
+                return 'bubble-text-light-green-one'
+            } else if (rowvalue == "Pre order placed"){
                 return 'bubble-text-light-green-one'
             }
         } else if (headerValue === "Order Channel") {
@@ -228,11 +242,11 @@ const NewTable: React.FC<NewTableProps> = ({
                     </div>
                     <div className="table-header-small-screen">
                         <div className="table-name-with-download-container">
-                        <div className="table-title-with-count-container-small-screen">
-                            <h2 className="table-title-small-screen">{kpiTitle}</h2>
-                            {!!count && <p className='table-title-count-small-screen'>{count}</p>}
-                        </div>
-                        {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
+                            <div className="table-title-with-count-container-small-screen">
+                                <h2 className="table-title-small-screen">{kpiTitle}</h2>
+                                {!!count && <p className='table-title-count-small-screen'>{count}</p>}
+                            </div>
+                            {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div> 
                         <div className="table-search-small-screen">
                             <div className="search-container-small-screen">
@@ -314,8 +328,10 @@ const NewTable: React.FC<NewTableProps> = ({
 
                     {
                         tableData && <div className="table-footer">
-                            {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
-                            <div className="results-per-page">
+                            {width < 600 ? 
+                               (<div className="page-info">Page {currentPage}/{totalPages}</div>) 
+                               : 
+                               (<div className="results-per-page">
                                 <span>Result per page:</span>
                                 <div className="options">
                                     {[10, 20, 30]?.map((num) => (
@@ -328,10 +344,25 @@ const NewTable: React.FC<NewTableProps> = ({
                                         </button>
                                     ))}
                                 </div>
-                            </div>
+                            </div>)}
+                            {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
+                            {/* <div className="results-per-page">
+                                <span>Result per page:</span>
+                                <div className="options">
+                                    {[10, 20, 30]?.map((num) => (
+                                        <button
+                                            key={num}
+                                            className={`option ${rowsPerPage === num ? "selected" : ""}`}
+                                            onClick={() => setRowsPerPage(num)}
+                                        >
+                                            {num}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div> */}
                             <ReactPaginate
-                                previousLabel={<span className='pagination-label'><ArrowLeft className="arrow-icon" />{" "}Prev</span>}
-                                nextLabel={<span className="pagination-label">Next{" "}<ArrowRight className="arrow-icon" /></span>}
+                                previousLabel={<span className='pagination-label'><ArrowLeft className="arrow-icon" />{" "}{width > 600 &&`Prev`}</span>}
+                                nextLabel={<span className="pagination-label">{width > 600 &&`Next`}{" "}<ArrowRight className="arrow-icon" /></span>}
                                 breakLabel="..."
                                 pageCount={totalPages}
                                 marginPagesDisplayed={1}

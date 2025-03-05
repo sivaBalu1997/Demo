@@ -192,9 +192,6 @@ $text-secondary: #6b7280;
 
 
   .table-header-small-screen{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     border-bottom: 1px solid $border-color;
     background: white;
     // background-color: pink;
@@ -202,24 +199,35 @@ $text-secondary: #6b7280;
     top: 0;
     z-index: 10;
     padding-bottom: 2.5vh;
+    display: none;
+    @media(max-width: 400px){
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1vh;
+      // background-color: pink;
+    }
     .table-name-with-download-container{
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
       gap: 1vw;
       // background-color: pink;
-      width: 100%;
+      width: 90%;
       .table-title-with-count-container-small-screen{
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 3vw;
+        // background-color: orange;
         .table-title-small-screen{
           font-size: 20px;
           font-weight: 500;
           line-height: 24px;
           letter-spacing: -0.25px;
           color: $text-primary;
+          // background-color: palegreen;
+          text-align: left;
         }
         .table-title-count-small-screen{
           color: #e52333;
