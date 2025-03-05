@@ -120,6 +120,15 @@
     }
   }
 
+  .rmdp-arrow-container:hover{
+    .rmdp-arrow {
+      border-color: white;
+    }
+    background-color: #e52333;
+  }
+
+
+
   .rmdp-day.rmdp-selected span:not(.highlight) {
     background-color: #f4f4f4;
     color: #393939;
