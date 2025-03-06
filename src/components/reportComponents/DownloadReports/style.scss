@@ -24,6 +24,11 @@ $border-color: #e5e7eb;
         top: 100%; 
         right: -40%;
         z-index: 15; 
+        @media(max-width: 400px){
+            width: 11rem;
+            top: 110%;
+            right: -11%;
+        }
 
             .pop-over-title {
             text-align: left;
@@ -34,11 +39,15 @@ $border-color: #e5e7eb;
             }
 
             .formats-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2vw;
-            width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2vw;
+                width: 100%;
+                @media(max-width: 400px){
+                    gap: 4vw;
+                    width: 100%;
+                }
 
                 .download-icon-with-title {
                     display: flex;
@@ -50,18 +59,22 @@ $border-color: #e5e7eb;
                 }
             }
             .download-btn{
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1vw;
-            cursor: pointer;
-            border: 1px solid #e52333;
-            background: #e52333;
-            color: #ffffff;
-            padding: 0.5rem;
-            border-radius: 0.5vw;
-            width: 100%;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 1vw;
+                cursor: pointer;
+                border: 1px solid #e52333;
+                background: #e52333;
+                color: #ffffff;
+                padding: 0.5rem;
+                border-radius: 0.5vw;
+                width: 100%;
+                @media(max-width: 400px){
+                    border-radius: 2.5vw;
+                    width: 122%;
+                }
             }
         }
  }

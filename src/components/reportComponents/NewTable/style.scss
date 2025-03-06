@@ -58,6 +58,10 @@ $text-secondary: #6b7280;
     top: 0;
     z-index: 10;
 
+    @media(max-width: 600px){
+      display: none;
+    }
+
     .table-title-with-count-container{
       display: flex;
       justify-content: center;
@@ -185,6 +189,134 @@ $text-secondary: #6b7280;
       }    
     }
   }
+
+
+  .table-header-small-screen{
+    border-bottom: 1px solid $border-color;
+    background: white;
+    // background-color: pink;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-bottom: 2.5vh;
+    display: none;
+    @media(max-width: 600px){
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1vh;
+      // background-color: pink;
+    }
+    .table-name-with-download-container{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1vw;
+      // background-color: pink;
+      width: 90%;
+      .table-title-with-count-container-small-screen{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3vw;
+        // background-color: orange;
+        .table-title-small-screen{
+          font-size: 20px;
+          font-weight: 500;
+          line-height: 24px;
+          letter-spacing: -0.25px;
+          color: $text-primary;
+          // background-color: palegreen;
+          text-align: left;
+        }
+        .table-title-count-small-screen{
+          color: #e52333;
+          // background-color: pink;
+          border: 1px solid #e52333;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 20px;
+          padding: 5px;
+          width: 20px;
+          height: 20px;
+          cursor: default;
+        }
+      }
+    }
+    .table-search-small-screen{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .search-container-small-screen{
+        position: relative;
+        width: 90%;
+        // max-width: 300px;  // Prevents overflow on the right side
+        display: flex;
+        align-items: center;
+        // background-color: pink;
+        .search-icon-small-screen{
+          position: absolute;
+          left: 0.75rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: $text-secondary;
+          width: 1.25rem;
+          height: 1.25rem;
+          cursor: pointer;
+          transition: transform 0.2s ease, opacity 0.2s ease;
+      
+          &:hover {
+              transform: translateY(-50%) scale(1.1);
+              opacity: 0.8;
+          }
+      
+          &:active {
+              transform: translateY(-50%) scale(0.9);
+              opacity: 0.6;
+          }
+        }
+        .search-input-small-screen{
+          // width: 25vw;
+          width: 78vw;
+          padding: 0.5rem 1rem 0.5rem 2.5rem;
+          border: 1px solid $border-color;
+          border-radius: 0.375rem;
+          font-size: 0.875rem;
+          white-space: nowrap; // Prevents text wrapping
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+          }
+        }
+        .clear-search-icon-small-screen{
+          position: absolute;
+          right: 0.64rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: $text-secondary;
+          width: 1.25rem;
+          height: 1.25rem;
+          cursor: pointer;
+          transition: transform 0.2s ease, opacity 0.2s ease; 
+      
+          &:hover {
+              transform: translateY(-50%) scale(1.1);
+              opacity: 0.8;
+          }
+      
+          &:active {
+              transform: translateY(-50%) scale(0.9);
+              opacity: 0.6;
+          }
+        }
+      }
+    }
+  }
+
 
   .table-wrapper {
     // max-height: calc(66.5vh - 3rem); //max height commented out in-order to get the dynamic height based on the record limit
@@ -435,6 +567,9 @@ $text-secondary: #6b7280;
         justify-content: center;
         align-items: center;
         gap: 0.2vw;
+        @media(max-width: 600px){
+          width: 3vw;
+        }
       }
 
       .prev-button,
@@ -448,6 +583,9 @@ $text-secondary: #6b7280;
         border: 1px solid $border-color;
         background: white;
         cursor: pointer;
+        @media(max-width: 600px){
+          width: 4vw;
+        }
     
         &:hover {
           background: $hover-color;

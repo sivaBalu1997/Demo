@@ -169,7 +169,7 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
 
-  console.log("RRRRRR",{getEmployeeActivityDataFromAPIRedux})
+  // console.log("RRRRRR",{getEmployeeActivityDataFromAPIRedux})
 
 
 

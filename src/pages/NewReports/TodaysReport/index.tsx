@@ -203,6 +203,7 @@ const TodaysReport: React.FC = () => {
                             cardValue={formatNumberByCountry(billedOrUnbilledDataAPIRedux?.[key], countryCode, isMonetary)}
                             isMonetary={isMonetary}
                             loader={billedOrUnbilledDataAPIReduxLoading}
+                            // loader={true}
                         />
                     ))}
                 </div>
