@@ -1,7 +1,6 @@
 import { API } from "redux/api";
 import Store from "../store";
 
-
 const baseUrl = "https://rptd.gcp.magilhub.com"
 const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
@@ -47,12 +46,205 @@ const generateQueryParams = (payload) => {
     }
     return "?"+query?.slice(1)
 }
-export const getSalesSummary = (getSalesLocationStartEndDate) => {
+
+export const getLiveCheckInOverview = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query=generateQueryParams(getSalesLocationStartEndDate)
+    const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/summary${query}`,
+        url: `${reportsBaseUrl}/live/checkin/overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveSeaterAvailability = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/seater-wise-availability${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveGuestCount = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/guest-count${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveCheckInStatus = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/status${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveAvgWaitTime = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/avg-wait-time${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveGroupAvgWaitTime = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/group-avg-wait-time${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveCheckInTable = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/table${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getLiveCheckInToday = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/today${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverview = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewHourly = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/hourly${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewGuestsHourly = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/guests-hourly${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewDailyAndGuest = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/daily-and-guest${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewDineInGroup = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/dine-in-group${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewGuestSize = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/guest-size${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewTableDetails = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/table-details${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewTopCustomer = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/top-customer${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCheckInOverviewAvgWaitTimeGroup = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/checkin/overview/avg-wait-time-group${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
