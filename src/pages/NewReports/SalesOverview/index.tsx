@@ -725,7 +725,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </div>
 
           <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh" }} ref={offerRef}>
-            <div className="" style={{ width: "50%", height: "100%" }}>
+            <div className="doughnut-chart-with-button">
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <DoughnutChartWithButton
                 dataList={offerSummary}
@@ -737,7 +737,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 loader={offerSummaryLoading}
               />
             </div>
-            <div className="" style={{ width: "50%", height: "100%" }}>
+            <div className="doughnut-chart-container">
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
               <DoughnutChartWithButtonVoided
                 dataList={voidedOrderSummary}

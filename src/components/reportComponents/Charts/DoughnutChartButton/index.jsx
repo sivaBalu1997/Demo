@@ -4,6 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter } from "utils";
 import DoughnutChartShimmer from "../DoughnutChartShimmer";
+import "./style.scss";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -279,16 +280,17 @@ function DoughnutChartWithButton({
   return (
     <div
       ref={containerRef}
-      style={{
-        width: "100%",
-        maxWidth: "550px",
-        height: "450px",
-        position: "relative",
-        overflow: "visible",
-        padding: "20px 5px",
-        borderRadius: "5px",
-        border: "1px solid #E0E0E0",
-      }}
+      // style={{
+      //   width: "100%",
+      //   maxWidth: "550px",
+      //   height: "450px",
+      //   position: "relative",
+      //   overflow: "visible",
+      //   padding: "20px 5px",
+      //   borderRadius: "5px",
+      //   border: "1px solid #E0E0E0",
+      // }}
+      className="dough-chart-container"
       onMouseLeave={() => {
         if (!overlayHoverRef.current) setHoverInfo(null);
       }}

@@ -119,9 +119,6 @@ const CardTypeChart = ({
 
   if (loader) return <BarChartShimmer />;
 
-  console.log("dataList.length",dataList.length)
-  console.log("dataList",dataList)
-
 
   return dataList?.length === 0 ? (
     <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />

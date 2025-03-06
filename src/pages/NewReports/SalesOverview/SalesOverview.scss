@@ -156,3 +156,20 @@
   gap: 5vh;
 }
 
+.sales-overview-doughnut-chart-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  @media(max-width: 600px){
+    flex-direction: column;
+  }
+  .doughnut-chart-container{
+    // width: 50%;
+    // height: 100%;
+    @media(max-width: 600px){
+      width: 100%;
+    }
+  }
+}
+

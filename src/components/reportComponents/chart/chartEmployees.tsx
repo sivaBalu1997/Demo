@@ -96,7 +96,7 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
   if (loader) return <BarChartShimmer />
 
   return dataList?.length === 0 ? (
-      <ErrorState pageTitle="Today's report" isDataNotAvailable={true} />
+      <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
     ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
