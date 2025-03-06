@@ -266,8 +266,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         paymentDetailsRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -275,8 +273,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         salesSummaryReportRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -284,8 +280,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         staffSalesRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -293,8 +287,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         salesCardTypeRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -302,8 +294,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         salesCategoryRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -311,8 +301,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         salesByChannelRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -320,8 +308,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         salesByRevenueClassRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -330,8 +316,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         offerSummaryRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -339,8 +323,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(
         voidedOrderSummaryRequest({
           locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
           startDate: startDate,
           endDate: endDate,
         })
@@ -348,44 +330,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     ]);
   }, [selectedLocation, startDate, endDate]);
 
-  useEffect(() => {
-    dispatch(
-      cancellationSummaryRequest({
-        locationid: selectedLocation?.value,
 
-        tableRecordLimit: currentRowsVoiddedOrders,
-        tablePageNo: currentPageVoiddedOrders,
-        startDate: startDate,
-        endDate: endDate,
-        search: searchQuery,
-        reason: voidedReason,
-      })
-    );
-  }, [
-    voidedReason,
-    startDate,
-    endDate,
-    currentRowsVoiddedOrders,
-    currentPageVoiddedOrders,
-    searchQuery,
-  ]);
-
-  useEffect(() => {
-    dispatch(
-      discountSummaryRequest({
-        locationid: selectedLocation?.value,
-        tableRecordLimit: currentRowsOfferDiscount,
-        tablePageNo: currentPageOfferDiscount,
-        startDate: startDate,
-        endDate: endDate,
-        search: searchQuery,
-        offer: offerType,
-      })
-    );
-
-  }, [
-    offerType, startDate, endDate, currentRowsOfferDiscount, currentPageOfferDiscount, searchQuery,
-  ]);
 
   const handleGoBackToChart = () => {
     setViewType("default");
@@ -423,6 +368,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       default:
         console.warn(`Unknown KPI title: ${kpiTitle}`);
     }
+    setSearchQuery(value)
   };
 
   const handleSummaryView = (view: string, data: any) => {
@@ -772,9 +718,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
             <NewTable
               kpiTitle={`By discount - ${offerType}`}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              headerData={discountTableHeaders}
+              searchQuery={searchQuery}    
+                headerData={discountTableHeaders}
               tableData={
                 discountSummary &&
                 discountSummary?.length > 0 &&
@@ -802,7 +747,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           <NewTable
             kpiTitle={`Voided orders - ${voidedReason}`}
             searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
             headerData={voidedTableHeaders}
             tableData={
               cancellationSummary &&

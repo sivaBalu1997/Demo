@@ -141,7 +141,6 @@ const Employees: React.FC = () => {
 
   // Table Employee Void Activity States :
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
 
   const locations = useSelector(
@@ -206,6 +205,7 @@ const Employees: React.FC = () => {
 
 
   const handleSearch = (value: string, kpiTitle: string) => {
+    setSearchQueryForGenericTable(value)
     switch (kpiTitle) {
       case "Employee Void Activity":
         if (selectedLocation?.value) {
@@ -430,7 +430,6 @@ const Employees: React.FC = () => {
           <NewTable
             kpiTitle={`${selectedValueForChartSlice}`}
             searchQuery={searchQueryForGenericTable}
-            onSearchChange={setSearchQueryForGenericTable}
             headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
             tableData={
               getEmployeeChartSliceTableDataFromAPIRedux &&
