@@ -23,32 +23,17 @@ import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
 
 const Employees: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState({
-    label: "Yesterday",
-    value: "Yesterday",
-  });
-
+  const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
 
   const employeeChartRef = useRef<HTMLDivElement>(null);
 
-  const employeeSalesOverViewFromAPIRedux = useSelector(
-    (state: any) => state?.newReports?.employeeSalesOverviewSuccess
-  );
-
-  const employeeSalesOverViewFromAPIReduxLoader = useSelector(
-    (state: any) => state?.newReports?.employeeSalesOverviewLoading
-  );
-  const { startDate, endDate, handleDateChange } = useDateFilter();
-
-  const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
+  const employeeSalesOverViewFromAPIRedux = useSelector(    (state: any) => state?.newReports?.employeeSalesOverviewSuccess  );
+  const employeeSalesOverViewFromAPIReduxLoader = useSelector(    (state: any) => state?.newReports?.employeeSalesOverviewLoading  );
+  const { startDate, endDate,selectedDateFilterType,  handleDateChange } = useDateFilter();
 
   const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
 
-  const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
-
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
+  const countryCode = useSelector(    (state: any) => state?.auth?.restaurantDetails?.country  );
 
   const currencySymbol = countryCode === "US" ? "$" : "₹";
 
@@ -141,8 +126,7 @@ const Employees: React.FC = () => {
     }
   }
 
-  // console.log("LLL3 getChartSliceTableHeaders(selectedValueForChartSlice)", getChartSliceTableHeaders(selectedValueForChartSlice))
-  // console.log("LLL4 selectedValueStateData", selectedValueStateData)
+
 
   // useSelector for Table states :
   const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
@@ -467,10 +451,12 @@ const Employees: React.FC = () => {
       ) : (
         <>
           <StoreFilter
+                 startDate={startDate}
+                 endDate={endDate}
             storeOptions={locations}
-            selectedDate={selectedDate}
+            selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={setSelectedDate}
+            setSelectedDate={(data) => handleDateChange(data?.value)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
             datePickerApplyFunction={datepickerApply}
             dateDropdownFunction={datepickerApply}

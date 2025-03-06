@@ -236,6 +236,8 @@ const CategoryReport = (props) => {
       <div className="category-page-cotainer">
         <div className="category-page-body">
           <StoreFilter
+                 startDate={startDate}
+                 endDate={endDate}
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}

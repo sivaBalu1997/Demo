@@ -134,6 +134,9 @@ const voidedTableHeaders: NewTableHeader[] = [
   },
 ];
 
+const leftGroup = ["Debit card", "Cash", "Aggregators"]
+const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
+
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
@@ -183,11 +186,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       "Debit card": [],
       "Credit card": [],
       Cash: [],
-      Aggregator: [],
-      Coupon: [],
-      "Digital payment": [],
+      Coupons: [],
+      "Digital payments": [],
+      Aggregators: [],
       Others: [],
     };
+
 
     const tempdataObj: any = {};
     tendorTypes?.forEach((item: any) => {
@@ -242,11 +246,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       } else if (["CASH"]?.includes(key)) {
         tendorGroups["Cash"].push(value);
       } else if (["Doordash", "Swiggy", "Grubhub", "Zomato"]?.includes(key)) {
-        tendorGroups["Aggregator"].push(value);
-      } else if (["Coupon"]?.includes(key)) {
-        tendorGroups["Coupon"].push(value);
-      } else if (["Digital payment", "OFFLINE_QR"]?.includes(key)) {
-        tendorGroups["Digital payment"].push(value);
+        tendorGroups["Aggregators"].push(value);
+      } else if (["Coupon", "Coupons"]?.includes(key)) {
+        tendorGroups["Coupons"].push(value);
+      } else if (["Digital payment", "Digital payments", "OFFLINE_QR"]?.includes(key)) {
+        tendorGroups["Digital payments"].push(value);
       } else {
         tendorGroups["Others"].push(value);
       }
@@ -255,7 +259,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
     return tendorGroups;
   }, [tendorTypes]);
-  console.log({startDate, endDate})
+  console.log({ startDate, endDate })
 
   useEffect(() => {
     Promise.all([
@@ -345,18 +349,18 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, startDate, endDate]);
 
   useEffect(() => {
-      dispatch(
-        cancellationSummaryRequest({
-          locationid: selectedLocation?.value,
+    dispatch(
+      cancellationSummaryRequest({
+        locationid: selectedLocation?.value,
 
-          tableRecordLimit: currentRowsVoiddedOrders,
-          tablePageNo: currentPageVoiddedOrders,
-          startDate: startDate,
-          endDate: endDate,
-          search: searchQuery,
-          reason: voidedReason,
-        })
-      );
+        tableRecordLimit: currentRowsVoiddedOrders,
+        tablePageNo: currentPageVoiddedOrders,
+        startDate: startDate,
+        endDate: endDate,
+        search: searchQuery,
+        reason: voidedReason,
+      })
+    );
   }, [
     voidedReason,
     startDate,
@@ -367,18 +371,18 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   ]);
 
   useEffect(() => {
-      dispatch(
-        discountSummaryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: currentRowsOfferDiscount,
-          tablePageNo: currentPageOfferDiscount,
-          startDate: startDate,
-          endDate: endDate,
-          search: searchQuery,
-          offer: offerType,
-        })
-      );
-  
+    dispatch(
+      discountSummaryRequest({
+        locationid: selectedLocation?.value,
+        tableRecordLimit: currentRowsOfferDiscount,
+        tablePageNo: currentPageOfferDiscount,
+        startDate: startDate,
+        endDate: endDate,
+        search: searchQuery,
+        offer: offerType,
+      })
+    );
+
   }, [
     offerType, startDate, endDate, currentRowsOfferDiscount, currentPageOfferDiscount, searchQuery,
   ]);
@@ -394,7 +398,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSearch = (value: string, kpiTitle: string) => {
-    let params:any={
+    let params: any = {
       locationid: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate,
@@ -404,13 +408,13 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }
     switch (viewType) {
       case "discountOffer":
-        params.offer=offerType
+        params.offer = offerType
         dispatch(
           discountSummaryRequest(params)
         );
         break;
       case "voidedOffer":
-        params.reason=voidedReason
+        params.reason = voidedReason
         dispatch(
           cancellationSummaryRequest(params)
         );
@@ -423,7 +427,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   const handleSummaryView = (view: string, data: any) => {
     resetPagination()
-    let params:any={
+    let params: any = {
       locationid: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate,
@@ -433,21 +437,21 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     setViewType(view);
     if (view == "discountOffer") {
       setOfferType(data?.label);
-      let label=data?.label
-      if(data?.label==="Other"){
-        label=otherOffer
+      let label = data?.label
+      if (data?.label === "Other") {
+        label = otherOffer
       }
-        setOtherOffer(label)
-      params.offer=label
-      dispatch(  discountSummaryRequest(params))
+      setOtherOffer(label)
+      params.offer = label
+      dispatch(discountSummaryRequest(params))
     }
     if (view === "voidedOrder") {
-      let label=data?.label
-      if(data?.label==="Other"){
-        label=otherVoided
+      let label = data?.label
+      if (data?.label === "Other") {
+        label = otherVoided
       }
       setVoidedReason(label)
-      params.reason=label
+      params.reason = label
       dispatch(cancellationSummaryRequest(params))
     }
   };
@@ -456,29 +460,31 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
-const resetPagination=()=>{
-  setCurrentPageOfferDiscount(1)
-  setCurrentRowsOfferDiscount(10)
-  setCurrentPageVoiddedOrders(1)
-  setCurrentRowsVoiddedOrders(10)
-  setSearchQuery("")
-}
-
-const handleOther=(type:string, other:string)=>{
-  resetPagination()
-  if(type==="discountOffer"){
-    setOtherOffer(other)
-  }
-  if(type==="voidedOffer"){
-    setOtherVoided(other)
+  const resetPagination = () => {
+    setCurrentPageOfferDiscount(1)
+    setCurrentRowsOfferDiscount(10)
+    setCurrentPageVoiddedOrders(1)
+    setCurrentRowsVoiddedOrders(10)
+    setSearchQuery("")
   }
 
-}
+  const handleOther = (type: string, other: string) => {
+    resetPagination()
+    if (type === "discountOffer") {
+      setOtherOffer(other)
+    }
+    if (type === "voidedOffer") {
+      setOtherVoided(other)
+    }
+
+  }
   return (
     <>
       {viewType === "default" ? (
         <>
           <StoreFilter
+          startDate={startDate}
+          endDate={endDate}
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
@@ -615,17 +621,19 @@ const handleOther=(type:string, other:string)=>{
 
 
           <div>
-            <h2 className="sales-overview-sub-heading ">Tendor Type</h2>
+            <h2 className="sales-overview-sub-heading ">Tender Type</h2>
           </div>
           <div className="reports-tendor-container">
-            {Object?.entries(groupedData || {})?.map(([key, value]) => (
-              <>
-                {!Array.isArray(value) || !value?.length ? null : (
-                  <div className="left-section">
+            <div className="left-section">
+              {leftGroup?.map((key) => (
+
+                <>
+                  {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                    <>
                     <h3 className="tender-type-sub-heading">{key}</h3>
                     <div className="tender-type-container">
-                      {Array.isArray(value) &&
-                        value.map((item: any, index: number) => (
+                      {Array.isArray(groupedData[key]) &&
+                        groupedData[key].map((item: any, index: number) => (
                           <TenderType
                             icon={
                               knownTendorIcons?.[item?.paymentMode] || (
@@ -646,10 +654,48 @@ const handleOther=(type:string, other:string)=>{
                           />
                         ))}
                     </div>
-                  </div>
-                )}
-              </>
-            ))}
+                    </>
+                  )}
+                </>
+              ))}
+            </div>
+
+            <div className="right-section">
+              {rightGroup?.map((key) => (
+
+                <>
+                  {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                    <>
+                    <h3 className="tender-type-sub-heading">{key}</h3>
+                    <div className="tender-type-container">
+                      {Array.isArray(groupedData[key]) &&
+                        groupedData[key].map((item: any, index: number) => (
+                          <TenderType
+                            icon={
+                              knownTendorIcons?.[item?.paymentMode] || (
+                                <KeyedInIcon />
+                              )
+                            }
+                            key={index}
+                            tendorTitle={item?.paymentMode}
+                            expandable={item?.isExpandable}
+                            amount={item?.totalSales || 0}
+                            orders={item?.totalOrders || 0}
+                            percentage={Number(item?.salesPercentage || 0)}
+                            onPremOrders={item?.onPremiseOrders || 0}
+                            onPremSales={item?.onPremiseSales || 0}
+                            offPremOrders={item?.offPremiseOrders || 0}
+                            offPremSales={item?.offPremiseSales || 0}
+                            loader={tendorTypesLoader}
+                          />
+                        ))}
+                    </div>
+                    </>
+                  )}
+                </>
+              ))}
+            </div>
+
           </div>
 
           {/* <div className="sales-charts-container">   */}
@@ -683,7 +729,7 @@ const handleOther=(type:string, other:string)=>{
               <DoughnutChartWithButton
                 dataList={offerSummary}
                 countryCode={countryCode}
-                handleOther={(other:string)=>handleOther("discountOffer",other )}
+                handleOther={(other: string) => handleOther("discountOffer", other)}
                 handleClick={(data: any) =>
                   handleSummaryView("discountOffer", data)
                 }
@@ -695,7 +741,7 @@ const handleOther=(type:string, other:string)=>{
               <DoughnutChartWithButtonVoided
                 dataList={voidedOrderSummary}
                 countryCode={countryCode}
-                handleOther={(other:string)=>handleOther("voidedOffer",other )}
+                handleOther={(other: string) => handleOther("voidedOffer", other)}
                 handleClick={(data: any) =>
                   handleSummaryView("voidedOrder", data)
                 }

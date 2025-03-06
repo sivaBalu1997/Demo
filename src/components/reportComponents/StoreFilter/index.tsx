@@ -6,8 +6,11 @@ import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 import { DateObject } from "react-multi-date-picker";
 import { useSelector } from "react-redux";
 import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";
+import moment from "moment";
 
 interface StoreFilterProps {
+  startDate?: string;
+  endDate?: string;
   selectedDate?: StoreOption;
   setSelectedDate?: (date: StoreOption) => void;
   selectedStore?: StoreOption;
@@ -36,6 +39,8 @@ const dateOptions: StoreOption[] = [
 ];
 
 const StoreFilter = ({
+  startDate,
+  endDate,
   selectedDate,
   setSelectedDate = () => {},
   selectedStore,
@@ -61,7 +66,6 @@ const StoreFilter = ({
 
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
-  const [rangeDateLabel, setRangeDateLabel] = useState("");
   const datePickerHandleOnChange: any = (dates: any): void => {
     setSelectedDates(dates);
   };
@@ -91,9 +95,6 @@ const StoreFilter = ({
       }
       calendarRef.current?.closeCalendar();
 
-      setRangeDateLabel(
-        `${startDate.format("MMM DD")} - ${endDate.format("MMM DD")}`
-      );
     }
   };
   const calendarRef = useRef<any>(null);
@@ -155,11 +156,11 @@ const StoreFilter = ({
               onSelect={handleDateDropdownOnSelect}
               options={dateOptions}
               value={
-                isDateSelected
+                (selectedDate?.value==="Custom Date"&&startDate&&endDate )
                   ? {
                       value: "Custom Date",
                       label: `${
-                        rangeDateLabel != "" ? rangeDateLabel : "Custom Date"
+                      `${moment(startDate).format("MMM DD")} - ${moment(endDate).format("MMM DD")}`
                       }`,
                       icon: <CalendarIcon />,
                     }
