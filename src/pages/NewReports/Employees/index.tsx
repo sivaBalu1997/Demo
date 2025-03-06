@@ -22,153 +22,410 @@ import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
 
-
-  // Custom Bar Style
-  const customBarStyle = {
-    borderRadius: "8px",
-  };
+// Custom Bar Style
+const customBarStyle = {
+  borderRadius: "8px",
+};
 
 const Employees: React.FC = () => {
-  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
+    useState<number>(10);
 
   const employeeChartRef = useRef<HTMLDivElement>(null);
 
-const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
-  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
-  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
+  const [showAllActivityTable, setShowAllActivityTable] =
+    useState<boolean>(false);
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<
+    string | ""
+  >("");
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
+    useState<number>(1);
 
-  const employeeSalesOverViewFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeSalesOverviewSuccess);
-  const employeeSalesOverViewFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.employeeSalesOverviewLoading);
+  const employeeSalesOverViewFromAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewSuccess
+  );
+  const employeeSalesOverViewFromAPIReduxLoader = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewLoading
+  );
 
-  const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } =
+    useDateFilter();
   const dispatch = useDispatch();
 
-
-
-  const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
-  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
-  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
+  const locations = useSelector(
+    (state: any) => state?.newReports?.storeLocationsList
+  );
+  const selectedLocation = useSelector(
+    (state: any) => state?.newReports?.selectedLocation
+  );
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
   const currencySymbol = countryCode === "US" ? "$" : "₹";
-  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.content);
-  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
-  const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
-  const getEmployeeActivityDataFromAPIRedux = useSelector((state: any) => state?.newReports?.getemployeeActivitySuccess);
+  const employeeVoidActivityAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
+  );
+  const employeeVoidActivityTotalPagesRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
+  );
+  const employeeVoidActivityLoading = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivityLoading
+  );
+  const getEmployeeActivityDataFromAPIRedux = useSelector(
+    (state: any) => state?.newReports?.getemployeeActivitySuccess
+  );
 
   useEffect(() => {
     if (selectedLocation?.value) {
-      dispatch(
-        getEmployees(
-          selectedLocation?.value,
-        )
-      );
+      dispatch(getEmployees(selectedLocation?.value));
     }
-  }, [selectedLocation?.value])
+  }, [selectedLocation?.value]);
 
-
-  const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
-
-
+  const [selectedValueStateData, setSelectedValueStateData] =
+    useState<NewTableHeader[]>();
 
   const getChartSliceTableHeaders = (selectedValueForChartSlice: string) => {
     // console.log("PPP5", { selectedValueForChartSlice })
     switch (selectedValueForChartSlice) {
       case "Remove tax":
         return [
-          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
-          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
-          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
-          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
-          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
-          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
         ];
 
       case "Apply discount":
         return [
-          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
-          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
-          { key: "fromDetails", label: `From details (${currencySymbol})`, isSortable: true, alignment: "right" },
-          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
         ];
 
       case "Order edited":
         return [
-          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
-          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
-          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
-          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
-          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
         ];
 
       case "Order cancelled":
         return [
-          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
-          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
-          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
-          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
-          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
-          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
         ];
-
 
       case "Void payment":
         return [
-          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
-          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
-          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
-          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
-          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
-          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
         ];
 
       case "Remove tip":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date & Time`, isSortable: true, alignment: "left" },
-          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          {
+            key: "orderNumber",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "dateAndTime",
+            label: `Date & Time`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "amount",
+            label: `Amount (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "staffName",
+            label: `Staff name`,
+            isSortable: true,
+            alignment: "left",
+          },
         ];
 
       case "Remove service tax":
         return [
-          { key: "orderNumber", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "dateAndTime", label: `Date& Time`, isSortable: true, alignment: "left" },
-          { key: "amount", label: `Amount (${currencySymbol})`, isSortable: true, alignment: "right" },
-          { key: "staffName", label: `Staff name`, isSortable: true, alignment: "left" },
+          {
+            key: "orderNumber",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "dateAndTime",
+            label: `Date& Time`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "amount",
+            label: `Amount (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "staffName",
+            label: `Staff name`,
+            isSortable: true,
+            alignment: "left",
+          },
         ];
 
       case "Others":
         return [
-          { key: "orderNo", label: "Order number", isSortable: true, alignment: "left" },
-          { key: "staffId", label: `Staff Id`, isSortable: true, alignment: "left" },
-          { key: "createdTime", label: "Created time", isSortable: true, alignment: "left" },
-          { key: "actionType", label: `Action Type`, isSortable: true, alignment: "left" },
-          { key: "fromDetails", label: `From details`, isSortable: true, alignment: "right" },
-          { key: "toDetails", label: `To details`, isSortable: true, alignment: "right" },
-          { key: "staffName", label: `Staff Name`, isSortable: true, alignment: "left" },
-        ]
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+        ];
 
       default:
         return [];
     }
-  }
-
-
+  };
 
   // useSelector for Table states :
-  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
-  const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
-  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
+  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content
+  );
+  const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector(
+    (state: any) =>
+      state?.newReports?.employeeChartSliceTableSuccess?.totalPages
+  );
+  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeChartSliceTableLoading
+  );
   // console.log("PPP", { getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux })
 
   // Generic table states :
-  const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
-  const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
-  const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
+  const [genericTableRecordLimit, setGenericTableRecordLimit] =
+    useState<number>(10);
+  const [searchQueryForGenericTable, setSearchQueryForGenericTable] =
+    useState("");
+  const [currentPageGenericTable, setCurrentPageGenericTable] =
+    useState<number>(1);
 
   useEffect(() => {
     if (selectedLocation?.value) {
@@ -181,7 +438,6 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           tableRecordLimit: employeeVoidRecordLimit,
         })
       );
-
     }
   }, [
     selectedLocation,
@@ -217,9 +473,8 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     },
   ];
 
-
-
   const handleSearch = (value: string, kpiTitle: string) => {
+    setSearchQueryForGenericTable(value);
     switch (kpiTitle) {
       case "Employee Void Activity":
         if (selectedLocation?.value) {
@@ -244,10 +499,12 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     (data: any) => ({ name: data?.actionType, value: data?.extractedValue })
   );
 
-
-  const chartDataFromAPIReduxOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
-    (acc: any[], data: any) => {
-      if (data.actionType === "Order edited" || data.actionType === "Order cancelled") {
+  const chartDataFromAPIReduxOthers =
+    getEmployeeActivityDataFromAPIRedux?.reduce((acc: any[], data: any) => {
+      if (
+        data.actionType === "Order edited" ||
+        data.actionType === "Order cancelled"
+      ) {
         const existingOthers = acc.find((item) => item.name === "Others");
         if (existingOthers) {
           existingOthers.value += data.extractedValue;
@@ -258,9 +515,7 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
         acc.push({ name: data.actionType, value: data.extractedValue });
       }
       return acc;
-    },
-    []
-  );
+    }, []);
 
   // console.log("RRR",{chartDataFromAPIReduxOthers})
 
@@ -274,19 +529,24 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     {}
   );
 
-
   const tooltipDataFromAPIOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
     (acc: any, data: any) => {
-      if (data.actionType === "Order edited" || data.actionType === "Order cancelled") {
+      if (
+        data.actionType === "Order edited" ||
+        data.actionType === "Order cancelled"
+      ) {
         if (acc["Others"]) {
           acc["Others"].tooltipContent = `Value: ${
-            parseFloat(acc["Others"].tooltipContent.split(": ")[1]) + data.extractedValue
+            parseFloat(acc["Others"].tooltipContent.split(": ")[1]) +
+            data.extractedValue
           }`;
         } else {
           acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
         }
       } else {
-        acc[data.actionType] = { tooltipContent: `Value: ${data.extractedValue}` };
+        acc[data.actionType] = {
+          tooltipContent: `Value: ${data.extractedValue}`,
+        };
       }
       return acc;
     },
@@ -294,7 +554,6 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
   );
 
   // console.log("RR",{tooltipDataFromAPIOthers})
-  
 
   // Chart Data
   const chartData = [
@@ -317,36 +576,32 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     borderRadius: "8px",
   };
 
-
-
   useEffect(() => {
     if (selectedLocation?.value) {
-      dispatch(
-        getEmployees(
-          selectedLocation?.value,
-        )
-      );
+      dispatch(getEmployees(selectedLocation?.value));
     }
-  }, [selectedLocation?.value])
+  }, [selectedLocation?.value]);
 
   const employeeLists: EmployeeType[] = useSelector(
     (state: RootState) => state.employee.employeeDetails
   );
 
-  const employeeDropdownOptions =
-    employeeLists?.map((employee) => ({
-      value: employee?.staffId,
-      label: `${employee?.firstName}`,
-    }));
+  const employeeDropdownOptions = employeeLists?.map((employee) => ({
+    value: employee?.staffId,
+    label: `${employee?.firstName}`,
+  }));
 
-  const employeeTempArray = [{ label: "all", value: "all" },...employeeDropdownOptions ]
-  const [employeeList, setEmployeeList] = useState(employeeTempArray?.[0]?.value);
-
+  const employeeTempArray = [
+    { label: "all", value: "all" },
+    ...employeeDropdownOptions,
+  ];
+  const [employeeList, setEmployeeList] = useState(
+    employeeTempArray?.[0]?.value
+  );
 
   const handleDropdownChangeStore = (selectedValue: any) => {
     setEmployeeList(selectedValue?.value);
   };
-
 
   useEffect(() => {
     if (selectedLocation?.value) {
@@ -359,7 +614,6 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           tableRecordLimit: employeeVoidRecordLimit,
         })
       );
-
     }
   }, [
     selectedLocation,
@@ -369,8 +623,6 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
     employeeVoidRecordLimit,
   ]);
 
-
-
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
     setSelectedValueForChartSlice("");
@@ -378,8 +630,8 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
       employeeChartRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
-      })
-    }, 0)
+      });
+    }, 0);
   };
 
   useEffect(() => {
@@ -415,14 +667,23 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          chartSliceName: selectedValueForChartSlice === "Others" ? "Order cancelled,Order edited" : selectedValueForChartSlice,
+          chartSliceName:
+            selectedValueForChartSlice === "Others"
+              ? "Order cancelled,Order edited"
+              : selectedValueForChartSlice,
           tablePageNo: currentPageGenericTable,
           tableRecordLimit: genericTableRecordLimit,
         })
-      )
+      );
     }
-  }, [selectedLocation?.value, startDate, endDate, selectedValueForChartSlice, currentPageGenericTable, genericTableRecordLimit])
-
+  }, [
+    selectedLocation?.value,
+    startDate,
+    endDate,
+    selectedValueForChartSlice,
+    currentPageGenericTable,
+    genericTableRecordLimit,
+  ]);
 
   return (
     <div className="report-sales-employee-container">
@@ -440,7 +701,6 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
           <NewTable
             kpiTitle={`${selectedValueForChartSlice}`}
             searchQuery={searchQueryForGenericTable}
-            onSearchChange={setSearchQueryForGenericTable}
             headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
             tableData={
               getEmployeeChartSliceTableDataFromAPIRedux &&
@@ -461,8 +721,8 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
       ) : (
         <>
           <StoreFilter
-                 startDate={startDate}
-                 endDate={endDate}
+            startDate={startDate}
+            endDate={endDate}
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
@@ -480,14 +740,22 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
                   options={employeeTempArray}
                   value={employeeTempArray?.[0]?.label}
                   className="category-dropdown"
-                  onSelect={(selected: any) => handleDropdownChangeStore(selected as { label: React.ReactNode; value: string })}
+                  onSelect={(selected: any) =>
+                    handleDropdownChangeStore(
+                      selected as { label: React.ReactNode; value: string }
+                    )
+                  }
                 />
               </div>
             </div>
             <div className="employee-report-sales-overview-box-container">
               <CardWithMiniGraph
                 cardTitle="Total Sales"
-                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilSales, countryCode, true)}
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.totalMagilSales,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 // loader={true}
@@ -495,81 +763,117 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalSalesPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
+                )}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
                 cardTitle="Net Sales"
-                cardValue={
-                  formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilNetSales, countryCode, true)
-                }
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.totalMagilNetSales,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.netSalesPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.netSalesPercentage
+                )}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
                 cardTitle="Total Tax"
-                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilTax, countryCode, true)}
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.totalMagilTax,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalTaxPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
+                )}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
                 cardTitle="Total Tips"
-                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilTips, countryCode, true)}
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.totalMagilTips,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.totalTipsPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
+                )}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
                 cardTitle="Gratuity"
-                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.gratuity, countryCode, true)}
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.gratuity,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.gratuityPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.gratuityPercentage
+                )}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
                 cardTitle="Discount"
-                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.discounts, countryCode, true)}
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.discounts,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.discountPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.discountPercentage
+                )}
                 showMiniGraph={true}
               />
               <CardWithMiniGraph
                 cardTitle="Cancelled"
-                cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.cancelledOrders, countryCode, true)}
+                cardValue={formatNumberByCountry(
+                  employeeSalesOverViewFromAPIRedux?.cancelledOrders,
+                  countryCode,
+                  true
+                )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 }
                 graphType="chart"
-                incrementOrDecrement={transformSalesData(employeeSalesOverViewFromAPIRedux?.cancelledPercentage)}
+                incrementOrDecrement={transformSalesData(
+                  employeeSalesOverViewFromAPIRedux?.cancelledPercentage
+                )}
                 showMiniGraph={true}
               />
             </div>

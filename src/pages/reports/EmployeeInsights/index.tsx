@@ -640,7 +640,6 @@ const EmployeeInsights: React.FC = () => {
           <NewTable
             kpiTitle="Employee Void Activity"
             searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
             headerData={newTableHeaders}
             tableData={
               employeeVoidActivityAPIRedux &&

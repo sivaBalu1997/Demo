@@ -92,8 +92,6 @@ const CategoryReport = (props) => {
         locationId: selectedLocation?.value,
         startDate: startDate,
         endDate: endDate,
-        tablePageNo: 1,
-        tableRecordLimit: 100,
       }
 
       if (activeBtn === "categories") {

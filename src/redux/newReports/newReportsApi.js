@@ -156,7 +156,6 @@ export const getLiveOpenSales = (liveOpenSalesPayload) => {
 
 export const getLiveOrders = (liveOrdersPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    // &search=${liveOrdersPayload?.searchQuery || ""}
     return API({
         method: "get",
         url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}&search=${liveOrdersPayload?.searchQuery || ""}`,
@@ -271,6 +270,7 @@ export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
 
 export const getDayCheckIn = (dayCheckInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    
     return API({
         method: "get",
         url: `${reportsBaseUrl}/sales/checkIn/dayCheckIn?locationId=${dayCheckInPayload?.locationid}&startDate=${dayCheckInPayload?.startDate}&endDate=${dayCheckInPayload?.endDate}&page=${dayCheckInPayload?.tablePageNo}&size=${dayCheckInPayload?.tableRecordLimit}`,
@@ -414,9 +414,10 @@ export const getLiveCheckInStatus = (liveCheckInStatusPayload) => {
 
 export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=generateQueryParams(dailyCheckInStatusPayload)
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dailyCheckInStatus?locationId=${dailyCheckInStatusPayload?.locationid}&startDate=${dailyCheckInStatusPayload?.startDate}&endDate=${dailyCheckInStatusPayload?.endDate}&page=${dailyCheckInStatusPayload?.tablePageNo}&size=${dailyCheckInStatusPayload?.tableRecordLimit}`,
+        url: `${reportsBaseUrl}/sales/checkIn/dailyCheckInStatus${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -525,9 +526,10 @@ const query=  generateQueryParams(categorySalesSummaryPayload)
 
 export const getSalesByChannel = (salesByChannelPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=  generateQueryParams(salesByChannelPayload)
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/channel?locationId=${salesByChannelPayload?.locationid}&startDate=${salesByChannelPayload?.startDate}&endDate=${salesByChannelPayload?.endDate}&page=${salesByChannelPayload?.tablePageNo}&size=${salesByChannelPayload?.tableRecordLimit}`,
+        url: `${reportsBaseUrl}/sales/channel${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -561,9 +563,10 @@ export const getOfferSummary = (offerSummaryPayload) => {
 
 export const getVoidedOrderSummary = (voidedSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(voidedSummaryPayload)
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/voidedSummary?locationId=${voidedSummaryPayload?.locationid}&startDate=${voidedSummaryPayload?.startDate}&endDate=${voidedSummaryPayload?.endDate}&page=${voidedSummaryPayload?.tablePageNo || 1}&size=${voidedSummaryPayload?.tableRecordLimit || 100}`,
+        url: `${reportsBaseUrl}/sales/voidedSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -675,9 +678,10 @@ export const getEmployeeActivity = (employeeActivityPayload) => {
 
 export const getPremisesSummary = (premisesSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=generateQueryParams(premisesSummaryPayload)
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/premisesSummary?locationId=${premisesSummaryPayload?.locationId}&startDate=${premisesSummaryPayload?.startDate}&endDate=${premisesSummaryPayload?.endDate}&page=${premisesSummaryPayload?.tablePageNo}&size=${premisesSummaryPayload?.tableRecordLimit}`,
+        url: `${reportsBaseUrl}/sales/premisesSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -688,9 +692,10 @@ export const getPremisesSummary = (premisesSummaryPayload) => {
 
 export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=generateQueryParams(employeeChartSliceTablePayload)
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/employee/activity/actions?locationId=${employeeChartSliceTablePayload?.locationid}&startDate=${employeeChartSliceTablePayload?.startDate}&endDate=${employeeChartSliceTablePayload?.endDate}&page=${employeeChartSliceTablePayload?.tablePageNo}&size=${employeeChartSliceTablePayload?.tableRecordLimit}&action=${employeeChartSliceTablePayload?.chartSliceName}`,
+        url: `${reportsBaseUrl}/sales/employee/activity/actions${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
