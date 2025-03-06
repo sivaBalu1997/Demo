@@ -2,19 +2,18 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cancellationSummaryRequest,
-  changeDateFilterType,
   changeLocation,
   discountSummaryRequest,
-  offerSummaryRequest,
-  paymentDetailsRequest,
-  salesByChannelRequest,
-  salesByRevenueClassRequest,
-  salesCardTypeRequest,
-  salesCategoryRequest,
-  salesSummaryReportRequest,
-  staffSalesRequest,
-  voidedOrderSummaryRequest,
 } from "redux/newReports/newReportsActions";
+import {  checkInOverviewRequest,
+  checkInOverviewHourlyRequest,
+  checkInOverviewGuestsHourlyRequest,
+  checkInOverviewDailyAndGuestRequest,
+  checkInOverviewDineInGroupRequest,
+  checkInOverviewGuestSizeRequest,
+  checkInOverviewTableDetailsRequest,
+  checkInOverviewTopCustomerRequest,
+  checkInOverviewAvgWaitTimeGroupRequest} from "redux/checkInReports/checkInReportsActions";
 import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
 import { ReactComponent as KeyedInIcon } from "../../../assets/svg/pay-card.svg";
 import { ReactComponent as CashIcon } from "../../../assets/svg/pay-cash.svg";
@@ -28,15 +27,10 @@ import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash
 import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
-import { formatNumberByCountry, transformSalesData } from "utils";
+import { formatNumberByCountry } from "utils";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
-import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees";
-import ChannelSalesChart from "components/reportComponents/chart/channelChart";
-import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
-import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
 import "../SalesOverview/SalesOverview.scss";
 import HourlyCheckinChart from "./hourlyChart";
@@ -270,254 +264,65 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   const [otherOffer, setOtherOffer] = useState<string>("");
   const [otherVoided, setOtherVoided] = useState<string>("");
 
-  const offerRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
   const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
-  const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData);
-  const tendorTypesLoader = useSelector((state: any) => state?.newReports?.paymentDetailsLoading);
-  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData);
-  const salesSummaryLoader = useSelector((state: any) => state?.newReports?.salesSummaryReportLoading);
-  const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content);
-  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading);
-  const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
-  const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
-  const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
-  const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content);
-  const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
-  const discountSummaryTotalPages = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages);
-  const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content);
-  const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading);
-  const cancellationSummaryTotalPages = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages);
-  const salesByChannel = useSelector((state: any) => state?.newReports?.salesByChannelData?.content);
-  const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading);
-  const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
-  const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading);
-  const offerSummary = useSelector((state: any) => state?.newReports?.offerSummaryData?.content);
-  const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading);
-  const voidedOrderSummary = useSelector((state: any) => state?.newReports?.voidedOrderSummaryData?.content);
-  const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
+
+  const checkInOverview = useSelector((state: any) => state?.checkInReports?.checkInOverviewSuccess);
+  const checkInOverviewHourly = useSelector((state: any) => state?.checkInReports?.checkInOverviewHourlySuccess);
+  const checkInOverviewGuestsHourly = useSelector((state: any) => state?.checkInReports?.checkInOverviewGuestsHourlySuccess);
+  const checkInOverviewDailyAndGuest = useSelector((state: any) => state?.checkInReports?.checkInOverviewDailyAndGuestSuccess);
+  const checkInOverviewDineInGroup = useSelector((state: any) => state?.checkInReports?.checkInOverviewDineInGroupSuccess);
+  const checkInOverviewGuestSize = useSelector((state: any) => state?.checkInReports?.checkInOverviewGuestSizeSuccess);
+  const checkInOverviewTableDetails = useSelector((state: any) => state?.checkInReports?.checkInOverviewTableDetailsSuccess);
+  const checkInOverviewTopCustomer = useSelector((state: any) => state?.checkInReports?.checkInOverviewTopCustomerSuccess);
+  const checkInOverviewAvgWaitTimeGroup = useSelector((state: any) => state?.checkInReports?.checkInOverviewAvgWaitTimeGroupSuccess);
+
+  const isCheckInOverviewLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewLoading);
+  const isCheckInOverviewHourlyLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewHourlyLoading);
+  const isCheckInOverviewGuestsHourlyLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewGuestsHourlyLoading);
+  const isCheckInOverviewDailyAndGuestLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewDailyAndGuestLoading);
+  const isCheckInOverviewDineInGroupLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewDineInGroupLoading);
+  const isCheckInOverviewGuestSizeLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewGuestSizeLoading);
+  const isCheckInOverviewTableDetailsLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewTableDetailsLoading);
+  const isCheckInOverviewTopCustomerLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewTopCustomerLoading);
+  const isCheckInOverviewAvgWaitTimeGroupLoading = useSelector((state: any) => state?.checkInReports?.checkInOverviewAvgWaitTimeGroupLoading);
+
+  const checkInOverviewError = useSelector((state: any) => state?.checkInReports?.checkInOverviewFailure);
+  const checkInOverviewHourlyError = useSelector((state: any) => state?.checkInReports?.checkInOverviewHourlyFailure);
+  const checkInOverviewGuestsHourlyError = useSelector((state: any) => state?.checkInReports?.checkInOverviewGuestsHourlyFailure);
+  const checkInOverviewDailyAndGuestError = useSelector((state: any) => state?.checkInReports?.checkInOverviewDailyAndGuestFailure);
+  const checkInOverviewDineInGroupError = useSelector((state: any) => state?.checkInReports?.checkInOverviewDineInGroupFailure);
+  const checkInOverviewGuestSizeError = useSelector((state: any) => state?.checkInReports?.checkInOverviewGuestSizeFailure);
+  const checkInOverviewTableDetailsError = useSelector((state: any) => state?.checkInReports?.checkInOverviewTableDetailsFailure);
+  const checkInOverviewTopCustomerError = useSelector((state: any) => state?.checkInReports?.checkInOverviewTopCustomerFailure);
+  const checkInOverviewAvgWaitTimeGroupError = useSelector((state: any) => state?.checkInReports?.checkInOverviewAvgWaitTimeGroupFailure);
+
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
 
  
-  
-
-  const groupedData: any = useMemo(() => {
-    const tendorGroups: any = {
-      "Debit card": [],
-      "Credit card": [],
-      Cash: [],
-      Aggregator: [],
-      Coupon: [],
-      "Digital payment": [],
-      Others: [],
-    };
-
-    const tempdataObj: any = {};
-    tendorTypes?.forEach((item: any) => {
-      let key = tempdataObj[`${item?.paymentMode}-${item?.cardType}`] || {
-        onPremiseSales: 0,
-        onPremiseOrders: 0,
-        offPremiseSales: 0,
-        offPremiseOrders: 0,
-        paymentMode: item?.paymentMode,
-        totalSales: Number(item?.totalSales || 0),
-        totalOrders: Number(item?.totalOrders || 0),
-        salesPercentage: 0,
-        cardName: item?.cardName,
-        cardType: item?.cardType,
-        isExpandable: false,
+  useEffect(() => {
+    if (selectedLocation && startDate && endDate) {
+      const payload = {
+        locationId: selectedLocation,
+        startDate,
+        endDate
       };
-      if (item?.cardType && key) {
-        key.isExpandable = true;
-        if (item?.premises === "ONPREM") {
-          key.onPremiseSales += Number(item?.totalSales || 0);
-          key.onPremiseOrders += Number(item?.totalOrders || 0);
-        } else if (item?.premises === "OFFPREM") {
-          key.offPremiseSales += Number(item?.totalSales || 0);
-          key.offPremiseOrders += Number(item?.totalOrders || 0);
-        }
-        key.totalSales = Number(item?.wholeTotalSales || 0);
-        key.totalOrders = Number(item?.wholeTotalOrders || 0);
-        key.salesPercentage += Number(item?.salesPercentage || 0);
-      } else {
-        key.salesPercentage = Number(item?.salesPercentage || 0);
-      }
-      tempdataObj[`${item?.paymentMode}-${item?.cardType}`] = key;
-    });
 
+      dispatch(checkInOverviewRequest(payload));
+      dispatch(checkInOverviewHourlyRequest(payload));
+      dispatch(checkInOverviewGuestsHourlyRequest(payload));
+      dispatch(checkInOverviewDailyAndGuestRequest(payload));
+      dispatch(checkInOverviewDineInGroupRequest(payload));
+      dispatch(checkInOverviewGuestSizeRequest(payload));
+      dispatch(checkInOverviewTableDetailsRequest(payload));
+      dispatch(checkInOverviewTopCustomerRequest(payload));
+      dispatch(checkInOverviewAvgWaitTimeGroupRequest(payload));
+    }
+  }, [dispatch, selectedLocation, startDate, endDate]);
 
-    Object.entries(tempdataObj)?.forEach(([itemkey, value]: [string, any]) => {
-      const parts = itemkey.split("-");
-      const cardType = parts.pop() || ""; // Extract the last element (credit/debit)
-      const key = parts.join("-");
-      if (["Swipe/Tap/Dip", "Card Swipe"]?.includes(key)) {
-        if (cardType === "CREDIT") {
-          tendorGroups["Credit card"].push(value);
-        } else if (cardType === "DEBIT") {
-          tendorGroups["Debit card"].push(value);
-        }
-      } else if (["Keyed In", "Online/Key-In"]?.includes(key)) {
-        if (cardType === "CREDIT") {
-          tendorGroups["Credit card"].push(value);
-        } else if (cardType === "DEBIT") {
-          tendorGroups["Debit card"].push(value);
-        }
-      } else if (["CASH"]?.includes(key)) {
-        tendorGroups["Cash"].push(value);
-      } else if (["Doordash", "Swiggy", "Grubhub", "Zomato"]?.includes(key)) {
-        tendorGroups["Aggregator"].push(value);
-      } else if (["Coupon"]?.includes(key)) {
-        tendorGroups["Coupon"].push(value);
-      } else if (["Digital payment", "OFFLINE_QR"]?.includes(key)) {
-        tendorGroups["Digital payment"].push(value);
-      } else {
-        tendorGroups["Others"].push(value);
-      }
-    });
-
-
-    return tendorGroups;
-  }, [tendorTypes]);
-  console.log({startDate, endDate})
-
-  useEffect(() => {
-    Promise.all([
-      dispatch(
-        paymentDetailsRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        salesSummaryReportRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        staffSalesRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        salesCardTypeRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        salesCategoryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        salesByChannelRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        salesByRevenueClassRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-
-      dispatch(
-        offerSummaryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-      dispatch(
-        voidedOrderSummaryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: 100,
-          tablePageNo: 1,
-          startDate: startDate,
-          endDate: endDate,
-        })
-      ),
-    ]);
-  }, [selectedLocation, startDate, endDate]);
-
-  useEffect(() => {
-      dispatch(
-        cancellationSummaryRequest({
-          locationid: selectedLocation?.value,
-
-          tableRecordLimit: currentRowsVoiddedOrders,
-          tablePageNo: currentPageVoiddedOrders,
-          startDate: startDate,
-          endDate: endDate,
-          search: searchQuery,
-          reason: voidedReason,
-        })
-      );
-  }, [
-    voidedReason,
-    startDate,
-    endDate,
-    currentRowsVoiddedOrders,
-    currentPageVoiddedOrders,
-    searchQuery,
-  ]);
-
-  useEffect(() => {
-      dispatch(
-        discountSummaryRequest({
-          locationid: selectedLocation?.value,
-          tableRecordLimit: currentRowsOfferDiscount,
-          tablePageNo: currentPageOfferDiscount,
-          startDate: startDate,
-          endDate: endDate,
-          search: searchQuery,
-          offer: offerType,
-        })
-      );
-  
-  }, [
-    offerType, startDate, endDate, currentRowsOfferDiscount, currentPageOfferDiscount, searchQuery,
-  ]);
-
-  const handleGoBackToChart = () => {
-    setViewType("default");
-    setTimeout(() => {
-      offerRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-    }, 0)
-  };
 
   const handleSearch = (value: string, kpiTitle: string) => {
     let params:any={
@@ -547,51 +352,11 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     }
   };
 
-  const handleSummaryView = (view: string, data: any) => {
-    let params:any={
-      locationid: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      tablePageNo: currentPageOfferDiscount,
-      tableRecordLimit: currentRowsOfferDiscount,
-    }
-    setViewType(view);
-    if (view == "discountOffer") {
-      setOfferType(data?.label);
-      let label=data?.label
-      if(data?.label==="Other"){
-        label=otherOffer
-      }
-        setOtherOffer(label)
-      params.offer=label
-      dispatch(  discountSummaryRequest(params))
-    }
-    if (view === "voidedOrder") {
-      let label=data?.label
-      if(data?.label==="Other"){
-        label=otherVoided
-      }
-      setVoidedReason(label)
-      params.reason=label
-      dispatch(cancellationSummaryRequest(params))
-    }
-  };
-
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
-
-const handleOther=(type:string, other:string)=>{
-  if(type==="discountOffer"){
-    setOtherOffer(other)
-  }
-  if(type==="voidedOffer"){
-    setOtherVoided(other)
-  }
-
-}
   return (
     <>
         <>
@@ -624,7 +389,7 @@ const handleOther=(type:string, other:string)=>{
                 cardValue={formatNumberByCountry(125, countryCode, false)}
                 incrementDecrementValue={+20}
                 isMonetary={true}
-                loader={salesSummaryLoader}
+                loader={isCheckInOverviewLoading}
                 showMiniGraph={true}
                 graphType="chart"
                 isPercent={true}
@@ -635,7 +400,7 @@ const handleOther=(type:string, other:string)=>{
                 cardValue={formatNumberByCountry(968, countryCode, false)}
                 incrementDecrementValue={+20}
                 isMonetary={true}
-                loader={salesSummaryLoader}
+                loader={isCheckInOverviewLoading}
                 showMiniGraph={true}
                 graphType="chart"
                 isPercent={true}
@@ -646,7 +411,7 @@ const handleOther=(type:string, other:string)=>{
                 cardValue={formatNumberByCountry(34, countryCode, false)}
                 incrementDecrementValue={-20}
                 isMonetary={true}
-                loader={salesSummaryLoader}
+                loader={isCheckInOverviewLoading}
                 showMiniGraph={true}
                 graphType="chart"
                 isPercent={true}
@@ -657,7 +422,7 @@ const handleOther=(type:string, other:string)=>{
                 cardValue={formatNumberByCountry(13 ,countryCode, false)}
                 incrementDecrementValue={+20}
                 isMonetary={true}
-                loader={salesSummaryLoader}
+                loader={isCheckInOverviewLoading}
                 showMiniGraph={true}
                 graphType="chart"
                 isPercent={true}
@@ -668,7 +433,7 @@ const handleOther=(type:string, other:string)=>{
                 cardValue={formatNumberByCountry(430, countryCode, false)}
                 incrementDecrementValue={0}
                 isMonetary={true}
-                loader={salesSummaryLoader}
+                loader={isCheckInOverviewLoading}
                 showMiniGraph={true}
                 graphType="chart"
                 isPercent={true}
@@ -679,7 +444,7 @@ const handleOther=(type:string, other:string)=>{
                 cardValue={formatNumberByCountry(362, countryCode, false)}
                 incrementDecrementValue={0} 
                 isMonetary={false}
-                loader={salesSummaryLoader}
+                loader={isCheckInOverviewLoading}
                 showMiniGraph={true}
                 graphType="chart"
                 isPercent={true}
@@ -691,10 +456,7 @@ const handleOther=(type:string, other:string)=>{
 
 
 
-     
-
-
-          {/* <div className="sales-charts-container">   */}
+    ]         {/* <div className="sales-charts-container">   */}
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>Hourly Checkin</h2>
             <HourlyCheckinChart
