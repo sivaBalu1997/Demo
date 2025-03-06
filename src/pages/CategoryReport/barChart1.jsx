@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
+import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -92,7 +93,9 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
 
   if(loader) return <BarChartShimmer />
 
-  return (
+  return dataList?.length === 0 ? (
+    <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

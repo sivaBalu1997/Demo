@@ -480,6 +480,7 @@ const Employees: React.FC = () => {
                 cardValue={formatNumberByCountry(employeeSalesOverViewFromAPIRedux?.totalMagilSales, countryCode, true)}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
+                // loader={true}
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 }

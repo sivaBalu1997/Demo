@@ -13,6 +13,9 @@
   flex-direction: row;
   gap: 30px;
 flex-grow: 1;
+@media(max-width: 600px){
+    flex-direction: column;
+}
 }
     .sales-overview-sub-heading {
         font-family: Poppins;

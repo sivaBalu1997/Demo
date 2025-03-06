@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import "./style.scss";
+import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 
 // Type Definitions
 interface ChartData {
@@ -83,26 +84,34 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                     <h3 className="chart-title">{kpiTitle}</h3>
                     <DownloadReport downloadRef={chartRef2} kpiTitle={kpiTitle} tableData={data} />
                 </div>
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
-                        {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip
-                            content={
-                                <CustomTooltip
-                                    tooltipData={tooltipData}
-                                    showRelatedTable={showRelatedTable}
-                                    setShowRelatedTable={setShowRelatedTable}
-                                    setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-                                />
-                            }
-                            wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
-                            position={{ y: 200 }}
-                        />
-                        <Bar dataKey="value" fill={barColor} style={barStyle} />
-                    </BarChart>
-                </ResponsiveContainer>
+                { data?.length === 0 ? 
+                (
+                    <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
+                ) 
+                : 
+                (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
+                            {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip
+                                content={
+                                    <CustomTooltip
+                                        tooltipData={tooltipData}
+                                        showRelatedTable={showRelatedTable}
+                                        setShowRelatedTable={setShowRelatedTable}
+                                        setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+                                    />
+                                }
+                                wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
+                                position={{ y: 200 }}
+                            />
+                            <Bar dataKey="value" fill={barColor} style={barStyle} />
+                        </BarChart>
+                    </ResponsiveContainer>
+                )
+                }
             </div>
         </div>
     );

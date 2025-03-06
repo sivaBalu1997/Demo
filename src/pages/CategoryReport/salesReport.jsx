@@ -9,6 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
+import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -123,7 +124,9 @@ const data=transformData(dataList)
 console.log("data is loaded from",data)
 if(loader) return <BarChartShimmer />
 
-  return (
+  return dataList?.length === 0 ? (
+    <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

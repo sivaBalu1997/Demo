@@ -10,6 +10,7 @@ import {
   ChartOptions,
 } from "chart.js";
 import BarChartShimmer from "../Charts/BarChartShimmer";
+import ErrorState from "../errorstatecomponents/ErrorState";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 interface ChartData {
@@ -102,7 +103,9 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader 
 
   if (loader) return <BarChartShimmer />
 
-  return (
+  return dataList?.length === 0 ? (
+    <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

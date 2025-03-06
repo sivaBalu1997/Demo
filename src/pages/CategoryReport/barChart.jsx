@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
+import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 
 // Register Chart.js components
 ChartJS.register(
@@ -99,7 +100,12 @@ function LinearBarChart({ barColorCode, dataList, loader  }) {
 
   if(loader) return <BarChartShimmer />
 
-  return (
+  console.log("dataList.length",dataList?.length)
+  console.log("dataList",dataList)
+
+  return !dataList ? (
+    <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

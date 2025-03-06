@@ -13,6 +13,7 @@ import {
 // @ts-ignore
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BarChartShimmer from "../Charts/BarChartShimmer";
+import ErrorState from "../errorstatecomponents/ErrorState";
 
 // Register required components
 ChartJS.register(
@@ -94,7 +95,9 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
 
   if (loader) return <BarChartShimmer />
 
-  return (
+  return dataList?.length === 0 ? (
+      <ErrorState pageTitle="Today's report" isDataNotAvailable={true} />
+    ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>
