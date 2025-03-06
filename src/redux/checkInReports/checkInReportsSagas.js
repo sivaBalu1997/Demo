@@ -3,16 +3,16 @@ import { showSuccessToast, showErrorToast } from "util/toastUtils";
 import {
     liveCheckInOverviewSuccess,
     liveCheckInOverviewFailure,
-    liveSeaterAvailabilitySuccess,
-    liveSeaterAvailabilityFailure,
-    liveGuestCountSuccess,
-    liveGuestCountFailure,
+    liveCheckInSeaterAvailabilitySuccess,
+    liveCheckInSeaterAvailabilityFailure,
+    liveCheckInGuestCountSuccess,
+    liveCheckInGuestCountFailure,
     liveCheckInStatusSuccess,
     liveCheckInStatusFailure,
-    liveAvgWaitTimeSuccess,
-    liveAvgWaitTimeFailure,
-    liveGroupAvgWaitTimeSuccess,
-    liveGroupAvgWaitTimeFailure,
+    liveCheckInAvgWaitTimeSuccess,
+    liveCheckInAvgWaitTimeFailure,
+    liveCheckInGroupAvgWaitTimeSuccess,
+    liveCheckInGroupAvgWaitTimeFailure,
     liveCheckInTableSuccess,
     liveCheckInTableFailure,
     liveCheckInTodaySuccess,
@@ -98,14 +98,14 @@ export function* liveSeaterAvailabilitySaga(action) {
         const response = yield call(getLiveSeaterAvailability, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(liveSeaterAvailabilitySuccess(decryptedData));
+            yield put(liveCheckInSeaterAvailabilitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(liveSeaterAvailabilityFailure(decryptedData?.message));
+            yield put(liveCheckInSeaterAvailabilityFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(liveSeaterAvailabilityFailure(error));
+        yield put(liveCheckInSeaterAvailabilityFailure(error));
     }
 }
 
@@ -114,14 +114,14 @@ export function* liveGuestCountSaga(action) {
         const response = yield call(getLiveGuestCount, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(liveGuestCountSuccess(decryptedData));
+            yield put(liveCheckInGuestCountSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(liveGuestCountFailure(decryptedData?.message));
+            yield put(liveCheckInGuestCountFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(liveGuestCountFailure(error));
+        yield put(liveCheckInGuestCountFailure(error));
     }
 }
 
@@ -146,14 +146,14 @@ export function* liveAvgWaitTimeSaga(action) {
         const response = yield call(getLiveAvgWaitTime, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(liveAvgWaitTimeSuccess(decryptedData));
+            yield put(liveCheckInAvgWaitTimeSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(liveAvgWaitTimeFailure(decryptedData?.message));
+            yield put(liveCheckInAvgWaitTimeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(liveAvgWaitTimeFailure(error));
+        yield put(liveCheckInAvgWaitTimeFailure(error));
     }
 }
 
@@ -162,14 +162,14 @@ export function* liveGroupAvgWaitTimeSaga(action) {
         const response = yield call(getLiveGroupAvgWaitTime, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(liveGroupAvgWaitTimeSuccess(decryptedData));
+            yield put(liveCheckInGroupAvgWaitTimeSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(liveGroupAvgWaitTimeFailure(decryptedData?.message));
+            yield put(liveCheckInGroupAvgWaitTimeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(liveGroupAvgWaitTimeFailure(error));
+        yield put(liveCheckInGroupAvgWaitTimeFailure(error));
     }
 }
 

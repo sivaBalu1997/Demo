@@ -7,7 +7,7 @@ import paymentSaga from "./payment/paymentSaga";
 import productCatalogSaga from "./productCatalog/productCatalogSaga";
 import offerSaga from "./offer/offerSaga"
 import newReportsSagas from "./newReports/newReportsSagas";
-import { checkInReportsSaga } from "./checkInReports/checkInReportsSagas";
+import checkInReportsSaga  from "./checkInReports/checkInReportsSagas";
 // Redux Saga: Root Saga
 export default function* rootSaga() {
   yield all([
