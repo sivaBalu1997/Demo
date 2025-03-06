@@ -366,7 +366,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                 breakLabel="..."
                                 pageCount={totalPages}
                                 marginPagesDisplayed={1}
-                                pageRangeDisplayed={3}
+                                pageRangeDisplayed={width > 600 ? 3 : 0}
                                 forcePage={currentPage - 1}
                                 onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
                                 containerClassName="pagination"

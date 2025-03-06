@@ -567,6 +567,9 @@ $text-secondary: #6b7280;
         justify-content: center;
         align-items: center;
         gap: 0.2vw;
+        @media(max-width: 600px){
+          width: 3vw;
+        }
       }
 
       .prev-button,
@@ -580,6 +583,9 @@ $text-secondary: #6b7280;
         border: 1px solid $border-color;
         background: white;
         cursor: pointer;
+        @media(max-width: 600px){
+          width: 4vw;
+        }
     
         &:hover {
           background: $hover-color;

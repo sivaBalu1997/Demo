@@ -798,7 +798,7 @@ export function* billedUnbilledRequestSaga(action) {
     try {
         const response = yield call(getBilledAndUnbilled, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of billedUnbilledRequestSaga", { decryptedData })
+        // console.log("response of billedUnbilledRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(billerUnbilledSuccess(decryptedData));
         } else {
@@ -1106,7 +1106,7 @@ export function* getEmployeeActivityRequestSaga(action) {
     try {
         const response = yield call(getEmployeeActivity, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of getEmployeeActivityRequestSaga", { decryptedData })
+        // console.log("response of getEmployeeActivityRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(getEmployeeActivitySuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
