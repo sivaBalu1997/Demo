@@ -1458,6 +1458,32 @@ height: 14px;
 
 /* 2) For screens up to 768px (e.g. tablets in portrait) */
 @media (max-width: 768px) {
+.categories-overview-heading{
+  font-size: 16px;
+}
+.categories-overview-card .categories-overview-card-data{
+  font-size: 18px;
+}
+  .category-rounded-pill-container .category-pill-text{
+font-size: 14px;
+  }
+  .category-rounded-pill-container{
+    padding: 3px;
+    .category-pill-close{
+      padding :0px 10px;
+    }
+  }
+
+
+.reports-filters-section{
+  .category-store-name{
+    display:none
+  }
+  .category-dropdown-container{
+    flex-direction: row;
+  }
+}
+  
   /* Switch to single-column in .categories-overview-container */
   .categories-overview-card-container {
     flex: 0 0 calc(100% - 20px);
@@ -1482,24 +1508,7 @@ height: 14px;
   }
 }
 
-/* 3) For screens up to 576px (e.g. small phones) */
-@media (max-width: 576px) {
-  /* Smaller font sizes if needed */
-  .categories-overview-heading {
-    font-size: 20px;
-  }
-  .category-btn {
-    font-size: 14px;
-  }
-  /* Additional stacking or spacing adjustments */
-  .category-page-cotainer {
-    padding: 1rem;
-  }
 
-  .select-food-item-dropdown {
-    width: 100%;
-  }
-}
 
 //
 .reports-page-sub-header-container {
