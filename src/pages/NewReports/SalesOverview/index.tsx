@@ -514,6 +514,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 incrementDecrementValue={salesSummary?.totalSalesPercentage}
                 isMonetary={true}
                 loader={salesSummaryLoader}
+                // loader={true}
                 showMiniGraph={true}
                 incrementOrDecrement={transformSalesData(
                   salesSummary?.totalSalesPercentage

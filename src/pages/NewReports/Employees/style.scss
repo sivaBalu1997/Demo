@@ -11,14 +11,33 @@
             h2{
                 font-weight: 500;
                 font-size: 20px;
+                // background-color: pink;
             }
             .select-employee-container{
+                display: flex;
+                justify-content: space-between;
+                gap: 1vw;
+                // background-color: lightcoral;
+                width: 25vw;
+                // background-color: peachpuff;
+                @media(max-width: 600px){
+                    // background-color: lightcoral;
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    // padding-top: 2vh;
+                    padding-bottom: 2vh;
+                    gap: 0;
+                }
                 p{
                     // background-color: palegreen;
                     width: 12vw;
                     display: inline-block;
                     color: #6F6F6F;
                     font-weight: 400;
+                    @media(max-width: 600px){
+                        width: 100%;
+                    }
                 }
                 .select-employee-dropdown{
                     width: 15vw;
@@ -26,12 +45,10 @@
                     justify-content: center;
                     align-items: center;
                     // background-color: lightpink;
+                    @media(max-width: 600px){
+                        width: 100%;
+                    }
                 }
-                display: flex;
-                justify-content: space-between;
-                gap: 1vw;
-                // background-color: lightcoral;
-                width: 25vw;
             }
             .employee-report-sales-overview-box-container{
                 display: grid;
@@ -46,8 +63,8 @@
                     grid-template-rows: repeat(4, auto);    
                 }
                 @media (max-width: 600px) {
-                    grid-template-columns: repeat(1, 1fr); 
-                    grid-template-rows: repeat(8, auto); 
+                    grid-template-columns: repeat(2, 1fr); 
+                    grid-template-rows: repeat(4, auto); 
                 }
             }
         }
