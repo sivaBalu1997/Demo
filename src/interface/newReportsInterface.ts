@@ -55,6 +55,9 @@ export interface NewTableProps {
   // searchDebounce?: (value: string) => void;
   onSearch: (value: string, kpiTitle: string) => void;
   getChartSliceTableHeaders?: any;
+  showDateDropDown?: boolean
+  selectedDate?: string | null; 
+  onDateSelect?: (from: string | null, to: string | null) => void;
 }
 
 export interface SortConfig {

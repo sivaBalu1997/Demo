@@ -46,7 +46,9 @@ const DineInDurationChart: React.FC = () => {
   };
 
   return (
+    <div className="dine-in-duration" style={{height: "500px"}}>
       <Bar data={data} options={options} />
+    </div>
   );
 };
 

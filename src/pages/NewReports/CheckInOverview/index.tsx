@@ -357,6 +357,16 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
+  const [fromDateForTable, setFromDateForTable] = useState<string | null>(null);
+  const [toDateForTable, setToDateForTable] = useState<string | null>(null);
+
+  const handleDateSelectForTable = (from: string | null, to: string | null) => {
+    setFromDateForTable(from);
+    setToDateForTable(to);
+    console.log("Selected Date Range: PPP", from, to);
+    console.log("States: PPP", fromDateForTable, toDateForTable)
+  };
+
   return (
     <>
         <>
@@ -456,7 +466,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
 
 
-    ]         {/* <div className="sales-charts-container">   */}
+         {/* <div className="sales-charts-container">   */}
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>Hourly Checkin</h2>
             <HourlyCheckinChart
@@ -475,7 +485,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}> Daily Check-ins & Guests</h2>
-   <DailyCheckinsChart/>
+        <DailyCheckinsChart/>
           </div>  
          
           <div>
@@ -528,6 +538,9 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                 searchPlaceHolder="Search by table number, customer name"
                 onSearch={()=>{}}
                 // // searchDebounce={()=>searchDebounce()}
+                showDateDropDown={true}
+                selectedDate={fromDateForTable}
+                onDateSelect={handleDateSelectForTable}
               />
           </div>
         </>
