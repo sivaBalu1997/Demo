@@ -17,26 +17,30 @@ interface ReportProps { }
 
 const SalesReport: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Today's report");
-  const [isExpanded, setIsExpanded] = useState(false); 
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const dispatch = useDispatch();
   /*********************************************************** */
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+  const startDate = useSelector((state: any) => state?.newReports?.selectedStartDate)
+  const endtDate = useSelector((state: any) => state?.newReports?.selectedEndDate)
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
   const dropdownDetailsData = useSelector((state: any) => state?.newReports?.dropdownDetailsData)
   useEffect(() => {
+    if(!startDate ||!endtDate){
     dispatch(changeDateFilterType({
       label: "Today",
       value: "Today",
     }))
     dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
     dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
-  }, [])  
+  }
+  }, [startDate, endtDate])
 
   useEffect(() => {
-    if (restaurantDetails?.length) {
+    if (!selectedLocation?.value && restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
         (branchWithId: any) => ({
           value: branchWithId?.id,
@@ -47,7 +51,7 @@ const SalesReport: React.FC<ReportProps> = () => {
       dispatch(storeLocationsList(mappedIdWithBranchName))
       dispatch(changeLocation(mappedIdWithBranchName?.[0]))
     }
-  }, [restaurantDetails]);
+  }, [restaurantDetails, selectedLocation]);
 
 
   useEffect(() => {

@@ -126,6 +126,9 @@ const SidePanel = () => {
     } else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
+    }else if (location?.pathname?.includes("/check-in-reports")) {
+      setSelectSubForReport("Check-in");
+      setShowOptions("reportOptions");
     } else if (
       location?.pathname?.includes("Offers/active") ||
       location?.pathname?.includes("offer/special") ||

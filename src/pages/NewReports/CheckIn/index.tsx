@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  storeLocationsList } from "redux/newReports/newReportsActions";
 import CheckInLiveReport from "../CheckInLive";
 import CheckInOverview from "../CheckInOverview";
+import { select } from "redux-saga/effects";
 
 const tabs = ["Live Check-in Report", "Check-in Overview", "Inception"]; 
 interface ReportProps { }
@@ -18,20 +19,24 @@ const CheckInReport: React.FC<ReportProps> = () => {
 
   const dispatch = useDispatch();
   /*********************************************************** */
-  const restaurantDetails = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.branch
-  );
-  useEffect(() => {
-    dispatch(changeDateFilterType({
-      label: "Today",
-      value: "Today",
-    }))
-    dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
-    dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
-  }, [])  
+  const restaurantDetails = useSelector(    (state: any) => state?.auth?.restaurantDetails?.branch  );
+    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+      const startDate = useSelector((state: any) => state?.newReports?.selectedStartDate)
+      const endtDate = useSelector((state: any) => state?.newReports?.selectedEndDate)
 
   useEffect(() => {
-    if (restaurantDetails?.length) {
+    if(!startDate ||!endtDate){
+      dispatch(changeDateFilterType({
+        label: "Today",
+        value: "Today",
+      }))
+      dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
+      dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
+    }
+  }, [startDate, endtDate])  
+
+  useEffect(() => {
+    if (!selectedLocation?.value&&restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
         (branchWithId: any) => ({
           value: branchWithId?.id,
@@ -42,7 +47,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
       dispatch(storeLocationsList(mappedIdWithBranchName))
       dispatch(changeLocation(mappedIdWithBranchName?.[0]))
     }
-  }, [restaurantDetails]);
+  }, [restaurantDetails, selectedLocation]);
 
 
 
