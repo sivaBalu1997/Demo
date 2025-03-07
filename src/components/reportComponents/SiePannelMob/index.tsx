@@ -43,7 +43,7 @@ const menuOptions = [
       { name: "Old Reports", path: "/old-reports" },
       { name: "Chart JS", path: "/live-reports" },
       { name: "Sales Reports", path: "/sales-reports" },
-      { name: "Check-in Reports", path: "/check-in-reports" },
+      // { name: "Check-in Reports", path: "/check-in-reports" },
     ],
   },
 ];
