@@ -39,7 +39,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   disabled,
   className,
 }) => {
-  const customOptions = options.map((option) => ({
+  const customOptions = options?.map((option) => ({
     ...option,
     label: (
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
