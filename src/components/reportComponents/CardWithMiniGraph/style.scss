@@ -9,6 +9,9 @@
     border: 1px solid #EEEEEE;
     padding-top: 10px;
     padding-bottom: 10px;
+    @media(max-width: 600px){
+        flex-basis: calc(52% - 18px);
+    }
 
     .card-title-value-container {
         display: flex;

@@ -10,6 +10,7 @@ import NewTable from 'components/reportComponents/NewTable';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import "./style.scss";
 import { formatNumberByCountry } from 'utils';
+import ErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
 
 
 const TodaysReport: React.FC = () => {

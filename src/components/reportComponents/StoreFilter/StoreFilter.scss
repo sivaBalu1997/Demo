@@ -88,7 +88,12 @@
 @media (max-width: 992px) {
   /* Reduce to 2 columns in .categories-overview-container */
   .categories-overview-card-container {
-    flex: 0 0 calc(50% - 20px);
+    flex: 0 0 calc(50% - 8px);
+    gap: 15px;
+  }
+  .categories-overview-container{
+    gap: 15px;
+
   }
   /* Possibly stack .category-filters-section or .category-dropdown-container */
   .category-filters-section {
@@ -102,9 +107,18 @@
 }
 
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .category-dropdown-sub-container {
     width: 100%;
+  }
+  .refresh-btn{
+    flex-basis: 25%;
+  }
+  .reports-refresh-button{
+width: 100% !important;
+.reports-refresh-button-text{
+  display: none;
+}
   }
 }
 
