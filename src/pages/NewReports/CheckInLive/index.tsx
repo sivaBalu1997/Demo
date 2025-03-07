@@ -16,6 +16,7 @@ import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
+
 interface CustomBarChartData {
   xAxisValue: string;
   yAxisValue: number;
@@ -24,10 +25,10 @@ interface CustomBarChartData {
 
 const headerData = [
   {
-    key: "checkinId",
+    key: "checkInNumber",
     label: "Check-in",
     alignment: "left",
-    isSortable: false,
+    isSortable: true,
   },
   {
     key: "guestName",
@@ -45,16 +46,16 @@ const headerData = [
     key: "channel",
     label: "Channel",
     alignment: "left",
-    isSortable: false,
+    isSortable: true,
   },
   {
-    key: "tableNo",
+    key: "tableName",
     label: "Table",
     alignment: "left",
-    isSortable: false,
+    isSortable: true,
   },
   {
-    key: "checkinTime",
+    key: "checkInTime",
     label: "Check-in time",
     alignment: "left",
     isSortable: true,
@@ -63,24 +64,88 @@ const headerData = [
     key: "assignedTime",
     label: "Assigned time",
     alignment: "left",
-    isSortable: false,
+    isSortable: true,
   },
   {
-    key: "status",
+    key: "liveCheckIn",
     label: "Status",
     alignment: "left",
     isSortable: true,
   },
   {
-    key: "waitTime",
+    key: "avgTime",
     label: "Wait time",
     alignment: "left",
-    isSortable: false,
+    isSortable: true,
   },
   {
     key: "guestSize",
     label: "Guest size",
-    alignment: "center",
+    alignment: "right",
+    isSortable: true,
+  },
+];
+
+
+const headerData1 = [
+  {
+    key: "checkInNumber",
+    label: "Check-in",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "guestName",
+    label: "Guest name",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "phone",
+    label: "Phone",
+    alignment: "left",
+    isSortable: false,
+  },
+  {
+    key: "channel",
+    label: "Channel",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "tableName",
+    label: "Table",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "checkInTime",
+    label: "Check-in time",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "assignedTime",
+    label: "Assigned time",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "todayCheckIn",
+    label: "Status",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "avgTime",
+    label: "Wait time",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "guestSize",
+    label: "Guest size",
+    alignment: "right",
     isSortable: true,
   },
 ];
@@ -312,7 +377,7 @@ const dataList2: CustomBarChartData[] = [
   {
     xAxisValue: "Beverages",
     yAxisValue: 742.0,
-    tooltipValue: 23,
+    tooltipValue: 0,
   },
   {
     xAxisValue: "Snacks",
@@ -447,19 +512,19 @@ const CheckInLiveReport = () => {
               data={[
                 {
                   title: "TOTAL ACTIVE",
-                  value: `${10}`,
+                  value: `${liveCheckInOverview?.totalActive||0}`,
                 },
                 {
                   title: "IN-QUEUE",
-                  value: `${140}`,
+                  value: `${liveCheckInOverview?.inQueue||0}`,
                 },
                 {
                   title: "ASSIGNED",
-                  value: `${200}`,
+                  value: `${liveCheckInOverview?.assigned||0}`,
                 },
                 {
                   title: "LATE SHOW",
-                  value: `${40}`,
+                  value: `${liveCheckInOverview?.lateShow||0}`,
                 },
               ]}
             />
@@ -470,24 +535,7 @@ const CheckInLiveReport = () => {
               <DownloadPopOver />
             </div>
             <MiniCard
-              data={[
-                {
-                  title: "2 seaters",
-                  value: `${5}`,
-                },
-                {
-                  title: "4 seaters",
-                  value: `${7}`,
-                },
-                {
-                  title: "6 seaters",
-                  value: `${3}`,
-                },
-                {
-                  title: "8 seaters",
-                  value: `${9}`,
-                },
-              ]}
+              data={liveCheckInSeaterAvailability?.map((data:any)=>({title:`${data.seaters} seaters`, value:(data.available||0)}))}
             />
           </div>
           <div>
@@ -502,7 +550,7 @@ const CheckInLiveReport = () => {
               toolTipBorderColor="#009689"
               xAxisTooltipLabel="Product Category"
               yAxisTooltipLabel="Total Sales"
-              dataList={dataList1}
+              dataList={liveCheckInGuestCount?.map((data:any)=>({xAxisValue:`Group of ${data.guestCount||0}`, yAxisValue:Number(data.groupSize)}))}
               loader={false}
             />
           </div>
@@ -516,7 +564,7 @@ const CheckInLiveReport = () => {
               toolTipBorderColor="#225E96"
               xAxisTooltipLabel="Status"
               yAxisTooltipLabel="Check-in Count:"
-              dataList={dataList2}
+              dataList={liveCheckInStatus?.map((data:any)=>({xAxisValue:data.status, yAxisValue:Number(data.count)}))}
               loader={false}
             />
           </div>
@@ -531,7 +579,7 @@ const CheckInLiveReport = () => {
               xAxisTooltipLabel="Channel"
               yAxisTooltipLabel="Wait time"
               yAxisTooltipAppendInBack=" mins"
-              dataList={dataList3}
+              dataList={liveCheckInAvgWaitTime?.map((data:any)=>({xAxisValue:data.channel, yAxisValue:Number(data.avgWaitTime)}))}
               loader={false}
             />
           </div>
@@ -540,7 +588,7 @@ const CheckInLiveReport = () => {
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
               <DownloadPopOver />
             </div>
-            <StackedBarChart loader={false} />
+            <StackedBarChart loader={false} dataList={liveCheckInGroupAvgWaitTime?.map((data:any)=>({timeRange:data?.timeRange||"", groupName:data?.groupName||"",count: data?.totalCheckins||0}))}/>
             {/* <CustomBarChart
               barColor="#CE9E0F"
               toolTipBorderColor="#CE9E0F"
@@ -578,7 +626,7 @@ const CheckInLiveReport = () => {
                 searchQuery={liveCheckInSearchQuery}
                 onSearchChange={setLiveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveTableData as any}
+                tableData={liveCheckInTable as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={50}
                 onPageChange={setLiveCheckInCurrentPage}
@@ -598,8 +646,8 @@ const CheckInLiveReport = () => {
                 kpiTitle="Today Check-ins"
                 searchQuery={todayCheckInSearchQuery}
                 onSearchChange={setTodayCheckInSearchQuery}
-                headerData={headerData as any}
-                tableData={todayTableData as any}
+                headerData={headerData1 as any}
+                tableData={liveCheckInToday as any}
                 currentPage={todayCheckInCurrentPage}
                 totalPages={50}
                 count={56}

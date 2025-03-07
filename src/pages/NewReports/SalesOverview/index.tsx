@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cancellationSummaryRequest,
-  changeDateFilterType,
   changeLocation,
   discountSummaryRequest,
   offerSummaryRequest,
