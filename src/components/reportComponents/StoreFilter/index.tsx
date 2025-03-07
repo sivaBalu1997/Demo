@@ -65,7 +65,7 @@ const StoreFilter = ({
   const datePickerHandleOnChange: any = (dates: any): void => {
     setSelectedDates(dates);
   };
-  const closeBtnOnclick = () => { 
+  const closeBtnOnclick = () => {
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();
     setSelectedDate(dateOptions[1]);
@@ -196,7 +196,7 @@ const StoreFilter = ({
         ) : null}
 
         {showRefresh ? (
-          <div className="category-dropdown-sub-container">
+          <div className="category-dropdown-sub-container refresh-btn">
             <span className="category-dropdown-text"> &nbsp;</span>
             <ReportsRefreshButton
               loader={false}
