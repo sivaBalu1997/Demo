@@ -404,7 +404,7 @@ const PrimaryPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
-  const maxDescriptonLength = 100;
+  const maxDescriptonLength = 1000;
   const maxImages = 7;
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     DietaryType: false,
