@@ -1,14 +1,26 @@
 .reports-header-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 24px 0;
     // margin-top: 30px;
     margin-bottom: 1rem;
+
+    .report-menu-icon{
+        margin-right: 1rem;
+
+    }
     .reports-header {
+        line-height: 32px;
         font-family: Poppins;
         font-weight: 500;
         font-size: 24px;
-        line-height: 32px;
         letter-spacing: -0.4px;
         color: #393939;
-        padding: 24px 0;
     }
-
+    @media (min-width: 576px) {
+        .report-menu-icon {
+          display: none;
+        }
+      }
 }
