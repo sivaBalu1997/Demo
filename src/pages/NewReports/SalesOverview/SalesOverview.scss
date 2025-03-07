@@ -1,3 +1,13 @@
+  /**
+   * A container for the sales overview page.
+   *
+   * This component is a container for the sales overview page. It contains
+   * a heading, a grid of sales overview cards, a container for the tender
+   * types, and a container for the discount cards.
+   *
+   * @example
+   *   <SalesOverview />
+   */
 .sales-overview {
   margin-top: 8px;
   margin-bottom: 24px;
@@ -142,6 +152,7 @@
     @media (max-width: 600px) {
       grid-template-columns: repeat(1, 1fr);
       grid-template-rows: repeat(8, auto);
+      gap: 16px;
     }
   }
 }
@@ -154,5 +165,22 @@
   width: 100%;
   height: fit-content;
   gap: 5vh;
+}
+
+.sales-overview-doughnut-chart-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  @media(max-width: 600px){
+    flex-direction: column;
+  }
+  .doughnut-chart-container{
+    // width: 50%;
+    // height: 100%;
+    @media(max-width: 600px){
+      width: 100%;
+    }
+  }
 }
 

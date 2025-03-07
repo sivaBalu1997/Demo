@@ -42,6 +42,8 @@ const CategoryReport = (props) => {
   const voidedSummaryDataLoading = useSelector((state) => state?.newReports?.voidedSummaryLoading);
   const countryCode = useSelector((state) => state?.auth?.restaurantDetails?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
+  const [isMobile, setIsMobile] = useState(false);
+
 
   const dispatch = useDispatch();
   const { startDate, endDate,selectedDateFilterType, handleDateChange } = useDateFilter();
@@ -90,8 +92,6 @@ const CategoryReport = (props) => {
         locationId: selectedLocation?.value,
         startDate: startDate,
         endDate: endDate,
-        tablePageNo: 1,
-        tableRecordLimit: 100,
       }
 
       if (activeBtn === "categories") {
@@ -137,6 +137,17 @@ const CategoryReport = (props) => {
     }
     setItemList(filteredItems);
   }, [selectedCategories])
+
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize(); // call initially
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
     if (!selectedCategoriesData.value) {
@@ -292,6 +303,7 @@ const CategoryReport = (props) => {
                 data={selectedCategories}
                 closeIconOnClick={categoryCloseOnClick}
                 handeClear={handleCategoryClear}
+                showSelected={!isMobile}
               />
             </div>
             {activeBtn == "items" ? (
@@ -320,6 +332,8 @@ const CategoryReport = (props) => {
                   data={selectedItems}
                   closeIconOnClick={itemsCloseOnClick}
                   handeClear={handleItemsClear}
+                  showSelected={!isMobile}
+
                 />
               </div>
             ) : (
@@ -370,6 +384,7 @@ const CategoryReport = (props) => {
               dataList={categorySalesData}
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
               loader={categorySalesDataLoading}
+              isMobile={isMobile}
             />
           </div>
           <div>
@@ -384,6 +399,8 @@ const CategoryReport = (props) => {
             <SalesChart
               dataList={categoryChannelSummaryData}
               loader={categoryChannelSummaryDataLoading}
+              isMobile={isMobile}
+
             />
           </div>
           {activeBtn == "categories" ? (
@@ -398,6 +415,8 @@ const CategoryReport = (props) => {
                 dataList={voidedSummaryData}
                 barColorCode={"#AA562A"}
                 loader={voidedSummaryDataLoading}
+                isMobile={isMobile}
+
               />
             </div>
           ) : (
@@ -413,6 +432,7 @@ const CategoryReport = (props) => {
                 dataList={voidedSummaryData}
                 countryCode={countryCode}
                 loader={voidedSummaryDataLoading}
+                isMobile={isMobile}
               />
             </div>
           ) : (

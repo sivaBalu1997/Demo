@@ -76,7 +76,7 @@ const SidePanel = () => {
     // },
     // {
     //   name:"Check-in",
-    //   path:""
+    //   path:"/check-in-reports"
     // },
     // {
     //   name:"Customer",
@@ -125,6 +125,9 @@ const SidePanel = () => {
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
+      setShowOptions("reportOptions");
+    }else if (location?.pathname?.includes("/check-in-reports")) {
+      setSelectSubForReport("Check-in");
       setShowOptions("reportOptions");
     } else if (
       location?.pathname?.includes("Offers/active") ||

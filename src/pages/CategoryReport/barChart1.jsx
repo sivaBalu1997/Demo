@@ -10,11 +10,12 @@ import {
   Legend,
 } from "chart.js";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
+import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
+function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile }) {
   console.log(dataList);
   // Prepare the Chart.js data object
   const data = {
@@ -43,8 +44,8 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",
-        bodyFont: { size: 14, family: "Poppins" }, // Body font size set to 14px
-        titleFont: { weight: "normal", size: 14, family: "Poppins" }, // Title font size set to 14px
+        bodyFont: { size: isMobile?10:14, family: "Poppins" }, // Body font size set to 14px
+        titleFont: { weight: "normal", size: isMobile?10:14, family: "Poppins" }, // Title font size set to 14px
 
         cornerRadius: 4,      
         padding: 10, // Padding inside tooltip container
@@ -52,10 +53,9 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
         callbacks: {
           // Show the x-axis label in the tooltip title
           title: (tooltipItems) => {
-            // if (!tooltipItems.length) return "";
-            return "";
-            // const { dataIndex } = tooltipItems[0];
-            // return dataList[dataIndex].categoryName;
+            if (!tooltipItems.length ||!isMobile) return "";
+            const { dataIndex } = tooltipItems[0];
+            return dataList[dataIndex].categoryName;
           },
           // Multi-line body: Qty and Sales
           label: (tooltipItem) => {
@@ -73,11 +73,13 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
     scales: {
       x: {
         ticks: {
+          display:!isMobile,
           color: "#555",
-          font: { size: 14 },
+          font: { size: 14},
           minRotation: 45,
           maxRotation: 45,
         },
+         grid: { display: false } 
       },
       y: {
         beginAtZero: true,
@@ -92,7 +94,9 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader  }) {
 
   if(loader) return <BarChartShimmer />
 
-  return (
+  return dataList?.length === 0 ? (
+    <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

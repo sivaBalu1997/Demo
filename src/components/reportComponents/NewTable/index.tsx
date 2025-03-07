@@ -16,6 +16,7 @@ import TableShimmer from './NewShimmerTable';
 import DownloadReport from '../DownloadReports';
 import "jspdf-autotable";
 import './style.scss';
+import TableDateDropdown from '../TableDateDropdown';
 
 interface SortConfig {
     key: string;
@@ -25,7 +26,6 @@ interface SortConfig {
 const NewTable: React.FC<NewTableProps> = ({
     kpiTitle,
     searchQuery,
-    onSearchChange,
     headerData,
     tableData,
     currentPage,
@@ -38,6 +38,9 @@ const NewTable: React.FC<NewTableProps> = ({
     count,
     searchPlaceHolder,
     onSearch,
+    showDateDropDown,
+    selectedDate,
+    onDateSelect = () => {}, 
 }) => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
 
@@ -128,7 +131,6 @@ const NewTable: React.FC<NewTableProps> = ({
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onSearchChange(event.target.value);
         onSearch(event.target.value, kpiTitle);
         setSearchFlag(true)
     };
@@ -225,6 +227,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <h2 className="table-title">{kpiTitle}</h2>
                             {!!count && <p className='table-title-count'>{count}</p>}
                         </div>
+                        {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown onDateSelect={onDateSelect} /></div>}
                         <div className="table-search-with-download-opt-container">
                             <div className="search-container">
                                 <SearchIcon className="search-icon" />
@@ -235,7 +238,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     onChange={handleInputChange}
                                     className="search-input"
                                 />
-                                <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
+                                <ClearSearchIcon className='clear-search-icon' onClick={() =>  onSearch("", kpiTitle)} />
                             </div>
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div>
@@ -245,6 +248,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <div className="table-title-with-count-container-small-screen">
                                 <h2 className="table-title-small-screen">{kpiTitle}</h2>
                                 {!!count && <p className='table-title-count-small-screen'>{count}</p>}
+                                {showDateDropDown && <div className='table-date-dropdown-container-small-screen'><TableDateDropdown onDateSelect={onDateSelect} /></div>}
                             </div>
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div> 
@@ -258,7 +262,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     onChange={handleInputChange}
                                     className="search-input-small-screen"
                                 />
-                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() => onSearchChange('')} />
+                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() =>  onSearch("", kpiTitle)} />
                             </div>
                         </div>
                     </div>

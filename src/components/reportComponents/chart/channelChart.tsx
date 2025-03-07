@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 import "./chart.scss";
 import BarChartShimmer from "../Charts/BarChartShimmer";
+import ErrorState from "../errorstatecomponents/ErrorState";
 
 ChartJS.register(
   CategoryScale,
@@ -104,7 +105,9 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
 
   if (loader) return <BarChartShimmer />
 
-  return (
+  return  dataList?.length === 0 ? (
+    <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
+  ) :( 
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

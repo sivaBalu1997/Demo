@@ -1200,6 +1200,11 @@ height: 14px;
   border-radius: 12px;
   padding: 5px;
   margin-bottom: 32px;
+  &.checkin-btn-switch{
+    width: 31%;
+    margin-top: 45px;
+    margin-bottom: 24px;
+  }
   .category-btn {
     width: 50%;
     font-weight: 400;
@@ -1348,6 +1353,14 @@ height: 14px;
   // margin-top: 45px;
   // margin-bottom: 24px;
 }
+.reports-page-heading {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 20px;
+  // margin-top: 45px;
+  // margin-bottom: 24px;
+}
+
 .categories-overview-container {
   display: flex;
   flex-wrap: wrap;
@@ -1404,6 +1417,32 @@ height: 14px;
     min-width: 50%;
   }
 }
+
+.reports-page-container {
+  width: 100%;
+  min-width: 80%;
+  .reports-page-body {
+    // padding: 0rem 0rem 2rem 3rem;
+    // margin-right: 2rem;
+  }
+  .reports-page-header {
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 3rem;
+    border-bottom: 1px solid#EEEEEE;
+  }
+
+  @media (min-width: 1250px) and (max-width: 1397px) {
+    min-width: 75%;
+  }
+  @media (min-width: 900px) and (max-width: 1250px) {
+    min-width: 50%;
+  }
+  @media (min-width: 650px) and (max-width: 900px) {
+    min-width: 50%;
+  }
+}
+
 .categories-items-container {
   display: flex;
   flex-direction: row;
@@ -1424,6 +1463,32 @@ height: 14px;
 
 /* 2) For screens up to 768px (e.g. tablets in portrait) */
 @media (max-width: 768px) {
+.categories-overview-heading{
+  font-size: 16px;
+}
+.categories-overview-card .categories-overview-card-data{
+  font-size: 18px;
+}
+  .category-rounded-pill-container .category-pill-text{
+font-size: 14px;
+  }
+  .category-rounded-pill-container{
+    padding: 3px;
+    .category-pill-close{
+      padding :0px 10px;
+    }
+  }
+
+
+.reports-filters-section{
+  .category-store-name{
+    display:none
+  }
+  .category-dropdown-container{
+    flex-direction: row;
+  }
+}
+  
   /* Switch to single-column in .categories-overview-container */
   .categories-overview-card-container {
     flex: 0 0 calc(100% - 20px);
@@ -1448,27 +1513,15 @@ height: 14px;
   }
 }
 
-/* 3) For screens up to 576px (e.g. small phones) */
-@media (max-width: 576px) {
-  /* Smaller font sizes if needed */
-  .categories-overview-heading {
-    font-size: 20px;
-  }
-  .category-btn {
-    font-size: 14px;
-  }
-  /* Additional stacking or spacing adjustments */
-  .category-page-cotainer {
-    padding: 1rem;
-  }
 
-  .select-food-item-dropdown {
-    width: 100%;
-  }
-}
 
 //
-
+.reports-page-sub-header-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+  margin-bottom: 24px;
+}
 .categories-graph-header-container {
   display: flex;
   justify-content: space-between;

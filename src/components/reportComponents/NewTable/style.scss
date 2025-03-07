@@ -28,6 +28,11 @@ $text-secondary: #6b7280;
           border-radius: 0.5vw;
           cursor: pointer;
           transition: background-color 0.3s ease;
+          @media(max-width: 600px){
+            width: 25vw;
+            padding: 2vw 1vw;
+            border-radius: 2vw;
+          }
       }
   }
 }
@@ -204,8 +209,9 @@ $text-secondary: #6b7280;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1vh;
+      gap: 1.5vh;
       // background-color: pink;
+      padding-top: 2.5vh;
     }
     .table-name-with-download-container{
       display: flex;
@@ -285,6 +291,9 @@ $text-secondary: #6b7280;
           white-space: nowrap; // Prevents text wrapping
           overflow: hidden;
           text-overflow: ellipsis;
+          @media(max-width: 600px){
+            width: 96vw;
+          }
 
           &:focus {
             outline: none;

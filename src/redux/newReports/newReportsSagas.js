@@ -1170,8 +1170,8 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_REFUNDS_REQUEST, liveRefundsRequestSaga);
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
     yield debounce(1000, LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
-    yield takeLatest(DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
-    yield takeLatest(CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
+    yield debounce(1000, DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
+    yield debounce(1000, CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_DISCOUNT_REQUEST, employeeStaffDiscountRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_PERFORMANCE_REQUEST, employeeStaffPerformanceRequestSaga);
