@@ -6,47 +6,23 @@ import { ReactComponent as Uparrow } from "../../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../../assets/svg/down_arrow.svg";
 import { ReactComponent as Offer } from "../../../assets/svg/offer.svg";
 import { ReactComponent as CloseIcon } from "../../../assets/svg/close.svg";
+import  {ReactComponent as LogoutIcon } from "../../../assets/svg/LogoutIcon.svg";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 
 import styles from "./SidePannelMob.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { STORAGE_BUCKET_URL } from "shared/constants";
 import { RootState } from "redux/rootReducer";
-import { getRestaurantRequest } from "redux/auth/authActions";
+import { getRestaurantRequest, signOut } from "redux/auth/authActions";
 import { useHistory, useLocation } from "react-router";
+import { clearMenuData } from "redux/menu/menuAction";
+import path from "path";
 
 interface SidePannelMobProps {
   handleClose: () => void;
 }
 
-const menuOptions = [
-  {
-    name: "Employees",
-    path: "/employees",
-    icon: <EmployeesIcon  className={styles.menuIcon}/>,
-  },
-  {
-    name: "Product Catalog",
-    path: "/productCatalog/menuListing",
-    icon: <Tableware  className={styles.menuIcon} />,
-    onClick: (dispatch: any) => dispatch(removeDataRequest()),
-  },
-  {
-    name: "Offer Management",
-    icon: <Offer  className={styles.menuIcon}/>,
-    submenu: [{ name: "Special Price", path: "/Offers/active" }],
-  },
-  {
-    name: "Reports & Insights",
-    icon: <Stats className={styles.menuIcon} />,
-    submenu: [
-      { name: "Old Reports", path: "/old-reports" },
-      { name: "Chart JS", path: "/live-reports" },
-      { name: "Sales Reports", path: "/sales-reports" },
-      // { name: "Check-in Reports", path: "/check-in-reports" },
-    ],
-  },
-];
+
 
 const parentPaths:Record<string, string[]>={
   "Employees":["/employees"],
@@ -57,6 +33,42 @@ const parentPaths:Record<string, string[]>={
 
 
 const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
+  const menuOptions = [
+    {
+      name: "Employees",
+      path: "/employees",
+      icon: <EmployeesIcon  className={styles.menuIcon}/>,
+    },
+    {
+      name: "Product Catalog",
+      path: "/productCatalog/menuListing",
+      icon: <Tableware  className={styles.menuIcon} />,
+      // onClick: (dispatch: any) => dispatch(removeDataRequest()),
+    },
+    {
+      name: "Offer Management",
+      icon: <Offer  className={styles.menuIcon}/>,
+      submenu: [{ name: "Special Price", path: "/Offers/active" }],
+    },
+    {
+      name: "Reports & Insights",
+      icon: <Stats className={styles.menuIcon} />,
+      submenu: [
+        { name: "Old Reports", path: "/old-reports" },
+        { name: "Chart JS", path: "/live-reports" },
+        { name: "Sales Reports", path: "/sales-reports" },
+        // { name: "Check-in Reports", path: "/check-in-reports" },
+      ],
+    },
+    {
+      name:"Log Out",
+      icon:<LogoutIcon className={styles.menuIcon} />,
+      path:"",
+      onClick: () =>logoutUser(),
+    }
+  ];
+
+
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({});
   const restaurantDetails = useSelector((state: RootState) => state.auth?.restaurantDetails);
   const locationId = useSelector((state: RootState) => state.auth.credentials?.locationId);
@@ -90,9 +102,19 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
   );
 
   const handlePathChange = (path: string) => {
-    history.push(path);
-    handleClose() 
+    if(path){
+      history.push(path);
+      handleClose() 
+    }
   }
+  
+    const logoutUser = () => {
+      console.log(111);      
+      dispatch(clearMenuData());
+      localStorage.clear();
+      dispatch(signOut());
+      history.replace("/");
+    };
   
   return (
     <div className={styles.sidebarContainer}>
@@ -125,7 +147,7 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
           <ul>
             {menuOptions.map((menu) => (
               <>
-                <li className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname)?styles.activeParemt:""}`} onClick={() => menu.submenu ? toggleSection(menu.name):handlePathChange(menu.path)}>
+                <li className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname)?styles.activeParemt:""}`} onClick={() => menu.submenu ? toggleSection(menu.name):menu?.onClick?menu?.onClick():handlePathChange(menu.path)}>
                   {menu.icon} {menu.name} {menu.submenu && (openSections[menu.name] ? <Uparrow /> : <Downarrow />)}
                 </li>
                 {menu.submenu && openSections[menu.name] && (
