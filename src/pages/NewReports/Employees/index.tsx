@@ -22,20 +22,51 @@ import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
 
+
+  // Custom Bar Style
+  const customBarStyle = {
+    borderRadius: "8px",
+  };
+
 const Employees: React.FC = () => {
-  const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
 
   const employeeChartRef = useRef<HTMLDivElement>(null);
 
-  const employeeSalesOverViewFromAPIRedux = useSelector(    (state: any) => state?.newReports?.employeeSalesOverviewSuccess  );
-  const employeeSalesOverViewFromAPIReduxLoader = useSelector(    (state: any) => state?.newReports?.employeeSalesOverviewLoading  );
-  const { startDate, endDate,selectedDateFilterType,  handleDateChange } = useDateFilter();
-
+const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false);
   const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<string | "">("")
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
 
-  const countryCode = useSelector(    (state: any) => state?.auth?.restaurantDetails?.country  );
+  const employeeSalesOverViewFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeSalesOverviewSuccess);
+  const employeeSalesOverViewFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.employeeSalesOverviewLoading);
 
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
+  const dispatch = useDispatch();
+
+
+
+  const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
+  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
+  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
   const currencySymbol = countryCode === "US" ? "$" : "₹";
+  const employeeVoidActivityAPIRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.content);
+  const employeeVoidActivityTotalPagesRedux = useSelector((state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages);
+  const employeeVoidActivityLoading = useSelector((state: any) => state?.newReports?.employeeStaffActivityLoading);
+  const getEmployeeActivityDataFromAPIRedux = useSelector((state: any) => state?.newReports?.getemployeeActivitySuccess);
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        getEmployees(
+          selectedLocation?.value,
+        )
+      );
+    }
+  }, [selectedLocation?.value])
+
+
+  const [selectedValueStateData, setSelectedValueStateData] = useState<NewTableHeader[]>()
+
 
 
   const getChartSliceTableHeaders = (selectedValueForChartSlice: string) => {
@@ -139,47 +170,30 @@ const Employees: React.FC = () => {
   const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
   const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
 
-  // Table Employee Void Activity States :
-  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] = useState<number>(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        employeeStaffActivityRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: employeeVoidRecordLimit,
+        })
+      );
 
-  const locations = useSelector(
-    (state: any) => state?.newReports?.storeLocationsList
-  );
-  const selectedLocation = useSelector(
-    (state: any) => state?.newReports?.selectedLocation
-  );
-  const dispatch = useDispatch();
-
-
-  const employeeVoidActivityAPIRedux = useSelector(
-    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
-  );
-
-  const employeeVoidActivityTotalPagesRedux = useSelector(
-    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
-  );
-
-  const employeeVoidActivityLoading = useSelector(
-    (state: any) => state?.newReports?.employeeStaffActivityLoading
-  );
-
-  const getEmployeeActivityDataFromAPIRedux = useSelector(
-    (state: any) => state?.newReports?.getemployeeActivitySuccess
-  );
-
-  // console.log("RRRRRR",{getEmployeeActivityDataFromAPIRedux})
-
-
-
+    }
+  }, [
+    selectedLocation,
+    startDate,
+    endDate,
+    currentPageEmployeeVoidActivity,
+    employeeVoidRecordLimit,
+  ]);
 
   const datepickerApply = (data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
-
-
-
 
   const newTableHeaders: NewTableHeader[] = [
     { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
@@ -325,12 +339,8 @@ const Employees: React.FC = () => {
       label: `${employee?.firstName}`,
     }));
 
-  // console.log({ employeeDropdownOptions });
-  const employeeTempArray = [{ label: "all", value: "all" }, ...employeeDropdownOptions]
-
-
+  const employeeTempArray = [...employeeDropdownOptions, { label: "all", value: "all" }]
   const [employeeList, setEmployeeList] = useState(employeeTempArray?.[0]?.value);
-  // console.log({ employeeList })
 
 
   const handleDropdownChangeStore = (selectedValue: any) => {

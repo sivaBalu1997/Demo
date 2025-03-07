@@ -2,11 +2,11 @@ import React from "react";
 
 import { ReactComponent as CloseIcon } from "../../../assets/svg/close.svg";
 
-const RoundedPill = ({ data, closeIconOnClick, handeClear }) => {
+const RoundedPill = ({ data, closeIconOnClick, handeClear ,showSelected=true}) => {
   return (
     <>
       <div className="selected-categories-container">
-        <span className="selected-categories-text">Selected:</span>
+        {showSelected?<span className="selected-categories-text">Selected:</span>:""}
         {data.map((item) => (
           <div className="category-rounded-pill-container">
             <div className="category-rounded-pill">

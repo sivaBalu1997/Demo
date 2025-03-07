@@ -13,7 +13,7 @@ import ErrorState from "components/reportComponents/errorstatecomponents/ErrorSt
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SalesChart = ({dataList, loader}) => {
+const SalesChart = ({dataList, loader,isMobile}) => {
 const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
   function transformData(datalist) {
     const categorySet = new Set();
@@ -51,10 +51,13 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
     maintainAspectRatio: false,
     plugins: {
       legend: { position: "bottom",labels: {
-        boxWidth: 12, // Set legend box width
-        boxHeight: 12, // Set legend box height
+        boxWidth: isMobile?10:12, // Set legend box width
+        boxHeight:isMobile?10: 12, // Set legend box height
         usePointStyle: true,
         pointStyle: "rectRounded", // Rounded rectangle legend symbol
+        font:{
+          size:isMobile?10:12
+        }
       },  },
       tooltip: {
         // Tooltip style
@@ -63,9 +66,9 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
         borderWidth: 1,
         displayColors: false, // Hide color boxes
         titleColor: "#000",
-        titleFont: { weight: "normal", size: 14, family: "Poppins" }, // Title font size set to 14px
+        titleFont: { weight: "normal", size: isMobile?10:14, family: "Poppins" }, // Title font size set to 14px
         titleMarginBottom: 2,
-        bodyFont: { size: 14, family: "Poppins" }, // Body font size set to 14px
+        bodyFont: { size: isMobile?10:14, family: "Poppins" }, // Body font size set to 14px
         bodyColor: "#000",
         cornerRadius: 4,
         caretSize: 0,
@@ -100,10 +103,13 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
     },
     scales: {
       x: {
+        
+        grid:{display:false},
         stacked: true,
         barPercentage: 0.6,
         categoryPercentage: 0.8,
         ticks: {
+          display:!isMobile,
           color: "#555",
           font: { size: 14 },
           minRotation: 45,

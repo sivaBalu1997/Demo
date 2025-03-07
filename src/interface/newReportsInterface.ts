@@ -1,11 +1,11 @@
 export interface DateRangeStateInterface {
-    startDate: Date;
-    endDate: Date;
-    openCustomDateRange: boolean;
-    openStartDatePicker: boolean;
-    openEndDatePicker: boolean;
-    openFilter: boolean;
-    selectedPeriod:
+  startDate: Date;
+  endDate: Date;
+  openCustomDateRange: boolean;
+  openStartDatePicker: boolean;
+  openEndDatePicker: boolean;
+  openFilter: boolean;
+  selectedPeriod:
     | "Yesterday"
     | "Today"
     | "This Week"
@@ -14,10 +14,9 @@ export interface DateRangeStateInterface {
     | "Last Month"
     | "Last 30 days"
     | "Custom Range";
-  }
+}
 
-
-export type Alignment = 'left' | 'center' | 'right';
+export type Alignment = "left" | "center" | "right";
 
 export interface NewTableColumn {
   key: string;
@@ -30,7 +29,7 @@ export interface NewTableHeader {
   key: string;
   label: string;
   isSortable?: boolean;
-  alignment?: 'left' | 'center' | 'right';
+  alignment?: "left" | "center" | "right";
 }
 
 export interface NewTableData {
@@ -48,7 +47,7 @@ export interface NewTableProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   rowsPerPage: number;
-  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
   loader?: boolean;
   // setLoader: React.Dispatch<React.SetStateAction<boolean>>;
   count?: number | string;
@@ -60,7 +59,7 @@ export interface NewTableProps {
 
 export interface SortConfig {
   key: string;
-  direction: 'asc' | 'desc' | null;
+  direction: "asc" | "desc" | null;
 }
 
 export interface ICardWithMiniGraphProps {
@@ -69,14 +68,14 @@ export interface ICardWithMiniGraphProps {
   isMonetary: boolean;
   showMiniGraph?: boolean;
   incrementDecrementValue?: number | string | undefined | "" | null;
-  incrementOrDecrement?:IncrementOrDecrementTypeEnum;
+  incrementOrDecrement?: IncrementOrDecrementTypeEnum;
   loader?: boolean;
   isPercent?: boolean;
-  graphType?: "chart" | "arrow"
+  graphType?: "chart" | "arrow";
 }
 
 export enum IncrementOrDecrementTypeEnum {
   INCREMENT = "increment",
   DECREMENT = "decrement",
-  NULL=""
+  NULL = "",
 }
