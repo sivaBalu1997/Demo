@@ -72,39 +72,39 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   loader,
 }) => {
   // Provide default sample data if none is passed
-  if (dataList.length === 0) {
-    dataList = [
-      { timeRange: "0–15 mins", groupName: "Group of 2", count: 11 },
-      { timeRange: "0–15 mins", groupName: "Group of 4", count: 6 },
-      { timeRange: "0–15 mins", groupName: "Group of 6", count: 5 },
-      { timeRange: "0–15 mins", groupName: "Group of 8", count: 10 },
-      { timeRange: "0–15 mins", groupName: "Group of 8+", count: 9 },
+  // if (dataList.length === 0) {
+  //   dataList = [
+  //     { timeRange: "0–15 mins", groupName: "Group of 2", count: 11 },
+  //     { timeRange: "0–15 mins", groupName: "Group of 4", count: 6 },
+  //     { timeRange: "0–15 mins", groupName: "Group of 6", count: 5 },
+  //     { timeRange: "0–15 mins", groupName: "Group of 8", count: 10 },
+  //     { timeRange: "0–15 mins", groupName: "Group of 8+", count: 9 },
 
-      { timeRange: "15–30 mins", groupName: "Group of 2", count: 8 },
-      { timeRange: "15–30 mins", groupName: "Group of 4", count: 5 },
-      { timeRange: "15–30 mins", groupName: "Group of 6", count: 4 },
-      { timeRange: "15–30 mins", groupName: "Group of 8", count: 7 },
-      { timeRange: "15–30 mins", groupName: "Group of 8+", count: 6 },
+  //     { timeRange: "15–30 mins", groupName: "Group of 2", count: 8 },
+  //     { timeRange: "15–30 mins", groupName: "Group of 4", count: 5 },
+  //     { timeRange: "15–30 mins", groupName: "Group of 6", count: 4 },
+  //     { timeRange: "15–30 mins", groupName: "Group of 8", count: 7 },
+  //     { timeRange: "15–30 mins", groupName: "Group of 8+", count: 6 },
 
-      { timeRange: "30–45 mins", groupName: "Group of 2", count: 6 },
-      { timeRange: "30–45 mins", groupName: "Group of 4", count: 3 },
-      { timeRange: "30–45 mins", groupName: "Group of 6", count: 5 },
-      { timeRange: "30–45 mins", groupName: "Group of 8", count: 8 },
-      { timeRange: "30–45 mins", groupName: "Group of 8+", count: 4 },
+  //     { timeRange: "30–45 mins", groupName: "Group of 2", count: 6 },
+  //     { timeRange: "30–45 mins", groupName: "Group of 4", count: 3 },
+  //     { timeRange: "30–45 mins", groupName: "Group of 6", count: 5 },
+  //     { timeRange: "30–45 mins", groupName: "Group of 8", count: 8 },
+  //     { timeRange: "30–45 mins", groupName: "Group of 8+", count: 4 },
 
-      { timeRange: "45–60 mins", groupName: "Group of 2", count: 6 },
-      { timeRange: "45–60 mins", groupName: "Group of 4", count: 8 },
-      { timeRange: "45–60 mins", groupName: "Group of 6", count: 4 },
-      { timeRange: "45–60 mins", groupName: "Group of 8", count: 10 },
-      { timeRange: "45–60 mins", groupName: "Group of 8+", count: 5 },
+  //     { timeRange: "45–60 mins", groupName: "Group of 2", count: 6 },
+  //     { timeRange: "45–60 mins", groupName: "Group of 4", count: 8 },
+  //     { timeRange: "45–60 mins", groupName: "Group of 6", count: 4 },
+  //     { timeRange: "45–60 mins", groupName: "Group of 8", count: 10 },
+  //     { timeRange: "45–60 mins", groupName: "Group of 8+", count: 5 },
 
-      { timeRange: "60+ mins", groupName: "Group of 2", count: 5 },
-      { timeRange: "60+ mins", groupName: "Group of 4", count: 6 },
-      { timeRange: "60+ mins", groupName: "Group of 6", count: 7 },
-      { timeRange: "60+ mins", groupName: "Group of 8", count: 12 },
-      { timeRange: "60+ mins", groupName: "Group of 8+", count: 9 },
-    ];
-  }
+  //     { timeRange: "60+ mins", groupName: "Group of 2", count: 5 },
+  //     { timeRange: "60+ mins", groupName: "Group of 4", count: 6 },
+  //     { timeRange: "60+ mins", groupName: "Group of 6", count: 7 },
+  //     { timeRange: "60+ mins", groupName: "Group of 8", count: 12 },
+  //     { timeRange: "60+ mins", groupName: "Group of 8+", count: 9 },
+  //   ];
+  // }
 
   // Show shimmer if loader is true
   if (loader) {
