@@ -339,7 +339,7 @@ const [showAllActivityTable, setShowAllActivityTable] = useState<boolean>(false)
       label: `${employee?.firstName}`,
     }));
 
-  const employeeTempArray = [{ label: "all", value: "all" },...employeeDropdownOptions ]
+  const employeeTempArray = [{ label: "All", value: "All" },...employeeDropdownOptions ]
   const [employeeList, setEmployeeList] = useState(employeeTempArray?.[0]?.value);
 
 
