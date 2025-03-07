@@ -47,6 +47,9 @@ $text-secondary: #6b7280;
   // border: 1px solid red;
   position: relative;
   // overflow-y: auto;
+  @media(max-width: 600px){
+    width: 100%;
+  }
   ::-webkit-scrollbar{
     display: none;
   }

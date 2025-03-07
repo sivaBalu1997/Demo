@@ -133,6 +133,9 @@ width: 100% !important;
   .category-custom-datepicker {
     position: relative;
     right: 15vw !important;
+    @media (max-width: 600px) {
+      left: 0vw !important;
+    }
   }
 .category-custom-datepicker-arrow{
   left: 20% !important;
