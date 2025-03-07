@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
-import {  liveCheckInOverviewRequest, 
-  liveCheckInSeaterAvailabilityRequest, 
-  liveCheckInGuestCountRequest, 
-  liveCheckInStatusRequest, 
-  liveCheckInAvgWaitTimeRequest, 
-  liveCheckInGroupAvgWaitTimeRequest, 
-  liveCheckInTableRequest, 
-  liveCheckInTodayRequest} from "../../../redux/checkInReports/checkInReportsActions";
+import {
+  liveCheckInOverviewRequest,
+  liveCheckInSeaterAvailabilityRequest,
+  liveCheckInGuestCountRequest,
+  liveCheckInStatusRequest,
+  liveCheckInAvgWaitTimeRequest,
+  liveCheckInGroupAvgWaitTimeRequest,
+  liveCheckInTableRequest,
+  liveCheckInTodayRequest,
+} from "../../../redux/checkInReports/checkInReportsActions";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import MiniCard from "components/common/MiniCard/MiniCard";
@@ -85,7 +87,6 @@ const headerData = [
     isSortable: true,
   },
 ];
-
 
 const headerData1 = [
   {
@@ -428,8 +429,6 @@ const dataList3: CustomBarChartData[] = [
   },
 ];
 
-
-
 const CheckInLiveReport = () => {
   const [liveCheckInSearchQuery, setLiveCheckInSearchQuery] = useState("");
   const [liveCheckInCurrentPage, setLiveCheckInCurrentPage] = useState(1);
@@ -439,53 +438,109 @@ const CheckInLiveReport = () => {
   const [todayCheckInPageLimit, setTodayCheckInPageLimit] = useState(10);
   const [activeBtn, setActiveBtn] = useState("Live Check-ins");
 
-  const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
-  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
-  
+  const locations = useSelector(
+    (state: any) => state?.newReports?.storeLocationsList
+  );
+  const selectedLocation = useSelector(
+    (state: any) => state?.newReports?.selectedLocation
+  );
+
   // Live Check-in selectors
-  const liveCheckInOverview = useSelector((state: any) => state?.checkInReports?.liveCheckInOverviewSuccess);
-  const liveCheckInSeaterAvailability = useSelector((state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess);
-  const liveCheckInGuestCount = useSelector((state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess);
-  const liveCheckInStatus = useSelector((state: any) => state?.checkInReports?.liveCheckInStatusSuccess);
-  const liveCheckInAvgWaitTime = useSelector((state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeSuccess);
-  const liveCheckInGroupAvgWaitTime = useSelector((state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeSuccess);
-  const liveCheckInTable = useSelector((state: any) => state?.checkInReports?.liveCheckInTableSuccess);
-  const liveCheckInToday = useSelector((state: any) => state?.checkInReports?.liveCheckInTodaySuccess);
+  const liveCheckInOverview = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInOverviewSuccess
+  );
+  const liveCheckInSeaterAvailability = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess
+  );
+  const liveCheckInGuestCount = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
+  );
+  const liveCheckInStatus = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInStatusSuccess
+  );
+  const liveCheckInAvgWaitTime = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeSuccess
+  );
+  const liveCheckInGroupAvgWaitTime = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeSuccess
+  );
+  const liveCheckInTable = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInTableSuccess
+  );
+  const liveCheckInToday = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInTodaySuccess
+  );
 
   // Loading states
-  const isLiveCheckInOverviewLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInOverviewLoading);
-  const isLiveCheckInSeaterAvailabilityLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilityLoading);
-  const isLiveCheckInGuestCountLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInGuestCountLoading);
-  const isLiveCheckInStatusLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInStatusLoading);
-  const isLiveCheckInAvgWaitTimeLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeLoading);
-  const isLiveCheckInGroupAvgWaitTimeLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeLoading);
-  const isLiveCheckInTableLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInTableLoading);
-  const isLiveCheckInTodayLoading = useSelector((state: any) => state?.checkInReports?.liveCheckInTodayLoading);
+  const isLiveCheckInOverviewLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInOverviewLoading
+  );
+  const isLiveCheckInSeaterAvailabilityLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilityLoading
+  );
+  const isLiveCheckInGuestCountLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInGuestCountLoading
+  );
+  const isLiveCheckInStatusLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInStatusLoading
+  );
+  const isLiveCheckInAvgWaitTimeLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeLoading
+  );
+  const isLiveCheckInGroupAvgWaitTimeLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeLoading
+  );
+  const isLiveCheckInTableLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInTableLoading
+  );
+  const isLiveCheckInTodayLoading = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInTodayLoading
+  );
 
   // Error states
-  const liveCheckInOverviewError = useSelector((state: any) => state?.checkInReports?.liveCheckInOverviewFailure);
-  const liveCheckInSeaterAvailabilityError = useSelector((state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilityFailure);
-  const liveCheckInGuestCountError = useSelector((state: any) => state?.checkInReports?.liveCheckInGuestCountFailure);
-  const liveCheckInStatusError = useSelector((state: any) => state?.checkInReports?.liveCheckInStatusFailure);
-  const liveCheckInAvgWaitTimeError = useSelector((state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeFailure);
-  const liveCheckInGroupAvgWaitTimeError = useSelector((state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeFailure);
-  const liveCheckInTableError = useSelector((state: any) => state?.checkInReports?.liveCheckInTableFailure);
-  const liveCheckInTodayError = useSelector((state: any) => state?.checkInReports?.liveCheckInTodayFailure);
+  const liveCheckInOverviewError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInOverviewFailure
+  );
+  const liveCheckInSeaterAvailabilityError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilityFailure
+  );
+  const liveCheckInGuestCountError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInGuestCountFailure
+  );
+  const liveCheckInStatusError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInStatusFailure
+  );
+  const liveCheckInAvgWaitTimeError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeFailure
+  );
+  const liveCheckInGroupAvgWaitTimeError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeFailure
+  );
+  const liveCheckInTableError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInTableFailure
+  );
+  const liveCheckInTodayError = useSelector(
+    (state: any) => state?.checkInReports?.liveCheckInTodayFailure
+  );
 
   const dispatch = useDispatch();
   const { selectedDateFilterType } = useDateFilter();
 
-  const handleLiveCheckInSearch = (value: string) => { };
-  const handleTodayCheckInSearch = (value: string) => { };
+  const handleLiveCheckInSearch = (value: string) => {};
+  const handleTodayCheckInSearch = (value: string) => {};
 
   useEffect(() => {
     if (selectedLocation) {
       dispatch(liveCheckInOverviewRequest({ locationId: selectedLocation }));
-      dispatch(liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation }));
+      dispatch(
+        liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation })
+      );
       dispatch(liveCheckInGuestCountRequest({ locationId: selectedLocation }));
       dispatch(liveCheckInStatusRequest({ locationId: selectedLocation }));
       dispatch(liveCheckInAvgWaitTimeRequest({ locationId: selectedLocation }));
-      dispatch(liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation }));
+      dispatch(
+        liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation })
+      );
       dispatch(liveCheckInTableRequest({ locationId: selectedLocation }));
       dispatch(liveCheckInTodayRequest({ locationId: selectedLocation }));
     }
@@ -512,19 +567,19 @@ const CheckInLiveReport = () => {
               data={[
                 {
                   title: "TOTAL ACTIVE",
-                  value: `${liveCheckInOverview?.totalActive||0}`,
+                  value: `${liveCheckInOverview?.totalActive || 0}`,
                 },
                 {
                   title: "IN-QUEUE",
-                  value: `${liveCheckInOverview?.inQueue||0}`,
+                  value: `${liveCheckInOverview?.inQueue || 0}`,
                 },
                 {
                   title: "ASSIGNED",
-                  value: `${liveCheckInOverview?.assigned||0}`,
+                  value: `${liveCheckInOverview?.assigned || 0}`,
                 },
                 {
                   title: "LATE SHOW",
-                  value: `${liveCheckInOverview?.lateShow||0}`,
+                  value: `${liveCheckInOverview?.lateShow || 0}`,
                 },
               ]}
             />
@@ -535,7 +590,10 @@ const CheckInLiveReport = () => {
               <DownloadPopOver />
             </div>
             <MiniCard
-              data={liveCheckInSeaterAvailability?.map((data:any)=>({title:`${data.seaters} seaters`, value:(data.available||0)}))}
+              data={liveCheckInSeaterAvailability?.map((data: any) => ({
+                title: `${data.seaters} seaters`,
+                value: data.available || 0,
+              }))}
             />
           </div>
           <div>
@@ -550,7 +608,10 @@ const CheckInLiveReport = () => {
               toolTipBorderColor="#009689"
               xAxisTooltipLabel="Product Category"
               yAxisTooltipLabel="Total Sales"
-              dataList={liveCheckInGuestCount?.map((data:any)=>({xAxisValue:`Group of ${data.guestCount||0}`, yAxisValue:Number(data.groupSize)}))}
+              dataList={liveCheckInGuestCount?.map((data: any) => ({
+                xAxisValue: `Group of ${data.guestCount || 0}`,
+                yAxisValue: Number(data.groupSize),
+              }))}
               loader={false}
             />
           </div>
@@ -564,7 +625,10 @@ const CheckInLiveReport = () => {
               toolTipBorderColor="#225E96"
               xAxisTooltipLabel="Status"
               yAxisTooltipLabel="Check-in Count:"
-              dataList={liveCheckInStatus?.map((data:any)=>({xAxisValue:data.status, yAxisValue:Number(data.count)}))}
+              dataList={liveCheckInStatus?.map((data: any) => ({
+                xAxisValue: data.status,
+                yAxisValue: Number(data.count),
+              }))}
               loader={false}
             />
           </div>
@@ -579,7 +643,10 @@ const CheckInLiveReport = () => {
               xAxisTooltipLabel="Channel"
               yAxisTooltipLabel="Wait time"
               yAxisTooltipAppendInBack=" mins"
-              dataList={liveCheckInAvgWaitTime?.map((data:any)=>({xAxisValue:data.channel, yAxisValue:Number(data.avgWaitTime)}))}
+              dataList={liveCheckInAvgWaitTime?.map((data: any) => ({
+                xAxisValue: data.channel,
+                yAxisValue: Number(data.avgWaitTime),
+              }))}
               loader={false}
             />
           </div>
@@ -588,7 +655,14 @@ const CheckInLiveReport = () => {
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
               <DownloadPopOver />
             </div>
-            <StackedBarChart loader={false} dataList={liveCheckInGroupAvgWaitTime?.map((data:any)=>({timeRange:data?.timeRange||"", groupName:data?.groupName||"",count: data?.totalCheckins||0}))}/>
+            <StackedBarChart
+              loader={false}
+              dataList={liveCheckInGroupAvgWaitTime?.map((data: any) => ({
+                timeRange: data?.timeRange || "",
+                groupName: data?.groupName || "",
+                count: data?.totalCheckins || 0,
+              }))}
+            />
             {/* <CustomBarChart
               barColor="#CE9E0F"
               toolTipBorderColor="#CE9E0F"
@@ -601,8 +675,9 @@ const CheckInLiveReport = () => {
           </div>
           <div className="category-btn-switch checkin-btn-switch">
             <button
-              className={`category-btn  ${activeBtn == "Live Check-ins" ? "active-btn" : ""
-                }`}
+              className={`category-btn  ${
+                activeBtn == "Live Check-ins" ? "active-btn" : ""
+              }`}
               onClick={() => {
                 setActiveBtn("Live Check-ins");
               }}
@@ -610,8 +685,9 @@ const CheckInLiveReport = () => {
               Live Check-ins
             </button>
             <button
-              className={`category-btn  ${activeBtn == "Today Check-ins" ? "active-btn" : ""
-                }`}
+              className={`category-btn  ${
+                activeBtn == "Today Check-ins" ? "active-btn" : ""
+              }`}
               onClick={() => {
                 setActiveBtn("Today Check-ins");
               }}
@@ -624,7 +700,7 @@ const CheckInLiveReport = () => {
               <NewTable
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
-                onSearchChange={setLiveCheckInSearchQuery}
+                // onSearchChange={setLiveCheckInSearchQuery}
                 headerData={headerData as any}
                 tableData={liveCheckInTable as any}
                 currentPage={liveCheckInCurrentPage}
@@ -638,14 +714,14 @@ const CheckInLiveReport = () => {
                 // count={liveOrdersAPIRedux?.length}
                 searchPlaceHolder="Search by table number, customer name"
                 onSearch={handleLiveCheckInSearch}
-              // // searchDebounce={()=>searchDebounce()}
+                // // searchDebounce={()=>searchDebounce()}
               />
             )}
             {activeBtn == "Today Check-ins" && (
               <NewTable
                 kpiTitle="Today Check-ins"
                 searchQuery={todayCheckInSearchQuery}
-                onSearchChange={setTodayCheckInSearchQuery}
+                // onSearchChange={setTodayCheckInSearchQuery}
                 headerData={headerData1 as any}
                 tableData={liveCheckInToday as any}
                 currentPage={todayCheckInCurrentPage}
@@ -659,7 +735,7 @@ const CheckInLiveReport = () => {
                 // count={liveOrdersAPIRedux?.length}
                 searchPlaceHolder="Search by table number, customer name"
                 onSearch={handleTodayCheckInSearch}
-              // // searchDebounce={()=>searchDebounce()}
+                // // searchDebounce={()=>searchDebounce()}
               />
             )}
           </div>

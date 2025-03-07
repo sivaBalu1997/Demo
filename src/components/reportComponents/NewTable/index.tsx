@@ -26,7 +26,6 @@ interface SortConfig {
 const NewTable: React.FC<NewTableProps> = ({
     kpiTitle,
     searchQuery,
-    onSearchChange,
     headerData,
     tableData,
     currentPage,
@@ -132,7 +131,6 @@ const NewTable: React.FC<NewTableProps> = ({
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onSearchChange(event.target.value);
         onSearch(event.target.value, kpiTitle);
         setSearchFlag(true)
     };
@@ -240,7 +238,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     onChange={handleInputChange}
                                     className="search-input"
                                 />
-                                <ClearSearchIcon className='clear-search-icon' onClick={() => onSearchChange('')} />
+                                <ClearSearchIcon className='clear-search-icon' onClick={() =>  onSearch("", kpiTitle)} />
                             </div>
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div>
@@ -264,7 +262,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     onChange={handleInputChange}
                                     className="search-input-small-screen"
                                 />
-                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() => onSearchChange('')} />
+                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() =>  onSearch("", kpiTitle)} />
                             </div>
                         </div>
                     </div>

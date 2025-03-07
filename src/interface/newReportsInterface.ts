@@ -39,7 +39,6 @@ export interface NewTableData {
 export interface NewTableProps {
   kpiTitle: string;
   searchQuery: string;
-  onSearchChange: (value: string) => void;
   // headerData: NewTableHeader[];
   headerData: any;
   tableData: NewTableData[];

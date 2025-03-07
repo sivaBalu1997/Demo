@@ -74,10 +74,10 @@ const SidePanel = () => {
     //   name:"Staff",
     //   path:""
     // },
-    {
-      name:"Check-in",
-      path:"/check-in-reports"
-    },
+    // {
+    //   name:"Check-in",
+    //   path:"/check-in-reports"
+    // },
     // {
     //   name:"Customer",
     //   path:""
