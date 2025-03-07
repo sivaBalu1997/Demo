@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  storeLocationsList } from "redux/newReports/newReportsActions";
 import CheckInLiveReport from "../CheckInLive";
 import CheckInOverview from "../CheckInOverview";
-import { select } from "redux-saga/effects";
+import SidePannelMob from "components/reportComponents/SiePannelMob";
+import { RootState } from "redux/rootReducer";
 
 const tabs = ["Live Check-in Report", "Check-in Overview", "Inception"]; 
 interface ReportProps { }
@@ -19,10 +20,10 @@ const CheckInReport: React.FC<ReportProps> = () => {
 
   const dispatch = useDispatch();
   /*********************************************************** */
-  const restaurantDetails = useSelector(    (state: any) => state?.auth?.restaurantDetails?.branch  );
+  const restaurantDetails = useSelector(    (state: RootState) => state?.auth?.restaurantDetails?.branch  );
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
-      const startDate = useSelector((state: any) => state?.newReports?.selectedStartDate)
-      const endtDate = useSelector((state: any) => state?.newReports?.selectedEndDate)
+      const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
+      const endtDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
 
   useEffect(() => {
     if(!startDate ||!endtDate){
@@ -49,16 +50,19 @@ const CheckInReport: React.FC<ReportProps> = () => {
     }
   }, [restaurantDetails, selectedLocation]);
 
-
+  const handleSideMenu=()=>{
+    setIsExpanded(true)
+  }
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <SidePanel />
+      <SidePanel/>
+      {isExpanded?<SidePannelMob handleClose={()=> setIsExpanded(false)} />:null}
         <div className="reports-container ">
 
           {/* Header */}
-          <Header isExpanded={isExpanded} title="Reports & Insights" />
+          <Header isExpanded={isExpanded} title="Reports & Insights" handleSideMenu={handleSideMenu}/>
 
           {/* Tab Navigation */}
           <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
