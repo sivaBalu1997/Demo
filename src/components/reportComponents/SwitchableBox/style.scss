@@ -8,6 +8,10 @@
   cursor: pointer;
   justify-content: center;
   align-items: center;
+  @media(max-width: 600px){
+    width: 88vw;
+    // background-color: pink;
+  }
   @media(max-width: 400px){
     width: 75vw;
   }
@@ -20,6 +24,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    @media (max-width: 600px) {
+      width: 50vw;
+    }
     @media(max-width: 400px){
       width: 40vw;
     }
@@ -33,6 +40,9 @@
       justify-content: center;
       align-items: center;
       border-radius: 10px;
+      @media (max-width: 600px) {
+        width: 50vw;
+      }
       @media(max-width: 400px){
         width: 40vw;
       }

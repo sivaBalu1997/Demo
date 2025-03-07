@@ -582,15 +582,14 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
-  const employeeDropdownOptions = employeeLists?.map((employee) => ({
-    value: employee?.staffId,
-    label: `${employee?.firstName}`,
-  }));
+  const employeeDropdownOptions =
+    employeeLists?.map((employee) => ({
+      value: employee?.staffId,
+      label: `${employee?.firstName}`,
+    }));
 
-  const employeeTempArray = [
-    { label: "all", value: "all" },
-    ...employeeDropdownOptions,
-  ];
+  const employeeTempArray = [{ label: "All", value: "All" },...employeeDropdownOptions ]
+
   const [employeeList, setEmployeeList] = useState(
     employeeTempArray?.[0]?.value
   );

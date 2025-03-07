@@ -69,11 +69,12 @@ const TodaysReport: React.FC = () => {
 
 
     const liveOrdersDineInTableHeaders: NewTableHeader[] = [
-        { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
-        { key: 'tableName', label: 'Table Name', isSortable: true, alignment: 'left' },
-        { key: 'tableOccupancyDuration', label: 'Table Occupancy Duration', isSortable: true, alignment: 'left' },
-        { key: 'orderAmount', label: `Order Amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
-        { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'right' }
+        { key: 'tableName', label: 'Table name', isSortable: true, alignment: 'left' },
+        { key: 'orderAmount', label: `Order amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
+        { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
+        { key: 'orderNumber', label: 'Order number', isSortable: true, alignment: 'right' },
+        { key: 'orderDate', label: 'Order date', isSortable: true, alignment: 'left' },
+        { key: 'orderTime', label: 'Order time', isSortable: true, alignment: 'left' },
     ];
 
     const cardWithMiniGraphData = [
@@ -209,7 +210,7 @@ const TodaysReport: React.FC = () => {
             </div>
             <div className="todays-report-tables-container">
                 <NewTable
-                    kpiTitle="Live Orders"
+                    kpiTitle="Live Dine-in orders"
                     searchQuery={liveOrdersSearchQuery}
                     headerData={liveOrdersDineInTableHeaders}
                     tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 && liveOrdersAPIRedux}
@@ -224,7 +225,7 @@ const TodaysReport: React.FC = () => {
                     onSearch={handleSearch}
                 />
                 <NewTable
-                    kpiTitle="Live Orders Non Dine-in"
+                    kpiTitle="Live Off-Premise orders"
                     searchQuery={liveOrderNonDineInSearchQuery}
                     headerData={liveOrderNonDineInTableHeaders}
                     tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 && liveOrderNonDineInAPIRedux}
