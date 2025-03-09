@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import moment from "moment";
-import CustomDropdown from "../../common/customDropdown"; 
+import CustomDropdown from "../../common/customDropdown";
+import "./style.scss" 
 
 interface Option {
     value: string;
@@ -9,10 +10,11 @@ interface Option {
   }
   
   interface DateDropdownProps {
-    onDateSelect: (from: string | null, to: string | null) => void;
+    onDateSelect: (from: string | null, to: string | null, kpiTitle: string) => void;
+    kpiTitleForCustomDateDropdown: string;  
   }
   
-  const TableDateDropdown: React.FC<DateDropdownProps> = ({ onDateSelect }) => {
+  const TableDateDropdown: React.FC<DateDropdownProps> = ({ onDateSelect, kpiTitleForCustomDateDropdown }) => {
     const [selectedDate, setSelectedDate] = useState<Option | undefined>(undefined);
     const [isDateSelected, setIsDateSelected] = useState(false);
   
@@ -30,9 +32,9 @@ interface Option {
     ];
   
     const handleDateDropdownOnSelect = (option: Option) => {
-      let from, to;
-  
-      switch (option.value) {
+      let from: moment.Moment | null = null, to: moment.Moment | null = null;
+    
+      switch (option?.value) {
         case "All":
           from = to = null;
           break;
@@ -74,29 +76,30 @@ interface Option {
           from = to = moment();
           break;
       }
-  
-      const formattedFromDate = from ? from.format("YYYY-MM-DD") : null;
-      const formattedToDate = to ? to.format("YYYY-MM-DD") : null;
-  
-      // Call parent function to update the selected date range
-      onDateSelect(formattedFromDate, formattedToDate);
-  
-      setIsDateSelected(true);
+    
+      // Format dates before passing them to parent
+      const formattedFromDate = from ? from?.format("YYYY-MM-DD") : null;
+      const formattedToDate = to ? to?.format("YYYY-MM-DD") : null;
+    
+      // Ensure the correct values are sent before updating the state
+      onDateSelect(formattedFromDate, formattedToDate, kpiTitleForCustomDateDropdown);
+    
+      // Update state after calling onDateSelect
       setSelectedDate(option);
+      setIsDateSelected(true);
     };
+    
   
     return (
       <CustomDropdown
-        value={selectedDate}
+        value={dateOptions[0]?.value}
         options={dateOptions}
         onSelect={handleDateDropdownOnSelect}
         placeholder="Select Date"
-        className="category-dropdown"
+        className="table-date-dropdown"
         placeholderClass={isDateSelected ? "range-date-selected" : ""}
         disabled={false}
-        controlClassName="dropdown-control"
-        arrowClosed={<span>▼</span>}
-        arrowOpen={<span>▲</span>}
+        // controlClassName="dropdown-control"
       />
     );
   };

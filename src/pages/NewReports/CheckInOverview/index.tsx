@@ -414,15 +414,10 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
-  const [fromDateForTable, setFromDateForTable] = useState<string | null>(null);
-  const [toDateForTable, setToDateForTable] = useState<string | null>(null);
-
-  const handleDateSelectForTable = (from: string | null, to: string | null) => {
-    setFromDateForTable(from);
-    setToDateForTable(to);
-    console.log("Selected Date Range: PPP", from, to);
-    console.log("States: PPP", fromDateForTable, toDateForTable);
+  const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
+    console.log(`from : ${from}`, `To : ${to}`, `kpiTitle : ${kpiTitle}`);
   };
+
 
   return (
     <>
@@ -616,7 +611,6 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             onSearch={() => {}}
             // // searchDebounce={()=>searchDebounce()}
             showDateDropDown={true}
-            selectedDate={fromDateForTable}
             onDateSelect={handleDateSelectForTable}
           />
         </div>

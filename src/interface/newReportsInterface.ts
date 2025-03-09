@@ -56,7 +56,7 @@ export interface NewTableProps {
   getChartSliceTableHeaders?: any;
   showDateDropDown?: boolean
   selectedDate?: string | null; 
-  onDateSelect?: (from: string | null, to: string | null) => void;
+  onDateSelect?: (from: string | null, to: string | null, kpiTitleForCustomDateDropdown: string) => void;
 }
 
 export interface SortConfig {
