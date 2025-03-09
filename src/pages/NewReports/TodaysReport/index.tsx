@@ -177,10 +177,6 @@ const TodaysReport: React.FC = () => {
 
     };
 
-    
-    const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
-        console.log(`from : ${from}`, `To : ${to}`, `kpiTitle : ${kpiTitle}`);
-    };
 
     return (
         <div className='todays-report-container'>
@@ -242,10 +238,6 @@ const TodaysReport: React.FC = () => {
                     count={liveOrderNonDineInAPIRedux?.length}
                     searchPlaceHolder="Search by order number, customer name"
                     onSearch={handleSearch}
-                    // custom date drop down for table
-                    showDateDropDown={true}
-                    // selectedDate={fromDateForTable}
-                    onDateSelect={handleDateSelectForTable}
                 />
             </div>
         </div >
