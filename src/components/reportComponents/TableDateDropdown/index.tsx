@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import moment from "moment";
-import CustomDropdown from "../../common/customDropdown"; 
+import CustomDropdown from "../../common/customDropdown";
+import "./style.scss" 
 
 interface Option {
     value: string;
@@ -33,7 +34,7 @@ interface Option {
     const handleDateDropdownOnSelect = (option: Option) => {
       let from: moment.Moment | null = null, to: moment.Moment | null = null;
     
-      switch (option.value) {
+      switch (option?.value) {
         case "All":
           from = to = null;
           break;
@@ -91,16 +92,14 @@ interface Option {
   
     return (
       <CustomDropdown
-        value={selectedDate}
+        value={dateOptions[0]?.value}
         options={dateOptions}
         onSelect={handleDateDropdownOnSelect}
         placeholder="Select Date"
-        className="category-dropdown"
+        className="table-date-dropdown"
         placeholderClass={isDateSelected ? "range-date-selected" : ""}
         disabled={false}
-        controlClassName="dropdown-control"
-        arrowClosed={<span>▼</span>}
-        arrowOpen={<span>▲</span>}
+        // controlClassName="dropdown-control"
       />
     );
   };
