@@ -30,8 +30,8 @@ interface Option {
     ];
   
     const handleDateDropdownOnSelect = (option: Option) => {
-      let from, to;
-  
+      let from: moment.Moment | null = null, to: moment.Moment | null = null;
+    
       switch (option.value) {
         case "All":
           from = to = null;
@@ -74,16 +74,19 @@ interface Option {
           from = to = moment();
           break;
       }
-  
+    
+      // Format dates before passing them to parent
       const formattedFromDate = from ? from.format("YYYY-MM-DD") : null;
       const formattedToDate = to ? to.format("YYYY-MM-DD") : null;
-  
-      // Call parent function to update the selected date range
+    
+      // Ensure the correct values are sent before updating the state
       onDateSelect(formattedFromDate, formattedToDate);
-  
-      setIsDateSelected(true);
+    
+      // Update state after calling onDateSelect
       setSelectedDate(option);
+      setIsDateSelected(true);
     };
+    
   
     return (
       <CustomDropdown
