@@ -9,10 +9,11 @@ interface Option {
   }
   
   interface DateDropdownProps {
-    onDateSelect: (from: string | null, to: string | null) => void;
+    onDateSelect: (from: string | null, to: string | null, kpiTitle: string) => void;
+    kpiTitleForCustomDateDropdown: string;  
   }
   
-  const TableDateDropdown: React.FC<DateDropdownProps> = ({ onDateSelect }) => {
+  const TableDateDropdown: React.FC<DateDropdownProps> = ({ onDateSelect, kpiTitleForCustomDateDropdown }) => {
     const [selectedDate, setSelectedDate] = useState<Option | undefined>(undefined);
     const [isDateSelected, setIsDateSelected] = useState(false);
   
@@ -76,11 +77,11 @@ interface Option {
       }
     
       // Format dates before passing them to parent
-      const formattedFromDate = from ? from.format("YYYY-MM-DD") : null;
-      const formattedToDate = to ? to.format("YYYY-MM-DD") : null;
+      const formattedFromDate = from ? from?.format("YYYY-MM-DD") : null;
+      const formattedToDate = to ? to?.format("YYYY-MM-DD") : null;
     
       // Ensure the correct values are sent before updating the state
-      onDateSelect(formattedFromDate, formattedToDate);
+      onDateSelect(formattedFromDate, formattedToDate, kpiTitleForCustomDateDropdown);
     
       // Update state after calling onDateSelect
       setSelectedDate(option);

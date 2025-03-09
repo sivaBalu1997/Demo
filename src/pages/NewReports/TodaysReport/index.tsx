@@ -178,9 +178,9 @@ const TodaysReport: React.FC = () => {
     };
 
     
-      const handleDateSelectForTable = (from: string | null, to: string | null) => {
-        console.log(`from : ${from}`, `To : ${to}`);
-      };
+        const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
+        console.log(`from : ${from}`, `To : ${to}`, `kpiTitle : ${kpiTitle}`);
+        };
 
     return (
         <div className='todays-report-container'>
