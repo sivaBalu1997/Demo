@@ -28,6 +28,7 @@ $text-secondary: #6b7280;
           border-radius: 0.5vw;
           cursor: pointer;
           transition: background-color 0.3s ease;
+          -webkit-tap-highlight-color: transparent;
           @media(max-width: 600px){
             width: 25vw;
             padding: 2vw 1vw;
@@ -50,6 +51,7 @@ $text-secondary: #6b7280;
   -webkit-tap-highlight-color: transparent;
   @media(max-width: 600px){
     width: 100%;
+    height: fit-content;
   }
   ::-webkit-scrollbar{
     display: none;

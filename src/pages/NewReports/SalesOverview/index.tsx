@@ -371,6 +371,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSummaryView = (view: string, data: any) => {
+    // console.log("PPP data", data)
     resetPagination()
     let params: any = {
       locationid: selectedLocation?.value,
