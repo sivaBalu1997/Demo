@@ -122,10 +122,10 @@ const TodaysReport: React.FC = () => {
                 dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
                 
-                case 'Live Off-Premise orders':
-                setLiveOrderNonDineInSearchQuery(value)
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-                break;
+            case 'Live Off-Premise orders':
+            setLiveOrderNonDineInSearchQuery(value)
+            currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+            break;
 
             default:
                 console.warn(`Unknown KPI title: ${kpiTitle}`);
