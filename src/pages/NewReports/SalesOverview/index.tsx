@@ -342,7 +342,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSearch = (value: string, kpiTitle: string) => {
-    console.log(`handleSearch PPP, KpiTitle - ${kpiTitle}, viewType : ${viewType}`)
+    // console.log(`handleSearch PPP, KpiTitle - ${kpiTitle}, viewType : ${viewType}`)
     let params: any = {
       locationid: selectedLocation?.value,
       startDate: startDate,
