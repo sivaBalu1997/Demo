@@ -103,8 +103,8 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile  }) {
 
   if(loader) return <BarChartShimmer />
 
-  console.log("dataList.length",dataList?.length)
-  console.log("dataList",dataList)
+  // console.log("dataList.length",dataList?.length)
+  // console.log("dataList",dataList)
 
   return !dataList ? (
     <ErrorState pageTitle="Category report" isDataNotAvailable={true} />

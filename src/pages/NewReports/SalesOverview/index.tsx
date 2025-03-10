@@ -258,7 +258,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
     return tendorGroups;
   }, [tendorTypes]);
-  console.log({ startDate, endDate })
+  // console.log({ startDate, endDate })
 
   useEffect(() => {
     Promise.all([
