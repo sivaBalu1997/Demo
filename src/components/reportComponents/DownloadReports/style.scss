@@ -6,6 +6,7 @@ $border-color: #e5e7eb;
     .table-download-options {
     // background-color: pink;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
     }
 
     .table-download-options-pop-over {
@@ -23,7 +24,8 @@ $border-color: #e5e7eb;
         position: absolute;
         top: 100%; 
         right: -40%;
-        z-index: 15; 
+        z-index: 15;
+        -webkit-tap-highlight-color: transparent; 
         @media(max-width: 400px){
             width: 11rem;
             top: 110%;

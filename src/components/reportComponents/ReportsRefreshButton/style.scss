@@ -14,4 +14,9 @@ border-radius: 8px;
     border: 1px solid #FFF0F1;
     font-weight: 500;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    &:active {
+        transform: scale(0.95); 
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2); 
+      }
 }
