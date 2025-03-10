@@ -132,8 +132,8 @@ const StoreFilter = ({
 
     if (dateDropdownFunction) {
       dateDropdownFunction(formattedFromDate, formattedToDate);
-      console.log("formattedFromDate 1111", formattedFromDate);
-      console.log("formattedToDate 1111", formattedToDate);
+      // console.log("formattedFromDate 1111", formattedFromDate);
+      // console.log("formattedToDate 1111", formattedToDate);
     }
     if (option.value == "Custom Date") {
       calendarRef.current?.openCalendar();
