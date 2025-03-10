@@ -16,6 +16,9 @@
       // background-color: palegreen;
       max-height: 20rem;
     //   width: ;
+    @media(max-width: 600px){
+      max-height: 27rem;
+    }
     }
     .Dropdown-option {
       color: #595959;

@@ -115,16 +115,17 @@ const TodaysReport: React.FC = () => {
 
 
     const handleSearch = (value: string, kpiTitle: string) => {
+        console.log(`handleSearch => value : ${value}, kpiTitle : ${kpiTitle}`)
         switch (kpiTitle) {
-            case 'Live Orders':
+            case 'Live Dine-in orders':
                 setLiveOrdersSearchQuery(value)
                 dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
                 
-                case 'Live Orders Non Dine-in':
-                setLiveOrderNonDineInSearchQuery(value)
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-                break;
+            case 'Live Off-Premise orders':
+            setLiveOrderNonDineInSearchQuery(value)
+            currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+            break;
 
             default:
                 console.warn(`Unknown KPI title: ${kpiTitle}`);

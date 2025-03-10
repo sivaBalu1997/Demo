@@ -243,6 +243,13 @@ $text-secondary: #6b7280;
           // background-color: palegreen;
           text-align: left;
         }
+        .table-date-dropdown-container-small-screen{
+          // background-color: pink;
+          width: 18vw;
+          @media (max-width: 600px){
+            width: 45vw;
+          }
+        }
         .table-title-count-small-screen{
           color: #e52333;
           // background-color: pink;
