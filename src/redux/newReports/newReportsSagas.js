@@ -926,7 +926,7 @@ function* paymentDetailsRequestSaga(action) {
     try {
         const response = yield call(getPaymentDetails, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of paymentDetailsRequestSaga EEEEE", { decryptedData })
+        // console.log("response of paymentDetailsRequestSaga EEEEE", { decryptedData })
         if (response.status === 200) {
             yield put(paymentDetailsSuccess(decryptedData));
         } else {

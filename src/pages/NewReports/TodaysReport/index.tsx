@@ -114,7 +114,7 @@ const TodaysReport: React.FC = () => {
 
 
     const handleSearch = (value: string, kpiTitle: string) => {
-        console.log(`handleSearch => value : ${value}, kpiTitle : ${kpiTitle}`)
+        // console.log(`handleSearch => value : ${value}, kpiTitle : ${kpiTitle}`)
         switch (kpiTitle) {
             case 'Live Dine-in orders':
                 setLiveOrdersSearchQuery(value)

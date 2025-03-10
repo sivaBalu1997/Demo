@@ -16,7 +16,7 @@ import ErrorState from "components/reportComponents/errorstatecomponents/ErrorSt
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile }) {
-  console.log(dataList);
+  // console.log(dataList);
   // Prepare the Chart.js data object
   const data = {
     labels: dataList?.map((cat) => cat?.categoryName)||[],

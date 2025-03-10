@@ -23,7 +23,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
       categorySet.add(categoryName);
       channelSet.add(channelName);
     });
-    console.log(datalist ,"The whole data i")
+    // console.log(datalist ,"The whole data i")
     const labels = Array.from(categorySet);
     const channels = Array.from(channelSet);
     
@@ -127,7 +127,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
     },
   };
 const data=transformData(dataList)
-console.log("data is loaded from",data)
+// console.log("data is loaded from",data)
 if(loader) return <BarChartShimmer />
 
   return dataList?.length === 0 ? (
