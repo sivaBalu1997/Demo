@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 import { ReactComponent as IncrementGraph } from "../../../assets/svg/r-increment-graph-icon.svg";
 import { ReactComponent as IncrementArrow } from "../../../assets/svg/r-increment-arrow-icon.svg";
 import { ReactComponent as DecrementGraph } from "../../../assets/svg/r-decrement-graph-icon.svg";
 import { ReactComponent as DecrementArrow } from "../../../assets/svg/r-decrement-arrow-icon.svg";
 import { ReactComponent as LossArrowIcon } from "../../../assets/svg/lossArrow1.svg";
 import { ReactComponent as GainArrowIcon } from "../../../assets/svg/gainarrow1.svg";
-import { useSelector } from "react-redux";
-import "./style.scss";
-import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
 import { ICardWithMiniGraphProps } from "interface/newReportsInterface";
 import { transformSalesData } from "utils";
+import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
+import "./style.scss";
 
 
 const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
@@ -60,7 +60,7 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
                             </>
                         )}
                     </div>
-                    {incrementOrDecrement === "increment" ? (graphType === "chart" ? <IncrementGraph /> : <GainArrowIcon />) : graphType === "chart" ? <DecrementGraph /> : <LossArrowIcon />}
+                    {incrementOrDecrement === "increment" ? (graphType === "chart" ? <IncrementGraph className="increment-mini-graph"/> : <GainArrowIcon className="gain-arrow-icon"/>) : graphType === "chart" ? <DecrementGraph className="decrement-mini-graph"/> : <LossArrowIcon className="loss-arrow-icon"/>}
                 </div>
             )
             }
