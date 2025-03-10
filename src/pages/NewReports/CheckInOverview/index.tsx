@@ -415,7 +415,7 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
   };
 
   const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
-    console.log(`from : ${from}`, `To : ${to}`, `kpiTitle : ${kpiTitle}`);
+    // console.log(`from : ${from}`, `To : ${to}`, `kpiTitle : ${kpiTitle}`);
   };
 
 
