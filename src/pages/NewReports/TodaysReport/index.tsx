@@ -24,7 +24,6 @@ const TodaysReport: React.FC = () => {
     // console.log("MAP",{mappedIdWithBranchName})
 
     const [currentDate, setCurrentDate] = useState('');
-    const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
     const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
@@ -138,8 +137,6 @@ const TodaysReport: React.FC = () => {
 
 
     const handleRefreshClick = () => {
-
-        setSelectedDate({ label: "Yesterday", value: "Yesterday" });
         setLiveOrdersSearchQuery('');
         setLiveOrdersPageLimit(10);
         setLiveOrderNonDineInSearchQuery('');

@@ -38,7 +38,7 @@ const NewTable: React.FC<NewTableProps> = ({
     count,
     searchPlaceHolder,
     onSearch,
-    showDateDropDown,
+    showDateDropDown=false,
     selectedDate,
     onDateSelect = () => {}, 
 }) => {
