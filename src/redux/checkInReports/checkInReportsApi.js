@@ -21,9 +21,13 @@ const generateQueryParams = (payload) => {
 
     if(payload?.tablePageNo){
         query+="&page="+payload?.tablePageNo
+    }else if(payload?.page){
+        query+="&page="+payload?.page
     }
     if(payload?.tableRecordLimit){
         query+="&size="+payload?.tableRecordLimit
+    }else if(payload?.size){
+        query+="&size="+payload?.size
     }
     if(payload?.searchQuery){
         query+="&search="+payload?.searchQuery
@@ -52,7 +56,7 @@ export const getLiveCheckInOverview = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/overview${query}`,
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -76,7 +80,7 @@ export const getLiveGuestCount = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/guest-count${query}`,
+        url: `${reportsBaseUrl}/live/checkin/inqueue-guest-count${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -88,7 +92,7 @@ export const getLiveCheckInStatus = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/status${query}`,
+        url: `${reportsBaseUrl}/live/checkin/status-checkin${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -100,7 +104,7 @@ export const getLiveAvgWaitTime = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/avg-wait-time${query}`,
+        url: `${reportsBaseUrl}/live/checkin/average-wait-time${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -124,7 +128,7 @@ export const getLiveCheckInTable = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/table${query}`,
+        url: `${reportsBaseUrl}/live/checkin/liveortoday-checkins${query}&type=livecheckin`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -136,7 +140,7 @@ export const getLiveCheckInToday = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/today${query}`,
+        url: `${reportsBaseUrl}/live/checkin/liveortoday-checkins${query}&type=todaycheckin`,
         headers: {
             Authorization: 'bearer ' + token,
         }
