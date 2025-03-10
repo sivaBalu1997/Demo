@@ -342,6 +342,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSearch = (value: string, kpiTitle: string) => {
+    console.log(`handleSearch PPP, KpiTitle - ${kpiTitle}, viewType : ${viewType}`)
     let params: any = {
       locationid: selectedLocation?.value,
       startDate: startDate,
@@ -391,7 +392,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       params.offer = label
       dispatch(discountSummaryRequest(params))
     }
-    if (view === "voidedOrder") {
+    if (view === "voidedOffer") {
       let label = data?.label
       if (data?.label === "Other") {
         label = otherVoided
@@ -401,6 +402,17 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       dispatch(cancellationSummaryRequest(params))
     }
   };
+
+  useEffect(()=>{
+    dispatch(cancellationSummaryRequest({
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      tablePageNo: currentPageVoiddedOrders,
+      tableRecordLimit: currentRowsVoiddedOrders,
+    }))
+  },[currentPageVoiddedOrders, currentRowsVoiddedOrders])
+
 
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
@@ -690,7 +702,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 countryCode={countryCode}
                 handleOther={(other: string) => handleOther("voidedOffer", other)}
                 handleClick={(data: any) =>
-                  handleSummaryView("voidedOrder", data)
+                  handleSummaryView("voidedOffer", data)
                 }
                 loader={voidedOrderSummaryLoader}
               />
