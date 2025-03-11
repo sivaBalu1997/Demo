@@ -779,7 +779,7 @@ export function* dailyCheckInStatusRequestSaga(action) {
     try {
         const response = yield call(getDailyCheckInStatus, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of dailyCheckInStatusRequestSaga", { decryptedData })
+        // console.log("response of dailyCheckInStatusRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCheckInStatusSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -926,7 +926,7 @@ function* paymentDetailsRequestSaga(action) {
     try {
         const response = yield call(getPaymentDetails, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of paymentDetailsRequestSaga EEEEE", { decryptedData })
+        // console.log("response of paymentDetailsRequestSaga EEEEE", { decryptedData })
         if (response.status === 200) {
             yield put(paymentDetailsSuccess(decryptedData));
         } else {
@@ -1143,7 +1143,7 @@ export function* getEmployeeChartSliceTableRequestSaga(action) {
     try {
         const response = yield call(getEmployeeChartSliceTable, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of getEmployeeChartSliceTableRequestSaga PPP2", { decryptedData })
+        // console.log("response of getEmployeeChartSliceTableRequestSaga PPP2", { decryptedData })
         if (response.status === 200) {
             yield put(getEmployeeChartSliceTableSuccess(decryptedData));
         } else {

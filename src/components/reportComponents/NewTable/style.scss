@@ -28,6 +28,7 @@ $text-secondary: #6b7280;
           border-radius: 0.5vw;
           cursor: pointer;
           transition: background-color 0.3s ease;
+          -webkit-tap-highlight-color: transparent;
           @media(max-width: 600px){
             width: 25vw;
             padding: 2vw 1vw;
@@ -42,13 +43,15 @@ $text-secondary: #6b7280;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 95%;
-  height: 120%;
+  // height: 120%;
   // background-color: pink;
   // border: 1px solid red;
   position: relative;
   // overflow-y: auto;
+  -webkit-tap-highlight-color: transparent;
   @media(max-width: 600px){
     width: 100%;
+    height: fit-content;
   }
   ::-webkit-scrollbar{
     display: none;
@@ -94,6 +97,11 @@ $text-secondary: #6b7280;
         height: 20px;
         cursor: default;
       }
+    }
+
+    .table-date-dropdown-container{
+      // background-color: pink;
+      width: 12vw;
     }
 
     .table-search-with-download-opt-container{
@@ -237,6 +245,13 @@ $text-secondary: #6b7280;
           color: $text-primary;
           // background-color: palegreen;
           text-align: left;
+        }
+        .table-date-dropdown-container-small-screen{
+          // background-color: pink;
+          width: 18vw;
+          @media (max-width: 600px){
+            width: 45vw;
+          }
         }
         .table-title-count-small-screen{
           color: #e52333;

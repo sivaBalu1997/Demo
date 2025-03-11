@@ -38,7 +38,7 @@ const NewTable: React.FC<NewTableProps> = ({
     count,
     searchPlaceHolder,
     onSearch,
-    showDateDropDown,
+    showDateDropDown=false,
     selectedDate,
     onDateSelect = () => {}, 
 }) => {
@@ -227,7 +227,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <h2 className="table-title">{kpiTitle}</h2>
                             {!!count && <p className='table-title-count'>{count}</p>}
                         </div>
-                        {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown onDateSelect={onDateSelect} /></div>}
+                        {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown)=>onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
                         <div className="table-search-with-download-opt-container">
                             <div className="search-container">
                                 <SearchIcon className="search-icon" />
@@ -248,7 +248,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <div className="table-title-with-count-container-small-screen">
                                 <h2 className="table-title-small-screen">{kpiTitle}</h2>
                                 {!!count && <p className='table-title-count-small-screen'>{count}</p>}
-                                {showDateDropDown && <div className='table-date-dropdown-container-small-screen'><TableDateDropdown onDateSelect={onDateSelect} /></div>}
+                                {showDateDropDown && <div className='table-date-dropdown-container-small-screen'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown)=>onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
                             </div>
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div> 

@@ -39,8 +39,8 @@ interface RevenueChartProps {
 const RevenueClassChart: React.FC<RevenueChartProps> = ({
   dataList = [],
   loader,
-  xAxisTooltipLabel,
-  yAxisTooltipLabel,
+  xAxisTooltipLabel = "",
+  yAxisTooltipLabel = "",
   toolTipBorderColor,
   barColor,
   displayLegend = false,
@@ -75,7 +75,13 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: displayLegend },
+      legend: { position: "bottom",
+        labels: {
+ boxWidth: 12, // Set legend box width
+ boxHeight: 12, // Set legend box height
+ usePointStyle: true,
+ pointStyle: "rectRounded", // Rounded rectangle legend symbol
+}, },
       tooltip: {
         enabled: true,
         callbacks: {
@@ -84,12 +90,33 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
           },
           label: (tooltipItem: any) => {
             const dataPoint = tooltipItem.raw;
-            return [
+            let toolTipData = [
               `${xAxisTooltipLabel}: ${dataPoint.x}`,
               `${yAxisTooltipLabel}: ${yAxisTooltipAppendInFront}${dataPoint.y.toFixed(
                 0
               )}${yAxisTooltipAppendInBack}`,
             ];
+            if (
+              xAxisTooltipLabel?.length > 0 &&
+              yAxisTooltipLabel?.length > 0
+            ) {
+              return toolTipData;
+            } else {
+              if (
+                xAxisTooltipLabel?.length > 0 &&
+                (yAxisTooltipLabel.length == 0 ||
+                  yAxisTooltipLabel == undefined)
+              ) {
+                return toolTipData[0];
+              }
+              if (
+                yAxisTooltipLabel?.length > 0 &&
+                (xAxisTooltipLabel.length == 0 ||
+                  xAxisTooltipLabel == undefined)
+              ) {
+                return toolTipData[1];
+              }
+            }
           },
         },
         backgroundColor: "rgba(255, 255, 255, 0.9)",

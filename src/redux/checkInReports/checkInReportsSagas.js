@@ -128,7 +128,11 @@ export function* liveGuestCountSaga(action) {
 export function* liveCheckInStatusSaga(action) {
     try {
         const response = yield call(getLiveCheckInStatus, action.payload);
+        console.log({response});
+        
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("dec",decryptedData );
+        
         if (response.status === 200) {
             yield put(liveCheckInStatusSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
@@ -368,8 +372,8 @@ export default function* watchNewReportRequest() {
     yield takeLatest(CHECK_IN_OVERVIEW_DAILY_AND_GUEST_REQUEST, checkInOverviewDailyAndGuestSaga);
     yield takeLatest(CHECK_IN_OVERVIEW_DINE_IN_GROUP_REQUEST, checkInOverviewDineInGroupSaga);
     yield takeLatest(CHECK_IN_OVERVIEW_GUEST_SIZE_REQUEST, checkInOverviewGuestSizeSaga);
-    yield takeLatest(CHECK_IN_OVERVIEW_TABLE_DETAILS_REQUEST, checkInOverviewTableDetailsSaga);
-    yield takeLatest(CHECK_IN_OVERVIEW_TOP_CUSTOMER_REQUEST, checkInOverviewTopCustomerSaga);
+    yield debounce(1000, CHECK_IN_OVERVIEW_TABLE_DETAILS_REQUEST, checkInOverviewTableDetailsSaga);
+    yield debounce(1000, CHECK_IN_OVERVIEW_TOP_CUSTOMER_REQUEST, checkInOverviewTopCustomerSaga);
     yield takeLatest(CHECK_IN_OVERVIEW_AVG_WAIT_TIME_GROUP_REQUEST, checkInOverviewAvgWaitTimeGroupSaga);
 
 }

@@ -123,6 +123,8 @@ export const liveCheckInStatusRequest = (data) => {
 }
 
 export const liveCheckInStatusSuccess = (data) => {
+    console.log(1, data);
+    
     return {
         type: LIVE_CHECK_IN_STATUS_SUCCESS,
         payload: data

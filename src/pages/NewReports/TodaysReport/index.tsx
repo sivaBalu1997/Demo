@@ -24,7 +24,6 @@ const TodaysReport: React.FC = () => {
     // console.log("MAP",{mappedIdWithBranchName})
 
     const [currentDate, setCurrentDate] = useState('');
-    const [selectedDate, setSelectedDate] = useState({ label: "Yesterday", value: "Yesterday" });
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
     const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
@@ -115,16 +114,17 @@ const TodaysReport: React.FC = () => {
 
 
     const handleSearch = (value: string, kpiTitle: string) => {
+        // console.log(`handleSearch => value : ${value}, kpiTitle : ${kpiTitle}`)
         switch (kpiTitle) {
-            case 'Live Orders':
+            case 'Live Dine-in orders':
                 setLiveOrdersSearchQuery(value)
                 dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
                 
-                case 'Live Orders Non Dine-in':
-                setLiveOrderNonDineInSearchQuery(value)
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-                break;
+            case 'Live Off-Premise orders':
+            setLiveOrderNonDineInSearchQuery(value)
+            currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+            break;
 
             default:
                 console.warn(`Unknown KPI title: ${kpiTitle}`);
@@ -137,8 +137,6 @@ const TodaysReport: React.FC = () => {
 
 
     const handleRefreshClick = () => {
-
-        setSelectedDate({ label: "Yesterday", value: "Yesterday" });
         setLiveOrdersSearchQuery('');
         setLiveOrdersPageLimit(10);
         setLiveOrderNonDineInSearchQuery('');

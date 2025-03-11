@@ -69,7 +69,7 @@ const headerData = [
     isSortable: true,
   },
   {
-    key: "liveCheckIn",
+    key: "liveCheckInStatus",
     label: "Status",
     alignment: "left",
     isSortable: true,
@@ -151,283 +151,7 @@ const headerData1 = [
   },
 ];
 
-const todayTableData = [
-  {
-    checkinId: "#5852",
-    guestName: "Albert Flores",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A43",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Completed",
-    waitTime: "13 Mins",
-    guestSize: 4,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Arlene McCoy",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "-",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Late show",
-    waitTime: "13 Mins",
-    guestSize: 3,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Devon Lane",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A43",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Cancelled",
-    waitTime: "13 Mins",
-    guestSize: 6,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Esther Fox",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "A45",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Completed",
-    waitTime: "13 Mins",
-    guestSize: 5,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Esther Howard",
-    phone: "(308) 555-0121",
-    channel: "Merchant",
-    tableNo: "A46",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Cancelled",
-    waitTime: "13 Mins",
-    guestSize: 12,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Robert Fox",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "D23",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Completed",
-    waitTime: "13 Mins",
-    guestSize: 9,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Esther Fox",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "-",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Completed",
-    waitTime: "13 Mins",
-    guestSize: 8,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Devon Lane",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A50",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Late show",
-    waitTime: "13 Mins",
-    guestSize: 4,
-  },
-];
-const liveTableData = [
-  {
-    checkinId: "#5852",
-    guestName: "Albert Flores",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A43",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Assigned",
-    waitTime: "13 Mins",
-    guestSize: 4,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Arlene McCoy",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "-",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Late show",
-    waitTime: "13 Mins",
-    guestSize: 3,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Devon Lane",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A43",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "In Queue",
-    waitTime: "13 Mins",
-    guestSize: 6,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Esther Fox",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "A45",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Assigned",
-    waitTime: "13 Mins",
-    guestSize: 5,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Esther Howard",
-    phone: "(308) 555-0121",
-    channel: "Merchant",
-    tableNo: "A46",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Seated",
-    waitTime: "13 Mins",
-    guestSize: 12,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Robert Fox",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "D23",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "In Queue",
-    waitTime: "13 Mins",
-    guestSize: 9,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Esther Fox",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "-",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Assigned",
-    waitTime: "13 Mins",
-    guestSize: 8,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Devon Lane",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A50",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Late show",
-    waitTime: "13 Mins",
-    guestSize: 4,
-  },
-];
-const dataList1: CustomBarChartData[] = [
-  {
-    xAxisValue: "Group of 2",
-    yAxisValue: 742.0,
-    tooltipValue: 23,
-  },
-  {
-    xAxisValue: "Group of 4",
-    yAxisValue: 500.5,
-    tooltipValue: 15,
-  },
-  {
-    xAxisValue: "Group of 6",
-    yAxisValue: 1200.75,
-    tooltipValue: 45,
-  },
-  {
-    xAxisValue: "Group of 8",
-    yAxisValue: 300.25,
-    tooltipValue: 10,
-  },
-  {
-    xAxisValue: "Group of 12",
-    yAxisValue: 980.4,
-    tooltipValue: 30,
-  },
-];
-const dataList2: CustomBarChartData[] = [
-  {
-    xAxisValue: "Beverages",
-    yAxisValue: 742.0,
-    tooltipValue: 0,
-  },
-  {
-    xAxisValue: "Snacks",
-    yAxisValue: 500.5,
-    tooltipValue: 15,
-  },
-  {
-    xAxisValue: "Bakery",
-    yAxisValue: 1200.75,
-    tooltipValue: 45,
-  },
-  {
-    xAxisValue: "Dairy",
-    yAxisValue: 300.25,
-    tooltipValue: 10,
-  },
-  {
-    xAxisValue: "Meat",
-    yAxisValue: 980.4,
-    tooltipValue: 30,
-  },
-];
-const dataList3: CustomBarChartData[] = [
-  {
-    xAxisValue: "Beverages",
-    yAxisValue: 742.0,
-    tooltipValue: 23,
-  },
-  {
-    xAxisValue: "Snacks",
-    yAxisValue: 500.5,
-    tooltipValue: 15,
-  },
-  {
-    xAxisValue: "Bakery",
-    yAxisValue: 1200.75,
-    tooltipValue: 45,
-  },
-  {
-    xAxisValue: "Dairy",
-    yAxisValue: 300.25,
-    tooltipValue: 10,
-  },
-  {
-    xAxisValue: "Meat",
-    yAxisValue: 980.4,
-    tooltipValue: 30,
-  },
-];
+
 
 const CheckInLiveReport = () => {
   const [liveCheckInSearchQuery, setLiveCheckInSearchQuery] = useState("");
@@ -456,7 +180,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
   );
   const liveCheckInStatus = useSelector(
-    (state: any) => state?.checkInReports?.liveCheckInStatusSuccess
+    (state: any) => state?.checkInReports?.liveCheckinStatusSuccess
   );
   const liveCheckInAvgWaitTime = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeSuccess
@@ -482,7 +206,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInGuestCountLoading
   );
   const isLiveCheckInStatusLoading = useSelector(
-    (state: any) => state?.checkInReports?.liveCheckInStatusLoading
+    (state: any) => state?.checkInReports?.liveCheckinStatusLoading
   );
   const isLiveCheckInAvgWaitTimeLoading = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeLoading
@@ -508,7 +232,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInGuestCountFailure
   );
   const liveCheckInStatusError = useSelector(
-    (state: any) => state?.checkInReports?.liveCheckInStatusFailure
+    (state: any) => state?.checkInReports?.liveCheckinStatusFailure
   );
   const liveCheckInAvgWaitTimeError = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeFailure
@@ -523,34 +247,92 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInTodayFailure
   );
 
+  useEffect(() => {
+    console.log({
+      liveCheckInOverview,
+      liveCheckInSeaterAvailability,
+      liveCheckInGuestCount,
+      liveCheckInStatus,
+      liveCheckInAvgWaitTime,
+      liveCheckInGroupAvgWaitTime,
+      liveCheckInTable,
+      liveCheckInToday,
+      
+    })
+  }, [      liveCheckInOverview,
+    liveCheckInSeaterAvailability,
+    liveCheckInGuestCount,
+    liveCheckInStatus,
+    liveCheckInAvgWaitTime,
+    liveCheckInGroupAvgWaitTime,
+    liveCheckInTable,
+    liveCheckInToday,
+    ]);
   const dispatch = useDispatch();
   const { selectedDateFilterType } = useDateFilter();
 
-  const handleLiveCheckInSearch = (value: string) => {};
-  const handleTodayCheckInSearch = (value: string) => {};
-
   useEffect(() => {
-    if (selectedLocation) {
-      dispatch(liveCheckInOverviewRequest({ locationId: selectedLocation }));
+    if (selectedLocation?.value) {
+      dispatch(liveCheckInOverviewRequest({ locationId: selectedLocation?.value }));
       dispatch(
-        liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation })
+        liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation?.value })
       );
-      dispatch(liveCheckInGuestCountRequest({ locationId: selectedLocation }));
-      dispatch(liveCheckInStatusRequest({ locationId: selectedLocation }));
-      dispatch(liveCheckInAvgWaitTimeRequest({ locationId: selectedLocation }));
+      dispatch(liveCheckInGuestCountRequest({ locationId: selectedLocation?.value }));
+      dispatch(liveCheckInStatusRequest({ locationId: selectedLocation?.value }));
+      dispatch(liveCheckInAvgWaitTimeRequest({ locationId: selectedLocation?.value }));
       dispatch(
-        liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation })
+        liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation?.value })
       );
-      dispatch(liveCheckInTableRequest({ locationId: selectedLocation }));
-      dispatch(liveCheckInTodayRequest({ locationId: selectedLocation }));
+
     }
   }, [dispatch, selectedLocation]);
 
+
+
+  useEffect(() => {
+    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+  }, [selectedLocation,liveCheckInCurrentPage,liveCheckInPageLimit]);
+
+
+  useEffect(() => {
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+  }, [selectedLocation,todayCheckInCurrentPage,todayCheckInPageLimit]);
+
+
+
+  const   handleLiveCheckInSearch = (value: string) => {
+    setLiveCheckInSearchQuery(value);
+    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit }));
+    setLiveCheckInCurrentPage(1)
+    // setLiveCheckInPageLimit(10)
+  };
+  const handleTodayCheckInSearch = (value: string) => {
+    setTodayCheckInSearchQuery(value);
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit }));
+    setTodayCheckInCurrentPage(1)
+    // setTodayCheckInPageLimit(10)
+  };
+
+const handleRefreshClick=()=>{
+  dispatch(liveCheckInOverviewRequest({ locationId: selectedLocation?.value }));
+  dispatch(
+    liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation?.value })
+  );
+  dispatch(liveCheckInGuestCountRequest({ locationId: selectedLocation?.value }));
+  dispatch(liveCheckInStatusRequest({ locationId: selectedLocation?.value }));
+  dispatch(liveCheckInAvgWaitTimeRequest({ locationId: selectedLocation?.value }));
+  dispatch(
+    liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation?.value })
+  );
+  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+}
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
         <div className="reports-page-body">
           <StoreFilter
+          handleRefreshClick={handleRefreshClick}
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
@@ -645,7 +427,7 @@ const CheckInLiveReport = () => {
               yAxisTooltipAppendInBack=" mins"
               dataList={liveCheckInAvgWaitTime?.map((data: any) => ({
                 xAxisValue: data.channel,
-                yAxisValue: Number(data.avgWaitTime),
+                yAxisValue: Number(data.waitTime),
               }))}
               loader={false}
             />
@@ -659,19 +441,10 @@ const CheckInLiveReport = () => {
               loader={false}
               dataList={liveCheckInGroupAvgWaitTime?.map((data: any) => ({
                 timeRange: data?.timeRange || "",
-                groupName: data?.groupName || "",
-                count: data?.totalCheckins || 0,
+                groupName: data?.groupSize || "",
+                count: data?.checkInCount || 0,
               }))}
             />
-            {/* <CustomBarChart
-              barColor="#CE9E0F"
-              toolTipBorderColor="#CE9E0F"
-              xAxisTooltipLabel="Channel"
-              yAxisTooltipLabel="Wait time"
-              yAxisTooltipAppendInBack=" mins"
-              dataList={dataList3}
-              
-            /> */}
           </div>
           <div className="category-btn-switch checkin-btn-switch">
             <button
@@ -700,21 +473,17 @@ const CheckInLiveReport = () => {
               <NewTable
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
-                // onSearchChange={setLiveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTable as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={liveCheckInCurrentPage}
-                totalPages={50}
+                totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}
                 rowsPerPage={liveCheckInPageLimit}
                 setRowsPerPage={setLiveCheckInPageLimit}
-                loader={false}
-                count={40}
-                // // loader={true}
-                // count={liveOrdersAPIRedux?.length}
+                count={liveCheckInTable?.totalElements||0}
+                 loader={isLiveCheckInTableLoading}
+                 onSearch={handleLiveCheckInSearch}
                 searchPlaceHolder="Search by table number, customer name"
-                onSearch={handleLiveCheckInSearch}
-                // // searchDebounce={()=>searchDebounce()}
               />
             )}
             {activeBtn == "Today Check-ins" && (
@@ -723,19 +492,17 @@ const CheckInLiveReport = () => {
                 searchQuery={todayCheckInSearchQuery}
                 // onSearchChange={setTodayCheckInSearchQuery}
                 headerData={headerData1 as any}
-                tableData={liveCheckInToday as any}
+                tableData={liveCheckInToday?.content||[] as any}
                 currentPage={todayCheckInCurrentPage}
-                totalPages={50}
-                count={56}
+                totalPages={liveCheckInToday?.totalPages||0}
+                count={liveCheckInToday?.totalElements||0}
                 onPageChange={setTodayCheckInCurrentPage}
                 rowsPerPage={todayCheckInPageLimit}
                 setRowsPerPage={setTodayCheckInPageLimit}
-                loader={false}
-                // // loader={true}
-                // count={liveOrdersAPIRedux?.length}
+                loader={isLiveCheckInTodayLoading}
                 searchPlaceHolder="Search by table number, customer name"
                 onSearch={handleTodayCheckInSearch}
-                // // searchDebounce={()=>searchDebounce()}
+    
               />
             )}
           </div>

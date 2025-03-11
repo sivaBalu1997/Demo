@@ -7,7 +7,7 @@ import ErrorState from "components/reportComponents/errorstatecomponents/ErrorSt
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 interface CheckinData {
   channelName: string | null;
-  totalCheckins: number;
+  totalGuests: number;
   checkinHour: string;
 }
 
@@ -16,7 +16,7 @@ interface ReportProps {
   loader: boolean;
 }
 
-const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) => {
+const HourlyCheckinChartGuest: React.FC<ReportProps> = ({dataList=[], loader=false}) => {
   const channels = Array.from(new Set(dataList?.map((d) => d?.channelName).filter(Boolean)));
   const hours=Array.from({ length: 24 }, (_, i) => i.toString())
 
@@ -24,7 +24,7 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
     label: channel!,
     data: hours.map((hour) =>
       dataList?.filter((d) => d.checkinHour==hour && d.channelName === channel)
-        .reduce((sum, item) => sum + item.totalCheckins, 0)
+        .reduce((sum, item) => sum + item.totalGuests, 0)
     ),
     backgroundColor: ["#36A2EB", "#4BC0C0", "#FF9F40"][index], // Colors for channels
   }));
@@ -33,6 +33,26 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
     datasets: datasets
     
     
+    // [
+    //   {
+    //     label: "Online",
+    //     data: [20, 30, 40, 25, 50, 30, 40, 35, 50, 40, 25, 20, 30, 45, 35, 40, 50, 55, 40, 30, 25, 35, 40, 45],
+    //     backgroundColor: "#007bff",
+    //     stack: "Stack 0",
+    //   },
+    //   {
+    //     label: "Merchant",
+    //     data: [50, 60, 70, 80, 60, 70, 80, 75, 70, 60, 50, 45, 60, 70, 80, 85, 70, 60, 75, 80, 65, 55, 60, 70],
+    //     backgroundColor: "#17a2b8",
+    //     stack: "Stack 0",
+    //   },
+    //   {
+    //     label: "Kiosk",
+    //     data: [40, 50, 45, 55, 40, 50, 60, 55, 65, 70, 50, 40, 55, 65, 70, 75, 80, 85, 70, 60, 50, 55, 60, 65],
+    //     backgroundColor: "#f39c12",
+    //     stack: "Stack 0",
+    //   },
+    // ],
   };
 
 
@@ -65,21 +85,21 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
         titleMarginBottom: 0,
         bodySpacing: 0,
         callbacks: {
-          title: (tooltipItem: any) => {
-            return "";
-          },
-          label: (tooltipItem: any) => {
-            console.log({tooltipItem});
-            
-            const dataPoint = tooltipItem.raw;
-            return [
-              `Reservation Time: ${tooltipItem.label}-${Number(tooltipItem.label)+1}`,
-              `Channel: ${tooltipItem?.dataset?.label}`,
-              `Count: ${tooltipItem?.formattedValue||0}`,
+            title: (tooltipItem: any) => {
+              return "";
+            },
+            label: (tooltipItem: any) => {
+              console.log({tooltipItem});
               
-            ];
-          },          
-      },
+              const dataPoint = tooltipItem.raw;
+              return [
+                `Reservation Time: ${tooltipItem.label}-${Number(tooltipItem.label)+1}`,
+                `Channel: ${tooltipItem?.dataset?.label}`,
+                `Count: ${tooltipItem?.formattedValue||0}`,
+                
+              ];
+            },          
+        },
       },
       datalabels: { display: false } as any,
     },
@@ -101,4 +121,4 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
 }
 
 
-export default HourlyCheckinChart;
+export default HourlyCheckinChartGuest;

@@ -48,28 +48,28 @@ const CategoryReport = (props) => {
   const dispatch = useDispatch();
   const { startDate, endDate,selectedDateFilterType, handleDateChange } = useDateFilter();
 
-  useEffect(() => {
-    console.log("use", {
-      locations,
-      selectedLocation,
-      salesByItemCategoryData,
-      dropdownDetailsData,
-      categorySalesData,
-      categorySalesSummaryData,
-      categoryChannelSummaryData,
-      voidedSummaryData,
-    });
-  }, [
-    selectedLocation,
-    locations,
-    selectedLocation,
-    salesByItemCategoryData,
-    dropdownDetailsData,
-    categorySalesData,
-    categorySalesSummaryData,
-    categoryChannelSummaryData,
-    voidedSummaryData,
-  ]);
+  // useEffect(() => {
+  //   console.log("use", {
+  //     locations,
+  //     selectedLocation,
+  //     salesByItemCategoryData,
+  //     dropdownDetailsData,
+  //     categorySalesData,
+  //     categorySalesSummaryData,
+  //     categoryChannelSummaryData,
+  //     voidedSummaryData,
+  //   });
+  // }, [
+  //   selectedLocation,
+  //   locations,
+  //   selectedLocation,
+  //   salesByItemCategoryData,
+  //   dropdownDetailsData,
+  //   categorySalesData,
+  //   categorySalesSummaryData,
+  //   categoryChannelSummaryData,
+  //   voidedSummaryData,
+  // ]);
 
 
   useEffect(() => {
