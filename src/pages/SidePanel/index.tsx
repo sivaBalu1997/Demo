@@ -86,6 +86,10 @@ const SidePanel = () => {
     //   name:"Event",
     //   path:""
     // }
+    {
+      name: "Product",
+      path: "/product-reports"
+    }
   ];
   const offerMenuOptions = ["Special Price"];
 
@@ -128,6 +132,9 @@ const SidePanel = () => {
       setShowOptions("reportOptions");
     }else if (location?.pathname?.includes("/check-in-reports")) {
       setSelectSubForReport("Check-in");
+      setShowOptions("reportOptions");
+    }else if (location?.pathname?.includes("/product-reports")) {
+      setSelectSubForReport("Product");
       setShowOptions("reportOptions");
     } else if (
       location?.pathname?.includes("Offers/active") ||
