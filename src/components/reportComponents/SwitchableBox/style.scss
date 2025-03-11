@@ -1,7 +1,7 @@
 .switchable-box {
   display: flex;
-  width: 20vw;
-  height: 6vh;
+  width: 25vw;
+  height: 5vh;
   background: #f4f4f4;
   border-radius: 15px;
   padding: 5px 7px 5px 7px;
@@ -14,13 +14,13 @@
     // background-color: pink;
   }
   @media(max-width: 400px){
-    width: 75vw;
+    width: 85vw;
   }
   .switchable-tab {
     text-align: center;
     color: gray;
     width: 15vw; 
-    height: 6vh;            
+    height: 5vh;            
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -36,7 +36,7 @@
       background: white;
       color: black;
       width: 15vw;
-      height: 6vh;
+      height: 5vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -45,7 +45,7 @@
         width: 50vw;
       }
       @media(max-width: 400px){
-        width: 40vw;
+        width: 45vw;
       }
     }
   }

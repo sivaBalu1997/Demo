@@ -22,7 +22,7 @@ const dispatch = useDispatch();
 
 
     const handleDateChange = (type:string, customStartDate?: string, customEndDate?: string) => {
-        console.log({type, customStartDate, customEndDate});
+        // console.log({type, customStartDate, customEndDate});
         
            dispatch(changeDateFilterType({ label: type, value: type }))
 
