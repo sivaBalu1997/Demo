@@ -73,6 +73,7 @@ import SalesOverView from "pages/NewReports/salesoverview";
 import SalesReport from "pages/NewReports/Sales";
 import ProductAvailability from "pages/NewReports/Product/ProductInsights";
 import ProductHomeLayout from "pages/NewReports/Product/ProductHomeLayout";
+import Layout from "components/Layout";
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -96,6 +97,7 @@ const Routers = () => {
       <Switch>
         <Contextpage>
           <ThemeProvider>
+            <Layout>
             <Route exact path="/review" component={ReviewMenu} />
             <Route exact path="/Offer" component={Offerdetails} />
             <Route exact path="/Offers" component={OffersHeader} />
@@ -352,6 +354,7 @@ const Routers = () => {
                 component={CustomerInsightsReport}
               />
             </div>
+            </Layout>
           </ThemeProvider>
         </Contextpage>
       </Switch>

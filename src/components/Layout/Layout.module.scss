@@ -1,0 +1,41 @@
+.layout {
+    // display: flex;
+    // height: 100%;
+    // width: 100%;
+  .mainContent {
+    // flex: 1;
+    // display: flex;
+    // flex-direction: column;
+    
+    .mobMenuHeader {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      padding: 0.5rem;
+      .mainMenuIcon {
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+      .logo{
+        width: 48px;
+        height: 24px;
+        padding: 0.5rem;
+      }
+      .restaurantName{
+        font-family: Poppins;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.25px;
+        text-align: center;
+        
+        padding: 0.5rem;
+      }
+    }
+  }
+  @media (min-width: 576px) {
+    .mobMenuHeader {
+      display: none;
+    }
+  }
+}
