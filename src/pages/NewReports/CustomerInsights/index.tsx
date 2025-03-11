@@ -73,15 +73,11 @@ const CheckInReport: React.FC<ReportProps> = () => {
     <>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <SidePanel />
-        {isExpanded ? (
-          <SidePannelMob handleClose={() => setIsExpanded(false)} />
-        ) : null}
+
         <div className="reports-container ">
           {/* Header */}
           <Header
-            isExpanded={isExpanded}
             title="Reports & Insights"
-            handleSideMenu={handleSideMenu}
           />
 
           {/* Tab Navigation */}
