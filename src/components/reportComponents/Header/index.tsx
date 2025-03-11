@@ -1,19 +1,22 @@
-import React from "react"
+import React, { useContext } from "react"
 import "./Header.scss";
 import { ReactComponent as MenuIcon } from "../../../assets/svg/menuNew.svg";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 interface HeaderProps {
     title: string;
-    isExpanded: boolean;
-    handleSideMenu: () => void;
+    btnTittle?: string;
+    handleBtnClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, isExpanded,handleSideMenu }) => {
-    console.log({isExpanded});
+const Header: React.FC<HeaderProps> = ({ title, btnTittle,handleBtnClick }) => {
+      const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
     
     return (
-        <div className="reports-header-container">
-            <MenuIcon className="report-menu-icon pointer" onClick={handleSideMenu}/>
-                    <h2 className="reports-header">{title}</h2>
+        <div className="main-header-container">
+            <MenuIcon className="main-menu-icon pointer" onClick={()=> setIsExpanded(true)}/>
+                    <h2 className="main-header">{title}</h2>
+                    {btnTittle ?<div className="main-header-btn-container"><button className="main-header-btn" onClick={handleBtnClick}>{btnTittle}</button></div>:null}
+                    
         </div>
     );
 }

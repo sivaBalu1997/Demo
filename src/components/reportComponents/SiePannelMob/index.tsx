@@ -22,7 +22,34 @@ interface SidePannelMobProps {
   handleClose: () => void;
 }
 
-
+const menuOptions = [
+  {
+    name: "Employees",
+    path: "/employees",
+    icon: <EmployeesIcon  className={styles.menuIcon}/>,
+  },
+  {
+    name: "Product Catalog",
+    path: "/productCatalog/menuListing",
+    icon: <Tableware  className={styles.menuIcon} />,
+    onClick: (dispatch: any) => dispatch(removeDataRequest()),
+  },
+  {
+    name: "Offer Management",
+    icon: <Offer  className={styles.menuIcon}/>,
+    submenu: [{ name: "Special Price", path: "/Offers/active" }],
+  },
+  {
+    name: "Reports & Insights",
+    icon: <Stats className={styles.menuIcon} />,
+    submenu: [
+      { name: "Old Reports", path: "/old-reports" },
+      // { name: "Chart JS", path: "/live-reports" },
+      { name: "Sales Reports", path: "/sales-reports" },
+      { name: "Check-in Reports", path: "/check-in-reports" },
+    ],
+  },
+];
 
 const parentPaths:Record<string, string[]>={
   "Employees":["/employees"],

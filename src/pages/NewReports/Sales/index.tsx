@@ -10,7 +10,6 @@ import Employees from "../Employees";
 import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
-import SidePannelMob from "components/reportComponents/SiePannelMob";
 import { RootState } from "redux/rootReducer";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
@@ -19,7 +18,6 @@ interface ReportProps { }
 
 const SalesReport: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Today's report");
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const dispatch = useDispatch();
   /*********************************************************** */
@@ -85,20 +83,17 @@ const SalesReport: React.FC<ReportProps> = () => {
 
   }, [dropdownDetailsData])
 
-const handleSideMenu=()=>{  
-  setIsExpanded(true)
-}
+
 
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <SidePanel/>
-        {isExpanded?<SidePannelMob handleClose={()=> setIsExpanded(false)} />:null}
         <div className="reports-container ">
 
           {/* Header */}
-          <Header isExpanded={isExpanded} title="Reports & Insights" handleSideMenu={handleSideMenu}/>
+          <Header  title="Reports & Insights"/>
 
           {/* Tab Navigation */}
           <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />

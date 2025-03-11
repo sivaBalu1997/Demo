@@ -16,17 +16,7 @@ import {
   checkInOverviewTopCustomerRequest,
   checkInOverviewAvgWaitTimeGroupRequest,
 } from "redux/checkInReports/checkInReportsActions";
-import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
-import { ReactComponent as KeyedInIcon } from "../../../assets/svg/pay-card.svg";
-import { ReactComponent as CashIcon } from "../../../assets/svg/pay-cash.svg";
-import { ReactComponent as CouponsIcon } from "../../../assets/svg/pay-coupon.svg";
-import { ReactComponent as GiftCardIcon } from "../../../assets/svg/pay-gift-card.svg";
-import { ReactComponent as UberEatsIcon } from "../../../assets/svg/pay-uber-eats.svg";
-import { ReactComponent as GooglePayIcon } from "../../../assets/svg/pay-gpay.svg";
-import { ReactComponent as GrubHubIcon } from "../../../assets/svg/pay-grub-hub.svg";
-import { ReactComponent as ApplePayIcon } from "../../../assets/svg/pay-apple.svg";
-import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash.svg";
-import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
+
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry } from "utils";
@@ -36,28 +26,20 @@ import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "../SalesOverview/SalesOverview.scss";
 import HourlyCheckinChart from "./hourlyChart";
+import HourlyCheckinChartGuest from "./hourlyChartGuest";
+
 import DailyCheckinsChart from "./DailyCheckinsChart";
 import DineInDurationChart from "./DineInDurationChart";
-import GuestSizeChart from "./GuestSizeChart";
+import DownloadPopOver from "pages/CategoryReport/downloadOption";
+import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
+import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 
 interface ReportProps {}
-
-const knownTendorIcons: any = {
-  "Swipe/Tap/Dip": <PayTapIcon />,
-  "Online/Key-In": <PayTapIcon />,
-  "Keyed In": <KeyedInIcon />,
-  Cash: <CashIcon />,
-  CASH: <CashIcon />,
-  UberEats: <UberEatsIcon />,
-  Grubhub: <GrubHubIcon />,
-  Doordash: <DoordashIcon />,
-  Coupons: <CouponsIcon />,
-  "Gift Card": <GiftCardIcon />,
-  "Google Pay": <GooglePayIcon />,
-  "Apple Pay": <ApplePayIcon />,
-  "Offline QR": <OfflineQRIcon />,
-  OFFLINE_QR: <OfflineQRIcon />,
-};
+interface CustomBarChartData {
+  xAxisValue: string;
+  yAxisValue: number;
+  tooltipValue: number;
+}
 
 const headerData: NewTableHeader[] = [
   {
@@ -73,69 +55,17 @@ const headerData: NewTableHeader[] = [
     isSortable: false,
   },
   {
-    key: "visits",
+    key: "totalVisits",
     label: "Visits",
     alignment: "center",
     isSortable: true,
   },
 ];
 
-const todayTableData: any[] = [
-  {
-    customerName: "Albert Flores",
-    phone: "(308) 555-0121",
-    visits: 12,
-  },
-  {
-    customerName: "Devon Lane",
-    phone: "(316) 555-0116",
-    visits: 4,
-  },
-  {
-    customerName: "Esther Howard",
-    phone: "+91 9876543210",
-    visits: 13,
-  },
-  {
-    customerName: "Robert Fox",
-    phone: "(405) 555-0128",
-    visits: 8,
-  },
-  {
-    customerName: "Robert Fox",
-    phone: "(405) 555-0128",
-    visits: 3,
-  },
-  {
-    customerName: "Esther Howard",
-    phone: "+91 9876543210",
-    visits: 11,
-  },
-  {
-    customerName: "Devon Lane",
-    phone: "(316) 555-0116",
-    visits: 16,
-  },
-  {
-    customerName: "Robert Fox",
-    phone: "+91 9876543210",
-    visits: 6,
-  },
-  {
-    customerName: "Devon Lane",
-    phone: "(316) 555-0116",
-    visits: 4,
-  },
-  {
-    customerName: "Robert Fox",
-    phone: "(405) 555-0128",
-    visits: 5,
-  },
-];
 
 const headerData1 = [
   {
-    key: "checkinId",
+    key: "checkInNumber",
     label: "Check-in",
     alignment: "left",
     isSortable: false,
@@ -159,13 +89,13 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "tableNo",
+    key: "tableName",
     label: "Table",
     alignment: "center",
     isSortable: false,
   },
   {
-    key: "checkinTime",
+    key: "checkInTime",
     label: "Check-in time",
     alignment: "center",
     isSortable: true,
@@ -196,73 +126,15 @@ const headerData1 = [
   },
 ];
 
-const todayTableData1 = [
-  {
-    checkinId: "#5852",
-    guestName: "Esther Howard",
-    phone: "(308) 555-0121",
-    channel: "Online",
-    tableNo: "A44",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Late show",
-    waitTime: "13 Mins",
-    guestSize: 13,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Robert Fox",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "A45",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Completed",
-    waitTime: "13 Mins",
-    guestSize: 8,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Devon Lane",
-    phone: "(308) 555-0121",
-    channel: "Merchant",
-    tableNo: "D23",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Completed",
-    waitTime: "13 Mins",
-    guestSize: 16,
-  },
-  {
-    checkinId: "#5852",
-    guestName: "Devon Lane",
-    phone: "(308) 555-0121",
-    channel: "Kiosk",
-    tableNo: "D02",
-    checkinTime: "12:09 AM",
-    assignedTime: "01:09 PM",
-    status: "Cancelled",
-    waitTime: "13 Mins",
-    guestSize: 4,
-  },
-];
 
 const CheckInOverview: React.FC<ReportProps> = ({}) => {
-  const [viewType, setViewType] = useState("default");
-  const [liveCheckInSearchQuery, setLiveCheckInSearchQuery] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPageOfferDiscount, setCurrentPageOfferDiscount] =
-    useState<number>(1);
-  const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] =
-    useState<number>(10);
-  const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] =
-    useState<number>(1);
-  const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] =
-    useState<number>(10);
-  const [offerType, setOfferType] = useState<string>("");
-  const [voidedReason, setVoidedReason] = useState<string>("");
-  const [otherOffer, setOtherOffer] = useState<string>("");
-  const [otherVoided, setOtherVoided] = useState<string>("");
+  const [checkInSearchQuery, setcheckInSearchQuery] = useState("");
+  const [checkInCurrentPage, setcheckInCurrentPage] = useState(1);
+  const [checkInPageLimit, setcheckInPageLimit] = useState(10);
+  const [todayCheckInSearchQuery, settodayCheckInSearchQuery] = useState("");
+  const [todayCheckInCurrentPage, settodayCheckInCurrentPage] = useState(1);
+  const [todayCheckInPageLimit, settodayCheckInPageLimit] = useState(10);
+const [topTableDate, setTopTableDate] = useState<{ from: string | null; to: string | null; kpiTitle: string }>({ from: null, to: null, kpiTitle: "" });
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
@@ -369,7 +241,7 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
   useEffect(() => {
     if (selectedLocation && startDate && endDate) {
       const payload = {
-        locationId: selectedLocation,
+        locationId: selectedLocation?.value,
         startDate,
         endDate,
       };
@@ -380,44 +252,86 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
       dispatch(checkInOverviewDailyAndGuestRequest(payload));
       dispatch(checkInOverviewDineInGroupRequest(payload));
       dispatch(checkInOverviewGuestSizeRequest(payload));
-      dispatch(checkInOverviewTableDetailsRequest(payload));
-      dispatch(checkInOverviewTopCustomerRequest(payload));
       dispatch(checkInOverviewAvgWaitTimeGroupRequest(payload));
     }
   }, [dispatch, selectedLocation, startDate, endDate]);
 
-  const handleSearch = (value: string, kpiTitle: string) => {
-    let params: any = {
-      locationid: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      tablePageNo: currentPageOfferDiscount,
-      tableRecordLimit: currentRowsOfferDiscount,
-      search: value,
-    };
-    switch (viewType) {
-      case "discountOffer":
-        params.offer = offerType;
-        dispatch(discountSummaryRequest(params));
-        break;
-      case "voidedOffer":
-        params.reason = voidedReason;
-        dispatch(cancellationSummaryRequest(params));
-        break;
-
-      default:
-        console.warn(`Unknown KPI title: ${kpiTitle}`);
-    }
+useEffect(()=>{
+  const payload = {
+    locationId: selectedLocation?.value,
+    startDate,
+    endDate,
+    search:checkInSearchQuery,
+    page:checkInCurrentPage,
+    size:checkInPageLimit
   };
+  dispatch(checkInOverviewTableDetailsRequest(payload));
+
+},[ selectedLocation, startDate, endDate,  checkInCurrentPage,checkInPageLimit])
+
+
+useEffect(()=>{
+  const payload = {
+    locationId: selectedLocation?.value,
+    startDate:topTableDate?.from,
+    endDate:topTableDate?.to,
+    search:todayCheckInSearchQuery,
+    page:todayCheckInCurrentPage,
+    size:todayCheckInPageLimit
+  };
+  dispatch(checkInOverviewTopCustomerRequest(payload));
+
+},[ selectedLocation, topTableDate,todayCheckInCurrentPage,todayCheckInPageLimit])
+
+
+  useEffect(() => {
+    console.log({
+      checkInOverview,
+      checkInOverviewHourly,
+      checkInOverviewGuestsHourly,
+      checkInOverviewDailyAndGuest,
+
+checkInOverviewDineInGroup,
+checkInOverviewGuestSize,
+checkInOverviewTableDetails,
+checkInOverviewTopCustomer,
+checkInOverviewAvgWaitTimeGroup
+
+    })
+  },[    checkInOverview,
+    checkInOverviewHourly,
+    checkInOverviewGuestsHourly,
+    checkInOverviewDailyAndGuest,
+
+checkInOverviewDineInGroup,
+checkInOverviewGuestSize,
+checkInOverviewTableDetails,
+checkInOverviewTopCustomer,
+checkInOverviewAvgWaitTimeGroup])
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
   const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
-    // console.log(`from : ${from}`, `To : ${to}`, `kpiTitle : ${kpiTitle}`);
+    const temp={from, to, kpiTitle}
+    setTopTableDate(temp)
   };
 
+
+  const handleCheckInSearch=(value: string)=>{
+    setcheckInSearchQuery(value)
+
+    dispatch((checkInOverviewTableDetailsRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: checkInPageLimit, startDate, endDate })))
+    setcheckInCurrentPage(1)
+  }
+    const handleTopSearch=(value: string)=>{
+      settodayCheckInSearchQuery(value)
+      dispatch((checkInOverviewTopCustomerRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: checkInPageLimit, startDate:topTableDate?.from, endDate:topTableDate?.to })))
+      settodayCheckInCurrentPage(1) 
+    }
+
+  
 
   return (
     <>
@@ -452,8 +366,8 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
           <div className="todays-report-sales-overview-box-container">
             <CardWithMiniGraph
               cardTitle="Total check-ins"
-              cardValue={formatNumberByCountry(125, countryCode, false)}
-              incrementDecrementValue={+20}
+              cardValue={checkInOverview?.totalCheckin||0}
+              incrementDecrementValue={checkInOverview?.totalCheckinPercentage||0}
               isMonetary={true}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
@@ -463,8 +377,8 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             />
             <CardWithMiniGraph
               cardTitle="Total Guests"
-              cardValue={formatNumberByCountry(968, countryCode, false)}
-              incrementDecrementValue={+20}
+              cardValue={checkInOverview?.totalGuests||0}
+              incrementDecrementValue={checkInOverview?.totalGuestsPercentage||0}
               isMonetary={true}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
@@ -474,8 +388,8 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             />
             <CardWithMiniGraph
               cardTitle="total cancellation"
-              cardValue={formatNumberByCountry(34, countryCode, false)}
-              incrementDecrementValue={-20}
+              cardValue={checkInOverview?.totalCencellation||0}
+              incrementDecrementValue={checkInOverview?.totalCencellationPercentage||0}
               isMonetary={true}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
@@ -485,8 +399,8 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             />
             <CardWithMiniGraph
               cardTitle="avg wait time"
-              cardValue={formatNumberByCountry(13, countryCode, false)}
-              incrementDecrementValue={+20}
+              cardValue={formatNumberByCountry(checkInOverview?.avgWaitTime, countryCode, false)}
+              incrementDecrementValue={checkInOverview?.avgWaitTimeChangePercentage||0}
               isMonetary={true}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
@@ -496,7 +410,7 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             />
             <CardWithMiniGraph
               cardTitle="Avg check-ins"
-              cardValue={formatNumberByCountry(430, countryCode, false)}
+              cardValue={formatNumberByCountry(checkInOverview?.avgCheckins, countryCode, false)}
               incrementDecrementValue={0}
               isMonetary={true}
               loader={isCheckInOverviewLoading}
@@ -507,7 +421,7 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             />
             <CardWithMiniGraph
               cardTitle="avg guests"
-              cardValue={formatNumberByCountry(362, countryCode, false)}
+              cardValue={formatNumberByCountry(checkInOverview?.avgGuests, countryCode, false)}
               incrementDecrementValue={0}
               isMonetary={false}
               loader={isCheckInOverviewLoading}
@@ -528,8 +442,8 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             Hourly Checkin
           </h2>
           <HourlyCheckinChart
-          // dataList={salesCardTypeData}
-          // loader={salesCardTypeDataLoading}
+          dataList={checkInOverviewHourly}
+          loader={isCheckInOverviewHourlyLoading}
           />
         </div>
 
@@ -538,11 +452,11 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             className="sales-overview-sub-heading "
             style={{ marginTop: "10vh" }}
           >
-            Hourly Gueste
-          </h2>
-          <HourlyCheckinChart
-          // dataList={salesCardTypeData}
-          // loader={salesCardTypeDataLoading}
+            Hourly Guest
+          </h2> 
+          <HourlyCheckinChartGuest
+          dataList={checkInOverviewGuestsHourly}
+          loader={isCheckInOverviewGuestsHourlyLoading}
           />
         </div>
 
@@ -554,7 +468,10 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
             {" "}
             Daily Check-ins & Guests
           </h2>
-          <DailyCheckinsChart />
+          <DailyCheckinsChart
+             dataList={checkInOverviewDailyAndGuest}
+          loader={isCheckInOverviewDailyAndGuestLoading}
+          />
         </div>
 
         <div>
@@ -564,56 +481,89 @@ const CheckInOverview: React.FC<ReportProps> = ({}) => {
           >
             Dine-in Duration By Groups
           </h2>
-          <DineInDurationChart />
+          <DineInDurationChart
+            dataList={checkInOverviewDineInGroup}
+          loader={isCheckInOverviewDineInGroupLoading}
+           />
         </div>
 
-        {/* <div>
-            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Revenue class</h2>
-            <GuestSizeChart  />
-          </div> */}
+        <div>
+            <div className="reports-page-sub-header-container">
+              <h1 className="reports-page-heading">Group size Distrbution</h1>
+              <DownloadPopOver />
+            </div>
+            <CustomBarChart
+              barColor="#67833E"
+              toolTipBorderColor="#67833E"
+              xAxisTooltipLabel="Party"
+              yAxisTooltipLabel="Count"
+              yAxisTooltipAppendInBack=""
+              dataList={checkInOverviewGuestSize?.map((data: any) => ({
+                xAxisValue: `Group of ${data.groupSize}`,
+                yAxisValue: Number(data.guestSize),
+              }))}
+              loader={false}
+            />
+          </div>
 
         <div className="todays-report-tables-container">
           <NewTable
-            kpiTitle="Check-in Details (52)"
-            searchQuery={liveCheckInSearchQuery}
-            // onSearchChange={setLiveCheckInSearchQuery}
+            kpiTitle={`Check-in Details (${checkInOverviewTableDetails?.totalElements||0})`}
+            searchQuery={checkInSearchQuery}
+            // onSearchChange={setcheckInSearchQuery}
             headerData={headerData1 as any}
-            tableData={todayTableData1 as any}
-            currentPage={1}
-            totalPages={50}
-            onPageChange={() => {}}
-            rowsPerPage={10}
-            setRowsPerPage={() => {}}
-            loader={false}
+            tableData={checkInOverviewTableDetails?.content||[] as any}
+            currentPage={checkInCurrentPage}
+            totalPages={checkInOverviewTableDetails?.totalPages||0}
+            onPageChange={setcheckInCurrentPage}
+            rowsPerPage={checkInPageLimit}
+            setRowsPerPage={setcheckInPageLimit}
+            loader={isCheckInOverviewTableDetailsLoading}
             // count={40}
             // // loader={true}
             // count={liveOrdersAPIRedux?.length}
             searchPlaceHolder="Search by table number, customer name"
-            onSearch={() => {}}
+            onSearch={handleCheckInSearch}
             // // searchDebounce={()=>searchDebounce()}
           />
 
+            
           <NewTable
-            kpiTitle="Top Repeat Customers (200)"
-            searchQuery={liveCheckInSearchQuery}
+            kpiTitle={`Top Repeat Customers (${checkInOverviewTopCustomer?.totalElements||0})`}
+            searchQuery={todayCheckInSearchQuery}
             // onSearchChange={setLiveCheckInSearchQuery}
             headerData={headerData as any}
-            tableData={todayTableData as any}
-            currentPage={1}
-            totalPages={50}
-            onPageChange={() => {}}
-            rowsPerPage={10}
-            setRowsPerPage={() => {}}
-            loader={false}
+            tableData={checkInOverviewTopCustomer?.content||[] as any}
+            currentPage={todayCheckInCurrentPage}
+            totalPages={checkInOverviewTopCustomer?.totalPages||0}
+            onPageChange={settodayCheckInCurrentPage}
+            rowsPerPage={todayCheckInPageLimit}
+            setRowsPerPage={settodayCheckInPageLimit}
+            loader={isCheckInOverviewTopCustomerLoading}
             // // loader={true}
             // count={liveOrdersAPIRedux?.length}
             searchPlaceHolder="Search by table number, customer name"
-            onSearch={() => {}}
+            onSearch={handleTopSearch}
             // // searchDebounce={()=>searchDebounce()}
             showDateDropDown={true}
             onDateSelect={handleDateSelectForTable}
           />
         </div>
+        <div>
+            <div className="reports-page-sub-header-container">
+              <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
+              <DownloadPopOver />
+            </div>
+            <StackedBarChart
+              loader={false}
+              dataList={checkInOverviewAvgWaitTimeGroup?.map((data: any) => ({
+                timeRange: data?.waitTime  || "",
+                groupName: data?.groupSize || "",
+                count: data?.checkInCount || 0,
+              }))}
+            />
+          </div>
+        
       </>
     </>
   );

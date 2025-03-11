@@ -69,7 +69,7 @@ const headerData = [
     isSortable: true,
   },
   {
-    key: "liveCheckIn",
+    key: "liveCheckInStatus",
     label: "Status",
     alignment: "left",
     isSortable: true,
@@ -152,33 +152,6 @@ const headerData1 = [
 ];
 
 
-const dataList3: CustomBarChartData[] = [
-  {
-    xAxisValue: "Beverages",
-    yAxisValue: 742.0,
-    tooltipValue: 23,
-  },
-  {
-    xAxisValue: "Snacks",
-    yAxisValue: 500.5,
-    tooltipValue: 15,
-  },
-  {
-    xAxisValue: "Bakery",
-    yAxisValue: 1200.75,
-    tooltipValue: 45,
-  },
-  {
-    xAxisValue: "Dairy",
-    yAxisValue: 300.25,
-    tooltipValue: 10,
-  },
-  {
-    xAxisValue: "Meat",
-    yAxisValue: 980.4,
-    tooltipValue: 30,
-  },
-];
 
 const CheckInLiveReport = () => {
   const [liveCheckInSearchQuery, setLiveCheckInSearchQuery] = useState("");
@@ -207,7 +180,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
   );
   const liveCheckInStatus = useSelector(
-    (state: any) => state?.checkInReports?.liveCheckInStatusSuccess
+    (state: any) => state?.checkInReports?.liveCheckinStatusSuccess
   );
   const liveCheckInAvgWaitTime = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeSuccess
@@ -233,7 +206,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInGuestCountLoading
   );
   const isLiveCheckInStatusLoading = useSelector(
-    (state: any) => state?.checkInReports?.liveCheckInStatusLoading
+    (state: any) => state?.checkInReports?.liveCheckinStatusLoading
   );
   const isLiveCheckInAvgWaitTimeLoading = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeLoading
@@ -259,7 +232,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInGuestCountFailure
   );
   const liveCheckInStatusError = useSelector(
-    (state: any) => state?.checkInReports?.liveCheckInStatusFailure
+    (state: any) => state?.checkInReports?.liveCheckinStatusFailure
   );
   const liveCheckInAvgWaitTimeError = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeFailure
@@ -274,27 +247,27 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInTodayFailure
   );
 
-  // useEffect(() => {
-  //   console.log({
-  //     liveCheckInOverview,
-  //     liveCheckInSeaterAvailability,
-  //     liveCheckInGuestCount,
-  //     liveCheckInStatus,
-  //     liveCheckInAvgWaitTime,
-  //     liveCheckInGroupAvgWaitTime,
-  //     liveCheckInTable,
-  //     liveCheckInToday,
+  useEffect(() => {
+    console.log({
+      liveCheckInOverview,
+      liveCheckInSeaterAvailability,
+      liveCheckInGuestCount,
+      liveCheckInStatus,
+      liveCheckInAvgWaitTime,
+      liveCheckInGroupAvgWaitTime,
+      liveCheckInTable,
+      liveCheckInToday,
       
-  //   })
-  // }, [      liveCheckInOverview,
-  //   liveCheckInSeaterAvailability,
-  //   liveCheckInGuestCount,
-  //   liveCheckInStatus,
-  //   liveCheckInAvgWaitTime,
-  //   liveCheckInGroupAvgWaitTime,
-  //   liveCheckInTable,
-  //   liveCheckInToday,
-  //   ]);
+    })
+  }, [      liveCheckInOverview,
+    liveCheckInSeaterAvailability,
+    liveCheckInGuestCount,
+    liveCheckInStatus,
+    liveCheckInAvgWaitTime,
+    liveCheckInGroupAvgWaitTime,
+    liveCheckInTable,
+    liveCheckInToday,
+    ]);
   const dispatch = useDispatch();
   const { selectedDateFilterType } = useDateFilter();
 
@@ -454,7 +427,7 @@ const handleRefreshClick=()=>{
               yAxisTooltipAppendInBack=" mins"
               dataList={liveCheckInAvgWaitTime?.map((data: any) => ({
                 xAxisValue: data.channel,
-                yAxisValue: Number(data.avgWaitTime),
+                yAxisValue: Number(data.waitTime),
               }))}
               loader={false}
             />
@@ -468,8 +441,8 @@ const handleRefreshClick=()=>{
               loader={false}
               dataList={liveCheckInGroupAvgWaitTime?.map((data: any) => ({
                 timeRange: data?.timeRange || "",
-                groupName: data?.groupName || "",
-                count: data?.totalCheckins || 0,
+                groupName: data?.groupSize || "",
+                count: data?.checkInCount || 0,
               }))}
             />
           </div>
