@@ -7,11 +7,11 @@ import SidePannelMob from 'components/reportComponents/SiePannelMob';
 import moment from 'moment';
 import Header from "components/reportComponents/Header";
 import SidePanel from 'pages/SidePanel';
-import ProductAvailability from '../ProductAvailability';
 import ProductInsights from '../ProductInsights';
+import ProductAvailability from '../ProductAvailability';
 import "../../Sales/report.scss"
 
-const tabs = ["Availability", "Insights"]; 
+const tabs = ["Insights", "Availability"]; 
 interface ReportProps { }
 
 const ProductHomeLayout: React.FC<ReportProps> = () => {
@@ -66,8 +66,8 @@ const ProductHomeLayout: React.FC<ReportProps> = () => {
         {/* Tab Navigation */}
         <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {activeTab === "Availability" ? <ProductAvailability /> : null}
         {activeTab === "Insights" ? <ProductInsights /> : null}
+        {activeTab === "Availability" ? <ProductAvailability /> : null}
       </div>
     </div>
   </>

@@ -54,11 +54,12 @@ interface BarChartProps {
     barPercentage?: number;
     categoryPercentage?: number;
     showChartFilter: boolean,
-    handleChartFilter: (selectedValueForChart : string, kpiTitle : string) => void,
-    getToggledValueInParentPage: (activeTextForChart: string, kpiTitle: string)=>void;
+    handleChartFilter?: (selectedValueForChart : string, kpiTitle : string) => void,
+    getToggledValueInParentPage?: (activeTextForChart: string, kpiTitle: string)=>void;
     switchableTextOne?: string;
     switchableTextTwo?: string;
     showSwitchable: boolean;
+    isYAxisQuantity?: boolean;
 } 
 
 const chartFilterOptions: { value: string, label: string }[] = [
@@ -80,7 +81,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     title = "Sales Chart",
     xPrefix = "",
     xSuffix = "",
-    yPrefix = "$",
+    yPrefix = "",
     ySuffix = "",
     tooltipStyles = {
         backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -98,6 +99,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     switchableTextOne = "Option 1",
     switchableTextTwo = "Option 2",
     showSwitchable = "true",
+    isYAxisQuantity = "false",
 }) => {
 
 
@@ -140,9 +142,10 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                         const extraInfo = extraKeys
                             .map((key) => `${key}: ${dataPoint[key]}`)
                             .join("\n");
+                        const yValue = isYAxisQuantity ? dataPoint?.y : dataPoint?.y?.toFixed(2);
                         return [
                             `${xKey}: ${dataPoint?.x}`,
-                            `${yKey}: ${yPrefix}${dataPoint?.y?.toFixed(2)}${ySuffix}`,
+                            `${yKey}: ${yPrefix}${yValue}${ySuffix}`,
                             //   extraInfo ,
                         ];
                     },
@@ -172,15 +175,18 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     };
 
     const handleChartFilterParent = (selectedValue: {label: string, value: string}) => {
-        // setSelectedFilter(selectedValue?.value)
-        handleChartFilter(selectedValue?.value, kpiTitle);
+        if(handleChartFilter) {
+            handleChartFilter(selectedValue?.value, kpiTitle);
+        }
     }
 
     const handleToggleSwitchParent = () => {
         setIsSwitchActive((prev) => !prev);
         setActiveTextForSwitchableBox((prev) => {
             const newValue = prev === switchableTextOne ? switchableTextTwo : switchableTextOne;
-            getToggledValueInParentPage(newValue, kpiTitle); 
+            if(getToggledValueInParentPage) {
+                getToggledValueInParentPage(newValue, kpiTitle);
+            } 
             return newValue;
         });
     }
@@ -202,7 +208,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                         />
                     }
                 </div>
-                <div className="chart-filter-download-report-container">
+                <div className="chart-filter-download-report-container" style={{justifyContent: !showChartFilter ? "flex-end" : ""}}>
                     {showChartFilter && 
                         <div className="chart-filter-container">
                             <CustomDropdown
@@ -211,7 +217,6 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                                 onSelect={handleChartFilterParent}
                                 placeholder="Select Date"
                                 className="table-date-dropdown"
-                                // placeholderClass={isDateSelected ? "range-date-selected" : ""}
                                 disabled={false}
                             />
                         </div>

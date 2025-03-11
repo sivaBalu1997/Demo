@@ -1,6 +1,10 @@
-.report-product-availability{
-    padding-top: 3vh;
+.product-insights-flex{
     display: flex;
-    flex-direction: column;
-    gap: 6vh;
+    flex-direction: row;
+    .report-product-insights{
+        display: flex;
+        flex-direction: column;
+        gap: 6vh;
+        background-color: pink;
+    }
 }
