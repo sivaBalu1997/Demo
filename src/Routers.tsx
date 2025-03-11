@@ -18,7 +18,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import CustomerInsights from "pages/reports/CustomerInsights";
 import Sales from "pages/reports/Sales";
-import ProductInsights from "pages/reports/ProductInsights";
+import ProductInsights from "pages/NewReports/Product/ProductInsights";
 import GenAiReports from "pages/reports/GenAi";
 import CheckIn from "pages/reports/CheckIn";
 import CheckInReport from "pages/NewReports/CheckIn";
@@ -70,6 +70,8 @@ import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPag
 import CategoryReport from "pages/CategoryReport";
 import SalesOverView from "pages/NewReports/salesoverview";
 import SalesReport from "pages/NewReports/Sales";
+import ProductAvailability from "pages/NewReports/Product/ProductAvailability";
+import ProductHomeLayout from "pages/NewReports/Product/ProductHomeLayout";
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -334,8 +336,8 @@ const Routers = () => {
               />
               <Route
                 exact
-                path="/product-insights"
-                component={ProductInsights}
+                path="/product-reports"
+                component={ProductHomeLayout}
               />
               <Route exact path="/check-in" component={CheckIn} />
               <Route exact path="/gen-ai-reports" component={GenAiReports} />
