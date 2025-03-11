@@ -75,7 +75,13 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: displayLegend },
+      legend: { position: "bottom",
+        labels: {
+ boxWidth: 12, // Set legend box width
+ boxHeight: 12, // Set legend box height
+ usePointStyle: true,
+ pointStyle: "rectRounded", // Rounded rectangle legend symbol
+}, },
       tooltip: {
         enabled: true,
         callbacks: {

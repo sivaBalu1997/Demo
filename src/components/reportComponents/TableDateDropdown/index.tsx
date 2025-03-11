@@ -13,24 +13,26 @@ interface Option {
     onDateSelect: (from: string | null, to: string | null, kpiTitle: string) => void;
     kpiTitleForCustomDateDropdown: string;  
   }
+
+  const dateOptions: Option[] = [
+    { value: "All", label: "All" },
+    { value: "Yesterday", label: "Yesterday" },
+    { value: "Today", label: "Today" },
+    { value: "This week", label: "This Week" },
+    { value: "Last week", label: "Last Week" },
+    { value: "This month", label: "This Month" },
+    { value: "Last month", label: "Last Month" },
+    { value: "Last 3 months", label: "Last 3 Months" },
+    { value: "Last 6 months", label: "Last 6 Months" },
+    { value: "This year", label: "This Year" },
+  ];
+
   
   const TableDateDropdown: React.FC<DateDropdownProps> = ({ onDateSelect, kpiTitleForCustomDateDropdown }) => {
-    const [selectedDate, setSelectedDate] = useState<Option | undefined>(undefined);
+    const [selectedDate, setSelectedDate] = useState<Option | undefined>(dateOptions[0]);
     const [isDateSelected, setIsDateSelected] = useState(false);
   
-    const dateOptions: Option[] = [
-      { value: "All", label: "All" },
-      { value: "Yesterday", label: "Yesterday" },
-      { value: "Today", label: "Today" },
-      { value: "This week", label: "This Week" },
-      { value: "Last week", label: "Last Week" },
-      { value: "This month", label: "This Month" },
-      { value: "Last month", label: "Last Month" },
-      { value: "Last 3 months", label: "Last 3 Months" },
-      { value: "Last 6 months", label: "Last 6 Months" },
-      { value: "This year", label: "This Year" },
-    ];
-  
+
     const handleDateDropdownOnSelect = (option: Option) => {
       let from: moment.Moment | null = null, to: moment.Moment | null = null;
     
@@ -92,7 +94,7 @@ interface Option {
   
     return (
       <CustomDropdown
-        value={dateOptions[0]?.value}
+        value={selectedDate}
         options={dateOptions}
         onSelect={handleDateDropdownOnSelect}
         placeholder="Select Date"

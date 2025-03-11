@@ -8,10 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  storeLocationsList } from "redux/newReports/newReportsActions";
 import CheckInLiveReport from "../CheckInLive";
 import CheckInOverview from "../CheckInOverview";
-import SidePannelMob from "components/reportComponents/SiePannelMob";
 import { RootState } from "redux/rootReducer";
 
-const tabs = ["Live Check-in Report", "Check-in Overview", "Inception"]; 
+const tabs = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
 interface ReportProps { }
 
 const CheckInReport: React.FC<ReportProps> = () => {
@@ -50,19 +49,16 @@ const CheckInReport: React.FC<ReportProps> = () => {
     }
   }, [restaurantDetails, selectedLocation]);
 
-  const handleSideMenu=()=>{
-    setIsExpanded(true)
-  }
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
       <SidePanel/>
-      {isExpanded?<SidePannelMob handleClose={()=> setIsExpanded(false)} />:null}
+     
         <div className="reports-container ">
 
           {/* Header */}
-          <Header isExpanded={isExpanded} title="Reports & Insights" handleSideMenu={handleSideMenu}/>
+          <Header title="Reports & Insights" />
 
           {/* Tab Navigation */}
           <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
