@@ -22,6 +22,7 @@ import ProductInsights from "pages/NewReports/Product/ProductInsights";
 import GenAiReports from "pages/reports/GenAi";
 import CheckIn from "pages/reports/CheckIn";
 import CheckInReport from "pages/NewReports/CheckIn";
+import CustomerInsightsReport from "pages/NewReports/CustomerInsights";
 
 import EmployeeInsights from "pages/reports/EmployeeInsights";
 import { ThemeProvider } from "context/ThemeContext";
@@ -345,6 +346,11 @@ const Routers = () => {
               <Route exact path="/category-1" component={SalesOverView} />
               <Route exact path="/sales-reports" component={SalesReport} />
               <Route exact path="/check-in-reports" component={CheckInReport} />
+              <Route
+                exact
+                path="/customer-insights-report"
+                component={CustomerInsightsReport}
+              />
             </div>
           </ThemeProvider>
         </Contextpage>
