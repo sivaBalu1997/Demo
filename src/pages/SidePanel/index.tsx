@@ -39,8 +39,7 @@ import exp from "constants";
 
 const SidePanel = () => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
-  const selectedBranch: string =
-    localStorage.getItem(SELECTED_BRANCH_DATA) || "";
+  const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || "";
   const branch =
     selectedBranch && selectedBranch !== "undefined"
       ? JSON.parse(selectedBranch)
@@ -149,7 +148,7 @@ const SidePanel = () => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (!selectedBranch && restaurantDetails) {
+      if (restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
@@ -221,7 +220,7 @@ const SidePanel = () => {
                       return (
                         <option
                           value={`${JSON.stringify(u)}`}
-                          //selected={userBranchName}
+                          // selected={selectedBranch}
                         >
                           {u.locationName.split(",")[1]}
                         </option>
