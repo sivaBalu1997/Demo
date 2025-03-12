@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import MultiSwitchableBox from 'components/reportComponents/MultiSwitchableBox';
 import "./style.scss"
 
 const ProductAvailability = () => {
+  const texts = ["All", "Available", "Unavailable"];
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  
+  const handleSwitch = (index: number) => {
+    setActiveIndex(index);
+  };
   return (
-    <div className='product-insights-flex'>
-      <div className='report-product-insights'>
-        ProductAvailability
-      </div>
+    <div className='report-product-insights'>
+      <MultiSwitchableBox texts={texts} activeIndex={activeIndex} onSwitch={handleSwitch} />
     </div>
   )
 }

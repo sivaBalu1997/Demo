@@ -15,7 +15,7 @@ const tabs = ["Insights", "Availability"];
 interface ReportProps { }
 
 const ProductHomeLayout: React.FC<ReportProps> = () => {
-    const [activeTab, setActiveTab] = useState("Availability");
+    const [activeTab, setActiveTab] = useState("Insights");
       const [isExpanded, setIsExpanded] = useState(false); 
     
       const dispatch = useDispatch();
