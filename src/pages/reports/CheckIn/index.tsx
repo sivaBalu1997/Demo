@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Table from "../../../components/reportComponents/Table";
 import ReusableCanvaChart from "../../../components/reportComponents/Charts/ReusabeCanvaChart";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import moment from "moment";
 import useSalesLocationDates from "hooks/useSalesLocationDates";

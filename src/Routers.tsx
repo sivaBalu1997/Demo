@@ -49,7 +49,7 @@ import ItemCustomizations from "pages/productCatalog/itemCustomization/ItemCusto
 import MainPage from "pages/productCatalog/MainPage/MainPage";
 
 import { Contextpage } from "pages/productCatalog/contextpage";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import Report from "pages/report";
 import WelcomPage from "pages/ContentManagement/WelcomePage/WelcomePage";
 import RestaurantInfo from "pages/ContentManagement/RestaurantInfo/RestaurantInfo";

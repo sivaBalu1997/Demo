@@ -5,7 +5,7 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png";
 import DaysWeekOffer from "../../../components/offerManagement/DaysOfweekOffers";
 import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { SPOfferListRequest } from "redux/offer/offerActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";

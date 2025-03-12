@@ -218,11 +218,11 @@ const SidePanel = () => {
                   className="branch-dropdown"
                   disabled={
                     location.pathname?.includes("/employees/add") ||
-                    restaurantDetails?.branch?.length == 1 || false
-                    // (
-                    //   UserRole !== "Restaurant_Owner" &&
-                    //   UserRole !== "Regional_Employee" &&
-                    //   UserRole !== "Magil_Admin")
+                    restaurantDetails?.branch?.length == 1 ||
+                    (
+                      UserRole !== "Restaurant_Owner" &&
+                      UserRole !== "Regional_Employee" &&
+                      UserRole !== "Magil_Admin")
                   }
                   onChange={(e) => {
                     dispatch(selectBranch(JSON.parse(e.target.value)));

@@ -13,7 +13,7 @@ import {
   PostRestaurantLogoRequest,
   PostWelcomeBgImgRequest,
 } from "../../../redux/contentManagement/cmsActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const WelcomPage = () => {
   const inputRefsbg = [useRef(null)];

@@ -25,7 +25,7 @@ import {
   updateMenuItemRequest,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
 import {

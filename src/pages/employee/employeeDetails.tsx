@@ -31,7 +31,7 @@ import {
   EmployeeIdByDetails,
   RolesAndFunctions,
 } from "interface/employeeInterface";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const EmployeeDetails = () => {
   const [showDropDown, setShowDropDown] = useState(false);

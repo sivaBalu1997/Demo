@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import './DashBoard.scss'
 import Banner from '../../../assets/svg/DashBoardBanner.svg'
 import { Contextpagejs } from 'pages/productCatalog/contextpage'
-import SidePanel from 'pages/SidePanel/indexOld'
+import SidePanel from 'pages/SidePanel'
 
 const DashBoard = () => {
 

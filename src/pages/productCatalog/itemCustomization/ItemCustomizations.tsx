@@ -28,7 +28,7 @@ import Serachicon from "../../../assets/images/searchicon.png";
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import Dropdown from "components/productCatalog/DropDown/Dropdown";
 import { RootState } from "redux/rootReducer";

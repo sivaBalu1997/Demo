@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { ReactComponent as PencilIcon } from "../../assets/svg/pencilIcon.svg";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const ReviewMenu = (props) => {
   const dispatch = useDispatch();

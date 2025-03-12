@@ -4,7 +4,7 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
 
