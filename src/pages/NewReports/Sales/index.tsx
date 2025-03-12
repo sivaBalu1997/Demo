@@ -64,7 +64,7 @@ const SalesReport: React.FC<ReportProps> = () => {
     if (dropdownDetailsData?.length) {
       const uniqueCategories = [
         ...new Map(
-          (dropdownDetailsData ?? []).map(
+          (dropdownDetailsData ?? [])?.map(
             ({ categoryName, categoryId }: { categoryName: string, categoryId: string }) => [categoryId, { label: categoryName, value: categoryId }]
           )
         ).values()
@@ -72,7 +72,7 @@ const SalesReport: React.FC<ReportProps> = () => {
 
       const uniqueItems = [
         ...new Map(
-          (dropdownDetailsData ?? []).map(
+          (dropdownDetailsData||[])?.map(
             ({ itemName, itemId, categoryId }: { itemName: string, itemId: string, categoryId: string }) => [itemId, { label: itemName, value: itemId, categoryId, }]
           )
         ).values()
