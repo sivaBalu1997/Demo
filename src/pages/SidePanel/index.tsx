@@ -30,6 +30,7 @@ import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
+import SidePannelMob from "components/reportComponents/SiePannelMob";
 // import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"; 
 // import { STORAGE_BUCKET_URL } from "";
 // import MenuItems from "../menuItems";     
@@ -58,10 +59,10 @@ const SidePanel = () => {
       name: "Reports & Insights",
       path: "/old-reports"
     },
-    {
-      name: "Chart JS",
-      path: "/live-reports"
-    },
+    // {
+    //   name: "Chart JS",
+    //   path: "/live-reports"
+    // },
     {
       name: "Sales",
       path: "/sales-reports"
@@ -114,7 +115,7 @@ const SidePanel = () => {
   const [SelectSubForReport, setSelectSubForReport] = useState("");
 
   useEffect(() => {
-    setIsExpanded(true);
+    setIsExpanded(false);
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
       // history.push("/productCatalog/menuListing");
@@ -981,6 +982,7 @@ const SidePanel = () => {
           style={{ zIndex: 9 }}
         />
       </div>
+      {isExpanded?<SidePannelMob handleClose={()=> setIsExpanded(false)} />:null}
     </>
   );
 };

@@ -70,9 +70,9 @@ const initialNewReportsState = {
     liveCheckInGuestCountFailure: false,
 
     // Live Check In Status
-    liveCheckInStatusLoading: false,
-    liveCheckInStatusSuccess: [],
-    liveCheckInStatusFailure: false,
+    liveCheckinStatusLoading: false,
+    liveCheckinStatusSuccess: [],
+    liveCheckinStatusFailure: false,
 
     // Live Check In Avg Wait Time
     liveCheckInAvgWaitTimeLoading: false,
@@ -192,19 +192,20 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 break;
 
             case LIVE_CHECK_IN_STATUS_REQUEST:
-                draft.liveCheckInStatusLoading = true;
-                draft.liveCheckInStatusSuccess = [];
-                draft.liveCheckInStatusFailure = false;
+                draft.liveCheckinStatusLoading = true;
+                draft.liveCheckinStatusSuccess = [];
+                draft.liveCheckinStatusFailure = false;
                 break;
             case LIVE_CHECK_IN_STATUS_SUCCESS:
-                draft.liveCheckInStatusSuccess = action.payload;
-                draft.liveCheckInStatusLoading = false;
-                draft.liveCheckInStatusFailure = false;
+                console.log(2, action.payload);
+                draft.liveCheckinStatusSuccess = action.payload;
+                draft.liveCheckinStatusLoading = false;
+                draft.liveCheckinStatusFailure = false;
                 break;
             case LIVE_CHECK_IN_STATUS_FAILURE:
-                draft.liveCheckInStatusSuccess = [];
-                draft.liveCheckInStatusLoading = false;
-                draft.liveCheckInStatusFailure = true;
+                draft.liveCheckinStatusSuccess = [];
+                draft.liveCheckinStatusLoading = false;
+                draft.liveCheckinStatusFailure = true;
                 break;
 
             case LIVE_CHECK_IN_AVG_WAIT_TIME_REQUEST:
