@@ -10,7 +10,7 @@ import {
   liveRefundsRequest,
 } from "redux/newReports/newReportsActions";
 import { NewTableHeader } from "interface/newReportsInterface";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 
 import moment from "moment";
 import NewTable from "components/reportComponents/NewTable";

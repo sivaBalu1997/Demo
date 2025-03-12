@@ -19,7 +19,7 @@ import {
 import Enable from "../../assets/svg/enable.svg";
 import Disable from "../../assets/svg/Disable.svg";
 import Duplicate from "../../assets/svg/Duplicate.svg";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 
 const Offerdetails = (props) => {
   const [loading, setLoading] = useState(true);

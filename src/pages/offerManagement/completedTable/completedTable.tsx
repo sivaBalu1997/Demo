@@ -1,4 +1,4 @@
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import OfferHeader from "../../../components/offerManagement/OffersHeader";
 import { Contextpagejs } from "pages/productCatalog/contextpage";

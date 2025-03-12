@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "./specialPriceDetails.scss";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import InputComponent from "components/offerManagement/InputComponent/InputComponent";
 import Dropdown from "components/offerManagement/Dropdown/Dropdown";
 import { useSelector } from "react-redux";

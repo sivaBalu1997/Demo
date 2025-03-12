@@ -1,5 +1,5 @@
 import React from "react";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import "./Publish.scss";
 interface FoodItem {
   id: number;
