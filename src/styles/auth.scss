@@ -1,11 +1,12 @@
 .otp_login {
   width: 100vw;
   text-align: center;
-  // padding-top: 80px;
+  padding-top: 80px;
   // margin: 0 30px;
   // background-color: pink;
   @media(max-width: 600px){
     // background-color: orange;
+    padding-top: 0px;
   }
   & .logo {
     margin-bottom: 80px;
