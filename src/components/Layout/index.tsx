@@ -5,10 +5,12 @@ import { RootState } from "redux/rootReducer";
 import { STORAGE_BUCKET_URL } from "shared/constants";
 import { ReactComponent as MenuIcon } from "../../assets/svg/menuNew.svg";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { useLocation } from "react-router";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-      const restaurantDetails = useSelector((state: RootState) => state.auth?.restaurantDetails);
-      const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const restaurantDetails = useSelector((state: RootState) => state.auth?.restaurantDetails);
+  const location = useLocation();
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const getImageURL = useCallback(
     (type: string) => {
       const logoMedia = restaurantDetails?.media?.find((media) => media.entityType === type);
@@ -23,9 +25,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     },
     [restaurantDetails]
   );
-  useEffect(()=>{
-    setIsExpanded(false)
-  },[])
   // TODO: add roles and access
   return (
     <div className={styles.layout}>
@@ -33,16 +32,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       {/* Mobile view Header */}
       <div className={styles.mainContent}>
-      <header className={styles.mobMenuHeader}>
-      <MenuIcon className={styles.mainMenuIcon} onClick={()=> setIsExpanded(true)}/>
-     <img
-              src={getImageURL("LOGO")}
-              className={styles.logo}
-            />
-        <h1 className={styles.restaurantName}>{restaurantDetails &&
-              restaurantDetails.branchName &&
-              restaurantDetails.branchName.split(",")[0]}</h1>
-    </header>
+        {location?.pathname !== "/" ? <header className={styles.mobMenuHeader}>
+          <MenuIcon className={styles.mainMenuIcon} onClick={() => setIsExpanded(true)} />
+          <img
+            src={getImageURL("LOGO")}
+            className={styles.logo}
+          />
+          <h1 className={styles.restaurantName}>{restaurantDetails &&
+            restaurantDetails.branchName &&
+            restaurantDetails.branchName.split(",")[0]}</h1>
+        </header> : null}
 
         <main className={styles.content}>{children}</main>
       </div>
