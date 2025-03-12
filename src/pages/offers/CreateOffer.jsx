@@ -21,7 +21,7 @@ import {
   createOffer,
   EditOffer,
 } from "../../redux/offer/offerActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 const CreateOffer = (props) => {
   const dispatch = useDispatch();
 

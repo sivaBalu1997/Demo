@@ -11,7 +11,7 @@ import {
   EditOffer,
 } from "../../redux/offer/offerActions";
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 
 const PreviewOffer = (props) => {

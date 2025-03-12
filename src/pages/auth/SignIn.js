@@ -68,46 +68,24 @@ const SignIn = ({ setLogin }) => {
       <div className="sign_form">
         <h4>Sign In To Access</h4>
         <form onSubmit={handleSubmit(onSubmit)}>
-        <div
-            className="login--password"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
           <input
             type="text"
             name="businessName"
             placeholder="Enter Your Business Name"
             ref={register({ required: "Required" })}
-            style={{display: "flex", justifyContent:"center", alignItems:"center"}}
           />
-        </div>
-        <div
-            className="login--password"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
           <input
             type="text"
             name="userId"
             placeholder="Enter Your User ID"
             ref={register({ required: "Required" })}
           />
-          </div>
           <div
             className="login--password"
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
+              justifyContent: "flex-end",
             }}
           >
             <input
@@ -122,10 +100,7 @@ const SignIn = ({ setLogin }) => {
                 style={{
                   position: "absolute",
                   paddingTop: "1%",
-                  left: window.innerWidth <= 600 ? "80%" : "93%",
-                  width: "fit-content"
                 }}
-                className=""
               />
             ) : (
               <ClosedEyeIcon
@@ -133,8 +108,7 @@ const SignIn = ({ setLogin }) => {
                 style={{
                   position: "absolute",
                   paddingTop: "1%",
-                  left: window.innerWidth <= 600 ? "80%" : "93%",
-                  width: "fit-content"
+                  paddingRight: "1%",
                 }}
               />
             )}
@@ -142,12 +116,10 @@ const SignIn = ({ setLogin }) => {
           {/* <Link to="/reset">
             <p className="f_psd">Forgot Password ?</p>
           </Link> */}
-          <div style={{display: "flex", justifyContent: "center", "alignItems": "center"}}>
           <button type="submit">
             {" "}
             {authState.signInLoading ? "Signing In" : "Sign In"}{" "}
           </button>
-          </div>
         </form>
 
         {/* <p>

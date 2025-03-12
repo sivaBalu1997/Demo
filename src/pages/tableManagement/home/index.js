@@ -4,7 +4,7 @@ import bookTable from "../../../assets/images/book_table.png";
 import assignTable from "../../../assets/images/assign_table.png";
 import "../../../styles/table-mangagement/home.scss";
 import TableMenu from "../tableMenu";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const Home = () => {
   return (

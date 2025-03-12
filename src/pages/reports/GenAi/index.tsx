@@ -4,7 +4,7 @@ import GenAIPdfJustification from "../../../assets/mockData/originalAPIData/GenA
 import NewDemopdf from "../../../assets/mockData/originalAPIData/GenAIPDF/new sid.pdf";
 import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 

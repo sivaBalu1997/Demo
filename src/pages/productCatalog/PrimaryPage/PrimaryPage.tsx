@@ -39,7 +39,7 @@ import {
   removeDataRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
 

@@ -19,7 +19,7 @@ import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieC
 import DatePicker from "react-datepicker";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import moment from "moment";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import ToolTip from "../../../assets/svg/ToolTip.svg";
 import DateFilterDropdown from "components/reportComponents/DateFilterDropdown";

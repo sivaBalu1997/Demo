@@ -2,7 +2,7 @@ import React from "react";
 import menuIcon from "../../assets/images/emptyMenu.png";
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const Menu = () => {
   return (
