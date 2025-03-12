@@ -45,7 +45,29 @@ const menuOptions = [{
   icon: <div />, // Replace with the correct SVG import
   submenu: [],
 }]
+
+
 const SidePanel = () => {
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const location = useLocation();
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 575px)").matches;
+    if (isMobile) {
+      setIsExpanded(false);
+    } else {
+      setIsExpanded(true);
+    }
+
+  }, [location.pathname]);
+  return (
+    <>
+      <SidePanelDeskTop />
+      {isExpanded ? <SidePannelMob handleClose={() => setIsExpanded(false)} /> : null}
+    </>
+  )
+
+}
+const SidePanelDeskTop = () => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
     localStorage.getItem(SELECTED_BRANCH_DATA) || "";
@@ -76,8 +98,8 @@ const SidePanel = () => {
     //   path:""
     // },
     {
-      name:"Check-in",
-      path:"/check-in-reports"
+      name: "Check-in",
+      path: "/check-in-reports"
     },
     // {
     //   name:"Customer",
@@ -87,20 +109,15 @@ const SidePanel = () => {
     //   name:"Event",
     //   path:""
     // }
-    {
-      name: "Product",
-      path: "/product-reports"
-    }
+    // {
+    //   name: "Product",
+    //   path: "/product-reports"
+    // }
   ];
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (window.innerWidth <= 575) {
-  //     history.push(`/report/32`);
-  //   }
-  // }, [history]);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -110,12 +127,12 @@ const SidePanel = () => {
   const [showOfferListNav, setShowOfferListNav] = useState(false);
   const [routeTo, setRouteTo] = useState({});
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-  const [isExpand, setIsExpand] = useState(true);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
 
+
   useEffect(() => {
-    setIsExpanded(false);
+    setIsExpanded(true);
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
       // history.push("/productCatalog/menuListing");
@@ -131,10 +148,10 @@ const SidePanel = () => {
     } else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
-    }else if (location?.pathname?.includes("/check-in-reports")) {
+    } else if (location?.pathname?.includes("/check-in-reports")) {
       setSelectSubForReport("Check-in");
       setShowOptions("reportOptions");
-    }else if (location?.pathname?.includes("/product-reports")) {
+    } else if (location?.pathname?.includes("/product-reports")) {
       setSelectSubForReport("Product");
       setShowOptions("reportOptions");
     } else if (
@@ -241,7 +258,7 @@ const SidePanel = () => {
     history.push(path);
   }
 
-  
+
   return (
     <>
       <div
@@ -982,7 +999,7 @@ const SidePanel = () => {
           style={{ zIndex: 9 }}
         />
       </div>
-      {isExpanded?<SidePannelMob handleClose={()=> setIsExpanded(false)} />:null}
+
     </>
   );
 };

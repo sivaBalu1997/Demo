@@ -8,8 +8,8 @@
     // flex-direction: column;
     
     .mobMenuHeader {
-      display: none;
-      @media(max-width: 576px){
+      position: sticky;
+      top:0;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -39,10 +39,10 @@
         padding: 0.5rem;
       }
     }
-  }
-  @media (min-width: 576px) {
-    .mobMenuHeader {
-      display: none;
+    @media (min-width: 576px) {
+      .mobMenuHeader {
+        display: none;
+      }
     }
   }
 }
