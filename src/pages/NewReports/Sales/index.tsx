@@ -7,7 +7,7 @@ import TabNavigation from "components/common/TabNavigation";
 import CategoryReport from "pages/CategoryReport";
 import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";

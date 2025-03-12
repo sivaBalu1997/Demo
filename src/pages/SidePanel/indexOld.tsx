@@ -45,7 +45,11 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
+<<<<<<< HEAD
   const reportInsightsOptions = ["Reports & Insights", "Sales", "Check-in"];// "Product", "Staff", "Check-in", "Customer", "Event"
+=======
+  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales","Product","Staff","Check-in", "Customer","Event"];// "Product", "Staff", "Check-in", "Customer", "Event"
+>>>>>>> 0d888159 (back to indexOld)
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -88,15 +92,13 @@ const SidePanel = () => {
     else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
-    }
-    // else if (location?.pathname?.includes("/category-1")) {
-    //   setSelectSubForReport("Product");
-    //   setShowOptions("reportOptions");
-    // }
-    // else if (location?.pathname?.includes("/category-1")) {
-    //   setSelectSubForReport("Product");
-    //   setShowOptions("reportOptions");
-    // }
+    }else if (location?.pathname?.includes("/check-in-reports")) {
+      setSelectSubForReport("Check-in");
+      setShowOptions("reportOptions");
+    }else if (location?.pathname?.includes("/product-reports")) {
+      setSelectSubForReport("Product");
+      setShowOptions("reportOptions");
+    } 
     else if (
       location?.pathname?.includes("Offers/active") ||
       location?.pathname?.includes("offer/special") ||
@@ -506,8 +508,13 @@ const SidePanel = () => {
                                 history.push("/sales-reports");
                               }else if (option === "Check-in") {
                                 history.push("/check-in-reports");
+                              } else if (option === "Product") {
+                                history.push("/product-reports");
+                              } else if (option === "Check-in") {
+                                history.push("/check-in-reports");
+                              } else if (option === "Customer") {
+                                history.push("/customer-insights-report");
                               }
-                              
                             }}
                           >
                             {option}

@@ -1,7 +1,7 @@
 import React from 'react'
 import './LiveOutlets.scss'
 import imagerest from './imagerest.svg'
-import SidePanel from 'pages/SidePanel'
+import SidePanel from 'pages/SidePanel/indexOld'
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
 import ThreeDots from '../PendingOutlet/ThreeDots'
 import AddOutlet from 'components/contentManagement/AddOutlet/AddOutlet'

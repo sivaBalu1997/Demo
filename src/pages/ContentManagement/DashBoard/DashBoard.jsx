@@ -1,9 +1,9 @@
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
 import React, { useContext } from 'react'
 import './DashBoard.scss'
-import SidePanel from 'pages/SidePanel'
 import Banner from '../../../assets/svg/DashBoardBanner.svg'
 import { Contextpagejs } from 'pages/productCatalog/contextpage'
+import SidePanel from 'pages/SidePanel/indexOld'
 
 const DashBoard = () => {
 

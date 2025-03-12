@@ -6,7 +6,7 @@ import TabNavigation from 'components/common/TabNavigation';
 import SidePannelMob from 'components/reportComponents/SiePannelMob';
 import moment from 'moment';
 import Header from "components/reportComponents/Header";
-import SidePanel from 'pages/SidePanel';
+import SidePanel from 'pages/SidePanel/indexOld'
 import ProductInsights from '../ProductInsights';
 import ProductAvailability from '../ProductAvailability';
 import "../../Sales/report.scss"

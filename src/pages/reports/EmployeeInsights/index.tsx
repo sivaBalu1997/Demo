@@ -16,7 +16,7 @@ import {
 } from "interface/newReportsInterface";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import CanvaPieChart from "components/reportComponents/Charts/CanvaPieChart";
 import BarChart from "components/reportComponents/Charts/BarChart";

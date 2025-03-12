@@ -16,7 +16,7 @@ import Dropdown from "../../../components/productCatalog/DropDownList/DropDownLi
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "../contextpage";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
 import info from "../../../assets/svg/info.svg";
