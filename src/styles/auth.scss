@@ -1,12 +1,23 @@
 .otp_login {
-  width: 100vw;
+  // width: 100vw;
+  // height: 100vh;
   text-align: center;
   padding-top: 80px;
   // margin: 0 30px;
   // background-color: pink;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
   @media(max-width: 600px){
     // background-color: orange;
+    width: 100vw;
+    height: 100vh;
     padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   & .logo {
     margin-bottom: 80px;
