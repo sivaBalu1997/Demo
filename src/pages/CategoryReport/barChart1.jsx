@@ -55,12 +55,12 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
           title: (tooltipItems) => {
             if (!tooltipItems.length ||!isMobile) return "";
             const { dataIndex } = tooltipItems[0];
-            return dataList[dataIndex].categoryName;
+            return dataList?.[dataIndex].categoryName;
           },
           // Multi-line body: Qty and Sales
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
-            const cat = dataList[idx];
+            const cat = dataList?.[idx];
             return [`Qty: ${cat?.voidedQuantity}`, `Sales: $${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },

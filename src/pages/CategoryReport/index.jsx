@@ -81,7 +81,7 @@ const CategoryReport = (props) => {
   useEffect(() => {
     setSelectedCategories([{ label: "All", value: "" }]);
     setSelectedItems([{ label: "All", value: "" }]);
-    setItemList([{ label: "All", value: "" }, ...dropdownDetailsData?.map((item) => ({ label: item.itemName, value: item.itemId }))]);
+    setItemList([{ label: "All", value: "" }, ...(dropdownDetailsData||[])?.map((item) => ({ label: item.itemName, value: item.itemId }))]);
   }, [dropdownDetailsData])
 
   useEffect(() => {
@@ -123,13 +123,13 @@ const CategoryReport = (props) => {
     let filteredItems = [];
     if (!selectedCategories?.[0]?.value) {
       filteredItems = [
-        ...new Map(dropdownDetailsData
+        ...new Map((dropdownDetailsData||[])
           .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
         ).values(),
       ];
     } else {
       filteredItems = [
-        ...new Map(dropdownDetailsData
+        ...new Map((dropdownDetailsData|[])
           .filter((item) => selectedCategoryIds.includes(item.categoryId))
           .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
         ).values(),
@@ -174,7 +174,7 @@ const CategoryReport = (props) => {
         const selectedCategoryIds = tempCategories.map((cat) => cat.value);
         const filteredItems = [
           ...new Map(
-            dropdownDetailsData
+            (dropdownDetailsData||[])
               .filter((item) => selectedCategoryIds.includes(item.categoryId))
               .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
           ).values(),
