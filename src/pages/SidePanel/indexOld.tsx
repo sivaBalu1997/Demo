@@ -503,8 +503,6 @@ const SidePanel = () => {
                               }
                               else if (option === "Sales") {
                                 history.push("/sales-reports");
-                              }else if (option === "Check-in") {
-                                history.push("/check-in-reports");
                               } else if (option === "Product") {
                                 history.push("/product-reports");
                               } else if (option === "Check-in") {

@@ -397,7 +397,7 @@ const SidePanelDeskTop = () => {
               </span>
             )}
           </div>
-
+          {/* 
           <div
             className={
               showOfferOptions === "MenuOptions"
@@ -503,7 +503,7 @@ const SidePanelDeskTop = () => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div
             style={{

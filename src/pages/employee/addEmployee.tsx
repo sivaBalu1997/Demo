@@ -43,7 +43,7 @@ import {
   RolesAndFunctions,
 } from "interface/employeeInterface";
 import { RestaurantDetails } from "interface/authInterface";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();

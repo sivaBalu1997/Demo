@@ -15,7 +15,7 @@ import {
 } from "redux/newReports/newReportsActions";
 import Table from "../../../components/reportComponents/Table";
 import Topnavbar from "../../../components/reportComponents/TopNavbar";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import moment from "moment";
 import ToolTip from "../../../assets/svg/ToolTip.svg";
 import "react-datepicker/dist/react-datepicker.css";
