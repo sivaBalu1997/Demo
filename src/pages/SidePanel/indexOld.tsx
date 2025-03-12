@@ -45,11 +45,8 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-<<<<<<< HEAD
   const reportInsightsOptions = ["Reports & Insights", "Sales", "Check-in"];// "Product", "Staff", "Check-in", "Customer", "Event"
-=======
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales","Product","Staff","Check-in", "Customer","Event"];// "Product", "Staff", "Check-in", "Customer", "Event"
->>>>>>> 0d888159 (back to indexOld)
+
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
