@@ -55,10 +55,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (name === "itemName" && inputValue.length > 128) {
       return;
     }
-    if (name === "coloriePoint" && inputValue.length >4 ) {
+    if ((name === "coloriePoint" && inputValue.length >4) ||( Number(inputValue)<0) ) {
       return;
     }
-    if (name === "portionSize" && inputValue.length > 4) {
+    if ((name === "portionSize" && inputValue.length > 4) ||( Number(inputValue)<0) ) {
       return;
     }
    
@@ -67,6 +67,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     e.target.value = inputValue;
    
   if (name === "itemCode") {
+    if(Number(inputValue)>=0 ||inputValue=='' ){
    
     if (inputValue.length <= 3 || inputValue !== oldValue) {
       dispatch({ type: REMOVE_CODE_REQUEST });
@@ -76,6 +77,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (inputValue.length > 3 && inputValue !== oldValue) {
       dispatch(getItemCodeRequest(locationid, inputValue));
     }
+  }
+  else{
+    return ;
+  }
   }
   if (name === "itemName") {
    
@@ -99,6 +104,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   
   
   };
+  const handleWheel = (event: any) => {
+    event.target.blur(); // Removes focus to prevent unintended changes
+    event.preventDefault();
+  };
   
 
   const message = useSelector(
@@ -112,7 +121,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           type={type}
           autoComplete="off"
           name={name}
-          
+          onWheel={handleWheel}
           value={value}
           onChange={handleChange}
           onBlur={onBlur}

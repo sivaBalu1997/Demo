@@ -884,7 +884,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 

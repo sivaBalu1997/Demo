@@ -33,7 +33,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
   const initialSelectionSet = useRef(false);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data

@@ -162,6 +162,8 @@ import {
   SELECTED_COLUMNS,
   TRIGGER_FCM,
   TRIGGERED_FCM,
+  SCHEDULE_FCM,
+  SCHEDULE_FCM_RESPONSE,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -993,7 +995,6 @@ export const selectedColumnsCarryData = (data) => ({
 
 
 export const triggerFcm = (payload)=>({
-
   type:TRIGGER_FCM,
   payload:payload
 
@@ -1002,3 +1003,13 @@ export const triggeredFcm = (response) => ({
   type: TRIGGERED_FCM,
   payload: response,
 });
+
+export const scheduleFCM = (payload) => ({
+  type : SCHEDULE_FCM,
+  payload : payload,
+})
+
+export const scheduleFCMResponse = (response) => ({
+  type : SCHEDULE_FCM_RESPONSE,
+  payload: response
+})
