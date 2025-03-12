@@ -69,7 +69,8 @@ const SidePanel = () => {
 }
 const SidePanelDeskTop = () => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
-  const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || "";
+  const selectedBranch: string =
+    localStorage.getItem(SELECTED_BRANCH_DATA) || "";
   const branch =
     selectedBranch && selectedBranch !== "undefined"
       ? JSON.parse(selectedBranch)
@@ -222,7 +223,7 @@ const SidePanelDeskTop = () => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (restaurantDetails) {
+      if (!selectedBranch && restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
@@ -396,7 +397,7 @@ const SidePanelDeskTop = () => {
               </span>
             )}
           </div>
-{/* 
+
           <div
             className={
               showOfferOptions === "MenuOptions"
@@ -502,7 +503,7 @@ const SidePanelDeskTop = () => {
                 )}
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div
             style={{
@@ -626,7 +627,7 @@ const SidePanelDeskTop = () => {
                 )}
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div
             //  style={{marginTop:showOptions === "reportOptions"&&reportInsightsOptions.length>0?"-1.2rem":"0" }}
