@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../Sales/report.scss";
 import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeDateFilterType,

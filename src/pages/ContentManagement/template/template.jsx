@@ -1,5 +1,5 @@
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
-import SidePanel from 'pages/SidePanel'
+import SidePanel from 'pages/SidePanel/indexOld'
 import React, { useContext, useRef, useState } from 'react'
 import './template.scss'
 import templateBanner from '../../../assets/svg/TemplateBanner.svg'

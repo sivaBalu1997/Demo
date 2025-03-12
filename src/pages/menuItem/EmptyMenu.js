@@ -17,7 +17,7 @@ import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
 
 import MenuItem from "./MenuItem";
 import { resetDeleteData } from "../../redux/productCatalog/productCatalogActions";
-import SidePanel from "pages/SidePanel";
+import SidePanel from "pages/SidePanel/indexOld";
 
 const EmptyMenu = () => {
   const dispatch = useDispatch();
