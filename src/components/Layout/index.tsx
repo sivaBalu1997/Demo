@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import styles from "./Layout.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
@@ -23,6 +23,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     },
     [restaurantDetails]
   );
+  useEffect(()=>{
+    setIsExpanded(false)
+  },[])
   // TODO: add roles and access
   return (
     <div className={styles.layout}>

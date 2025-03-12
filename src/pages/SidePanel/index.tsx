@@ -87,10 +87,10 @@ const SidePanel = () => {
     //   name:"Event",
     //   path:""
     // }
-    {
-      name: "Product",
-      path: "/product-reports"
-    }
+    // {
+    //   name: "Product",
+    //   path: "/product-reports"
+    // }
   ];
   const offerMenuOptions = ["Special Price"];
 
@@ -114,8 +114,8 @@ const SidePanel = () => {
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
 
-  useEffect(() => {
-    setIsExpanded(false);
+  useEffect(() => { 
+    setIsExpanded(true);
     if (location?.pathname?.includes("/productCatalog")) {
       setShowOptions("Product Catalog");
       // history.push("/productCatalog/menuListing");
