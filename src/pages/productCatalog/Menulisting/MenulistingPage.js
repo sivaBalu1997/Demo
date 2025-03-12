@@ -522,8 +522,8 @@ export const MenulistingPage = () => {
 
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
-        dispatch(selectedMockDataRequest(specificResponse));
+        dispatch(selectedCategory({name:filteredItem?.categoryName,id: filteredItem?.categoryId}));
+        dispatch(selectedMockDataRequest([...specificResponse]));
         setmodal(true);
       }
     } else {
@@ -542,7 +542,7 @@ export const MenulistingPage = () => {
 
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
+        dispatch(selectedCategory({name:filteredItem?.categoryName,id: filteredItem?.categoryId}));
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
