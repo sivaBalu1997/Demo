@@ -45,7 +45,7 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales"];// "Product", "Staff", "Check-in", "Customer", "Event"
+  const reportInsightsOptions = ["Reports & Insights", "Sales", "Check-in"];// "Product", "Staff", "Check-in", "Customer", "Event"
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -80,6 +80,9 @@ const SidePanel = () => {
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
+      setShowOptions("reportOptions");
+    }else if (location?.pathname?.includes("/check-in-reports")) {
+      setSelectSubForReport("Check-in");
       setShowOptions("reportOptions");
     }
     else if (location?.pathname?.includes("/sales-reports")) {
@@ -162,7 +165,7 @@ const SidePanel = () => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (!selectedBranch && restaurantDetails) {
+      if (restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
@@ -192,6 +195,8 @@ const SidePanel = () => {
     dispatch(signOut());
     history.replace("/");
   };
+  console.log({UserRole});
+  
 
   return (
     <>
@@ -214,10 +219,11 @@ const SidePanel = () => {
                   className="branch-dropdown"
                   disabled={
                     location.pathname?.includes("/employees/add") ||
-                    restaurantDetails?.branch?.length == 1 ||
-                    (UserRole !== "Restaurant_Owner" &&
-                      UserRole !== "Regional_Employee" &&
-                      UserRole !== "Magil_Admin")
+                    restaurantDetails?.branch?.length == 1 || false
+                    // (
+                    //   UserRole !== "Restaurant_Owner" &&
+                    //   UserRole !== "Regional_Employee" &&
+                    //   UserRole !== "Magil_Admin")
                   }
                   onChange={(e) => {
                     dispatch(selectBranch(JSON.parse(e.target.value)));
@@ -498,6 +504,8 @@ const SidePanel = () => {
                               }
                               else if (option === "Sales") {
                                 history.push("/sales-reports");
+                              }else if (option === "Check-in") {
+                                history.push("/check-in-reports");
                               }
                               
                             }}

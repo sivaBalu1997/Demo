@@ -281,7 +281,52 @@ const SidePanelDeskTop = () => {
               )
             )}
           </div>
-          <div className="restaurant-name-container restaurant-name-container-rebranded">
+
+                    <div className="restaurant-name-container  restaurant-name-container-rebranded">
+                      {isExpanded && (
+                        <span className="restaurant-name">
+                          {restaurantDetails &&
+                            restaurantDetails.branchName &&
+                            restaurantDetails.branchName.split(",")[0]}
+                        </span>
+                      )}
+                      {isExpanded && (
+                        <div>
+                          <select
+                            className="branch-dropdown"
+                            disabled={
+                              location.pathname?.includes("/employees/add") ||
+                              restaurantDetails?.branch?.length == 1 || false
+                              // (UserRole !== "Restaurant_Owner" &&
+                              //   UserRole !== "Regional_Employee" &&
+                              //   UserRole !== "Magil_Admin")
+                            }
+                            onChange={(e) => {
+                              dispatch(selectBranch(JSON.parse(e.target.value)));
+                              localStorage.setItem(
+                                SELECTED_BRANCH_DATA,
+                                JSON.stringify(JSON.parse(e.target.value))
+                              );
+                            }}
+                            value={selectedBranch}
+                          >
+                            {restaurantDetails &&
+                              restaurantDetails.branch &&
+                              restaurantDetails.branch.map((u, i) => {
+                                return (
+                                  <option
+                                    value={`${JSON.stringify(u)}`}
+                                  //selected={userBranchName}
+                                  >
+                                    {u.locationName.split(",")[1]}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+          {/* <div className="restaurant-name-container restaurant-name-container-rebranded">
             {isExpanded ? (
               <span className="restaurant-name restaurant-name-rebranded ">
                 {restaurantDetails &&
@@ -306,7 +351,7 @@ const SidePanelDeskTop = () => {
                 </span>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
         <ul className="menu-items-sidebar menu-items-sidebar-rebranded">
           <div
