@@ -20,7 +20,7 @@ import TableSecondHeader from "../../../components/productCatalog/TableSecondHea
 import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableTwoBody";
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import noResultsfound from "../../../assets/images/NoResultsFound.png";
@@ -884,7 +884,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 

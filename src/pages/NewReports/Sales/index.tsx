@@ -7,7 +7,7 @@ import TabNavigation from "components/common/TabNavigation";
 import CategoryReport from "pages/CategoryReport";
 import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
@@ -64,7 +64,7 @@ const SalesReport: React.FC<ReportProps> = () => {
     if (dropdownDetailsData?.length) {
       const uniqueCategories = [
         ...new Map(
-          (dropdownDetailsData ?? []).map(
+          (dropdownDetailsData ?? [])?.map(
             ({ categoryName, categoryId }: { categoryName: string, categoryId: string }) => [categoryId, { label: categoryName, value: categoryId }]
           )
         ).values()
@@ -72,7 +72,7 @@ const SalesReport: React.FC<ReportProps> = () => {
 
       const uniqueItems = [
         ...new Map(
-          (dropdownDetailsData ?? []).map(
+          (dropdownDetailsData||[])?.map(
             ({ itemName, itemId, categoryId }: { itemName: string, itemId: string, categoryId: string }) => [itemId, { label: itemName, value: itemId, categoryId, }]
           )
         ).values()

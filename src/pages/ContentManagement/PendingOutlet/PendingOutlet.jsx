@@ -2,7 +2,7 @@ import React from 'react'
 import "./PendingOutlet.scss"
 import Diwali from "../../../assets/images/Diwali.jpeg"
 import ThreeDots from './ThreeDots'
-import SidePanel from 'pages/SidePanel/indexOld'
+import SidePanel from 'pages/SidePanel'
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
 import Christmas from "../../../assets/images/christmas.webp"
 import AddOutlet from 'components/contentManagement/AddOutlet/AddOutlet'

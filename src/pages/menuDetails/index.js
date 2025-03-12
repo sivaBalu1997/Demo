@@ -5,7 +5,7 @@ import "../../styles/menuDetail.scss";
 import { IoIosAdd, IoIosInformationCircleOutline } from "react-icons/io";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const menuCategory = [
   { id: 1, option: "South Indian Lunch" },

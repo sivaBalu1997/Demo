@@ -7,7 +7,7 @@ import { generateGradient } from "../../../util/color";
 import Table from "../../../components/reportComponents/Table";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import DatePicker from "react-datepicker";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import "./style.scss";

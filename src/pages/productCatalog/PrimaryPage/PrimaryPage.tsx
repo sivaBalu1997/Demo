@@ -39,7 +39,7 @@ import {
   removeDataRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
 
@@ -349,7 +349,7 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
@@ -404,7 +404,7 @@ const PrimaryPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
-  const maxDescriptonLength = 100;
+  const maxDescriptonLength = 1000;
   const maxImages = 7;
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     DietaryType: false,

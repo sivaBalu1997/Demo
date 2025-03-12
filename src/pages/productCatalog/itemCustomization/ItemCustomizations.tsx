@@ -28,7 +28,7 @@ import Serachicon from "../../../assets/images/searchicon.png";
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import Dropdown from "components/productCatalog/DropDown/Dropdown";
 import { RootState } from "redux/rootReducer";
@@ -1260,14 +1260,14 @@ const ItemCustomizations: React.FC<any> = () => {
                 </a>
               )}
             </div>
-            {showModifiers && (
+            {/* {showModifiers && (
               <div className="searchbox">
                 <input
                   placeholder="Search"
                   className="searchBox-input"
                   type="text"
                   value={searchQuery}
-                  // onKeyDown={handleKeyDown}
+                 
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
                     if (e.target.value === "") {
@@ -1282,13 +1282,9 @@ const ItemCustomizations: React.FC<any> = () => {
                     }
                   }}
                 ></input>
-                {/* <img
-                  src={Serachicon}
-                  alt=""
-                  className="searchIcon"
-                  onClick={() => handleSearchChange()}
-                /> */}
-                {!searchClicked ? (
+                
+                {
+                  !searchClicked?
                   <img
                     src={Serachicon}
                     alt=""
@@ -1337,14 +1333,7 @@ const ItemCustomizations: React.FC<any> = () => {
                               onClick={() => handleSelecteModifiers(item)}
                             >
                               {item.modifierName}{" "}
-                              {/* {index === highlightedIndex && (
-                              <button
-                                onClick={() => handleSelecteModifiers(item)}
-                                className="Addmodificationfromsearch"
-                              >
-                                Add
-                              </button>
-                            )} */}
+                             
                             </div>
                           </li>
                         </div>
@@ -1372,7 +1361,7 @@ const ItemCustomizations: React.FC<any> = () => {
                   </ul>
                 )}
               </div>
-            )}
+            )} */}
 
             <div className="modifiersitem">
               <div className="modifiers">

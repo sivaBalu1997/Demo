@@ -6,6 +6,8 @@ import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import ArrowHover from "../../../assets/svg/ArrowHover.svg";
+
 import {
   addDropDowRequest,
   deleteDropDowRequest,
@@ -618,7 +620,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       id: value,
       type: dropDownType,
       locationid: locationid,
-      parentId: parentId && parentId,
+      parentId: subcategorydataforApi?.parentId ?subcategorydataforApi?.parentId:'',
     };
 
     if (deletedItem) {
@@ -640,7 +642,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       locationId: locationid,
       name: newValue,
       type: dropDownType,
-      parentId: dropDownType === "SUB_CATEGORY" ? parentId : "",
+      parentId: dropDownType === "SUB_CATEGORY" ? subcategorydataforApi?.parentId ?subcategorydataforApi?.parentId:'':""
     };
 
     setOptions([
@@ -653,7 +655,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     const viewdata = {
       locationId: locationid,
       type: dropDownType,
-      parentId: SubcategoryParentId && SubcategoryParentId,
+      parentId: subcategorydataforApi?.parentId ?subcategorydataforApi?.parentId:'',
     };
     if (addNewButton && newItem) {
       dispatch(addDropDowRequest(newItem));
@@ -735,7 +737,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         <div>
           <input
             placeholder={
-              (name === "kitchenstation" ? "Kitchen station*" : "") ||
+              (name === "kitchenstation" ? "Kitchen station" : "") ||
               (name === "tax" ? placeholder : "")
             }
             type="text"
@@ -879,7 +881,8 @@ const DropDownList: React.FC<DropdownProps> = ({
                                 {option.name}
                               </span>
                             </li>
-                            <div>
+                            <div className="delete-option">
+                              <div>
                               {editList && (
                                 <span
                                   className={`dropdown-option-delete`}
@@ -900,6 +903,18 @@ const DropDownList: React.FC<DropdownProps> = ({
                                   -Delete
                                 </span>
                               )}
+                              </div>
+                              
+                               <div className="delete-updated">
+                  <img
+                    src={ArrowHover}
+                    className="ArrowHoverdelete-updated"
+                    alt="Delete Tool"
+                  />
+                  <div className="delete-box-updated">Cannot delete if assigned to a food item.</div>
+                </div>
+
+
                             </div>
                           </div>
                         );

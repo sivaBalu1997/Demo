@@ -20,7 +20,7 @@ import TableSecondHeader from "../../../components/productCatalog/TableSecondHea
 import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableTwoBody";
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import noResultsfound from "../../../assets/images/NoResultsFound.png";
@@ -41,6 +41,7 @@ import {
 
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
+import ImageWithFallback from "components/productCatalog/ImageWithFallback/ImageWithFallback";
 
 export const MenulistingPage = () => {
   const dispatch = useDispatch();
@@ -344,7 +345,7 @@ export const MenulistingPage = () => {
 
   useEffect(() => {
     dispatch(removeDataRequest());
-    dispatch(getModifierRequest({ name: '', locationId }));
+    // dispatch(getModifierRequest({ name: '', locationId }));
   }, []);
 
   const locationid = useSelector((state) => state.auth.selectedBranch?.id);
@@ -929,7 +930,7 @@ export const MenulistingPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL;// "https://storage.googleapis.com/mhd-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 
@@ -1224,7 +1225,18 @@ export const MenulistingPage = () => {
                                             >
                                               <p>
                                                 <span className="imgae-styel2">
-                                                  <img
+                                                <ImageWithFallback src={`${baseImageUrl}${
+                                              item?.mediaResponseList[0]
+                                                ?.imageId
+                                            }.${
+                                              item?.mediaResponseList[0]?.imageType.split(
+                                                "/"
+                                              )[1]
+                                            }`}
+                                            alt={"No image"}
+                                            classname="foodimage"
+                                            />
+                                                  {/* <img
                                                     src={`${baseImageUrl}${
                                                       item?.mediaResponseList[0]
                                                         ?.imageId
@@ -1235,7 +1247,7 @@ export const MenulistingPage = () => {
                                                     }`}
                                                     alt="No Image"
                                                     className="foodimage"
-                                                  />
+                                                  /> */}
                                                 </span>
                                               </p>
                                               <p>
@@ -1289,7 +1301,19 @@ export const MenulistingPage = () => {
                                     >
                                       <p>
                                         <span className="imgae-styel2">
-                                          <img
+                                          <ImageWithFallback src={`${baseImageUrl}${
+                                              item?.mediaResponseList[0]
+                                                ?.imageId
+                                            }.${
+                                              item?.mediaResponseList[0]?.imageType.split(
+                                                "/"
+                                              )[1]
+                                            }`}
+                                            alt={"No image"}
+                                            classname="foodimage"
+                                            />
+                                          
+                                          {/* <img
                                             src={`${baseImageUrl}${
                                               item?.mediaResponseList[0]
                                                 ?.imageId
@@ -1300,7 +1324,7 @@ export const MenulistingPage = () => {
                                             }`}
                                             alt="No Image"
                                             className="foodimage"
-                                          />
+                                          /> */}
                                         </span>
                                       </p>
                                       <p>
@@ -1610,12 +1634,16 @@ export const MenulistingPage = () => {
                                                               // paddingLeft:"20px",
                                                               // paddingRight:"20px"
                                                             }}
-                                                            onClick={() =>
+                                                            onClick={() =>{
+                                                              if(orderType?.isNotHide==1)
+                                                              {
                                                               handlesidbarhandling(
                                                                 `${typeName}1`,
                                                                 item.itemId
                                                               )
                                                             }
+                                                          }
+                                                          }
                                                           >
                                                             {restaurantDetails?.country ===
                                                             "US"
@@ -1704,13 +1732,14 @@ export const MenulistingPage = () => {
                                                               toggle={
                                                                 orderType &&
                                                                 orderType.availabilityEnabled ===
-                                                                  true &&
-                                                                orderType.isNotHide ===
-                                                                  1
+                                                                  true
                                                                 //    &&
                                                                 // orderType.isEnabled ===
                                                                 //   1
                                                               }
+                                                              hidden={
+                                                                orderType?.isNotHide
+                                                                }
                                                             />
                                                           </span>
                                                         );
@@ -1919,12 +1948,16 @@ export const MenulistingPage = () => {
                                                         //       "center",
                                                         //     alignItems: "center",
                                                         //   }}
-                                                        onClick={() =>
+                                                        onClick={() =>{
+                                                          if(orderType?.isNotHide==1)
+                                                          {
                                                           handlesidbarhandling(
                                                             `${typeName}1`,
                                                             item.itemId
                                                           )
                                                         }
+                                                      }
+                                                      }
                                                       >
                                                         {restaurantDetails?.country ===
                                                         "US"
@@ -2008,13 +2041,12 @@ export const MenulistingPage = () => {
                                                         toggle={
                                                           orderType &&
                                                           orderType.availabilityEnabled ===
-                                                            true &&
-                                                          orderType.isNotHide ===
-                                                            1
-                                                          //   &&
-                                                          // orderType.isEnabled ===
-                                                          //   1
+                                                            true
+
                                                         }
+                                                        hidden={
+                                                        orderType?.isNotHide
+                                                          }
                                                       />
                                                     </span>
                                                   );

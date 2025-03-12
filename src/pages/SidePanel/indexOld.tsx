@@ -45,7 +45,8 @@ const SidePanel = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = ["Reports & Insights", "Chart JS", "Sales","Product","Staff","Check-in", "Customer","Event"];// "Product", "Staff", "Check-in", "Customer", "Event"
+  const reportInsightsOptions = ["Reports & Insights", "Sales", "Check-in"];// "Product", "Staff", "Check-in", "Customer", "Event"
+
   const offerMenuOptions = ["Special Price"];
 
   const history = useHistory();
@@ -80,6 +81,9 @@ const SidePanel = () => {
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/live-reports")) {
       setSelectSubForReport("Chart JS");
+      setShowOptions("reportOptions");
+    }else if (location?.pathname?.includes("/check-in-reports")) {
+      setSelectSubForReport("Check-in");
       setShowOptions("reportOptions");
     }
     else if (location?.pathname?.includes("/sales-reports")) {
@@ -190,6 +194,8 @@ const SidePanel = () => {
     dispatch(signOut());
     history.replace("/");
   };
+  console.log({UserRole});
+  
 
   return (
     <>
@@ -213,7 +219,8 @@ const SidePanel = () => {
                   disabled={
                     location.pathname?.includes("/employees/add") ||
                     restaurantDetails?.branch?.length == 1 ||
-                    (UserRole !== "Restaurant_Owner" &&
+                    (
+                      UserRole !== "Restaurant_Owner" &&
                       UserRole !== "Regional_Employee" &&
                       UserRole !== "Magil_Admin")
                   }
@@ -496,6 +503,8 @@ const SidePanel = () => {
                               }
                               else if (option === "Sales") {
                                 history.push("/sales-reports");
+                              }else if (option === "Check-in") {
+                                history.push("/check-in-reports");
                               } else if (option === "Product") {
                                 history.push("/product-reports");
                               } else if (option === "Check-in") {

@@ -25,7 +25,7 @@ import {
   updateMenuItemRequest,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
 import {
@@ -470,6 +470,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const addMenuLoading = useSelector(
     (state: any) => state.productCatalog?.addMenuLoading
   );
+  
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.DietaryType?.includes(dietary.name)
@@ -490,12 +491,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           prizingDetail?.kitchenstation?.toLowerCase()
       )
     : undefined;
+    const data =typeof(primarydata?.bestPair)=='string' ? primarydata?.bestPair.split(", ") :[]
 
-  const matchedBestPair =
-    primarydata?.bestPair &&
-    primarydata?.bestPair?.map((best: any) => {
-      return bestPairData?.find((b: any) => b.name == best);
-    });
+  const matchedBestPair = typeof(primarydata?.bestPair)=='string'?(primarydata?.bestPair &&
+    data?.map((best: any) => {
+      return bestPairData?.find((b: any) => b.name == best)})): primarydata?.bestPair && primarydata?.bestPair?.map((best: any) => {
+    return bestPairData?.find((b: any) => b.name == best)
+  }) 
 
   // const matchedBestPair = bestPairData?.filter((bestPair: any) =>
   //   primarydata?.bestPair?.includes(bestPair?.name)
@@ -1500,23 +1502,23 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                 : "save-and-next-button"
             }
           >
-            <button
+                 <button
               className={`${isExpanded ? "clearall1" : "clearall"}`}
               onClick={() => history.push("/productCatalog/menuListing")}
             >
-              Cancel
-            </button>
-            <button
-              className="saveall"
-              onClick={handleSubmitItemDetails}
-              disabled={addMenuLoading || updateMenuItemLoading}
-            >
-              {addMenuLoading || updateMenuItemLoading ? (
-                <div className="reviewLoaders"></div>
-              ) : (
-                "Publish"
-              )}
-            </button>
+            Cancel
+          </button>
+          <button
+            className="saveall"
+            onClick={handleSubmitItemDetails}
+            disabled={(editData?.length===0 &&addMenuLoading) || (editData?.length>0 &&updateMenuItemLoading)}
+          >
+            {(editData?.length===0 &&addMenuLoading) || (editData?.length>0 &&updateMenuItemLoading) ? (
+              <div className="reviewLoaders"></div>
+            ) : (
+              "Publish"
+            )}
+          </button>
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ import {
   PostInfrastructureImageRequest,
   PostRestaurantVideoRequest,
 } from "../../../redux/contentManagement/cmsActions";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const RestaurantInfo = () => {
   const [restaurantVideo, setRestaurantVideo] = useState([null]);

@@ -2,7 +2,7 @@ import React from "react";
 import customization from "../../assets/images/customization.png";
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const MenuCustomization = () => {
   return (

@@ -16,7 +16,7 @@ import searchImg from "../../assets/svg/searchImg.svg";
 import { SelectedBranch } from "../../interface/authInterface";
 import { RootState } from "redux/rootReducer";
 import { EmployeeType } from "../../interface/employeeInterface";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const Employees = () => {
   const [loading, setLoading] = useState(true);

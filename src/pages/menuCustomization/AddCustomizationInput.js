@@ -4,7 +4,7 @@ import { IoIosAdd, IoIosArrowBack } from "react-icons/io";
 import "../../styles/customization.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
-import SidePanel from "pages/SidePanel/indexOld";
+import SidePanel from "pages/SidePanel";
 
 const AddCustomizationInput = () => {
   const [groupField, setGroupField] = useState([]);
