@@ -186,8 +186,6 @@ const dataList3: CustomBarChartData[] = [
 ];
 
 const SummaryInsights = () => {
-  const [activeBtn, setActiveBtn] = useState("Live Check-ins");
-
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
   );
