@@ -462,15 +462,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
 
-  
-
   const filteredSubCategory = allItemResponseLists.find((category: any) =>
     category?.itemResponseList?.some(
       (item: any) => item.itemId === editData[0]?.itemId
     )
   );
 
-
+  const selectedCategory = useSelector((state:any) => state.productCatalog.selectedCategory)
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -759,6 +757,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.updatedPayload
   );
 
+  const categoryIdMatch = selectedCategory.id !==  matchedCategoryId
+
   const editPayload = {
     itemId: editData[0]?.itemId,
     locationId: locationid,
@@ -788,8 +788,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     modifiersToAdd: hasData ? modifierData : [],
 
-    isCategoryUpdated:(filteredSubCategory?.length!==0||filteredSubCategory!==undefined)?filteredSubCategory?.subCategoryId!==matchedSubCategoryId:filteredCategory?.length!==0?filteredCategory?.categoryId!==matchedCategoryId:false,
-
+    isCategoryUpdated: categoryIdMatch,
 
     // isCategoryUpdated:filteredCategory.length===0?filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category:filteredSubCategory.length===0?filteredSubCategory?. !==primarypagedetails.primarypage.data.category:filteredCategory?.categoryName !==primarypagedetails.primarypage.data.category,
 
