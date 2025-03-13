@@ -511,7 +511,8 @@ right: 3%;
     display: flex;
     flex-direction: column;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, 
+    visibility 0.3s ease-in-out;
     // background-color: pink;
   
     .delete-box-updated {

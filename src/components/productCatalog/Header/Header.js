@@ -12,8 +12,12 @@ import Filter from "../Filter/Filter";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import DatePicker from "react-datepicker";
 import plusicon from "../../../assets/svg/plusIcon.svg";
-import {ReactComponent as Icon } from "../../../assets/svg/cloud.svg";
-import { removeDataRequest, scheduleFCM, triggerFcm } from "redux/productCatalog/productCatalogActions";
+import { ReactComponent as Icon } from "../../../assets/svg/cloud.svg";
+import {
+  removeDataRequest,
+  scheduleFCM,
+  triggerFcm,
+} from "redux/productCatalog/productCatalogActions";
 import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   const { isExpanded } = useContext(Contextpagejs);
@@ -21,6 +25,7 @@ const Header = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+
   const handleFilter = () => {
     setFilterSelected(!filterSelected);
   };
@@ -29,45 +34,53 @@ const Header = () => {
     dispatch(removeDataRequest());
     history.push("/productCatalog/PrimaryDetails");
   };
+
   const restaurantDetails = useSelector(
-      (state) => state?.auth.restaurantDetails
+    (state) => state?.auth.restaurantDetails
+  );
+  
+  const fcMEventloading = useSelector(
+    (state) => state.productCatalog?.fcMEventloading
+  );
+
+  const syncByFcm = () => {
+    const cuurentMenuTypes = restaurantDetails.orderTypes
+      ?.filter((type) => {
+        return type.typeGroup !== "I";
+      })
+      .map((type) => {
+        return type.typeGroup !== "I" && type.typeName;
+      });
+
+    dispatch(
+      triggerFcm({
+        topic: restaurantDetails.id, // restaurantDetails.topicToSubscribe,
+        eventName: "MENU_UPDATE",
+        locationId: restaurantDetails.id,
+        updateMenuType: cuurentMenuTypes,
+        sendToDefaultDeviceOnly: false,
+      })
     );
-     const fcMEventloading = useSelector(
-        (state) => state.productCatalog?.fcMEventloading
-      );
-    
-  const syncByFcm=()=>{
-    const cuurentMenuTypes=restaurantDetails.orderTypes?.filter((type)=>{
-      return type.typeGroup!=="I"
-    }).map((type)=>{
-      return type.typeGroup!=="I" && type.typeName
-    })
 
-      dispatch(triggerFcm({
-        topic:restaurantDetails.id, // restaurantDetails.topicToSubscribe,
-        eventName: 'MENU_UPDATE',
+    const date = new Date();
+    let day = date.getDate() + 1;
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2);
+    day = String(day).padStart(2, "0");
+
+    const formattedDate = `${day}-${month}-${year}`;
+
+    dispatch(
+      scheduleFCM({
+        topic: restaurantDetails.id,
+        eventName: "SCHEDULE_UPDATE",
         locationId: restaurantDetails.id,
         updateMenuType: cuurentMenuTypes,
-        sendToDefaultDeviceOnly:false
-      }))
-
-      const date = new Date();
-      let day = date.getDate() + 1;
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const year = String(date.getFullYear()).slice(-2);
-      day = String(day).padStart(2, "0"); 
-    
-      const formattedDate = `${day}-${month}-${year}`;
-
-      dispatch(scheduleFCM({
-        topic:restaurantDetails.id, 
-        eventName: 'SCHEDULE_UPDATE',
-        locationId: restaurantDetails.id,
-        updateMenuType: cuurentMenuTypes,
-        sendToDefaultDeviceOnly:false,
-        scheduledTime:`${formattedDate} 11:00:00`
-      }))
-  }
+        sendToDefaultDeviceOnly: false,
+        scheduledTime: `${formattedDate} 11:00:00`,
+      })
+    );
+  };
 
   return (
     <div className={isExpanded ? "Header-Container1" : "Header-Container"}>
@@ -76,53 +89,48 @@ const Header = () => {
 
         <SearchBox />
       </div>
-      <div style={{display:'flex',justifyContent:'space-between'}}>
-      <div
-      className={fcMEventloading ? "sync-Container-loading" : "sync-Container"}
-        
-        onClick={syncByFcm}
-      >
-        {/* <p className="Add-Item-Heading-Plus">+</p> */}
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div
+          className={
+            fcMEventloading ? "sync-Container-loading" : "sync-Container"
+          }
+          onClick={syncByFcm}
+        >
+          {/* <p className="Add-Item-Heading-Plus">+</p> */}
 
+          {!fcMEventloading ? (
+            <>
+              <span className="sync-icon">
+                <Icon />
+              </span>
+              <p Add-Item-Heading-header>Sync</p>
+            </>
+          ) : (
+            <div className="reviewLoaders"></div>
+          )}
+        </div>
+        <div
+          onClick={() => handleClick()}
+          className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"}
+        >
+          {/* <p className="Add-Item-Heading-Plus">+</p> */}
 
-        {
-          !fcMEventloading?<>
-          <span className="sync-icon">
-          <Icon/>
+          <span className="Add-Item-Heading-Plus">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.4141 8.08594H8.08594V14.4141C8.08594 14.7377 7.82361 15 7.5 15C7.17639 15 6.91406 14.7377 6.91406 14.4141V8.08594H0.585938C0.262324 8.08594 0 7.82361 0 7.5C0 7.17639 0.262324 6.91406 0.585938 6.91406H6.91406V0.585938C6.91406 0.262324 7.17639 0 7.5 0C7.82361 0 8.08594 0.262324 8.08594 0.585938V6.91406H14.4141C14.7377 6.91406 15 7.17639 15 7.5C15 7.82361 14.7377 8.08594 14.4141 8.08594Z"
+                fill="#FFFFFF"
+              />
+            </svg>
           </span>
-          <p   Add-Item-Heading-header >
-            Sync
-           
-            </p>
-          </>
-          :<div className="reviewLoaders"></div>
-        }
-
-       
-      </div>
-      <div
-        onClick={() => handleClick()}
-      
-        className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"}
-      >
-        {/* <p className="Add-Item-Heading-Plus">+</p> */}
-
-        <span className="Add-Item-Heading-Plus">
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 15 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14.4141 8.08594H8.08594V14.4141C8.08594 14.7377 7.82361 15 7.5 15C7.17639 15 6.91406 14.7377 6.91406 14.4141V8.08594H0.585938C0.262324 8.08594 0 7.82361 0 7.5C0 7.17639 0.262324 6.91406 0.585938 6.91406H6.91406V0.585938C6.91406 0.262324 7.17639 0 7.5 0C7.82361 0 8.08594 0.262324 8.08594 0.585938V6.91406H14.4141C14.7377 6.91406 15 7.17639 15 7.5C15 7.82361 14.7377 8.08594 14.4141 8.08594Z"
-              fill="#FFFFFF"
-            />
-          </svg>
-        </span>
-        <p className="Add-Item-Heading-header">Add Item</p>
-      </div>
+          <p className="Add-Item-Heading-header">Add Item</p>
+        </div>
       </div>
     </div>
   );
