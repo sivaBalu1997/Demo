@@ -1,8 +1,24 @@
 .otp_login {
-  width: 100%;
+  // width: 100vw;
+  // height: 100vh;
   text-align: center;
   padding-top: 80px;
-  margin: 0 30px;
+  // margin: 0 30px;
+  // background-color: pink;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  @media(max-width: 600px){
+    // background-color: orange;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   & .logo {
     margin-bottom: 80px;
     & img {
@@ -39,6 +55,10 @@
       opacity: 0.6;
       font-family: "Poppins", sans-serif;
       margin-bottom: 25px;
+      @media(max-width: 600px){
+        // background-color: pink;
+        width: 80vw;
+      }
     }
     & button {
       background: #E52333;
@@ -49,6 +69,11 @@
       border-radius: 5px;
       box-sizing: border-box;
       font-size: 18px;
+      // background-color: pink;
+      width: 100%;
+      @media(max-width: 600px){
+        width: 80vw;
+      }
     }
     .login--password {
       position: relative;
@@ -168,16 +193,16 @@
     top: 26px;
   }
 }
-@media (max-width: 768px) {
-  .otp_login {
-    & .logo {
-      margin-bottom: 75px;
-      img {
-        width: 250px;
-      }
-    }
-  }
-}
+// @media (max-width: 768px) {
+//   .otp_login {
+//     & .logo {
+//       margin-bottom: 75px;
+//       img {
+//         width: 250px;
+//       }
+//     }
+//   }
+// }
 
 
 .magilhub-logo2 {
