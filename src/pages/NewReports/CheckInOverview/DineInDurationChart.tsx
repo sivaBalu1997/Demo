@@ -25,7 +25,7 @@ const DineInDurationChart: React.FC <ReportProps>= ({dataList=[], loader=false})
   );
 
   const data = {
-    labels: ["Group of 2", "Group of 4", "Group of 6", "Group of 8", "Group of 8+"],
+    labels: labels,
     datasets: [
       {
         label: "Weekend",

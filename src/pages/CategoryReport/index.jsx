@@ -21,6 +21,7 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
 import "./Tabs.css";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 const CategoryReport = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -380,12 +381,15 @@ const CategoryReport = (props) => {
               </h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler isError>
+
             <LinearBarChart
               dataList={categorySalesData}
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
               loader={categorySalesDataLoading}
               isMobile={isMobile}
-            />
+              />
+              </ErrorHandler>
           </div>
           <div>
             <div className="categories-graph-header-container">

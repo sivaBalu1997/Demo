@@ -1,7 +1,10 @@
 import React from "react";
 import "./SalesReport.scss";
-import { ReactComponent as SalesIcon } from "../../../assets/svg/loadingError.svg"; 
+import { ReactComponent as ReportsNotAvailableIcon } from "../../../assets/svg/reportNotAvailable.svg"; 
 import { ReactComponent as ErrorIcon } from "../../../assets/svg/loadingError.svg";
+import { ReactComponent as PageNotAvailableIcon } from "../../../assets/svg/page-data-not-available-icon.svg";
+import { ReactComponent as PageErrorIcon } from "../../../assets/svg/page-error-icon.svg";
+import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg";
 
 interface SalesReportProps {
   errorType: "notStarted" | "error"| "notFound"
@@ -18,17 +21,17 @@ const statusBasedMsg:  {
   error:{
     title:"Error loading data",
     description:"There was an error loading the data. Please try again later",
-    icon:<ErrorIcon  className="icon"/>
+    icon:<PageErrorIcon  className="icon"/>
   },
   notFound:{
     title:"Today's Sales Report Not Available",
     description:"Sales data for today will be available after business hours when the day is closed. Please check back later or view previous days' reports.",
-    icon:<SalesIcon  className="icon"/>
+    icon:<ReportsNotAvailableIcon  className="icon"/>
   },
   notStarted:{
     title:"Report Not Available",
     description:"The report will show once the check-in starts",
-    icon:<SalesIcon  className="icon"/>
+    icon:<ReportsNotAvailableIcon  className="icon"/>
   }
 }
 const ReportsWarning: React.FC<SalesReportProps> = ({errorType}) => {
