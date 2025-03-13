@@ -9,6 +9,7 @@ import productCatalogReducer, { primarypagereducer, itemCustomizationsReducer, P
 import offerReducer from "./offer/offerReducer";
 import newReportsReducer from "./newReports/newReportsReducer";
 import checkInReportsReducer from "./checkInReports/checkInReportsReducer";
+import productReportsReducer from "./productReports/productReportsReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   menuReducer: menuReducer,
   storeDataReducer: storeDataReducer,
   newReports: newReportsReducer,
-  checkInReports: checkInReportsReducer
+  checkInReports: checkInReportsReducer,
+  productReports: productReportsReducer
 });
 
 export { rootReducer };
