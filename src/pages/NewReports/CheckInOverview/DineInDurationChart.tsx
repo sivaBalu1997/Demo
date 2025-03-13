@@ -14,7 +14,7 @@ const DineInDurationChart: React.FC <ReportProps>= ({dataList=[], loader=false})
   ).sort((a, b) => (a as number) - (b as number)) as number[];
 
   // Format labels dynamically
-  const labels = uniqueGroupSizes.map((size) => `Group of ${size}`);
+  const labels = uniqueGroupSizes.map((size) => size===10?`Group of 8+`:`Group of ${size}`); // 8+ is returned as 10 in api
 
   const weekendData = uniqueGroupSizes.map(
     (size) => dataList.find((d) => d.day === "WEEKEND" && d.groupSize === size)?.avgDineInDuration || 0

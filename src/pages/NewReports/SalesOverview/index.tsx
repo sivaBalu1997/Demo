@@ -41,6 +41,8 @@ import NewTable from "components/reportComponents/NewTable";
 import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
 import "./SalesOverview.scss";
+// import useDebounce from "hooks/useDebounce";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 
 interface ReportProps { }
@@ -139,10 +141,8 @@ const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPageOfferDiscount, setCurrentPageOfferDiscount] = useState<number>(1);
-  const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] = useState<number>(10);
-  const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] = useState<number>(1);
-  const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] = useState<number>(10);
+  const [page, setPage]=useState<number>(1);
+  const [rows,setRows]=useState(10)
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
   const [otherOffer, setOtherOffer] = useState<string>("");
@@ -150,6 +150,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   const offerRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+  // const debounceValue = useDebounce(searchQuery, 1000);
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
   const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
@@ -330,6 +331,43 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, startDate, endDate]);
 
 
+  useEffect(()=>{
+    if(viewType==="discountOffer"){
+
+      const params: any = {
+        locationid: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+        tablePageNo: page,
+        tableRecordLimit: rows,
+        search: searchQuery,
+        offer:offerType
+      }      
+      dispatch(
+        discountSummaryRequest(params)
+      );
+    }
+    },[selectedLocation, startDate, endDate,page,rows,offerType,searchQuery])
+
+  useEffect(()=>{
+    if(viewType==="voidedOffer"){
+
+      const params: any = {
+        locationid: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+        tablePageNo: page,
+        tableRecordLimit: rows,
+        search: searchQuery,
+        reason:voidedReason
+      }
+      dispatch(
+        cancellationSummaryRequest(params)
+      );
+    }
+
+  },[selectedLocation, startDate, endDate,page,rows,voidedReason, searchQuery])
+
 
   const handleGoBackToChart = () => {
     setViewType("default");
@@ -342,32 +380,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSearch = (value: string, kpiTitle: string) => {
-    // console.log(`handleSearch PPP, KpiTitle - ${kpiTitle}, viewType : ${viewType}`)
-    let params: any = {
-      locationid: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      tablePageNo: currentPageOfferDiscount,
-      tableRecordLimit: currentRowsOfferDiscount,
-      search: value,
-    }
-    switch (viewType) {
-      case "discountOffer":
-        params.offer = offerType
-        dispatch(
-          discountSummaryRequest(params)
-        );
-        break;
-      case "voidedOffer":
-        params.reason = voidedReason
-        dispatch(
-          cancellationSummaryRequest(params)
-        );
-        break;
 
-      default:
-        console.warn(`Unknown KPI title: ${kpiTitle}`);
-    }
+    setPage(1)
     setSearchQuery(value)
   };
 
@@ -378,8 +392,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       locationid: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate,
-      tablePageNo: currentPageOfferDiscount,
-      tableRecordLimit: currentRowsOfferDiscount,
+      tablePageNo: page,
+      tableRecordLimit: rows,
     }
     setViewType(view);
     if (view == "discountOffer") {
@@ -389,8 +403,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label = otherOffer
       }
       setOtherOffer(label)
-      params.offer = label
-      dispatch(discountSummaryRequest(params))
+      // params.offer = label
+      // dispatch(discountSummaryRequest(params))
     }
     if (view === "voidedOffer") {
       let label = data?.label
@@ -398,20 +412,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label = otherVoided
       }
       setVoidedReason(label)
-      params.reason = label
-      dispatch(cancellationSummaryRequest(params))
+      // params.reason = label
+      // dispatch(cancellationSummaryRequest(params))
     }
   };
 
-  useEffect(()=>{
-    dispatch(cancellationSummaryRequest({
-      locationid: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      tablePageNo: currentPageVoiddedOrders,
-      tableRecordLimit: currentRowsVoiddedOrders,
-    }))
-  },[currentPageVoiddedOrders, currentRowsVoiddedOrders])
 
 
 
@@ -419,10 +424,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     handleDateChange("Custom Date", data1, data2);
   };
   const resetPagination = () => {
-    setCurrentPageOfferDiscount(1)
-    setCurrentRowsOfferDiscount(10)
-    setCurrentPageVoiddedOrders(1)
-    setCurrentRowsVoiddedOrders(10)
+    setPage(1)
+    setRows(10)
     setSearchQuery("")
   }
 
@@ -437,7 +440,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   }
   return (
-    <>
+    <div className="sales-overview">
       {viewType === "default" ? (
         <>
           <StoreFilter
@@ -682,9 +685,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             />
           </div>
 
-          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh" }} ref={offerRef}>
-            <div className="doughnut-chart-with-button">
+          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width:"100%" }} ref={offerRef}>
+            <div className="doughnut-chart-with-button" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
+              <ErrorHandler data={offerSummary} >
               <DoughnutChartWithButton
                 dataList={offerSummary}
                 countryCode={countryCode}
@@ -693,10 +697,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   handleSummaryView("discountOffer", data)
                 }
                 loader={offerSummaryLoading}
-              />
+                />
+                </ErrorHandler>
             </div>
-            <div className="doughnut-chart-container">
+            <div className="doughnut-chart-container" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
+              <ErrorHandler data={voidedOrderSummary}>
               <DoughnutChartWithButtonVoided
                 dataList={voidedOrderSummary}
                 countryCode={countryCode}
@@ -706,6 +712,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 }
                 loader={voidedOrderSummaryLoader}
               />
+                </ErrorHandler>
             </div>
           </div>
           <div>
@@ -738,11 +745,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 discountSummary?.length > 0 &&
                 discountSummary
               }
-              currentPage={currentPageOfferDiscount}
+              currentPage={page}
               totalPages={discountSummaryTotalPages}
-              onPageChange={setCurrentPageOfferDiscount}
-              rowsPerPage={currentRowsOfferDiscount}
-              setRowsPerPage={setCurrentRowsOfferDiscount}
+              onPageChange={setPage}
+              rowsPerPage={rows}
+              setRowsPerPage={setRows}
               loader={discountSummaryLoading}
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
@@ -766,18 +773,18 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               cancellationSummary?.length > 0 &&
               cancellationSummary
             }
-            currentPage={currentPageVoiddedOrders}
+            currentPage={page}
             totalPages={cancellationSummaryTotalPages}
-            onPageChange={setCurrentPageVoiddedOrders}
-            rowsPerPage={currentRowsVoiddedOrders}
-            setRowsPerPage={setCurrentRowsVoiddedOrders}
+            onPageChange={setPage}
+            rowsPerPage={rows}
+            setRowsPerPage={setRows}
             loader={cancellationSummaryLoading}
             searchPlaceHolder="Search By Staff name"
             onSearch={handleSearch}
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

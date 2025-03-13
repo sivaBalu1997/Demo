@@ -38,9 +38,9 @@ const NewTable: React.FC<NewTableProps> = ({
     count,
     searchPlaceHolder,
     onSearch,
-    showDateDropDown=false,
+    showDateDropDown = false,
     selectedDate,
-    onDateSelect = () => {}, 
+    onDateSelect = () => { },
 }) => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
 
@@ -124,10 +124,10 @@ const NewTable: React.FC<NewTableProps> = ({
 
 
     useEffect(() => {
-      const handleResize = () => setWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-  
-      return () => window.removeEventListener("resize", handleResize);
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -207,7 +207,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 return 'bubble-text-green-one'
             } else if (rowvalue === 'In Delivery') {
                 return 'bubble-text-light-green-one'
-            } else if (rowvalue == "Pre order placed"){
+            } else if (rowvalue == "Pre order placed") {
                 return 'bubble-text-light-green-one'
             }
         } else if (headerValue === "Order Channel") {
@@ -227,7 +227,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <h2 className="table-title">{kpiTitle}</h2>
                             {!!count && <p className='table-title-count'>{count}</p>}
                         </div>
-                        {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown)=>onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
+                        {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown) => onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
                         <div className="table-search-with-download-opt-container">
                             <div className="search-container">
                                 <SearchIcon className="search-icon" />
@@ -238,7 +238,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     onChange={handleInputChange}
                                     className="search-input"
                                 />
-                                <ClearSearchIcon className='clear-search-icon' onClick={() =>  onSearch("", kpiTitle)} />
+                                <ClearSearchIcon className='clear-search-icon' onClick={() => onSearch("", kpiTitle)} />
                             </div>
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div>
@@ -248,10 +248,10 @@ const NewTable: React.FC<NewTableProps> = ({
                             <div className="table-title-with-count-container-small-screen">
                                 <h2 className="table-title-small-screen">{kpiTitle}</h2>
                                 {!!count && <p className='table-title-count-small-screen'>{count}</p>}
-                                {showDateDropDown && <div className='table-date-dropdown-container-small-screen'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown)=>onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
+                                {showDateDropDown && <div className='table-date-dropdown-container-small-screen'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown) => onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
                             </div>
                             {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
-                        </div> 
+                        </div>
                         <div className="table-search-small-screen">
                             <div className="search-container-small-screen">
                                 <SearchIcon className="search-icon-small-screen" />
@@ -262,7 +262,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     onChange={handleInputChange}
                                     className="search-input-small-screen"
                                 />
-                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() =>  onSearch("", kpiTitle)} />
+                                <ClearSearchIcon className='clear-search-icon-small-screen' onClick={() => onSearch("", kpiTitle)} />
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@ const NewTable: React.FC<NewTableProps> = ({
                             <table>
                                 <thead>
                                     <tr>
-                                        {headerData?.map((header:any) => (
+                                        {headerData?.map((header: any) => (
                                             <th
                                                 key={header?.key}
                                                 style={{ textAlign: header?.alignment || "left" }}
@@ -332,23 +332,23 @@ const NewTable: React.FC<NewTableProps> = ({
 
                     {
                         tableData && <div className="table-footer">
-                            {width < 600 ? 
-                               (<div className="page-info">Page {currentPage}/{totalPages}</div>) 
-                               : 
-                               (<div className="results-per-page">
-                                <span>Result per page:</span>
-                                <div className="options">
-                                    {[10, 20, 30]?.map((num) => (
-                                        <button
-                                            key={num}
-                                            className={`option ${rowsPerPage === num ? "selected" : ""}`}
-                                            onClick={() => setRowsPerPage(num)}
-                                        >
-                                            {num}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>)}
+                            {width < 600 ?
+                                (<div className="page-info">Page {currentPage}/{totalPages}</div>)
+                                :
+                                (<div className="results-per-page">
+                                    <span>Result per page:</span>
+                                    <div className="options">
+                                        {[10, 20, 30]?.map((num) => (
+                                            <button
+                                                key={num}
+                                                className={`option ${rowsPerPage === num ? "selected" : ""}`}
+                                                onClick={() => setRowsPerPage(num)}
+                                            >
+                                                {num}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>)}
                             {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
                             {/* <div className="results-per-page">
                                 <span>Result per page:</span>
@@ -364,9 +364,44 @@ const NewTable: React.FC<NewTableProps> = ({
                                     ))}
                                 </div>
                             </div> */}
-                            <ReactPaginate
-                                previousLabel={<span className='pagination-label'><ArrowLeft className="arrow-icon" />{" "}{width > 600 &&`Prev`}</span>}
-                                nextLabel={<span className="pagination-label">{width > 600 &&`Next`}{" "}<ArrowRight className="arrow-icon" /></span>}
+
+<ReactPaginate
+         nextLabel={
+            <button className="pagination-button next-button">
+                {width > 600 && <span>Next</span>}
+                <ArrowRight className="arrow-icon" />
+            </button>
+        }
+        pageLabelBuilder={(page:any)=>(
+            <button className={`${page==currentPage?"active":""} pagination-button next-button`}>            {page}
+        </button>)
+        }
+        onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
+        pageRangeDisplayed={3}
+        marginPagesDisplayed={2}
+        pageCount={totalPages}
+        previousLabel={
+            <button className="pagination-button prev-button">
+                <ArrowLeft className="arrow-icon" />
+                {width > 600 && <span>Prev</span>}
+            </button>
+        }
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakLabel="..."
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        containerClassName="pagination"
+        activeClassName="active"
+        renderOnZeroPageCount={null}
+      />
+                            {/* <ReactPaginate
+                           
+                               
                                 breakLabel="..."
                                 pageCount={totalPages}
                                 marginPagesDisplayed={1}
@@ -376,9 +411,8 @@ const NewTable: React.FC<NewTableProps> = ({
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 disabledClassName="disabled"
-                                previousClassName="prev-button"
-                                nextClassName="next-button"
-                            />
+                            /> */}
+
                         </div>
                     }
                 </div >

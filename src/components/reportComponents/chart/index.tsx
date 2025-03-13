@@ -112,7 +112,7 @@ const CardTypeChart = ({
       datalabels: { display: false } as any,
     },
     scales: {
-      x: { stacked: true },
+      x: { stacked: true, grid: { display: false } },
       y: { stacked: true },
     },
   } as ChartOptions<"bar"> & { plugins: { datalabels?: any } };

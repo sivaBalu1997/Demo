@@ -757,7 +757,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 )}
@@ -775,7 +775,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 )}
@@ -793,7 +793,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalTaxPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 )}
@@ -811,7 +811,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 )}
@@ -829,7 +829,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 )}
@@ -847,7 +847,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 )}
@@ -865,7 +865,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 }
-                graphType="chart"
+                graphType="arrow"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 )}

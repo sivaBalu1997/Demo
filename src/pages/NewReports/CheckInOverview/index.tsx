@@ -371,7 +371,7 @@ checkInOverviewAvgWaitTimeGroup])
               incrementDecrementValue={checkInOverview?.totalCheckinPercentage||0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="total-check"
             />
@@ -381,7 +381,7 @@ checkInOverviewAvgWaitTimeGroup])
               incrementDecrementValue={checkInOverview?.totalGuestsPercentage||0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="net-sales"
             />
@@ -391,7 +391,7 @@ checkInOverviewAvgWaitTimeGroup])
               incrementDecrementValue={checkInOverview?.totalCencellationPercentage||0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="total-tax"
             />
@@ -401,7 +401,7 @@ checkInOverviewAvgWaitTimeGroup])
               incrementDecrementValue={checkInOverview?.avgWaitTimeChangePercentage||0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="total-tips"
             />
@@ -411,7 +411,7 @@ checkInOverviewAvgWaitTimeGroup])
               incrementDecrementValue={0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="gratuity"
             />
@@ -422,7 +422,7 @@ checkInOverviewAvgWaitTimeGroup])
               isMonetary={false}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="transactions"
             />
@@ -504,7 +504,7 @@ checkInOverviewAvgWaitTimeGroup])
               yAxisTooltipLabel="Count"
               yAxisTooltipAppendInBack=""
               dataList={checkInOverviewGuestSize?.map((data: any) => ({
-                xAxisValue: `Group of ${data.groupSize}`,
+                xAxisValue: data.groupSize===10?`Group of 8+`:`Group of ${data.groupSize}`,
                 yAxisValue: Number(data.guestSize),
               }))}
               loader={isCheckInOverviewGuestSizeLoading}

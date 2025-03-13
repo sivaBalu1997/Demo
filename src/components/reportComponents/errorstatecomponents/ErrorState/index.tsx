@@ -5,7 +5,7 @@ import { ReactComponent as NoOrdersFoundStampIcon } from "../../../../assets/svg
 import "./style.scss"
 
 interface ErrorStateProps {
-    pageTitle: string;
+    pageTitle?: string;
     isError?: boolean;
     isNotAvailable?: boolean;
     isDataNotAvailable?: boolean;

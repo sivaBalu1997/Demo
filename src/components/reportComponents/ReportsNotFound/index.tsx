@@ -7,7 +7,7 @@ import { ReactComponent as PageErrorIcon } from "../../../assets/svg/page-error-
 import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg";
 
 interface SalesReportProps {
-  errorType: "notStarted" | "error"| "notFound"
+  errorType: "checkinNotFound" | "error"| "salesNotFound"|"noContent"
 }
 
 
@@ -23,15 +23,20 @@ const statusBasedMsg:  {
     description:"There was an error loading the data. Please try again later",
     icon:<PageErrorIcon  className="icon"/>
   },
-  notFound:{
+  salesNotFound:{
     title:"Today's Sales Report Not Available",
     description:"Sales data for today will be available after business hours when the day is closed. Please check back later or view previous days' reports.",
     icon:<ReportsNotAvailableIcon  className="icon"/>
   },
-  notStarted:{
+  checkinNotFound:{
     title:"Report Not Available",
     description:"The report will show once the check-in starts",
     icon:<ReportsNotAvailableIcon  className="icon"/>
+  },
+  noContent:{
+    title:"",
+    description:"No Orders Found",
+    icon:<NoOrdersFoundStampIcon  className="icon"/>
   }
 }
 const ReportsWarning: React.FC<SalesReportProps> = ({errorType}) => {

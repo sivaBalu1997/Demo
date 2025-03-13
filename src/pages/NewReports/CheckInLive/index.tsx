@@ -388,7 +388,7 @@ const handleRefreshClick=()=>{
               </h1>
               <DownloadPopOver />
             </div>
-            <ErrorHandler isError={liveCheckInGuestCountError} data={liveCheckInGuestCount}>              
+            <ErrorHandler isError={liveCheckInGuestCountError} data={liveCheckInGuestCount}  errorType="checkinNotFound">              
               <CustomBarChart
               barColor="#009689"
               toolTipBorderColor="#009689"
@@ -408,7 +408,7 @@ const handleRefreshClick=()=>{
               <h1 className="reports-page-heading">By Status- Check-in</h1>
               <DownloadPopOver />
             </div>
-            <ErrorHandler isError={liveCheckInStatusError} data={liveCheckInStatus}>   
+            <ErrorHandler isError={liveCheckInStatusError} data={liveCheckInStatus}  errorType="checkinNotFound">   
             <CustomBarChart
               barColor="#225E96"
               toolTipBorderColor="#225E96"
@@ -427,7 +427,7 @@ const handleRefreshClick=()=>{
               <h1 className="reports-page-heading">Avg wait time</h1>
               <DownloadPopOver />
             </div>
-            <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}>   
+            <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}  errorType="checkinNotFound">   
             <CustomBarChart
               barColor="#CE9E0F"
               toolTipBorderColor="#CE9E0F"
@@ -447,7 +447,7 @@ const handleRefreshClick=()=>{
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
               <DownloadPopOver />
             </div>
-            <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime}>   
+            <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   
             <StackedBarChart
               loader={isLiveCheckInGroupAvgWaitTimeLoading}
               dataList={liveCheckInGroupAvgWaitTime?.map((data: any) => ({
