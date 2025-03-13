@@ -7,7 +7,13 @@ import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";
 import useDateFilter from "hooks/useDateFilter";
-
+import {
+  summaryInsightsCustomerVolumeRequest,
+  summaryInsightsCustomerByTenureRequest,
+  summaryInsightsCustomerByTotalSpendRequest,
+  summaryInsightsCustomerByAvgCoverSizeRequest,
+  summaryInsightsCustomerByLoyaltyLevelsRequest,
+} from "../../../redux/customerInsights/customerInsightsActions";
 interface CustomBarChartData {
   xAxisValue: string;
   yAxisValue: number;
@@ -192,9 +198,73 @@ const SummaryInsights = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
+  const summaryInsightsCustomerVolumeData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerVolumeSuccess?.categories
+  );
+  const summaryInsightsCustomerVolumeDataLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerVolumeLoading
+  );
+
+  const summaryInsightsCustomerByTenureData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByTenureSuccess
+  );
+  const summaryInsightsCustomerByTenureDataLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByTenureLoading
+  );
+
+  const summaryInsightsCustomerByTotalSpendData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByTotalSpendSuccess
+  );
+  const summaryInsightsCustomerByTotalSpendDataLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByTotalSpendLoading
+  );
+
+  const summaryInsightsCustomerByAvgCoverSizeData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByAvgCoverSizeSuccess
+  );
+  const summaryInsightsCustomerByAvgCoverSizeDataLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByAvgCoverSizeLoading
+  );
+
+  const summaryInsightsCustomerByLoyaltyData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByLoyaltySuccess
+  );
+  const summaryInsightsCustomerByLoyaltyDataLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.summaryInsightsCustomerByLoyaltyLoading
+  );
 
   const dispatch = useDispatch();
   const { selectedDateFilterType } = useDateFilter();
+  useEffect(() => {
+    let params = {
+      locationId: selectedLocation?.value,
+    };
+    dispatch(summaryInsightsCustomerVolumeRequest(params));
+    dispatch(summaryInsightsCustomerByTenureRequest(params));
+    dispatch(summaryInsightsCustomerByTotalSpendRequest(params));
+    dispatch(summaryInsightsCustomerByAvgCoverSizeRequest(params));
+    dispatch(summaryInsightsCustomerByLoyaltyLevelsRequest(params));
+  }, []);
+  useEffect(() => {
+    let params = {
+      locationId: selectedLocation?.value,
+    };
+    dispatch(summaryInsightsCustomerVolumeRequest(params));
+    dispatch(summaryInsightsCustomerByTenureRequest(params));
+    dispatch(summaryInsightsCustomerByTotalSpendRequest(params));
+    dispatch(summaryInsightsCustomerByAvgCoverSizeRequest(params));
+    dispatch(summaryInsightsCustomerByLoyaltyLevelsRequest(params));
+  }, [selectedLocation]);
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -219,11 +289,17 @@ const SummaryInsights = () => {
               toolTipBorderColor="#009689"
               xAxisTooltipLabel=""
               yAxisTooltipLabel="Count"
-              dataList={dataList3?.map((data: any) => ({
-                xAxisValue: `Group of ${data.xAxisValue || 0}`,
-                yAxisValue: Number(data.yAxisValue),
-              }))}
-              loader={false}
+              dataList={
+                summaryInsightsCustomerVolumeData?.map((data: any) => ({
+                  xAxisValue: `${data?.orderCategory}`,
+                  yAxisValue: Number(data?.customerCount),
+                }))
+                //   dataList3?.map((data: any) => ({
+                //   xAxisValue: `Group of ${data.xAxisValue || 0}`,
+                //   yAxisValue: Number(data.yAxisValue),
+                // }))
+              }
+              loader={summaryInsightsCustomerVolumeDataLoading}
             />
           </div>
           <div>
@@ -232,20 +308,35 @@ const SummaryInsights = () => {
               <DownloadPopOver />
             </div>
             <StackedBarChart
-              loader={false}
-              dataList={stackedDataList}
+              loader={summaryInsightsCustomerByTenureDataLoading}
+              dataList={
+                summaryInsightsCustomerByTenureData?.map((data: any) => ({
+                  xAxisData: `${data?.timeCategory}`,
+                  stackName: `${data?.tenureCategory}`,
+                  stackValue: Number(data?.tenureCount),
+                }))
+                // stackedDataList
+              }
               colorList={["#1F77B4", "#17BECF"]}
               toolTipBorderColor="#17BECF"
             />
           </div>
           <div>
             <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Customers By Tenure</h1>
+              <h1 className="reports-page-heading">Customers By Total Spend</h1>
               <DownloadPopOver />
             </div>
             <StackedBarChart
-              loader={false}
-              dataList={stackedDataList}
+              loader={summaryInsightsCustomerByTotalSpendDataLoading}
+              dataList={
+                summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
+                  xAxisData: `${data?.spendCategory}`,
+                  stackName: `${data?.orderCategory}`,
+                  stackValue: Number(data?.customerCount),
+                }))
+
+                // stackedDataList
+              }
               colorList={["#AA562A", "#F89B29"]}
               toolTipBorderColor="#F89B29"
             />
@@ -262,8 +353,14 @@ const SummaryInsights = () => {
               toolTipBorderColor="#67833E"
               xAxisTooltipLabel=""
               yAxisTooltipLabel="Count"
-              dataList={dataList3}
-              loader={false}
+              dataList={
+                summaryInsightsCustomerByAvgCoverSizeData?.map((data: any) => ({
+                  xAxisValue: `${data?.orderTotalRange}`,
+                  yAxisValue: Number(data?.customerCount),
+                }))
+                // dataList3
+              }
+              loader={summaryInsightsCustomerByAvgCoverSizeDataLoading}
             />
           </div>
           <div>
@@ -278,8 +375,14 @@ const SummaryInsights = () => {
               toolTipBorderColor="#2682D9"
               xAxisTooltipLabel=""
               yAxisTooltipLabel="Count"
-              dataList={dataList3}
-              loader={false}
+              dataList={
+                summaryInsightsCustomerByLoyaltyData?.map((data: any) => ({
+                  xAxisValue: `${data?.loyaltyCategory}`,
+                  yAxisValue: Number(data?.customerCount),
+                }))
+                // dataList3
+              }
+              loader={summaryInsightsCustomerByLoyaltyDataLoading}
             />
           </div>
         </div>

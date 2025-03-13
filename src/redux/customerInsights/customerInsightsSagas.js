@@ -9,8 +9,8 @@ import {
   summaryInsightsCustomerByTotalSpendFailure,
   summaryInsightsCustomerByAvgCoverSizeSuccess,
   summaryInsightsCustomerByAvgCoverSizeFailure,
-  summaryInsightsCustomerByLoyaltySuccess,
-  summaryInsightsCustomerByLoyaltyFailure,
+  summaryInsightsCustomerByLoyaltyLevelsSuccess,
+  summaryInsightsCustomerByLoyaltyLevelsFailure,
   detailedInsightsSummarySuccess,
   detailedInsightsSummaryFailure,
   detailedInsightsDineInSuccess,
@@ -32,10 +32,10 @@ import {
   SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_REQUEST,
   DETAILED_INSIGHTS_SUMMARY_REQUEST,
   DETAILED_INSIGHTS_DINE_IN_REQUEST,
-  DETAILED_INSIGHTS_OFFPREM_REQUEST,
+  DETAILED_INSIGHTS_OFF_PREM_REQUEST,
   DETAILED_INSIGHTS_CUSTOMERS_ORDER_REQUEST,
   DETAILED_INSIGHTS_LATEST_ORDER_REQUEST,
-  DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEMS_REQUEST,
+  DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_REQUEST,
 } from "./customerInsightsConstants";
 import {
   getSummaryInsightsCustomerVolume,
@@ -140,16 +140,16 @@ export function* summaryInsightsCustomerByLoyaltyLevelSaga(action) {
     );
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
-      yield put(summaryInsightsCustomerByLoyaltySuccess(decryptedData));
+      yield put(summaryInsightsCustomerByLoyaltyLevelsSuccess(decryptedData));
       showSuccessToast(decryptedData?.message);
     } else {
       yield put(
-        summaryInsightsCustomerByLoyaltyFailure(decryptedData?.message)
+        summaryInsightsCustomerByLoyaltyLevelsFailure(decryptedData?.message)
       );
       showErrorToast(decryptedData?.message);
     }
   } catch (error) {
-    yield put(summaryInsightsCustomerByLoyaltyFailure(error));
+    yield put(summaryInsightsCustomerByLoyaltyLevelsFailure(error));
   }
 }
 
@@ -288,7 +288,7 @@ export default function* watchNewReportRequest() {
     detailedInsightsDineInSaga
   ); //);
   yield takeLatest(
-    DETAILED_INSIGHTS_OFFPREM_REQUEST,
+    DETAILED_INSIGHTS_OFF_PREM_REQUEST,
     detailedInsightsOffPremSaga
   ); //);
   yield takeLatest(
@@ -300,7 +300,7 @@ export default function* watchNewReportRequest() {
     detailedInsightsLatestOrderSaga
   ); //);
   yield takeLatest(
-    DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEMS_REQUEST,
+    DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_REQUEST,
     detailedInsightsCustomersTopFavItemsSaga
   ); //);
 
