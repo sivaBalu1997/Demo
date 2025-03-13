@@ -17,6 +17,11 @@ import DownloadReport from "../DownloadReports";
 import "jspdf-autotable";
 import "./style.scss";
 import TableDateDropdown from "../TableDateDropdown";
+import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/opened_eye.svg";
+import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/closed_eye.svg";
+import "jspdf-autotable";
+import './style.scss';
+import { maskPhone } from 'utils';
 
 interface SortConfig {
   key: string;
@@ -57,7 +62,14 @@ const NewTable: React.FC<NewTableProps> = ({
   const [searchFlag, setSearchFlag] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
 
-  // console.log("PPP4", { tableData })
+    const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
+
+    const toggleVisibility = (rowIndex:number) => {
+        setVisibility((prev:any) => ({
+            ...prev,
+            [rowIndex]: !prev[rowIndex]
+        }));
+    };
 
   useEffect(() => {
     if (loader) {
@@ -410,10 +422,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                   header?.label
                                 )}
                               >
-                                {showIcons
-                                  ? getOrderChannelIcons(row[header?.key])
-                                  : ""}
-                                {row[header?.key]}
+                              {showIcons ? getOrderChannelIcons(row[header?.key]):""}{header?.isPrivate?(visibility[header.key]?row[header?.key]: maskPhone(row[header?.key])):row[header?.key]}
                               </p>
                             </td>
                           );
@@ -469,35 +478,44 @@ const NewTable: React.FC<NewTableProps> = ({
                                     ))}
                                 </div>
                             </div> */}
-            <ReactPaginate
-              previousLabel={
-                <span className="pagination-label">
-                  <ArrowLeft className="arrow-icon" /> {width > 600 && `Prev`}
-                </span>
-              }
-              nextLabel={
-                <span className="pagination-label">
-                  {width > 600 && `Next`} <ArrowRight className="arrow-icon" />
-                </span>
-              }
-              breakLabel="..."
-              pageCount={totalPages}
-              marginPagesDisplayed={1}
-              pageRangeDisplayed={width > 600 ? 3 : 0}
-              forcePage={currentPage - 1}
-              onPageChange={(event: { selected: number }) =>
-                onPageChange(event.selected + 1)
-              }
-              containerClassName="pagination"
-              activeClassName="active"
-              disabledClassName="disabled"
-              previousClassName="prev-button"
-              nextClassName="next-button"
-            />
-          </div>
-        )}
-    </div>
-  );
+
+                            <ReactPaginate
+                                nextLabel={
+                                    <button className="pagination-button prev-button">
+                                        {width > 600 && <span>Next</span>}
+                                        <ArrowRight className="arrow-icon" />
+                                    </button>
+                                }
+                                pageLabelBuilder={(page: number) => (
+                                    <button className={`${page == currentPage ? "active" : ""} pagination-number-button`}>
+                                        {page}
+                                    </button>)
+                                }
+                                onPageChange={(event: { selected: number }) => {
+                                    onPageChange(event.selected + 1)
+                                    console.log("event.selected", event)
+                                }}
+                                pageCount={totalPages}
+                                previousLabel={
+                                    <button className="pagination-button prev-button">
+                                        <ArrowLeft className="arrow-icon" />
+                                        {width > 600 && <span>Prev</span>}
+                                    </button>
+                                }
+                                breakLabel="..."
+                                marginPagesDisplayed={1}
+                                pageRangeDisplayed={width > 600 ? 3 : 0}
+                                forcePage={currentPage - 1}
+                                containerClassName="pagination"
+                                activeClassName="active"
+                                disabledClassName="disabled"
+                            />
+
+
+                        </div>
+                    )}
+                </div >
+            )
 };
 
 export default NewTable;
