@@ -373,16 +373,14 @@ const NewTable: React.FC<NewTableProps> = ({
                                     </button>
                                 }
                                 pageLabelBuilder={(page: number) => (
-                                    <button className={`${page == currentPage - 1 ? "active" : ""} pagination-number-button`}>
-                                        {page}{currentPage}
+                                    <button className={`${page == currentPage  ? "active" : ""} pagination-number-button`}>
+                                        {page}
                                     </button>)
                                 }
                                 onPageChange={(event: { selected: number }) =>{
                                     onPageChange(event.selected + 1)
-                                    console.log("event.selected",event.selected)
+                                    console.log("event.selected",event)
                                 }}
-                                pageRangeDisplayed={3}
-                                marginPagesDisplayed={2}
                                 pageCount={totalPages}
                                 previousLabel={
                                     <button className="pagination-button prev-button">
@@ -390,31 +388,18 @@ const NewTable: React.FC<NewTableProps> = ({
                                         {width > 600 && <span>Prev</span>}
                                     </button>
                                 }
-                                pageClassName="page-item"
-                                pageLinkClassName="page-link"
-                                previousClassName="page-item"
-                                previousLinkClassName="page-link"
-                                nextClassName="page-item"
-                                nextLinkClassName="page-link"
                                 breakLabel="..."
-                                breakClassName="page-item"
-                                breakLinkClassName="page-link"
+                                marginPagesDisplayed={1}
+                                pageRangeDisplayed={width > 600 ? 3 : 0}
+                                forcePage={currentPage - 1}
                                 containerClassName="pagination"
                                 activeClassName="active"
-                                renderOnZeroPageCount={null}
+                                disabledClassName="disabled"
                             />
                             {/* <ReactPaginate
                            
                                
-                                breakLabel="..."
-                                pageCount={totalPages}
-                                marginPagesDisplayed={1}
-                                pageRangeDisplayed={width > 600 ? 3 : 0}
-                                forcePage={currentPage - 1}
-                                onPageChange={(event: { selected: number }) => onPageChange(event.selected + 1)}
-                                containerClassName="pagination"
-                                activeClassName="active"
-                                disabledClassName="disabled"
+                   
                             /> */}
 
                         </div>

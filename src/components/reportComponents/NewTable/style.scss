@@ -610,9 +610,9 @@ $text-secondary: #6b7280;
         border: 1px solid $border-color;
         background: white;
         cursor: pointer;
-        &.active{
-          background-color: #F5F5F5;
-        }
+      }
+      .active{
+        background-color: #F5F5F5;
       }
 
       .prev-button,
