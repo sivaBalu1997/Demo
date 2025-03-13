@@ -112,3 +112,80 @@ export const getSummaryInsightsCustomersByLoyalty= (params) => {
         }
     });
 };
+
+
+export const getDetailedInsightsSummary= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getDetailedInsightsDineIn= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getDetailedInsightsOffPrem= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+
+export const getDetailedInsightsCustomersOrder= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+
+
+export const getDetailedInsightsLatestOrder= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+
+export const getDetailedInsightsCustomersTopFavItems= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};

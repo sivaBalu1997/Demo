@@ -19,7 +19,27 @@ import {
 
     SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_REQUEST,
     SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_SUCCESS,
-    SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_FAILURE
+    SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_FAILURE,
+
+
+    DETAILED_INSIGHTS_SUMMARY_REQUEST,
+    DETAILED_INSIGHTS_SUMMARY_SUCCESS,
+    DETAILED_INSIGHTS_SUMMARY_FAILURE,
+    DETAILED_INSIGHTS_DINE_IN_REQUEST,
+    DETAILED_INSIGHTS_DINE_IN_SUCCESS,
+    DETAILED_INSIGHTS_DINE_IN_FAILURE,
+    DETAILED_INSIGHTS_OFF_PREM_REQUEST,
+    DETAILED_INSIGHTS_OFF_PREM_SUCCESS,
+    DETAILED_INSIGHTS_OFF_PREM_FAILURE,
+    DETAILED_INSIGHTS_CUSTOMERS_ORDER_REQUEST,
+    DETAILED_INSIGHTS_CUSTOMERS_ORDER_SUCCESS,
+    DETAILED_INSIGHTS_CUSTOMERS_ORDER_FAILURE,
+    DETAILED_INSIGHTS_LATEST_ORDER_REQUEST,
+    DETAILED_INSIGHTS_LATEST_ORDER_SUCCESS,
+    DETAILED_INSIGHTS_LATEST_ORDER_FAILURE,
+    DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_REQUEST,
+    DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_SUCCESS,
+    DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_FAILURE
 
 } from "./customerInsightsConstants";
 
@@ -139,6 +159,151 @@ export const summaryInsightsCustomerByLoyaltyLevelsSuccess = (data) => {
 export const summaryInsightsCustomerByLoyaltyLevelsFailure = (error) => {
     return {
         type: SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_FAILURE,
+        payload: error
+    };
+}
+
+
+
+
+
+export const detailedInsightsSummaryRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_SUMMARY_REQUEST,
+        payload: data
+    };
+}
+
+export const detailedInsightsSummarySuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_SUMMARY_SUCCESS,
+        payload: data
+    };
+}
+
+export const detailedInsightsSummaryFailure = (error) => {
+    return {
+        type: DETAILED_INSIGHTS_SUMMARY_FAILURE,
+        payload: error
+    };
+}
+
+
+
+
+
+
+export const detailedInsightsDineInRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_DINE_IN_REQUEST,
+        payload: data
+    };
+}
+
+export const detailedInsightsDineInSuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_DINE_IN_SUCCESS,
+        payload: data
+    };
+}
+
+export const detailedInsightsDineInFailure = (error) => {
+    return {
+        type: DETAILED_INSIGHTS_DINE_IN_FAILURE,
+        payload: error
+    };
+}
+
+
+
+export const detailedInsightsOffPremRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_OFF_PREM_REQUEST,
+        payload: data
+    };
+}
+
+export const detailedInsightsOffPremSuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_OFF_PREM_SUCCESS,
+        payload: data
+    };
+}
+
+export const detailedInsightsOffPremFailure = (error) => {
+    return {
+        type: DETAILED_INSIGHTS_OFF_PREM_FAILURE,
+        payload: error
+    };
+}
+
+
+
+export const detailedInsightsCustomerOrderRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMERS_ORDER_REQUEST,
+        payload: data
+    };
+}
+
+export const detailedInsightsCustomerOrderSuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMERS_ORDER_SUCCESS,
+        payload: data
+    };
+}
+
+export const detailedInsightsCustomerOrderFailure = (error) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMERS_ORDER_FAILURE,
+        payload: error
+    };
+}
+
+
+
+
+export const detailedInsightsLatestOrderRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_LATEST_ORDER_REQUEST,
+        payload: data
+    };
+}
+
+export const detailedInsightsLatestOrderSuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_LATEST_ORDER_SUCCESS,
+        payload: data
+    };
+}
+
+export const detailedInsightsLatestOrderFailure = (error) => {
+    return {
+        type: DETAILED_INSIGHTS_LATEST_ORDER_FAILURE,
+        payload: error
+    };
+}
+
+
+
+
+export const detailedInsightsCustomerTopFavItemsRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_REQUEST,
+        payload: data
+    };
+}
+
+export const detailedInsightsCustomerTopFavItemsSuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_SUCCESS,
+        payload: data
+    };
+}
+
+export const detailedInsightsCustomerTopFavItemsFailure = (error) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_FAILURE,
         payload: error
     };
 }
