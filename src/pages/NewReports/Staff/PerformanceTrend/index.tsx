@@ -24,31 +24,11 @@ const salesPerformanceComparisonData = [
 ];
 
 const PerformanceTrend = () => {
-  const multiLineColors = ["#ff5733", "#33ff57", "#3357ff"];
+  const multiLineColors = ["#FF6384", "#33ff57", "#3357ff"];
   return (
     <div>
-      {/* <LineOrMultiChart
-        kpiTitle="Sales Performance"
-        lineColors={['#FF6384', '#36A2EB', '#FFCE56']}
-        data={[
-          { label: 'James bond', values: [100, 200, 150, 250, 300, 200, 100] },
-          { label: 'Alan Fox', values: [150, 250, 200, 300, 250, 150, 200] },
-          { label: 'Ajith kumar', values: [200, 150, 250, 100, 200, 300, 250] }
-        ]}
-        graphType="multiLines"
-        isQuantity={true}
-      />
-      <LineOrMultiChart
-        kpiTitle="Weekly Sales"
-        lineColors={['#FF6384']}
-        data={[
-          { label: 'Sales', values: [50, 100, 150, 200, 250, 300, 350] }
-        ]}
-        graphType="singleLine"
-        isQuantity={true}
-      /> */}
             <h2>Single Line Chart</h2>
-      <ChartComponent graphType="single" data={revenueImpactData} colors={["#FF5733"]}/>
+      <ChartComponent graphType="single" data={revenueImpactData} colors={["plum"]}/>
 
       <h2>Multi Line Chart</h2>
       <ChartComponent graphType="multi" data={salesPerformanceComparisonData} colors={multiLineColors}/>

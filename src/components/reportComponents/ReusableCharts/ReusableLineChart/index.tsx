@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import "./style.scss";
 
@@ -42,14 +42,26 @@ const CustomLegend = (props: any) => {
   };
 
 const CustomTooltip = ({ active, payload, colors }: any) => {
+    // const [hoveredKey, setHoveredKey] = useState<string | null>(null);
     if (!active || !payload || payload.length === 0) return null;
+
 
     const borderColor = payload?.[0]?.dataKey 
         ? colors?.[payload?.[0]?.dataKey] || "#f9a826" 
         : "#f9a826";
 
+
+    // Determine hovered key dynamically (use first valid entry)
+    // const activeEntry = payload.find((entry: any) => entry?.dataKey);
+    // if (activeEntry && activeEntry.dataKey !== hoveredKey) {
+    //     setHoveredKey(activeEntry.dataKey);
+    // }
+
+    // // Get color dynamically from color map
+    // const borderColor = hoveredKey ? colors?.[hoveredKey] || "#f9a826" : "#f9a826";
+
     return (
-        <div className="custom-tooltip" style={{ borderColor }}>
+        <div className="custom-tooltip" style={{ borderColor: "lightgray" }}>
             {payload.map((entry: any, index: number) => (
                 entry?.value !== undefined && (  // Ensuring entry is valid
                     <p key={index} className="tooltip-item">
@@ -63,6 +75,16 @@ const CustomTooltip = ({ active, payload, colors }: any) => {
 };
 
 const ChartComponent: React.FC<ChartProps> = ({ graphType, data, colors }) => {
+
+    const colorMap = graphType === "multi" 
+    ? Object.keys(data[0])
+        .filter((key) => key !== "day")
+        .reduce((acc, key, index) => {
+          acc[key] = colors[index % colors.length] || "#8884d8";
+          return acc;
+        }, {} as Record<string, string>)
+    : { value: colors[0] || "#8884d8" };
+
   return (
     <div className="line-re-chart-container">
       <ResponsiveContainer width="100%" height={300}>
@@ -70,7 +92,7 @@ const ChartComponent: React.FC<ChartProps> = ({ graphType, data, colors }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="day" />
           <YAxis />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip colors={colorMap} />} />
           {graphType === "multi" &&  <Legend content={<CustomLegend />} />}
 
           {graphType === "single" ? (
@@ -83,7 +105,7 @@ const ChartComponent: React.FC<ChartProps> = ({ graphType, data, colors }) => {
                   key={key}
                   type="linear"
                   dataKey={key}
-                  stroke={colors[index % colors.length] || "#8884d8"}
+                  stroke={colorMap[key]}
                   strokeWidth={2}
                   dot={{ r: 4 }}
                 />
