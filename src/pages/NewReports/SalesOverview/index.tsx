@@ -180,7 +180,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
 
-
+useEffect(()=>{
+console.log({offerSummary,voidedOrderSummary})
+},[offerSummary,voidedOrderSummary])
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
@@ -692,9 +694,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <DoughnutChartWithButtonVoided
                      dataList={offerSummary?.map((data:any)=>  ({
                       name:data?.steward,
-                      label:data?.voidedReasons,
-                      count:data?.orderCount,
-                      items:data?.voidedItems,
+                      label:data?.offerName,
+                      count:data?.totalOrders,
+                      items:data?.totalDiscount,
                       amount:data?.totalSales
                     }))}
                 countryCode={countryCode}
