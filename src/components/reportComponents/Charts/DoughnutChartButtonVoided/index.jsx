@@ -203,7 +203,7 @@ function DoughnutChartButtonVoided({
   //   "steward": "",
   //   "voidedAmount": "798.72",
   //   "voidedItems": "",
-  //   "voidedReasons": "CHEF NOT AVAILABLE",
+  //   "label": "CHEF NOT AVAILABLE",
   //   "orderCount": 51128547
   // }
 
@@ -231,10 +231,10 @@ function DoughnutChartButtonVoided({
 
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-        label: slice?.voidedReasons,
+        label: slice?.label,
         value: ((Number(slice?.amount || 0) * 100) / totalDisplay),
         color: colors[index],
-        items: Number(slice?.orderCount || 0),
+        items: Number(slice?.count || 0),
         amount: Number(slice?.voidedItems || 0),
         orgAmount: Number(slice?.amount || 0),
       }));
@@ -247,7 +247,7 @@ function DoughnutChartButtonVoided({
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
 
-            other.push(item?.voidedReasons)
+            other.push(item?.label)
             acc.value += ((Number(item?.amount || 0) * 100) / totalDisplay)
             acc.items += Number(item?.count || 0)
             acc.amount += Number(item?.items || 0)
