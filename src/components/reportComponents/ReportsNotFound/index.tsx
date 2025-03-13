@@ -1,10 +1,10 @@
 import React from "react";
 import "./SalesReport.scss";
-import { ReactComponent as SalesIcon } from "../../assets/svg/reportsNotFound.svg"; 
-import { ReactComponent as ErrorIcon } from "../../assets/svg/error.svg";
+import { ReactComponent as SalesIcon } from "../../../assets/svg/loadingError.svg"; 
+import { ReactComponent as ErrorIcon } from "../../../assets/svg/loadingError.svg";
 
 interface SalesReportProps {
-  status: string;
+  errorType: "notStarted" | "error"| "notFound"
 }
 
 
@@ -24,19 +24,24 @@ const statusBasedMsg:  {
     title:"Today's Sales Report Not Available",
     description:"Sales data for today will be available after business hours when the day is closed. Please check back later or view previous days' reports.",
     icon:<SalesIcon  className="icon"/>
+  },
+  notStarted:{
+    title:"Report Not Available",
+    description:"The report will show once the check-in starts",
+    icon:<SalesIcon  className="icon"/>
   }
 }
-const ReportsWarning: React.FC<SalesReportProps> = ({status}) => {
+const ReportsWarning: React.FC<SalesReportProps> = ({errorType}) => {
   return (
     <div className="sales-report-container">
       <div className="content">
         <div className="icon-cointainer">
-        {statusBasedMsg?.[status]?.icon}
+        {statusBasedMsg?.[errorType]?.icon}
         </div>
         <div>
-        <h2>{statusBasedMsg?.[status]?.title}</h2>
+        <h2>{statusBasedMsg?.[errorType]?.title}</h2>
         <p>
-        {statusBasedMsg?.[status]?.description}
+        {statusBasedMsg?.[errorType]?.description}
         </p>
         </div>
       </div>

@@ -30,8 +30,8 @@ export function getRandomColor() {
 
 export function formatNumberByCountry(
   input: string | number | null | undefined, 
-  countryCode: 'US' | 'India', 
-  isMonetary: boolean = true
+  countryCode: 'US' | 'India'="US", 
+  isMonetary: boolean = false
 ): string {
   if (input === null || input === undefined || input === "" || input === 0) {
     return "0"; // Default to "0" if input is invalid

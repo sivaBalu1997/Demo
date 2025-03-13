@@ -16,7 +16,7 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
     cardTitle,
     cardValue,
     showMiniGraph,
-    isMonetary,
+    isMonetary=false,
     incrementDecrementValue,
     loader,
     isPercent,

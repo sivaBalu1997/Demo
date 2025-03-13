@@ -67,7 +67,7 @@ export interface SortConfig {
 export interface ICardWithMiniGraphProps {
   cardTitle: string | undefined | null | "";
   cardValue: number | string | undefined | "" | null;
-  isMonetary: boolean;
+  isMonetary?: boolean;
   showMiniGraph?: boolean;
   incrementDecrementValue?: number | string | undefined | "" | null;
   incrementOrDecrement?: IncrementOrDecrementTypeEnum;

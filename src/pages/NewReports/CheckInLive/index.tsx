@@ -18,6 +18,8 @@ import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
+import { formatNumberByCountry } from "utils";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 interface CustomBarChartData {
   xAxisValue: string;
@@ -345,23 +347,24 @@ const handleRefreshClick=()=>{
               <h1 className="reports-page-heading">Check-in Overview</h1>
               <DownloadPopOver />
             </div>
+
             <MiniCard
               data={[
                 {
                   title: "TOTAL ACTIVE",
-                  value: `${liveCheckInOverview?.totalActive || 0}`,
+                  value:formatNumberByCountry(liveCheckInOverview?.totalActive),
                 },
                 {
                   title: "IN-QUEUE",
-                  value: `${liveCheckInOverview?.inQueue || 0}`,
+                  value:formatNumberByCountry(liveCheckInOverview?.inQueue) ,
                 },
                 {
                   title: "ASSIGNED",
-                  value: `${liveCheckInOverview?.assigned || 0}`,
+                  value:formatNumberByCountry(liveCheckInOverview?.assigned) ,
                 },
                 {
                   title: "LATE SHOW",
-                  value: `${liveCheckInOverview?.lateShow || 0}`,
+                  value: formatNumberByCountry(liveCheckInOverview?.lateShow),
                 },
               ]}
             />
@@ -374,7 +377,7 @@ const handleRefreshClick=()=>{
             <MiniCard
               data={liveCheckInSeaterAvailability?.map((data: any) => ({
                 title: `${data.seaters} seaters`,
-                value: data.available || 0,
+                value:formatNumberByCountry(data.available),
               }))}
             />
           </div>
@@ -385,7 +388,8 @@ const handleRefreshClick=()=>{
               </h1>
               <DownloadPopOver />
             </div>
-            <CustomBarChart
+            <ErrorHandler isError={liveCheckInGuestCountError} data={liveCheckInGuestCount}>              
+              <CustomBarChart
               barColor="#009689"
               toolTipBorderColor="#009689"
               xAxisTooltipLabel="Product Category"
@@ -394,14 +398,17 @@ const handleRefreshClick=()=>{
                 xAxisValue: `Group of ${data.guestCount || 0}`,
                 yAxisValue: Number(data.groupSize),
               }))}
-              loader={false}
-            />
+              loader={isLiveCheckInGuestCountLoading}
+              />
+              </ErrorHandler>
+            
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">By Status- Check-in</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler isError={liveCheckInStatusError} data={liveCheckInStatus}>   
             <CustomBarChart
               barColor="#225E96"
               toolTipBorderColor="#225E96"
@@ -411,14 +418,16 @@ const handleRefreshClick=()=>{
                 xAxisValue: data.status,
                 yAxisValue: Number(data.count),
               }))}
-              loader={false}
+              loader={isLiveCheckInStatusLoading}
             />
+               </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg wait time</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}>   
             <CustomBarChart
               barColor="#CE9E0F"
               toolTipBorderColor="#CE9E0F"
@@ -429,22 +438,25 @@ const handleRefreshClick=()=>{
                 xAxisValue: data.channel,
                 yAxisValue: Number(data.waitTime),
               }))}
-              loader={false}
+              loader={isLiveCheckInAvgWaitTimeLoading}
             />
+               </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime}>   
             <StackedBarChart
-              loader={false}
+              loader={isLiveCheckInGroupAvgWaitTimeLoading}
               dataList={liveCheckInGroupAvgWaitTime?.map((data: any) => ({
                 timeRange: data?.timeRange || "",
                 groupName: data?.groupSize || "",
                 count: data?.checkInCount || 0,
               }))}
             />
+               </ErrorHandler>
           </div>
           <div className="category-btn-switch checkin-btn-switch">
             <button
@@ -470,6 +482,7 @@ const handleRefreshClick=()=>{
           </div>
           <div className="todays-report-tables-container">
             {activeBtn == "Live Check-ins" && (
+              //  <ErrorHandler isError={liveCheckInTableError} data={liveCheckInTable}>   
               <NewTable
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
@@ -485,8 +498,10 @@ const handleRefreshClick=()=>{
                  onSearch={handleLiveCheckInSearch}
                 searchPlaceHolder="Search by table number, customer name"
               />
+                //  </ErrorHandler>
             )}
             {activeBtn == "Today Check-ins" && (
+              //  <ErrorHandler isError={liveCheckInTodayError} data={todayCheckInCurrentPage}>   
               <NewTable
                 kpiTitle="Today Check-ins"
                 searchQuery={todayCheckInSearchQuery}
@@ -504,6 +519,7 @@ const handleRefreshClick=()=>{
                 onSearch={handleTodayCheckInSearch}
     
               />
+                //  </ErrorHandler>
             )}
           </div>
         </div>
