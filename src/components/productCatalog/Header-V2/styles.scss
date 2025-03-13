@@ -1,0 +1,82 @@
+.headerV2 {
+  width: 98%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 20px;
+  border-bottom: 1px solid #F4F4F4;
+
+  .v2-menuCount {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 0;
+    margin: 0 40px 0 0;
+  }
+
+  .v2-searchBar {
+    width: 35vw;
+    margin-right: 11vw;
+  }
+
+  .v2-searchBar1{
+    width: 35vw;
+    margin-right: 17vw;
+  }
+
+  .filterProd {
+    width: 45px;
+    height: 52px;
+    cursor: pointer;
+  }
+
+  .sync-container{
+    width: 7vw;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    color: #E52333;
+    border: 1px solid #E52333;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0 5px;
+
+    img{
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  .sync-container-loading{
+    width: fit-content;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    color: #E52333;
+    border: 1px solid #E52333;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0 5px;
+
+    img{
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  .addItem-header{
+    cursor: pointer;
+    margin-top: 2px;
+    margin-right: 22px;
+
+    img{
+        width: 108px;
+        height: 78px !important;
+    }
+  }
+}

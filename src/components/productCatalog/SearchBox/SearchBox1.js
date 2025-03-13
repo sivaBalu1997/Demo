@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import "./SearchBox.scss";
-import searchIcon from "../../../assets/svg/searchIcon.svg";
+import searchIcon from "../../../assets/svg/prodSearch.svg";
 import NotFound from "../../../assets/svg/NotFound copy.svg";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
-import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg"
+import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -12,7 +12,7 @@ import {
   storeMockDataFilteredRequest,
 } from "redux/productCatalog/productCatalogActions";
 
-const SearchBox = () => {
+const SearchBox = (props) => {
   const [searchTerm, setSearchTerm] = useState(""); // User input only
   const [displayTerm, setDisplayTerm] = useState(""); // User input + suggestion for display
   const [seletctedItem, setSeletctedItem] = useState(""); // User input + suggestion for display
@@ -23,22 +23,21 @@ const SearchBox = () => {
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
   const [orgData, setOrgData] = useState([]);
   const [closeModal, setCloseModal] = useState(false);
- const menuDataLoading = useSelector(
+  const menuDataLoading = useSelector(
     (state) => state.productCatalog?.menuDataLoading
   );
   const data = useSelector((state) => state.storeMockDataReducer.data);
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
   const popupRef = useRef(null);
-    const locationid = useSelector((state) => state.auth.selectedBranch?.id);
-  
-   
+  const locationid = useSelector((state) => state.auth.selectedBranch?.id);
+
   useEffect(() => {
     const itemNames = menuData
       ?.flatMap((item) => item?.itemResponseList)
       .map((item) => item?.itemName);
 
-    setOrgData(itemNames); 
+    setOrgData(itemNames);
   }, [data]);
   useEffect(() => {
     if (searchTerm == "") {
@@ -89,17 +88,13 @@ const SearchBox = () => {
 
   const handleSearch = (e) => {
     let value = e.target.value;
-    const regex = /^[a-zA-Z0-9\s]*$/; 
-    
+    const regex = /^[a-zA-Z0-9\s]*$/;
 
-   
     if (
       regex.test(value) &&
       !(value.length === 1 && value === " ") &&
-      (!/^\d+$/.test(value) || value.length <= 4) 
-     
+      (!/^\d+$/.test(value) || value.length <= 4)
     ) {
-    
       setSearchTerm(value);
       setDisplayTerm(value);
       filterOptions(value);
@@ -146,8 +141,8 @@ const SearchBox = () => {
 
     const filtered = everything?.filter(
       (item) =>
-        item?.itemName?.toLowerCase().startsWith(input?.toLowerCase()) ||
-        item?.itemCode?.toLowerCase().startsWith(input?.toLowerCase())
+        item?.itemName?.toLowerCase()?.includes(input?.toLowerCase()) ||
+        item?.itemCode?.toLowerCase()?.includes(input?.toLowerCase())
     );
     const startsWithInput = filtered.find((item) =>
       item?.itemName.toLowerCase().startsWith(input.toLowerCase())
@@ -163,12 +158,10 @@ const SearchBox = () => {
     if (filtered.length > 0 && input.length > 0) {
       const firstMatch = filtered[0];
       setHighlightedIndex(0);
-      
+
       if (firstMatch?.itemName.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch?.itemName?.slice(input.length);
         setDisplayTerm(input + suggestion);
-
-        
       } else {
         setDisplayTerm(input);
       }
@@ -183,7 +176,7 @@ const SearchBox = () => {
     setDisplayTerm(option);
     setOptionSelected(true);
     setCloseModal(false);
-    setSeletctedItem(option)
+    setSeletctedItem(option);
     let result = null;
 
     menuData?.forEach((category) => {
@@ -221,6 +214,7 @@ const SearchBox = () => {
   };
 
   const highlightedRef = useRef(null);
+  
   const handleKeyDown = (e) => {
     if (e.key === "ArrowDown") {
       setHighlightedIndex((prevIndex) => {
@@ -265,62 +259,57 @@ const SearchBox = () => {
     //   }
     // }
   };
-  
+
   const openSearchModel = () => {
     setCloseModal(true);
     filterOptions(searchTerm);
   };
 
-  const deletesearchText=()=>{
+  const deletesearchText = () => {
     setCloseModal(false);
-if(seletctedItem==="")
-{
-  setSeletctedItem("")
-  setSearchTerm("")
-  
-}
-else{
-  setSearchTerm("")
-  dispatch(getMenuRequest(locationid));
-  setSeletctedItem("")
-}
-    
-   
-  }
+    if (seletctedItem === "") {
+      setSeletctedItem("");
+      setSearchTerm("");
+    } else {
+      setSearchTerm("");
+      dispatch(getMenuRequest(locationid));
+      setSeletctedItem("");
+    }
+  };
   return (
     <div className="MLSearch-Container">
       <div className="MLsearchbox">
         <input
           className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
           value={`${searchTerm}`}
-          placeholder={"Search"}
+          placeholder={"Search by item name, item code"}
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           type="text"
           readOnly={menuDataLoading}
         />
 
-        {
-          !searchTerm? <img
-          className={`${
-            isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"
-          }`}
-          // className={"MLSerchIcon-Header1"}
-          onClick={() => openSearchModel()}
-          src={searchIcon}
-          alt="Search Icon"
-        />: <img
-        className={`${
-          isExpanded ? "MLClearIcon-Header1" : "MLClearIcon-Header"
-        }`}
-        // className={"MLSerchIcon-Header1"}
-        onClick={() => deletesearchText()}
-        src={deleteIcon}
-        alt="Clear Icon"
-      />
-        }
-       
-
+        {!searchTerm ? (
+          <img
+            className={`${
+              isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"
+            }`}
+            // className={"MLSerchIcon-Header1"}
+            onClick={() => openSearchModel()}
+            src={searchIcon}
+            alt="Search Icon"
+          />
+        ) : (
+          <img
+            className={`${
+              isExpanded ? "MLClearIcon-Header1" : "MLClearIcon-Header"
+            }`}
+            // className={"MLSerchIcon-Header1"}
+            onClick={() => deletesearchText()}
+            src={deleteIcon}
+            alt="Clear Icon"
+          />
+        )}
       </div>
       <div>
         {searchTerm && closeModal && (
@@ -337,11 +326,11 @@ else{
             }`}
           >
             <ul
-              className={`${isExpanded ? "MLsearchBoxContainer1" : "MLsearchBoxContainer"} 
+              className={`${
+                isExpanded ? "MLsearchBoxContainer1" : "MLsearchBoxContainer"
+              } 
               
-              `
-                
-              }
+              `}
             >
               {filteredOptions.length > 0
                 ? filteredOptions.map((option, index) => (
@@ -351,36 +340,30 @@ else{
                       onClick={() => handleOptionClick(option.itemName)}
                       className={`${
                         index === highlightedIndex ? "MLhighlighted" : ""
-                        
                       }   ${
                         isExpanded
                           ? "list-of-item-name-expand"
                           : "list-of-item-name"
                       }
-                      ${highlightedIndex===index ? "no-hover" : "hover"}
-
-                      
-                      
+                      ${
+                        highlightedIndex === index ? "no-hover" : "hover"
+                      }                      
                       `}
                     >
                       <div
-                        className=
-                        {`
+                        className={`
                          ${
-                          isExpanded
-                            ? "MLSearch-Container-options1-items"
-                            : "MLSearch-Container-options-items"
-                        }
+                           isExpanded
+                             ? "MLSearch-Container-options1-items"
+                             : "MLSearch-Container-options-items"
+                         }
   
                         ${
-                          index === highlightedIndex 
+                          index === highlightedIndex
                             ? "list-of-item-name-padding"
                             : ""
                         }
-                        
                         `}
-                        
-                       
                       >
                         {option.itemName}{" "}
                         {option.itemCode !== "" &&
