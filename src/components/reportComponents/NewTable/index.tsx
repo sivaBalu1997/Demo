@@ -10,8 +10,8 @@ import { ReactComponent as WalkinIcon } from "../../../assets/svg/r-walk-in-icon
 import { ReactComponent as DeliveryIcon } from "../../../assets/svg/r-delivery-icon.svg";
 import { ReactComponent as PickUpIcon } from "../../../assets/svg/r-pick-up-icon.svg";
 import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-icon.svg";
-import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/opened_eye.svg";
-import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/closed_eye.svg";
+import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
+import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
 import { NewTableProps } from 'interface/newReportsInterface';
 import ReactPaginate from 'react-paginate';
 import TableShimmer from './NewShimmerTable';

@@ -54,7 +54,8 @@ export function formatNumberByCountry(
 
 
 export function maskPhone(phone: string): string {
-  return phone.replace(/\d(?=\d{4})/g, 'X');
+  const last4Digit = phone.slice(-4);
+  return last4Digit ? "(XXX) XXX-" + last4Digit : "";
 }
 
 export function maskEmail(email: string): string {

@@ -689,8 +689,14 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             <div className="doughnut-chart-with-button" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <ErrorHandler data={offerSummary} >
-              <DoughnutChartWithButton
-                dataList={offerSummary}
+              <DoughnutChartWithButtonVoided
+                     dataList={offerSummary?.map((data:any)=>  ({
+                      name:data?.steward,
+                      label:data?.voidedReasons,
+                      count:data?.orderCount,
+                      items:data?.voidedItems,
+                      amount:data?.totalSales
+                    }))}
                 countryCode={countryCode}
                 handleOther={(other: string) => handleOther("discountOffer", other)}
                 handleClick={(data: any) =>
@@ -704,7 +710,13 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
               <ErrorHandler data={voidedOrderSummary}>
               <DoughnutChartWithButtonVoided
-                dataList={voidedOrderSummary}
+                dataList={voidedOrderSummary?.map((data:any)=>  ({
+                    name:data?.steward,
+                    label:data?.voidedReasons,
+                    count:data?.orderCount,
+                    items:data?.voidedItems,
+                    amount:data?.voidedAmount
+                  }))}
                 countryCode={countryCode}
                 handleOther={(other: string) => handleOther("voidedOffer", other)}
                 handleClick={(data: any) =>

@@ -212,7 +212,7 @@ function DoughnutChartButtonVoided({
 
     if (dataList?.length) {
       const totalDisplay = dataList?.reduce(
-        (sum, item) => sum + (Number(item?.voidedAmount) || 0),
+        (sum, item) => sum + (Number(item?.amount) || 0),
         0
       );
 
@@ -226,17 +226,17 @@ function DoughnutChartButtonVoided({
 
       // Sort by totalSales (descending) **ensuring correct numeric sorting**
       const sortedData = [...dataList].sort(
-        (a, b) => Number(b?.voidedAmount || 0) - Number(a?.voidedAmount || 0)
+        (a, b) => Number(b?.amount || 0) - Number(a?.amount || 0)
       );
 
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
         label: slice?.voidedReasons,
-        value: ((Number(slice?.voidedAmount || 0) * 100) / totalDisplay),
+        value: ((Number(slice?.amount || 0) * 100) / totalDisplay),
         color: colors[index],
         items: Number(slice?.orderCount || 0),
         amount: Number(slice?.voidedItems || 0),
-        voidedAmount: Number(slice?.voidedAmount || 0),
+        orgAmount: Number(slice?.amount || 0),
       }));
 
       // Sum remaining records into "Other"
@@ -248,14 +248,14 @@ function DoughnutChartButtonVoided({
           (acc, item) => {
 
             other.push(item?.voidedReasons)
-            acc.value += ((Number(item?.voidedAmount || 0) * 100) / totalDisplay)
-            acc.items += Number(item?.orderCount || 0)
-            acc.amount += Number(item?.voidedItems || 0)
+            acc.value += ((Number(item?.amount || 0) * 100) / totalDisplay)
+            acc.items += Number(item?.count || 0)
+            acc.amount += Number(item?.items || 0)
 
-            acc.voidedAmount += Number(item?.voidedAmount || 0)
+            acc.orgAmount += Number(item?.amount || 0)
             return acc;
           },
-          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, voidedAmount: 0 }
+          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, orgAmount: 0 }
         );
 
 
@@ -357,7 +357,7 @@ function DoughnutChartButtonVoided({
                   </div>
                   <div style={{ marginBottom: "5px" }}>
                     Order: {slice.items} <br />
-                    Sales: ${slice?.voidedAmount.toFixed(2)}
+                    Sales: ${slice?.orgAmount.toFixed(2)}
                   </div>
                   <button
                     style={{
