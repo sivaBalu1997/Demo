@@ -25,12 +25,13 @@ ChartJS.register(
 
 function LinearBarChart({ barColorCode, dataList, loader,isMobile  }) {
   // Prepare the Chart.js data object
+  console.log({dataList})
   const data = {
-    labels: dataList?.map((cat) => cat?.categoryName)||[],
+    labels: Array.isArray(dataList) ?  dataList?.map((cat) => cat?.categoryName) : [],
     datasets: [
       {
         label: "Sales",
-        data: dataList?.map((cat) => Number(cat?.totalPrice||0))||[],
+        data: dataList && dataList?.map((cat) => Number(cat?.totalPrice||0))||[],
         backgroundColor: barColorCode,
         barPercentage: 0.4, // Thinner bars
         categoryPercentage: 0.6,
