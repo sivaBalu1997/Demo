@@ -391,7 +391,7 @@ const NewTable: React.FC<NewTableProps> = ({
 
                             <ReactPaginate
                                 nextLabel={
-                                    <button className="pagination-button prev-button">
+                                    <button className="prev-button">
                                         {width > 600 && <span>Next</span>}
                                         <ArrowRight className="arrow-icon" />
                                     </button>
@@ -407,7 +407,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                 }}
                                 pageCount={totalPages}
                                 previousLabel={
-                                    <button className="pagination-button prev-button">
+                                    <button className="prev-button">
                                         <ArrowLeft className="arrow-icon" />
                                         {width > 600 && <span>Prev</span>}
                                     </button>
