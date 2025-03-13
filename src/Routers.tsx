@@ -65,6 +65,7 @@ import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
 import completedTable from "pages/offerManagement/completedTable/completedTable";
 import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
+import Menu from "pages/productCatalog/Menu-V2/Menu";
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -202,7 +203,7 @@ const Routers = () => {
               <>
                 <div>
                   <Switch>
-                    <Route exact path="/productCatalog/menuListing" component={MenulistingPage} />
+                    <Route exact path="/productCatalog/menuListing" component={Menu} />
                     {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
                     {/* <Route exact path="/offer/special" component={offers} /> */}
                     <Route
