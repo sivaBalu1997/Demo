@@ -19,7 +19,7 @@ if(isError ){
     }else if(Array.isArray(data) && data.length===0){
         return (
             errorType? <ReportNotFound  errorType={errorType}/>:
-            <ErrorState isDataNotAvailable={true} />
+             <ReportNotFound  errorType={"checkinNotFound"}/>
         )
     }else if(Array.isArray(data?.content) && data?.content?.length===0){
         return (
