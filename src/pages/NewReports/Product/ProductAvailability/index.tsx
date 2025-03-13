@@ -532,7 +532,7 @@ const ProductAvailability = () => {
               data={chartDataFromAPIReduxOthers}
               // tooltipData={tooltipDataFromAPI}
               tooltipData={tooltipDataFromAPIOthers}
-              barColor="#67823D"
+              barColor={["#67823D"]}
               barStyle={customBarStyle}
               showGrid={true}
               gridColor="#ccc"
