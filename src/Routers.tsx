@@ -74,6 +74,7 @@ import SalesReport from "pages/NewReports/Sales";
 import ProductAvailability from "pages/NewReports/Product/ProductInsights";
 import ProductHomeLayout from "pages/NewReports/Product/ProductHomeLayout";
 import Layout from "components/Layout";
+import StaffHomeLayout from "pages/NewReports/Staff/StaffHomeLayout";
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -353,6 +354,7 @@ const Routers = () => {
                 path="/customer-insights-report"
                 component={CustomerInsightsReport}
               />
+              <Route exact path="/staff-reports" component={StaffHomeLayout} />
             </div>
             </Layout>
           </ThemeProvider>
