@@ -10,6 +10,8 @@ import { ReactComponent as WalkinIcon } from "../../../assets/svg/r-walk-in-icon
 import { ReactComponent as DeliveryIcon } from "../../../assets/svg/r-delivery-icon.svg";
 import { ReactComponent as PickUpIcon } from "../../../assets/svg/r-pick-up-icon.svg";
 import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-icon.svg";
+import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/opened_eye.svg";
+import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/closed_eye.svg";
 import { NewTableProps } from 'interface/newReportsInterface';
 import ReactPaginate from 'react-paginate';
 import TableShimmer from './NewShimmerTable';
@@ -17,6 +19,7 @@ import DownloadReport from '../DownloadReports';
 import "jspdf-autotable";
 import './style.scss';
 import TableDateDropdown from '../TableDateDropdown';
+import { maskPhone } from 'utils';
 
 interface SortConfig {
     key: string;
@@ -49,6 +52,14 @@ const NewTable: React.FC<NewTableProps> = ({
     const [searchFlag, setSearchFlag] = useState(false)
     const [width, setWidth] = useState(window.innerWidth);
 
+    const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
+
+    const toggleVisibility = (rowIndex:number) => {
+        setVisibility((prev:any) => ({
+            ...prev,
+            [rowIndex]: !prev[rowIndex]
+        }));
+    };
 
     // console.log("PPP4", { tableData })
 
@@ -227,20 +238,23 @@ const NewTable: React.FC<NewTableProps> = ({
                             <h2 className="table-title">{kpiTitle}</h2>
                             {!!count && <p className='table-title-count'>{count}</p>}
                         </div>
-                        {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown) => onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
-                        <div className="table-search-with-download-opt-container">
-                            <div className="search-container">
-                                <SearchIcon className="search-icon" />
-                                <input
-                                    type="text"
-                                    placeholder={searchPlaceHolder ? searchPlaceHolder : "Search..."}
-                                    value={searchQuery}
-                                    onChange={handleInputChange}
-                                    className="search-input"
-                                />
-                                <ClearSearchIcon className='clear-search-icon' onClick={() => onSearch("", kpiTitle)} />
+                        <div style={{ display: 'flex', flexDirection: "row" }}>
+
+                            {showDateDropDown && <div className='table-date-dropdown-container'><TableDateDropdown kpiTitleForCustomDateDropdown={kpiTitle} onDateSelect={(from, to, kpiTitleForCustomDateDropdown) => onDateSelect(from, to, kpiTitleForCustomDateDropdown)} /></div>}
+                            <div className="table-search-with-download-opt-container">
+                                <div className="search-container">
+                                    <SearchIcon className="search-icon" />
+                                    <input
+                                        type="text"
+                                        placeholder={searchPlaceHolder ? searchPlaceHolder : "Search..."}
+                                        value={searchQuery}
+                                        onChange={handleInputChange}
+                                        className="search-input"
+                                    />
+                                    <ClearSearchIcon className='clear-search-icon' onClick={() => onSearch("", kpiTitle)} />
+                                </div>
+                                {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                             </div>
-                            {tableData && headerData && <DownloadReport tableData={tableData} headerData={headerData} kpiTitle={kpiTitle} />}
                         </div>
                     </div>
                     <div className="table-header-small-screen">
@@ -297,6 +311,13 @@ const NewTable: React.FC<NewTableProps> = ({
                                                     {header?.isSortable && (
                                                         <SortIcon className={`sort-icon ${sortConfig?.key === header?.key ? sortConfig?.direction : ''}`} />
                                                     )}
+
+                                                    {header?.isPrivate && (
+                                                        <span onClick={() => toggleVisibility(header.key)}>
+                                                            {visibility[header.key] ? <OpenEyeIcon className={`sort-icon`} /> : <CloseEyeIcon className={`sort-icon `} />}
+                                                        </span>
+                                                    )}
+
                                                 </div>
                                             </th>
                                         ))}
@@ -319,7 +340,10 @@ const NewTable: React.FC<NewTableProps> = ({
                                         paginatedData?.map((row, index) => (
                                             <tr key={index}>
                                                 {headerData?.map((header: any) => (
-                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}><p className={getDynamicClassNames(row[header?.key], header?.label)}>{getOrderChannelIcons(row[header?.key])}{row[header?.key]}</p></td>
+                                                    <td key={header?.key} style={{ textAlign: header?.alignment || 'left' }}>
+                                                        <p className={getDynamicClassNames(row[header?.key], header?.label)}>
+                                                            {getOrderChannelIcons(row[header?.key])}{header?.isPrivate?(visibility[header.key]?row[header?.key]: maskPhone(row[header?.key])):row[header?.key]}
+                                                            </p></td>
                                                 ))}
                                             </tr>
                                         ))
@@ -373,13 +397,13 @@ const NewTable: React.FC<NewTableProps> = ({
                                     </button>
                                 }
                                 pageLabelBuilder={(page: number) => (
-                                    <button className={`${page == currentPage  ? "active" : ""} pagination-number-button`}>
+                                    <button className={`${page == currentPage ? "active" : ""} pagination-number-button`}>
                                         {page}
                                     </button>)
                                 }
-                                onPageChange={(event: { selected: number }) =>{
+                                onPageChange={(event: { selected: number }) => {
                                     onPageChange(event.selected + 1)
-                                    console.log("event.selected",event)
+                                    console.log("event.selected", event)
                                 }}
                                 pageCount={totalPages}
                                 previousLabel={
@@ -396,11 +420,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                 activeClassName="active"
                                 disabledClassName="disabled"
                             />
-                            {/* <ReactPaginate
-                           
-                               
-                   
-                            /> */}
+
 
                         </div>
                     }

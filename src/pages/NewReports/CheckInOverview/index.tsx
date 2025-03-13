@@ -53,6 +53,7 @@ const headerData: NewTableHeader[] = [
     key: "phone",
     label: "Phone",
     alignment: "left",
+    isPrivate:true,
     isSortable: false,
   },
   {
@@ -82,6 +83,7 @@ const headerData1 = [
     label: "Phone",
     alignment: "left",
     isSortable: false,
+    isPrivate:true
   },
   {
     key: "channel",

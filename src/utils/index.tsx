@@ -53,3 +53,11 @@ export function formatNumberByCountry(
 }
 
 
+export function maskPhone(phone: string): string {
+  return phone.replace(/\d(?=\d{4})/g, 'X');
+}
+
+export function maskEmail(email: string): string {
+  const [localPart, domain] = email.split('@');
+  return '*'.repeat(localPart.length) + '@' + domain;
+}

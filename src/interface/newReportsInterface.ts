@@ -29,6 +29,7 @@ export interface NewTableHeader {
   key: string;
   label: string;
   isSortable?: boolean;
+  isPrivate?:boolean;
   alignment?: "left" | "center" | "right";
 }
 
