@@ -43,7 +43,8 @@ $text-secondary: #6b7280;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 95%;
-  height: 120%;
+  // height: 120%;
+  height: fit-content;
   &.full-width{
     width: 100%;
   }
