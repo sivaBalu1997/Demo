@@ -157,32 +157,41 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
   const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData);
   const tendorTypesLoader = useSelector((state: any) => state?.newReports?.paymentDetailsLoading);
-  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData);
-  const salesSummaryLoader = useSelector((state: any) => state?.newReports?.salesSummaryReportLoading);
-  const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content);
-  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading);
+  const tendorTypesError = useSelector((state: any) => state?.newReports?.paymentDetailsError);
+  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
+  const salesSummaryLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
+  const salesSummaryError = useSelector((state: any) => state?.newReports?.salesSummaryFailure);
+  const staffSalesData = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.content);
+  const staffSalesLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
+  const staffSalesError = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceFailure);
   const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
   const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
+  const salesCardTypeError = useSelector((state: any) => state?.newReports?.salesCardTypeFailure);
   const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
+  const salesCategoryLoading = useSelector((state: any) => state?.newReports?.salesByItemCategoryLoading);
+  const salesCategoryError = useSelector((state: any) => state?.newReports?.salesByItemCategoryFailure);
   const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content);
   const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
+  const discountSummaryError = useSelector((state: any) => state?.newReports?.discountSummaryFailure);
   const discountSummaryTotalPages = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages);
   const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content);
   const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading);
+  const cancellationSummaryError = useSelector((state: any) => state?.newReports?.cancellationSummaryFailure);
   const cancellationSummaryTotalPages = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages);
   const salesByChannel = useSelector((state: any) => state?.newReports?.salesByChannelData?.content);
   const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading);
+  const salesByChannelError = useSelector((state: any) => state?.newReports?.salesByChannelFailure);
   const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
   const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading);
+  const salesByRevenueClassError = useSelector((state: any) => state?.newReports?.salesByRevenueClassFailure);
   const offerSummary = useSelector((state: any) => state?.newReports?.offerSummaryData?.content);
   const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading);
+  const offerSummaryError = useSelector((state: any) => state?.newReports?.offerSummaryFailure);
   const voidedOrderSummary = useSelector((state: any) => state?.newReports?.voidedOrderSummaryData?.content);
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
+  const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
 
-useEffect(()=>{
-console.log({offerSummary,voidedOrderSummary})
-},[offerSummary,voidedOrderSummary])
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
@@ -261,7 +270,6 @@ console.log({offerSummary,voidedOrderSummary})
 
     return tendorGroups;
   }, [tendorTypes]);
-  // console.log({ startDate, endDate })
 
   useEffect(() => {
     Promise.all([
@@ -388,7 +396,6 @@ console.log({offerSummary,voidedOrderSummary})
   };
 
   const handleSummaryView = (view: string, data: any) => {
-    // console.log("PPP data", data)
     resetPagination()
     let params: any = {
       locationid: selectedLocation?.value,
@@ -587,6 +594,7 @@ console.log({offerSummary,voidedOrderSummary})
           <div>
             <h2 className="sales-overview-sub-heading ">Tender Type</h2>
           </div>
+          <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
           <div className="reports-tendor-container">
             <div className="left-section">
               {leftGroup?.map((key) => (
@@ -659,60 +667,66 @@ console.log({offerSummary,voidedOrderSummary})
                 </>
               ))}
             </div>
-
           </div>
+            </ErrorHandler>  
 
           {/* <div className="sales-charts-container">   */}
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>Card Type</h2>
-            <CardTypeChart
-              dataList={salesCardTypeData}
-              loader={salesCardTypeDataLoading}
-            />
+            <ErrorHandler data={salesCardTypeData} isError={salesCardTypeError}>
+              <CardTypeChart
+                dataList={salesCardTypeData}
+                loader={salesCardTypeDataLoading}
+              />
+            </ErrorHandler>
           </div>
 
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Employees</h2>
-            <EmployeeSalesChart
-              dataList={staffSalesData}
-              loader={staffSalesLoading}
-            />
+            <ErrorHandler data={staffSalesData} isError={staffSalesError} >
+              <EmployeeSalesChart
+                dataList={staffSalesData}
+                loader={staffSalesLoading}
+              />
+            </ErrorHandler>
           </div>
 
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Channel</h2>
-            <ChannelSalesChart
-              dataList={salesByChannel}
-              loader={salesByChannelLoading}
-            />
+            <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
+              <ChannelSalesChart
+                dataList={salesByChannel}
+                loader={salesByChannelLoading}
+              />
+            </ErrorHandler>
           </div>
 
           <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width:"100%" }} ref={offerRef}>
-            <div className="doughnut-chart-with-button" style={{width:"50%"}}>
+          <div className="doughnut-chart-with-button" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              <ErrorHandler data={offerSummary} >
-              <DoughnutChartWithButtonVoided
-                     dataList={offerSummary?.map((data:any)=>  ({
-                      name:data?.steward,
-                      label:data?.offerName,
-                      count:data?.totalOrders,
-                      items:data?.totalDiscount,
-                      amount:data?.totalSales
-                    }))}
-                countryCode={countryCode}
-                handleOther={(other: string) => handleOther("discountOffer", other)}
-                handleClick={(data: any) =>
-                  handleSummaryView("discountOffer", data)
-                }
-                loader={offerSummaryLoading}
+              <ErrorHandler data={offerSummary} isError={offerSummaryError}>
+                <DoughnutChartWithButtonVoided
+               dataList={offerSummary?.map((data:any)=>  ({
+                name:data?.steward,
+                label:data?.offerName,
+                count:data?.totalOrders,
+                items:data?.totalDiscount,
+                amount:data?.totalSales
+              }))}
+          countryCode={countryCode}
+          handleOther={(other: string) => handleOther("discountOffer", other)}
+          handleClick={(data: any) =>
+                    handleSummaryView("discountOffer", data)
+                  }
+                  loader={offerSummaryLoading}
                 />
-                </ErrorHandler>
+              </ErrorHandler>
             </div>
             <div className="doughnut-chart-container" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              <ErrorHandler data={voidedOrderSummary}>
-              <DoughnutChartWithButtonVoided
-                dataList={voidedOrderSummary?.map((data:any)=>  ({
+              <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
+                <DoughnutChartWithButtonVoided
+                  dataList={voidedOrderSummary?.map((data:any)=>  ({
                     name:data?.steward,
                     label:data?.voidedReasons,
                     count:data?.orderCount,
@@ -722,19 +736,21 @@ console.log({offerSummary,voidedOrderSummary})
                 countryCode={countryCode}
                 handleOther={(other: string) => handleOther("voidedOffer", other)}
                 handleClick={(data: any) =>
-                  handleSummaryView("voidedOffer", data)
-                }
-                loader={voidedOrderSummaryLoader}
-              />
-                </ErrorHandler>
+                    handleSummaryView("voidedOffer", data)
+                  }
+                  loader={voidedOrderSummaryLoader}
+                />
+              </ErrorHandler>
             </div>
           </div>
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Revenue class</h2>
-            <RevenueClassChart
-              dataList={salesByRevenueClass}
-              loader={salesByRevenueClassLoading}
-            />
+            <ErrorHandler data={salesByRevenueClass} isError={salesByRevenueClassError} >
+              <RevenueClassChart
+                dataList={salesByRevenueClass}
+                loader={salesByRevenueClassLoading}
+              />
+            </ErrorHandler>
           </div>
           {/* </div> */}
         </>
@@ -750,24 +766,26 @@ console.log({offerSummary,voidedOrderSummary})
                 Back
               </button>
             </div>
-            <NewTable
-              kpiTitle={`By discount - ${offerType}`}
-              searchQuery={searchQuery}    
+            <ErrorHandler data={discountSummary} isError={discountSummaryError}>
+              <NewTable
+                kpiTitle={`By discount - ${offerType}`}
+                searchQuery={searchQuery}    
                 headerData={discountTableHeaders}
-              tableData={
-                discountSummary &&
-                discountSummary?.length > 0 &&
-                discountSummary
-              }
-              currentPage={page}
-              totalPages={discountSummaryTotalPages}
-              onPageChange={setPage}
-              rowsPerPage={rows}
-              setRowsPerPage={setRows}
-              loader={discountSummaryLoading}
-              searchPlaceHolder="Search By Staff name"
-              onSearch={handleSearch}
-            />
+                tableData={
+                  discountSummary &&
+                  discountSummary?.length > 0 &&
+                  discountSummary
+                }
+                currentPage={page}
+                totalPages={discountSummaryTotalPages}
+                onPageChange={setPage}
+                rowsPerPage={rows}
+                setRowsPerPage={setRows}
+                loader={discountSummaryLoading}
+                searchPlaceHolder="Search By Staff name"
+                onSearch={handleSearch}
+              />
+            </ErrorHandler>
           </div>
         </>
       ) : (
@@ -778,24 +796,26 @@ console.log({offerSummary,voidedOrderSummary})
               Back
             </button>
           </div>
-          <NewTable
-            kpiTitle={`Voided orders - ${voidedReason}`}
-            searchQuery={searchQuery}
-            headerData={voidedTableHeaders}
-            tableData={
-              cancellationSummary &&
-              cancellationSummary?.length > 0 &&
-              cancellationSummary
-            }
-            currentPage={page}
-            totalPages={cancellationSummaryTotalPages}
-            onPageChange={setPage}
-            rowsPerPage={rows}
-            setRowsPerPage={setRows}
-            loader={cancellationSummaryLoading}
-            searchPlaceHolder="Search By Staff name"
-            onSearch={handleSearch}
-          />
+          <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError} >
+            <NewTable
+              kpiTitle={`Voided orders - ${voidedReason}`}
+              searchQuery={searchQuery}
+              headerData={voidedTableHeaders}
+              tableData={
+                cancellationSummary &&
+                cancellationSummary?.length > 0 &&
+                cancellationSummary
+              }
+              currentPage={page}
+              totalPages={cancellationSummaryTotalPages}
+              onPageChange={setPage}
+              rowsPerPage={rows}
+              setRowsPerPage={setRows}
+              loader={cancellationSummaryLoading}
+              searchPlaceHolder="Search By Staff name"
+              onSearch={handleSearch}
+            />
+          </ErrorHandler>
         </div>
       )}
     </div>

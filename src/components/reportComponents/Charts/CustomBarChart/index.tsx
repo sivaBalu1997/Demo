@@ -34,6 +34,8 @@ interface RevenueChartProps {
   displayLegend?: boolean;
   yAxisTooltipAppendInFront?: string;
   yAxisTooltipAppendInBack?: string;
+  label?:string
+  showLabel?:boolean
 }
 
 const RevenueClassChart: React.FC<RevenueChartProps> = ({
@@ -46,6 +48,8 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
   displayLegend = false,
   yAxisTooltipAppendInFront = "",
   yAxisTooltipAppendInBack = "",
+  label="",
+  showLabel=false
 }) => {
   //   {
   //     "revenueClass": "Beverages",
@@ -54,10 +58,10 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
   // }
 
   const data = {
-    labels: Array.from(new Set(dataList?.map((item: any) => item?.xAxisValue))),
+    labels:Array.from(new Set(dataList?.map((item: any) => item?.xAxisValue))),
     datasets: [
       {
-        label: "Sales",
+        label: label,
         data: dataList?.map((item: any) => ({
           x: item.xAxisValue, // X-axis label
           y: Number(item.yAxisValue || 0), // Y-axis sales value
@@ -75,13 +79,14 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom",
+      legend: showLabel?{ position: "bottom",
         labels: {
  boxWidth: 12, // Set legend box width
  boxHeight: 12, // Set legend box height
  usePointStyle: true,
  pointStyle: "rectRounded", // Rounded rectangle legend symbol
-}, },
+},
+ }:{display:false},
       tooltip: {
         enabled: true,
         callbacks: {

@@ -1,8 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ChartOptions } from "chart.js";
-import { TooltipItem } from "chart.js";
-import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 interface CheckinData {
@@ -89,9 +87,6 @@ const HourlyCheckinChartGuest: React.FC<ReportProps> = ({dataList=[], loader=fal
   } as ChartOptions<"bar">;
 
 
-  //   data?.length === 0 ? (
-  //   <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
-  // ) :( 
   return(
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />

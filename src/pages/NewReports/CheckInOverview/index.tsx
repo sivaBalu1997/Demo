@@ -286,32 +286,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
   }, [selectedLocation, topTableDate, todayCheckInCurrentPage, todayCheckInPageLimit])
 
-
-  useEffect(() => {
-    console.log({
-      checkInOverview,
-      checkInOverviewHourly,
-      checkInOverviewGuestsHourly,
-      checkInOverviewDailyAndGuest,
-
-      checkInOverviewDineInGroup,
-      checkInOverviewGuestSize,
-      checkInOverviewTableDetails,
-      checkInOverviewTopCustomer,
-      checkInOverviewAvgWaitTimeGroup
-
-    })
-  }, [checkInOverview,
-    checkInOverviewHourly,
-    checkInOverviewGuestsHourly,
-    checkInOverviewDailyAndGuest,
-
-    checkInOverviewDineInGroup,
-    checkInOverviewGuestSize,
-    checkInOverviewTableDetails,
-    checkInOverviewTopCustomer,
-    checkInOverviewAvgWaitTimeGroup])
-
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
@@ -512,6 +486,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                 yAxisValue: Number(data.guestSize),
               }))}
               loader={isCheckInOverviewGuestSizeLoading}
+              showLabel={false}
             />
           </ErrorHandler>
         </div>
