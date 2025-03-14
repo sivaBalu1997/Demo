@@ -292,7 +292,7 @@ const Menu = () => {
 
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
+        dispatch(selectedCategory({name:filteredItem?.categoryName,id: filteredItem?.categoryId}));
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -312,7 +312,7 @@ const Menu = () => {
 
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
+        dispatch(selectedCategory({name:filteredItem?.categoryName,id: filteredItem?.categoryId}));
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
