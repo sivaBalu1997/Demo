@@ -33,8 +33,9 @@ import DineInDurationChart from "./DineInDurationChart";
 import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
-interface ReportProps {}
+interface ReportProps { }
 interface CustomBarChartData {
   xAxisValue: string;
   yAxisValue: number;
@@ -52,6 +53,7 @@ const headerData: NewTableHeader[] = [
     key: "phone",
     label: "Phone",
     alignment: "left",
+    isPrivate: true,
     isSortable: false,
   },
   {
@@ -81,6 +83,7 @@ const headerData1 = [
     label: "Phone",
     alignment: "left",
     isSortable: false,
+    isPrivate: true
   },
   {
     key: "channel",
@@ -127,14 +130,14 @@ const headerData1 = [
 ];
 
 
-const CheckInOverview: React.FC<ReportProps> = ({}) => {
+const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   const [checkInSearchQuery, setcheckInSearchQuery] = useState("");
   const [checkInCurrentPage, setcheckInCurrentPage] = useState(1);
   const [checkInPageLimit, setcheckInPageLimit] = useState(10);
   const [todayCheckInSearchQuery, settodayCheckInSearchQuery] = useState("");
   const [todayCheckInCurrentPage, settodayCheckInCurrentPage] = useState(1);
   const [todayCheckInPageLimit, settodayCheckInPageLimit] = useState(10);
-const [topTableDate, setTopTableDate] = useState<{ from: string | null; to: string | null; kpiTitle: string }>({ from: null, to: null, kpiTitle: "" });
+  const [topTableDate, setTopTableDate] = useState<{ from: string | null; to: string | null; kpiTitle: string }>({ from: null, to: null, kpiTitle: "" });
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
@@ -256,82 +259,53 @@ const [topTableDate, setTopTableDate] = useState<{ from: string | null; to: stri
     }
   }, [dispatch, selectedLocation, startDate, endDate]);
 
-useEffect(()=>{
-  const payload = {
-    locationId: selectedLocation?.value,
-    startDate,
-    endDate,
-    search:checkInSearchQuery,
-    page:checkInCurrentPage,
-    size:checkInPageLimit
-  };
-  dispatch(checkInOverviewTableDetailsRequest(payload));
+  useEffect(() => {
+    const payload = {
+      locationId: selectedLocation?.value,
+      startDate,
+      endDate,
+      search: checkInSearchQuery,
+      page: checkInCurrentPage,
+      size: checkInPageLimit
+    };
+    dispatch(checkInOverviewTableDetailsRequest(payload));
 
-},[ selectedLocation, startDate, endDate,  checkInCurrentPage,checkInPageLimit])
-
-
-useEffect(()=>{
-  const payload = {
-    locationId: selectedLocation?.value,
-    startDate:topTableDate?.from,
-    endDate:topTableDate?.to,
-    search:todayCheckInSearchQuery,
-    page:todayCheckInCurrentPage,
-    size:todayCheckInPageLimit
-  };
-  dispatch(checkInOverviewTopCustomerRequest(payload));
-
-},[ selectedLocation, topTableDate,todayCheckInCurrentPage,todayCheckInPageLimit])
+  }, [selectedLocation, startDate, endDate, checkInCurrentPage, checkInPageLimit])
 
 
   useEffect(() => {
-    console.log({
-      checkInOverview,
-      checkInOverviewHourly,
-      checkInOverviewGuestsHourly,
-      checkInOverviewDailyAndGuest,
+    const payload = {
+      locationId: selectedLocation?.value,
+      startDate: topTableDate?.from,
+      endDate: topTableDate?.to,
+      search: todayCheckInSearchQuery,
+      page: todayCheckInCurrentPage,
+      size: todayCheckInPageLimit
+    };
+    dispatch(checkInOverviewTopCustomerRequest(payload));
 
-checkInOverviewDineInGroup,
-checkInOverviewGuestSize,
-checkInOverviewTableDetails,
-checkInOverviewTopCustomer,
-checkInOverviewAvgWaitTimeGroup
-
-    })
-  },[    checkInOverview,
-    checkInOverviewHourly,
-    checkInOverviewGuestsHourly,
-    checkInOverviewDailyAndGuest,
-
-checkInOverviewDineInGroup,
-checkInOverviewGuestSize,
-checkInOverviewTableDetails,
-checkInOverviewTopCustomer,
-checkInOverviewAvgWaitTimeGroup])
+  }, [selectedLocation, topTableDate, todayCheckInCurrentPage, todayCheckInPageLimit])
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
   const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
-    const temp={from, to, kpiTitle}
+    const temp = { from, to, kpiTitle }
     setTopTableDate(temp)
   };
 
-
-  const handleCheckInSearch=(value: string)=>{
+  const handleCheckInSearch = (value: string) => {
     setcheckInSearchQuery(value)
 
     dispatch((checkInOverviewTableDetailsRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: checkInPageLimit, startDate, endDate })))
     setcheckInCurrentPage(1)
   }
-    const handleTopSearch=(value: string)=>{
-      settodayCheckInSearchQuery(value)
-      dispatch((checkInOverviewTopCustomerRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: checkInPageLimit, startDate:topTableDate?.from, endDate:topTableDate?.to })))
-      settodayCheckInCurrentPage(1) 
-    }
-
-  
+  const handleTopSearch = (value: string) => {
+    settodayCheckInSearchQuery(value)
+    dispatch((checkInOverviewTopCustomerRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: checkInPageLimit, startDate: topTableDate?.from, endDate: topTableDate?.to })))
+    settodayCheckInCurrentPage(1)
+  }
 
   return (
     <>
@@ -352,7 +326,12 @@ checkInOverviewAvgWaitTimeGroup])
 
         <div className="todays-report-sales-overview-box-container-parent">
           <div className="total-sales-heading-container">
-            <h2>Total sales Overview</h2>
+            <h2
+              className="sales-overview-sub-heading "          
+            >
+              Check-in Overview
+            </h2>
+
             <div className="total-sales-info-container">
               <InfoIcon />
               <div className="total-sales-info-content">
@@ -366,45 +345,41 @@ checkInOverviewAvgWaitTimeGroup])
           <div className="todays-report-sales-overview-box-container">
             <CardWithMiniGraph
               cardTitle="Total check-ins"
-              cardValue={checkInOverview?.totalCheckin||0}
-              incrementDecrementValue={checkInOverview?.totalCheckinPercentage||0}
-              isMonetary={true}
+              cardValue={formatNumberByCountry(checkInOverview?.totalCheckin, countryCode, false)}
+              incrementDecrementValue={checkInOverview?.totalCheckinPercentage || 0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="total-check"
             />
             <CardWithMiniGraph
               cardTitle="Total Guests"
-              cardValue={checkInOverview?.totalGuests||0}
-              incrementDecrementValue={checkInOverview?.totalGuestsPercentage||0}
-              isMonetary={true}
+              cardValue={formatNumberByCountry(checkInOverview?.totalGuests, countryCode, false)}
+              incrementDecrementValue={checkInOverview?.totalGuestsPercentage || 0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="net-sales"
             />
             <CardWithMiniGraph
               cardTitle="total cancellation"
-              cardValue={checkInOverview?.totalCencellation||0}
-              incrementDecrementValue={checkInOverview?.totalCencellationPercentage||0}
-              isMonetary={true}
+              cardValue={formatNumberByCountry(checkInOverview?.totalCencellation, countryCode, false)}
+              incrementDecrementValue={checkInOverview?.totalCencellationPercentage || 0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="total-tax"
             />
             <CardWithMiniGraph
               cardTitle="avg wait time"
               cardValue={formatNumberByCountry(checkInOverview?.avgWaitTime, countryCode, false)}
-              incrementDecrementValue={checkInOverview?.avgWaitTimeChangePercentage||0}
-              isMonetary={true}
+              incrementDecrementValue={checkInOverview?.avgWaitTimeChangePercentage || 0}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="total-tips"
             />
@@ -412,10 +387,9 @@ checkInOverviewAvgWaitTimeGroup])
               cardTitle="Avg check-ins"
               cardValue={formatNumberByCountry(checkInOverview?.avgCheckins, countryCode, false)}
               incrementDecrementValue={0}
-              isMonetary={true}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="gratuity"
             />
@@ -426,7 +400,7 @@ checkInOverviewAvgWaitTimeGroup])
               isMonetary={false}
               loader={isCheckInOverviewLoading}
               showMiniGraph={true}
-              graphType="chart"
+              graphType="arrow"
               isPercent={true}
               key="transactions"
             />
@@ -441,10 +415,12 @@ checkInOverviewAvgWaitTimeGroup])
           >
             Hourly Checkin
           </h2>
-          <HourlyCheckinChart
-          dataList={checkInOverviewHourly}
-          loader={isCheckInOverviewHourlyLoading}
-          />
+          <ErrorHandler isError={isCheckInOverviewHourlyLoading} data={checkInOverviewHourly}>
+            <HourlyCheckinChart
+              dataList={checkInOverviewHourly}
+              loader={isCheckInOverviewHourlyLoading}
+            />
+          </ErrorHandler>
         </div>
 
         <div>
@@ -453,11 +429,13 @@ checkInOverviewAvgWaitTimeGroup])
             style={{ marginTop: "10vh" }}
           >
             Hourly Guest
-          </h2> 
-          <HourlyCheckinChartGuest
-          dataList={checkInOverviewGuestsHourly}
-          loader={isCheckInOverviewGuestsHourlyLoading}
-          />
+          </h2>
+          <ErrorHandler isError={isCheckInOverviewGuestsHourlyLoading} data={checkInOverviewGuestsHourly}>
+            <HourlyCheckinChartGuest
+              dataList={checkInOverviewGuestsHourly}
+              loader={isCheckInOverviewGuestsHourlyLoading}
+            />
+          </ErrorHandler>
         </div>
 
         <div>
@@ -468,10 +446,12 @@ checkInOverviewAvgWaitTimeGroup])
             {" "}
             Daily Check-ins & Guests
           </h2>
-          <DailyCheckinsChart
-             dataList={checkInOverviewDailyAndGuest}
-          loader={isCheckInOverviewDailyAndGuestLoading}
-          />
+          <ErrorHandler isError={isCheckInOverviewDailyAndGuestLoading} data={checkInOverviewDailyAndGuest}>
+            <DailyCheckinsChart
+              dataList={checkInOverviewDailyAndGuest}
+              loader={isCheckInOverviewDailyAndGuestLoading}
+            />
+          </ErrorHandler>
         </div>
 
         <div>
@@ -481,17 +461,20 @@ checkInOverviewAvgWaitTimeGroup])
           >
             Dine-in Duration By Groups
           </h2>
-          <DineInDurationChart
-            dataList={checkInOverviewDineInGroup}
-          loader={isCheckInOverviewDineInGroupLoading}
-           />
+          <ErrorHandler isError={isCheckInOverviewDineInGroupLoading} data={checkInOverviewDineInGroup}>
+            <DineInDurationChart
+              dataList={checkInOverviewDineInGroup}
+              loader={isCheckInOverviewDineInGroupLoading}
+            />
+          </ErrorHandler>
         </div>
 
         <div>
-            <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Group size Distrbution</h1>
-              <DownloadPopOver />
-            </div>
+          <div className="reports-page-sub-header-container">
+            <h1 className="reports-page-heading">Group size Distrbution</h1>
+            <DownloadPopOver />
+          </div>
+          <ErrorHandler isError={isCheckInOverviewGuestSizeLoading} data={checkInOverviewGuestSize}>
             <CustomBarChart
               barColor="#67833E"
               toolTipBorderColor="#67833E"
@@ -499,22 +482,24 @@ checkInOverviewAvgWaitTimeGroup])
               yAxisTooltipLabel="Count"
               yAxisTooltipAppendInBack=""
               dataList={checkInOverviewGuestSize?.map((data: any) => ({
-                xAxisValue: `Group of ${data.groupSize}`,
+                xAxisValue: data.groupSize === 10 ? `Group of 8+` : `Group of ${data.groupSize}`,
                 yAxisValue: Number(data.guestSize),
               }))}
-              loader={false}
+              loader={isCheckInOverviewGuestSizeLoading}
+              showLabel={false}
             />
-          </div>
+          </ErrorHandler>
+        </div>
 
         <div className="todays-report-tables-container">
           <NewTable
-            kpiTitle={`Check-in Details (${checkInOverviewTableDetails?.totalElements||0})`}
+            kpiTitle={`Check-in Details (${checkInOverviewTableDetails?.totalElements || 0})`}
             searchQuery={checkInSearchQuery}
             // onSearchChange={setcheckInSearchQuery}
             headerData={headerData1 as any}
-            tableData={checkInOverviewTableDetails?.content||[] as any}
+            tableData={checkInOverviewTableDetails?.content || [] as any}
             currentPage={checkInCurrentPage}
-            totalPages={checkInOverviewTableDetails?.totalPages||0}
+            totalPages={checkInOverviewTableDetails?.totalPages || 0}
             onPageChange={setcheckInCurrentPage}
             rowsPerPage={checkInPageLimit}
             setRowsPerPage={setcheckInPageLimit}
@@ -524,18 +509,18 @@ checkInOverviewAvgWaitTimeGroup])
             // count={liveOrdersAPIRedux?.length}
             searchPlaceHolder="Search by table number, customer name"
             onSearch={handleCheckInSearch}
-            // // searchDebounce={()=>searchDebounce()}
+          // // searchDebounce={()=>searchDebounce()}
           />
 
-            
+
           <NewTable
-            kpiTitle={`Top Repeat Customers (${checkInOverviewTopCustomer?.totalElements||0})`}
+            kpiTitle={`Top Repeat Customers (${checkInOverviewTopCustomer?.totalElements || 0})`}
             searchQuery={todayCheckInSearchQuery}
             // onSearchChange={setLiveCheckInSearchQuery}
             headerData={headerData as any}
-            tableData={checkInOverviewTopCustomer?.content||[] as any}
+            tableData={checkInOverviewTopCustomer?.content || [] as any}
             currentPage={todayCheckInCurrentPage}
-            totalPages={checkInOverviewTopCustomer?.totalPages||0}
+            totalPages={checkInOverviewTopCustomer?.totalPages || 0}
             onPageChange={settodayCheckInCurrentPage}
             rowsPerPage={todayCheckInPageLimit}
             setRowsPerPage={settodayCheckInPageLimit}
@@ -550,20 +535,22 @@ checkInOverviewAvgWaitTimeGroup])
           />
         </div>
         <div>
-            <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-              <DownloadPopOver />
-            </div>
+          <div className="reports-page-sub-header-container">
+            <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
+            <DownloadPopOver />
+          </div>
+          <ErrorHandler isError={isCheckInOverviewAvgWaitTimeGroupLoading} data={checkInOverviewAvgWaitTimeGroup}>
             <StackedBarChart
               loader={false}
               dataList={checkInOverviewAvgWaitTimeGroup?.map((data: any) => ({
-                timeRange: data?.waitTime  || "",
+                timeRange: data?.waitTime || "",
                 groupName: data?.groupSize || "",
                 count: data?.checkInCount || 0,
               }))}
             />
-          </div>
-        
+          </ErrorHandler>
+        </div>
+
       </>
     </>
   );

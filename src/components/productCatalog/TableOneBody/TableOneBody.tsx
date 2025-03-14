@@ -189,7 +189,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+  const baseImageUrl = process.env.REACT_APP_IMAGE_URL; //"https://storage.googleapis.com/mhd-media/img/testing/";
   const baseImageUrl2 = process.env.REACT_APP_IMAGE_DOMAIN;
 
   const menuData = useSelector(

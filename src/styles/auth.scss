@@ -1,8 +1,24 @@
 .otp_login {
-  width: 100%;
+  // width: 100vw;
+  // height: 100vh;
   text-align: center;
   padding-top: 80px;
-  margin: 0 30px;
+  // margin: 0 30px;
+  // background-color: pink;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  @media(max-width: 600px){
+    // background-color: orange;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   & .logo {
     margin-bottom: 80px;
     & img {
@@ -26,21 +42,26 @@
     margin: auto;
 
     & input {
-      background: rgba(103, 131, 62, 0.2);
+      // background: rgba(103, 131, 62, 0.2);
+      background-color: white;
       border-radius: 5px 5px 0px 0px;
-      border: 0px solid;
+      border: 1px solid rgba(103, 131, 62, 0.2);
       padding: 10px 20px;
       box-sizing: border-box;
-      border-bottom: 2px solid #67833e;
+      border-bottom: 2px solid #E52333;
       //   font-size: 20px;
       line-height: 30px;
       color: #000000;
       opacity: 0.6;
       font-family: "Poppins", sans-serif;
       margin-bottom: 25px;
+      @media(max-width: 600px){
+        // background-color: pink;
+        width: 80vw;
+      }
     }
     & button {
-      background: #67833e;
+      background: #E52333;
       border: 0px solid;
       color: #fff;
       font-family: "Poppins", sans-serif;
@@ -48,6 +69,11 @@
       border-radius: 5px;
       box-sizing: border-box;
       font-size: 18px;
+      // background-color: pink;
+      width: 100%;
+      @media(max-width: 600px){
+        width: 80vw;
+      }
     }
     .login--password {
       position: relative;
@@ -130,7 +156,7 @@
     }
 
     & button {
-      background: #67833e;
+      background: #E52333;
       border: 0px solid;
       color: #fff;
       font-family: "Poppins", sans-serif;
@@ -167,16 +193,16 @@
     top: 26px;
   }
 }
-@media (max-width: 768px) {
-  .otp_login {
-    & .logo {
-      margin-bottom: 75px;
-      img {
-        width: 250px;
-      }
-    }
-  }
-}
+// @media (max-width: 768px) {
+//   .otp_login {
+//     & .logo {
+//       margin-bottom: 75px;
+//       img {
+//         width: 250px;
+//       }
+//     }
+//   }
+// }
 
 
 .magilhub-logo2 {

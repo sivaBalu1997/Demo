@@ -30,8 +30,8 @@ export function getRandomColor() {
 
 export function formatNumberByCountry(
   input: string | number | null | undefined, 
-  countryCode: 'US' | 'India', 
-  isMonetary: boolean = true
+  countryCode: 'US' | 'India'="US", 
+  isMonetary: boolean = false
 ): string {
   if (input === null || input === undefined || input === "" || input === 0) {
     return "0"; // Default to "0" if input is invalid
@@ -53,3 +53,12 @@ export function formatNumberByCountry(
 }
 
 
+export function maskPhone(phone: string): string {
+  const last4Digit = phone.slice(-4);
+  return last4Digit ? "(XXX) XXX-" + last4Digit : "";
+}
+
+export function maskEmail(email: string): string {
+  const [localPart, domain] = email.split('@');
+  return '*'.repeat(localPart.length) + '@' + domain;
+}

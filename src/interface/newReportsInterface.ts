@@ -29,6 +29,7 @@ export interface NewTableHeader {
   key: string;
   label: string;
   isSortable?: boolean;
+  isPrivate?:boolean;
   alignment?: "left" | "center" | "right";
 }
 
@@ -42,11 +43,11 @@ export interface NewTableProps {
   // headerData: NewTableHeader[];
   headerData: any;
   tableData: NewTableData[];
-  currentPage: number;
-  totalPages: number;
+  currentPage?: number;
+  totalPages?: number;
   onPageChange: (page: number) => void;
-  rowsPerPage: number;
-  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
+  rowsPerPage?: number;
+  setRowsPerPage?: React.Dispatch<React.SetStateAction<number>>;
   loader?: boolean;
   // setLoader: React.Dispatch<React.SetStateAction<boolean>>;
   count?: number | string;
@@ -54,9 +55,18 @@ export interface NewTableProps {
   // searchDebounce?: (value: string) => void;
   onSearch: (value: string, kpiTitle: string) => void;
   getChartSliceTableHeaders?: any;
-  showDateDropDown?: boolean
-  selectedDate?: string | null; 
-  onDateSelect?: (from: string | null, to: string | null, kpiTitleForCustomDateDropdown: string) => void;
+  showDateDropDown?: boolean;
+  selectedDate?: string | null;
+  onDateSelect?: (
+    from: string | null,
+    to: string | null,
+    kpiTitleForCustomDateDropdown: string
+  ) => void;
+  showTableHeader?: boolean;
+  showPagination?: boolean;
+  rowNoWrap?: boolean;
+  tableContainerClassName?: string;
+  showIcons?: boolean;
 }
 
 export interface SortConfig {
@@ -67,7 +77,7 @@ export interface SortConfig {
 export interface ICardWithMiniGraphProps {
   cardTitle: string | undefined | null | "";
   cardValue: number | string | undefined | "" | null;
-  isMonetary: boolean;
+  isMonetary?: boolean;
   showMiniGraph?: boolean;
   incrementDecrementValue?: number | string | undefined | "" | null;
   incrementOrDecrement?: IncrementOrDecrementTypeEnum;

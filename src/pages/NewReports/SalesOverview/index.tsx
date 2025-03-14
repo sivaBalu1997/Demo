@@ -41,6 +41,8 @@ import NewTable from "components/reportComponents/NewTable";
 import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
 import "./SalesOverview.scss";
+// import useDebounce from "hooks/useDebounce";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 
 interface ReportProps { }
@@ -139,10 +141,8 @@ const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPageOfferDiscount, setCurrentPageOfferDiscount] = useState<number>(1);
-  const [currentRowsOfferDiscount, setCurrentRowsOfferDiscount] = useState<number>(10);
-  const [currentPageVoiddedOrders, setCurrentPageVoiddedOrders] = useState<number>(1);
-  const [currentRowsVoiddedOrders, setCurrentRowsVoiddedOrders] = useState<number>(10);
+  const [page, setPage]=useState<number>(1);
+  const [rows,setRows]=useState(10)
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
   const [otherOffer, setOtherOffer] = useState<string>("");
@@ -150,35 +150,47 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   const offerRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+  // const debounceValue = useDebounce(searchQuery, 1000);
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
   const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
   const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData);
   const tendorTypesLoader = useSelector((state: any) => state?.newReports?.paymentDetailsLoading);
-  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummaryReportData);
-  const salesSummaryLoader = useSelector((state: any) => state?.newReports?.salesSummaryReportLoading);
-  const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content);
-  const staffSalesLoading = useSelector((state: any) => state?.newReports?.staffSalesLoading);
+  const tendorTypesError = useSelector((state: any) => state?.newReports?.paymentDetailsError);
+  const salesSummary = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
+  const salesSummaryLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
+  const salesSummaryError = useSelector((state: any) => state?.newReports?.salesSummaryFailure);
+  const staffSalesData = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.content);
+  const staffSalesLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
+  const staffSalesError = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceFailure);
   const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
   const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
+  const salesCardTypeError = useSelector((state: any) => state?.newReports?.salesCardTypeFailure);
   const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
+  const salesCategoryLoading = useSelector((state: any) => state?.newReports?.salesByItemCategoryLoading);
+  const salesCategoryError = useSelector((state: any) => state?.newReports?.salesByItemCategoryFailure);
   const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content);
   const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
+  const discountSummaryError = useSelector((state: any) => state?.newReports?.discountSummaryFailure);
   const discountSummaryTotalPages = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages);
   const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content);
   const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading);
+  const cancellationSummaryError = useSelector((state: any) => state?.newReports?.cancellationSummaryFailure);
   const cancellationSummaryTotalPages = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages);
   const salesByChannel = useSelector((state: any) => state?.newReports?.salesByChannelData?.content);
   const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading);
+  const salesByChannelError = useSelector((state: any) => state?.newReports?.salesByChannelFailure);
   const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
   const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading);
+  const salesByRevenueClassError = useSelector((state: any) => state?.newReports?.salesByRevenueClassFailure);
   const offerSummary = useSelector((state: any) => state?.newReports?.offerSummaryData?.content);
   const offerSummaryLoading = useSelector((state: any) => state?.newReports?.offerSummaryLoading);
+  const offerSummaryError = useSelector((state: any) => state?.newReports?.offerSummaryFailure);
   const voidedOrderSummary = useSelector((state: any) => state?.newReports?.voidedOrderSummaryData?.content);
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
+  const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
-
 
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
@@ -258,7 +270,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
     return tendorGroups;
   }, [tendorTypes]);
-  // console.log({ startDate, endDate })
 
   useEffect(() => {
     Promise.all([
@@ -330,6 +341,43 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, startDate, endDate]);
 
 
+  useEffect(()=>{
+    if(viewType==="discountOffer"){
+
+      const params: any = {
+        locationid: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+        tablePageNo: page,
+        tableRecordLimit: rows,
+        search: searchQuery,
+        offer:offerType
+      }      
+      dispatch(
+        discountSummaryRequest(params)
+      );
+    }
+    },[selectedLocation, startDate, endDate,page,rows,offerType,searchQuery])
+
+  useEffect(()=>{
+    if(viewType==="voidedOffer"){
+
+      const params: any = {
+        locationid: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+        tablePageNo: page,
+        tableRecordLimit: rows,
+        search: searchQuery,
+        reason:voidedReason
+      }
+      dispatch(
+        cancellationSummaryRequest(params)
+      );
+    }
+
+  },[selectedLocation, startDate, endDate,page,rows,voidedReason, searchQuery])
+
 
   const handleGoBackToChart = () => {
     setViewType("default");
@@ -342,44 +390,19 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSearch = (value: string, kpiTitle: string) => {
-    // console.log(`handleSearch PPP, KpiTitle - ${kpiTitle}, viewType : ${viewType}`)
-    let params: any = {
-      locationid: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      tablePageNo: currentPageOfferDiscount,
-      tableRecordLimit: currentRowsOfferDiscount,
-      search: value,
-    }
-    switch (viewType) {
-      case "discountOffer":
-        params.offer = offerType
-        dispatch(
-          discountSummaryRequest(params)
-        );
-        break;
-      case "voidedOffer":
-        params.reason = voidedReason
-        dispatch(
-          cancellationSummaryRequest(params)
-        );
-        break;
 
-      default:
-        console.warn(`Unknown KPI title: ${kpiTitle}`);
-    }
+    setPage(1)
     setSearchQuery(value)
   };
 
   const handleSummaryView = (view: string, data: any) => {
-    // console.log("PPP data", data)
     resetPagination()
     let params: any = {
       locationid: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate,
-      tablePageNo: currentPageOfferDiscount,
-      tableRecordLimit: currentRowsOfferDiscount,
+      tablePageNo: page,
+      tableRecordLimit: rows,
     }
     setViewType(view);
     if (view == "discountOffer") {
@@ -389,8 +412,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label = otherOffer
       }
       setOtherOffer(label)
-      params.offer = label
-      dispatch(discountSummaryRequest(params))
+      // params.offer = label
+      // dispatch(discountSummaryRequest(params))
     }
     if (view === "voidedOffer") {
       let label = data?.label
@@ -398,20 +421,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label = otherVoided
       }
       setVoidedReason(label)
-      params.reason = label
-      dispatch(cancellationSummaryRequest(params))
+      // params.reason = label
+      // dispatch(cancellationSummaryRequest(params))
     }
   };
 
-  useEffect(()=>{
-    dispatch(cancellationSummaryRequest({
-      locationid: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      tablePageNo: currentPageVoiddedOrders,
-      tableRecordLimit: currentRowsVoiddedOrders,
-    }))
-  },[currentPageVoiddedOrders, currentRowsVoiddedOrders])
 
 
 
@@ -419,10 +433,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     handleDateChange("Custom Date", data1, data2);
   };
   const resetPagination = () => {
-    setCurrentPageOfferDiscount(1)
-    setCurrentRowsOfferDiscount(10)
-    setCurrentPageVoiddedOrders(1)
-    setCurrentRowsVoiddedOrders(10)
+    setPage(1)
+    setRows(10)
     setSearchQuery("")
   }
 
@@ -437,7 +449,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   }
   return (
-    <>
+    <div className="sales-overview">
       {viewType === "default" ? (
         <>
           <StoreFilter
@@ -583,6 +595,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             <h2 className="sales-overview-sub-heading ">Tender Type</h2>
           </div>
           <div className="reports-tendor-container">
+          <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
             <div className="left-section">
               {leftGroup?.map((key) => (
 
@@ -654,66 +667,90 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 </>
               ))}
             </div>
-
+            </ErrorHandler>
           </div>
 
           {/* <div className="sales-charts-container">   */}
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>Card Type</h2>
-            <CardTypeChart
-              dataList={salesCardTypeData}
-              loader={salesCardTypeDataLoading}
-            />
+            <ErrorHandler data={salesCardTypeData} isError={salesCardTypeError}>
+              <CardTypeChart
+                dataList={salesCardTypeData}
+                loader={salesCardTypeDataLoading}
+              />
+            </ErrorHandler>
           </div>
 
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Employees</h2>
-            <EmployeeSalesChart
-              dataList={staffSalesData}
-              loader={staffSalesLoading}
-            />
+            <ErrorHandler data={staffSalesData} isError={staffSalesError} >
+              <EmployeeSalesChart
+                dataList={staffSalesData}
+                loader={staffSalesLoading}
+              />
+            </ErrorHandler>
           </div>
 
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Channel</h2>
-            <ChannelSalesChart
-              dataList={salesByChannel}
-              loader={salesByChannelLoading}
-            />
+            <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
+              <ChannelSalesChart
+                dataList={salesByChannel}
+                loader={salesByChannelLoading}
+              />
+            </ErrorHandler>
           </div>
 
-          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh" }} ref={offerRef}>
-            <div className="doughnut-chart-with-button">
+          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width:"100%" }} ref={offerRef}>
+          <div className="doughnut-chart-with-button" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
-              <DoughnutChartWithButton
-                dataList={offerSummary}
-                countryCode={countryCode}
-                handleOther={(other: string) => handleOther("discountOffer", other)}
-                handleClick={(data: any) =>
-                  handleSummaryView("discountOffer", data)
-                }
-                loader={offerSummaryLoading}
-              />
+              <ErrorHandler data={offerSummary} isError={offerSummaryError}>
+                <DoughnutChartWithButtonVoided
+               dataList={offerSummary?.map((data:any)=>  ({
+                name:data?.steward,
+                label:data?.offerName,
+                count:data?.totalOrders,
+                items:data?.totalDiscount,
+                amount:data?.totalSales
+              }))}
+          countryCode={countryCode}
+          handleOther={(other: string) => handleOther("discountOffer", other)}
+          handleClick={(data: any) =>
+                    handleSummaryView("discountOffer", data)
+                  }
+                  loader={offerSummaryLoading}
+                />
+              </ErrorHandler>
             </div>
-            <div className="doughnut-chart-container">
+            <div className="doughnut-chart-container" style={{width:"50%"}}>
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              <DoughnutChartWithButtonVoided
-                dataList={voidedOrderSummary}
+              <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
+                <DoughnutChartWithButtonVoided
+                  dataList={voidedOrderSummary?.map((data:any)=>  ({
+                    name:data?.steward,
+                    label:data?.voidedReasons,
+                    count:data?.orderCount,
+                    items:data?.voidedItems,
+                    amount:data?.voidedAmount
+                  }))}
                 countryCode={countryCode}
                 handleOther={(other: string) => handleOther("voidedOffer", other)}
                 handleClick={(data: any) =>
-                  handleSummaryView("voidedOffer", data)
-                }
-                loader={voidedOrderSummaryLoader}
-              />
+                    handleSummaryView("voidedOffer", data)
+                  }
+                  loader={voidedOrderSummaryLoader}
+                />
+              </ErrorHandler>
             </div>
           </div>
           <div>
             <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Revenue class</h2>
-            <RevenueClassChart
-              dataList={salesByRevenueClass}
-              loader={salesByRevenueClassLoading}
-            />
+            <ErrorHandler data={salesByRevenueClass} isError={salesByRevenueClassError} >
+              <RevenueClassChart
+                dataList={salesByRevenueClass}
+                loader={salesByRevenueClassLoading}
+              />
+            </ErrorHandler>
           </div>
           {/* </div> */}
         </>
@@ -729,24 +766,26 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 Back
               </button>
             </div>
-            <NewTable
-              kpiTitle={`By discount - ${offerType}`}
-              searchQuery={searchQuery}    
+            <ErrorHandler data={discountSummary} isError={discountSummaryError}>
+              <NewTable
+                kpiTitle={`By discount - ${offerType}`}
+                searchQuery={searchQuery}    
                 headerData={discountTableHeaders}
-              tableData={
-                discountSummary &&
-                discountSummary?.length > 0 &&
-                discountSummary
-              }
-              currentPage={currentPageOfferDiscount}
-              totalPages={discountSummaryTotalPages}
-              onPageChange={setCurrentPageOfferDiscount}
-              rowsPerPage={currentRowsOfferDiscount}
-              setRowsPerPage={setCurrentRowsOfferDiscount}
-              loader={discountSummaryLoading}
-              searchPlaceHolder="Search By Staff name"
-              onSearch={handleSearch}
-            />
+                tableData={
+                  discountSummary &&
+                  discountSummary?.length > 0 &&
+                  discountSummary
+                }
+                currentPage={page}
+                totalPages={discountSummaryTotalPages}
+                onPageChange={setPage}
+                rowsPerPage={rows}
+                setRowsPerPage={setRows}
+                loader={discountSummaryLoading}
+                searchPlaceHolder="Search By Staff name"
+                onSearch={handleSearch}
+              />
+            </ErrorHandler>
           </div>
         </>
       ) : (
@@ -757,27 +796,29 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               Back
             </button>
           </div>
-          <NewTable
-            kpiTitle={`Voided orders - ${voidedReason}`}
-            searchQuery={searchQuery}
-            headerData={voidedTableHeaders}
-            tableData={
-              cancellationSummary &&
-              cancellationSummary?.length > 0 &&
-              cancellationSummary
-            }
-            currentPage={currentPageVoiddedOrders}
-            totalPages={cancellationSummaryTotalPages}
-            onPageChange={setCurrentPageVoiddedOrders}
-            rowsPerPage={currentRowsVoiddedOrders}
-            setRowsPerPage={setCurrentRowsVoiddedOrders}
-            loader={cancellationSummaryLoading}
-            searchPlaceHolder="Search By Staff name"
-            onSearch={handleSearch}
-          />
+          <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError} >
+            <NewTable
+              kpiTitle={`Voided orders - ${voidedReason}`}
+              searchQuery={searchQuery}
+              headerData={voidedTableHeaders}
+              tableData={
+                cancellationSummary &&
+                cancellationSummary?.length > 0 &&
+                cancellationSummary
+              }
+              currentPage={page}
+              totalPages={cancellationSummaryTotalPages}
+              onPageChange={setPage}
+              rowsPerPage={rows}
+              setRowsPerPage={setRows}
+              loader={cancellationSummaryLoading}
+              searchPlaceHolder="Search By Staff name"
+              onSearch={handleSearch}
+            />
+          </ErrorHandler>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

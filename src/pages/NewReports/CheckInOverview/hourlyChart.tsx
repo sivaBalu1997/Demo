@@ -1,9 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ChartOptions } from "chart.js";
-import { TooltipItem } from "chart.js";
-import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
-
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 interface CheckinData {
   channelName: string | null;
@@ -30,13 +27,8 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
   }));
   const data = {
     labels:hours ,
-    datasets: datasets
-    
-    
+    datasets: datasets   
   };
-
-
-
 
   const options = {
     responsive: true,
@@ -51,7 +43,7 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
       }, },
       tooltip: {
         backgroundColor: "#fff", // White background
-        borderColor: "#E0E0E0", // Border color
+        borderColor: "#3FE1C0", // Border color
         borderWidth: 1,
         displayColors: false, // Hide dataset color boxes
         titleColor: "#000", // Black title text
@@ -73,7 +65,7 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
             
             const dataPoint = tooltipItem.raw;
             return [
-              `Reservation Time: ${tooltipItem.label}-${Number(tooltipItem.label)+1}`,
+              `Reservation Time: ${tooltipItem.label}-${Number(tooltipItem.label)+1} `,
               `Channel: ${tooltipItem?.dataset?.label}`,
               `Count: ${tooltipItem?.formattedValue||0}`,
               
@@ -90,9 +82,6 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
   } as ChartOptions<"bar">;
 
 
-  //   data?.length === 0 ? (
-  //   <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
-  // ) :( 
   return(
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />

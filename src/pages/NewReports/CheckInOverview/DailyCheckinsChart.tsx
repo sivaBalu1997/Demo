@@ -40,7 +40,7 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
       {
         type: 'line' as const,
         label: "Check-in",
-        borderColor: 'rgb(255, 99, 132)',
+        borderColor: '#F89B29',
         borderWidth: 2,
         fill: false,
         data:dataList.map((item) => item.totalCheckins),

@@ -709,6 +709,7 @@ case SELECTED_COLUMNS:
         break;
       case ADD_MENU_ITEM_SUCCESS:
         draft.addMenuLoading = false;
+        draft.updateMenuItemLoading=false;
         draft.addMenuFailed = false;
         draft.addMenuSuccess = true;
         draft.addMenuSuccessMessage = action.payload;
@@ -716,6 +717,7 @@ case SELECTED_COLUMNS:
         break;
       case ADD_MENU_ITEM_FAILED:
         draft.addMenuLoading = false;
+        draft.updateMenuItemLoading=false;
         draft.addMenuFailed = true;
         draft.addMenuSuccess = false;
         draft.addMenuSuccessMessage = "";
@@ -728,6 +730,7 @@ case SELECTED_COLUMNS:
         draft.uploadImageLoading = true;
         draft.imageUploadsuccessemsg = false;
         draft.addMenuLoading = true;
+        draft.updateMenuItemLoading=true;
         
         break;
 
@@ -735,7 +738,8 @@ case SELECTED_COLUMNS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
         draft.imageUploadsuccessemsg = true;
-        draft.addMenuLoading = false;
+        // draft.updateMenuItemLoading=true;
+        // draft.addMenuLoading = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
@@ -743,14 +747,15 @@ case SELECTED_COLUMNS:
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         draft.imageUploadsuccessemsg = false;
-        draft.addMenuLoading = false;
+        
+        // draft.addMenuLoading = false;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
         draft.imageUploadsuccessemsg = true;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case STORE_UPLOAD_FAILURE:
@@ -758,14 +763,14 @@ case SELECTED_COLUMNS:
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
         draft.imageUploadsuccessemsg = false;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
-        draft.addMenuLoading = false;
+        // draft.addMenuLoading = false;
         break;
 
       case RETRY_IMAGE_SUCCESS:
@@ -788,6 +793,7 @@ case SELECTED_COLUMNS:
         break;
       case UPDATE_MENU_ITEM_SUCCESS:
         draft.updateMenuItemLoading = false;
+        draft.addMenuLoading = false;
         draft.updateMenuItemFailed = false;
         draft.updateMenuItemSuccess = true;
         draft.updateMenuItemFailureMessage = "";
@@ -795,6 +801,7 @@ case SELECTED_COLUMNS:
         break;
       case UPDATE_MENU_ITEM_FAILED:
         draft.updateMenuItemLoading = false;
+        draft.addMenuLoading = false;
         draft.updateMenuItemFailed = true;
         draft.updateMenuItemSuccess = false;
         draft.updateMenuItemFailureMessage = action.payload;

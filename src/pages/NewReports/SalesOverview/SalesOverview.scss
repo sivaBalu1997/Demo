@@ -20,8 +20,10 @@
     line-height: 32px;
     letter-spacing: -0.2px;
     color: #262626;
+  :not(.card-mini-graph-container .card-title-value-container){    
     margin: 20px 0px;
-  }
+} 
+ }
 
   .grid {
     display: grid;
@@ -60,6 +62,7 @@
     }
 
     @media (max-width: 768px) {
+      display: flex;
       flex-direction: column;
     }
   }

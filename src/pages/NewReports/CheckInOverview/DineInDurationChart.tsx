@@ -14,7 +14,7 @@ const DineInDurationChart: React.FC <ReportProps>= ({dataList=[], loader=false})
   ).sort((a, b) => (a as number) - (b as number)) as number[];
 
   // Format labels dynamically
-  const labels = uniqueGroupSizes.map((size) => `Group of ${size}`);
+  const labels = uniqueGroupSizes.map((size) => size===10?`Group of 8+`:`Group of ${size}`); // 8+ is returned as 10 in api
 
   const weekendData = uniqueGroupSizes.map(
     (size) => dataList.find((d) => d.day === "WEEKEND" && d.groupSize === size)?.avgDineInDuration || 0
@@ -25,7 +25,7 @@ const DineInDurationChart: React.FC <ReportProps>= ({dataList=[], loader=false})
   );
 
   const data = {
-    labels: ["Group of 2", "Group of 4", "Group of 6", "Group of 8", "Group of 8+"],
+    labels: labels,
     datasets: [
       {
         label: "Weekend",
@@ -58,10 +58,12 @@ const DineInDurationChart: React.FC <ReportProps>= ({dataList=[], loader=false})
             return "";
           },
           label: (tooltipItem: any) => {
+            console.log(tooltipItem);
+            
             const dataPoint = tooltipItem.raw;
             return [
               `Party: ${tooltipItem.label}`,
-              `Weekend: ${tooltipItem?.formattedValue||0} mins`,
+              `${tooltipItem?.dataset?.label}: ${tooltipItem?.formattedValue||0} mins`,
             ];
           },
         },

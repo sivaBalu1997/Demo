@@ -883,7 +883,7 @@ const PricingDetails = () => {
                     onToggle={() => handleDropdownToggle("Kitchen")}
                     dropDownType="KITCHEN_STATION"
                     resetSelection={kitchenDetail}
-                    kitchenError={kitchenError}
+                    // kitchenError={kitchenError}
                   />
                 )}
               />

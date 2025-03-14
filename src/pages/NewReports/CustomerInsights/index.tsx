@@ -15,7 +15,8 @@ import {
 import SummaryInsights from "./summaryInsights";
 import SidePannelMob from "components/reportComponents/SiePannelMob";
 import { RootState } from "redux/rootReducer";
-
+import DetailedInsights from "./detailedInsights";
+import "./index.scss";
 const tabs = ["Summary Insights", "Detailed Insights"];
 interface ReportProps {}
 
@@ -76,9 +77,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
 
         <div className="reports-container ">
           {/* Header */}
-          <Header
-            title="Reports & Insights"
-          />
+          <Header title="Reports & Insights" />
 
           {/* Tab Navigation */}
           <TabNavigation
@@ -88,7 +87,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
           />
 
           {activeTab === "Summary Insights" ? <SummaryInsights /> : null}
-          {/* {activeTab === "Inception" ? <Inception /> : null} */}
+          {activeTab === "Detailed Insights" ? <DetailedInsights /> : null}
         </div>
       </div>
     </>

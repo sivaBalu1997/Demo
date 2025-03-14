@@ -380,12 +380,14 @@ const CategoryReport = (props) => {
               </h1>
               <DownloadPopOver />
             </div>
+
             <LinearBarChart
               dataList={categorySalesData}
               barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
               loader={categorySalesDataLoading}
               isMobile={isMobile}
-            />
+              />
+        
           </div>
           <div>
             <div className="categories-graph-header-container">
