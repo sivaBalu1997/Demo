@@ -374,12 +374,14 @@ const handleRefreshClick=()=>{
               <h1 className="reports-page-heading">Seater wise Availability</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
             <MiniCard
               data={liveCheckInSeaterAvailability?.map((data: any) => ({
                 title: `${data.seaters} seaters`,
                 value:formatNumberByCountry(data.available),
               }))}
             />
+              </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
@@ -399,6 +401,7 @@ const handleRefreshClick=()=>{
                 yAxisValue: Number(data.groupSize),
               }))}
               loader={isLiveCheckInGuestCountLoading}
+              showLabel={false}
               />
               </ErrorHandler>
             
@@ -419,6 +422,7 @@ const handleRefreshClick=()=>{
                 yAxisValue: Number(data.count),
               }))}
               loader={isLiveCheckInStatusLoading}
+              showLabel={false}
             />
                </ErrorHandler>
           </div>
@@ -439,6 +443,7 @@ const handleRefreshClick=()=>{
                 yAxisValue: Number(data.waitTime),
               }))}
               loader={isLiveCheckInAvgWaitTimeLoading}
+              showLabel={false}
             />
                </ErrorHandler>
           </div>

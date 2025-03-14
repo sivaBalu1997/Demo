@@ -512,6 +512,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                 yAxisValue: Number(data.guestSize),
               }))}
               loader={isCheckInOverviewGuestSizeLoading}
+              showLabel={false}
             />
           </ErrorHandler>
         </div>

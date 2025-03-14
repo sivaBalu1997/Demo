@@ -4,7 +4,7 @@ import ErrorState from "../errorstatecomponents/ErrorState";
 
 interface ErrorHandlerProps {
     children: React.ReactNode;
-    errorType?: ""| "checkinNotFound" | "error"| "salesNotFound"|"noContent"
+    errorType?: ""| "checkinNotFound" | "error"| "salesNotFound"|"noContent"| "reportNotFound";
     isError?:boolean;
     data:any;
 }
@@ -19,7 +19,7 @@ if(isError ){
     }else if(Array.isArray(data) && data.length===0){
         return (
             errorType? <ReportNotFound  errorType={errorType}/>:
-             <ReportNotFound  errorType={"checkinNotFound"}/>
+             <ReportNotFound  errorType={"reportNotFound"}/>
         )
     }else if(Array.isArray(data?.content) && data?.content?.length===0){
         return (
