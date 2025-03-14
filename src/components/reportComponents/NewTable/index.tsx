@@ -323,7 +323,7 @@ const NewTable: React.FC<NewTableProps> = ({
         {/* Case 1: No data available at all */}
         {!tableLoader &&
         !initialLoader &&
-        (!tableData || tableData.length === 0) ? (
+        (!tableData || tableData?.length === 0) ? (
           <div className="no-results-container">
             <NoOrdersFoundStampIcon />
             <p className="no-results-text">No Orders Found</p>
