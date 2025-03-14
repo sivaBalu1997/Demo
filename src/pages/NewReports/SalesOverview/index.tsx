@@ -702,7 +702,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </div>
 
           <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width:"100%" }} ref={offerRef}>
-          <div className="doughnut-chart-with-button" style={{width:"50%"}}>
+          <div className="doughnut-chart-with-button">
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <ErrorHandler data={offerSummary} isError={offerSummaryError}>
                 <DoughnutChartWithButtonVoided
@@ -722,7 +722,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 />
               </ErrorHandler>
             </div>
-            <div className="doughnut-chart-container" style={{width:"50%"}}>
+            <div className="doughnut-chart-with-button" >
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
               <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                 <DoughnutChartWithButtonVoided

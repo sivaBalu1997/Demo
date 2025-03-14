@@ -83,6 +83,12 @@
     }
   }
 }
+.doughnut-chart-with-button{
+  width: 50%;
+  @media(max-width: 600px){
+    width: 100%;
+  }
+}
 .total-sales-heading-container {
   display: flex;
   gap: 5px;
