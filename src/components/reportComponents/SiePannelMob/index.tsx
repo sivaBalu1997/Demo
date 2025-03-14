@@ -52,7 +52,7 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
       name: "Reports & Insights",
       icon: <Stats className={styles.menuIcon} />,
       submenu: [
-        { name: "Old Reports", path: "/old-reports" },
+        { name: "Reports & Insights", path: "/old-reports" },
         // { name: "Chart JS", path: "/live-reports" },
         { name: "Sales Reports", path: "/sales-reports" },
         { name: "Check-in Reports", path: "/check-in-reports" },

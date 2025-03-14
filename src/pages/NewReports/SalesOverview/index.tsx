@@ -594,8 +594,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           <div>
             <h2 className="sales-overview-sub-heading ">Tender Type</h2>
           </div>
-          <div className="reports-tendor-container">
           <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
+          <div className="reports-tendor-container">
             <div className="left-section">
               {leftGroup?.map((key) => (
 
@@ -667,8 +667,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 </>
               ))}
             </div>
-            </ErrorHandler>
           </div>
+            </ErrorHandler>  
 
           {/* <div className="sales-charts-container">   */}
           <div>
