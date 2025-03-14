@@ -442,25 +442,30 @@ const Menu = () => {
                   {category?.subCategoryResponseList?.map(
                     (item: any, subIndex: number) => (
                       <div key={subIndex}>
-                        <div className="v2-sub-item">
-                          <p>{`${item?.subCategoryName} - ${
-                            item?.itemResponseList?.length > 0
-                              ? item?.itemResponseList?.length
-                              : ""
-                          }`}</p>
-                          <img
-                            src={itemArrow}
-                            alt="subCategory-arrow"
-                            className={`subCategory-arrow ${
-                              openSubItems.includes(item?.subCategoryId)
-                                ? ""
-                                : "open"
-                            }`}
-                            onClick={() =>
-                              toggleSubCategory(item?.subCategoryId)
-                            }
-                          />
-                        </div>
+                      {
+                         item?.itemResponseList?.length > 0 && 
+                         <div className="v2-sub-item">
+                         <p>{`${item?.subCategoryName} - ${
+                           item?.itemResponseList?.length > 0
+                             ? item?.itemResponseList?.length
+                             : ""
+                         }`}</p>
+                         <img
+                           src={itemArrow}
+                           alt="subCategory-arrow"
+                           className={`subCategory-arrow ${
+                             openSubItems.includes(item?.subCategoryId)
+                               ? ""
+                               : "open"
+                           }`}
+                           onClick={() =>
+                             toggleSubCategory(item?.subCategoryId)
+                           }
+                         />
+                       </div>
+                      }
+
+                       
 
                         {openSubItems.includes(item?.subCategoryId) &&
                           item?.itemResponseList?.map(
