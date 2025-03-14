@@ -54,7 +54,7 @@ const Menu = () => {
 
   //Search component useState
   const [itemList, setItemList] = useState<any>([]);
-  const [menudatalist, setMenudatalist] = useState<any>(menuData);
+  const [menudatalist, setMenudatalist] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [hideHeader, setHideHeader] = useState(false);
 
@@ -393,11 +393,14 @@ const Menu = () => {
                           )}.${(dineInPrice % 1).toFixed(2).slice(2)}`
                         : "00.00";
 
+                       item?.itemName === 'Vaazhaipoo Vadaii' && console.log(item?.orderTypes)
+
                       const activeOrderTypes = item?.orderTypes
                         .map((typeName: any) => {
                           return (
                             typeName?.typeGroup !== "I" &&
                             typeName?.isEnabled == 1 &&
+                            typeName?.availabilityEnabled &&
                             typeName?.typeName
                           );
                         })
