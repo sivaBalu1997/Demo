@@ -19,7 +19,7 @@ interface TooltipData {
 interface CustomBarChartProps {
     data: ChartData[];
     tooltipData: TooltipData;
-    barColor?: string;
+    barColor?: string[];
     barStyle?: React.CSSProperties;
     showGrid?: boolean;
     gridColor?: string;
@@ -77,6 +77,9 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     setSelectedValueForChartSlice
 }) => {
     const chartRef2 = useRef<HTMLDivElement>(null);
+    const getBarColor = (index: number) => {
+        return barColor.length === 1 ? barColor[0] : barColor[index % barColor.length];
+    };
     return (
         <div className="chart-wrapper">
             <div className="custom-chart-container" ref={chartRef2}>
@@ -107,7 +110,9 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                 wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
                                 position={{ y: 200 }}
                             />
-                            <Bar dataKey="value" fill={barColor} style={barStyle} />
+                            {data.map((entry, index) => (
+                                <Bar key={index} dataKey="value" fill={getBarColor(index)} style={barStyle} />
+                            ))}
                         </BarChart>
                     </ResponsiveContainer>
                 )

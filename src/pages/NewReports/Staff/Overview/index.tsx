@@ -1,4 +1,4 @@
-//      NewReports/Employee/index.tsx
+//Overview
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,7 +12,8 @@ import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
-import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
+import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
+//r-arrow-left.svg
 import { NewTableHeader } from "interface/newReportsInterface";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
@@ -21,14 +22,13 @@ import CustomDropdown from "components/common/customDropdown";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
-import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 // Custom Bar Style
 const customBarStyle = {
   borderRadius: "8px",
 };
 
-const Employees: React.FC = () => {
+const Overview: React.FC = () => {
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
     useState<number>(10);
 
@@ -91,11 +91,6 @@ const Employees: React.FC = () => {
   const getEmployeeActivityDataFromAPIRedux = useSelector(
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
-
-  const getEmployeeActivityDataFromAPIReduxFailure = useSelector(
-    (state: any) => state?.newReports?.getemployeeActivityFailure
-  );
-
 
   useEffect(() => {
     if (selectedLocation?.value) {
@@ -687,7 +682,7 @@ const Employees: React.FC = () => {
   ]);
 
   return (
-    <div className="report-sales-employee-container">
+    <div className="report-staff-overview-container">
       {showAllActivityTable ? (
         <div
           className="void-activity-table-container"
@@ -732,7 +727,7 @@ const Employees: React.FC = () => {
             datePickerApplyFunction={datepickerApply}
             dateDropdownFunction={datepickerApply}
           />
-          <div className="employee-report-sales-overview-box-container-parent">
+          <div className="staff-sales-overview-box-container-parent">
             <h2>Sales Overview</h2>
             <div className="select-employee-container">
               <p>Select employee</p>
@@ -749,7 +744,7 @@ const Employees: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="employee-report-sales-overview-box-container">
+            <div className="staff-overview-sales-overview-box-container">
               <CardWithMiniGraph
                 cardTitle="Total Sales"
                 cardValue={formatNumberByCountry(
@@ -763,7 +758,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
                 )}
@@ -781,7 +776,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.netSalesPercentage
                 )}
@@ -799,7 +794,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalTaxPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 )}
@@ -817,7 +812,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
                 )}
@@ -835,7 +830,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.gratuityPercentage
                 )}
@@ -853,7 +848,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.discountPercentage
                 )}
@@ -871,7 +866,7 @@ const Employees: React.FC = () => {
                 incrementDecrementValue={
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 }
-                graphType="arrow"
+                graphType="chart"
                 incrementOrDecrement={transformSalesData(
                   employeeSalesOverViewFromAPIRedux?.cancelledPercentage
                 )}
@@ -880,23 +875,21 @@ const Employees: React.FC = () => {
             </div>
           </div>
           <div ref={employeeChartRef}>
-              <ErrorHandler data={getEmployeeActivityDataFromAPIRedux} isError={getEmployeeActivityDataFromAPIReduxFailure} >
-                <CustomBarChart
-                  // data={chartDataFromAPIRedux}
-                  data={chartDataFromAPIReduxOthers}
-                  // tooltipData={tooltipDataFromAPI}
-                  tooltipData={tooltipDataFromAPIOthers}
-                  barColor={["#67823D"]}
-                  barStyle={customBarStyle}
-                  showGrid={true}
-                  gridColor="#ccc"
-                  gridStrokeWidth={0.5}
-                  kpiTitle="All Activity"
-                  showRelatedTable={showAllActivityTable}
-                  setShowRelatedTable={setShowAllActivityTable}
-                  setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-                />
-              </ErrorHandler>
+            <CustomBarChart
+              // data={chartDataFromAPIRedux}
+              data={chartDataFromAPIReduxOthers}
+              // tooltipData={tooltipDataFromAPI}
+              tooltipData={tooltipDataFromAPIOthers}
+              barColor={["#67823D"]}
+              barStyle={customBarStyle}
+              showGrid={true}
+              gridColor="#ccc"
+              gridStrokeWidth={0.5}
+              kpiTitle="All Activity"
+              showRelatedTable={showAllActivityTable}
+              setShowRelatedTable={setShowAllActivityTable}
+              setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+            />
           </div>
         </>
       )}
@@ -904,4 +897,5 @@ const Employees: React.FC = () => {
   );
 };
 
-export default Employees;
+export default Overview;
+
