@@ -21,6 +21,7 @@ import CustomDropdown from "components/common/customDropdown";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 // Custom Bar Style
 const customBarStyle = {
@@ -90,6 +91,11 @@ const Employees: React.FC = () => {
   const getEmployeeActivityDataFromAPIRedux = useSelector(
     (state: any) => state?.newReports?.getemployeeActivitySuccess
   );
+
+  const getEmployeeActivityDataFromAPIReduxFailure = useSelector(
+    (state: any) => state?.newReports?.getemployeeActivityFailure
+  );
+
 
   useEffect(() => {
     if (selectedLocation?.value) {
@@ -874,21 +880,23 @@ const Employees: React.FC = () => {
             </div>
           </div>
           <div ref={employeeChartRef}>
-            <CustomBarChart
-              // data={chartDataFromAPIRedux}
-              data={chartDataFromAPIReduxOthers}
-              // tooltipData={tooltipDataFromAPI}
-              tooltipData={tooltipDataFromAPIOthers}
-              barColor={["#67823D"]}
-              barStyle={customBarStyle}
-              showGrid={true}
-              gridColor="#ccc"
-              gridStrokeWidth={0.5}
-              kpiTitle="All Activity"
-              showRelatedTable={showAllActivityTable}
-              setShowRelatedTable={setShowAllActivityTable}
-              setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-            />
+              <ErrorHandler data={getEmployeeActivityDataFromAPIRedux} isError={getEmployeeActivityDataFromAPIReduxFailure} >
+                <CustomBarChart
+                  // data={chartDataFromAPIRedux}
+                  data={chartDataFromAPIReduxOthers}
+                  // tooltipData={tooltipDataFromAPI}
+                  tooltipData={tooltipDataFromAPIOthers}
+                  barColor={["#67823D"]}
+                  barStyle={customBarStyle}
+                  showGrid={true}
+                  gridColor="#ccc"
+                  gridStrokeWidth={0.5}
+                  kpiTitle="All Activity"
+                  showRelatedTable={showAllActivityTable}
+                  setShowRelatedTable={setShowAllActivityTable}
+                  setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+                />
+              </ErrorHandler>
           </div>
         </>
       )}

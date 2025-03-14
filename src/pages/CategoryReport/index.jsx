@@ -21,6 +21,7 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
 import "./Tabs.css";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
 const CategoryReport = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -33,16 +34,20 @@ const CategoryReport = (props) => {
   const salesByItemCategoryData = useSelector((state) => state?.newReports?.salesByItemCategorySuccess?.content);
   const dropdownDetailsData = useSelector((state) => state?.newReports?.dropdownDetailsData);
   const categorySalesData = useSelector((state) => state?.newReports?.categorySalesData);
+  const categorySalesDataFailure = useSelector((state) => state?.newReports?.categorySalesError);
   const categorySalesDataLoading = useSelector((state) => state?.newReports?.categorySalesLoading);
   const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData);
   const categorySalesSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
   const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData);
+  const categoryChannelSummaryDataFailure = useSelector((state)=>state?.newReports?.categoryChannelSummaryError)
   const categoryChannelSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
   const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData);
+  const voidedSummaryDataFailure = useSelector((state)=>state?.newReports?.voidedSummaryError)
   const voidedSummaryDataLoading = useSelector((state) => state?.newReports?.voidedSummaryLoading);
   const countryCode = useSelector((state) => state?.auth?.restaurantDetails?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
   const [isMobile, setIsMobile] = useState(false);
+
 
 
   const dispatch = useDispatch();
@@ -380,13 +385,14 @@ const CategoryReport = (props) => {
               </h1>
               <DownloadPopOver />
             </div>
-
-            <LinearBarChart
-              dataList={categorySalesData}
-              barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
-              loader={categorySalesDataLoading}
-              isMobile={isMobile}
+            <ErrorHandler data={categorySalesData} isError={categorySalesDataFailure}>
+              <LinearBarChart
+                dataList={categorySalesData}
+                barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
+                loader={categorySalesDataLoading}
+                isMobile={isMobile}
               />
+            </ErrorHandler> 
         
           </div>
           <div>
@@ -397,13 +403,14 @@ const CategoryReport = (props) => {
               </h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler data={categoryChannelSummaryData} isError={categoryChannelSummaryDataFailure}>
+              <SalesChart
+                dataList={categoryChannelSummaryData}
+                loader={categoryChannelSummaryDataLoading}
+                isMobile={isMobile}
 
-            <SalesChart
-              dataList={categoryChannelSummaryData}
-              loader={categoryChannelSummaryDataLoading}
-              isMobile={isMobile}
-
-            />
+              />
+            </ErrorHandler>
           </div>
           {activeBtn == "categories" ? (
             <div>
@@ -413,13 +420,15 @@ const CategoryReport = (props) => {
                 </h1>
                 <DownloadPopOver />
               </div>
-              <LinearBarChartCategorySales
-                dataList={voidedSummaryData}
-                barColorCode={"#AA562A"}
-                loader={voidedSummaryDataLoading}
-                isMobile={isMobile}
+              <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
+                <LinearBarChartCategorySales
+                  dataList={voidedSummaryData}
+                  barColorCode={"#AA562A"}
+                  loader={voidedSummaryDataLoading}
+                  isMobile={isMobile}
 
-              />
+                />
+              </ErrorHandler>
             </div>
           ) : (
             ""
@@ -430,12 +439,14 @@ const CategoryReport = (props) => {
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 <DownloadPopOver />
               </div>
-              <DoughnutChart
-                dataList={voidedSummaryData}
-                countryCode={countryCode}
-                loader={voidedSummaryDataLoading}
-                isMobile={isMobile}
-              />
+              <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
+                <DoughnutChart
+                  dataList={voidedSummaryData}
+                  countryCode={countryCode}
+                  loader={voidedSummaryDataLoading}
+                  isMobile={isMobile}
+                />
+              </ErrorHandler>
             </div>
           ) : (
             ""
