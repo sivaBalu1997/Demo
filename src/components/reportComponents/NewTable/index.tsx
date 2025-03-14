@@ -440,7 +440,7 @@ const NewTable: React.FC<NewTableProps> = ({
         )}
       </div>
 
-      {tableData.length !== 0 &&
+      {tableData && tableData?.length !== 0 &&
         setRowsPerPage &&
         showPagination &&
         currentPage !== undefined &&
