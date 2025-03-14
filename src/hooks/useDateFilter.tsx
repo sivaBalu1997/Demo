@@ -42,8 +42,7 @@ const dispatch = useDispatch();
                 dispatch(changeEndDate(moment().format("YYYY-MM-DD")));
                 break;
 
-            case "This month":
-                console.log(1,(moment().startOf("month").format("YYYY-MM-DD")), (moment().format("YYYY-MM-DD")));                
+            case "This month":       
                 dispatch(changeStartDate(moment().startOf("month").format("YYYY-MM-DD")));
                 dispatch(changeEndDate(moment().format("YYYY-MM-DD")));
                 break;

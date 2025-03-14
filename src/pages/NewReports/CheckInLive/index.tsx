@@ -45,6 +45,7 @@ const headerData = [
     label: "Phone",
     alignment: "left",
     isSortable: false,
+    isPrivate:true
   },
   {
     key: "channel",
@@ -108,6 +109,7 @@ const headerData1 = [
     label: "Phone",
     alignment: "left",
     isSortable: false,
+    isPrivate:true
   },
   {
     key: "channel",
@@ -374,11 +376,11 @@ const handleRefreshClick=()=>{
               <CustomBarChart
               barColor="#009689"
               toolTipBorderColor="#009689"
-              xAxisTooltipLabel="Product Category"
-              yAxisTooltipLabel="Total Sales"
+              xAxisTooltipLabel="Queue"
+              yAxisTooltipLabel="Count"
               dataList={liveCheckInGuestCount?.map((data: any) => ({
-                xAxisValue: `Group of ${data.guestCount || 0}`,
-                yAxisValue: Number(data.groupSize),
+                xAxisValue: `Group of ${data.groupSize || 0}`,
+                yAxisValue: Number(data.guestCount),
               }))}
               loader={isLiveCheckInGuestCountLoading}
               showLabel={false}
@@ -435,7 +437,12 @@ const handleRefreshClick=()=>{
             <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   
             <StackedBarChart
               loader={isLiveCheckInGroupAvgWaitTimeLoading}
-              dataList={liveCheckInGroupAvgWaitTime?.map((data: any) => ({
+              dataList={liveCheckInGroupAvgWaitTime
+                ?.filter((item: any) => item?.timeRange) // Ensure valid timeRange
+                ?.sort((a: any, b: any) => {
+                  const getStartTime = (str: string) => (str ? parseInt(str.split("-")[0]) || 0 : 0);
+                  return getStartTime(a?.timeRange) - getStartTime(b?.timeRange);
+                })?.map((data: any) => ({
                 timeRange: data?.timeRange || "",
                 groupName: data?.groupSize || "",
                 count: data?.checkInCount || 0,
@@ -443,7 +450,7 @@ const handleRefreshClick=()=>{
             />
                </ErrorHandler>
           </div>
-          <div className="category-btn-switch checkin-btn-switch">
+          <div className="category-btn-switch checkin-btn-  switch">
             <button
               className={`category-btn  ${
                 activeBtn == "Live Check-ins" ? "active-btn" : ""

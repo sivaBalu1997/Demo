@@ -122,9 +122,7 @@ export const liveCheckInStatusRequest = (data) => {
     };
 }
 
-export const liveCheckInStatusSuccess = (data) => {
-    console.log(1, data);
-    
+export const liveCheckInStatusSuccess = (data) => {   
     return {
         type: LIVE_CHECK_IN_STATUS_SUCCESS,
         payload: data

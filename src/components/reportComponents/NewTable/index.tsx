@@ -144,38 +144,6 @@ const NewTable: React.FC<NewTableProps> = ({
     setSearchFlag(true);
   };
 
-  // const getClassName = (rowvalue: string) => {
-  //     if (rowvalue === 'In Queue') {
-  //         return 'bubble-text-blue-one'
-  //     } else if (rowvalue === 'Accepted') {
-  //         return 'bubble-text-blue-two'
-  //     } else if (rowvalue === 'In Progress') {
-  //         return 'bubble-text-orange-one'
-  //     } else if (rowvalue === 'KOT Ready') {
-  //         return 'bubble-text-brown-one'
-  //     } else if (rowvalue === 'Order Ready') {
-  //         return 'bubble-text-green-one'
-  //     } else if (rowvalue === 'In Delivery') {
-  //         return 'bubble-text-light-green-one'
-  //     }
-  // }
-
-  // const getClassName = (rowvalue: string) => {
-  //     if (rowvalue === 'D3') {
-  //         return 'bubble-text-blue-one'
-  //     } else if (rowvalue === 'D30') {
-  //         return 'bubble-text-blue-two'
-  //     } else if (rowvalue === 'D5') {
-  //         return 'bubble-text-orange-one'
-  //     } else if (rowvalue === 'D6') {
-  //         return 'bubble-text-brown-one'
-  //     } else if (rowvalue === 'D8') {
-  //         return 'bubble-text-green-one'
-  //     } else if (rowvalue === 'In Delivery') {
-  //         return 'bubble-text-light-green-one'
-  //     }
-  // }
-
   const getOrderChannelIcons = (rowvalue: string) => {
     if (rowvalue === "Walkin") {
       return <WalkinIcon />;
@@ -188,39 +156,45 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   };
 
-  // const getOrderChannelIcons = (rowvalue: string) => {
-  //     if (rowvalue === 'D3') {
-  //         return <WalkinIcon />
-  //     } else if (rowvalue === 'D30') {
-  //         return <DeliveryIcon />
-  //     } else if (rowvalue === 'D5') {
-  //         return <PickUpIcon />
-  //     } else if (rowvalue === 'D6') {
-  //         return <GrubhubIcon />
-  //     }
-  // }
-
-  // console.log("Window width", width)
 
   const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
+    console.log({rowvalue,headerValue });
+    
     if (headerValue === "Order Status") {
       if (rowvalue === "In Queue") {
-        return "bubble-text-blue-one";
+        return " bubble bubble-text-blue-one";
       } else if (rowvalue === "Accepted") {
-        return "bubble-text-blue-two";
+        return " bubble bubble-text-blue-two";
       } else if (rowvalue === "In Progress") {
-        return "bubble-text-orange-one";
+        return " bubble bubble-text-orange-one";
       } else if (rowvalue === "KOT Ready") {
-        return "bubble-text-brown-one";
+        return " bubble bubble-text-brown-one";
       } else if (rowvalue === "Order Ready") {
-        return "bubble-text-green-one";
+        return " bubble bubble-text-green-one";
       } else if (rowvalue === "In Delivery") {
-        return "bubble-text-light-green-one";
+        return " bubble bubble-text-light-green-one";
       } else if (rowvalue == "Pre order placed") {
-        return "bubble-text-light-green-one";
+        return " bubble bubble-text-light-green-one";
       }
     } else if (headerValue === "Order Channel") {
-      return "rep-order-channel";
+      return " rep-order-channel";
+    }else if(headerValue==="Status"){
+      if (rowvalue === "queue") {
+        return " bubble bubble-text-blue-one";
+      } else if (rowvalue === "assigned") {
+        return " bubble bubble-text-blue-two";
+      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled" ) {
+        return " bubble bubble-text-orange-one";
+      } else if (rowvalue === "LateShow"||rowvalue === "lateShow") {
+        return " bubble bubble-text-brown-one";
+      } else if (rowvalue === "Completed" || rowvalue === "completed") {
+        return " bubble bubble-text-green-one";
+      } else if (rowvalue === "seated") {
+        return " bubble bubble-text-light-green-one";
+      } else if (rowvalue === "noshow"){
+        return " bubble bubble-text-violet-one";
+      }
+
     }
   };
 
