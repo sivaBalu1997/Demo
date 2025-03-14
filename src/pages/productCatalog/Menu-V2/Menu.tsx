@@ -5,6 +5,7 @@ import SidePanel from "pages/SidePanel";
 import itemArrow from "../../../assets/svg/item-dropDown.svg";
 import channelIcon from "../../../assets/svg/channelIcon.svg";
 import notAllChannel from "../../../assets/svg/notAllChannel.svg";
+import noneAvail from "../../../assets/svg/noneAvail.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
 import {
@@ -420,7 +421,7 @@ const Menu = () => {
                           <p>{item?.itemName}</p>
                           <div className="itemRight">
                             <img
-                              src={allChannels ? channelIcon : notAllChannel}
+                              src={allChannels ? channelIcon : activeOrderTypes?.length < 1 ? noneAvail : notAllChannel}
                               alt="channelIcon"
                               className="channelIcon"
                               onMouseEnter={() => setHoveredItem(item?.itemId)}
@@ -503,7 +504,7 @@ const Menu = () => {
                                       src={
                                         allChannels
                                           ? channelIcon
-                                          : notAllChannel
+                                          : activeOrderTypes?.length < 1 ? noneAvail : notAllChannel
                                       }
                                       alt="channelIcon"
                                       className="channelIcon"
