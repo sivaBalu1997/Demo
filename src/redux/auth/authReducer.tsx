@@ -81,6 +81,7 @@ export default function authReducer(state = initialAuthState, action:AuthAction)
       // SignIn Reducers
       case SIGNIN_REQUEST:
         draft.signedIn = false;
+        draft.selectedBranch=null;
         draft.signInLoading = true;
         draft.getRestaurantLoading = true
         break;

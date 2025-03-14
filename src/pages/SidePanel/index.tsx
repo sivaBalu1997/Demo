@@ -48,6 +48,7 @@ const SidePanel = () => {
   // const reportInsightsOptions = ["Reports & Insights", "Chart JS"];
   const reportInsightsOptions = ["Reports & Insights"];
   const offerMenuOptions = ["Special Price"];
+  const selectedBranchDispatch = useSelector((state: RootState) => state.auth.selectedBranch);
 
   const history = useHistory();
 
@@ -148,7 +149,7 @@ const SidePanel = () => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (restaurantDetails) {
+      if (!selectedBranchDispatch &&restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
@@ -166,7 +167,7 @@ const SidePanel = () => {
         }
       }
     }
-  }, [restaurantDetails]);
+  }, [restaurantDetails,selectedBranchDispatch]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);

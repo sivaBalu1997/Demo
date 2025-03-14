@@ -55,9 +55,9 @@
   }
 
   .MLSearch-Container-options-menu {
-    width: 35vw;
+    width: 39.8vw;
     height: 45vh;
-    z-index: 9;
+    z-index: 99 !important;
     position: absolute;
     background-color: white;
     box-shadow: 0px 4px 14px 0px #00000040;
@@ -117,6 +117,7 @@
         .MLNotFoundImage {
           width: 300px !important;
           height: 300px !important;
+          margin-left: 54px;
         }
 
         .MLheading-none {
@@ -124,6 +125,7 @@
           font-size: 23px;
           font-weight: 500;
           margin-top: -2rem;
+          margin-left: 65px;
         }
       }
     }
@@ -145,13 +147,14 @@
   }
 
   .MLSearch-Container-options1 {
-    width: 35vw;
+    width: 39.8vw;
     height: 45vh;
     z-index: 9;
     position: absolute;
     background-color: white;
     box-shadow: 0px 4px 14px 0px #00000040;
     overflow-y: scroll;
+    z-index: 99 !important;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -204,6 +207,7 @@
         .MLNotFoundImageExpanded {
           width: 300px !important;
           height: 300px !important;
+          margin-left: 54px;
         }
 
         .MLheading-none-expanded {
@@ -211,6 +215,7 @@
           font-size: 23px;
           font-weight: 500;
           margin-top: -2rem;
+          margin-left: 65px;
         }
       }
     }
