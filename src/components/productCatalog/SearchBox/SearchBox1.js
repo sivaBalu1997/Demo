@@ -14,7 +14,6 @@ import {
 
 const SearchBox = (props) => {
   const [searchTerm, setSearchTerm] = useState(""); // User input only
-  console.log({searchTerm})
   const [displayTerm, setDisplayTerm] = useState(""); // User input + suggestion for display
   const [seletctedItem, setSeletctedItem] = useState(""); // User input + suggestion for display
 
@@ -142,8 +141,8 @@ const SearchBox = (props) => {
 
     const filtered = everything?.filter(
       (item) =>
-        item?.itemName?.toLowerCase().startsWith(input?.toLowerCase()) ||
-        item?.itemCode?.toLowerCase().startsWith(input?.toLowerCase())
+        item?.itemName?.toLowerCase()?.includes(input?.toLowerCase()) ||
+        item?.itemCode?.toLowerCase()?.includes(input?.toLowerCase())
     );
     const startsWithInput = filtered.find((item) =>
       item?.itemName.toLowerCase().startsWith(input.toLowerCase())
@@ -215,6 +214,7 @@ const SearchBox = (props) => {
   };
 
   const highlightedRef = useRef(null);
+  
   const handleKeyDown = (e) => {
     if (e.key === "ArrowDown") {
       setHighlightedIndex((prevIndex) => {
@@ -345,10 +345,9 @@ const SearchBox = (props) => {
                           ? "list-of-item-name-expand"
                           : "list-of-item-name"
                       }
-                      ${highlightedIndex === index ? "no-hover" : "hover"}
-
-                      
-                      
+                      ${
+                        highlightedIndex === index ? "no-hover" : "hover"
+                      }                      
                       `}
                     >
                       <div
@@ -364,7 +363,6 @@ const SearchBox = (props) => {
                             ? "list-of-item-name-padding"
                             : ""
                         }
-                        
                         `}
                       >
                         {option.itemName}{" "}

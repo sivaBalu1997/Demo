@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./styles.scss";
 import filterIcon from "../../../assets/svg/FilterIcon.svg";
 import sync from "../../../assets/svg/syncIcon.svg";
@@ -13,6 +13,7 @@ import {
 } from "redux/productCatalog/productCatalogActions";
 import { RootState } from "redux/rootReducer";
 import SearchBox from "../SearchBox/SearchBox1";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const HeaderV2 = (props: any) => {
   const history = useHistory();
@@ -32,6 +33,8 @@ const HeaderV2 = (props: any) => {
   const menuData = useSelector(
     (state: RootState) => state.productCatalog?.menuData
   );
+
+  const { isExpanded } = useContext(Contextpagejs);
 
   const syncByFcm = () => {
     const cuurentMenuTypes = restaurantDetails?.orderTypes
@@ -90,7 +93,7 @@ const HeaderV2 = (props: any) => {
     <div className="headerV2">
       <p className="v2-menuCount">Menu - {itemCount}</p>
 
-      <div className="v2-searchBar">
+      <div className={isExpanded ? "v2-searchBar" : "v2-searchBar1"}>
         <SearchBox />
       </div>
 

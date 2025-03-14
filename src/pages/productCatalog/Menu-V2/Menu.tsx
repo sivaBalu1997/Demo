@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Menu.scss";
 import HeaderV2 from "components/productCatalog/Header-V2/HeaderV2";
 import SidePanel from "pages/SidePanel";
@@ -19,6 +19,7 @@ import {
 import Slider from "components/productCatalog/Slider/Slider";
 import ToolTips from "components/toolTips/toolTips";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import { Contextpagejs } from "../contextpage";
 
 const Menu = () => {
   const dispatch = useDispatch();
@@ -333,11 +334,8 @@ const Menu = () => {
 
   const handlesidbarhandling = (key: any, value: any) => {
     showsidebar(key);
-
     handlemodal(value);
   };
-
-  console.log({ menudatalist }, { itemList });
 
   return (
     <div className="menuV2-container">
@@ -359,7 +357,7 @@ const Menu = () => {
           <div className="v2-menuContainer">
             {menudatalist?.map((category: any) => (
               <>
-                {category?.itemResponseList?.length > 0 && (
+                {(category?.itemResponseList?.length > 0 || category?.subCategoryResponseList?.length > 0) && (
                   <div className="v2-itemHeader">
                     <p>{`${category?.categoryName} ${
                       category?.itemResponseList?.length > 0
@@ -395,17 +393,21 @@ const Menu = () => {
                           )}.${(dineInPrice % 1).toFixed(2).slice(2)}`
                         : "00.00";
 
-                        const activeOrderTypes = item?.orderTypes
+                      const activeOrderTypes = item?.orderTypes
                         .map((typeName: any) => {
                           return (
-                            typeName?.typeGroup !== "I" && typeName?.isEnabled == 1 &&
+                            typeName?.typeGroup !== "I" &&
+                            typeName?.isEnabled == 1 &&
                             typeName?.typeName
                           );
                         })
                         .filter(Boolean);
 
-                        const filteredOrderTypes = item?.orderTypes?.filter((type: any) => type.typeGroup !== "I");
-                        const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
+                      // const filteredOrderTypes = item?.orderTypes?.filter(
+                      //   (type: any) => type.typeGroup !== "I"
+                      // );
+                      const filteredOrderTypes = selectedBranch?.orderTypes?.filter((type: any) => type?.typeGroup !== "I" && type?.isEnabled == 1)
+                      const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
 
                       return (
                         <div
@@ -424,11 +426,12 @@ const Menu = () => {
                             <p className="v2-item-price">{`${
                               location === "US" ? "$" : "₹"
                             }${formattedPrice}`}</p>
-                            {hoveredItem === item?.itemId && 
-                            <ToolTips 
-                              activeOrderTypes = {activeOrderTypes} 
-                              allChannels = {allChannels}
-                            />}
+                            {hoveredItem === item?.itemId && (
+                              <ToolTips
+                                activeOrderTypes={activeOrderTypes}
+                                allChannels={allChannels}
+                              />
+                            )}
                           </div>
                         </div>
                       );
@@ -474,16 +477,15 @@ const Menu = () => {
                               const activeOrderTypes = subItem?.orderTypes
                                 .map((typeName: any) => {
                                   return (
-                                    typeName?.typeGroup !== "I" && typeName?.isEnabled == 1 &&
+                                    typeName?.typeGroup !== "I" &&
+                                    typeName?.isEnabled == 1 &&
                                     typeName?.typeName
                                   );
                                 })
                                 .filter(Boolean);
 
-                                const filteredOrderTypes = item?.orderTypes?.filter((type: any) => type.typeGroup !== "I");
-                                const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;        
-                                console.log({allChannels})
-
+                              const filteredOrderTypes = selectedBranch?.orderTypes?.filter((type: any) => type?.typeGroup !== "I" && type?.isEnabled == 1)
+                              const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
                               return (
                                 <div
                                   className="v2-itemData"
@@ -495,7 +497,11 @@ const Menu = () => {
                                   </p>
                                   <div className="itemRight">
                                     <img
-                                      src={allChannels ? channelIcon : notAllChannel}
+                                      src={
+                                        allChannels
+                                          ? channelIcon
+                                          : notAllChannel
+                                      }
                                       alt="channelIcon"
                                       className="channelIcon"
                                       onMouseEnter={() =>
