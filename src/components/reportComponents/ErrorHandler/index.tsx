@@ -8,7 +8,7 @@ interface ErrorHandlerProps {
     isError?:boolean;
     data:any;
 }
-const ErrorHandler = ({ children,isError = false, data, errorType = "" }: ErrorHandlerProps) => {
+const ErrorHandler = ({ children,isError = false, data, errorType = "" }: ErrorHandlerProps) => {   
 if(isError ){
         return  <ReportNotFound  errorType={"error"}/>
         
@@ -21,15 +21,17 @@ if(isError ){
             errorType? <ReportNotFound  errorType={errorType}/>:
              <ReportNotFound  errorType={"reportNotFound"}/>
         )
-    }else if(Array.isArray(data?.content) && data?.content?.length===0){
+    }else if(!data||(Array.isArray(data?.content) && !data?.content?.length)){
         return (
-            <ReportNotFound  errorType={"error"}/>
+            <ReportNotFound  errorType={"reportNotFound"}/>
         )
     }
-    return (
-        <>
-            {children}
-        </>
-    )
+
+        return (
+            <>
+                {children}
+            </>
+        )
+
 }
 export default ErrorHandler
