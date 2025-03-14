@@ -10,8 +10,6 @@ import NewTable from 'components/reportComponents/NewTable';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import "./style.scss";
 import { formatNumberByCountry } from 'utils';
-import ErrorState from 'components/reportComponents/errorstatecomponents/ErrorState';
-
 
 const TodaysReport: React.FC = () => {
 
@@ -20,8 +18,6 @@ const TodaysReport: React.FC = () => {
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
     const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
     const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
-
-    // console.log("MAP",{mappedIdWithBranchName})
 
     const [currentDate, setCurrentDate] = useState('');
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
@@ -41,7 +37,7 @@ const TodaysReport: React.FC = () => {
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
     const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
     const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
-    // console.log("MAP",{selectedLocation})
+
     const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
     const billedOrUnbilledDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedUnbilledLoading)
 
@@ -114,7 +110,6 @@ const TodaysReport: React.FC = () => {
 
 
     const handleSearch = (value: string, kpiTitle: string) => {
-        // console.log(`handleSearch => value : ${value}, kpiTitle : ${kpiTitle}`)
         switch (kpiTitle) {
             case 'Live Dine-in orders':
                 setLiveOrdersSearchQuery(value)

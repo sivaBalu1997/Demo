@@ -249,27 +249,7 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInTodayFailure
   );
 
-  useEffect(() => {
-    console.log({
-      liveCheckInOverview,
-      liveCheckInSeaterAvailability,
-      liveCheckInGuestCount,
-      liveCheckInStatus,
-      liveCheckInAvgWaitTime,
-      liveCheckInGroupAvgWaitTime,
-      liveCheckInTable,
-      liveCheckInToday,
-      
-    })
-  }, [      liveCheckInOverview,
-    liveCheckInSeaterAvailability,
-    liveCheckInGuestCount,
-    liveCheckInStatus,
-    liveCheckInAvgWaitTime,
-    liveCheckInGroupAvgWaitTime,
-    liveCheckInTable,
-    liveCheckInToday,
-    ]);
+
   const dispatch = useDispatch();
   const { selectedDateFilterType } = useDateFilter();
 

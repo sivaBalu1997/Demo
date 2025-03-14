@@ -157,7 +157,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
   const tendorTypes = useSelector((state: any) => state?.newReports?.paymentDetailsData);
   const tendorTypesLoader = useSelector((state: any) => state?.newReports?.paymentDetailsLoading);
-  const tendorTypesError = useSelector((state: any) => state?.newReports?.paymentDetailsFailure);
+  const tendorTypesError = useSelector((state: any) => state?.newReports?.paymentDetailsError);
   const salesSummary = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
   const salesSummaryLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
   const salesSummaryError = useSelector((state: any) => state?.newReports?.salesSummaryFailure);
@@ -192,9 +192,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
 
-useEffect(()=>{
-console.log({offerSummary,voidedOrderSummary})
-},[offerSummary,voidedOrderSummary])
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
@@ -273,7 +270,6 @@ console.log({offerSummary,voidedOrderSummary})
 
     return tendorGroups;
   }, [tendorTypes]);
-  // console.log({ startDate, endDate })
 
   useEffect(() => {
     Promise.all([
@@ -400,7 +396,6 @@ console.log({offerSummary,voidedOrderSummary})
   };
 
   const handleSummaryView = (view: string, data: any) => {
-    // console.log("PPP data", data)
     resetPagination()
     let params: any = {
       locationid: selectedLocation?.value,
@@ -600,6 +595,7 @@ console.log({offerSummary,voidedOrderSummary})
             <h2 className="sales-overview-sub-heading ">Tender Type</h2>
           </div>
           <div className="reports-tendor-container">
+          <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
             <div className="left-section">
               {leftGroup?.map((key) => (
 
@@ -671,7 +667,7 @@ console.log({offerSummary,voidedOrderSummary})
                 </>
               ))}
             </div>
-
+            </ErrorHandler>
           </div>
 
           {/* <div className="sales-charts-container">   */}

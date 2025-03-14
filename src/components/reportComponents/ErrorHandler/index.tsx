@@ -26,10 +26,6 @@ if(isError ){
             <ReportNotFound  errorType={"error"}/>
         )
     }
-    else if(isError ){
-        return  <ReportNotFound  errorType={"error"}/>
-        
-    }
     return (
         <>
             {children}
