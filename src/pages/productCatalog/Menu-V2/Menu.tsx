@@ -17,7 +17,7 @@ import {
   selectedCategory,
   selectedMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
-import Slider from "components/productCatalog/Slider/Slider";
+import Slider from "components/productCatalog/Slider/SliderUpdated";
 import ToolTips from "components/toolTips/toolTips";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import { Contextpagejs } from "../contextpage";
