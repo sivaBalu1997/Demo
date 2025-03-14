@@ -138,10 +138,18 @@
     margin-left: 20px;
     font-size: 14px;
     font-weight: 400;
-    border-bottom: 1px solid #F4F4F4;
+    border-bottom: 1px solid #F5F5F5;
     cursor: pointer;
     gap: 20px;
     padding-left: 10px;
+
+    p{
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: -0.2px;
+      color: #6F6F6F;
+    }
 
     img{
       margin-right: 40px;
