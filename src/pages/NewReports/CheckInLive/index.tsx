@@ -20,6 +20,7 @@ import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import { formatNumberByCountry } from "utils";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import SwitchableBox from "components/reportComponents/SwitchableBox";
 
 interface CustomBarChartData {
   xAxisValue: string;
@@ -165,7 +166,6 @@ const CheckInLiveReport = () => {
   const [todayCheckInCurrentPage, setTodayCheckInCurrentPage] = useState(1);
   const [todayCheckInPageLimit, setTodayCheckInPageLimit] = useState(10);
   const [activeBtn, setActiveBtn] = useState("Live Check-ins");
-
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
   );
@@ -311,6 +311,9 @@ const handleRefreshClick=()=>{
   dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
   dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
 }
+
+
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -450,27 +453,13 @@ const handleRefreshClick=()=>{
             />
                </ErrorHandler>
           </div>
-          <div className="category-btn-switch checkin-btn-  switch">
-            <button
-              className={`category-btn  ${
-                activeBtn == "Live Check-ins" ? "active-btn" : ""
-              }`}
-              onClick={() => {
-                setActiveBtn("Live Check-ins");
-              }}
-            >
-              Live Check-ins
-            </button>
-            <button
-              className={`category-btn  ${
-                activeBtn == "Today Check-ins" ? "active-btn" : ""
-              }`}
-              onClick={() => {
-                setActiveBtn("Today Check-ins");
-              }}
-            >
-              Today Check-ins
-            </button>
+          <div className="reports-page-sub-header-container">
+          <SwitchableBox
+                textOne={"Live Check-ins"}
+                textTwo={"Today Check-ins"}
+                isActive={activeBtn == "Today Check-ins" }
+                toggleSwitch={()=> setActiveBtn((prev) => (prev === "Live Check-ins" ? "Today Check-ins" : "Live Check-ins"))}
+            />
           </div>
           <div className="todays-report-tables-container">
             {activeBtn == "Live Check-ins" && (
