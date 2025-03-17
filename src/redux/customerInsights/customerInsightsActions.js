@@ -22,6 +22,10 @@ import {
     SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_FAILURE,
 
 
+DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST,
+DETAILED_INSIGHTS_CUSTOMER_DETAILS_SUCCESS,
+DETAILED_INSIGHTS_CUSTOMER_DETAILS_FAILURE,
+
     DETAILED_INSIGHTS_SUMMARY_REQUEST,
     DETAILED_INSIGHTS_SUMMARY_SUCCESS,
     DETAILED_INSIGHTS_SUMMARY_FAILURE,
@@ -167,6 +171,24 @@ export const summaryInsightsCustomerByLoyaltyLevelsFailure = (error) => {
 
 
 
+export const detailedInsightsCustomerDetailsRequest = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST,
+        payload: data
+    };
+}
+export const detailedInsightsCustomerDetailsSuccess = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMER_DETAILS_SUCCESS,
+        payload: data
+    };
+}
+export const detailedInsightsCustomerDetailsFailure = (data) => {
+    return {
+        type: DETAILED_INSIGHTS_CUSTOMER_DETAILS_FAILURE,
+        payload: data
+    };
+}
 export const detailedInsightsSummaryRequest = (data) => {
     return {
         type: DETAILED_INSIGHTS_SUMMARY_REQUEST,

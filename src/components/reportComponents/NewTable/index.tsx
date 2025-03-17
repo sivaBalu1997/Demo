@@ -35,7 +35,7 @@ const NewTable: React.FC<NewTableProps> = ({
   tableData,
   currentPage,
   totalPages,
-  onPageChange,
+  onPageChange = () => {},
   rowsPerPage,
   setRowsPerPage,
   loader,

@@ -33,6 +33,9 @@ import {
   DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_REQUEST,
   DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_SUCCESS,
   DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_FAILURE,
+  DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST,
+  DETAILED_INSIGHTS_CUSTOMER_DETAILS_SUCCESS,
+  DETAILED_INSIGHTS_CUSTOMER_DETAILS_FAILURE,
 } from "./customerInsightsConstants";
 
 const initialNewReportsState = {
@@ -56,6 +59,11 @@ const initialNewReportsState = {
   summaryInsightsCustomerByLoyaltyLoading: false,
   summaryInsightsCustomerByLoyaltySuccess: [],
   summaryInsightsCustomerByLoyaltyFailure: false,
+
+
+  detailedInsightsCustomerDetailsLoading: false,
+  detailedInsightsCustomerDetailsSuccess: [],
+  detailedInsightsCustomerDetailsFailure: false,
 
   detailedInsightsSummaryLoading: false,
   detailedInsightsSummarySuccess: [],
@@ -173,6 +181,21 @@ export default function checkInReportsReducer(
         draft.summaryInsightsCustomerByLoyaltyFailure = true;
         break;
 
+      case DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST:
+        draft.detailedInsightsCustomerDetailsLoading = true;
+        draft.detailedInsightsCustomerDetailsSuccess = [];
+        draft.detailedInsightsCustomerDetailsFailure = false;
+        break;
+      case DETAILED_INSIGHTS_CUSTOMER_DETAILS_SUCCESS:
+        draft.detailedInsightsCustomerDetailsSuccess = action.payload;
+        draft.detailedInsightsCustomerDetailsLoading = false;
+        draft.detailedInsightsCustomerDetailsFailure = false;
+        break;
+      case DETAILED_INSIGHTS_CUSTOMER_DETAILS_FAILURE:
+        draft.detailedInsightsCustomerDetailsSuccess = [];
+        draft.detailedInsightsCustomerDetailsLoading = false;
+        draft.detailedInsightsCustomerDetailsFailure = true;
+        break;
       case DETAILED_INSIGHTS_SUMMARY_REQUEST:
         draft.detailedInsightsSummaryLoading = true;
         draft.detailedInsightsSummarySuccess = [];

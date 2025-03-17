@@ -29,7 +29,7 @@ export interface NewTableHeader {
   key: string;
   label: string;
   isSortable?: boolean;
-  isPrivate?:boolean;
+  isPrivate?: boolean;
   alignment?: "left" | "center" | "right";
 }
 
@@ -45,7 +45,7 @@ export interface NewTableProps {
   tableData: NewTableData[];
   currentPage?: number;
   totalPages?: number;
-  onPageChange: (page: number) => void;
+  onPageChange?: (page: number) => void;
   rowsPerPage?: number;
   setRowsPerPage?: React.Dispatch<React.SetStateAction<number>>;
   loader?: boolean;

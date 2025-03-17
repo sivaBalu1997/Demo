@@ -8,6 +8,15 @@ import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import useDateFilter from "hooks/useDateFilter";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
 import NewTable from "components/reportComponents/NewTable";
+import {
+  detailedInsightsCustomerDetailsRequest,
+  detailedInsightsCustomerOrderRequest,
+  detailedInsightsCustomerTopFavItemsRequest,
+  detailedInsightsDineInRequest,
+  detailedInsightsLatestOrderRequest,
+  detailedInsightsOffPremRequest,
+  detailedInsightsSummaryRequest,
+} from "../../../redux/customerInsights/customerInsightsActions";
 interface CustomBarChartData {
   xAxisValue: string;
   yAxisValue: number;
@@ -260,8 +269,8 @@ const dataList3: CustomBarChartData[] = [
 
 const DetailedInsights = () => {
   const [activeBtn, setActiveBtn] = useState("Live Check-ins");
-  const [summaryCurrentPage, setSummaryCurrentPage] = useState(0);
-  const [summaryPageLimit, setSummaryPageLimit] = useState(10);
+  const [customerOrderCurrentPage, setCustomerOrderCurrentPage] = useState(1);
+  const [customerOrderPageLimit, setCustomerOrderPageLimit] = useState(10);
 
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
@@ -271,8 +280,11 @@ const DetailedInsights = () => {
   );
 
   const dispatch = useDispatch();
-  const { selectedDateFilterType } = useDateFilter();
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } =
+    useDateFilter();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [selectedCustomerPhoneNumber, setSelectedCustomerPhoneNumber] =
+    useState("asdsa");
   const headers4 = [
     {
       key: "customerDate",
@@ -370,7 +382,99 @@ const DetailedInsights = () => {
     { favoriteItem: "Butter scotch icecream", quantityOrdered: 20 },
     { favoriteItem: "Fish biryani", quantityOrdered: 11 },
   ];
+  const datepickerApply = (type: string, data1?: any, data2?: any) => {
+    handleDateChange("Custom Date", data1, data2);
+  };
+  const handleDropDownOnChange: any = (e: any) => {
+    console.log(e, "Here it is ");
+    setSelectedCustomerPhoneNumber(e.value);
+  };
 
+  const handleDropDownOnsearch: any = (e: any) => {
+    dispatch(
+      detailedInsightsCustomerDetailsRequest({
+        locations: selectedLocation,
+        startDate: startDate,
+        endDate: endDate,
+        searchText: e,
+      })
+    );
+  };
+  useEffect(() => {
+    if (selectedCustomerPhoneNumber) {
+      dispatch(
+        detailedInsightsSummaryRequest({
+          locations: selectedLocation,
+          startDate: startDate,
+          endDate: endDate,
+          phnNo: selectedCustomerPhoneNumber,
+        })
+      );
+      dispatch(
+        detailedInsightsDineInRequest({
+          locations: selectedLocation,
+          startDate: startDate,
+          endDate: endDate,
+          phnNo: selectedCustomerPhoneNumber,
+        })
+      );
+      dispatch(
+        detailedInsightsOffPremRequest({
+          locations: selectedLocation,
+          startDate: startDate,
+          endDate: endDate,
+          phnNo: selectedCustomerPhoneNumber,
+        })
+      );
+      // dispatch(
+      //   detailedInsightsCustomerOrderRequest({
+      //     locations: selectedLocation,
+      //     startDate: startDate,
+      //     endDate: endDate,
+      //     phnNo: selectedCustomerPhoneNumber,
+      //     currentPage: customerOrderCurrentPage,
+      //     pageSize: customerOrderPageLimit,
+      //   })
+      // );
+      dispatch(
+        detailedInsightsLatestOrderRequest({
+          locations: selectedLocation,
+          startDate: startDate,
+          endDate: endDate,
+          phnNo: selectedCustomerPhoneNumber,
+        })
+      );
+      dispatch(
+        detailedInsightsCustomerTopFavItemsRequest({
+          locations: selectedLocation,
+          startDate: startDate,
+          endDate: endDate,
+          phnNo: selectedCustomerPhoneNumber,
+        })
+      );
+    }
+  }, [selectedCustomerPhoneNumber, selectedLocation, startDate, endDate]);
+  useEffect(() => {
+    if (selectedCustomerPhoneNumber) {
+      dispatch(
+        detailedInsightsCustomerOrderRequest({
+          locations: selectedLocation,
+          startDate: startDate,
+          endDate: endDate,
+          phnNo: selectedCustomerPhoneNumber,
+          currentPage: customerOrderCurrentPage,
+          pageSize: customerOrderPageLimit,
+        })
+      );
+    }
+  }, [
+    selectedCustomerPhoneNumber,
+    customerOrderCurrentPage,
+    customerOrderPageLimit,
+    startDate,
+    endDate,
+    selectedLocation,
+  ]);
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -378,9 +482,18 @@ const DetailedInsights = () => {
           <StoreFilter
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
+            endDate={endDate}
+            startDate={startDate}
             selectedStore={selectedLocation}
             showRefresh={false}
             showDate={true}
+            setSelectedDate={(data) => handleDateChange(data?.value)}
+            datePickerApplyFunction={(date1: any, date2: any) =>
+              datepickerApply("Custom Date", date1, date2)
+            }
+            dateDropdownFunction={(date1: any, date2: any) =>
+              datepickerApply("Custom Date", date1, date2)
+            }
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
 
@@ -395,6 +508,8 @@ const DetailedInsights = () => {
               dropdownClassName="select-food-item-dropdown"
               dropdownPrefix={"select-food-item-dropdown-prefix"}
               showSearchIcon={true}
+              onChange={handleDropDownOnChange}
+              onInputChange={handleDropDownOnsearch}
             />
           </div>
           <div>
@@ -405,7 +520,6 @@ const DetailedInsights = () => {
             <NewTable
               kpiTitle=""
               searchQuery={""}
-              // onSearchChange={() => {}}
               headerData={headerData1 as any}
               onSearch={() => {}}
               tableData={
@@ -419,18 +533,11 @@ const DetailedInsights = () => {
                       }, {}),
                     ]) as any
               }
-              // currentPage={1}
-              // totalPages={20}
-              // count={10}
               showTableHeader={false}
               showPagination={false}
-              onPageChange={setSummaryCurrentPage}
-              // rowsPerPage={20}
               loader={false}
               searchPlaceHolder="Search by table number, customer name"
-              // onSearch={handleTodayCheckInSearch}
               rowNoWrap={true}
-              tableContainerClassName="full-width"
             />{" "}
           </div>
           <div>
@@ -456,15 +563,12 @@ const DetailedInsights = () => {
                     ]) as any
               }
               currentPage={1}
-              totalPages={20}
+              totalPages={1}
               // count={10}
               showTableHeader={false}
               showPagination={false}
-              onPageChange={setSummaryCurrentPage}
-              rowsPerPage={20}
-              setRowsPerPage={setSummaryPageLimit}
+              rowsPerPage={10}
               loader={false}
-              searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}
               rowNoWrap={true}
               tableContainerClassName="full-width"
@@ -493,13 +597,11 @@ const DetailedInsights = () => {
                     ]) as any
               }
               currentPage={1}
-              totalPages={20}
+              totalPages={1}
               // count={10}
               showTableHeader={false}
               showPagination={false}
-              onPageChange={setSummaryCurrentPage}
-              rowsPerPage={20}
-              setRowsPerPage={setSummaryPageLimit}
+              rowsPerPage={10}
               loader={false}
               searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}
@@ -530,18 +632,17 @@ const DetailedInsights = () => {
                       }, {}),
                     ]) as any
               }
-              currentPage={1}
               totalPages={1}
               // count={10}
               showTableHeader={false}
-              onPageChange={setSummaryCurrentPage}
-              rowsPerPage={10}
-              setRowsPerPage={setSummaryPageLimit}
-              loader={false}
-              searchPlaceHolder="Search by table number, customer name"
-              // onSearch={handleTodayCheckInSearch}
-              rowNoWrap={true}
+              onPageChange={setCustomerOrderCurrentPage}
               tableContainerClassName="full-width"
+              currentPage={customerOrderCurrentPage}
+              // totalPages={checkInOverviewTableDetails?.totalPages||0}
+              rowsPerPage={customerOrderPageLimit}
+              setRowsPerPage={setCustomerOrderPageLimit}
+              // loader={isCheckInOverviewTableDetailsLoading}
+              rowNoWrap={true}
             />{" "}
           </div>
           <div>
@@ -571,9 +672,7 @@ const DetailedInsights = () => {
               // count={10}
               showPagination={false}
               showTableHeader={false}
-              onPageChange={setSummaryCurrentPage}
               rowsPerPage={10}
-              setRowsPerPage={setSummaryPageLimit}
               loader={false}
               searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}
@@ -610,9 +709,7 @@ const DetailedInsights = () => {
               // count={10}
               showTableHeader={false}
               showPagination={false}
-              onPageChange={setSummaryCurrentPage}
               rowsPerPage={10}
-              setRowsPerPage={setSummaryPageLimit}
               loader={false}
               searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}

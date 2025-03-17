@@ -23,6 +23,8 @@ import {
   detailedInsightsLatestOrderFailure,
   detailedInsightsCustomerTopFavItemsSuccess,
   detailedInsightsCustomerTopFavItemsFailure,
+  detailedInsightsCustomerDetailsSuccess,
+  detailedInsightsCustomerDetailsFailure,
 } from "./customerInsightsActions";
 import {
   SUMMARY_INSIGHTS_CUSTOMER_VOLUME_REQUEST,
@@ -36,6 +38,7 @@ import {
   DETAILED_INSIGHTS_CUSTOMERS_ORDER_REQUEST,
   DETAILED_INSIGHTS_LATEST_ORDER_REQUEST,
   DETAILED_INSIGHTS_CUSTOMERS_TOP_FAV_ITEM_REQUEST,
+  DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST,
 } from "./customerInsightsConstants";
 import {
   getSummaryInsightsCustomerVolume,
@@ -49,6 +52,7 @@ import {
   getDetailedInsightsCustomersOrder,
   getDetailedInsightsLatestOrder,
   getDetailedInsightsCustomersTopFavItems,
+  getDetailedInsightsCustomerDetails,
 } from "./customerInsightsApi";
 import { decryptJson } from "util/react-ec-utils";
 
@@ -152,6 +156,23 @@ export function* summaryInsightsCustomerByLoyaltyLevelSaga(action) {
     yield put(summaryInsightsCustomerByLoyaltyLevelsFailure(error));
   }
 }
+
+export function* detailedInsightsCustomerDetailsSaga(action) {
+  try {
+    const response = yield call(getDetailedInsightsCustomerDetails, action.payload);
+    const decryptedData = decryptJson(response?.data?.encryptedText);
+    if (response.status === 200) {
+      yield put(detailedInsightsCustomerDetailsSuccess(decryptedData));
+      showSuccessToast(decryptedData?.message);
+    } else {
+      yield put(detailedInsightsCustomerDetailsFailure(decryptedData?.message));
+      showErrorToast(decryptedData?.message);
+    }
+  } catch (error) {
+    yield put(detailedInsightsCustomerDetailsFailure(error));
+  }
+}
+
 
 export function* detailedInsightsSummarySaga(action) {
   try {
@@ -278,6 +299,10 @@ export default function* watchNewReportRequest() {
     SUMMARY_INSIGHTS_CUSTOMERS_BY_LOYALTY_REQUEST,
     summaryInsightsCustomerByLoyaltyLevelSaga
   ); //);
+
+
+  yield debounce(1000, DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST, detailedInsightsCustomerDetailsSaga);
+
 
   yield takeLatest(
     DETAILED_INSIGHTS_SUMMARY_REQUEST,
