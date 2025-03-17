@@ -34,6 +34,10 @@
     max-height: 80vh; 
     overflow-y: auto;
     // background-color: powderblue;
+
+    @media(max-width: 1920px){
+      max-height: 75vh;
+    }
   }
 
   .v2-itemHeader{
