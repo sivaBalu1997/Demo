@@ -21,6 +21,7 @@ import Slider from "components/productCatalog/Slider/SliderUpdated";
 import ToolTips from "components/toolTips/toolTips";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import { Contextpagejs } from "../contextpage";
+import NotFound from "../../../assets/svg/NotFound copy.svg";
 
 const Menu = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,12 @@ const Menu = () => {
   );
   const menuDataLoading = useSelector(
     (state: RootState) => state.productCatalog.menuDataLoading
+  );
+  const menuDataSuccess = useSelector(
+    (state: RootState) => state.productCatalog.menuDataSuccess
+  );
+  const menuDataFailed = useSelector(
+    (state: RootState) => state.productCatalog.menuDataFailed
   );
   const selectedBranch = useSelector(
     (state: RootState) => state.auth.selectedBranch || null
@@ -68,18 +75,20 @@ const Menu = () => {
   //Tool tip useState
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
+  //loader state
+
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));
       dispatch(itemCustomizationPost([]));
     }
     dispatch(removeDataRequest());
+    dispatch(selectedMockDataRequest(SideBarData));
   }, [selectedBranch?.id]);
 
-  useEffect(() => {
-    dispatch(getMenuRequest(locationid));
-    dispatch(selectedMockDataRequest(SideBarData));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getMenuRequest(locationid));
+  // }, []);
 
   useEffect(() => {
     const isObjectEmpty = (obj: any) => {
@@ -106,6 +115,7 @@ const Menu = () => {
       const allItemResponseLists2 = menuData?.flatMap(
         (category: any) => category
       );
+
       const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
       const transformedList: any = mergedarray?.map((entry) => ({
         id: entry?.categoryId,
@@ -115,7 +125,6 @@ const Menu = () => {
 
       setItemList(transformedList);
       setMenudatalist(menuData);
-      setLoading(false);
     } else {
       if (SearchedmenuItem?.subCategoryResponseList) {
         const filterdItem: any = {
@@ -126,7 +135,6 @@ const Menu = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
-        setLoading(false);
       } else {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
@@ -135,9 +143,8 @@ const Menu = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
-        setLoading(false);
       }
-      //setLoading(false);
+      // setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
 
@@ -146,6 +153,12 @@ const Menu = () => {
       setmodal(false);
     }
   }, [deleteMenuItemSuccess]);
+
+  useEffect(() => {
+    if((menuDataSuccess || menuDataFailed) && !menuDataLoading){
+      setLoading(false)
+    }
+  },[menudatalist])
 
   useEffect(() => {
     if (Array.isArray(editData) && editData?.length > 0) {
@@ -364,8 +377,9 @@ const Menu = () => {
           </div>
         </div>
 
-        {!menuDataLoading ? (
-          <div className="v2-menuContainer">
+        {!menuDataLoading && !loading ? (
+          menudatalist?.length > 0 ? 
+          (<div className="v2-menuContainer">
             {menudatalist?.map((category: any) => (
               <>
                 {(category?.itemResponseList?.length > 0 ||
@@ -505,6 +519,7 @@ const Menu = () => {
                                   return (
                                     typeName?.typeGroup !== "I" &&
                                     typeName?.isEnabled == 1 &&
+                                    typeName?.availabilityEnabled &&
                                     typeName?.typeName
                                   );
                                 })
@@ -564,7 +579,16 @@ const Menu = () => {
                 </div>
               </>
             ))}
-          </div>
+          </div>) 
+          : 
+          (<div className="no-results-found">
+            <img 
+              src={NotFound} 
+              alt="noResult" 
+              style={{width:'400px', height:'400px'}}
+            />
+            <p>No Results Found</p>
+          </div>)
         ) : (
           <div className="loader-conatainer">
             <Loader

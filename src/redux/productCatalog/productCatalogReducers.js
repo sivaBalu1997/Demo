@@ -283,6 +283,8 @@ export default function productCatalogReducer(
         draft.updateModifierId=[];
         // draft.addMenuLoading = true;
         draft.menuDataLoading = true;
+        draft.menuDataSuccess = false;
+        draft.menuDataFailed = false;
         break;
       case STORE_MENU_SUCCESS:
         draft.menuData = action.payload;
