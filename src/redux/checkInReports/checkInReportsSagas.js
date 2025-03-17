@@ -127,12 +127,8 @@ export function* liveGuestCountSaga(action) {
 
 export function* liveCheckInStatusSaga(action) {
     try {
-        const response = yield call(getLiveCheckInStatus, action.payload);
-        console.log({response});
-        
-        const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("dec",decryptedData );
-        
+        const response = yield call(getLiveCheckInStatus, action.payload);        
+        const decryptedData = decryptJson(response?.data?.encryptedText)      
         if (response.status === 200) {
             yield put(liveCheckInStatusSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);

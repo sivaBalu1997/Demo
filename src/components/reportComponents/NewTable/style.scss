@@ -431,48 +431,41 @@ $text-secondary: #6b7280;
           padding: 0;
         }
       }
+      .bubble{
+        padding: 5px;
+        border-radius: 12px;
+        text-align: center;
+        text-transform: capitalize;
+
+      }
       .bubble-text-blue-one{
         background-color: #F0FDFA;
         color: #009689;
-        border-radius: 2vw;
-        width: 5vw;
-        text-align: center;
-        // padding: 0.5vw;
       }
       .bubble-text-blue-two{
         background-color: #F0F9FF;
         color: #0084D1;
-        border-radius: 2vw;
-        width: 5vw;
-        text-align: center;
       }
       .bubble-text-orange-one{
         background-color: #FFF7ED;
         color: #F54900;
-        border-radius: 2vw;
-        width: 5vw;
-        text-align: center;
       }
       .bubble-text-brown-one{
         background-color: #FFFBEB;
         color: #BB4D00;
-        border-radius: 2vw;
-        width: 5vw;
-        text-align: center;
       }
       .bubble-text-green-one{
         background-color: #ECFDF5;
         color: #009966;
-        border-radius: 2vw;
-        width: 5vw;
-        text-align: center;
       }
       .bubble-text-light-green-one{
         background-color: #E3F4C6;
         color: #67823D;
-        border-radius: 2vw;
-        width: 5vw;
-        text-align: center;
+      }
+
+      .bubble-text-violet-one{
+        background-color: #ab99ad;
+        color: #ad40bb;
       }
     }
     .no-results-container {

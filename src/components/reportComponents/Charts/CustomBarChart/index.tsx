@@ -31,7 +31,6 @@ interface RevenueChartProps {
   yAxisTooltipLabel: string;
   toolTipBorderColor: string;
   barColor: string;
-  displayLegend?: boolean;
   yAxisTooltipAppendInFront?: string;
   yAxisTooltipAppendInBack?: string;
   label?:string
@@ -45,7 +44,6 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
   yAxisTooltipLabel = "",
   toolTipBorderColor,
   barColor,
-  displayLegend = false,
   yAxisTooltipAppendInFront = "",
   yAxisTooltipAppendInBack = "",
   label="",
@@ -69,8 +67,8 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
         })),
         backgroundColor: barColor,
         borderRadius: 0,
-        barPercentage: 0.7,
-        categoryPercentage: 0.6,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
     ],
   };

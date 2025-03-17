@@ -108,7 +108,6 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
   }
 
   const logoutUser = () => {
-    console.log(111);
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());

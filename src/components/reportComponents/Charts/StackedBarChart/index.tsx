@@ -171,15 +171,18 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
           },
           // Show "Group of 2: 11" etc.
           label: (tooltipItem) => {
-            const idx = tooltipItem.dataIndex;
-            // Return all dataset values at this index.
-            const stackValues = chartData.datasets.map((dataset) => {
-              const channel = dataset.label;
-              const value = dataset.data[idx];
-              return `${channel}: ${value}`;
-            });
+            const idx = tooltipItem.dataIndex;          
+            const stackValues = chartData.datasets
+              ?.filter((data: any) => !!data?.data?.[idx]) // Ensure value exists
+              ?.sort((a: any, b: any) => a?.label?.localeCompare(b?.label, undefined, { sensitivity: 'base' }))
+              ?.map((dataset) => {
+                const channel = dataset.label;
+                const value = dataset.data[idx];
+                return `${channel}: ${value}`;
+              });
+          
             return stackValues;
-          },
+          }
         },
       },
       datalabels: {
