@@ -66,6 +66,8 @@ const Menu = () => {
   const [loading, setLoading] = useState(true);
   const [hideHeader, setHideHeader] = useState(false);
 
+  const [searchSubArrow, setShowSubArrow] = useState(false)
+
   //SidePanel component useState
   const [modal, setmodal] = useState(false);
   const [sidebartext, setSideBarText] = useState<any>(null);
@@ -271,6 +273,13 @@ const Menu = () => {
     );
   };
 
+
+  useEffect(() => {
+    if(SearchedmenuItem?.subCategoryResponseList && SearchedmenuItem?.subCategoryResponseList[0]){
+      setOpenSubItems([SearchedmenuItem?.subCategoryResponseList[0]?.subCategoryId])
+    }
+  },[SearchedmenuItem])
+
   const handlemodal = (value?: any) => {
     const filteredItem: any = menuData.find((item: any) =>
       item?.itemResponseList?.some(
@@ -387,7 +396,10 @@ const Menu = () => {
               <>
                 {(category?.itemResponseList?.length > 0 ||
                   category?.subCategoryResponseList?.length > 0) && (
-                  <div className="v2-itemHeader">
+                  <div 
+                    className="v2-itemHeader"
+                    onClick={() => toggleItem(category?.categoryId)}
+                  >
                     <p>{`${category?.categoryName} ${
                       category?.itemResponseList?.length > 0
                         ? `- ${category?.itemResponseList?.length}`
@@ -399,7 +411,6 @@ const Menu = () => {
                       className={`subCategory-arrow ${
                         closedItems.includes(category?.categoryId) ? "open" : ""
                       }`}
-                      onClick={() => toggleItem(category?.categoryId)}
                     />
                   </div>
                 )}
@@ -482,7 +493,12 @@ const Menu = () => {
                     (item: any, subIndex: number) => (
                       <div key={subIndex}>
                         {item?.itemResponseList?.length > 0 && (
-                          <div className="v2-sub-item">
+                          <div 
+                            className="v2-sub-item"
+                            onClick={() =>
+                              toggleSubCategory(item?.subCategoryId)
+                            }
+                          >
                             <p>{`${item?.subCategoryName} - ${
                               item?.itemResponseList?.length > 0
                                 ? item?.itemResponseList?.length
@@ -496,14 +512,11 @@ const Menu = () => {
                                   ? ""
                                   : "open"
                               }`}
-                              onClick={() =>
-                                toggleSubCategory(item?.subCategoryId)
-                              }
                             />
                           </div>
                         )}
 
-                        {((SearchedmenuItem?.categoryId) || openSubItems.includes(item?.subCategoryId)) &&
+                        {(openSubItems.includes(item?.subCategoryId)) &&
                           item?.itemResponseList?.map(
                             (subItem: any, itemIndex: number) => {
                               const dineInPrice = subItem?.orderTypes?.find(
