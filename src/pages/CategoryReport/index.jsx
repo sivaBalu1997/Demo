@@ -134,9 +134,9 @@ const CategoryReport = (props) => {
       ];
     } else {
       filteredItems = [
-        ...new Map((dropdownDetailsData|[])
-          .filter((item) => selectedCategoryIds.includes(item.categoryId))
-          .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
+        ...new Map((dropdownDetailsData||[])
+          .filter((item) => selectedCategoryIds?.includes(item?.categoryId))
+          .map((item) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
         ).values(),
       ];
     }
@@ -180,8 +180,8 @@ const CategoryReport = (props) => {
         const filteredItems = [
           ...new Map(
             (dropdownDetailsData||[])
-              .filter((item) => selectedCategoryIds.includes(item.categoryId))
-              .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
+              .filter((item) => selectedCategoryIds?.includes(item?.categoryId))
+              .map((item) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
           ).values(),
         ];
 
