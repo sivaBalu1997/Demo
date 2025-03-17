@@ -113,7 +113,17 @@ export const getSummaryInsightsCustomersByLoyalty= (params) => {
     });
 };
 
-
+export const getDetailedInsightsCustomerDetails= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
 export const getDetailedInsightsSummary= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);

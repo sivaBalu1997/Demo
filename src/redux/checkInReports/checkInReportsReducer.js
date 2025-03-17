@@ -197,7 +197,6 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 draft.liveCheckinStatusFailure = false;
                 break;
             case LIVE_CHECK_IN_STATUS_SUCCESS:
-                console.log(2, action.payload);
                 draft.liveCheckinStatusSuccess = action.payload;
                 draft.liveCheckinStatusLoading = false;
                 draft.liveCheckinStatusFailure = false;

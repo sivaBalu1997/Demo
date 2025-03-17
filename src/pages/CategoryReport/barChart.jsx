@@ -26,7 +26,6 @@ ChartJS.register(
 function LinearBarChart({ barColorCode, dataList, loader,isMobile  }) {
   // Prepare the Chart.js data object
   const safeDataList = Array.isArray(dataList) ? dataList : [];
-  console.log({dataList})
   const data = {
     labels: safeDataList?.map((cat) => cat?.categoryName),
     datasets: [
@@ -104,9 +103,6 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile  }) {
   };
 
   if(loader) return <BarChartShimmer />
-
-  // console.log("dataList.length",dataList?.length)
-  // console.log("dataList",dataList)
 
   return !dataList ? (
     <ErrorState pageTitle="Category report" isDataNotAvailable={true} />

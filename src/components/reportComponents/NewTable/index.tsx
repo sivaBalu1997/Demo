@@ -17,6 +17,11 @@ import DownloadReport from "../DownloadReports";
 import "jspdf-autotable";
 import "./style.scss";
 import TableDateDropdown from "../TableDateDropdown";
+import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
+import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
+import "jspdf-autotable";
+import './style.scss';
+import { maskPhone } from 'utils';
 
 interface SortConfig {
   key: string;
@@ -30,7 +35,7 @@ const NewTable: React.FC<NewTableProps> = ({
   tableData,
   currentPage,
   totalPages,
-  onPageChange,
+  onPageChange = () => {},
   rowsPerPage,
   setRowsPerPage,
   loader,
@@ -40,7 +45,7 @@ const NewTable: React.FC<NewTableProps> = ({
   onSearch,
   showDateDropDown = false,
   selectedDate,
-  onDateSelect = () => {},
+  onDateSelect = () => { },
   showTableHeader = true,
   showPagination = true,
   rowNoWrap = false,
@@ -57,7 +62,14 @@ const NewTable: React.FC<NewTableProps> = ({
   const [searchFlag, setSearchFlag] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
 
-  // console.log("PPP4", { tableData })
+  const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
+
+  const toggleVisibility = (rowIndex: number) => {
+    setVisibility((prev: any) => ({
+      ...prev,
+      [rowIndex]: !prev[rowIndex]
+    }));
+  };
 
   useEffect(() => {
     if (loader) {
@@ -144,38 +156,6 @@ const NewTable: React.FC<NewTableProps> = ({
     setSearchFlag(true);
   };
 
-  // const getClassName = (rowvalue: string) => {
-  //     if (rowvalue === 'In Queue') {
-  //         return 'bubble-text-blue-one'
-  //     } else if (rowvalue === 'Accepted') {
-  //         return 'bubble-text-blue-two'
-  //     } else if (rowvalue === 'In Progress') {
-  //         return 'bubble-text-orange-one'
-  //     } else if (rowvalue === 'KOT Ready') {
-  //         return 'bubble-text-brown-one'
-  //     } else if (rowvalue === 'Order Ready') {
-  //         return 'bubble-text-green-one'
-  //     } else if (rowvalue === 'In Delivery') {
-  //         return 'bubble-text-light-green-one'
-  //     }
-  // }
-
-  // const getClassName = (rowvalue: string) => {
-  //     if (rowvalue === 'D3') {
-  //         return 'bubble-text-blue-one'
-  //     } else if (rowvalue === 'D30') {
-  //         return 'bubble-text-blue-two'
-  //     } else if (rowvalue === 'D5') {
-  //         return 'bubble-text-orange-one'
-  //     } else if (rowvalue === 'D6') {
-  //         return 'bubble-text-brown-one'
-  //     } else if (rowvalue === 'D8') {
-  //         return 'bubble-text-green-one'
-  //     } else if (rowvalue === 'In Delivery') {
-  //         return 'bubble-text-light-green-one'
-  //     }
-  // }
-
   const getOrderChannelIcons = (rowvalue: string) => {
     if (rowvalue === "Walkin") {
       return <WalkinIcon />;
@@ -188,42 +168,51 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   };
 
-  // const getOrderChannelIcons = (rowvalue: string) => {
-  //     if (rowvalue === 'D3') {
-  //         return <WalkinIcon />
-  //     } else if (rowvalue === 'D30') {
-  //         return <DeliveryIcon />
-  //     } else if (rowvalue === 'D5') {
-  //         return <PickUpIcon />
-  //     } else if (rowvalue === 'D6') {
-  //         return <GrubhubIcon />
-  //     }
-  // }
-
-  // console.log("Window width", width)
 
   const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
+    console.log({ rowvalue, headerValue });
+
     if (headerValue === "Order Status") {
       if (rowvalue === "In Queue") {
-        return "bubble-text-blue-one";
+        return " bubble bubble-text-blue-one";
       } else if (rowvalue === "Accepted") {
-        return "bubble-text-blue-two";
+        return " bubble bubble-text-blue-two";
       } else if (rowvalue === "In Progress") {
-        return "bubble-text-orange-one";
+        return " bubble bubble-text-orange-one";
       } else if (rowvalue === "KOT Ready") {
-        return "bubble-text-brown-one";
+        return " bubble bubble-text-brown-one";
       } else if (rowvalue === "Order Ready") {
-        return "bubble-text-green-one";
+        return " bubble bubble-text-green-one";
       } else if (rowvalue === "In Delivery") {
-        return "bubble-text-light-green-one";
+        return " bubble bubble-text-light-green-one";
       } else if (rowvalue == "Pre order placed") {
-        return "bubble-text-light-green-one";
+        return " bubble bubble-text-light-green-one";
       }
     } else if (headerValue === "Order Channel") {
-      return "rep-order-channel";
+      return " rep-order-channel";
+    } else if (headerValue === "Status") {
+      if (rowvalue === "queue") {
+        return " bubble bubble-text-blue-one";
+      } else if (rowvalue === "assigned") {
+        return " bubble bubble-text-blue-two";
+      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled") {
+        return " bubble bubble-text-orange-one";
+      } else if (rowvalue === "LateShow" || rowvalue === "lateShow") {
+        return " bubble bubble-text-brown-one";
+      } else if (rowvalue === "Completed" || rowvalue === "completed") {
+        return " bubble bubble-text-green-one";
+      } else if (rowvalue === "seated") {
+        return " bubble bubble-text-light-green-one";
+      } else if (rowvalue === "noshow") {
+        return " bubble bubble-text-violet-one";
+      }
+
     }
   };
-
+const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomDateDropdown: string) => {
+  onDateSelect(from, to, kpiTitleForCustomDateDropdown);
+  setSearchFlag(true);
+}
   return initialLoader ? (
     <TableShimmer />
   ) : (
@@ -236,40 +225,44 @@ const NewTable: React.FC<NewTableProps> = ({
               <h2 className="table-title">{kpiTitle}</h2>
               {!!count && <p className="table-title-count">{count}</p>}
             </div>
-            {showDateDropDown && (
-              <div className="table-date-dropdown-container">
-                <TableDateDropdown
-                  kpiTitleForCustomDateDropdown={kpiTitle}
-                  onDateSelect={(from, to, kpiTitleForCustomDateDropdown) =>
-                    onDateSelect(from, to, kpiTitleForCustomDateDropdown)
-                  }
-                />
-              </div>
-            )}
-            <div className="table-search-with-download-opt-container">
-              <div className="search-container">
-                <SearchIcon className="search-icon" />
-                <input
-                  type="text"
-                  placeholder={
-                    searchPlaceHolder ? searchPlaceHolder : "Search..."
-                  }
-                  value={searchQuery}
-                  onChange={handleInputChange}
-                  className="search-input"
-                />
-                <ClearSearchIcon
-                  className="clear-search-icon"
-                  onClick={() => onSearch("", kpiTitle)}
-                />
-              </div>
-              {tableData && headerData && (
-                <DownloadReport
-                  tableData={tableData}
-                  headerData={headerData}
-                  kpiTitle={kpiTitle}
-                />
+            <div className="table-header-position">
+
+              {showDateDropDown && (
+                <div className="table-date-dropdown-container">
+                  <TableDateDropdown
+                    kpiTitleForCustomDateDropdown={kpiTitle}
+                    onDateSelect={(from, to, kpiTitleForCustomDateDropdown) =>
+                      handleDateSelect(from, to, kpiTitleForCustomDateDropdown)
+                    }
+                  />
+                </div>
               )}
+
+              <div className="table-search-with-download-opt-container">
+                <div className="search-container">
+                  <SearchIcon className="search-icon" />
+                  <input
+                    type="text"
+                    placeholder={
+                      searchPlaceHolder ? searchPlaceHolder : "Search..."
+                    }
+                    value={searchQuery}
+                    onChange={handleInputChange}
+                    className="search-input"
+                  />
+                  <ClearSearchIcon
+                    className="clear-search-icon"
+                    onClick={() => onSearch("", kpiTitle)}
+                  />
+                </div>
+                {tableData && headerData && (
+                  <DownloadReport
+                    tableData={tableData}
+                    headerData={headerData}
+                    kpiTitle={kpiTitle}
+                  />
+                )}
+              </div>
             </div>
           </div>
           <div className="table-header-small-screen">
@@ -322,8 +315,8 @@ const NewTable: React.FC<NewTableProps> = ({
       <div className="table-wrapper">
         {/* Case 1: No data available at all */}
         {!tableLoader &&
-        !initialLoader &&
-        (!tableData || tableData?.length === 0) ? (
+          !initialLoader &&
+          (!tableData || tableData?.length === 0) ? (
           <div className="no-results-container">
             <NoOrdersFoundStampIcon />
             <p className="no-results-text">No Orders Found</p>
@@ -363,12 +356,16 @@ const NewTable: React.FC<NewTableProps> = ({
                       <span>{header?.label}</span>
                       {header?.isSortable && (
                         <SortIcon
-                          className={`sort-icon ${
-                            sortConfig?.key === header?.key
+                          className={`sort-icon ${sortConfig?.key === header?.key
                               ? sortConfig?.direction
                               : ""
-                          }`}
+                            }`}
                         />
+                      )}
+                      {header?.isPrivate && (
+                        <span onClick={() => toggleVisibility(header.key)}>
+                          {visibility[header.key] ? <OpenEyeIcon className={`sort-icon`} /> : <CloseEyeIcon className={`sort-icon `} />}
+                        </span>
                       )}
                     </div>
                   </th>
@@ -378,55 +375,52 @@ const NewTable: React.FC<NewTableProps> = ({
             <tbody>
               {tableLoader
                 ? // Shimmer Effect for Table Rows (only when search, pagination, row-limit changes)
-                  [...Array(rowsPerPage)].map((_, index) => (
-                    <tr key={index} className="skeleton-row">
-                      {headerData.map((header: any, i: any) => (
-                        <td key={i}>
-                          <div className="skeleton-box"></div>
-                        </td>
-                      ))}
-                    </tr>
-                  ))
+                [...Array(rowsPerPage)].map((_, index) => (
+                  <tr key={index} className="skeleton-row">
+                    {headerData.map((header: any, i: any) => (
+                      <td key={i}>
+                        <div className="skeleton-box"></div>
+                      </td>
+                    ))}
+                  </tr>
+                ))
                 : // Actual Data Rendering
-                  paginatedData?.map((row, index) => {
-                    const rowStyle: any = {};
-                    if (rowNoWrap) {
-                      rowStyle.textWrap = "nowrap";
-                    }
-                    return (
-                      <tr key={index} style={rowStyle}>
-                        {headerData?.map((header: any) => {
-                          const styles: any = {
-                            textAlign: header?.alignment || "left",
-                          };
-                          if (row?.color) {
-                            styles.color = row?.color;
-                          }
-                          return (
-                            <td key={header?.key} style={styles}>
-                              <p
-                                className={getDynamicClassNames(
-                                  row[header?.key],
-                                  header?.label
-                                )}
-                              >
-                                {showIcons
-                                  ? getOrderChannelIcons(row[header?.key])
-                                  : ""}
-                                {row[header?.key]}
-                              </p>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })}
+                paginatedData?.map((row, index) => {
+                  const rowStyle: any = {};
+                  if (rowNoWrap) {
+                    rowStyle.textWrap = "nowrap";
+                  }
+                  return (
+                    <tr key={index} style={rowStyle}>
+                      {headerData?.map((header: any) => {
+                        const styles: any = {
+                          textAlign: header?.alignment || "left",
+                        };
+                        if (row?.color) {
+                          styles.color = row?.color;
+                        }
+                        return (
+                          <td key={header?.key} style={styles}>
+                            <p
+                              className={getDynamicClassNames(
+                                row[header?.key],
+                                header?.label
+                              )}
+                            >
+                              {showIcons ? getOrderChannelIcons(row[header?.key]) : ""}{header?.isPrivate ? (visibility[header.key] ? row[header?.key] : maskPhone(row[header?.key])) : row[header?.key]}
+                            </p>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         )}
       </div>
 
-      {tableData &&
+      {tableData && tableData?.length !== 0 &&
         setRowsPerPage &&
         showPagination &&
         currentPage !== undefined &&
@@ -443,9 +437,8 @@ const NewTable: React.FC<NewTableProps> = ({
                   {[10, 20, 30]?.map((num) => (
                     <button
                       key={num}
-                      className={`option ${
-                        rowsPerPage === num ? "selected" : ""
-                      }`}
+                      className={`option ${rowsPerPage === num ? "selected" : ""
+                        }`}
                       onClick={() => setRowsPerPage(num)}
                     >
                       {num}
@@ -454,50 +447,41 @@ const NewTable: React.FC<NewTableProps> = ({
                 </div>
               </div>
             )}
-            {/* <div className="page-info">Page {currentPage}/{totalPages}</div> */}
-            {/* <div className="results-per-page">
-                                <span>Result per page:</span>
-                                <div className="options">
-                                    {[10, 20, 30]?.map((num) => (
-                                        <button
-                                            key={num}
-                                            className={`option ${rowsPerPage === num ? "selected" : ""}`}
-                                            onClick={() => setRowsPerPage(num)}
-                                        >
-                                            {num}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div> */}
             <ReactPaginate
-              previousLabel={
-                <span className="pagination-label">
-                  <ArrowLeft className="arrow-icon" /> {width > 600 && `Prev`}
-                </span>
-              }
               nextLabel={
-                <span className="pagination-label">
-                  {width > 600 && `Next`} <ArrowRight className="arrow-icon" />
-                </span>
+                <button className="pagination-button prev-button">
+                  {width > 600 && <span>Next</span>}
+                  <ArrowRight className="arrow-icon" />
+                </button>
+              }
+              pageLabelBuilder={(page: number) => (
+                <button className={`${page == currentPage ? "active" : ""} pagination-number-button`}>
+                  {page}
+                </button>)
+              }
+              onPageChange={(event: { selected: number }) => {
+                onPageChange(event.selected + 1)
+                console.log("event.selected", event)
+              }}
+              pageCount={totalPages}
+              previousLabel={
+                <button className="pagination-button prev-button">
+                  <ArrowLeft className="arrow-icon" />
+                  {width > 600 && <span>Prev</span>}
+                </button>
               }
               breakLabel="..."
-              pageCount={totalPages}
               marginPagesDisplayed={1}
               pageRangeDisplayed={width > 600 ? 3 : 0}
               forcePage={currentPage - 1}
-              onPageChange={(event: { selected: number }) =>
-                onPageChange(event.selected + 1)
-              }
               containerClassName="pagination"
               activeClassName="active"
               disabledClassName="disabled"
-              previousClassName="prev-button"
-              nextClassName="next-button"
             />
           </div>
         )}
-    </div>
-  );
+    </div >
+  )
 };
 
 export default NewTable;

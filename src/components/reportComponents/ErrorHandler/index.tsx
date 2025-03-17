@@ -26,7 +26,6 @@ if(isError ){
             <ReportNotFound  errorType={"reportNotFound"}/>
         )
     }
-
         return (
             <>
                 {children}

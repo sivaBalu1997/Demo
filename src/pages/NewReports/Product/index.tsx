@@ -3,20 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeDateFilterType, changeEndDate, changeLocation, changeStartDate, storeLocationsList } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
 import TabNavigation from 'components/common/TabNavigation';
-import SidePannelMob from 'components/reportComponents/SiePannelMob';
 import moment from 'moment';
 import Header from "components/reportComponents/Header";
 import SidePanel from 'pages/SidePanel'
-import ProductInsights from '../ProductInsights';
-import ProductAvailability from '../ProductAvailability';
-import "../../Sales/report.scss"
+import ProductInsights from './ProductInsights';
+import ProductAvailability from './ProductAvailability';
+import "../Sales/report.scss"
 
 const tabs = ["Insights", "Availability"]; 
 interface ReportProps { }
 
-const ProductHomeLayout: React.FC<ReportProps> = () => {
+const ProductReports: React.FC<ReportProps> = () => {    
     const [activeTab, setActiveTab] = useState("Insights");
-      const [isExpanded, setIsExpanded] = useState(false); 
     
       const dispatch = useDispatch();
       /*********************************************************** */
@@ -50,15 +48,12 @@ const ProductHomeLayout: React.FC<ReportProps> = () => {
         }
       }, [restaurantDetails, selectedLocation]);
     
-      const handleSideMenu=()=>{
-        setIsExpanded(true)
-      }
   return (
     <>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
     <SidePanel/>
       <div className="reports-container ">
-
+        
         {/* Header */}
         <Header  title="Reports & Insights"/>
 
@@ -73,4 +68,4 @@ const ProductHomeLayout: React.FC<ReportProps> = () => {
   )
 }
 
-export default ProductHomeLayout
+export default ProductReports

@@ -70,8 +70,7 @@ import offerSpecial from "./pages/offerManagement/specialPriceDetails/specialPri
 import { MenulistingPage } from "pages/productCatalog/Menulisting/MenulistingPage";
 import CategoryReport from "pages/CategoryReport";
 import SalesReport from "pages/NewReports/Sales";
-import ProductAvailability from "pages/NewReports/Product/ProductInsights";
-import ProductHomeLayout from "pages/NewReports/Product/ProductHomeLayout";
+import ProductReport from "pages/NewReports/Product";
 import Layout from "components/Layout";
 import StaffHomeLayout from "pages/NewReports/Staff/StaffHomeLayout";
 const Routers = () => {
@@ -337,15 +336,11 @@ const Routers = () => {
                 path="/employee-insights"
                 component={EmployeeInsights}
               />
-              <Route
-                exact
-                path="/product-reports"
-                component={ProductHomeLayout}
-              />
               <Route exact path="/check-in" component={CheckIn} />
               <Route exact path="/gen-ai-reports" component={GenAiReports} />
               <Route exact path="/customer-insights" component={CustIns} />
               <Route exact path="/sales-reports" component={SalesReport} />
+              <Route exact path="/product-reports" component={ProductReport} />
               <Route exact path="/check-in-reports" component={CheckInReport} />
               <Route
                 exact

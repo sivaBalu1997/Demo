@@ -54,8 +54,9 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
       submenu: [
         { name: "Reports & Insights", path: "/old-reports" },
         // { name: "Chart JS", path: "/live-reports" },
-        { name: "Sales Reports", path: "/sales-reports" },
-        { name: "Check-in Reports", path: "/check-in-reports" },
+        { name: "Sales", path: "/sales-reports" },
+        // { name: "Product", path: "/product-reports" },
+        { name: "Check-in", path: "/check-in-reports" },
       ],
     },
     {
@@ -108,7 +109,6 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
   }
 
   const logoutUser = () => {
-    console.log(111);
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());

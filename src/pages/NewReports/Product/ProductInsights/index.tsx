@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeLocation } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter'
@@ -8,6 +8,7 @@ import ReusableDoughnutChart from 'components/reportComponents/ReusableCharts/Re
 import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";
 import DownloadReport from 'components/reportComponents/DownloadReports';
 import "./style.scss"
+import { productInsightsAvailabilityByChannelsRequest, productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRequest, productInsightsItemsCancelledReasonsRequest, productInsightsTopPopularRequest, productInsightsTopRevenueRequest, productInsightsTopRevenueStreamsRequest } from 'redux/productReports/productReportsActions';
 
 const foodSalesData = [
   { "Product Name": "Steak", Sales: 7500.50 },
@@ -137,23 +138,91 @@ const stackedDataListTwo = [
   { xAxisData: "Aloo Matar", stackName: "Others", stackValue: 52 },
 ];
 
-
 const ProductInsights = () => {
 
-  const locations = useSelector(
-    (state: any) => state?.newReports?.storeLocationsList
-  );
-  const selectedLocation = useSelector(
-    (state: any) => state?.newReports?.selectedLocation
-  );
-  const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
-  const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
+  const locations = useSelector(    (state: any) => state?.newReports?.storeLocationsList  );
+  const selectedLocation = useSelector(    (state: any) => state?.newReports?.selectedLocation  );
 
+  // Top Revenue States
+  const topRevenueData = useSelector((state: any) => state?.productReports?.topRevenueSuccess);
+  const topRevenueLoading = useSelector((state: any) => state?.productReports?.topRevenueLoading);
+  const topRevenueError = useSelector((state: any) => state?.productReports?.topRevenueFailure);
 
+  // Top Popular States
+  const topPopularData = useSelector((state: any) => state?.productReports?.topPopularSuccess);
+  const topPopularLoading = useSelector((state: any) => state?.productReports?.topPopularLoading);
+  const topPopularError = useSelector((state: any) => state?.productReports?.topPopularFailure);
+
+  // Top Popular Revenue States
+  const topPopularRevenueData = useSelector((state: any) => state?.productReports?.topPopularRevenueSuccess);
+  const topPopularRevenueLoading = useSelector((state: any) => state?.productReports?.topPopularRevenueLoading);
+  const topPopularRevenueError = useSelector((state: any) => state?.productReports?.topPopularRevenueFailure);
+
+  // Top Revenue Streams States
+  const topRevenueStreamsData = useSelector((state: any) => state?.productReports?.topRevenueStreamsSuccess);
+  const topRevenueStreamsLoading = useSelector((state: any) => state?.productReports?.topRevenueStreamsLoading);
+  const topRevenueStreamsError = useSelector((state: any) => state?.productReports?.topRevenueStreamsFailure);
+
+  // Cancelled Items States
+  const cancelledItemsData = useSelector((state: any) => state?.productReports?.cancelledItemsSuccess);
+  const cancelledItemsLoading = useSelector((state: any) => state?.productReports?.cancelledItemsLoading);
+  const cancelledItemsError = useSelector((state: any) => state?.productReports?.cancelledItemsFailure);
+
+  // Cancelled Reasons States
+  const cancelledReasonsData = useSelector((state: any) => state?.productReports?.cancelledReasonsSuccess);
+  const cancelledReasonsLoading = useSelector((state: any) => state?.productReports?.cancelledReasonsLoading);
+  const cancelledReasonsError = useSelector((state: any) => state?.productReports?.cancelledReasonsFailure);
+
+  // Items Cancelled Reasons States
+  const itemsCancelledReasonsData = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsSuccess);
+  const itemsCancelledReasonsLoading = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsLoading);
+  const itemsCancelledReasonsError = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsFailure);
+
+  // Availability By Channels States
+  const availabilityByChannelsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsSuccess);
+  const availabilityByChannelsLoading = useSelector((state: any) => state?.productReports?.availabilityByChannelsLoading);
+  const availabilityByChannelsError = useSelector((state: any) => state?.productReports?.availabilityByChannelsFailure);
+
+  // Availability By Channels Details States
+  const availabilityByChannelsDetailsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsSuccess);
+  const availabilityByChannelsDetailsLoading = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsLoading);
+  const availabilityByChannelsDetailsError = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsFailure);  
+
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } =    useDateFilter();
+
+  useEffect(() => {
+    console.log({
+      topRevenueData,
+      topPopularData,
+      topPopularRevenueData,
+      topRevenueStreamsData,
+      cancelledItemsData,
+      cancelledReasonsData,
+      itemsCancelledReasonsData,
+      availabilityByChannelsData,
+      availabilityByChannelsDetailsData
+    })
+  },[topRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData, availabilityByChannelsData, availabilityByChannelsDetailsData])
   const dispatch = useDispatch();
 
-  const { startDate, endDate, selectedDateFilterType, handleDateChange } =
-    useDateFilter();
+  useEffect(() => {
+    const params={
+      locationId: selectedLocation?.value,
+      startDate:startDate,
+      endDate:endDate
+
+    }
+    dispatch((productInsightsTopRevenueRequest( params)));
+    dispatch(productInsightsAvailabilityByChannelsRequest(params))
+    dispatch(productInsightsAvailabilityByChannelsRequest(params))
+    dispatch(productInsightsTopPopularRequest(params))
+    dispatch(productInsightsTopRevenueStreamsRequest(params))
+    dispatch(productInsightsCancelledItemsRequest(params))
+    dispatch(productInsightsCancelledReasonsRequest(params))
+    dispatch(productInsightsItemsCancelledReasonsRequest(params))
+  },[selectedLocation,startDate,endDate])
+
+
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);

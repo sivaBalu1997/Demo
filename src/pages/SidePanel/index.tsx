@@ -91,7 +91,7 @@ const SidePanelDeskTop = () => {
     },
     // {
     //   name:"Product",
-    //   path:""
+    //   path:"/product-reports"
     // },
     // {
     //   name:"Staff",
@@ -194,7 +194,6 @@ const SidePanelDeskTop = () => {
         const logoMedia = restaurantDetails.media.filter(
           (media) => media.entityType == type
         )[0];
-        console.log("Image failed reason  ", { logoMedia });
 
         return (
           STORAGE_BUCKET_URL +

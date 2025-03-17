@@ -14,6 +14,9 @@ import {
   summaryInsightsCustomerByAvgCoverSizeRequest,
   summaryInsightsCustomerByLoyaltyLevelsRequest,
 } from "../../../redux/customerInsights/customerInsightsActions";
+// import ErrorState from "components/reportComponents/ErrorHandler";
+
+import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 interface CustomBarChartData {
   xAxisValue: string;
   yAxisValue: number;
@@ -284,62 +287,82 @@ const SummaryInsights = () => {
               <h1 className="reports-page-heading">{"Customer Volume"}</h1>
               <DownloadPopOver />
             </div>
-            <CustomBarChart
-              barColor="#009689"
-              toolTipBorderColor="#009689"
-              xAxisTooltipLabel=""
-              yAxisTooltipLabel="Count"
-              dataList={
-                summaryInsightsCustomerVolumeData?.map((data: any) => ({
-                  xAxisValue: `${data?.orderCategory}`,
-                  yAxisValue: Number(data?.customerCount),
-                }))
-                //   dataList3?.map((data: any) => ({
-                //   xAxisValue: `Group of ${data.xAxisValue || 0}`,
-                //   yAxisValue: Number(data.yAxisValue),
-                // }))
+            <ErrorState
+              isDataNotAvailableWithCustomMessage={
+                summaryInsightsCustomerVolumeData?.length > 0 ? false : true
               }
-              loader={summaryInsightsCustomerVolumeDataLoading}
-            />
+            >
+              <CustomBarChart
+                barColor="#009689"
+                toolTipBorderColor="#009689"
+                xAxisTooltipLabel=""
+                yAxisTooltipLabel="Count"
+                dataList={
+                  summaryInsightsCustomerVolumeData?.map((data: any) => ({
+                    xAxisValue: `${data?.orderCategory}`,
+                    yAxisValue: Number(data?.customerCount),
+                  }))
+                  //   dataList3?.map((data: any) => ({
+                  //   xAxisValue: `Group of ${data.xAxisValue || 0}`,
+                  //   yAxisValue: Number(data.yAxisValue),
+                  // }))
+                }
+                loader={summaryInsightsCustomerVolumeDataLoading}
+              />
+            </ErrorState>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Tenure</h1>
               <DownloadPopOver />
             </div>
-            <StackedBarChart
-              loader={summaryInsightsCustomerByTenureDataLoading}
-              dataList={
-                summaryInsightsCustomerByTenureData?.map((data: any) => ({
-                  xAxisData: `${data?.timeCategory}`,
-                  stackName: `${data?.tenureCategory}`,
-                  stackValue: Number(data?.tenureCount),
-                }))
-                // stackedDataList
+            <ErrorState
+              isDataNotAvailableWithCustomMessage={
+                summaryInsightsCustomerByTenureData?.length > 0 ? false : true
               }
-              colorList={["#1F77B4", "#17BECF"]}
-              toolTipBorderColor="#17BECF"
-            />
+            >
+              <StackedBarChart
+                loader={summaryInsightsCustomerByTenureDataLoading}
+                dataList={
+                  summaryInsightsCustomerByTenureData?.map((data: any) => ({
+                    xAxisData: `${data?.timeCategory}`,
+                    stackName: `${data?.tenureCategory}`,
+                    stackValue: Number(data?.tenureCount),
+                  }))
+                  // stackedDataList
+                }
+                colorList={["#1F77B4", "#17BECF"]}
+                toolTipBorderColor="#17BECF"
+              />
+            </ErrorState>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Total Spend</h1>
               <DownloadPopOver />
             </div>
-            <StackedBarChart
-              loader={summaryInsightsCustomerByTotalSpendDataLoading}
-              dataList={
-                summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
-                  xAxisData: `${data?.spendCategory}`,
-                  stackName: `${data?.orderCategory}`,
-                  stackValue: Number(data?.customerCount),
-                }))
-
-                // stackedDataList
+            <ErrorState
+              isDataNotAvailableWithCustomMessage={
+                summaryInsightsCustomerByTotalSpendData?.length > 0
+                  ? false
+                  : true
               }
-              colorList={["#AA562A", "#F89B29"]}
-              toolTipBorderColor="#F89B29"
-            />
+            >
+              <StackedBarChart
+                loader={summaryInsightsCustomerByTotalSpendDataLoading}
+                dataList={
+                  summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
+                    xAxisData: `${data?.spendCategory}`,
+                    stackName: `${data?.orderCategory}`,
+                    stackValue: Number(data?.customerCount),
+                  }))
+
+                  // stackedDataList
+                }
+                colorList={["#AA562A", "#F89B29"]}
+                toolTipBorderColor="#F89B29"
+              />
+            </ErrorState>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
@@ -348,20 +371,30 @@ const SummaryInsights = () => {
               </h1>
               <DownloadPopOver />
             </div>
-            <CustomBarChart
-              barColor="#67833E"
-              toolTipBorderColor="#67833E"
-              xAxisTooltipLabel=""
-              yAxisTooltipLabel="Count"
-              dataList={
-                summaryInsightsCustomerByAvgCoverSizeData?.map((data: any) => ({
-                  xAxisValue: `${data?.orderTotalRange}`,
-                  yAxisValue: Number(data?.customerCount),
-                }))
-                // dataList3
+            <ErrorState
+              isDataNotAvailableWithCustomMessage={
+                summaryInsightsCustomerByAvgCoverSizeData?.length > 0
+                  ? false
+                  : true
               }
-              loader={summaryInsightsCustomerByAvgCoverSizeDataLoading}
-            />
+            >
+              <CustomBarChart
+                barColor="#67833E"
+                toolTipBorderColor="#67833E"
+                xAxisTooltipLabel=""
+                yAxisTooltipLabel="Count"
+                dataList={
+                  summaryInsightsCustomerByAvgCoverSizeData?.map(
+                    (data: any) => ({
+                      xAxisValue: `${data?.orderTotalRange}`,
+                      yAxisValue: Number(data?.customerCount),
+                    })
+                  )
+                  // dataList3
+                }
+                loader={summaryInsightsCustomerByAvgCoverSizeDataLoading}
+              />{" "}
+            </ErrorState>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
@@ -370,20 +403,26 @@ const SummaryInsights = () => {
               </h1>
               <DownloadPopOver />
             </div>
-            <CustomBarChart
-              barColor="#2682D9"
-              toolTipBorderColor="#2682D9"
-              xAxisTooltipLabel=""
-              yAxisTooltipLabel="Count"
-              dataList={
-                summaryInsightsCustomerByLoyaltyData?.map((data: any) => ({
-                  xAxisValue: `${data?.loyaltyCategory}`,
-                  yAxisValue: Number(data?.customerCount),
-                }))
-                // dataList3
+            <ErrorState
+              isDataNotAvailableWithCustomMessage={
+                summaryInsightsCustomerByLoyaltyData?.length > 0 ? false : true
               }
-              loader={summaryInsightsCustomerByLoyaltyDataLoading}
-            />
+            >
+              <CustomBarChart
+                barColor="#2682D9"
+                toolTipBorderColor="#2682D9"
+                xAxisTooltipLabel=""
+                yAxisTooltipLabel="Count"
+                dataList={
+                  summaryInsightsCustomerByLoyaltyData?.map((data: any) => ({
+                    xAxisValue: `${data?.loyaltyCategory}`,
+                    yAxisValue: Number(data?.customerCount),
+                  }))
+                  // dataList3
+                }
+                loader={summaryInsightsCustomerByLoyaltyDataLoading}
+              />{" "}
+            </ErrorState>
           </div>
         </div>
       </div>

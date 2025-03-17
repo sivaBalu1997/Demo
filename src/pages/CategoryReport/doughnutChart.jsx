@@ -88,12 +88,6 @@ function DoughnutChartButtonVoided({
     }
   }, [reRenderChart]);
 
-  // Update window width on resize to trigger re-render.
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   const computeLabelPositions = useCallback(() => {
     if (
       !chartRef.current ||
@@ -118,34 +112,9 @@ function DoughnutChartButtonVoided({
       }
     }
   }, []);
-  // Force recalculation on initial render after a short delay.
-  useEffect(() => {
-    let observer;
-    if (containerRef.current) {
-      observer = new ResizeObserver(() => {
-        computeLabelPositions();
-      });
-      observer.observe(containerRef.current);
-    }
-    return () => observer?.disconnect();
-  }, []);
-  // Recompute label positions when windowWidth changes.
-  useEffect(() => {
-    computeLabelPositions();
-  }, [windowWidth, computeLabelPositions]);
 
-  // Also re-calc positions when container size changes.
-  useEffect(() => {
-    if (containerRef.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        computeLabelPositions();
-      });
-      resizeObserver.observe(containerRef.current);
-      return () => resizeObserver.disconnect();
-    }
-  }, [containerRef, computeLabelPositions]);
 
-  // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
+// Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
 
   const handleHover = (event, elements) => {
     if (elements.length > 0) {

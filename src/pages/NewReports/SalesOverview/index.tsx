@@ -36,9 +36,8 @@ import EmployeeSalesChart from "components/reportComponents/chart/chartEmployees
 import ChannelSalesChart from "components/reportComponents/chart/channelChart";
 import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DoughnutChartWithButton from "components/reportComponents/Charts/DoughnutChartButton";
 import NewTable from "components/reportComponents/NewTable";
-import DoughnutChartWithButtonVoided from "components/reportComponents/Charts/DoughnutChartButtonVoided";
+import DoughnutChart from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
 import "./SalesOverview.scss";
 // import useDebounce from "hooks/useDebounce";
@@ -702,10 +701,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </div>
 
           <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width:"100%" }} ref={offerRef}>
-          <div className="doughnut-chart-with-button" style={{width:"50%"}}>
+          <div className="doughnut-chart-with-button">
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <ErrorHandler data={offerSummary} isError={offerSummaryError}>
-                <DoughnutChartWithButtonVoided
+                <DoughnutChart
                dataList={offerSummary?.map((data:any)=>  ({
                 name:data?.steward,
                 label:data?.offerName,
@@ -722,10 +721,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 />
               </ErrorHandler>
             </div>
-            <div className="doughnut-chart-container" style={{width:"50%"}}>
+            <div className="doughnut-chart-with-button" >
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
               <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
-                <DoughnutChartWithButtonVoided
+                <DoughnutChart
                   dataList={voidedOrderSummary?.map((data:any)=>  ({
                     name:data?.steward,
                     label:data?.voidedReasons,
