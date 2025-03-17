@@ -293,7 +293,12 @@ const Menu = () => {
 
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory({name:filteredItem?.categoryName,id: filteredItem?.categoryId}));
+        dispatch(
+          selectedCategory({
+            name: filteredItem?.categoryName,
+            id: filteredItem?.categoryId,
+          })
+        );
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -313,7 +318,12 @@ const Menu = () => {
 
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory({name:filteredItem?.categoryName,id: filteredItem?.categoryId}));
+        dispatch(
+          selectedCategory({
+            name: filteredItem?.categoryName,
+            id: filteredItem?.categoryId,
+          })
+        );
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -358,7 +368,8 @@ const Menu = () => {
           <div className="v2-menuContainer">
             {menudatalist?.map((category: any) => (
               <>
-                {(category?.itemResponseList?.length > 0 || category?.subCategoryResponseList?.length > 0) && (
+                {(category?.itemResponseList?.length > 0 ||
+                  category?.subCategoryResponseList?.length > 0) && (
                   <div className="v2-itemHeader">
                     <p>{`${category?.categoryName} ${
                       category?.itemResponseList?.length > 0
@@ -408,8 +419,13 @@ const Menu = () => {
                       // const filteredOrderTypes = item?.orderTypes?.filter(
                       //   (type: any) => type.typeGroup !== "I"
                       // );
-                      const filteredOrderTypes = selectedBranch?.orderTypes?.filter((type: any) => type?.typeGroup !== "I" && type?.isEnabled == 1)
-                      const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
+                      const filteredOrderTypes =
+                        selectedBranch?.orderTypes?.filter(
+                          (type: any) =>
+                            type?.typeGroup !== "I" && type?.isEnabled == 1
+                        );
+                      const allChannels =
+                        activeOrderTypes?.length === filteredOrderTypes?.length;
 
                       return (
                         <div
@@ -419,7 +435,13 @@ const Menu = () => {
                           <p>{item?.itemName}</p>
                           <div className="itemRight">
                             <img
-                              src={allChannels ? channelIcon : activeOrderTypes?.length < 1 ? noneAvail : notAllChannel}
+                              src={
+                                allChannels
+                                  ? channelIcon
+                                  : activeOrderTypes?.length < 1
+                                  ? noneAvail
+                                  : notAllChannel
+                              }
                               alt="channelIcon"
                               className="channelIcon"
                               onMouseEnter={() => setHoveredItem(item?.itemId)}
@@ -442,32 +464,29 @@ const Menu = () => {
                   {category?.subCategoryResponseList?.map(
                     (item: any, subIndex: number) => (
                       <div key={subIndex}>
-                      {
-                         item?.itemResponseList?.length > 0 && 
-                         <div className="v2-sub-item">
-                         <p>{`${item?.subCategoryName} - ${
-                           item?.itemResponseList?.length > 0
-                             ? item?.itemResponseList?.length
-                             : ""
-                         }`}</p>
-                         <img
-                           src={itemArrow}
-                           alt="subCategory-arrow"
-                           className={`subCategory-arrow ${
-                             openSubItems.includes(item?.subCategoryId)
-                               ? ""
-                               : "open"
-                           }`}
-                           onClick={() =>
-                             toggleSubCategory(item?.subCategoryId)
-                           }
-                         />
-                       </div>
-                      }
+                        {item?.itemResponseList?.length > 0 && (
+                          <div className="v2-sub-item">
+                            <p>{`${item?.subCategoryName} - ${
+                              item?.itemResponseList?.length > 0
+                                ? item?.itemResponseList?.length
+                                : ""
+                            }`}</p>
+                            <img
+                              src={itemArrow}
+                              alt="subCategory-arrow"
+                              className={`subCategory-arrow ${
+                                (openSubItems.includes(item?.subCategoryId))
+                                  ? ""
+                                  : "open"
+                              }`}
+                              onClick={() =>
+                                toggleSubCategory(item?.subCategoryId)
+                              }
+                            />
+                          </div>
+                        )}
 
-                       
-
-                        {openSubItems.includes(item?.subCategoryId) &&
+                        {((SearchedmenuItem?.categoryId) || openSubItems.includes(item?.subCategoryId)) &&
                           item?.itemResponseList?.map(
                             (subItem: any, itemIndex: number) => {
                               const dineInPrice = subItem?.orderTypes?.find(
@@ -491,8 +510,15 @@ const Menu = () => {
                                 })
                                 .filter(Boolean);
 
-                              const filteredOrderTypes = selectedBranch?.orderTypes?.filter((type: any) => type?.typeGroup !== "I" && type?.isEnabled == 1)
-                              const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
+                              const filteredOrderTypes =
+                                selectedBranch?.orderTypes?.filter(
+                                  (type: any) =>
+                                    type?.typeGroup !== "I" &&
+                                    type?.isEnabled == 1
+                                );
+                              const allChannels =
+                                activeOrderTypes?.length ===
+                                filteredOrderTypes?.length;
                               return (
                                 <div
                                   className="v2-itemData"
@@ -507,7 +533,9 @@ const Menu = () => {
                                       src={
                                         allChannels
                                           ? channelIcon
-                                          : activeOrderTypes?.length < 1 ? noneAvail : notAllChannel
+                                          : activeOrderTypes?.length < 1
+                                          ? noneAvail
+                                          : notAllChannel
                                       }
                                       alt="channelIcon"
                                       className="channelIcon"

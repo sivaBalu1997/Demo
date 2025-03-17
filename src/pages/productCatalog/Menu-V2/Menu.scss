@@ -1,11 +1,13 @@
 .menuV2-container{
   width: 100%;
+  height: 100%;
   display: flex;
 
   .v2-menu{
     width: 100%;
     height: 100%;
     display: flex;
+    overflow: hidden;
     flex-direction: column;
   }
 
@@ -62,9 +64,7 @@
   .v2-item-container {
     max-height: 0;
     opacity: 0;
-    transform: translateY(-10px);
     // overflow: hidden;
-    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
   
   .v2-item-container.open {
@@ -85,9 +85,9 @@
     margin-right: 0px;
     margin-left: 20px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
+    color: #525252;
     border-bottom: 1px solid #F4F4F4;
-    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     cursor: pointer;
     position: relative;
     z-index: 0 !important;
@@ -137,7 +137,8 @@
     margin-right: 0px;
     margin-left: 20px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
+    color: #6F6F6F;
     border-bottom: 1px solid #F5F5F5;
     cursor: pointer;
     gap: 20px;
