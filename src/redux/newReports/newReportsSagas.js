@@ -65,8 +65,6 @@ import {
     liveCheckInStatusFailure,
     dailyCheckInStatusSuccess,
     dailyCheckInStatusFailure,
-    billerUnbilledSuccess,
-    billerUnbilledFailure,
     employeeSalesOverviewSuccess,
     employeeSalesOverviewFailure,
     voidedSummarySuccess,
@@ -107,12 +105,15 @@ import {
     getPremisesSummarySuccess,
     getPremisesSummaryFailure,
     getEmployeeChartSliceTableSuccess,
-    getEmployeeChartSliceTableFailure
+    getEmployeeChartSliceTableFailure,
+    billedSuccess,
+    billedFailure,
+    unBilledSuccess,
+    unBilledFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
     ACTUAL_SALES_THIRD_PARTY_REQUEST,
-    BILLED_UNBILLED_REQUEST,
     CANCELLATION_SUMMARY_REQUEST,
     CUSTOMER_DETAILS_REQUEST,
     CUSTOMER_SIZE_REQUEST,
@@ -161,11 +162,12 @@ import {
     GET_VOIDED_ORDER_SUMMARY_REQUEST,
     GET_EMPLOYEE_ACTIVITY_REQUEST,
     GET_PREMISES_SUMMARARY_REQUEST,
-    GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST
+    GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
+    BILLED_REQUEST,
+    UNBILLED_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
-    getBilledAndUnbilled,
     getCancellationSummary,
     getCustomerDetails,
     getCustomerSize,
@@ -215,6 +217,8 @@ import {
     getEmployeeActivity,
     getPremisesSummary,
     getEmployeeChartSliceTable,
+    getUnbilled,
+    getBilled,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -792,22 +796,43 @@ export function* dailyCheckInStatusRequestSaga(action) {
     }
 }
 
-// billedUnbilledRequestSaga
-export function* billedUnbilledRequestSaga(action) {
+// billedRequestSaga
+export function* billedRequestSaga(action) {
     // console.log('inside saga')
     try {
-        const response = yield call(getBilledAndUnbilled, action.payload);
+        const response = yield call(getBilled, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
-        // console.log("response of billedUnbilledRequestSaga", { decryptedData })
+        // console.log("response of billedRequestSaga", { decryptedData })
         if (response.status === 200) {
-            yield put(billerUnbilledSuccess(decryptedData));
+            yield put(billedSuccess(decryptedData));
         } else {
-            yield put(billerUnbilledFailure(decryptedData?.message));
+            yield put(billedFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
         // console.log('inside catch')
-        yield put(billerUnbilledFailure(error))
+        yield put(billedFailure(error))
+        showErrorToast(error.message);
+    }
+}
+
+
+// unbilledRequestSaga
+export function* unbilledRequestSaga(action) {
+    // console.log('inside saga')
+    try {
+        const response = yield call(getUnbilled, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of unbilledRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(unBilledSuccess(decryptedData));
+        } else {
+            yield put(unBilledFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        // console.log('inside catch')
+        yield put(unBilledFailure(error))
         showErrorToast(error.message);
     }
 }
@@ -1190,7 +1215,8 @@ export default function* watchNewReportRequest() {
     yield takeLatest(CUSTOMER_DETAILS_REQUEST, customeDetailsRequestSaga);
     yield takeLatest(LIVE_CHECKIN_STATUS_REQUEST, liveCheckInStatusRequestSaga);
     yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga);
-    yield takeLatest(BILLED_UNBILLED_REQUEST, billedUnbilledRequestSaga);
+    yield takeLatest(BILLED_REQUEST, billedRequestSaga);
+    yield takeLatest(UNBILLED_REQUEST, unbilledRequestSaga);
     yield takeLatest(EMPLOYEE_SALES_OVERVIEW_REQUEST, employeeSalesOverViewSaga);
     yield takeLatest(DAILY_CHECKIN_STATUS_REQUEST, dailyCheckInStatusRequestSaga)
     yield takeLatest(VOIDED_SUMMARY_REQUEST, voidedSummaryRequestSaga);

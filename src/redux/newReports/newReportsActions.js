@@ -166,7 +166,13 @@ import {
     GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
     SELCTED_DATE_FILTER_TYPE,
     SELCTED_START_DATE,
-    SELCTED_END_DATE
+    SELCTED_END_DATE,
+    BILLED_REQUEST,
+    BILLED_SUCCESS,
+    BILLED_FAILURE,
+    UNBILLED_REQUEST,
+    UNBILLED_SUCCESS,
+    UNBILLED_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1050,23 +1056,44 @@ export const locationDetailsFailure = (error) => {
     }
 }
 
-export const billerUnbilledRequest = (data) => {
+export const billedRequest = (data) => {
     return {
-        type: BILLED_UNBILLED_REQUEST,
+        type: BILLED_REQUEST,
         payload: data
     }
 }
 
-export const billerUnbilledSuccess = (data) => {
+export const billedSuccess = (data) => {
     return {
-        type: BILLED_UNBILLED_SUCCESS,
+        type: BILLED_SUCCESS,
         payload: data
     }
 }
 
-export const billerUnbilledFailure = (error) => {
+export const billedFailure = (error) => {
     return {
-        type: BILLED_UNBILLED_FAILURE,
+        type: BILLED_FAILURE,
+        payload: error
+    }
+}
+
+export const unBilledRequest = (data) => {
+    return {
+        type: UNBILLED_REQUEST,
+        payload: data
+    }
+}
+
+export const unBilledSuccess = (data) => {
+    return {
+        type: UNBILLED_SUCCESS,
+        payload: data
+    }
+}
+
+export const unBilledFailure = (error) => {
+    return {
+        type: UNBILLED_FAILURE,
         payload: error
     }
 }

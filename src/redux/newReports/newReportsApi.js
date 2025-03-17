@@ -436,6 +436,31 @@ export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
     });
 }
 
+export const getBilled = (billedPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // console.log('inside Api')
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/live/billedOrders?locationId=${billedPayload?.locationid}&type=${billedPayload?.type}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getUnbilled = (unBilledPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // console.log('inside Api')
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/sales/live/billedOrders?locationId=${unBilledPayload?.locationid}&type=${unBilledPayload?.type}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
 
 export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;

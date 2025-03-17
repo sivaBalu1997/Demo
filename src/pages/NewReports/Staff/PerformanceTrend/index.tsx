@@ -177,7 +177,7 @@ const removeItem = (value: string) => {
           <p className='pt-select-employee-clear-text' onClick={()=>setEmployeeLabelPill([])}>clear</p>
         </div>
         <div className='employee-pt-pill-container'>
-            <p>Selected:</p>
+            <p className='selected-label'>Selected:</p>
             {employeeLabelPill?.map((item, index) => (
               <div
                 key={index}

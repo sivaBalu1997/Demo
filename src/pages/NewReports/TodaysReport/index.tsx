@@ -1,15 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
 import { useDispatch, useSelector } from 'react-redux';
-import { billerUnbilledRequest, changeLocation, liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest, locationDetailsRequest } from 'redux/newReports/newReportsActions';
+import { 
+    billedRequest,
+    changeLocation,
+    liveDiscountRequest, 
+    liveNetSalesRequest, 
+    liveOpenSalesRequest, 
+    liveOrderNonDineInRequest, 
+    liveOrdersRequest, 
+    liveRefundsRequest, 
+    locationDetailsRequest, 
+    unBilledRequest 
+} from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
+import { formatNumberByCountry } from 'utils';
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import moment from 'moment';
 import NewTable from 'components/reportComponents/NewTable';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import "./style.scss";
-import { formatNumberByCountry } from 'utils';
 
 const TodaysReport: React.FC = () => {
 
@@ -38,8 +49,12 @@ const TodaysReport: React.FC = () => {
     const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
     const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
 
-    const billedOrUnbilledDataAPIRedux = useSelector((state: any) => state?.newReports?.billedUnbilledSuccess)
-    const billedOrUnbilledDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedUnbilledLoading)
+
+    const billedDataAPIRedux = useSelector((state: any) => state?.newReports?.billedSuccess)
+    const billedDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedLoading)
+
+    const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
+    const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
     const textOne: string = "Live Orders";
     const textTwo: string = "Overall";
@@ -99,8 +114,14 @@ const TodaysReport: React.FC = () => {
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(billerUnbilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: isSwitchActive === true ? 'completed' : 'notcompleted' }))
-    }, [isSwitchActive, currentDate, selectedLocation])
+        currentDate && dispatch(billedRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'completed' }))
+    }, [currentDate, selectedLocation])
+
+    useEffect(() => {
+        const formattedDate = moment().format('YYYY-MM-DD');
+        setCurrentDate(formattedDate);
+        currentDate && dispatch(unBilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'notcompleted' }))
+    }, [currentDate, selectedLocation])
 
 
     const handleToggleSwitch = () => {
@@ -125,10 +146,6 @@ const TodaysReport: React.FC = () => {
                 console.warn(`Unknown KPI title: ${kpiTitle}`);
         }
     };
-
-
-
-
 
 
     const handleRefreshClick = () => {
@@ -162,12 +179,8 @@ const TodaysReport: React.FC = () => {
             endDate: moment().format('YYYY-MM-DD'),
             searchQuery: ''
         }));
-        dispatch(billerUnbilledRequest({
-            locationid: selectedLocation?.value,
-            startDate: moment().format('YYYY-MM-DD'),
-            type: isSwitchActive === true ? 'notcompleted' : 'completed'
-        }));
-
+        dispatch(billedRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'completed' }))
+        dispatch(unBilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'notcompleted' }))
     };
 
 
@@ -189,16 +202,26 @@ const TodaysReport: React.FC = () => {
             <div className="todays-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="todays-report-sales-overview-box-container">
-                    {cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
+                    {isSwitchActive ? (cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
                         <CardWithMiniGraph
                             key={key}
                             cardTitle={title}
-                            cardValue={formatNumberByCountry(billedOrUnbilledDataAPIRedux?.[key], countryCode, isMonetary)}
+                            cardValue={formatNumberByCountry(billedDataAPIRedux?.[key], countryCode, isMonetary)}
                             isMonetary={isMonetary}
-                            loader={billedOrUnbilledDataAPIReduxLoading}
-                        // loader={true}
+                            loader={billedDataAPIReduxLoading}
                         />
-                    ))}
+                    ))
+                ) : (
+                    cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
+                        <CardWithMiniGraph
+                            key={key}
+                            cardTitle={title}
+                            cardValue={formatNumberByCountry(unBilledAPIRedux?.[key], countryCode, isMonetary)}
+                            isMonetary={isMonetary}
+                            loader={unBilledAPIReduxLoading}
+                        />
+                    ))
+                    )}
                 </div>
             </div>
             <div className="todays-report-tables-container">

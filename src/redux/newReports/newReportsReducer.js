@@ -96,9 +96,6 @@ import {
     DAILY_CHECKIN_STATUS_REQUEST,
     DAILY_CHECKIN_STATUS_SUCCESS,
     DAILY_CHECKIN_STATUS_FAILURE,
-    BILLED_UNBILLED_REQUEST,
-    BILLED_UNBILLED_SUCCESS,
-    BILLED_UNBILLED_FAILURE,
     EMPLOYEE_SALES_OVERVIEW_REQUEST,
     EMPLOYEE_SALES_OVERVIEW_SUCCESS,
     EMPLOYEE_SALES_OVERVIEW_FAILURE,
@@ -164,7 +161,13 @@ import {
     GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
     SELCTED_DATE_FILTER_TYPE,
     SELCTED_START_DATE,
-    SELCTED_END_DATE
+    SELCTED_END_DATE,
+    BILLED_REQUEST,
+    BILLED_FAILURE,
+    BILLED_SUCCESS,
+    UNBILLED_REQUEST,
+    UNBILLED_SUCCESS,
+    UNBILLED_FAILURE,
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -306,6 +309,17 @@ const initialNewReportsState = {
     billedUnbilledLoading: false,
     billedUnbilledSuccess: [],
     billedUnbilledFailure: false,
+
+    //billed
+    billedLoading: false,
+    billedSuccess: [],
+    billedFailure: false,
+
+    //unbilled
+    unBilledLoading: false,
+    unBilledSuccess: [],
+    unBilledFailure: false,
+
     // employee sales overview
     employeeSalesOverviewLoading: false,
     employeeSalesOverviewSuccess: [],
@@ -954,20 +968,35 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.dailyCheckInStatusSuccess = [];
                 draft.dailyCheckInStatusFailure = true;
                 break;
-            case BILLED_UNBILLED_REQUEST:
-                draft.billedUnbilledLoading = true;
-                draft.billedUnbilledSuccess = [];
-                draft.billedUnbilledFailure = false;
+            case BILLED_REQUEST:
+                draft.billedLoading = true;
+                draft.billedSuccess = [];
+                draft.billedFailure = false;
                 break;
-            case BILLED_UNBILLED_SUCCESS:
-                draft.billedUnbilledLoading = false;
-                draft.billedUnbilledSuccess = action.payload;
-                draft.billedUnbilledFailure = false;
+            case BILLED_SUCCESS:
+                draft.billedLoading = false;
+                draft.billedSuccess = action.payload;
+                draft.billedFailure = false;
                 break;
-            case BILLED_UNBILLED_FAILURE:
-                draft.billedUnbilledLoading = false;
-                draft.billedUnbilledSuccess = [];
-                draft.billedUnbilledFailure = true;
+            case BILLED_FAILURE:
+                draft.billedLoading = false;
+                draft.billedSuccess = [];
+                draft.billedFailure = true;
+                break;
+            case UNBILLED_REQUEST:
+                draft.unBilledLoading = true;
+                draft.unBilledSuccess = [];
+                draft.unBilledFailure = false;
+                break;
+            case UNBILLED_SUCCESS:
+                draft.unBilledLoading = false;
+                draft.unBilledSuccess = action.payload;
+                draft.unBilledFailure = false;
+                break;
+            case UNBILLED_FAILURE:
+                draft.unBilledLoading = false;
+                draft.unBilledSuccess = [];
+                draft.unBilledFailure = true;
                 break;
             case EMPLOYEE_SALES_OVERVIEW_REQUEST:
                 draft.employeeSalesOverviewLoading = true;

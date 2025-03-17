@@ -47,7 +47,14 @@
         .employee-pt-pill-container{
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             gap: 1vw;
+            .selected-label{
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: -0.2px;
+                color: #595959;
+            }
             .selected-employee-pill {
                     display: flex;
                     gap: 1vw;
