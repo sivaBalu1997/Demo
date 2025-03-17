@@ -112,34 +112,9 @@ function DoughnutChartButtonVoided({
       }
     }
   }, []);
-  // Force recalculation on initial render after a short delay.
-  useEffect(() => {
-    let observer;
-    if (containerRef.current) {
-      observer = new ResizeObserver(() => {
-        computeLabelPositions();
-      });
-      observer.observe(containerRef.current);
-    }
-    return () => observer?.disconnect();
-  }, []);
-  // Recompute label positions when windowWidth changes.
-  useEffect(() => {
-    computeLabelPositions();
-  }, [ computeLabelPositions]);
 
-  // Also re-calc positions when container size changes.
-  useEffect(() => {
-    if (containerRef.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        computeLabelPositions();
-      });
-      resizeObserver.observe(containerRef.current);
-      return () => resizeObserver.disconnect();
-    }
-  }, [containerRef, computeLabelPositions]);
 
-  // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
+// Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
 
   const handleHover = (event, elements) => {
     if (elements.length > 0) {
