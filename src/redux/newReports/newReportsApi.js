@@ -663,7 +663,7 @@ export const getEmployeeActivity = (employeeActivityPayload) => {
 
     let url = `${reportsBaseUrl}/sales/employee/activity?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
 
-    if (staffId && staffId !== "all") {
+    if (staffId && staffId !== "all" && staffId !== "All") {
         url += `&staffId=${staffId}`;
     }
 

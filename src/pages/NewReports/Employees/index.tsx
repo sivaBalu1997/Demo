@@ -642,7 +642,7 @@ const Employees: React.FC = () => {
           locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          staffId: employeeList,
+          staffId: employeeList === "All" ? "" : employeeList,
         })
       );
     }
@@ -655,7 +655,7 @@ const Employees: React.FC = () => {
           locationid: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          staffId: employeeList,
+          staffId: employeeList === "All" ? "" : employeeList,
         })
       );
     }
