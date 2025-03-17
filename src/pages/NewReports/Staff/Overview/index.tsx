@@ -13,7 +13,6 @@ import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
-//r-arrow-left.svg
 import { NewTableHeader } from "interface/newReportsInterface";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";

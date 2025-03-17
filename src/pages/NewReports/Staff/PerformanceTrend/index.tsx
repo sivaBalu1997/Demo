@@ -1,91 +1,18 @@
-import React from 'react';
-import LineOrMultiChart from 'components/reportComponents/ReusableCharts/LineOrMultiChart';
-import ChartComponent, { MultiDataType } from 'components/reportComponents/ReusableCharts/ReusableLineChart';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeLocation } from 'redux/newReports/newReportsActions';
+import { RootState } from 'redux/rootReducer';
+import { EmployeeType } from 'interface/employeeInterface';
+import MultiLineChart from 'components/reportComponents/ReusableCharts/MultiLineChart';
+import StoreFilter from 'components/reportComponents/StoreFilter';
+import useDateFilter from 'hooks/useDateFilter';
+import CustomDropdown from "components/common/customDropdown";
 import "./style.scss";
 
 
-const salesPerformanceData = [
-  {
-    day: "Sunday",
-    employees: [
-      { name: "James Bond", orders: 30, sales: 120.5, tips: 25.0, gratuities: 18.0 },
-      // { name: "Alan Fox", orders: 45, sales: 220.0, tips: 40.0, gratuities: 35.5 },
-      // { name: "Ajith Kumar", orders: 20, sales: 50.0, tips: 15.0, gratuities: 10.0 },
-    ],
-  },
-  {
-    day: "Monday",
-    employees: [
-      { name: "Alan Fox", orders: 25, sales: 80.0, tips: 20.0, gratuities: 15.0 },
-      // { name: "Alan Fox", orders: 40, sales: 150.0, tips: 30.0, gratuities: 25.0 },
-      // { name: "Ajith Kumar", orders: 28, sales: 90.0, tips: 18.0, gratuities: 12.5 },
-    ],
-  },
-  {
-    day: "Tuesday",
-    employees: [
-      { name: "Ajith Kumar", orders: 35, sales: 110.0, tips: 22.5, gratuities: 17.0 },
-      // { name: "Alan Fox", orders: 42, sales: 135.5, tips: 38.5, gratuities: 40.5 },
-      // { name: "Ajith Kumar", orders: 50, sales: 250.0, tips: 45.0, gratuities: 35.0 },
-    ],
-  },
-  {
-    day: "Wednesday",
-    employees: [
-      { name: "Shunmuga", orders: 40, sales: 150.0, tips: 30.0, gratuities: 20.0 },
-      // { name: "Alan Fox", orders: 30, sales: 70.0, tips: 25.0, gratuities: 18.0 },
-      // { name: "Ajith Kumar", orders: 38, sales: 130.0, tips: 28.5, gratuities: 20.0 },
-    ],
-  },
-  {
-    day: "Thursday",
-    employees: [
-      { name: "Siddharth", orders: 42, sales: 160.0, tips: 28.0, gratuities: 22.0 },
-      // { name: "Alan Fox", orders: 25, sales: 60.0, tips: 18.5, gratuities: 14.5 },
-      // { name: "Ajith Kumar", orders: 32, sales: 100.0, tips: 22.0, gratuities: 17.5 },
-    ],
-  },
-  {
-    day: "Friday",
-    employees: [
-      { name: "Jayesh", orders: 45, sales: 170.0, tips: 35.0, gratuities: 24.0 },
-      // { name: "Alan Fox", orders: 37, sales: 130.0, tips: 32.5, gratuities: 20.0 },
-      // { name: "Ajith Kumar", orders: 46, sales: 200.0, tips: 40.0, gratuities: 30.0 },
-    ],
-  },
-  {
-    day: "Saturday",
-    employees: [
-      { name: "Ramanadhaa", orders: 50, sales: 190.0, tips: 38.0, gratuities: 28.0 },
-      // { name: "Alan Fox", orders: 40, sales: 140.0, tips: 36.0, gratuities: 22.5 },
-      // { name: "Ajith Kumar", orders: 44, sales: 160.0, tips: 37.5, gratuities: 25.0 },
-    ],
-  },
-];
-
-
-const revenueImpactData = [
-  { day: "Sunday", Sales: 40 },
-  { day: "Monday", Sales: 60 },
-  { day: "Tuesday", Sales: 42 },
-  { day: "Wednesday", Sales: 42.5 },
-  { day: "Thursday", Sales: 30 },
-  { day: "Friday", Sales: 58 },
-  { day: "Saturday", Sales: 45 },
-];
-
-// const salesPerformanceComparisonData = [
-//   { day: "Sunday", JamesBond: 100, AlanFox: 220, AjithKumar: 80 },
-//   { day: "Monday", JamesBond: 90, AlanFox: 150, AjithKumar: 110 },
-//   { day: "Tuesday", JamesBond: 120, AlanFox: 135.5, AjithKumar: 260 },
-//   { day: "Wednesday", JamesBond: 140, AlanFox: 100, AjithKumar: 180 },
-//   { day: "Thursday", JamesBond: 130, AlanFox: 50, AjithKumar: 90 },
-//   { day: "Friday", JamesBond: 160, AlanFox: 110, AjithKumar: 190 },
-//   { day: "Saturday", JamesBond: 180, AlanFox: 120, AjithKumar: 150 },
-// ];
-
 const PerformanceTrend = () => {
-  const multiLineColors = ["#049E16", "#F89B29", "#2682D9","#FF5733","#FF33A1","#A133FF","#33FFF5","#FF6F61","#6B8E23","#DC143C"];
+
+  const multiLineColors = ["#049E16", "#F89B29", "#2682D9", "#FF5733", "#FF33A1", "#A133FF", "#33FFF5", "#FF6F61", "#6B8E23", "#DC143C"];
 
   const chartFilterOptions: { value: string, label: string }[] = [
     { value: "Overall", label: "Overall" },
@@ -113,32 +40,125 @@ const PerformanceTrend = () => {
     { value: "Voids", label: "Voids" },
     { value: "Re-fires", label: "Re-fires" },
   ]
+
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } =
+  useDateFilter();
+
+   const dispatch = useDispatch();
+
+   const locations = useSelector(
+      (state: any) => state?.newReports?.storeLocationsList
+    );
+    const selectedLocation = useSelector(
+      (state: any) => state?.newReports?.selectedLocation
+    );
+
+      const employeeLists: EmployeeType[] = useSelector(
+        (state: RootState) => state.employee.employeeDetails
+      );
+  
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
     console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
   };
-  const transformSalesDataForChart = (salesPerformanceData: any[]): MultiDataType[] => {
-    return salesPerformanceData.map((dayData) => {
-      const transformedEntry: MultiDataType = { day: dayData.day }; // Ensure type compatibility
-  
-      dayData.employees.forEach((employee: any) => {
-        transformedEntry[`Employee`] = employee.name;
-        transformedEntry[`Orders`] = employee.orders;
-        transformedEntry[`Sales`] = employee.sales;
-        transformedEntry[`Tips`] = employee.tips;
-        transformedEntry[`Gratuities`] = employee.gratuities;
-      });
-  
-      return transformedEntry;
-    });
+
+  const datepickerApply = (data1: any, data2: any) => {
+    handleDateChange("Custom Date", data1, data2);
   };
+
+  const employeeDropdownOptions =
+  employeeLists?.map((employee) => ({
+    value: employee?.staffId,
+    label: `${employee?.firstName}`,
+  }));
+
+    const employeeTempArray = [{ label: "All", value: "All" },...employeeDropdownOptions ]
   
-  const salesPerformanceComparisonData: MultiDataType[] = transformSalesDataForChart(salesPerformanceData);
+    const [employeeList, setEmployeeList] = useState(
+      employeeTempArray?.[0]?.value
+    );
   
+    const handleDropdownChangeStore = (selectedValue: any) => {
+      setEmployeeList(selectedValue?.value);
+    };
+
+
+  const chartData = {
+    labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    datasets: [
+      {
+        label: 'James Bond',
+        data: [100, 120, 130, 140, 150, 160, 170],
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+        orders: [30, 35, 40, 45, 50, 55, 60],
+        sales: [100.00, 120.00, 130.00, 140.00, 150.00, 160.00, 170.00],
+        tips: [20.00, 25.00, 30.00, 35.00, 40.00, 45.00, 50.00],
+        gratuities: [10.00, 15.00, 20.00, 25.00, 30.00, 35.00, 40.00],
+      },
+      {
+        label: 'Alan Fox',
+        data: [110, 115, 125, 135, 145, 155, 165],
+        borderColor: 'green',
+        backgroundColor: 'rgba(0, 255, 0, 0.1)',
+        orders: [42, 44, 46, 48, 50, 52, 54],
+        sales: [135.50, 140.00, 145.00, 150.00, 155.00, 160.00, 165.00],
+        tips: [38.50, 40.00, 42.00, 44.00, 46.00, 48.00, 50.00],
+        gratuities: [40.50, 42.00, 44.00, 46.00, 48.00, 50.00, 52.00],
+      },
+      {
+        label: 'Ajith Kumar',
+        data: [105, 110, 120, 130, 140, 150, 160],
+        borderColor: 'orange',
+        backgroundColor: 'rgba(255, 165, 0, 0.1)',
+        orders: [25, 30, 35, 40, 45, 50, 55],
+        sales: [105.00, 110.00, 120.00, 130.00, 140.00, 150.00, 160.00],
+        tips: [15.00, 20.00, 25.00, 30.00, 35.00, 40.00, 45.00],
+        gratuities: [20.00, 25.00, 30.00, 35.00, 40.00, 45.00, 50.00],
+      },
+    ],
+  };
+
   return (
     <div className='performance-trend-page-container'>
-      <ChartComponent kpiTitle="Single Line Chart" kpiLoaderState={false} chartFilterOptions={chartFilterOptions} handleChartFilter={handleChartFilter} showChartFilter={true} showDownloadReport={true} graphType="single" data={revenueImpactData} colors={["#F89B29"]}/>
-
-      <ChartComponent kpiTitle="Multi Line Chart" kpiLoaderState={false} chartFilterOptions={orderFilterOptions} handleChartFilter={handleChartFilter} showChartFilter={true} showDownloadReport={true} graphType="multi" data={salesPerformanceComparisonData} colors={multiLineColors}/>
+      <StoreFilter
+            startDate={startDate}
+            endDate={endDate}
+            storeOptions={locations}
+            selectedDate={selectedDateFilterType}
+            selectedStore={selectedLocation}
+            setSelectedDate={(data) => handleDateChange(data?.value)}
+            setSelectedStore={(store) => dispatch(changeLocation(store))}
+            datePickerApplyFunction={datepickerApply}
+            dateDropdownFunction={datepickerApply}
+      />
+      <div className="select-employee-container">
+        <p>Select employee</p>
+        <div className="select-employee-dropdown">
+          <CustomDropdown
+            options={employeeTempArray}
+            value={employeeTempArray?.[0]?.label}
+            className="category-dropdown"
+            onSelect={(selected: any) =>
+              handleDropdownChangeStore(
+                selected as { label: React.ReactNode; value: string }
+              )
+            }
+          />
+        </div>
+        <p>clear</p>
+      </div>
+      <MultiLineChart 
+        kpiLoaderState={false} 
+        kpiTitle='Sales Performance' 
+        data={chartData} 
+        showDownloadReport={true}
+        showChartFilter={true}
+        chartFilterOptions={[
+          { value: "last_3_months", label: "Last 3 Months" },
+          { value: "last_6_months", label: "Last 6 Months" },
+        ]}
+        handleChartFilter={handleChartFilter}
+      />
     </div>
   )
 }

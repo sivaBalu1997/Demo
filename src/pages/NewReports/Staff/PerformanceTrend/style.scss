@@ -4,4 +4,42 @@
     flex-direction: column;
     // background-color: pink;
     gap: 8vh;
+    .select-employee-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1vw;
+        // background-color: lightcoral;
+        width: 25vw;
+        // background-color: peachpuff;
+        @media(max-width: 600px){
+            // background-color: lightcoral;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            // padding-top: 2vh;
+            padding-bottom: 2vh;
+            gap: 0;
+        }
+        p{
+            // background-color: palegreen;
+            width: 12vw;
+            display: inline-block;
+            color: #6F6F6F;
+            font-weight: 400;
+            @media(max-width: 600px){
+                width: 100%;
+            }
+        }
+        .select-employee-dropdown{
+            width: 15vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // background-color: lightpink;
+            @media(max-width: 600px){
+                width: 100%;
+            }
+        }
+    }
 }
