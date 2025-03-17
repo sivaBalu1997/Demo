@@ -7,8 +7,8 @@ const RoundedPill = ({ data, closeIconOnClick, handeClear ,showSelected=true}) =
     <>
       <div className="selected-categories-container">
         {showSelected?<span className="selected-categories-text">Selected:</span>:""}
-        {data.map((item) => (
-          <div className="category-rounded-pill-container">
+        {data.map((item, index) => (
+          <div className="category-rounded-pill-container" key={index}>
             <div className="category-rounded-pill">
               <span className="poppins-fw400-fs16 category-pill-text">
                 {item.label}

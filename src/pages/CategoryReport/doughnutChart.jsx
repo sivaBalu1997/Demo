@@ -88,12 +88,6 @@ function DoughnutChartButtonVoided({
     }
   }, [reRenderChart]);
 
-  // Update window width on resize to trigger re-render.
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   const computeLabelPositions = useCallback(() => {
     if (
       !chartRef.current ||
@@ -132,7 +126,7 @@ function DoughnutChartButtonVoided({
   // Recompute label positions when windowWidth changes.
   useEffect(() => {
     computeLabelPositions();
-  }, [windowWidth, computeLabelPositions]);
+  }, [ computeLabelPositions]);
 
   // Also re-calc positions when container size changes.
   useEffect(() => {

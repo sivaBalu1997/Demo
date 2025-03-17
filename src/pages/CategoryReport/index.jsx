@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   voidedSummaryRequest,
@@ -39,19 +39,18 @@ const CategoryReport = (props) => {
   const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData);
   const categorySalesSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
   const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData);
-  const categoryChannelSummaryDataFailure = useSelector((state)=>state?.newReports?.categoryChannelSummaryError)
+  const categoryChannelSummaryDataFailure = useSelector((state) => state?.newReports?.categoryChannelSummaryError)
   const categoryChannelSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
   const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData);
-  const voidedSummaryDataFailure = useSelector((state)=>state?.newReports?.voidedSummaryError)
+  const voidedSummaryDataFailure = useSelector((state) => state?.newReports?.voidedSummaryError)
   const voidedSummaryDataLoading = useSelector((state) => state?.newReports?.voidedSummaryLoading);
   const countryCode = useSelector((state) => state?.auth?.restaurantDetails?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
-  const [isMobile, setIsMobile] = useState(false);
 
 
 
   const dispatch = useDispatch();
-  const { startDate, endDate,selectedDateFilterType, handleDateChange } = useDateFilter();
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
   // useEffect(() => {
   //   console.log("use", {
@@ -86,7 +85,7 @@ const CategoryReport = (props) => {
   useEffect(() => {
     setSelectedCategories([{ label: "All", value: "" }]);
     setSelectedItems([{ label: "All", value: "" }]);
-    setItemList([{ label: "All", value: "" }, ...(dropdownDetailsData||[])?.map((item) => ({ label: item.itemName, value: item.itemId }))]);
+    setItemList([{ label: "All", value: "" }, ...(dropdownDetailsData || [])?.map((item) => ({ label: item.itemName, value: item.itemId }))]);
   }, [dropdownDetailsData])
 
   useEffect(() => {
@@ -128,13 +127,13 @@ const CategoryReport = (props) => {
     let filteredItems = [];
     if (!selectedCategories?.[0]?.value) {
       filteredItems = [
-        ...new Map((dropdownDetailsData||[])
+        ...new Map((dropdownDetailsData || [])
           .map((item) => [item.itemId, { value: item.itemId, label: item.itemName }])
         ).values(),
       ];
     } else {
       filteredItems = [
-        ...new Map((dropdownDetailsData||[])
+        ...new Map((dropdownDetailsData || [])
           .filter((item) => selectedCategoryIds?.includes(item?.categoryId))
           .map((item) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
         ).values(),
@@ -144,30 +143,22 @@ const CategoryReport = (props) => {
   }, [selectedCategories])
 
 
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize(); // call initially
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
+    
     if (!selectedCategoriesData.value) {
       setSelectedCategories([{ label: "All", value: "" }]);
       setSelectedItems([{ label: "All", value: "" }]);
       return;
     }
+    
     const category = dropdownDetailsData?.find(
-      (cat) => cat.categoryId === selectedCategoriesData.value
+      (cat) => cat.categoryId === selectedCategoriesData?.value
     );
-
+    
     if (category) {
       let tempCategories = [...selectedCategories];
 
-      tempCategories = tempCategories.filter(cat => cat.value !== "");
+      tempCategories = tempCategories?.filter(cat => cat.value !== "");
 
       // Add new category if it's not already selected
       if (!tempCategories.some(cat => cat.value === category.categoryId)) {
@@ -179,17 +170,19 @@ const CategoryReport = (props) => {
         const selectedCategoryIds = tempCategories.map((cat) => cat.value);
         const filteredItems = [
           ...new Map(
-            (dropdownDetailsData||[])
+            (dropdownDetailsData || [])
               .filter((item) => selectedCategoryIds?.includes(item?.categoryId))
               .map((item) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
           ).values(),
         ];
+console.log({filteredItems});
 
         // Update selected items state
         setSelectedItems(filteredItems);
       }
 
     }
+    
   };
 
   const handleSelectItemsOnChange = (selectedItemsData) => {
@@ -213,24 +206,51 @@ const CategoryReport = (props) => {
   };
 
   const categoryCloseOnClick = (categoryId) => {
-    let tempCategories = [...selectedCategories];
-    tempCategories = tempCategories.filter(
-      (selectedData) => selectedData.value !== categoryId
-    );
-    if (!tempCategories?.length) {
-      tempCategories = [{ label: "All", value: "" }]
+    
+      let tempCategories = [...(selectedCategories || [])];
+      tempCategories = tempCategories?.filter(
+        (selectedData) => selectedData.value !== categoryId
+      );
+
+      if (!categoryId||!tempCategories?.length) {
+
+        setSelectedCategories([{ label: "All", value: "" }]);
+        setSelectedItems([{ label: "All", value: "" }]);
+      } else{        
+        
+        const selectedCategoryIds = tempCategories?.map((cat) => cat.value);
+
+      const tempItems = [
+        ...new Map(
+          (dropdownDetailsData || [])
+            .filter((item) => selectedCategoryIds?.includes(item?.categoryId))
+            .map((item) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
+        ).values(),
+      ];
+      
+      if (!tempItems?.length) {
+        tempItems = [{ label: "All", value: "" }]
+      }
+      setSelectedItems(tempItems);
+      
+      if (!tempCategories?.length) {
+        tempCategories = [{ label: "All", value: "" }]
+      }
+      
+      setSelectedCategories(tempCategories);
     }
-    setSelectedCategories(tempCategories);
   };
 
   const itemsCloseOnClick = (itemId) => {
-    let tempItems = [...selectedItems];
-    tempItems = tempItems.filter(
-      (selectedData) => selectedData.value !== itemId
+    let tempItems = [...(selectedItems||[])];
+    tempItems = tempItems?.filter(
+      (selectedData) => selectedData?.value !== itemId
     );
+
     if (!tempItems?.length) {
       tempItems = [{ label: "All", value: "" }]
     }
+
     setSelectedItems(tempItems);
   };
 
@@ -252,8 +272,8 @@ const CategoryReport = (props) => {
       <div className="category-page-cotainer">
         <div className="category-page-body">
           <StoreFilter
-                 startDate={startDate}
-                 endDate={endDate}
+            startDate={startDate}
+            endDate={endDate}
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
@@ -308,7 +328,7 @@ const CategoryReport = (props) => {
                 data={selectedCategories}
                 closeIconOnClick={categoryCloseOnClick}
                 handeClear={handleCategoryClear}
-                showSelected={!isMobile}
+                showSelected={!window.matchMedia("(max-width: 768px)").matches}
               />
             </div>
             {activeBtn == "items" ? (
@@ -337,7 +357,7 @@ const CategoryReport = (props) => {
                   data={selectedItems}
                   closeIconOnClick={itemsCloseOnClick}
                   handeClear={handleItemsClear}
-                  showSelected={!isMobile}
+                  showSelected={!window.matchMedia("(max-width: 768px)").matches}
 
                 />
               </div>
@@ -390,10 +410,10 @@ const CategoryReport = (props) => {
                 dataList={categorySalesData}
                 barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
                 loader={categorySalesDataLoading}
-                isMobile={isMobile}
+                // isMobile={window.matchMedia("(max-width: 768px)").matches}
               />
-            </ErrorHandler> 
-        
+            </ErrorHandler>
+
           </div>
           <div>
             <div className="categories-graph-header-container">
@@ -407,7 +427,7 @@ const CategoryReport = (props) => {
               <SalesChart
                 dataList={categoryChannelSummaryData}
                 loader={categoryChannelSummaryDataLoading}
-                isMobile={isMobile}
+                // isMobile={window.matchMedia("(max-width: 768px)").matches}
 
               />
             </ErrorHandler>
@@ -425,7 +445,7 @@ const CategoryReport = (props) => {
                   dataList={voidedSummaryData}
                   barColorCode={"#AA562A"}
                   loader={voidedSummaryDataLoading}
-                  isMobile={isMobile}
+                  // isMobile={window.matchMedia("(max-width: 768px)").matches}
 
                 />
               </ErrorHandler>
@@ -444,7 +464,7 @@ const CategoryReport = (props) => {
                   dataList={voidedSummaryData}
                   countryCode={countryCode}
                   loader={voidedSummaryDataLoading}
-                  isMobile={isMobile}
+                  // isMobile={window.matchMedia("(max-width: 768px)").matches}
                 />
               </ErrorHandler>
             </div>

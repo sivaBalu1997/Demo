@@ -76,6 +76,10 @@ $text-secondary: #6b7280;
     @media(max-width: 600px){
       display: none;
     }
+    .table-header-position{
+      display: flex;
+
+    }
 
     .table-title-with-count-container{
       display: flex;
