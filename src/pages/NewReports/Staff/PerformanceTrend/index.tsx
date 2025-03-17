@@ -71,16 +71,37 @@ const PerformanceTrend = () => {
     label: `${employee?.firstName}`,
   }));
 
-    const employeeTempArray = [{ label: "All", value: "All" },...employeeDropdownOptions ]
+    const employeeTempArray = [{label: "All", value: "All"},...employeeDropdownOptions ]
   
     const [employeeList, setEmployeeList] = useState(
       employeeTempArray?.[0]?.value
     );
-  
+
+    const [selectedLabel, setSelectedLabel] = useState<string>("");
+
+    const [employeeLabelPill, setEmployeeLabelPill] = useState<{ label: string; value: string }[]>([employeeTempArray?.[0]])
+    console.log({employeeLabelPill});
+
+
     const handleDropdownChangeStore = (selectedValue: any) => {
       setEmployeeList(selectedValue?.value);
-    };
 
+      const selectedOption = employeeTempArray?.find((employee) => employee.value === selectedValue.value);
+      if (selectedOption) {
+        setSelectedLabel(selectedOption.label);
+        
+        const isDuplicate = employeeLabelPill.some(
+          (item) => item.value === selectedOption.value
+        );
+
+        if (!isDuplicate) {
+            setEmployeeLabelPill((prevLabels) => [
+            ...prevLabels,
+            { label: selectedOption.label, value: selectedOption.value },
+          ]);
+        }
+      }
+    };
 
   const chartData = {
     labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -118,6 +139,13 @@ const PerformanceTrend = () => {
     ],
   };
 
+  // Function to remove an item from the employeeLabelPill array
+const removeItem = (value: string) => {
+  setEmployeeLabelPill((prevLabels) =>
+    prevLabels.filter((item) => item.value !== value)
+  );
+};
+
   return (
     <div className='performance-trend-page-container'>
       <StoreFilter
@@ -131,21 +159,40 @@ const PerformanceTrend = () => {
             datePickerApplyFunction={datepickerApply}
             dateDropdownFunction={datepickerApply}
       />
-      <div className="select-employee-container">
-        <p>Select employee</p>
-        <div className="select-employee-dropdown">
-          <CustomDropdown
-            options={employeeTempArray}
-            value={employeeTempArray?.[0]?.label}
-            className="category-dropdown"
-            onSelect={(selected: any) =>
-              handleDropdownChangeStore(
-                selected as { label: React.ReactNode; value: string }
-              )
-            }
-          />
+      <div className="employee-pt-section">
+        <div className="select-employee-container">
+          <p>Select employee</p>
+          <div className="select-employee-dropdown">
+            <CustomDropdown
+              options={employeeTempArray}
+              value={employeeTempArray?.[0]?.label}
+              className="category-dropdown"
+              onSelect={(selected: any) =>
+                handleDropdownChangeStore(
+                  selected as { label: string; value: string }
+                )
+              }
+            />
+          </div>
+          <p className='pt-select-employee-clear-text' onClick={()=>setEmployeeLabelPill([])}>clear</p>
         </div>
-        <p>clear</p>
+        <div className='employee-pt-pill-container'>
+            <p>Selected:</p>
+            {employeeLabelPill?.map((item, index) => (
+              <div
+                key={index}
+                className='selected-employee-pill'
+              >
+                {item.label}
+                <span
+                onClick={() => removeItem(item.value)} // Pass the item's value to removeItem
+                className='remove-employee-pill'
+                >
+                  x
+                </span>
+              </div>
+            ))}
+        </div>
       </div>
       <MultiLineChart 
         kpiLoaderState={false} 
