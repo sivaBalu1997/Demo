@@ -91,7 +91,7 @@ const SidePanelDeskTop = () => {
     },
     // {
     //   name:"Product",
-    //   path:""
+    //   path:"/product-reports"
     // },
     // {
     //   name:"Staff",

@@ -5,7 +5,7 @@ const baseUrl = "https://rptd.gcp.magilhub.com"
 const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 const PRODUCT_INSIGHTS_TOP_REVENUE_ENDPOINT = `${reportsBaseUrl}/products/insights/top-revenue`;
-const PRODUCT_INSIGHTS_TOP_POPULAR_ENDPOINT = `${reportsBaseUrl}/products/insights/top-popular`;
+const PRODUCT_INSIGHTS_TOP_POPULAR_ENDPOINT = `${reportsBaseUrl}/products/insights/popular`;
 const PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_ENDPOINT = `${reportsBaseUrl}/products/insights/top-popular-revenue`;
 const PRODUCT_INSIGHTS_TOP_REVENUE_STREAMS_ENDPOINT = `${reportsBaseUrl}/products/insights/revenue-streams`;
 const PRODUCT_INSIGHTS_CANCELLED_ITEMS_ENDPOINT = `${reportsBaseUrl}/products/insights/cancelled-items`;
@@ -78,7 +78,7 @@ export const getProductInsightsTopPopular = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${PRODUCT_INSIGHTS_TOP_POPULAR_ENDPOINT}${query}`,
+        url: `${PRODUCT_INSIGHTS_TOP_POPULAR_ENDPOINT}${query}?sortOrder=${params?.sortOrder}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
