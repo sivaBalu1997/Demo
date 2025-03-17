@@ -125,6 +125,7 @@ const Menu = () => {
 
       setItemList(transformedList);
       setMenudatalist(menuData);
+      setClosedItems([])
     } else {
       if (SearchedmenuItem?.subCategoryResponseList) {
         const filterdItem: any = {
@@ -135,6 +136,7 @@ const Menu = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
+        setClosedItems([])
       } else {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
@@ -143,6 +145,7 @@ const Menu = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
+        setClosedItems([])
       }
       // setLoading(false);
     }
