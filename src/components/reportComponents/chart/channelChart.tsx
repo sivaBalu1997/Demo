@@ -95,8 +95,10 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
       y: {
         beginAtZero: true,
         ticks: {
+          // stepSize: 1000,
           callback: function (tickValue: string | number) {
-            return `$${Number(tickValue) / 1000} K`;
+            const value = Number(tickValue);
+            return value < 1000 ? `$${value}` : `$${value / 1000} K`;
           },
         },
       },

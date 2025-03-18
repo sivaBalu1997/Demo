@@ -248,10 +248,10 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                     onChange={handleInputChange}
                     className="search-input"
                   />
-                  <ClearSearchIcon
+                  {searchQuery?.length > 0 && <ClearSearchIcon
                     className="clear-search-icon"
                     onClick={() => onSearch("", kpiTitle)}
-                  />
+                  />}
                 </div>
                 {tableData && headerData && (
                   <DownloadReport
@@ -362,7 +362,7 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                       )}
                       {header?.isPrivate && (
                         <span onClick={() => toggleVisibility(header.key)}>
-                          {visibility[header.key] ? <OpenEyeIcon className={`sort-icon`} /> : <CloseEyeIcon className={`sort-icon `} />}
+                          {visibility[header.key] ? <OpenEyeIcon className={`sort-icon`} style={{cursor: "pointer"}}/> : <CloseEyeIcon className={`sort-icon `} style={{cursor: "pointer"}}/>}
                         </span>
                       )}
                     </div>
@@ -405,7 +405,7 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                                 header?.label
                               )}
                             >
-                              {showIcons ? getOrderChannelIcons(row[header?.key]) : ""}{header?.isPrivate ? (visibility[header.key] ? row[header?.key] : maskPhone(row[header?.key])) : row[header?.key]}
+                              {showIcons ? getOrderChannelIcons(row[header?.key]) : ""}{header?.isPrivate ? (visibility[header.key] ? row[header?.key] : maskPhone(row[header?.key])) : row[header?.key]} 
                             </p>
                           </td>
                         );

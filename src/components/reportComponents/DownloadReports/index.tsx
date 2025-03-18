@@ -25,6 +25,30 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
 
+    const toSentenceCase = (text: string) => {
+        return text
+            .replace(/([A-Z])/g, " $1") // Add space before capital letters
+            .trim()                      // Remove extra spaces
+            .toLowerCase()               // Convert to lowercase
+            .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
+    };
+    
+    const transformKeysToSentenceCase = (data: Array<Record<string, any>>) => {
+        if (data.length === 0) return [];
+    
+        // Get original key order from the first object
+        const originalKeys = Object.keys(data[0]);
+        const transformedKeys = originalKeys.map(toSentenceCase);
+    
+        return data.map(obj => {
+            const newObj: Record<string, any> = {};
+            originalKeys.forEach((key, index) => {
+                newObj[transformedKeys[index]] = obj[key]; // Maintain key order
+            });
+            return newObj;
+        });
+    };
+
     const generatePdfFromRef = async () => {
         if (downloadRef?.current) {
             const element = downloadRef.current;
@@ -53,12 +77,20 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
     };
 
     const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
+        // console.log("XLS1",{data})
         const fileName = kpiTitle;
         const exportType = exportFromJSON.types.xls;
-        exportFromJSON({ data, fileName, exportType });
+
+        const transformedData = transformKeysToSentenceCase(data);
+
+        // console.log({transformedData})
+
+        exportFromJSON({ data: transformedData, fileName, exportType });
     };
 
     const pdfDownloadFn = (data: Array<Record<string, any>>, headers?: Array<{ key: string; label: string }>) => {
+
+
         const doc = new jsPDF();
         doc.text(kpiTitle, 14, 10); // Title at the top
 
