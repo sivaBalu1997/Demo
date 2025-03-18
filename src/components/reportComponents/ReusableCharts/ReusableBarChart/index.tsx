@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -108,6 +108,14 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     const [selectedFilter, setSelectedFilter] = useState<{}>(chartFilterOptions[0].value);
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
+     const [width, setWidth] = useState(window.innerWidth);
+
+      useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+    
+        return () => window.removeEventListener("resize", handleResize);
+      }, []);
 
     const data = {
         labels: Array.from(
@@ -196,7 +204,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
 
     return(
         <div className='report-product-charts-container' ref={reusableBarChartRef}>
-            <div className='report-product-heading-download-container'>
+            {width > 768 ? (<div className='report-product-heading-download-container'>
                 <div className="title-switchable-box-container">
                     <h2 className="report-product-chart-heading">{title || "Chart title"}</h2>
                     {showSwitchable &&
@@ -224,6 +232,37 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                     <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef}/>
                 </div>
             </div>
+            ) : (
+            <div className='sm-report-product-heading-download-container'>
+                <div className="sm-title-chart-filter-download-report-container">
+                    <h2 className="sm-report-product-chart-heading">{title || "Chart title"}</h2>
+                    {/* <div className="sm-chart-filter-container" style={{ justifyContent: !showChartFilter ? "flex-end" : "" }}> */}
+                    {showChartFilter &&
+                        <div className="sm-chart-filter-container">
+                            <CustomDropdown
+                                value={chartFilterOptions[0]?.value}
+                                options={chartFilterOptions}
+                                onSelect={handleChartFilterParent}
+                                placeholder="Select Date"
+                                className="table-date-dropdown"
+                                disabled={false}
+                            />
+                        </div>
+                    }
+                    {/* </div> */}
+                    <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef}/>
+                </div>
+                <div className="sm-switchable-box">
+                    {showSwitchable &&
+                        <SwitchableBox
+                            textOne={switchableTextOne}
+                            textTwo={switchableTextTwo}
+                            isActive={isSwitchActive}
+                            toggleSwitch={handleToggleSwitchParent}
+                        />
+                    }
+                </div>
+            </div>)}
             {dataList?.length === 0 ? (
                 <ErrorState pageTitle={title} isDataNotAvailable={true} />
             ) : (

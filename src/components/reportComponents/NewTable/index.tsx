@@ -11,17 +11,15 @@ import { ReactComponent as DeliveryIcon } from "../../../assets/svg/r-delivery-i
 import { ReactComponent as PickUpIcon } from "../../../assets/svg/r-pick-up-icon.svg";
 import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-icon.svg";
 import { NewTableProps } from "interface/newReportsInterface";
+import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
+import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
+import { maskPhone } from 'utils';
 import ReactPaginate from "react-paginate";
 import TableShimmer from "./NewShimmerTable";
 import DownloadReport from "../DownloadReports";
-import "jspdf-autotable";
-import "./style.scss";
 import TableDateDropdown from "../TableDateDropdown";
-import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
-import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
 import "jspdf-autotable";
 import './style.scss';
-import { maskPhone } from 'utils';
 
 interface SortConfig {
   key: string;

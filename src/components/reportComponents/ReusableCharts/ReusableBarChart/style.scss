@@ -8,7 +8,6 @@
         align-items: center;
         .title-switchable-box-container{
             display: flex;
-            // background-color: pink;
             justify-content: space-between;
             align-items: center;
             gap: 2vw;
@@ -31,6 +30,29 @@
             .chart-filter-download-report-{
                 display: flex;
             }
+        }
+    }
+    .sm-report-product-heading-download-container{
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        .sm-title-chart-filter-download-report-container{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .sm-report-product-chart-heading{
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 24px;
+                letter-spacing: -0.35px;
+                color: #393939;
+            }
+            .sm-chart-filter-container{
+                // background-color: palegreen;
+            }
+        }
+        .sm-switchable-box{
+            // background-color: palevioletred;
         }
     }
 }
