@@ -8,6 +8,7 @@ import useDateFilter from 'hooks/useDateFilter';
 import NewTable from 'components/reportComponents/NewTable';
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
+import { productAvailabilityByChannelsDetailsRequest, productAvailabilityByChannelsRequest } from 'redux/productReports/productReportsActions';
 
 // r-arrow-left.svg
 
@@ -15,26 +16,29 @@ const ProductAvailability = () => {
 
   const texts = ["All", "Available", "Unavailable"];
   const [activeIndex, setActiveIndex] = useState<number>(0);
-    const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
-      useState<number>(10);
-    const employeeChartRef = useRef<HTMLDivElement>(null);
-    const [showAllActivityTable, setShowAllActivityTable] =
-      useState<boolean>(false);
-    const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<
-      string | ""
-    >("");
-    const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
-      useState<number>(1);
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
+    useState<number>(10);
+  const employeeChartRef = useRef<HTMLDivElement>(null);
+  const [showAllActivityTable, setShowAllActivityTable] =
+    useState<boolean>(false);
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<
+    string | ""
+  >("");
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] = useState<number>(1);
 
-  const countryCode = useSelector(    (state: any) => state?.auth?.restaurantDetails?.country  );
+  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
   const currencySymbol = countryCode === "US" ? "$" : "₹";
   // useSelector for Table states :
-  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
-  const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
-  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
-  const getEmployeeActivityDataFromAPIRedux = useSelector(
-    (state: any) => state?.newReports?.getemployeeActivitySuccess
-  );
+  // Availability By Channels States
+  const availabilityByChannelsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsSuccess);
+  const availabilityByChannelsLoading = useSelector((state: any) => state?.productReports?.availabilityByChannelsLoading);
+  const availabilityByChannelsError = useSelector((state: any) => state?.productReports?.availabilityByChannelsFailure);
+
+  // Availability By Channels Details States
+  const availabilityByChannelsDetailsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsSuccess);
+  const availabilityByChannelsDetailsLoading = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsLoading);
+  const availabilityByChannelsDetailsError = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsFailure);
+
 
   // Generic table states :
   const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
@@ -47,32 +51,23 @@ const ProductAvailability = () => {
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
-  useDateFilter();
-  
-    useEffect(() => {
-      if (selectedLocation?.value && selectedValueForChartSlice) {
-        dispatch(
-          getEmployeeChartSliceTableRequest({
-            locationid: selectedLocation?.value,
-            startDate: startDate,
-            endDate: endDate,
-            chartSliceName:
-              selectedValueForChartSlice === "Others"
-                ? "Order cancelled,Order edited"
-                : selectedValueForChartSlice,
-            tablePageNo: currentPageGenericTable,
-            tableRecordLimit: genericTableRecordLimit,
-          })
-        );
-      }
-    }, [
-      selectedLocation?.value,
-      startDate,
-      endDate,
-      selectedValueForChartSlice,
-      currentPageGenericTable,
-      genericTableRecordLimit,
-    ]);
+    useDateFilter();
+
+  useEffect(() => {
+    const params = {
+      locationId: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      tablePageNo: currentPageEmployeeVoidActivity,
+      tableRecordLimit: employeeVoidRecordLimit,
+    }
+    dispatch(productAvailabilityByChannelsRequest(params))
+
+    dispatch(productAvailabilityByChannelsDetailsRequest(params));
+
+  }, [
+    selectedLocation
+  ]);
 
 
   const handleSwitch = (index: number) => {
@@ -84,6 +79,7 @@ const ProductAvailability = () => {
   }
 
   const getChartSliceTableHeaders = (selectedValueForChartSlice: string) => {
+
     // console.log("PPP5", { selectedValueForChartSlice })
     switch (selectedValueForChartSlice) {
       case "Remove tax":
@@ -405,41 +401,41 @@ const ProductAvailability = () => {
     }
   };
 
-    const handleSearch = (value: string, kpiTitle: string) => {
-      setSearchQueryForGenericTable(value);
-      switch (kpiTitle) {
-        case "Employee Void Activity":
-          if (selectedLocation?.value) {
-            dispatch(
-              employeeStaffActivityRequest({
-                locationid: selectedLocation?.value,
-                startDate: startDate,
-                endDate: endDate,
-                tablePageNo: currentPageEmployeeVoidActivity,
-                tableRecordLimit: employeeVoidRecordLimit,
-              })
-            );
-          }
-          break;
-  
-        default:
-          console.warn(`Unknown KPI title: ${kpiTitle}`);
-      }
-    };
+  const handleSearch = (value: string, kpiTitle: string) => {
+    setSearchQueryForGenericTable(value);
+    switch (kpiTitle) {
+      case "Employee Void Activity":
+        if (selectedLocation?.value) {
+          // dispatch(
+          //   employeeStaffActivityRequest({
+          //     locationid: selectedLocation?.value,
+          //     startDate: startDate,
+          //     endDate: endDate,
+          //     tablePageNo: currentPageEmployeeVoidActivity,
+          //     tableRecordLimit: employeeVoidRecordLimit,
+          //   })
+          // );
+        }
+        break;
 
-    const handleGoBackToChart = () => {
-      setShowAllActivityTable(false);
-      setSelectedValueForChartSlice("");
-      setTimeout(() => {
-        employeeChartRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 0);
-    };
+      default:
+        console.warn(`Unknown KPI title: ${kpiTitle}`);
+    }
+  };
 
-    const chartDataFromAPIReduxOthers =
-    getEmployeeActivityDataFromAPIRedux?.reduce((acc: any[], data: any) => {
+  const handleGoBackToChart = () => {
+    setShowAllActivityTable(false);
+    setSelectedValueForChartSlice("");
+    setTimeout(() => {
+      employeeChartRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 0);
+  };
+
+  const chartDataFromAPIReduxOthers =
+  availabilityByChannelsData?.reduce((acc: any[], data: any) => {
       if (
         data.actionType === "Order edited" ||
         data.actionType === "Order cancelled"
@@ -456,31 +452,30 @@ const ProductAvailability = () => {
       return acc;
     }, []);
 
-    const tooltipDataFromAPIOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
-      (acc: any, data: any) => {
-        if (
-          data.actionType === "Order edited" ||
-          data.actionType === "Order cancelled"
-        ) {
-          if (acc["Others"]) {
-            acc["Others"].tooltipContent = `Value: ${
-              parseFloat(acc["Others"].tooltipContent.split(": ")[1]) +
-              data.extractedValue
+  const tooltipDataFromAPIOthers = availabilityByChannelsData?.reduce(
+    (acc: any, data: any) => {
+      if (
+        data.actionType === "Order edited" ||
+        data.actionType === "Order cancelled"
+      ) {
+        if (acc["Others"]) {
+          acc["Others"].tooltipContent = `Value: ${parseFloat(acc["Others"].tooltipContent.split(": ")[1]) +
+            data.extractedValue
             }`;
-          } else {
-            acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
-          }
         } else {
-          acc[data.actionType] = {
-            tooltipContent: `Value: ${data.extractedValue}`,
-          };
+          acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
         }
-        return acc;
-      },
-      {}
-    );
+      } else {
+        acc[data.actionType] = {
+          tooltipContent: `Value: ${data.extractedValue}`,
+        };
+      }
+      return acc;
+    },
+    {}
+  );
 
-      // Custom Bar Style
+  // Custom Bar Style
   const customBarStyle = {
     borderRadius: "8px",
   };
@@ -488,45 +483,45 @@ const ProductAvailability = () => {
   return (
     <div className='report-product-insights'>
       {showAllActivityTable ? (<div
-          className="void-activity-table-container"
-          style={{ marginTop: showAllActivityTable ? "5vh" : "" }}
-        >
-          <div className="void-activity-button-container">
-            <button className="back-to-chart-btn" onClick={handleGoBackToChart}>
-              <ArrowLeft />
-              Back
-            </button>
-          </div>
-          <NewTable
-            kpiTitle={`${selectedValueForChartSlice}`}
-            searchQuery={searchQueryForGenericTable}
-            headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
-            tableData={
-              getEmployeeChartSliceTableDataFromAPIRedux &&
-              getEmployeeChartSliceTableDataFromAPIRedux?.length > 0 &&
-              getEmployeeChartSliceTableDataFromAPIRedux
-            }
-            currentPage={currentPageGenericTable}
-            totalPages={getEmployeeChartSliceTotalPagesFromAPIRedux}
-            onPageChange={setCurrentPageGenericTable}
-            rowsPerPage={genericTableRecordLimit}
-            setRowsPerPage={setGenericTableRecordLimit}
-            loader={getEmployeeChartSliceTableDataLoaderFromAPIRedux}
-            count={getEmployeeChartSliceTableDataFromAPIRedux?.length}
-            searchPlaceHolder="Search By Category/Item"
-            onSearch={handleSearch}
-          />
+        className="void-activity-table-container"
+        style={{ marginTop: showAllActivityTable ? "5vh" : "" }}
+      >
+        <div className="void-activity-button-container">
+          <button className="back-to-chart-btn" onClick={handleGoBackToChart}>
+            <ArrowLeft />
+            Back
+          </button>
         </div>
-        ) : (
-          <>
-            <StoreFilter storeOptions={locations}
-              selectedStore={selectedLocation}
-              setSelectedStore={(store) => dispatch(changeLocation(store))}
-              handleRefreshClick={handleRefreshClick}
-              showRefresh={true} showDate={false}
-            />
-            <MultiSwitchableBox texts={texts} activeIndex={activeIndex} onSwitch={handleSwitch} />
-            <div ref={employeeChartRef}>
+        <NewTable
+          kpiTitle={`${selectedValueForChartSlice}`}
+          searchQuery={searchQueryForGenericTable}
+          headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
+          tableData={
+            availabilityByChannelsData &&
+            availabilityByChannelsData?.length > 0 &&
+            availabilityByChannelsData
+          }
+          currentPage={currentPageGenericTable}
+          totalPages={availabilityByChannelsData}
+          onPageChange={setCurrentPageGenericTable}
+          rowsPerPage={genericTableRecordLimit}
+          setRowsPerPage={setGenericTableRecordLimit}
+          loader={availabilityByChannelsLoading}
+          count={availabilityByChannelsData?.length}
+          searchPlaceHolder="Search By Category/Item"
+          onSearch={handleSearch}
+        />
+      </div>
+      ) : (
+        <>
+          <StoreFilter storeOptions={locations}
+            selectedStore={selectedLocation}
+            setSelectedStore={(store) => dispatch(changeLocation(store))}
+            handleRefreshClick={handleRefreshClick}
+            showRefresh={true} showDate={false}
+          />
+          <MultiSwitchableBox texts={texts} activeIndex={activeIndex} onSwitch={handleSwitch} />
+          <div ref={employeeChartRef}>
             <CustomBarChart
               // data={chartDataFromAPIRedux}
               data={chartDataFromAPIReduxOthers}
@@ -543,9 +538,9 @@ const ProductAvailability = () => {
               setSelectedValueForChartSlice={setSelectedValueForChartSlice}
             />
           </div>
-          </>
-        )
-        
+        </>
+      )
+
       }
     </div>
   )

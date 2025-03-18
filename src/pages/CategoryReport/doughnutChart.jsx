@@ -55,7 +55,7 @@ const centerTextPlugin = {
     ctx.restore();
   },
 };
-function DoughnutChartButtonVoided({
+function DoughnutChart({
   dataList = [],
   countryCode,
   loader,
@@ -66,7 +66,6 @@ function DoughnutChartButtonVoided({
   const [hoverInfo, setHoverInfo] = useState(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [totalSales, setTotalSales] = useState("$0");
   const [reRenderChart, setReRenderChart] = useState(true);
   const [slices, setSlices] = useState([]);
@@ -350,4 +349,4 @@ function DoughnutChartButtonVoided({
   );
 }
 
-export default DoughnutChartButtonVoided;
+export default DoughnutChart;

@@ -9,7 +9,7 @@ interface MultiSwitchableBoxProps {
     onSwitch: (index: number) => void;
   }
 
-const MultiSwitchableBox:React.FC<MultiSwitchableBoxProps> = ({ texts, activeIndex, onSwitch }) => {
+const MultiSwitchableBox:React.FC<MultiSwitchableBoxProps> = ({ texts, activeIndex=0, onSwitch }) => {
   return (
     <div className="multi-switchable-box">
       {texts.map((text, index) => (

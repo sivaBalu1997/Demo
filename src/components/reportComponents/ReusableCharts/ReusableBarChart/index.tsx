@@ -108,26 +108,21 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     const [selectedFilter, setSelectedFilter] = useState<{}>(chartFilterOptions[0].value);
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
-     const [width, setWidth] = useState(window.innerWidth);
 
-      useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-    
-        return () => window.removeEventListener("resize", handleResize);
-      }, []);
+
+
 
     const data = {
-        labels: Array.from(
-            new Set(dataList.map((item) => `${xPrefix}${item[xKey]}${xSuffix}`))
-        ),
+        labels:dataList?.length? Array.from(
+            new Set(dataList?.map((item) => `${xPrefix}${item[xKey]}${xSuffix}`))
+        ):[],
         datasets: [
             {
                 label: title,
-                data: dataList.map((item) => ({
+                data: (dataList||[])?.map((item) => ({
                     x: `${xPrefix}${item[xKey]}${xSuffix}`,
                     y: Number(item[yKey] || 0),
-                    ...extraKeys.reduce((acc, key) => ({ ...acc, [key]: item[key] }), {}),
+                    ...extraKeys?.reduce((acc, key) => ({ ...acc, [key]: item[key] }), {}),
                 })),
                 backgroundColor: barColor,
                 barPercentage,
@@ -148,8 +143,8 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                     label: (tooltipItem: any) => {
                         const dataPoint = tooltipItem.raw;
                         const extraInfo = extraKeys
-                            .map((key) => `${key}: ${dataPoint[key]}`)
-                            .join("\n");
+                            ?.map((key) => `${key}: ${dataPoint[key]}`)
+                            ?.join("\n");
                         const yValue = isYAxisQuantity ? dataPoint?.y : dataPoint?.y?.toFixed(2);
                         return [
                             `${xKey}: ${dataPoint?.x}`,
@@ -204,7 +199,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
 
     return(
         <div className='report-product-charts-container' ref={reusableBarChartRef}>
-            {width > 768 ? (<div className='report-product-heading-download-container'>
+            <div className='report-product-heading-download-container'>
                 <div className="title-switchable-box-container">
                     <h2 className="report-product-chart-heading">{title || "Chart title"}</h2>
                     {showSwitchable &&
@@ -232,7 +227,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                     <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef}/>
                 </div>
             </div>
-            ) : (
+             
             <div className='sm-report-product-heading-download-container'>
                 <div className="sm-title-chart-filter-download-report-container">
                     <h2 className="sm-report-product-chart-heading">{title || "Chart title"}</h2>
@@ -262,7 +257,8 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                         />
                     }
                 </div>
-            </div>)}
+            </div>
+            
             {dataList?.length === 0 ? (
                 <ErrorState pageTitle={title} isDataNotAvailable={true} />
             ) : (

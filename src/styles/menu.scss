@@ -1520,6 +1520,17 @@ font-size: 14px;
   justify-content: space-between;
   margin-top: 45px;
   margin-bottom: 24px;
+  .reports-page-sub-header-custom-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    // @media (max-width: 768px) {
+    //   flex-direction: column;
+    //   justify-content: flex-start;
+    // }
+  }
+  
 }
 .categories-graph-header-container {
   display: flex;
@@ -1588,7 +1599,11 @@ font-size: 14px;
 }
 
 
-
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
 /* Report Category Datepicker*/
 .category-date-picker-container {
   height: 0px;

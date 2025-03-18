@@ -14,6 +14,8 @@ import {
     PRODUCT_INSIGHTS_ITEMS_CANCELLED_REASONS_REQUEST,
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_REQUEST,
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST,
 } from './productReportsConstants';
 
 import {
@@ -31,10 +33,14 @@ import {
     productInsightsCancelledReasonsFailure,
     productInsightsItemsCancelledReasonsSuccess,
     productInsightsItemsCancelledReasonsFailure,
-    productInsightsAvailabilityByChannelsSuccess,
-    productInsightsAvailabilityByChannelsFailure,
-    productInsightsAvailabilityByChannelsDetailsSuccess,
-    productInsightsAvailabilityByChannelsDetailsFailure,
+    productAvailabilityByChannelsSuccess,
+    productAvailabilityByChannelsFailure,
+    productAvailabilityByChannelsDetailsSuccess,
+    productAvailabilityByChannelsDetailsFailure,
+    productInsightsTopLeastPopularSuccess,
+    productInsightsTopLeastPopularFailure,
+    productInsightsTopLeastPopularRevenueSuccess,
+    productInsightsTopLeastPopularRevenueFailure,
 } from './productReportsActions';
 
 import {
@@ -47,6 +53,8 @@ import {
     getProductInsightsItemsCancelledReasons,
     getProductInsightsAvailabilityByChannels,
     getProductInsightsAvailabilityByChannelsDetails,
+    getProductInsightsTopLeastPopular,
+    getProductInsightsTopLeastPopularRevenue,
 } from './productReportsApi';
 
 function* productInsightsTopRevenueSaga(action) {
@@ -81,6 +89,22 @@ function* productInsightsTopPopularSaga(action) {
     }
 }
 
+function* productInsightsTopLeastPopularSaga(action) {
+    try {
+        const response = yield call(getProductInsightsTopLeastPopular, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(productInsightsTopLeastPopularSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(productInsightsTopLeastPopularFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(productInsightsTopLeastPopularFailure(error));
+    }
+}
+
 function* productInsightsTopPopularRevenueSaga(action) {
     try {
         const response = yield call(getProductInsightsTopPopularRevenue, action.payload);
@@ -94,6 +118,22 @@ function* productInsightsTopPopularRevenueSaga(action) {
         }
     } catch (error) {
         yield put(productInsightsTopPopularRevenueFailure(error));
+    }
+}
+
+function* productInsightsTopLeastPopularRevenueSaga(action) {
+    try {
+        const response = yield call(getProductInsightsTopLeastPopularRevenue, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(productInsightsTopLeastPopularRevenueSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(productInsightsTopLeastPopularRevenueFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(productInsightsTopLeastPopularRevenueFailure(error));
     }
 }
 
@@ -161,35 +201,35 @@ function* productInsightsItemsCancelledReasonsSaga(action) {
     }
 }
 
-function* productInsightsAvailabilityByChannelsSaga(action) {
+function* productAvailabilityByChannelsSaga(action) {
     try {
         const response = yield call(getProductInsightsAvailabilityByChannels, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(productInsightsAvailabilityByChannelsSuccess(decryptedData));
+            yield put(productAvailabilityByChannelsSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(productInsightsAvailabilityByChannelsFailure(decryptedData?.message));
+            yield put(productAvailabilityByChannelsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(productInsightsAvailabilityByChannelsFailure(error));
+        yield put(productAvailabilityByChannelsFailure(error));
     }
 }
 
-function* productInsightsAvailabilityByChannelsDetailsSaga(action) {
+function* productAvailabilityByChannelsDetailsSaga(action) {
     try {
         const response = yield call(getProductInsightsAvailabilityByChannelsDetails, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            yield put(productInsightsAvailabilityByChannelsDetailsSuccess(decryptedData));
+            yield put(productAvailabilityByChannelsDetailsSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(productInsightsAvailabilityByChannelsDetailsFailure(decryptedData?.message));
+            yield put(productAvailabilityByChannelsDetailsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(productInsightsAvailabilityByChannelsDetailsFailure(error));
+        yield put(productAvailabilityByChannelsDetailsFailure(error));
     }
 }
 
@@ -197,11 +237,13 @@ export default function* watchNewReportRequest() {
     // Product Reports watchers
     yield takeLatest(PRODUCT_INSIGHTS_TOP_REVENUE_REQUEST, productInsightsTopRevenueSaga);
     yield takeLatest(PRODUCT_INSIGHTS_TOP_POPULAR_REQUEST, productInsightsTopPopularSaga);
+    yield takeLatest(PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST, productInsightsTopLeastPopularSaga);
     yield takeLatest(PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_REQUEST, productInsightsTopPopularRevenueSaga);
+    yield takeLatest(PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST, productInsightsTopLeastPopularRevenueSaga);
     yield takeLatest(PRODUCT_INSIGHTS_TOP_REVENUE_STREAMS_REQUEST, productInsightsTopRevenueStreamsSaga);
     yield takeLatest(PRODUCT_INSIGHTS_CANCELLED_ITEMS_REQUEST, productInsightsCancelledItemsSaga);
     yield takeLatest(PRODUCT_INSIGHTS_CANCELLED_REASONS_REQUEST, productInsightsCancelledReasonsSaga);
     yield takeLatest(PRODUCT_INSIGHTS_ITEMS_CANCELLED_REASONS_REQUEST, productInsightsItemsCancelledReasonsSaga);
-    yield takeLatest(PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_REQUEST, productInsightsAvailabilityByChannelsSaga);
-    yield takeLatest(PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST, productInsightsAvailabilityByChannelsDetailsSaga);
+    yield takeLatest(PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_REQUEST, productAvailabilityByChannelsSaga);
+    yield takeLatest(PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST, productAvailabilityByChannelsDetailsSaga);
 }

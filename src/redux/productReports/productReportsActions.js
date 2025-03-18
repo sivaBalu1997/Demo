@@ -34,6 +34,12 @@ import {
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST,
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_SUCCESS,
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_FAILURE,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_FAILURE,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_SUCCESS,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_FAILURE,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_SUCCESS,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST,
 } from "./productReportsConstants";
 
 export const productInsightsTopRevenueRequest = (data) => {
@@ -78,6 +84,27 @@ export const productInsightsTopPopularFailure = (error) => {
     };
 }
 
+export const productInsightsTopLeastPopularRequest = (data) => {
+    return {
+        type: PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST,
+        payload: data
+    };
+}
+
+export const productInsightsTopLeastPopularSuccess = (data) => {
+    return {
+        type: PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_SUCCESS,
+        payload: data
+    };
+}
+
+export const productInsightsTopLeastPopularFailure = (error) => {
+    return {
+        type: PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_FAILURE,
+        payload: error
+    };
+}
+
 export const productInsightsTopPopularRevenueRequest = (data) => {
     return {
         type: PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_REQUEST,
@@ -95,6 +122,28 @@ export const productInsightsTopPopularRevenueSuccess = (data) => {
 export const productInsightsTopPopularRevenueFailure = (error) => {
     return {
         type: PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_FAILURE,
+        payload: error
+    };
+}
+
+
+export const productInsightsTopLeastPopularRevenueRequest = (data) => {
+    return {
+        type: PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST,
+        payload: data
+    };
+}
+
+export const productInsightsTopLeastPopularRevenueSuccess = (data) => {
+    return {
+        type: PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_SUCCESS,
+        payload: data
+    };
+}
+
+export const productInsightsTopLeastPopularRevenueFailure = (error) => {
+    return {
+        type: PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_FAILURE,
         payload: error
     };
 }
@@ -183,42 +232,42 @@ export const productInsightsItemsCancelledReasonsFailure = (error) => {
     };
 }
 
-export const productInsightsAvailabilityByChannelsRequest = (data) => {
+export const productAvailabilityByChannelsRequest = (data) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_REQUEST,
         payload: data
     };
 }
 
-export const productInsightsAvailabilityByChannelsSuccess = (data) => {
+export const productAvailabilityByChannelsSuccess = (data) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_SUCCESS,
         payload: data
     };
 }
 
-export const productInsightsAvailabilityByChannelsFailure = (error) => {
+export const productAvailabilityByChannelsFailure = (error) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_FAILURE,
         payload: error
     };
 }
 
-export const productInsightsAvailabilityByChannelsDetailsRequest = (data) => {
+export const productAvailabilityByChannelsDetailsRequest = (data) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST,
         payload: data
     };
 }
 
-export const productInsightsAvailabilityByChannelsDetailsSuccess = (data) => {
+export const productAvailabilityByChannelsDetailsSuccess = (data) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_SUCCESS,
         payload: data
     };
 }
 
-export const productInsightsAvailabilityByChannelsDetailsFailure = (error) => {
+export const productAvailabilityByChannelsDetailsFailure = (error) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_FAILURE,
         payload: error

@@ -6,6 +6,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        @media (max-width: 600px){
+            display: none;
+        }
         .title-switchable-box-container{
             display: flex;
             justify-content: space-between;
@@ -33,9 +36,12 @@
         }
     }
     .sm-report-product-heading-download-container{
-        display: flex;
+        display: none;
         flex-direction: column;
         gap: 2vh;
+        @media (max-width: 600px){
+            display: flex;
+        }
         .sm-title-chart-filter-download-report-container{
             display: flex;
             align-items: center;

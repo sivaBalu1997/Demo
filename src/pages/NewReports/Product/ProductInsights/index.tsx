@@ -4,144 +4,40 @@ import { changeLocation } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter'
 import useDateFilter from 'hooks/useDateFilter';
 import ReusableBarChart from 'components/reportComponents/ReusableCharts/ReusableBarChart';
-import ReusableDoughnutChart from 'components/reportComponents/ReusableCharts/ReusableDoughnutChart';
+// import ReusableDoughnutChart from 'components/reportComponents/ReusableCharts/ReusableDoughnutChart';
 import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";
 import DownloadReport from 'components/reportComponents/DownloadReports';
 import "./style.scss"
-import { productInsightsAvailabilityByChannelsRequest, productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRequest, productInsightsItemsCancelledReasonsRequest, productInsightsTopPopularRequest, productInsightsTopRevenueRequest, productInsightsTopRevenueStreamsRequest } from 'redux/productReports/productReportsActions';
+import { productAvailabilityByChannelsRequest, productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRequest, productInsightsItemsCancelledReasonsRequest, productInsightsTopLeastPopularRequest, productInsightsTopLeastPopularRevenueRequest, productInsightsTopPopularRequest, productInsightsTopPopularRevenueRequest, productInsightsTopRevenueRequest, productInsightsTopRevenueStreamsRequest } from 'redux/productReports/productReportsActions';
+import ErrorHandler from "components/reportComponents/ErrorHandler";
+import DoughnutChart from 'components/reportComponents/Charts/DoughnutChartButtonVoided';
+import DownloadPopOver from 'pages/CategoryReport/downloadOption';
+import CustomBarChart from 'components/reportComponents/Charts/CustomBarChart';
+import SwitchableBox from 'components/reportComponents/SwitchableBox';
+import CustomDropdown from 'components/common/customDropdown';
+import MultiSwitchableBox from 'components/reportComponents/MultiSwitchableBox';
 
-const foodSalesData = [
-  { "Product Name": "Steak", Sales: 7500.50 },
-  { "Product Name": "Sushi", Sales: 5000 },
-  { "Product Name": "Dumplings", Sales: 3200 },
-  { "Product Name": "Noodles", Sales: 2900 },
-  { "Product Name": "Fried Rice", Sales: 2700 },
-  { "Product Name": "Tacos", Sales: 1200 },
-  { "Product Name": "Sandwich", Sales: 1100 },
-  { "Product Name": "parotta", Sales: 1100 },
-  { "Product Name": "Egg Parotta", Sales: 1100 },
-  { "Product Name": "Salad", Sales: 900 }
-];
+interface dataList {
+  xAxisData: string;
+  stackName: string;
+  stackValue: number;
+}
 
-const twentyPopular = [
-  { "Product Name": "Steak", Quantity: 7500 },
-  { "Product Name": "Sushi", Quantity: 5000 },
-  { "Product Name": "Dumplings", Quantity: 3200 },
-  { "Product Name": "Noodles", Quantity: 2900 },
-  { "Product Name": "Fried Rice", Quantity: 2700 },
-  { "Product Name": "Tacos", Quantity: 1200 },
-  { "Product Name": "Sandwich", Quantity: 1100 },
-  { "Product Name": "Parotta", Quantity: 1100 },
-  { "Product Name": "Egg Parotta", Quantity: 1100 },
-  { "Product Name": "Salad", Quantity: 900 },
-  { "Product Name": "Burger", Quantity: 850 },
-  { "Product Name": "Pizza", Quantity: 800 },
-  { "Product Name": "Pasta", Quantity: 780 },
-  { "Product Name": "Biryani", Quantity: 750 },
-  { "Product Name": "Shawarma", Quantity: 700 },
-  { "Product Name": "Ice Cream", Quantity: 650 },
-  { "Product Name": "Momos", Quantity: 600 },
-  { "Product Name": "Pancakes", Quantity: 550 },
-  { "Product Name": "Fries", Quantity: 500 },
-  { "Product Name": "Hot Dog", Quantity: 450 }
-];
-
-const mockData = [
-  { name: 'Category A', value: 400, color: '#0088FE' },
-  { name: 'Category B', value: 300, color: '#00C49F' },
-  { name: 'Category C', value: 300, color: '#FFBB28' },
-  { name: 'Category D', value: 200, color: '#FF8042' },
-];
-
-const chartData = [
-  { label: 'Service delay', value: 22, color: '#2E7D32' },
-  { label: 'Wrong order', value: 21, color: '#FF9800' },
-  { label: 'Taste issue', value: 21, color: '#2196F3' },
-  { label: 'Service delay', value: 13, color: '#E91E63' },
-  { label: 'Extra order', value: 23, color: '#FF9800' }
-];
-
-const data = {
-  labels: ['Service delay', 'Wrong order', 'Taste issue', 'Service delay', 'Extra order'],
-  datasets: [{
-    data: [22, 21, 21, 13, 23],
-    backgroundColor: ['#2E7D32', '#FF9800', '#2196F3', '#E91E63', '#FF9800'],
-    borderColor: ['#2E7D32', '#FF9800', '#2196F3', '#E91E63', '#FF9800'],
-    borderWidth: 1,
-  }],
-};
-
-const stackedDataList = [
-  { xAxisData: "1 month", stackName: "Active", stackValue: 11 },
-  { xAxisData: "1 month", stackName: "Dormant", stackValue: 6 },
-
-  { xAxisData: "1-6 months", stackName: "Active", stackValue: 8 },
-  { xAxisData: "1-6 months", stackName: "Dormant", stackValue: 5 },
-
-  { xAxisData: "1-12 months", stackName: "Active", stackValue: 6 },
-  { xAxisData: "1-12 months", stackName: "Dormant", stackValue: 3 },
-
-  { xAxisData: "1-3 years", stackName: "Active", stackValue: 6 },
-  { xAxisData: "1-3 years", stackName: "Dormant", stackValue: 8 },
-
-  { xAxisData: "3+ years", stackName: "Active", stackValue: 5 },
-  { xAxisData: "3+ years", stackName: "Dormant", stackValue: 6 },
-];
-
-const stackedDataListTwo = [
-  { xAxisData: "Fried Idli", stackName: "Customer complaints", stackValue: 30 },
-  { xAxisData: "Fried Idli", stackName: "Item not available", stackValue: 20 },
-  { xAxisData: "Fried Idli", stackName: "Restaurant closing time", stackValue: 50 },
-  { xAxisData: "Fried Idli", stackName: "Chef not available", stackValue: 10 },
-  { xAxisData: "Fried Idli", stackName: "Others", stackValue: 70 },
-
-  { xAxisData: "Mutton Biryani", stackName: "Customer complaints", stackValue: 25 },
-  { xAxisData: "Mutton Biryani", stackName: "Item not available", stackValue: 18 },
-  { xAxisData: "Mutton Biryani", stackName: "Restaurant closing time", stackValue: 45 },
-  { xAxisData: "Mutton Biryani", stackName: "Chef not available", stackValue: 8 },
-  { xAxisData: "Mutton Biryani", stackName: "Others", stackValue: 60 },
-
-  { xAxisData: "Mutton Soup", stackName: "Customer complaints", stackValue: 20 },
-  { xAxisData: "Mutton Soup", stackName: "Item not available", stackValue: 15 },
-  { xAxisData: "Mutton Soup", stackName: "Restaurant closing time", stackValue: 40 },
-  { xAxisData: "Mutton Soup", stackName: "Chef not available", stackValue: 6 },
-  { xAxisData: "Mutton Soup", stackName: "Others", stackValue: 55 },
-
-  { xAxisData: "Fish Biryani", stackName: "Customer complaints", stackValue: 22 },
-  { xAxisData: "Fish Biryani", stackName: "Item not available", stackValue: 17 },
-  { xAxisData: "Fish Biryani", stackName: "Restaurant closing time", stackValue: 48 },
-  { xAxisData: "Fish Biryani", stackName: "Chef not available", stackValue: 7 },
-  { xAxisData: "Fish Biryani", stackName: "Others", stackValue: 58 },
-
-  { xAxisData: "Chicken Soup", stackName: "Customer complaints", stackValue: 18 },
-  { xAxisData: "Chicken Soup", stackName: "Item not available", stackValue: 14 },
-  { xAxisData: "Chicken Soup", stackName: "Restaurant closing time", stackValue: 42 },
-  { xAxisData: "Chicken Soup", stackName: "Chef not available", stackValue: 5 },
-  { xAxisData: "Chicken Soup", stackName: "Others", stackValue: 50 },
-
-  { xAxisData: "Plain Dosa", stackName: "Customer complaints", stackValue: 28 },
-  { xAxisData: "Plain Dosa", stackName: "Item not available", stackValue: 19 },
-  { xAxisData: "Plain Dosa", stackName: "Restaurant closing time", stackValue: 47 },
-  { xAxisData: "Plain Dosa", stackName: "Chef not available", stackValue: 9 },
-  { xAxisData: "Plain Dosa", stackName: "Others", stackValue: 63 },
-
-  { xAxisData: "Channa Samosa", stackName: "Customer complaints", stackValue: 16 },
-  { xAxisData: "Channa Samosa", stackName: "Item not available", stackValue: 12 },
-  { xAxisData: "Channa Samosa", stackName: "Restaurant closing time", stackValue: 38 },
-  { xAxisData: "Channa Samosa", stackName: "Chef not available", stackValue: 4 },
-  { xAxisData: "Channa Samosa", stackName: "Others", stackValue: 45 },
-
-  { xAxisData: "Aloo Matar", stackName: "Customer complaints", stackValue: 20 },
-  { xAxisData: "Aloo Matar", stackName: "Item not available", stackValue: 14 },
-  { xAxisData: "Aloo Matar", stackName: "Restaurant closing time", stackValue: 41 },
-  { xAxisData: "Aloo Matar", stackName: "Chef not available", stackValue: 6 },
-  { xAxisData: "Aloo Matar", stackName: "Others", stackValue: 52 },
+const chartFilterOptions: { value: string, label: string }[] = [
+  { value: "Overall", label: "Overall" },
+  { value: "Weekdays", label: "Weekdays" },
+  { value: "Weekends", label: "Weekends" },
+  { value: "Lunch", label: "Lunch" },
+  { value: "Dinner", label: "Dinner" },
 ];
 
 const ProductInsights = () => {
+  const [isLeastPopularSelected, setIsLeastPopularSelected] = useState(false);
+  const [isLeastPopularRevenueSelected, setIsLeastPopularRevenueSelected] = useState(false);
 
-  const locations = useSelector(    (state: any) => state?.newReports?.storeLocationsList  );
-  const selectedLocation = useSelector(    (state: any) => state?.newReports?.selectedLocation  );
+  const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
+  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
+  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
 
   // Top Revenue States
   const topRevenueData = useSelector((state: any) => state?.productReports?.topRevenueSuccess);
@@ -149,14 +45,22 @@ const ProductInsights = () => {
   const topRevenueError = useSelector((state: any) => state?.productReports?.topRevenueFailure);
 
   // Top Popular States
-  const topPopularData = useSelector((state: any) => state?.productReports?.topPopularSuccess);
+  const topPopularData = useSelector((state: any) => state?.productReports?.topPopularSuccess?.content);
   const topPopularLoading = useSelector((state: any) => state?.productReports?.topPopularLoading);
   const topPopularError = useSelector((state: any) => state?.productReports?.topPopularFailure);
+
+  const topLeastPopularData = useSelector((state: any) => state?.productReports?.topLeastPopularSuccess?.content);
+  const topLeastPopularLoading = useSelector((state: any) => state?.productReports?.topLeastPopularLoading);
+  const topLeastPopularError = useSelector((state: any) => state?.productReports?.topLeastPopularFailure);
 
   // Top Popular Revenue States
   const topPopularRevenueData = useSelector((state: any) => state?.productReports?.topPopularRevenueSuccess);
   const topPopularRevenueLoading = useSelector((state: any) => state?.productReports?.topPopularRevenueLoading);
   const topPopularRevenueError = useSelector((state: any) => state?.productReports?.topPopularRevenueFailure);
+
+  const topLeastPopularRevenueData = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueSuccess);
+  const topLeastPopularRevenueLoading = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueLoading);
+  const topLeastPopularRevenueError = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueFailure);
 
   // Top Revenue Streams States
   const topRevenueStreamsData = useSelector((state: any) => state?.productReports?.topRevenueStreamsSuccess);
@@ -178,17 +82,8 @@ const ProductInsights = () => {
   const itemsCancelledReasonsLoading = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsLoading);
   const itemsCancelledReasonsError = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsFailure);
 
-  // Availability By Channels States
-  const availabilityByChannelsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsSuccess);
-  const availabilityByChannelsLoading = useSelector((state: any) => state?.productReports?.availabilityByChannelsLoading);
-  const availabilityByChannelsError = useSelector((state: any) => state?.productReports?.availabilityByChannelsFailure);
 
-  // Availability By Channels Details States
-  const availabilityByChannelsDetailsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsSuccess);
-  const availabilityByChannelsDetailsLoading = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsLoading);
-  const availabilityByChannelsDetailsError = useSelector((state: any) => state?.productReports?.availabilityByChannelsDetailsFailure);  
-
-  const { startDate, endDate, selectedDateFilterType, handleDateChange } =    useDateFilter();
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
   useEffect(() => {
     console.log({
@@ -199,28 +94,27 @@ const ProductInsights = () => {
       cancelledItemsData,
       cancelledReasonsData,
       itemsCancelledReasonsData,
-      availabilityByChannelsData,
-      availabilityByChannelsDetailsData
     })
-  },[topRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData, availabilityByChannelsData, availabilityByChannelsDetailsData])
+  }, [topRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData])
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const params={
+    const params = {
       locationId: selectedLocation?.value,
-      startDate:startDate,
-      endDate:endDate
+      startDate: startDate,
+      endDate: endDate
 
     }
-    dispatch((productInsightsTopRevenueRequest( params)));
-    dispatch(productInsightsAvailabilityByChannelsRequest(params))
-    dispatch(productInsightsAvailabilityByChannelsRequest(params))
+    dispatch((productInsightsTopRevenueRequest(params)));
     dispatch(productInsightsTopPopularRequest(params))
+    dispatch(productInsightsTopLeastPopularRequest(params))
     dispatch(productInsightsTopRevenueStreamsRequest(params))
     dispatch(productInsightsCancelledItemsRequest(params))
     dispatch(productInsightsCancelledReasonsRequest(params))
     dispatch(productInsightsItemsCancelledReasonsRequest(params))
-  },[selectedLocation,startDate,endDate])
+    dispatch(productInsightsTopPopularRevenueRequest(params))
+    dispatch(productInsightsTopLeastPopularRevenueRequest(params))
+  }, [selectedLocation, startDate, endDate])
 
 
 
@@ -243,25 +137,47 @@ const ProductInsights = () => {
 
   return (
     <div className="report-product-availability">
-        <StoreFilter
-          storeOptions={locations}
-          selectedDate={selectedDateFilterType}
-          selectedStore={selectedLocation}
-          setSelectedDate={(data) => handleDateChange(data?.value)}
-          datePickerApplyFunction={(date1: any, date2: any) =>
-            datepickerApply
-              ("Custom Date", date1, date2)
-          }
-          dateDropdownFunction={(date1: any, date2: any) =>
-            datepickerApply("Custom Date", date1, date2)
-          }
-          setSelectedStore={(store) => dispatch(changeLocation(store))}
+      <StoreFilter
+        storeOptions={locations}
+        selectedDate={selectedDateFilterType}
+        selectedStore={selectedLocation}
+        setSelectedDate={(data) => handleDateChange(data?.value)}
+        datePickerApplyFunction={(date1: any, date2: any) =>
+          datepickerApply
+            ("Custom Date", date1, date2)
+        }
+        dateDropdownFunction={(date1: any, date2: any) =>
+          datepickerApply("Custom Date", date1, date2)
+        }
+        setSelectedStore={(store) => dispatch(changeLocation(store))}
+      />
+      <div className="reports-page-sub-header-container">
+        <h1 className="reports-page-heading">
+          Top 10 Revenue Making Categories
+        </h1>
+        <DownloadPopOver />
+      </div>
+      <ErrorHandler isError={topRevenueError} data={topRevenueData} >
+        <CustomBarChart
+          barColor="#049E16"
+          toolTipBorderColor="#049E16"
+          xAxisTooltipLabel="Product Name"
+          yAxisTooltipLabel="Sales"
+          dataList={topRevenueData?.map((data: any) => ({
+            xAxisValue: `${data.productName || ""}`,
+            yAxisValue: `$${Number(data?.sales || 0)?.toFixed(2)}`,
+          }))}
+          loader={topRevenueLoading}
+          showLabel={false}
         />
-        <ReusableBarChart
-          dataList={foodSalesData}
+      </ErrorHandler>
+
+
+      {/* <ReusableBarChart
+          dataList={topRevenueData}
           loader={false}
-          xKey="Product Name"
-          yKey="Sales"
+          xKey="productName"
+          yKey="sales"
           // extraKeys={["orders"]}
           title="Top 10 Revenue Making Categories"
           barColor="#049E16"
@@ -282,12 +198,52 @@ const ProductInsights = () => {
           switchableTextTwo='Most revenue making'
           // getToggledValueInParentPage={getToggledValueInParentPage}
           isYAxisQuantity={false}
+        /> */}
+
+      {/* <div className="reports-page-sub-header-container">
+        <div className='reports-page-sub-header-custom-container'>
+
+          <h1 className="reports-page-heading">
+            Top 20 popular
+          </h1>
+          <MultiSwitchableBox
+          texts={["Popular", "Least Popular"]}
+          activeIndex={isLeastPopularSelected ? 1 : 0}
+          onSwitch={(index) => setIsLeastPopularSelected(index === 1)}
+          />
+        </div>
+
+        <div className='reports-page-sub-header-custom-container'>
+          <CustomDropdown
+            value={chartFilterOptions[0]?.value}
+            options={chartFilterOptions}
+            onSelect={handleChartFilter}
+            placeholder="Select Date"
+            className="table-date-dropdown"
+            disabled={false}
+          />
+          <DownloadPopOver />
+        </div>
+      </div>
+      <ErrorHandler isError={isLeastPopularSelected ? topLeastPopularError : topRevenueError} data={isLeastPopularSelected ? topLeastPopularData : topRevenueData} >
+        <CustomBarChart
+          barColor="#14A789"
+          toolTipBorderColor="#14A789"
+          xAxisTooltipLabel="Product Name"
+          yAxisTooltipLabel="Quantity"
+          dataList={(isLeastPopularSelected ? topLeastPopularData : topRevenueData)?.map((data: any) => ({
+            xAxisValue: `${data.itemName || ""}`,
+            yAxisValue: Number(data?.itemCount || 0),
+          }))}
+          loader={isLeastPopularSelected ? topLeastPopularLoading : topRevenueLoading}
+          showLabel={false}
         />
-        <ReusableBarChart
-          dataList={twentyPopular}
+      </ErrorHandler> */}
+      <ReusableBarChart
+          dataList={topPopularData}
           loader={false}
-          xKey="Product Name"
-          yKey="Quantity"
+          xKey="itemName"
+          yKey="itemCount"
           // extraKeys={["orders"]}
           title="Top 20 popular"
           barColor="#14A789"
@@ -309,48 +265,138 @@ const ProductInsights = () => {
           getToggledValueInParentPage={getToggledValueInParentPage}
           isYAxisQuantity={true}
         />
-        <ReusableBarChart
-          dataList={twentyPopular}
-          loader={false}
-          xKey="Product Name"
-          yKey="Quantity"
-          title="Top 20 popular revenue making"
-          barColor="#AA562A"
-          yPrefix="$"
-          ySuffix="K"
-          tooltipStyles={{
-            backgroundColor: "white",
-            borderColor: "#AA562A",
-            titleColor: "black",
-            bodyColor: "black",
-          }}
-          kpiTitle='Top 20 popular revenue making'
-          showChartFilter={true}
-          handleChartFilter={handleChartFilter}
-          showSwitchable={true}
-          switchableTextOne='Popular'
-          switchableTextTwo='Least popular'
-          getToggledValueInParentPage={getToggledValueInParentPage}
-          isYAxisQuantity={false}
-        />
-        <ReusableDoughnutChart
-          data={chartData}
-          totalAmount="$1200.50"
-          totalItems={125}
-          tooltipAmount="$87.50"
-        />
-        <div className="items-cancelled-reasons-container">
-          <div className="items-cancelled-reason-head-download-container">
-            <p className='items-cancelled-heading'>Items Cancelled Reasons</p>
-            <DownloadReport kpiTitle='Items Cancelled Reasons' tableData={stackedDataListTwo} />
-          </div>
-          <StackedBarChart
-            loader={false}
-            dataList={stackedDataListTwo}
-            colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29"]}
-            toolTipBorderColor="#F89B29"
+
+<div className="reports-page-sub-header-container">
+        <div className='reports-page-sub-header-custom-container'>
+
+          <h1 className="reports-page-heading">
+          Top 20 popular revenue making
+          </h1>
+          <MultiSwitchableBox
+          texts={["Popular", "Least Popular"]}
+          activeIndex={isLeastPopularRevenueSelected ? 1 : 0}
+          onSwitch={(index) => setIsLeastPopularRevenueSelected(index === 1)}
           />
         </div>
+
+        <div className='reports-page-sub-header-custom-container'>
+          <CustomDropdown
+            value={chartFilterOptions[0]?.value}
+            options={chartFilterOptions}
+            onSelect={handleChartFilter}
+            placeholder="Select Date"
+            className="table-date-dropdown"
+            disabled={false}
+          />
+          <DownloadPopOver />
+        </div>
+      </div>
+      <ErrorHandler isError={isLeastPopularRevenueSelected ? topLeastPopularRevenueError : topPopularRevenueError} data={isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData} >
+        <CustomBarChart
+          barColor="#AA562A"
+          toolTipBorderColor="#AA562A"
+          xAxisTooltipLabel="Product Name"
+          yAxisTooltipLabel="Quantity"
+          dataList={(isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData)?.map((data: any) => ({
+            xAxisValue: `${data.itemName || ""}`,
+            yAxisValue: Number(data?.itemCount || 0),
+          }))}
+          loader={isLeastPopularRevenueSelected ? topLeastPopularRevenueLoading : topPopularRevenueLoading}
+          showLabel={false}
+        />
+      </ErrorHandler>
+      {/* <ReusableBarChart
+        dataList={topPopularRevenueData}
+        loader={false}
+        xKey="Product Name"
+        yKey="Quantity"
+        title="Top 20 popular revenue making"
+        barColor="#AA562A"
+        yPrefix="$"
+        ySuffix="K"
+        tooltipStyles={{
+          backgroundColor: "white",
+          borderColor: "#AA562A",
+          titleColor: "black",
+          bodyColor: "black",
+        }}
+        kpiTitle='Top 20 popular revenue making'
+        showChartFilter={true}
+        handleChartFilter={handleChartFilter}
+        showSwitchable={true}
+        switchableTextOne='Popular'
+        switchableTextTwo='Least popular'
+        getToggledValueInParentPage={getToggledValueInParentPage}
+        isYAxisQuantity={false}
+      /> */}
+      <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
+        <div className="doughnut-chart-with-button">
+          <h2 className="sales-overview-sub-heading ">Top Revenue Streams</h2>
+          <ErrorHandler data={topRevenueStreamsData} isError={topRevenueStreamsError}>
+            <DoughnutChart
+              dataList={topRevenueStreamsData?.map((data: any) => ({
+                name: data?.productName,
+                label: data?.productName,
+                count: data?.sales,
+                items: data?.sales,
+                amount: data?.sales
+              }))}
+              countryCode={countryCode}
+              loader={topRevenueStreamsLoading}
+            />
+          </ErrorHandler>
+        </div>
+        <div className="doughnut-chart-with-button" >
+          <h2 className="sales-overview-sub-heading ">Cancelled Items</h2>
+          <ErrorHandler data={cancelledItemsData} isError={cancelledItemsError} >
+            <DoughnutChart
+              dataList={cancelledItemsData?.map((data: any) => ({
+                name: data?.itemName,
+                label: data?.itemName,
+                count: data?.itemCount,
+                items: data?.itemCount,
+                amount: data?.itemCount
+              }))}
+              countryCode={countryCode}
+              loader={cancelledItemsLoading}
+            />
+          </ErrorHandler>
+        </div>
+      </div>
+      <div className="sales-overview-doughnut-chart-container" style={{  width: "100%" }} >
+        <div className="doughnut-chart-with-button">
+          <h2 className="sales-overview-sub-heading ">Cancelled Reasons</h2>
+          <ErrorHandler data={cancelledReasonsData} isError={cancelledReasonsError}>
+            <DoughnutChart
+              dataList={cancelledReasonsData?.map((data: any) => ({
+                name: data?.voidedReason,
+                label: data?.voidedReason,
+                count: data?.voidedItems,
+                items: data?.voidedItems,
+                amount: data?.voidedItems
+              }))}
+              countryCode={countryCode}
+              loader={cancelledReasonsLoading}
+            />
+          </ErrorHandler>
+        </div>
+        <div className="doughnut-chart-with-button" >
+        </div>
+      </div>
+      <div className="items-cancelled-reasons-container">
+        <div className="items-cancelled-reason-head-download-container">
+          <p className='items-cancelled-heading'>Items Cancelled Reasons</p>
+          <DownloadReport kpiTitle='Items Cancelled Reasons' tableData={itemsCancelledReasonsData} />
+        </div>
+        <ErrorHandler data={itemsCancelledReasonsData} isError={itemsCancelledReasonsError}>
+        <StackedBarChart
+          loader={false}
+          dataList={itemsCancelledReasonsData?.map((data: any) => ({ xAxisData: data?.itemName, stackName: data?.voidedReason, stackValue: data?.voidedReasonCount }))}
+          colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29"]}
+          toolTipBorderColor="#F89B29"
+        />
+             </ErrorHandler>
+      </div>
     </div>
   )
 }

@@ -140,8 +140,8 @@ const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
-  const [page, setPage]=useState<number>(1);
-  const [rows,setRows]=useState(10)
+  const [page, setPage] = useState<number>(1);
+  const [rows, setRows] = useState(10)
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
   const [otherOffer, setOtherOffer] = useState<string>("");
@@ -340,8 +340,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }, [selectedLocation, startDate, endDate]);
 
 
-  useEffect(()=>{
-    if(viewType==="discountOffer"){
+  useEffect(() => {
+    if (viewType === "discountOffer") {
 
       const params: any = {
         locationid: selectedLocation?.value,
@@ -350,16 +350,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         tablePageNo: page,
         tableRecordLimit: rows,
         search: searchQuery,
-        offer:offerType
-      }      
+        offer: offerType
+      }
       dispatch(
         discountSummaryRequest(params)
       );
     }
-    },[selectedLocation, startDate, endDate,page,rows,offerType,searchQuery])
+  }, [selectedLocation, startDate, endDate, page, rows, offerType, searchQuery])
 
-  useEffect(()=>{
-    if(viewType==="voidedOffer"){
+  useEffect(() => {
+    if (viewType === "voidedOffer") {
 
       const params: any = {
         locationid: selectedLocation?.value,
@@ -368,14 +368,14 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         tablePageNo: page,
         tableRecordLimit: rows,
         search: searchQuery,
-        reason:voidedReason
+        reason: voidedReason
       }
       dispatch(
         cancellationSummaryRequest(params)
       );
     }
 
-  },[selectedLocation, startDate, endDate,page,rows,voidedReason, searchQuery])
+  }, [selectedLocation, startDate, endDate, page, rows, voidedReason, searchQuery])
 
 
   const handleGoBackToChart = () => {
@@ -452,8 +452,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       {viewType === "default" ? (
         <>
           <StoreFilter
-          startDate={startDate}
-          endDate={endDate}
+            startDate={startDate}
+            endDate={endDate}
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
@@ -594,80 +594,80 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             <h2 className="sales-overview-sub-heading ">Tender Type</h2>
           </div>
           <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
-          <div className="reports-tendor-container">
-            <div className="left-section">
-              {leftGroup?.map((key) => (
+            <div className="reports-tendor-container">
+              <div className="left-section">
+                {leftGroup?.map((key) => (
 
-                <>
-                  {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
-                    <>
-                    <h3 className="tender-type-sub-heading">{key}</h3>
-                    <div className="tender-type-container">
-                      {Array.isArray(groupedData[key]) &&
-                        groupedData[key].map((item: any, index: number) => (
-                          <TenderType
-                            icon={
-                              knownTendorIcons?.[item?.paymentMode] || (
-                                <KeyedInIcon />
-                              )
-                            }
-                            key={index}
-                            tendorTitle={item?.paymentMode}
-                            expandable={item?.isExpandable}
-                            amount={item?.totalSales || 0}
-                            orders={item?.totalOrders || 0}
-                            percentage={Number(item?.salesPercentage || 0)}
-                            onPremOrders={item?.onPremiseOrders || 0}
-                            onPremSales={item?.onPremiseSales || 0}
-                            offPremOrders={item?.offPremiseOrders || 0}
-                            offPremSales={item?.offPremiseSales || 0}
-                            loader={tendorTypesLoader}
-                          />
-                        ))}
-                    </div>
-                    </>
-                  )}
-                </>
-              ))}
+                  <>
+                    {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                      <>
+                        <h3 className="tender-type-sub-heading">{key}</h3>
+                        <div className="tender-type-container">
+                          {Array.isArray(groupedData[key]) &&
+                            groupedData[key].map((item: any, index: number) => (
+                              <TenderType
+                                icon={
+                                  knownTendorIcons?.[item?.paymentMode] || (
+                                    <KeyedInIcon />
+                                  )
+                                }
+                                key={index}
+                                tendorTitle={item?.paymentMode}
+                                expandable={item?.isExpandable}
+                                amount={item?.totalSales || 0}
+                                orders={item?.totalOrders || 0}
+                                percentage={Number(item?.salesPercentage || 0)}
+                                onPremOrders={item?.onPremiseOrders || 0}
+                                onPremSales={item?.onPremiseSales || 0}
+                                offPremOrders={item?.offPremiseOrders || 0}
+                                offPremSales={item?.offPremiseSales || 0}
+                                loader={tendorTypesLoader}
+                              />
+                            ))}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ))}
+              </div>
+
+              <div className="right-section">
+                {rightGroup?.map((key) => (
+
+                  <>
+                    {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                      <>
+                        <h3 className="tender-type-sub-heading">{key}</h3>
+                        <div className="tender-type-container">
+                          {Array.isArray(groupedData[key]) &&
+                            groupedData[key].map((item: any, index: number) => (
+                              <TenderType
+                                icon={
+                                  knownTendorIcons?.[item?.paymentMode] || (
+                                    <KeyedInIcon />
+                                  )
+                                }
+                                key={index}
+                                tendorTitle={item?.paymentMode}
+                                expandable={item?.isExpandable}
+                                amount={item?.totalSales || 0}
+                                orders={item?.totalOrders || 0}
+                                percentage={Number(item?.salesPercentage || 0)}
+                                onPremOrders={item?.onPremiseOrders || 0}
+                                onPremSales={item?.onPremiseSales || 0}
+                                offPremOrders={item?.offPremiseOrders || 0}
+                                offPremSales={item?.offPremiseSales || 0}
+                                loader={tendorTypesLoader}
+                              />
+                            ))}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ))}
+              </div>
             </div>
-
-            <div className="right-section">
-              {rightGroup?.map((key) => (
-
-                <>
-                  {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
-                    <>
-                    <h3 className="tender-type-sub-heading">{key}</h3>
-                    <div className="tender-type-container">
-                      {Array.isArray(groupedData[key]) &&
-                        groupedData[key].map((item: any, index: number) => (
-                          <TenderType
-                            icon={
-                              knownTendorIcons?.[item?.paymentMode] || (
-                                <KeyedInIcon />
-                              )
-                            }
-                            key={index}
-                            tendorTitle={item?.paymentMode}
-                            expandable={item?.isExpandable}
-                            amount={item?.totalSales || 0}
-                            orders={item?.totalOrders || 0}
-                            percentage={Number(item?.salesPercentage || 0)}
-                            onPremOrders={item?.onPremiseOrders || 0}
-                            onPremSales={item?.onPremiseSales || 0}
-                            offPremOrders={item?.offPremiseOrders || 0}
-                            offPremSales={item?.offPremiseSales || 0}
-                            loader={tendorTypesLoader}
-                          />
-                        ))}
-                    </div>
-                    </>
-                  )}
-                </>
-              ))}
-            </div>
-          </div>
-            </ErrorHandler>  
+          </ErrorHandler>
 
           {/* <div className="sales-charts-container">   */}
           <div>
@@ -700,21 +700,21 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </ErrorHandler>
           </div>
 
-          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width:"100%" }} ref={offerRef}>
-          <div className="doughnut-chart-with-button">
+          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width: "100%" }} ref={offerRef}>
+            <div className="doughnut-chart-with-button">
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <ErrorHandler data={offerSummary} isError={offerSummaryError}>
                 <DoughnutChart
-               dataList={offerSummary?.map((data:any)=>  ({
-                name:data?.steward,
-                label:data?.offerName,
-                count:data?.totalOrders,
-                items:data?.totalDiscount,
-                amount:data?.totalSales
-              }))}
-          countryCode={countryCode}
-          handleOther={(other: string) => handleOther("discountOffer", other)}
-          handleClick={(data: any) =>
+                  dataList={offerSummary?.map((data: any) => ({
+                    name: data?.steward,
+                    label: data?.offerName,
+                    count: data?.totalOrders,
+                    items: data?.totalDiscount,
+                    amount: data?.totalSales
+                  }))}
+                  countryCode={countryCode}
+                  handleOther={(other: string) => handleOther("discountOffer", other)}
+                  handleClick={(data: any) =>
                     handleSummaryView("discountOffer", data)
                   }
                   loader={offerSummaryLoading}
@@ -725,16 +725,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
               <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                 <DoughnutChart
-                  dataList={voidedOrderSummary?.map((data:any)=>  ({
-                    name:data?.steward,
-                    label:data?.voidedReasons,
-                    count:data?.orderCount,
-                    items:data?.voidedItems,
-                    amount:data?.voidedAmount
+                  dataList={voidedOrderSummary?.map((data: any) => ({
+                    name: data?.steward,
+                    label: data?.voidedReasons,
+                    count: data?.orderCount,
+                    items: data?.voidedItems,
+                    amount: data?.voidedAmount
                   }))}
-                countryCode={countryCode}
-                handleOther={(other: string) => handleOther("voidedOffer", other)}
-                handleClick={(data: any) =>
+                  countryCode={countryCode}
+                  handleOther={(other: string) => handleOther("voidedOffer", other)}
+                  handleClick={(data: any) =>
                     handleSummaryView("voidedOffer", data)
                   }
                   loader={voidedOrderSummaryLoader}
@@ -768,7 +768,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             <ErrorHandler data={discountSummary} isError={discountSummaryError}>
               <NewTable
                 kpiTitle={`By discount - ${offerType}`}
-                searchQuery={searchQuery}    
+                searchQuery={searchQuery}
                 headerData={discountTableHeaders}
                 tableData={
                   discountSummary &&
