@@ -158,26 +158,6 @@ const ProductInsights = () => {
         }
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
-      {/* <div className="reports-page-sub-header-container">
-        <h1 className="reports-page-heading">
-          Top 10 Revenue Making Categories
-        </h1>
-        <DownloadPopOver />
-      </div>
-      <ErrorHandler isError={topRevenueError} data={topRevenueData} >
-        <CustomBarChart
-          barColor="#049E16"
-          toolTipBorderColor="#049E16"
-          xAxisTooltipLabel="Product Name"
-          yAxisTooltipLabel="Sales"
-          dataList={topRevenueData?.map((data: any) => ({
-            xAxisValue: `${data.productName || ""}`,
-            yAxisValue: `$${Number(data?.sales || 0)?.toFixed(2)}`,
-          }))}
-          loader={topRevenueLoading}
-          showLabel={false}
-        />
-      </ErrorHandler> */}
 
 
       <ReusableBarChart
@@ -205,46 +185,7 @@ const ProductInsights = () => {
           showSwitchable={false}
           isYAxisQuantity={false}
         />
-{/* 
-      <div className="reports-page-sub-header-container">
-        <div className='reports-page-sub-header-custom-container'>
 
-          <h1 className="reports-page-heading">
-            Top 20 popular
-          </h1>
-          <MultiSwitchableBox
-          texts={["Popular", "Least Popular"]}
-          activeIndex={isLeastPopularSelected ? 1 : 0}
-          onSwitch={(index) => setIsLeastPopularSelected(index === 1)}
-          />
-        </div>
-
-        <div className='reports-page-sub-header-custom-container'>
-          <CustomDropdown
-            value={chartFilterOptions[0]?.value}
-            options={chartFilterOptions}
-            onSelect={handleChartFilter}
-            placeholder="Select Date"
-            className="table-date-dropdown"
-            disabled={false}
-          />
-          <DownloadPopOver />
-        </div>
-      </div> 
-      <ErrorHandler isError={isLeastPopularSelected ? topLeastPopularError : topRevenueError} data={isLeastPopularSelected ? topLeastPopularData : topRevenueData} >
-        <CustomBarChart
-          barColor="#14A789"
-          toolTipBorderColor="#14A789"
-          xAxisTooltipLabel="Product Name"
-          yAxisTooltipLabel="Quantity"
-          dataList={(isLeastPopularSelected ? topLeastPopularData : topRevenueData)?.map((data: any) => ({
-            xAxisValue: `${data.itemName || ""}`,
-            yAxisValue: Number(data?.itemCount || 0),
-          }))}
-          loader={isLeastPopularSelected ? topLeastPopularLoading : topRevenueLoading}
-          showLabel={false}
-        />
-      </ErrorHandler> */}
         <ReusableBarChart
             dataList={isLeastPopularSelected ? topLeastPopularData : topPopularData}
             loader={isLeastPopularSelected ? topLeastPopularLoading : topPopularLoading}
@@ -274,45 +215,6 @@ const ProductInsights = () => {
             setIsSwitchActive = {()=>setIsLeastPopularSelected((prev)=>!prev)}
           />
 
-{/* <div className="reports-page-sub-header-container">
-        <div className='reports-page-sub-header-custom-container'>
-
-          <h1 className="reports-page-heading">
-          Top 20 popular revenue making
-          </h1>
-          <MultiSwitchableBox
-          texts={["Popular", "Least Popular"]}
-          activeIndex={isLeastPopularRevenueSelected ? 1 : 0}
-          onSwitch={(index) => setIsLeastPopularRevenueSelected(index === 1)}
-          />
-        </div>
-
-        <div className='reports-page-sub-header-custom-container'>
-          <CustomDropdown
-            value={chartFilterOptions[0]?.value}
-            options={chartFilterOptions}
-            onSelect={handleChartFilter}
-            placeholder="Select Date"
-            className="table-date-dropdown"
-            disabled={false}
-          />
-          <DownloadPopOver />
-        </div>
-      </div>
-      <ErrorHandler isError={isLeastPopularRevenueSelected ? topLeastPopularRevenueError : topPopularRevenueError} data={(isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData)||[]} >
-        <CustomBarChart
-          barColor="#AA562A"
-          toolTipBorderColor="#AA562A"
-          xAxisTooltipLabel="Product Name"
-          yAxisTooltipLabel="Quantity"
-          dataList={((isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData)||[])?.map((data: any) => ({
-            xAxisValue: `${data.itemName || ""}`,
-            yAxisValue: Number(data?.itemCount || 0),
-          }))}
-          loader={isLeastPopularRevenueSelected ? topLeastPopularRevenueLoading : topPopularRevenueLoading}
-          showLabel={false}
-        />
-      </ErrorHandler> */}
       <ReusableBarChart
         dataList={isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData}
         loader={isLeastPopularRevenueSelected ? topLeastPopularRevenueLoading : topPopularRevenueLoading}
@@ -353,13 +255,7 @@ const ProductInsights = () => {
                         yKey="totalSales"
                         isAmount={true}
               dataList={salesByRevenueClassAPIRedux}
-              //   ?.map((data: any) => ({
-              //   name: data?.revenueClass,
-              //   label: data?.revenueClass,
-              //   count: data?.itemsSold,
-              //   items: data?.totalSales,
-              //   amount: data?.totalSales
-              // }))}
+
               countryCode={countryCode}
               loader={salesByRevenueClassLoading}
               clickable={false}
@@ -376,13 +272,7 @@ const ProductInsights = () => {
                    yKey="itemCount"
                    isAmount={false}
               dataList={cancelledItemsData}
-              //   ?.map((data: any) => ({
-              //   name: data?.itemName,
-              //   label: data?.itemName,
-              //   count: data?.itemCount,
-              //   items: data?.itemCount,
-              //   amount: data?.itemCount
-              // }))}
+
   
               countryCode={countryCode}
               loader={cancelledItemsLoading}
@@ -402,13 +292,7 @@ const ProductInsights = () => {
                    yKey="voidedItems"
                    isAmount={false}
               dataList={cancelledReasonsData}
-              //   ?.map((data: any) => ({
-              //   name: data?.voidedReason,
-              //   label: data?.voidedReason,
-              //   count: data?.voidedItems,
-              //   items: data?.voidedItems,
-              //   amount: data?.voidedItems
-              // }))}
+   
               countryCode={countryCode}
               loader={cancelledReasonsLoading}
               clickable={false}
