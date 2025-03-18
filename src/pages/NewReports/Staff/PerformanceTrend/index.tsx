@@ -142,7 +142,7 @@ const PerformanceTrend = () => {
   // Function to remove an item from the employeeLabelPill array
 const removeItem = (value: string) => {
   setEmployeeLabelPill((prevLabels) =>
-    prevLabels.filter((item) => item.value !== value)
+    prevLabels?.filter((item) => item?.value !== value)
   );
 };
 
@@ -183,9 +183,9 @@ const removeItem = (value: string) => {
                 key={index}
                 className='selected-employee-pill'
               >
-                {item.label}
+                {item?.label}
                 <span
-                onClick={() => removeItem(item.value)} // Pass the item's value to removeItem
+                onClick={() => removeItem(item?.value)} // Pass the item's value to removeItem
                 className='remove-employee-pill'
                 >
                   x
@@ -200,10 +200,25 @@ const removeItem = (value: string) => {
         data={chartData} 
         showDownloadReport={true}
         showChartFilter={true}
-        chartFilterOptions={[
-          { value: "last_3_months", label: "Last 3 Months" },
-          { value: "last_6_months", label: "Last 6 Months" },
-        ]}
+        chartFilterOptions={orderFilterOptions}
+        handleChartFilter={handleChartFilter}
+      />
+            <MultiLineChart 
+        kpiLoaderState={false} 
+        kpiTitle='Revenue Impact' 
+        data={chartData} 
+        showDownloadReport={true}
+        showChartFilter={true}
+        chartFilterOptions={refundsFilterOptions}
+        handleChartFilter={handleChartFilter}
+      />
+            <MultiLineChart 
+        kpiLoaderState={false} 
+        kpiTitle='Error Performance' 
+        data={chartData} 
+        showDownloadReport={true}
+        showChartFilter={true}
+        chartFilterOptions={deletedFilterOptions}
         handleChartFilter={handleChartFilter}
       />
     </div>
