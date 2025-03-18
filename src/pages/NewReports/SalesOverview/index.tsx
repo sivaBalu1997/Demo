@@ -11,6 +11,7 @@ import {
   salesCardTypeRequest,
   salesCategoryRequest,
   salesSummaryReportRequest,
+  salesSummaryRequest,
   staffSalesRequest,
   voidedOrderSummaryRequest,
 } from "redux/newReports/newReportsActions";
@@ -272,6 +273,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   useEffect(() => {
     Promise.all([
+      dispatch(salesSummaryRequest({
+        locationid: selectedLocation?.value,
+        startDate: startDate,
+        endDate: endDate,
+      })),
       dispatch(
         paymentDetailsRequest({
           locationid: selectedLocation?.value,
