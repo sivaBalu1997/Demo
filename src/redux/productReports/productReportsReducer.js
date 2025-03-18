@@ -8,9 +8,17 @@ import {
     PRODUCT_INSIGHTS_TOP_POPULAR_SUCCESS,
     PRODUCT_INSIGHTS_TOP_POPULAR_FAILURE,
 
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_SUCCESS,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_FAILURE,
+
     PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_REQUEST,
     PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_SUCCESS,
     PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_FAILURE,
+
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_SUCCESS,
+    PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_FAILURE,
 
     PRODUCT_INSIGHTS_TOP_REVENUE_STREAMS_REQUEST,
     PRODUCT_INSIGHTS_TOP_REVENUE_STREAMS_SUCCESS,
@@ -35,6 +43,10 @@ import {
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST,
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_SUCCESS,
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_FAILURE,
+
+    PRODUCT_AVAILABILITY_DROPDOWN_REQUEST,
+    PRODUCT_AVAILABILITY_DROPDOWN_SUCCESS,
+    PRODUCT_AVAILABILITY_DROPDOWN_FAILURE
 } from "./productReportsConstants";
    
 
@@ -49,10 +61,20 @@ const initialNewReportsState = {
     topPopularSuccess: [],
     topPopularFailure: false,
 
+    // Top Least Popular
+    topLeastPopularLoading: false,
+    topLeastPopularSuccess: [],
+    topLeastPopularFailure: false,
+
     // Top Popular Revenue
     topPopularRevenueLoading: false,
     topPopularRevenueSuccess: [],
     topPopularRevenueFailure: false,
+
+    // Top Least Popular Revenue
+    topLeastPopularRevenueLoading: false,
+    topLeastPopularRevenueSuccess: [],
+    topLeastPopularRevenueFailure: false,
 
     // Top Revenue Streams
     topRevenueStreamsLoading: false,
@@ -83,6 +105,11 @@ const initialNewReportsState = {
     availabilityByChannelsDetailsLoading: false,
     availabilityByChannelsDetailsSuccess: [],
     availabilityByChannelsDetailsFailure: false,
+
+    // Availability Dropdown
+    availabilityDropdownLoading: false,
+    availabilityDropdownSuccess: [],
+    availabilityDropdownFailure: false,
 
  
 };
@@ -122,6 +149,22 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 draft.topPopularFailure = true;
                 break;
 
+            case PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST:
+                draft.topLeastPopularLoading = true;
+                draft.topLeastPopularSuccess = [];
+                draft.topLeastPopularFailure = false;
+                break;
+            case PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_SUCCESS:
+                draft.topLeastPopularSuccess = action.payload;
+                draft.topLeastPopularLoading = false;
+                draft.topLeastPopularFailure = false;
+                break;
+            case PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_FAILURE:
+                draft.topLeastPopularSuccess = [];
+                draft.topLeastPopularLoading = false;
+                draft.topLeastPopularFailure = true;
+                break;
+
             case PRODUCT_INSIGHTS_TOP_POPULAR_REVENUE_REQUEST:
                 draft.topPopularRevenueLoading = true;
                 draft.topPopularRevenueSuccess = [];
@@ -136,6 +179,22 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 draft.topPopularRevenueSuccess = [];
                 draft.topPopularRevenueLoading = false;
                 draft.topPopularRevenueFailure = true;
+                break;
+
+            case PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST:
+                draft.topLeastPopularRevenueLoading = true;
+                draft.topLeastPopularRevenueSuccess = [];
+                draft.topLeastPopularRevenueFailure = false;
+                break;
+            case PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_SUCCESS:
+                draft.topLeastPopularRevenueSuccess = action.payload;
+                draft.topLeastPopularRevenueLoading = false;
+                draft.topLeastPopularRevenueFailure = false;
+                break;
+            case PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_FAILURE:
+                draft.topLeastPopularRevenueSuccess = [];
+                draft.topLeastPopularRevenueLoading = false;
+                draft.topLeastPopularRevenueFailure = true;
                 break;
 
             case PRODUCT_INSIGHTS_TOP_REVENUE_STREAMS_REQUEST:
@@ -232,6 +291,22 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 draft.availabilityByChannelsDetailsSuccess = [];
                 draft.availabilityByChannelsDetailsLoading = false;
                 draft.availabilityByChannelsDetailsFailure = true;
+                break;
+
+            case PRODUCT_AVAILABILITY_DROPDOWN_REQUEST:
+                draft.availabilityDropdownLoading = true;
+                draft.availabilityDropdownSuccess = [];
+                draft.availabilityDropdownFailure = false;
+                break;
+            case PRODUCT_AVAILABILITY_DROPDOWN_SUCCESS:
+                draft.availabilityDropdownSuccess = action.payload;
+                draft.availabilityDropdownLoading = false;
+                draft.availabilityDropdownFailure = false;
+                break;
+            case PRODUCT_AVAILABILITY_DROPDOWN_FAILURE:
+                draft.availabilityDropdownSuccess = [];
+                draft.availabilityDropdownLoading = false;
+                draft.availabilityDropdownFailure = true;
                 break;
 
             default:

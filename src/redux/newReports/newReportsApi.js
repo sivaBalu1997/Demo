@@ -611,19 +611,6 @@ export const getStaffSales = (staffSalesPayload) => {
     });
 }
 
-export const getSalesTags = (salesTagsPayload) => {
-    const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query = generateQueryParams(salesTagsPayload)
-    return API({
-        method: "get",
-        url: `${reportsBaseUrl}/sales/tags?${query}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
-}
-
-
 export const getPaymentDetails = (paymentDetailsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(paymentDetailsPayload)

@@ -18,6 +18,8 @@ import CustomDropdown from "components/common/customDropdown";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import SwitchableBox from "components/reportComponents/SwitchableBox";
 import "./style.scss";
+import { formatNumberByK } from "utils";
+import ReportNotFound from "../../ReportsNotFound";
 
 // Register required components
 ChartJS.register(
@@ -34,8 +36,11 @@ interface BarChartProps {
     kpiTitle: string;
     dataList: Record<string, any>[]; // Accepts any dataset
     loader: boolean;
+    error: boolean;
     xKey: string; // Key for X-axis labels
     yKey: string; // Key for Y-axis values
+    xLabel: string;
+    yLabel: string;
     extraKeys?: string[]; // Additional keys for tooltips (e.g., "orders")
     barColor?: string; // Custom bar color
     title?: string; // Chart title
@@ -49,18 +54,21 @@ interface BarChartProps {
         titleColor?: string;
         bodyColor?: string;
     };
+    formatAmount?: boolean;
     titleFontSize?: number;
     bodyFontSize?: number;
     barPercentage?: number;
     categoryPercentage?: number;
     showChartFilter: boolean,
-    handleChartFilter?: (selectedValueForChart : string, kpiTitle : string) => void,
-    getToggledValueInParentPage?: (activeTextForChart: string, kpiTitle: string)=>void;
+    handleChartFilter?: (selectedValueForChart: string, kpiTitle: string) => void,
+    getToggledValueInParentPage?: (activeTextForChart: string, kpiTitle: string) => void;
     switchableTextOne?: string;
     switchableTextTwo?: string;
     showSwitchable: boolean;
     isYAxisQuantity?: boolean;
-} 
+    isSwitchActive?: boolean;
+    setIsSwitchActive?: () => void;
+}
 
 const chartFilterOptions: { value: string, label: string }[] = [
     { value: "Overall", label: "Overall" },
@@ -68,14 +76,17 @@ const chartFilterOptions: { value: string, label: string }[] = [
     { value: "Weekends", label: "Weekends" },
     { value: "Lunch", label: "Lunch" },
     { value: "Dinner", label: "Dinner" },
-  ];
+];
 
 const ReusableBarChart: React.FC<BarChartProps> = ({
     kpiTitle,
     dataList = [],
     loader,
+    error,
     xKey,
     yKey,
+    xLabel,
+    yLabel,
     extraKeys = [],
     barColor = "#1F77B4",
     title = "Sales Chart",
@@ -83,6 +94,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     xSuffix = "",
     yPrefix = "",
     ySuffix = "",
+    formatAmount = false,
     tooltipStyles = {
         backgroundColor: "rgba(255, 255, 255, 0.9)",
         borderColor: "#2196F3",
@@ -100,26 +112,26 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     switchableTextTwo = "Option 2",
     showSwitchable = "true",
     isYAxisQuantity = "false",
+    isSwitchActive = false,
+    setIsSwitchActive = () => { },
 }) => {
 
 
 
     const reusableBarChartRef = useRef<HTMLDivElement>(null)
-    const [selectedFilter, setSelectedFilter] = useState<{}>(chartFilterOptions[0].value);
-    const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
 
 
 
 
     const data = {
-        labels:dataList?.length? Array.from(
+        labels: dataList?.length ? Array.from(
             new Set(dataList?.map((item) => `${xPrefix}${item[xKey]}${xSuffix}`))
-        ):[],
+        ) : [],
         datasets: [
             {
                 label: title,
-                data: (dataList||[])?.map((item) => ({
+                data: (dataList || [])?.map((item) => ({
                     x: `${xPrefix}${item[xKey]}${xSuffix}`,
                     y: Number(item[yKey] || 0),
                     ...extraKeys?.reduce((acc, key) => ({ ...acc, [key]: item[key] }), {}),
@@ -147,8 +159,8 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                             ?.join("\n");
                         const yValue = isYAxisQuantity ? dataPoint?.y : dataPoint?.y?.toFixed(2);
                         return [
-                            `${xKey}: ${dataPoint?.x}`,
-                            `${yKey}: ${yPrefix}${yValue}${ySuffix}`,
+                            `${xLabel}: ${dataPoint?.x}`,
+                            `${yLabel}: ${yPrefix}${yValue}${ySuffix}`,
                             //   extraInfo ,
                         ];
                     },
@@ -171,25 +183,25 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
             y: {
                 beginAtZero: true,
                 ticks: {
-                    callback: (value) => `${yPrefix}${value}${ySuffix}`,
+                    callback: (value) => `${yPrefix}${formatAmount ? formatNumberByK(value) : value}${ySuffix}`,
                 }
             },
         },
     };
 
-    const handleChartFilterParent = (selectedValue: {label: string, value: string}) => {
-        if(handleChartFilter) {
+    const handleChartFilterParent = (selectedValue: { label: string, value: string }) => {
+        if (handleChartFilter) {
             handleChartFilter(selectedValue?.value, kpiTitle);
         }
     }
 
     const handleToggleSwitchParent = () => {
-        setIsSwitchActive((prev) => !prev);
+        setIsSwitchActive();
         setActiveTextForSwitchableBox((prev) => {
             const newValue = prev === switchableTextOne ? switchableTextTwo : switchableTextOne;
-            if(getToggledValueInParentPage) {
+            if (getToggledValueInParentPage) {
                 getToggledValueInParentPage(newValue, kpiTitle);
-            } 
+            }
             return newValue;
         });
     }
@@ -197,7 +209,8 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
 
     if (loader) return <BarChartShimmer />;
 
-    return(
+
+    return (
         <div className='report-product-charts-container' ref={reusableBarChartRef}>
             <div className='report-product-heading-download-container'>
                 <div className="title-switchable-box-container">
@@ -211,8 +224,8 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                         />
                     }
                 </div>
-                <div className="chart-filter-download-report-container" style={{justifyContent: !showChartFilter ? "flex-end" : ""}}>
-                    {showChartFilter && 
+                <div className="chart-filter-download-report-container" style={{ justifyContent: !showChartFilter ? "flex-end" : "" }}>
+                    {showChartFilter &&
                         <div className="chart-filter-container">
                             <CustomDropdown
                                 value={chartFilterOptions[0]?.value}
@@ -224,10 +237,10 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                             />
                         </div>
                     }
-                    <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef}/>
+                    <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef} />
                 </div>
             </div>
-             
+
             <div className='sm-report-product-heading-download-container'>
                 <div className="sm-title-chart-filter-download-report-container">
                     <h2 className="sm-report-product-chart-heading">{title || "Chart title"}</h2>
@@ -245,7 +258,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                         </div>
                     }
                     {/* </div> */}
-                    <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef}/>
+                    <DownloadReport kpiTitle={kpiTitle} tableData={dataList} downloadRef={reusableBarChartRef} />
                 </div>
                 <div className="sm-switchable-box">
                     {showSwitchable &&
@@ -258,10 +271,10 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                     }
                 </div>
             </div>
-            
+
             {dataList?.length === 0 ? (
-                <ErrorState pageTitle={title} isDataNotAvailable={true} />
-            ) : (
+                <ReportNotFound errorType={"reportNotFound"} />
+            ) : (error ? <ReportNotFound errorType={"reportNotFound"} /> :
                 <div style={{ width: "100%", height: "500px" }}>
                     <Bar data={data} options={options} />
                 </div>

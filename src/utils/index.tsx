@@ -62,3 +62,29 @@ export function maskEmail(email: string): string {
   const [localPart, domain] = email.split('@');
   return '*'.repeat(localPart.length) + '@' + domain;
 }
+export function formatNumberByK(
+  input: string | number | null | undefined
+): string {
+  if (input === null || input === undefined || input === "" || input === 0) {
+    return "0"; // Default to "0" if input is invalid
+  }
+
+  let number = typeof input === 'number' ? input : parseFloat(input);
+  if (isNaN(number)) {
+    return "0"
+  };
+
+  const options: Intl.NumberFormatOptions = {
+    notation: "compact",
+    compactDisplay: "short",
+    useGrouping: true, // Ensures proper comma formatting
+  };
+
+  let formattedNumber = new Intl.NumberFormat('en-US', options).format(number);
+  if (formattedNumber.includes('k')) {
+    const [num, suffix] = formattedNumber.split('k');
+    formattedNumber = `${parseFloat(num).toFixed(3)}k`;
+  }
+
+  return formattedNumber;
+}

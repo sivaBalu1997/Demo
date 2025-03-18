@@ -705,7 +705,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <h2 className="sales-overview-sub-heading ">By Discount</h2>
               <ErrorHandler data={offerSummary} isError={offerSummaryError}>
                 <DoughnutChart
-                  dataList={offerSummary?.map((data: any) => ({
+
+                  dataList={offerSummary
+                    ?.map((data: any) => ({
                     name: data?.steward,
                     label: data?.offerName,
                     count: data?.totalOrders,
@@ -725,6 +727,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
               <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                 <DoughnutChart
+
                   dataList={voidedOrderSummary?.map((data: any) => ({
                     name: data?.steward,
                     label: data?.voidedReasons,

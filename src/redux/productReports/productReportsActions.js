@@ -40,6 +40,10 @@ import {
     PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_FAILURE,
     PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_SUCCESS,
     PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST,
+
+    PRODUCT_AVAILABILITY_DROPDOWN_REQUEST,
+    PRODUCT_AVAILABILITY_DROPDOWN_SUCCESS,
+    PRODUCT_AVAILABILITY_DROPDOWN_FAILURE
 } from "./productReportsConstants";
 
 export const productInsightsTopRevenueRequest = (data) => {
@@ -270,6 +274,27 @@ export const productAvailabilityByChannelsDetailsSuccess = (data) => {
 export const productAvailabilityByChannelsDetailsFailure = (error) => {
     return {
         type: PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_FAILURE,
+        payload: error
+    };
+}
+
+export const productAvailabilityDropdownRequest = (data) => {
+    return {
+        type: PRODUCT_AVAILABILITY_DROPDOWN_REQUEST,
+        payload: data
+    };
+}
+
+export const productAvailabilityDropdownSuccess = (data) => {
+    return {
+        type: PRODUCT_AVAILABILITY_DROPDOWN_SUCCESS,
+        payload: data
+    };
+}
+
+export const productAvailabilityDropdownFailure = (error) => {
+    return {
+        type: PRODUCT_AVAILABILITY_DROPDOWN_FAILURE,
         payload: error
     };
 }

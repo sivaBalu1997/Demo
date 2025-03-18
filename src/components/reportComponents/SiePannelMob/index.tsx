@@ -144,9 +144,9 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
         </div>
         <nav className={styles.nav}>
           <ul>
-            {menuOptions.map((menu) => (
+            {menuOptions.map((menu, index) => (
               <>
-                <li className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname) ? styles.activeParemt : ""}`} onClick={() => menu.submenu ? toggleSection(menu.name) : menu?.onClick ? menu?.onClick() : handlePathChange(menu.path)}>
+                <li key={index} className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname) ? styles.activeParemt : ""}`} onClick={() => menu.submenu ? toggleSection(menu.name) : menu?.onClick ? menu?.onClick() : handlePathChange(menu.path)}>
                   {menu.icon} {menu.name} {menu.submenu && (openSections[menu.name] ? <Uparrow /> : <Downarrow />)}
                 </li>
                 {menu.submenu && openSections[menu.name] && (

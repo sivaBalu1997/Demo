@@ -20,6 +20,7 @@ import DownloadReport from "../DownloadReports";
 import TableDateDropdown from "../TableDateDropdown";
 import "jspdf-autotable";
 import './style.scss';
+import CustomDropdown from "components/common/customDropdown";
 
 interface SortConfig {
   key: string;
@@ -27,6 +28,10 @@ interface SortConfig {
 }
 
 const NewTable: React.FC<NewTableProps> = ({
+  optionList,
+  selectedOption,
+  setOptions,
+  isCustomOption,
   kpiTitle,
   searchQuery,
   headerData,
@@ -193,11 +198,11 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-blue-one";
       } else if (rowvalue === "assigned") {
         return " bubble bubble-text-blue-two";
-      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled") {
+      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled" || rowvalue === "Unavailable") {
         return " bubble bubble-text-orange-one";
       } else if (rowvalue === "LateShow" || rowvalue === "lateShow") {
         return " bubble bubble-text-brown-one";
-      } else if (rowvalue === "Completed" || rowvalue === "completed") {
+      } else if (rowvalue === "Completed" || rowvalue === "completed"|| rowvalue === "Available") {
         return " bubble bubble-text-green-one";
       } else if (rowvalue === "seated") {
         return " bubble bubble-text-light-green-one";
@@ -227,12 +232,24 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
 
               {showDateDropDown && (
                 <div className="table-date-dropdown-container">
+                  {isCustomOption?
+                        <CustomDropdown
+                        value={selectedOption}
+                        options={optionList||[]}
+                        onSelect={setOptions}
+                        placeholder="Select Option"
+                        className="table-date-dropdown"
+                        disabled={false}
+                        // controlClassName="dropdown-control"
+                      />
+                  :
                   <TableDateDropdown
-                    kpiTitleForCustomDateDropdown={kpiTitle}
+                  kpiTitleForCustomDateDropdown={kpiTitle}
                     onDateSelect={(from, to, kpiTitleForCustomDateDropdown) =>
                       handleDateSelect(from, to, kpiTitleForCustomDateDropdown)
                     }
                   />
+                }
                 </div>
               )}
 

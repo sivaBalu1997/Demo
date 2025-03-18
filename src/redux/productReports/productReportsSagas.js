@@ -16,6 +16,7 @@ import {
     PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST,
     PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REQUEST,
     PRODUCT_INSIGHTS_TOP_LEAST_POPULAR_REVENUE_REQUEST,
+    PRODUCT_AVAILABILITY_DROPDOWN_REQUEST,
 } from './productReportsConstants';
 
 import {
@@ -41,6 +42,8 @@ import {
     productInsightsTopLeastPopularFailure,
     productInsightsTopLeastPopularRevenueSuccess,
     productInsightsTopLeastPopularRevenueFailure,
+    productAvailabilityDropdownFailure,
+    productAvailabilityDropdownSuccess,
 } from './productReportsActions';
 
 import {
@@ -55,6 +58,7 @@ import {
     getProductInsightsAvailabilityByChannelsDetails,
     getProductInsightsTopLeastPopular,
     getProductInsightsTopLeastPopularRevenue,
+    getProductAvailabilityDropDown,
 } from './productReportsApi';
 
 function* productInsightsTopRevenueSaga(action) {
@@ -233,6 +237,23 @@ function* productAvailabilityByChannelsDetailsSaga(action) {
     }
 }
 
+function* productAvailabilityDropdownSaga(action) {
+    try {
+        const response = yield call(getProductAvailabilityDropDown, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(productAvailabilityDropdownSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(productAvailabilityDropdownFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(productAvailabilityDropdownFailure(error));
+    }
+}
+
+
 export default function* watchNewReportRequest() {
     // Product Reports watchers
     yield takeLatest(PRODUCT_INSIGHTS_TOP_REVENUE_REQUEST, productInsightsTopRevenueSaga);
@@ -246,4 +267,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(PRODUCT_INSIGHTS_ITEMS_CANCELLED_REASONS_REQUEST, productInsightsItemsCancelledReasonsSaga);
     yield takeLatest(PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_REQUEST, productAvailabilityByChannelsSaga);
     yield takeLatest(PRODUCT_INSIGHTS_AVAILABILITY_BY_CHANNELS_DETAILS_REQUEST, productAvailabilityByChannelsDetailsSaga);
+    yield takeLatest(PRODUCT_AVAILABILITY_DROPDOWN_REQUEST, productAvailabilityDropdownSaga);
 }

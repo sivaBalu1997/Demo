@@ -3,7 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter } from "utils";
-import DoughnutChartShimmer from "../DoughnutChartShimmer";
+import DoughnutChartShimmer from "../../Charts/DoughnutChartShimmer";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 type DataItem = {
@@ -70,14 +70,26 @@ interface DoughnutChartProps {
   handleOther?: (param?:any) => void;
   loader?: boolean;
   clickable?: boolean;
+  xKey:string;
+  yKey:string;
+  xLabel:string;
+  yLabel:string;  
+  isAmount?:boolean
+  customLabel?:boolean
 }
 const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
+  xKey,
+  yKey,
+  xLabel,
+  yLabel,
   countryCode,
   handleClick,
   handleOther,
   loader,
-  clickable = true
+  isAmount = false,
+  clickable = true,
+  customLabel=false
 })=> {
   const chartRef = useRef<any>(null);
   const containerRef = useRef(null);
@@ -195,11 +207,12 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
 
     if (dataList?.length) {
       const totalDisplay = dataList?.reduce(
-        (sum, item) => sum + (Number(item?.amount) || 0),
+        (sum, item) => sum + (Number(item?.[yKey]) || 0),
         0
       );
+console.log(dataList, totalDisplay, xKey, yKey);
 
-      const formattedTotal = amountFormatter(totalDisplay, countryCode);
+      const formattedTotal = isAmount ? amountFormatter(totalDisplay, countryCode) : totalDisplay;
       // Assign colors from predefined palette
       const colors = dataList.map(
         (_, index) => predefinedColors[index % predefinedColors.length]
@@ -209,17 +222,17 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
 
       // Sort by totalSales (descending) **ensuring correct numeric sorting**
       const sortedData = [...dataList].sort(
-        (a, b) => Number(b?.amount || 0) - Number(a?.amount || 0)
+        (a, b) => Number(b?.[yKey] || 0) - Number(a?.[yKey] || 0)
       );
 
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-        label: slice?.label,
-        value: ((Number(slice?.amount || 0) * 100) / totalDisplay),
+        label: slice?.[xKey],
+        value: ((Number(slice?.[yKey] || 0) * 100) / totalDisplay),
         color: colors[index],
         items: Number(slice?.count || 0),
         amount: Number(slice?.items || 0),
-        orgAmount: Number(slice?.amount || 0),
+        orgAmount: Number(slice?.[yKey] || 0),
       }));
 
       // Sum remaining records into "Other"
@@ -230,12 +243,12 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
 
-            other.push(item?.label)
-            acc.value += ((Number(item?.amount || 0) * 100) / totalDisplay)
+            other.push(item?.[xKey])
+            acc.value += ((Number(item?.[yKey] || 0) * 100) / totalDisplay)
             acc.items += Number(item?.count || 0)
             acc.amount += Number(item?.items || 0)
 
-            acc.orgAmount += Number(item?.amount || 0)
+            acc.orgAmount += Number(item?.[yKey] || 0)
             return acc;
           },
           { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, orgAmount: 0 }
@@ -334,11 +347,16 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
               ) : (
                 <>
                   <div style={{ color: slice.color, marginBottom: "5px" }}>
-                    {slice.label}
+                    {customLabel?slice.label:null}
                   </div>
                   <div style={{ marginBottom: "5px" }}>
-                    Order: {slice.items} <br />
-                    Sales: ${slice?.orgAmount.toFixed(2)}
+                    {customLabel?<>
+                      {xLabel}: {slice.items} <br />
+                    </>:<>
+                    {xLabel}: {slice.label} <br /></>
+                    }
+                           
+                    {yLabel}: {isAmount ? amountFormatter(slice?.orgAmount, countryCode) : slice?.orgAmount}
                   </div>
                   {clickable?
                   <button

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { changeLocation } from 'redux/newReports/newReportsActions';
+import { changeLocation, salesByRevenueClassRequest } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter'
 import useDateFilter from 'hooks/useDateFilter';
 import ReusableBarChart from 'components/reportComponents/ReusableCharts/ReusableBarChart';
@@ -8,14 +8,10 @@ import ReusableBarChart from 'components/reportComponents/ReusableCharts/Reusabl
 import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";
 import DownloadReport from 'components/reportComponents/DownloadReports';
 import "./style.scss"
-import { productAvailabilityByChannelsRequest, productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRequest, productInsightsItemsCancelledReasonsRequest, productInsightsTopLeastPopularRequest, productInsightsTopLeastPopularRevenueRequest, productInsightsTopPopularRequest, productInsightsTopPopularRevenueRequest, productInsightsTopRevenueRequest, productInsightsTopRevenueStreamsRequest } from 'redux/productReports/productReportsActions';
+import {  productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRequest, productInsightsItemsCancelledReasonsRequest, productInsightsTopLeastPopularRequest, productInsightsTopLeastPopularRevenueRequest, productInsightsTopPopularRequest, productInsightsTopPopularRevenueRequest, productInsightsTopRevenueRequest, productInsightsTopRevenueStreamsRequest } from 'redux/productReports/productReportsActions';
 import ErrorHandler from "components/reportComponents/ErrorHandler";
-import DoughnutChart from 'components/reportComponents/Charts/DoughnutChartButtonVoided';
-import DownloadPopOver from 'pages/CategoryReport/downloadOption';
-import CustomBarChart from 'components/reportComponents/Charts/CustomBarChart';
-import SwitchableBox from 'components/reportComponents/SwitchableBox';
-import CustomDropdown from 'components/common/customDropdown';
-import MultiSwitchableBox from 'components/reportComponents/MultiSwitchableBox';
+import DoughnutChart from 'components/reportComponents/ReusableCharts/ResuableDonoughtChart';
+
 
 interface dataList {
   xAxisData: string;
@@ -54,11 +50,11 @@ const ProductInsights = () => {
   const topLeastPopularError = useSelector((state: any) => state?.productReports?.topLeastPopularFailure);
 
   // Top Popular Revenue States
-  const topPopularRevenueData = useSelector((state: any) => state?.productReports?.topPopularRevenueSuccess);
+  const topPopularRevenueData = useSelector((state: any) => state?.productReports?.topPopularRevenueSuccess?.content);
   const topPopularRevenueLoading = useSelector((state: any) => state?.productReports?.topPopularRevenueLoading);
   const topPopularRevenueError = useSelector((state: any) => state?.productReports?.topPopularRevenueFailure);
 
-  const topLeastPopularRevenueData = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueSuccess);
+  const topLeastPopularRevenueData = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueSuccess?.content);
   const topLeastPopularRevenueLoading = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueLoading);
   const topLeastPopularRevenueError = useSelector((state: any) => state?.productReports?.topLeastPopularRevenueFailure);
 
@@ -82,11 +78,17 @@ const ProductInsights = () => {
   const itemsCancelledReasonsLoading = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsLoading);
   const itemsCancelledReasonsError = useSelector((state: any) => state?.productReports?.itemsCancelledReasonsFailure);
 
+    const salesByRevenueClassAPIRedux = useSelector(      (state: any) => state?.newReports?.salesByRevenueClassSuccess?.content    );
+    const salesByRevenueClassLoading = useSelector(      (state: any) => state?.newReports?.salesByRevenueClassLoading    );
+    const salesByRevenueClassError = useSelector(      (state: any) => state?.newReports?.salesByRevenueClassFailure    );
+
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
   useEffect(() => {
     console.log({
+      topLeastPopularData,
+      topLeastPopularRevenueData,
       topRevenueData,
       topPopularData,
       topPopularRevenueData,
@@ -94,8 +96,9 @@ const ProductInsights = () => {
       cancelledItemsData,
       cancelledReasonsData,
       itemsCancelledReasonsData,
+      salesByRevenueClassAPIRedux
     })
-  }, [topRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData])
+  }, [topRevenueData,salesByRevenueClassAPIRedux,topLeastPopularData,topLeastPopularRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData])
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -103,17 +106,20 @@ const ProductInsights = () => {
       locationId: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate
-
     }
-    dispatch((productInsightsTopRevenueRequest(params)));
-    dispatch(productInsightsTopPopularRequest(params))
-    dispatch(productInsightsTopLeastPopularRequest(params))
-    dispatch(productInsightsTopRevenueStreamsRequest(params))
+    if(selectedLocation?.value){
+
+      dispatch((productInsightsTopRevenueRequest(params)));
+      dispatch(productInsightsTopPopularRequest(params))
+      dispatch(productInsightsTopLeastPopularRequest(params))
+      dispatch(productInsightsTopRevenueStreamsRequest(params))
     dispatch(productInsightsCancelledItemsRequest(params))
     dispatch(productInsightsCancelledReasonsRequest(params))
     dispatch(productInsightsItemsCancelledReasonsRequest(params))
     dispatch(productInsightsTopPopularRevenueRequest(params))
     dispatch(productInsightsTopLeastPopularRevenueRequest(params))
+    dispatch(salesByRevenueClassRequest(params))
+  }
   }, [selectedLocation, startDate, endDate])
 
 
@@ -135,6 +141,7 @@ const ProductInsights = () => {
   };
 
 
+
   return (
     <div className="report-product-availability">
       <StoreFilter
@@ -151,7 +158,7 @@ const ProductInsights = () => {
         }
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
-      <div className="reports-page-sub-header-container">
+      {/* <div className="reports-page-sub-header-container">
         <h1 className="reports-page-heading">
           Top 10 Revenue Making Categories
         </h1>
@@ -170,20 +177,23 @@ const ProductInsights = () => {
           loader={topRevenueLoading}
           showLabel={false}
         />
-      </ErrorHandler>
+      </ErrorHandler> */}
 
 
-      {/* <ReusableBarChart
+      <ReusableBarChart
           dataList={topRevenueData}
-          loader={false}
+          loader={topRevenueLoading}
+          error={topRevenueError}
           xKey="productName"
           yKey="sales"
+          xLabel="Product Name"
+          yLabel="Sales"
           // extraKeys={["orders"]}
           title="Top 10 Revenue Making Categories"
           barColor="#049E16"
-          // xPrefix="👤 "
+
           yPrefix="$"
-          ySuffix="K"
+          formatAmount={true}
           tooltipStyles={{
             backgroundColor: "white",
             borderColor: "#049E16",
@@ -192,15 +202,11 @@ const ProductInsights = () => {
           }}
           kpiTitle='Top 10 Revenue Making Categories'
           showChartFilter={false}
-          // handleChartFilter={handleChartFilter}
           showSwitchable={false}
-          switchableTextOne='Most popular'
-          switchableTextTwo='Most revenue making'
-          // getToggledValueInParentPage={getToggledValueInParentPage}
           isYAxisQuantity={false}
-        /> */}
-
-      {/* <div className="reports-page-sub-header-container">
+        />
+{/* 
+      <div className="reports-page-sub-header-container">
         <div className='reports-page-sub-header-custom-container'>
 
           <h1 className="reports-page-heading">
@@ -224,7 +230,7 @@ const ProductInsights = () => {
           />
           <DownloadPopOver />
         </div>
-      </div>
+      </div> 
       <ErrorHandler isError={isLeastPopularSelected ? topLeastPopularError : topRevenueError} data={isLeastPopularSelected ? topLeastPopularData : topRevenueData} >
         <CustomBarChart
           barColor="#14A789"
@@ -239,34 +245,36 @@ const ProductInsights = () => {
           showLabel={false}
         />
       </ErrorHandler> */}
-      <ReusableBarChart
-          dataList={topPopularData}
-          loader={false}
-          xKey="itemName"
-          yKey="itemCount"
-          // extraKeys={["orders"]}
-          title="Top 20 popular"
-          barColor="#14A789"
-          // xPrefix="👤 "
-          // yPrefix="$"
-          // ySuffix="K"
-          tooltipStyles={{
-            backgroundColor: "white",
-            borderColor: "#14A789",
-            titleColor: "black",
-            bodyColor: "black",
-          }}
-          kpiTitle='Top 20 popular'
-          showChartFilter={true}
-          handleChartFilter={handleChartFilter}
-          showSwitchable={true}
-          switchableTextOne='Popular'
-          switchableTextTwo='Least popular'
-          getToggledValueInParentPage={getToggledValueInParentPage}
-          isYAxisQuantity={true}
-        />
+        <ReusableBarChart
+            dataList={isLeastPopularSelected ? topLeastPopularData : topPopularData}
+            loader={isLeastPopularSelected ? topLeastPopularLoading : topPopularLoading}
+            error={isLeastPopularSelected ? topLeastPopularError : topPopularError}
+            xKey="itemName"
+            yKey="itemCount"
+            xLabel='Product Name'
+            yLabel='Quantity'
+            // extraKeys={["orders"]}
+            title="Top 20 popular"
+            barColor="#14A789"
+            tooltipStyles={{
+              backgroundColor: "white",
+              borderColor: "#14A789",
+              titleColor: "black",
+              bodyColor: "black",
+            }}
+            kpiTitle='Top 20 popular'
+            showChartFilter={false}
+            handleChartFilter={handleChartFilter}
+            showSwitchable={true}
+            switchableTextOne='Popular'
+            switchableTextTwo='Least popular'
+            getToggledValueInParentPage={getToggledValueInParentPage}
+            isYAxisQuantity={true}
+            isSwitchActive = {isLeastPopularSelected}
+            setIsSwitchActive = {()=>setIsLeastPopularSelected((prev)=>!prev)}
+          />
 
-<div className="reports-page-sub-header-container">
+{/* <div className="reports-page-sub-header-container">
         <div className='reports-page-sub-header-custom-container'>
 
           <h1 className="reports-page-heading">
@@ -291,29 +299,32 @@ const ProductInsights = () => {
           <DownloadPopOver />
         </div>
       </div>
-      <ErrorHandler isError={isLeastPopularRevenueSelected ? topLeastPopularRevenueError : topPopularRevenueError} data={isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData} >
+      <ErrorHandler isError={isLeastPopularRevenueSelected ? topLeastPopularRevenueError : topPopularRevenueError} data={(isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData)||[]} >
         <CustomBarChart
           barColor="#AA562A"
           toolTipBorderColor="#AA562A"
           xAxisTooltipLabel="Product Name"
           yAxisTooltipLabel="Quantity"
-          dataList={(isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData)?.map((data: any) => ({
+          dataList={((isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData)||[])?.map((data: any) => ({
             xAxisValue: `${data.itemName || ""}`,
             yAxisValue: Number(data?.itemCount || 0),
           }))}
           loader={isLeastPopularRevenueSelected ? topLeastPopularRevenueLoading : topPopularRevenueLoading}
           showLabel={false}
         />
-      </ErrorHandler>
-      {/* <ReusableBarChart
-        dataList={topPopularRevenueData}
-        loader={false}
-        xKey="Product Name"
-        yKey="Quantity"
+      </ErrorHandler> */}
+      <ReusableBarChart
+        dataList={isLeastPopularRevenueSelected ? topLeastPopularRevenueData : topPopularRevenueData}
+        loader={isLeastPopularRevenueSelected ? topLeastPopularRevenueLoading : topPopularRevenueLoading}
+        error={isLeastPopularRevenueSelected ? topLeastPopularRevenueError : topPopularRevenueError}
+        xKey="itemName"
+        yKey="totalItemPrice"
+        xLabel='Product Name'
+        yLabel='Sales'
         title="Top 20 popular revenue making"
         barColor="#AA562A"
         yPrefix="$"
-        ySuffix="K"
+        // ySuffix="K"
         tooltipStyles={{
           backgroundColor: "white",
           borderColor: "#AA562A",
@@ -321,28 +332,37 @@ const ProductInsights = () => {
           bodyColor: "black",
         }}
         kpiTitle='Top 20 popular revenue making'
-        showChartFilter={true}
+        showChartFilter={false}
         handleChartFilter={handleChartFilter}
         showSwitchable={true}
         switchableTextOne='Popular'
         switchableTextTwo='Least popular'
         getToggledValueInParentPage={getToggledValueInParentPage}
         isYAxisQuantity={false}
-      /> */}
+        isSwitchActive ={isLeastPopularRevenueSelected}
+        setIsSwitchActive={()=>setIsLeastPopularRevenueSelected((prev)=>!prev)}
+      />
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
         <div className="doughnut-chart-with-button">
           <h2 className="sales-overview-sub-heading ">Top Revenue Streams</h2>
-          <ErrorHandler data={topRevenueStreamsData} isError={topRevenueStreamsError}>
+          <ErrorHandler data={salesByRevenueClassAPIRedux} isError={salesByRevenueClassError}>
             <DoughnutChart
-              dataList={topRevenueStreamsData?.map((data: any) => ({
-                name: data?.productName,
-                label: data?.productName,
-                count: data?.sales,
-                items: data?.sales,
-                amount: data?.sales
-              }))}
+                        xLabel="Revenue class"
+                        yLabel="Sales"
+                        xKey="revenueClass"
+                        yKey="totalSales"
+                        isAmount={true}
+              dataList={salesByRevenueClassAPIRedux}
+              //   ?.map((data: any) => ({
+              //   name: data?.revenueClass,
+              //   label: data?.revenueClass,
+              //   count: data?.itemsSold,
+              //   items: data?.totalSales,
+              //   amount: data?.totalSales
+              // }))}
               countryCode={countryCode}
-              loader={topRevenueStreamsLoading}
+              loader={salesByRevenueClassLoading}
+              clickable={false}
             />
           </ErrorHandler>
         </div>
@@ -350,15 +370,23 @@ const ProductInsights = () => {
           <h2 className="sales-overview-sub-heading ">Cancelled Items</h2>
           <ErrorHandler data={cancelledItemsData} isError={cancelledItemsError} >
             <DoughnutChart
-              dataList={cancelledItemsData?.map((data: any) => ({
-                name: data?.itemName,
-                label: data?.itemName,
-                count: data?.itemCount,
-                items: data?.itemCount,
-                amount: data?.itemCount
-              }))}
+                   xLabel="Name"
+                   yLabel="Items"
+                   xKey="itemName"
+                   yKey="itemCount"
+                   isAmount={false}
+              dataList={cancelledItemsData}
+              //   ?.map((data: any) => ({
+              //   name: data?.itemName,
+              //   label: data?.itemName,
+              //   count: data?.itemCount,
+              //   items: data?.itemCount,
+              //   amount: data?.itemCount
+              // }))}
+  
               countryCode={countryCode}
               loader={cancelledItemsLoading}
+              clickable={false}
             />
           </ErrorHandler>
         </div>
@@ -368,15 +396,22 @@ const ProductInsights = () => {
           <h2 className="sales-overview-sub-heading ">Cancelled Reasons</h2>
           <ErrorHandler data={cancelledReasonsData} isError={cancelledReasonsError}>
             <DoughnutChart
-              dataList={cancelledReasonsData?.map((data: any) => ({
-                name: data?.voidedReason,
-                label: data?.voidedReason,
-                count: data?.voidedItems,
-                items: data?.voidedItems,
-                amount: data?.voidedItems
-              }))}
+                   xLabel="Reason"
+                   yLabel="Items"
+                   xKey="voidedReason"
+                   yKey="voidedItems"
+                   isAmount={false}
+              dataList={cancelledReasonsData}
+              //   ?.map((data: any) => ({
+              //   name: data?.voidedReason,
+              //   label: data?.voidedReason,
+              //   count: data?.voidedItems,
+              //   items: data?.voidedItems,
+              //   amount: data?.voidedItems
+              // }))}
               countryCode={countryCode}
               loader={cancelledReasonsLoading}
+              clickable={false}
             />
           </ErrorHandler>
         </div>
@@ -390,7 +425,7 @@ const ProductInsights = () => {
         </div>
         <ErrorHandler data={itemsCancelledReasonsData} isError={itemsCancelledReasonsError}>
         <StackedBarChart
-          loader={false}
+          loader={itemsCancelledReasonsLoading}
           dataList={itemsCancelledReasonsData?.map((data: any) => ({ xAxisData: data?.itemName, stackName: data?.voidedReason, stackValue: data?.voidedReasonCount }))}
           colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29"]}
           toolTipBorderColor="#F89B29"

@@ -36,19 +36,18 @@ const generateQueryParams = (payload) => {
         query+="&search="+payload?.search
     }
 
-    if (payload?.itemIds?.length > 0) {
-        query += `&itemIds=${(payload?.itemIds || [])?.join(",")}`;
-    } else if (payload?.categoryIds?.length > 0) {
-        query += `&categoryIds=${(payload?.categoryIds || [])?.join(",")}`;
-    }else if(payload?.groupByCategory){
-        query+=`&groupByCategory=${payload?.groupByCategory}`
+    if(payload?.orderTypeId){
+        query+=`&orderTypeId=${payload?.orderTypeId}`
     }
-    if(payload?.reason){
-        query+=`&reason=${payload?.reason}`
+
+    if(payload?.availabilityStatus){
+        query+=`&availabilityStatus=${payload?.availabilityStatus}`
     }
-    if(payload?.offer){
-        query+=`&offer=${payload?.offer}`
+
+    if(payload?.categoryId){
+        query+=`&categoryId=${payload?.categoryId}`
     }
+
     return "?"+query?.slice(1)
 }
 
@@ -69,7 +68,7 @@ export const getProductInsightsTopPopular = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular${query}&sortOrder=${true}`,
+        url: `${reportsBaseUrl}/product/insights/popular${query}&sortOrder=${false}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -81,7 +80,7 @@ export const getProductInsightsTopLeastPopular = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular${query}&sortOrder=${false}`,
+        url: `${reportsBaseUrl}/product/insights/popular${query}&sortOrder=${true}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -93,7 +92,7 @@ export const getProductInsightsTopPopularRevenue = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular-revenue${query}&sortOrder=${true}`,
+        url: `${reportsBaseUrl}/product/insights/popular-revenue${query}&sortOrder=${false}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -105,13 +104,14 @@ export const getProductInsightsTopLeastPopularRevenue = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular-revenue${query}&sortOrder=${false}`,
+        url: `${reportsBaseUrl}/product/insights/popular-revenue${query}&sortOrder=${true}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
     });
 };
 
+// TODO: Remove this
 export const getProductInsightsTopRevenueStreams = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
@@ -162,10 +162,22 @@ export const getProductInsightsItemsCancelledReasons = (params) => {
 
 export const getProductInsightsAvailabilityByChannels = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query = generateQueryParams(params);
+    // const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}${query}`,
+        url: `${reportsBaseUrl}/product/insights/available-items?locationId=${params.locationId}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getProductAvailabilityDropDown = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/product/insights/avilability-category-names?orderTypeId=${params.orderTypeId}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -177,7 +189,7 @@ export const getProductInsightsAvailabilityByChannelsDetails = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}${query}`,
+        url: `${reportsBaseUrl}/product/insights/items-availability-status${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
