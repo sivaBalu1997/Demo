@@ -22,6 +22,7 @@ interface CustomDropdownProps {
   placeholderClass?: string;
   disabled?: boolean;
   className?: string;
+  loader?:boolean;
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
@@ -38,6 +39,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   placeholderClass,
   disabled,
   className,
+  loader,
 }) => {
   const customOptions = options?.map((option) => ({
     ...option,
@@ -55,6 +57,28 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       </div>
     ),
   }));
+
+  if (loader) return (
+    <div style={{ width: "100%", height: "20px", background: "#f6f7f8", position: "relative", overflow: "hidden" }}>
+      <div style={{
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%)",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        animation: "shimmer 1.5s infinite"
+      }} />
+      <style>
+        {`
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+    `}
+      </style>
+    </div>
+  )
 
   return (
     <Dropdown

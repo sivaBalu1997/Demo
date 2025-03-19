@@ -589,6 +589,10 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
+  const employeeLoader = useSelector(
+    (state: RootState) => state.employee.employeeDetailsLoading
+  );
+
   const employeeDropdownOptions =
     employeeLists?.map((employee) => ({
       value: employee?.staffId,
@@ -748,6 +752,7 @@ const Employees: React.FC = () => {
                       selected as { label: React.ReactNode; value: string }
                     )
                   }
+                  loader={employeeLoader}
                 />
               </div>
             </div>
