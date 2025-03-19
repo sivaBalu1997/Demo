@@ -125,10 +125,8 @@ const NewTable: React.FC<NewTableProps> = ({
     return filteredData;
   }, [filteredData, currentPage, rowsPerPage]);
 
-  // console.log("9999", { paginatedData })
 
   const [showDownloadables, setShowDownloadables] = useState<boolean>(false);
-  // console.log("1111", { showDownloadables })
 
   const downloadPopoverRef = useRef<HTMLDivElement | null>(null);
 
@@ -174,8 +172,6 @@ const NewTable: React.FC<NewTableProps> = ({
 
 
   const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
-    // console.log({ rowvalue, headerValue });
-
     if (headerValue === "Order Status") {
       if (rowvalue === "In Queue") {
         return " bubble bubble-text-blue-one";
@@ -423,7 +419,7 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                                 header?.label
                               )}
                             >
-                              {showIcons ? getOrderChannelIcons(row[header?.key]) : ""}{header?.isPrivate ? (visibility[header.key] ? row[header?.key] : maskPhone(row[header?.key])) : row[header?.key]} 
+                              {showIcons ? getOrderChannelIcons(row[header?.key]) : ""}{header?.prefix||""}{header?.isPrivate ? (visibility[header.key] ? row[header?.key] : maskPhone(row[header?.key])) : row[header?.key]} 
                             </p>
                           </td>
                         );
@@ -480,7 +476,6 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
               }
               onPageChange={(event: { selected: number }) => {
                 onPageChange(event.selected + 1)
-                console.log("event.selected", event)
               }}
               pageCount={totalPages}
               previousLabel={

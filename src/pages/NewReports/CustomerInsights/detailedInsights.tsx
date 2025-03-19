@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
@@ -19,8 +19,6 @@ import {
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 
-
-
 const latestOrderTableHeader = [
   {
     key: "orderDate",
@@ -31,52 +29,6 @@ const latestOrderTableHeader = [
   {
     key: "itemDetails",
     label: "Item details",
-    alignment: "left",
-    isSortable: true,
-  },
-];
-
-
-const offPremTableHeader = [
-  {
-    key: "firstOrder",
-    label: "First order",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "lastOrder",
-    label: "Last order",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "totalOrders",
-    label: "Total orders",
-    alignment: "left",
-    isSortable: false,
-  },
-  {
-    key: "totalItems",
-    label: "Total items",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "maxOrderAmount",
-    label: "Max order amount",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "totalSpent",
-    label: "Total spent",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "avgCoverSize",
-    label: "Avg cov size",
     alignment: "left",
     isSortable: true,
   },
@@ -104,148 +56,22 @@ const dineInTableHeader = [
   {
     key: "dineinTenure",
     label: "Dine-in Tenure",
-    alignment: "left",
+    alignment: "right",
     isSortable: true,
   },
   {
     key: "totalVisits",
     label: "Total visits",
-    alignment: "left",
+    alignment: "right",
     isSortable: true,
   },
   {
     key: "avgGrpSize",
     label: "Avg Group size",
-    alignment: "left",
+    alignment: "right",
     isSortable: true,
   },
 ];
-const summaryTableHeader = [
-  {
-    key: "fullName",
-    label: "Customer name",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "phoneNumber",
-    label: "Contact",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "email",
-    label: "Email address",
-    alignment: "left",
-    isSortable: false,
-  },
-  {
-    key: "address",
-    label: "Address",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "loyaltyTyp",
-    label: "Loyalty level",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "highNetworthCustomer",
-    label: "High Networth Customer",
-    alignment: "left",
-    isSortable: true,
-  },
-  // {
-  //   key: "preOrderIndicator",
-  //   label: "Pre-order Indicator",
-  //   alignment: "left",
-  //   isSortable: true,
-  // },
-  // {
-  //   key: "qualityComplaints",
-  //   label: "Quality complaints",
-  //   alignment: "left",
-  //   isSortable: true,
-  // },
-  {
-    key: "tenureMonths",
-    label: "Tenure in months",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "totalVisits",
-    label: "Total visits",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "totalSpend",
-    label: "Total spent",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "canceledOrdersCount",
-    label: "Cancelled Orders",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "canceledItems",
-    label: "Cancelled Items",
-    alignment: "left",
-    isSortable: true,
-  },
-  // {
-  //   key: "missingItems",
-  //   label: "Missing Items",
-  //   alignment: "left",
-  //   isSortable: true,
-  // },
-  // {
-  //   key: "chargebacks",
-  //   label: "Charge backs",
-  //   alignment: "right",
-  //   isSortable: true,
-  // },
-];
-const headers4 = [
-  {
-    key: "orderDate",
-    label: "Order date",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "orderNo",
-    label: "Order number",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "orderType",
-    label: "Order type",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "itemDetails",
-    label: "Item details",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "totalItems",
-    label: "Total items",
-    alignment: "left",
-    isSortable: true,
-  },
-];
-
-
 const topFavItemTableHeader = [
   {
     key: "favoriteItem",
@@ -256,11 +82,10 @@ const topFavItemTableHeader = [
   {
     key: "qtyOrdered",
     label: "Quantity ordered",
-    alignment: "left",
+    alignment: "right",
     isSortable: true,
   },
 ];
-
 const DetailedInsights = () => {
   const [customerOrderCurrentPage, setCustomerOrderCurrentPage] = useState(1);
   const [customerOrderPageLimit, setCustomerOrderPageLimit] = useState(10);
@@ -271,7 +96,9 @@ const DetailedInsights = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
-
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
     useDateFilter();
@@ -359,13 +186,205 @@ const DetailedInsights = () => {
   );
 
 
+
+  const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
+
+
+
+
+const offPremTableHeader = [
+  {
+    key: "firstOrder",
+    label: "First order",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "lastOrder",
+    label: "Last order",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "totalOrders",
+    label: "Total orders",
+    alignment: "right",
+    isSortable: false,
+  },
+  {
+    key: "totalItems",
+    label: "Total items",
+    alignment: "right",
+    isSortable: true,
+  },
+  {
+    key: "maxOrderAmount",
+    label: "Max order amount",
+    alignment: "right",
+    prefix:currencySymbol,
+    isSortable: true,
+  },
+  {
+    key: "totalSpent",
+    label: "Total spent",
+    alignment: "right",
+    prefix:currencySymbol,
+    isSortable: true,
+  },
+  {
+    key: "avgCoverSize",
+    label: "Avg cov size",
+    alignment: "right",
+    isSortable: true,
+  },
+];
+
+
+const summaryTableHeader = [
+  {
+    key: "fullName",
+    label: "Customer name",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "phoneNumber",
+    label: "Contact",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "email",
+    label: "Email address",
+    alignment: "left",
+    isSortable: false,
+  },
+  {
+    key: "address",
+    label: "Address",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "loyaltyTyp",
+    label: "Loyalty level",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "highNetworthCustomer",
+    label: "High Networth Customer",
+    alignment: "left",
+    isSortable: true,
+  },
+  // {
+  //   key: "preOrderIndicator",
+  //   label: "Pre-order Indicator",
+  //   alignment: "left",
+  //   isSortable: true,
+  // },
+  // {
+  //   key: "qualityComplaints",
+  //   label: "Quality complaints",
+  //   alignment: "left",
+  //   isSortable: true,
+  // },
+  {
+    key: "tenureMonths",
+    label: "Tenure in months",
+    alignment: "right",
+    isSortable: true,
+  },
+  {
+    key: "totalVisits",
+    label: "Total visits",
+    alignment: "right",
+    isSortable: true,
+  },
+  {
+    key: "totalSpend",
+    label: "Total spent",
+    alignment: "right",
+    prefix: "$",
+    isSortable: true,
+  },
+  {
+    key: "canceledOrdersCount",
+    label: "Cancelled Orders",
+    alignment: "right",
+    isSortable: true,
+  },
+  {
+    key: "canceledItems",
+    label: "Cancelled Items",
+    alignment: "right",
+    isSortable: true,
+  },
+  // {
+  //   key: "missingItems",
+  //   label: "Missing Items",
+  //   alignment: "right",
+  //   isSortable: true,
+  // },
+  // {
+  //   key: "chargebacks",
+  //   label: "Charge backs",
+  //   alignment: "right",
+  //   isSortable: true,
+  // },
+];
+const headers4 = [
+  {
+    key: "orderDate",
+    label: "Order date",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "orderNo",
+    label: "Order number",
+    alignment: "left",
+    prefix: "#",
+    isSortable: true,
+  },
+  {
+    key: "orderType",
+    label: "Order type",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "itemDetails",
+    label: "Item details",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "orderTotal",
+    label: "Order total",
+    alignment: "right",
+    prefix: currencySymbol,
+    isSortable: true,
+  },
+  {
+    key: "totalItems",
+    label: "Total items",
+    alignment: "right",
+    isSortable: true,
+  }
+];
+
+
+
+
+
   useEffect(() => {
     dispatch(
       detailedInsightsCustomerDetailsRequest({
         locationId: selectedLocation?.value,
         startDate: startDate,
         endDate: endDate,
-        customerName: searchCustomer,
+        search: searchCustomer,
       })
     );
   }, [searchCustomer, selectedLocation, startDate, endDate]);
@@ -425,40 +444,6 @@ const DetailedInsights = () => {
     }
   }, [selectedCustomerPhoneNumber, selectedLocation, startDate, endDate]);
 
-  // useEffect(()=>{
-  //   console.log({
-  //     detailedInsightsCustomerDetailsData,
-  //     detailedInsightsSummaryData,
-  //     detailedInsightsDineInData,
-  //     detailedInsightsOffPremData,
-  //     detailedInsightsCustomersOrderData,
-  //     detailedInsightsLatestOrderData,
-  //     detailedInsightsCustomersTopFavItemsData
-
-  //   })
-
-  // },[detailedInsightsCustomerDetailsData,
-  //   detailedInsightsSummaryData,
-  //   detailedInsightsDineInData,
-  //   detailedInsightsOffPremData,
-  //   detailedInsightsCustomersOrderData,
-  //   detailedInsightsLatestOrderData,
-  //   detailedInsightsCustomersTopFavItemsData
-  // ])
- 
-
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-  const handleDropDownOnChange: any = (e: any) => {
-    setSelectedCustomerPhoneNumber(e.value);
-  };
-
-  const handleDropDownOnsearch: any = (e: any) => {
-    setSearchCustomer(e);
-  };
-
-
 
   useEffect(() => {
     if (selectedCustomerPhoneNumber) {
@@ -481,6 +466,48 @@ const DetailedInsights = () => {
     endDate,
     selectedLocation,
   ]);
+  useEffect(()=>{
+    console.log({
+      detailedInsightsCustomerDetailsData,
+      detailedInsightsSummaryData,
+      detailedInsightsDineInData,
+      detailedInsightsOffPremData,
+      detailedInsightsCustomersOrderData,
+      detailedInsightsLatestOrderData,
+      detailedInsightsCustomersTopFavItemsData
+
+    })
+
+  },[detailedInsightsCustomerDetailsData,
+    detailedInsightsSummaryData,
+    detailedInsightsDineInData,
+    detailedInsightsOffPremData,
+    detailedInsightsCustomersOrderData,
+    detailedInsightsLatestOrderData,
+    detailedInsightsCustomersTopFavItemsData
+  ])
+ 
+
+  const datepickerApply = (type: string, data1?: any, data2?: any) => {
+    handleDateChange("Custom Date", data1, data2);
+  };
+  const handleDropDownOnChange: any = (e: any) => {
+    setSelectedCustomerPhoneNumber(e.value);
+  };
+
+  const handleDropDownOnsearch: any = (e: any) => {
+    setSearchCustomer(e);
+  };
+
+  const options = useMemo(
+    () =>
+      detailedInsightsCustomerDetailsData?.map((customerData: any) => ({
+        label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
+        value: `${customerData?.phoneNumber}`,
+      })) || [],
+    [detailedInsightsCustomerDetailsData]
+  );
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -509,14 +536,10 @@ const DetailedInsights = () => {
           <div className="searchable-dropdown">
             <ReusableDropdown
               isLoading={detailedInsightsCustomerDetailsLoading}
-              options={detailedInsightsCustomerDetailsData?.map(
-                (customerData: any) => {
-                  return {
-                    label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
-                    value: `${customerData?.phoneNumber}`,
-                  };
-                }
-              )}
+              options={detailedInsightsCustomerDetailsData?.map((customerData: any) => ({
+                label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
+                value: `${customerData?.phoneNumber}`,
+              })) || []}
               placeholder="Search by customer name, contact number"
               dropdownContainerClassName="select-food-item-dropdown-cotainer"
               dropdownClassName="select-food-item-dropdown"
