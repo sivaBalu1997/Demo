@@ -486,7 +486,7 @@ const Menu = () => {
                               onMouseLeave={() => setHoveredItem(null)}
                             />
                             <p className="v2-item-price">{`${
-                              location === "US" ? "$" : "₹"
+                              location === "US" ? "$" : "Rs."
                             }${formattedPrice}`}</p>
                             {hoveredItem === item?.itemId && (
                               <ToolTips
@@ -596,7 +596,7 @@ const Menu = () => {
                                       onMouseLeave={() => setHoveredItem(null)}
                                     />
                                     <p className="v2-item-price">{`${
-                                      location === "US" ? "$" : "₹"
+                                      location === "US" ? "$" : "Rs."
                                     }${formattedPrice}`}</p>
                                     {hoveredItem === subItem?.itemId && (
                                       <ToolTips
