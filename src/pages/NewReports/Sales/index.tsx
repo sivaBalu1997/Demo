@@ -9,8 +9,9 @@ import TodaysReport from "../TodaysReport";
 import Employees from "../Employees";
 import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
+import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, getRestaurantRequestFromNewReports, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
+import { getRestaurantRequest } from "redux/auth/authActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
@@ -83,6 +84,13 @@ const SalesReport: React.FC<ReportProps> = () => {
 
   }, [dropdownDetailsData])
 
+  useEffect(() => {
+    if (selectedLocation?.value
+    ) {
+      dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
+      ));
+    }
+  }, [selectedLocation]);
 
 
 

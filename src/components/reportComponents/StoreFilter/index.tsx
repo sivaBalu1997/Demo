@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./StoreFilter.scss";
 import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
 import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 import { DateObject } from "react-multi-date-picker";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";
 import moment from "moment";
 
@@ -53,6 +53,8 @@ const StoreFilter = ({
   showRefresh = false,
   storeOptions = [],
 }: StoreFilterProps) => {
+
+
   const restaurantDetails = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch
   );
@@ -69,6 +71,7 @@ const StoreFilter = ({
   const datePickerHandleOnChange: any = (dates: any): void => {
     setSelectedDates(dates);
   };
+
   const closeBtnOnclick = () => {
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();

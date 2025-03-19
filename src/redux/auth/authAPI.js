@@ -42,6 +42,7 @@ export function verifyOTP(details) {
 
 // Get Restaurant Details
 export function getRestaurantDetails(id) {
+  console.log("id from getRestaurantDetails", {id})
   return API({
     method: "get",
     url: "/merchants/location/" + id + "/details",

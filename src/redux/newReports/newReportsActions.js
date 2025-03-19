@@ -172,7 +172,10 @@ import {
     BILLED_FAILURE,
     UNBILLED_REQUEST,
     UNBILLED_SUCCESS,
-    UNBILLED_FAILURE
+    UNBILLED_FAILURE,
+    GET_DETAILS_RESTAURANT_REQUEST,
+    GET_DETAILS_RESTAURANT_SUCCESS,
+    GET_DETAILS_RESTAURANT_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1308,3 +1311,19 @@ export const getEmployeeChartSliceTableFailure = (error) => ({
     type: GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE,
     payload: error
 })
+
+
+export const getRestaurantRequestFromNewReports = (data) => ({
+  type: GET_DETAILS_RESTAURANT_REQUEST,
+  payload: data,
+});
+
+export const getRestaurantSuccessFromNewReports = (data) => ({
+  type: GET_DETAILS_RESTAURANT_SUCCESS,
+  payload: data,
+});
+
+export const getRestaurantFailreFromNewReports = (error) => ({
+  type: GET_DETAILS_RESTAURANT_FAILURE,
+  payload: error,
+});

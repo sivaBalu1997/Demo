@@ -168,6 +168,9 @@ import {
     UNBILLED_REQUEST,
     UNBILLED_SUCCESS,
     UNBILLED_FAILURE,
+    GET_DETAILS_RESTAURANT_REQUEST,
+    GET_DETAILS_RESTAURANT_SUCCESS,
+    GET_DETAILS_RESTAURANT_FAILURE,
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -434,6 +437,11 @@ const initialNewReportsState = {
     employeeChartSliceTableLoading: false,
     employeeChartSliceTableSuccess: [],
     employeeChartSliceTableFailure: false,
+
+    // get details restaurant loading
+    getDetailsRestaurantLoading: false,
+    getDetailsRestaurantSuccess: [],
+    getDetailsRestaurantFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1328,7 +1336,6 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case GET_EMPLOYEE_CHART_SLICE_TABLE_SUCCESS:
                 draft.employeeChartSliceTableLoading = false;
                 draft.employeeChartSliceTableSuccess = action.payload;
-                console.log(action.payload)
                 draft.employeeChartSliceTableFailure = false;
                 break;
             case GET_EMPLOYEE_CHART_SLICE_TABLE_FAILURE:
@@ -1337,6 +1344,23 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.employeeChartSliceTableFailure = true;
                 break;
             default:
+                break;
+
+            // get details restaurant from new reports
+            case GET_DETAILS_RESTAURANT_REQUEST:
+                draft.getDetailsRestaurantLoading = true;
+                draft.getDetailsRestaurantSuccess = [];
+                draft.getDetailsRestaurantFailure = false;
+                break;
+            case GET_DETAILS_RESTAURANT_SUCCESS:
+                draft.getDetailsRestaurantLoading = false;
+                draft.getDetailsRestaurantSuccess = action.payload;
+                draft.getDetailsRestaurantFailure = false;
+                break;
+            case GET_DETAILS_RESTAURANT_FAILURE:
+                draft.getDetailsRestaurantLoading = false;
+                draft.getDetailsRestaurantSuccess = [];
+                draft.getDetailsRestaurantFailure = true;
                 break;
         }
     })

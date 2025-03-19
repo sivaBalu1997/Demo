@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useMemo } from "react";
 import "./TenderType.scss";
 import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow_down.svg";
 import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow_up.svg";
@@ -44,6 +44,10 @@ const TenderType: React.FC<PaymentMethod> = ({
     const countryCode = useSelector(
       (state: any) => state?.auth?.restaurantDetails?.country
     );
+
+    const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
+
+    console.log("From TendorTypeCard", {countryCode}, {currencySymbol});
 
   if (loader) return <ShimmerTenderCard />;
 

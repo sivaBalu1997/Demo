@@ -109,7 +109,9 @@ import {
     billedSuccess,
     billedFailure,
     unBilledSuccess,
-    unBilledFailure
+    unBilledFailure,
+    getRestaurantRequestFromNewReports,
+    getRestaurantFailreFromNewReports
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -164,7 +166,8 @@ import {
     GET_PREMISES_SUMMARARY_REQUEST,
     GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
     BILLED_REQUEST,
-    UNBILLED_REQUEST
+    UNBILLED_REQUEST,
+    GET_DETAILS_RESTAURANT_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -222,6 +225,7 @@ import {
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
+import { getRestaurantDetails } from "redux/auth/authAPI";
 
 export function* salesSummaryRequestSaga(action) {
     try {
@@ -1181,6 +1185,25 @@ export function* getEmployeeChartSliceTableRequestSaga(action) {
     }
 }
 
+// getDetailsRestaurantRequestSaga
+export function* getDetailsRestaurantRequestSaga(action) {
+    try {
+        console.log("getDetailsRestaurantRequestSaga action.payload", action.payload)
+        const response = yield call(getRestaurantDetails, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(getRestaurantRequestFromNewReports(decryptedData));
+        } else {
+            yield put(getRestaurantFailreFromNewReports(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(getRestaurantFailreFromNewReports(error));
+        showErrorToast(error.message);
+    }
+}
+
 
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
@@ -1237,4 +1260,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_EMPLOYEE_ACTIVITY_REQUEST, getEmployeeActivityRequestSaga);
     yield takeLatest(GET_PREMISES_SUMMARARY_REQUEST, getPremisesSummaryRequestSaga);
     yield takeLatest(GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST, getEmployeeChartSliceTableRequestSaga);
+    yield takeLatest(GET_DETAILS_RESTAURANT_REQUEST, getDetailsRestaurantRequestSaga);
 }

@@ -312,6 +312,19 @@ const handleRefreshClick=()=>{
   dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
 }
 
+const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
+  checkInNumber: data.checkInNumber,
+  guestName: data.guestName,
+  phone: data.phone,
+  channel: data.channel,
+  tableName: data.tableName,
+  checkInTime: data.checkInTime,
+  assignedTime: data.assignedTime,
+  liveCheckInStatus: data.liveCheckInStatus,
+  avgTime: data.avgTime,
+  guestSize: data.guestSize,
+}));
+
 
 
   return (
@@ -468,7 +481,7 @@ const handleRefreshClick=()=>{
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTable?.content||[] as any}
+                tableData={liveCheckInTableMapped||[] as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}

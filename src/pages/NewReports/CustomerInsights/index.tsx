@@ -10,6 +10,7 @@ import {
   changeEndDate,
   changeLocation,
   changeStartDate,
+  getRestaurantRequestFromNewReports,
   storeLocationsList,
 } from "redux/newReports/newReportsActions";
 import SummaryInsights from "./summaryInsights";
@@ -38,6 +39,14 @@ const CheckInReport: React.FC<ReportProps> = () => {
   const endtDate = useSelector(
     (state: RootState) => state?.newReports?.selectedEndDate
   );
+
+  useEffect(() => {
+    if (selectedLocation?.value
+    ) {
+      dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
+      ));
+    }
+  }, [selectedLocation]);
 
   useEffect(() => {
     if (!startDate || !endtDate) {

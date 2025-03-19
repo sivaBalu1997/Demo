@@ -5,10 +5,11 @@ import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";
 import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
-import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  storeLocationsList } from "redux/newReports/newReportsActions";
+import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  getRestaurantRequestFromNewReports,  storeLocationsList } from "redux/newReports/newReportsActions";
 import CheckInLiveReport from "../CheckInLive";
 import CheckInOverview from "../CheckInOverview";
 import { RootState } from "redux/rootReducer";
+import { getRestaurantRequest } from "redux/auth/authActions";
 
 const tabs = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
 interface ReportProps { }
@@ -23,6 +24,14 @@ const CheckInReport: React.FC<ReportProps> = () => {
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
       const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
       const endtDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
+
+    useEffect(() => {
+      if (selectedLocation?.value
+      ) {
+        dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
+        ));
+      }
+    }, [selectedLocation]);
 
   useEffect(() => {
     if(!startDate ||!endtDate){

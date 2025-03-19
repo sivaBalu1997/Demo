@@ -56,6 +56,8 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
     const currencySymbol = countryCode === "US" ? "$" : "₹";
+    
+    console.log({countryCode},{currencySymbol})
 
     const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped:any)=>({
         orderNumber: toBeMapped?.orderNumber,

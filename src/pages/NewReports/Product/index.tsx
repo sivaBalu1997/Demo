@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { changeDateFilterType, changeEndDate, changeLocation, changeStartDate, storeLocationsList } from 'redux/newReports/newReportsActions';
+import { changeDateFilterType, changeEndDate, changeLocation, changeStartDate, getRestaurantRequestFromNewReports, storeLocationsList } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
 import TabNavigation from 'components/common/TabNavigation';
 import moment from 'moment';
@@ -9,6 +9,7 @@ import SidePanel from 'pages/SidePanel'
 import ProductInsights from './ProductInsights';
 import ProductAvailability from './ProductAvailability';
 import "../Sales/report.scss"
+import { getRestaurantRequest } from 'redux/auth/authActions';
 
 const tabs = ["Insights", "Availability"]; 
 interface ReportProps { }
@@ -22,7 +23,17 @@ const ProductReports: React.FC<ReportProps> = () => {
         const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
           const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
           const endtDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
-    
+
+      
+
+        useEffect(() => {
+          if (selectedLocation?.value
+          ) {
+            dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
+            ));
+          }
+        }, [selectedLocation]);    
+          
       useEffect(() => {
         if(!startDate ||!endtDate){
           dispatch(changeDateFilterType({
