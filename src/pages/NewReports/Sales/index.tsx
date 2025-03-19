@@ -85,12 +85,10 @@ const SalesReport: React.FC<ReportProps> = () => {
   }, [dropdownDetailsData])
 
   useEffect(() => {
-    if (selectedLocation?.value
-    ) {
-      dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
-      ));
+    if (selectedLocation?.value) {
+      dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value));
     }
-  }, [selectedLocation]);
+  }, [selectedLocation?.value]);
 
 
 

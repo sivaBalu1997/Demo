@@ -174,7 +174,7 @@ const NewTable: React.FC<NewTableProps> = ({
 
 
   const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
-    console.log({ rowvalue, headerValue });
+    // console.log({ rowvalue, headerValue });
 
     if (headerValue === "Order Status") {
       if (rowvalue === "In Queue") {

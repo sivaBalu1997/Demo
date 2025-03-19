@@ -40,14 +40,19 @@ const TenderType: React.FC<PaymentMethod> = ({
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-  
-    const countryCode = useSelector(
-      (state: any) => state?.auth?.restaurantDetails?.country
+
+  const FromNewReportsDetailsApiRes = useSelector(
+    (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess
+  );
+  console.log({FromNewReportsDetailsApiRes})
+
+    const countryCodeFromNewReports = useSelector(
+      (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess?.country
     );
 
-    const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
+    const currencySymbolFromNewReports = useMemo(() => (countryCodeFromNewReports === "US" ? "US" : "India"), [countryCodeFromNewReports]);
 
-    console.log("From TendorTypeCard", {countryCode}, {currencySymbol});
+    console.log("From TendorTypeCard", {countryCodeFromNewReports},{currencySymbolFromNewReports});
 
   if (loader) return <ShimmerTenderCard />;
 
@@ -68,7 +73,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     <p className="tender-title">{tendorTitle}</p>
                   </div>
                   <div className="tender-amount-order-container">
-                    <span className="tender-amount">${formatNumberByCountry(amount, countryCode, true)}</span>
+                    <span className="tender-amount">${formatNumberByCountry(amount, currencySymbolFromNewReports, true)}</span>
                     <span className="tender-orders">{orders} Orders</span>
                   </div>
                 </div>
@@ -85,21 +90,21 @@ const TenderType: React.FC<PaymentMethod> = ({
                   <div className="expand-row top">
                     <div>
                       <span>On Prem orders:</span>{" "}
-                      <strong>{formatNumberByCountry(onPremOrders, countryCode, false)}</strong>
+                      <strong>{formatNumberByCountry(onPremOrders, currencySymbolFromNewReports, false)}</strong>
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${formatNumberByCountry(onPremSales, countryCode, true)}</strong>
+                      <strong>${formatNumberByCountry(onPremSales, currencySymbolFromNewReports, true)}</strong>
                     </div>
                   </div>
                   <div className="expand-row">
                     <div>
                       <span>Off Prem orders:</span>{" "}
-                      <strong>{formatNumberByCountry(offPremOrders, countryCode, false)}</strong>
+                      <strong>{formatNumberByCountry(offPremOrders, currencySymbolFromNewReports, false)}</strong>
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${formatNumberByCountry(offPremSales, countryCode, true)}</strong>
+                      <strong>${formatNumberByCountry(offPremSales, currencySymbolFromNewReports, true)}</strong>
                     </div>
                   </div>
                 </div>

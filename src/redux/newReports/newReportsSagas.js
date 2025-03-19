@@ -111,7 +111,8 @@ import {
     unBilledSuccess,
     unBilledFailure,
     getRestaurantRequestFromNewReports,
-    getRestaurantFailreFromNewReports
+    getRestaurantFailreFromNewReports,
+    getRestaurantSuccessFromNewReports
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -1188,12 +1189,11 @@ export function* getEmployeeChartSliceTableRequestSaga(action) {
 // getDetailsRestaurantRequestSaga
 export function* getDetailsRestaurantRequestSaga(action) {
     try {
-        console.log("getDetailsRestaurantRequestSaga action.payload", action.payload)
         const response = yield call(getRestaurantDetails, action.payload);
-        const decryptedData = decryptJson(response?.data?.encryptedText)
-        console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
+        const decryptedData = decryptJson(response?.data)
+        // console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
         if (response.status === 200) {
-            yield put(getRestaurantRequestFromNewReports(decryptedData));
+            yield put(getRestaurantSuccessFromNewReports(decryptedData));
         } else {
             yield put(getRestaurantFailreFromNewReports(decryptedData?.message));
             showErrorToast(decryptedData?.message);
