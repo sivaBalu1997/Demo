@@ -275,10 +275,11 @@ const Menu = () => {
 
 
   useEffect(() => {
-    if(SearchedmenuItem?.subCategoryResponseList && !SearchedmenuItem?.subCategoryResponseList[0]){
-      setOpenSubItems([SearchedmenuItem?.subCategoryResponseList[0]?.subCategoryId])
+    if(SearchedmenuItem?.subCategoryResponseList){
+      setOpenSubItems([])
     }
-  },[SearchedmenuItem])
+    setOpenSubItems([])
+  },[SearchedmenuItem, menuData])
 
   const handlemodal = (value?: any) => {
     const filteredItem: any = menuData.find((item: any) =>
@@ -559,8 +560,9 @@ const Menu = () => {
                               const allChannels =
                                 activeOrderTypes?.length ===
                                 filteredOrderTypes?.length;
-                                
+                              
                               return (
+                                
                                 <div
                                   className="v2-itemData"
                                   key={itemIndex}
