@@ -305,7 +305,7 @@ const SearchBox = (props) => {
             searchTerm ? "MLHeader-Search-term" : "MLHeader-Search"
           }`}
           value={`${searchTerm}`}
-          placeholder={"Search by item name, item code"}
+          placeholder={"Search"}
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           type="text"
