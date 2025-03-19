@@ -93,10 +93,10 @@ const ProductAvailability = () => {
     }
   }, [genericTableRecordLimit, currentPageGenericTable, searchQueryForGenericTable, selectedCategory])
 
-  useEffect(() => {
-    console.log({ availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData });
+  // useEffect(() => {
+  //   console.log({ availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData });
 
-  }, [availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData])
+  // }, [availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData])
 
   const handleSwitch = (index: number) => {
     setActiveIndex(index);

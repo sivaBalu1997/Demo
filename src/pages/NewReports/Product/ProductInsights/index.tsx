@@ -85,20 +85,20 @@ const ProductInsights = () => {
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
-  useEffect(() => {
-    console.log({
-      topLeastPopularData,
-      topLeastPopularRevenueData,
-      topRevenueData,
-      topPopularData,
-      topPopularRevenueData,
-      topRevenueStreamsData,
-      cancelledItemsData,
-      cancelledReasonsData,
-      itemsCancelledReasonsData,
-      salesByRevenueClassAPIRedux
-    })
-  }, [topRevenueData,salesByRevenueClassAPIRedux,topLeastPopularData,topLeastPopularRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData])
+  // useEffect(() => {
+  //   console.log({
+  //     topLeastPopularData,
+  //     topLeastPopularRevenueData,
+  //     topRevenueData,
+  //     topPopularData,
+  //     topPopularRevenueData,
+  //     topRevenueStreamsData,
+  //     cancelledItemsData,
+  //     cancelledReasonsData,
+  //     itemsCancelledReasonsData,
+  //     salesByRevenueClassAPIRedux
+  //   })
+  // }, [topRevenueData,salesByRevenueClassAPIRedux,topLeastPopularData,topLeastPopularRevenueData, topPopularData, topPopularRevenueData, topRevenueStreamsData, cancelledItemsData, cancelledReasonsData, itemsCancelledReasonsData])
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -129,15 +129,15 @@ const ProductInsights = () => {
   };
 
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
-    console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
+    // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
   };
 
   const getToggledValueInParentPage = (activeTextForChart: string, kpiTitle: string) => {
-    console.log(`active text of ${kpiTitle} is ${activeTextForChart}`)
+    // console.log(`active text of ${kpiTitle} is ${activeTextForChart}`)
   }
 
   const handleViewDetails = (value: string) => {
-    console.log(`View details for: ${value}`);
+    // console.log(`View details for: ${value}`);
   };
 
 
