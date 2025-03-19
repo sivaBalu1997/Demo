@@ -458,7 +458,12 @@ const Menu = () => {
                       return (
                         <div
                           className="v2-itemData"
-                          onClick={() => handlemodal(item?.itemId)}
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            handlemodal(item?.itemId)
+                            handlesidbarhandling('1', item?.itemId)
+                          }
+                        }
                         >
                           <p>{item?.itemName}</p>
                           <div className="itemRight">
@@ -470,6 +475,10 @@ const Menu = () => {
                                   ? noneAvail
                                   : notAllChannel
                               }
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handlesidbarhandling('2', item?.itemId)
+                              }}  
                               alt="channelIcon"
                               className="channelIcon"
                               onMouseEnter={() => setHoveredItem(item?.itemId)}
@@ -554,7 +563,11 @@ const Menu = () => {
                                 <div
                                   className="v2-itemData"
                                   key={itemIndex}
-                                  onClick={() => handlemodal(subItem?.itemId)}
+                                  onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    handlemodal(subItem?.itemId)
+                                    handlesidbarhandling('1', subItem?.itemId)}
+                                  }
                                 >
                                   <p className="v2-itemName">
                                     {subItem?.itemName}
@@ -568,6 +581,10 @@ const Menu = () => {
                                           ? noneAvail
                                           : notAllChannel
                                       }
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        handlesidbarhandling('2', subItem?.itemId)
+                                      }}
                                       alt="channelIcon"
                                       className="channelIcon"
                                       onMouseEnter={() =>
