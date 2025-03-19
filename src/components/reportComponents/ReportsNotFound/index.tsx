@@ -7,7 +7,7 @@ import { ReactComponent as PageErrorIcon } from "../../../assets/svg/page-error-
 import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg";
 
 interface SalesReportProps {
-  errorType: "checkinNotFound" | "error"| "salesNotFound"|"noContent"|"reportNotFound"
+  errorType: "checkinNotFound" | "error"| "salesNotFound"|"noContent"|"reportNotFound" |"customerNotFound"
 }
 
 
@@ -41,6 +41,11 @@ const statusBasedMsg:  {
   reportNotFound:{
     title:"Report Not Available",
     description:"The report will show once the data is available",
+    icon:<ReportsNotAvailableIcon  className="icon"/>
+  },
+  customerNotFound:{
+    title:"Report Not Available",
+    description:"The report will be displayed after entering the customer name or number",
     icon:<ReportsNotAvailableIcon  className="icon"/>
   }
 }

@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeDateFilterType, changeEndDate, changeLocation, changeStartDate, storeLocationsList } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
 import TabNavigation from 'components/common/TabNavigation';
-import SidePannelMob from 'components/reportComponents/SiePannelMob';
 import moment from 'moment';
 import Header from "components/reportComponents/Header";
 import SidePanel from 'pages/SidePanel'
-import Overview from '../Overview';
-import PerformanceTrend from '../PerformanceTrend';
-import "../../Sales/report.scss"
+import Overview from './Overview';
+import PerformanceTrend from './PerformanceTrend';
+import "../Sales/report.scss"
 
 const tabs = ["Overview", "Performance Trend"]; 
 interface ReportProps { }
 
-const StaffHomeLayout: React.FC<ReportProps> = () => {
+const StaffReports: React.FC<ReportProps> = () => {
     const [activeTab, setActiveTab] = useState("Overview");
       const [isExpanded, setIsExpanded] = useState(false); 
     
@@ -73,4 +72,4 @@ const StaffHomeLayout: React.FC<ReportProps> = () => {
   )
 }
 
-export default StaffHomeLayout
+export default StaffReports

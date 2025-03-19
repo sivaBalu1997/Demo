@@ -72,7 +72,7 @@ import CategoryReport from "pages/CategoryReport";
 import SalesReport from "pages/NewReports/Sales";
 import ProductReport from "pages/NewReports/Product";
 import Layout from "components/Layout";
-import StaffHomeLayout from "pages/NewReports/Staff/StaffHomeLayout";
+import StaffReports from "pages/NewReports/Staff";
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -97,227 +97,227 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Layout>
-            <Route exact path="/review" component={ReviewMenu} />
-            <Route exact path="/Offer" component={Offerdetails} />
-            <Route exact path="/Offers" component={OffersHeader} />
-            <Route exact path="/Offers/active" component={OffersTable} />
-            <Route exact path="/Offers/completed" component={completedTable} />
+              <Route exact path="/review" component={ReviewMenu} />
+              <Route exact path="/Offer" component={Offerdetails} />
+              <Route exact path="/Offers" component={OffersHeader} />
+              <Route exact path="/Offers/active" component={OffersTable} />
+              <Route exact path="/Offers/completed" component={completedTable} />
 
-            <Route
-              exact
-              path="/management/Offers/TemplateOffer"
-              component={TemplateOffer}
-            />
-            <Route
-              exact
-              path="/management/Offers/AddOffer"
-              component={AddOffer}
-            />
-            <Route exact path="/Offers/CreateOffer" component={CreateOffer} />
-            <Route exact path="/Offers/EditOffer" component={CreateOffer} />
-            <Route
-              exact
-              path="/management/Offers/PreviewOffer"
-              component={PreviewOffer}
-            />
-
-            <Route exact path="/employees/add" component={AddEmployee} />
-            <Route exact path="/employees/add/:id" component={AddEmployee} />
-            <Route
-              exact
-              path="/employees/details/:id"
-              component={EmployeeDetails}
-            />
-
-            <div>
-              <Route exact path="/cms/welcome" component={WelcomPage} />
-              <Route
-                path="/cms/restaurantInfo"
-                component={() => <RestaurantInfo />}
-              />
-              <Route
-                path="/cms/exploreMenu"
-                component={() => <ExploreMenu />}
-              />
-              <Route path="/cms/fullMenu" component={() => <FullMenu />} />
-              <Route exact path="/cms/template" component={Template} />
-              <Route exact path="/cms/dashboard" component={DashBoard} />
               <Route
                 exact
-                path="/cms/PendingOutlet"
-                component={PendingComponent}
+                path="/management/Offers/TemplateOffer"
+                component={TemplateOffer}
+              />
+              <Route
+                exact
+                path="/management/Offers/AddOffer"
+                component={AddOffer}
+              />
+              <Route exact path="/Offers/CreateOffer" component={CreateOffer} />
+              <Route exact path="/Offers/EditOffer" component={CreateOffer} />
+              <Route
+                exact
+                path="/management/Offers/PreviewOffer"
+                component={PreviewOffer}
               />
 
-              <Route exact path="/cms/liveOutlets" component={LiveOutlets} />
-            </div>
+              <Route exact path="/employees/add" component={AddEmployee} />
+              <Route exact path="/employees/add/:id" component={AddEmployee} />
+              <Route
+                exact
+                path="/employees/details/:id"
+                component={EmployeeDetails}
+              />
 
-            <Route exact path="/management/billing" component={Billing} />
-            <Route
-              exact
-              path="/management/billing/changeplan"
-              component={ChangePlan}
-            />
-            <Route
-              exact
-              path="/management/billing/cancelsubscription"
-              component={CancelSubscription}
-            />
-            <Route
-              exact
-              path="/management/billing/stickWithUs"
-              component={StickWithUs}
-            />
-            <Route
-              exact
-              path="/management/billing/history"
-              component={BillingHistory}
-            />
-            <Route exact path="/management/payment" component={Payment} />
+              <div>
+                <Route exact path="/cms/welcome" component={WelcomPage} />
+                <Route
+                  path="/cms/restaurantInfo"
+                  component={() => <RestaurantInfo />}
+                />
+                <Route
+                  path="/cms/exploreMenu"
+                  component={() => <ExploreMenu />}
+                />
+                <Route path="/cms/fullMenu" component={() => <FullMenu />} />
+                <Route exact path="/cms/template" component={Template} />
+                <Route exact path="/cms/dashboard" component={DashBoard} />
+                <Route
+                  exact
+                  path="/cms/PendingOutlet"
+                  component={PendingComponent}
+                />
 
-            <Route exact path="/" component={Auth} />
-            <Route path="/reset" component={ResetPassword} />
-            <Route path="/basic-details" component={BasicDetails} />
-            <Route path="/business" component={Business} />
-            <Route path="/roles" component={RoleAccess} />
+                <Route exact path="/cms/liveOutlets" component={LiveOutlets} />
+              </div>
 
-            <Route path="/menu" component={EmptyMenu} />
-            <Route path="/menulist" component={MenuItems} />
-            <Route path="/menudetails" component={MenuDetials} />
-            <Route path="/menuCustomization" component={MenuCustomization} />
-            <Route path="/menuInput" component={AddCustomizationInput} />
-            <Route path="/review" component={ReviewMenu} />
-            <Route path="/notFound" component={NotFound} />
-            <Route path="/management" component={SidePanel} />
-            <Route exact path="/employees" component={Employees} />
-            <Route exact path="/menu/Items" component={EmptyMenu} />
-            <Route exact path="/menu/Items/Add" component={AddItem} />
-            <Route
-              exact
-              path="/menu/Items/update/:itemId"
-              component={AddItem}
-            />
+              <Route exact path="/management/billing" component={Billing} />
+              <Route
+                exact
+                path="/management/billing/changeplan"
+                component={ChangePlan}
+              />
+              <Route
+                exact
+                path="/management/billing/cancelsubscription"
+                component={CancelSubscription}
+              />
+              <Route
+                exact
+                path="/management/billing/stickWithUs"
+                component={StickWithUs}
+              />
+              <Route
+                exact
+                path="/management/billing/history"
+                component={BillingHistory}
+              />
+              <Route exact path="/management/payment" component={Payment} />
 
-            <div style={{ width: "100%" }} className="landingpage">
-              {/* {belowMinWidth ? (
+              <Route exact path="/" component={Auth} />
+              <Route path="/reset" component={ResetPassword} />
+              <Route path="/basic-details" component={BasicDetails} />
+              <Route path="/business" component={Business} />
+              <Route path="/roles" component={RoleAccess} />
+
+              <Route path="/menu" component={EmptyMenu} />
+              <Route path="/menulist" component={MenuItems} />
+              <Route path="/menudetails" component={MenuDetials} />
+              <Route path="/menuCustomization" component={MenuCustomization} />
+              <Route path="/menuInput" component={AddCustomizationInput} />
+              <Route path="/review" component={ReviewMenu} />
+              <Route path="/notFound" component={NotFound} />
+              <Route path="/management" component={SidePanel} />
+              <Route exact path="/employees" component={Employees} />
+              <Route exact path="/menu/Items" component={EmptyMenu} />
+              <Route exact path="/menu/Items/Add" component={AddItem} />
+              <Route
+                exact
+                path="/menu/Items/update/:itemId"
+                component={AddItem}
+              />
+
+              <div style={{ width: "100%" }} className="landingpage">
+                {/* {belowMinWidth ? (
                 <div className="warning-message">
                   Your screen width is below the minimum width of {MIN_WIDTH}
                   px. Please resize your window.
                 </div>
               ) : ( */}
-              <>
-                <div>
-                  <Switch>
-                    <Route
-                      exact
-                      path="/productCatalog/menuListing"
-                      component={MenulistingPage}
-                    />
-                    {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
-                    {/* <Route exact path="/offer/special" component={offers} /> */}
-                    <Route
-                      path="/productCatalog/Reviewpage"
-                      component={PrimaryDetailsReviewpage}
-                    />
-                    <Route path="/productCatalog/Navigationpage">
-                      <Navigationpage />
-                    </Route>
-                    <Route
-                      path="/productCatalog/PrimaryDetails"
-                      component={PrimaryPage}
-                    />
-                    <Route
-                      path="/productCatalog/Pricingandkitchendetails"
-                      component={PricingDetails}
-                    />
-                    <Route
-                      path="/productCatalog/Itemcustomizations"
-                      component={ItemCustomizations}
-                    />
-                  </Switch>
-                </div>
-              </>
-            </div>
+                <>
+                  <div>
+                    <Switch>
+                      <Route
+                        exact
+                        path="/productCatalog/menuListing"
+                        component={MenulistingPage}
+                      />
+                      {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
+                      {/* <Route exact path="/offer/special" component={offers} /> */}
+                      <Route
+                        path="/productCatalog/Reviewpage"
+                        component={PrimaryDetailsReviewpage}
+                      />
+                      <Route path="/productCatalog/Navigationpage">
+                        <Navigationpage />
+                      </Route>
+                      <Route
+                        path="/productCatalog/PrimaryDetails"
+                        component={PrimaryPage}
+                      />
+                      <Route
+                        path="/productCatalog/Pricingandkitchendetails"
+                        component={PricingDetails}
+                      />
+                      <Route
+                        path="/productCatalog/Itemcustomizations"
+                        component={ItemCustomizations}
+                      />
+                    </Switch>
+                  </div>
+                </>
+              </div>
 
-            <div className="specialOffers">
-              <Route exact path="/offer/special" component={offerSpecial} />
-            </div>
+              <div className="specialOffers">
+                <Route exact path="/offer/special" component={offerSpecial} />
+              </div>
 
-            <div style={{height:'100% !important'}}>
-              <Route exact path="/old-reports" component={Report} />
-              <Route
-                exact
-                path="/report/32"
-                component={() => <Report id={"32"} title={"Sales Report"} />}
-              />
-              <Route
-                exact
-                path="/report/51"
-                component={() => (
-                  <Report id={"51"} title={"Customer Insights"} />
-                )}
-              />
-              <Route
-                exact
-                path="/report/63"
-                component={() => (
-                  <Report id={"63"} title={"Consolidated Report"} />
-                )}
-              />
-              <Route
-                exact
-                path="/report/67"
-                component={() => (
-                  <Report id={"63"} title={"Course management"} />
-                )}
-              />
-              <Route
-                exact
-                path="/report/82"
-                component={() => <Report id={"82"} title={"Category report"} />}
-              />
-              <Route
-                exact
-                path="/report/category"
-                component={() => (
-                  <CategoryReport id={"82"} title={"Category report"} />
-                )}
-              />
-              <Route
-                exact
-                path="/report/57"
-                component={() => (
-                  <Report id={"57"} title={"Product Insights"} />
-                )}
-              />
-              <Route
-                exact
-                path="report/32"
-                component={() => <Report id={"32"} title={"Sales report"} />}
-              />
-              <Route
-                exact
-                path="/report/2"
-                component={() => (
-                  <Report id={"2"} title={"Checkin - Daily report"} />
-                )}
-              />
-              <Route
-                exact
-                path="/report/4"
-                component={() => <Report id={"4"} title={"Order insights"} />}
-              />
-              <Route
-                exact
-                path="/report/5"
-                component={() => (
-                  <Report id={"5"} title={"Sales - Transaction report"} />
-                )}
-              />
+              <div style={{ height: '100% !important' }}>
+                <Route exact path="/old-reports" component={Report} />
+                <Route
+                  exact
+                  path="/report/32"
+                  component={() => <Report id={"32"} title={"Sales Report"} />}
+                />
+                <Route
+                  exact
+                  path="/report/51"
+                  component={() => (
+                    <Report id={"51"} title={"Customer Insights"} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/report/63"
+                  component={() => (
+                    <Report id={"63"} title={"Consolidated Report"} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/report/67"
+                  component={() => (
+                    <Report id={"63"} title={"Course management"} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/report/82"
+                  component={() => <Report id={"82"} title={"Category report"} />}
+                />
+                <Route
+                  exact
+                  path="/report/category"
+                  component={() => (
+                    <CategoryReport id={"82"} title={"Category report"} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/report/57"
+                  component={() => (
+                    <Report id={"57"} title={"Product Insights"} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="report/32"
+                  component={() => <Report id={"32"} title={"Sales report"} />}
+                />
+                <Route
+                  exact
+                  path="/report/2"
+                  component={() => (
+                    <Report id={"2"} title={"Checkin - Daily report"} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/report/4"
+                  component={() => <Report id={"4"} title={"Order insights"} />}
+                />
+                <Route
+                  exact
+                  path="/report/5"
+                  component={() => (
+                    <Report id={"5"} title={"Sales - Transaction report"} />
+                  )}
+                />
 
-              <Route
-                exact
-                path="/report/12"
-                component={() => <Report id={"12"} title={"Sales insights"} />}
+                <Route
+                  exact
+                  path="/report/12"
+                  component={() => <Report id={"12"} title={"Sales insights"} />}
 
                 // /> <Route
                 // exact
@@ -325,30 +325,26 @@ const Routers = () => {
                 // component={() => (
                 //   <Report id={"8"} title={"Product insights"} />
                 // )}
-              />
-            </div>
+                />
+              </div>
 
-            <div style={{ width: "100%" }}>
-              <Route exact path="/live-reports" component={CustomerInsights} />
-              <Route exact path="/sales" component={Sales} />
-              <Route
-                exact
-                path="/employee-insights"
-                component={EmployeeInsights}
-              />
-              <Route exact path="/check-in" component={CheckIn} />
-              <Route exact path="/gen-ai-reports" component={GenAiReports} />
-              <Route exact path="/customer-insights" component={CustIns} />
-              <Route exact path="/sales-reports" component={SalesReport} />
-              <Route exact path="/product-reports" component={ProductReport} />
-              <Route exact path="/check-in-reports" component={CheckInReport} />
-              <Route
-                exact
-                path="/customer-insights-report"
-                component={CustomerInsightsReport}
-              />
-              <Route exact path="/staff-reports" component={StaffHomeLayout} />
-            </div>
+              <div style={{ width: "100%" }}>
+                <Route exact path="/live-reports" component={CustomerInsights} />
+                <Route exact path="/sales" component={Sales} />
+                <Route
+                  exact
+                  path="/employee-insights"
+                  component={EmployeeInsights}
+                />
+                <Route exact path="/check-in" component={CheckIn} />
+                <Route exact path="/gen-ai-reports" component={GenAiReports} />
+                <Route exact path="/customer-insights" component={CustIns} />
+                <Route exact path="/sales-reports" component={SalesReport} />
+                <Route exact path="/product-reports" component={ProductReport} />
+                <Route exact path="/check-in-reports" component={CheckInReport} />
+                <Route exact path="/customer-reports" component={CustomerInsightsReport} />
+                <Route exact path="/staff-reports" component={StaffReports} />
+              </div>
             </Layout>
           </ThemeProvider>
         </Contextpage>

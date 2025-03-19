@@ -57,6 +57,7 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
         { name: "Sales", path: "/sales-reports" },
         { name: "Product", path: "/product-reports" },
         { name: "Check-in", path: "/check-in-reports" },
+        { name: "Customer", path: "/customer-reports" },
       ],
     },
     {

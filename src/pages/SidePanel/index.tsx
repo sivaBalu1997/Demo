@@ -101,17 +101,13 @@ const SidePanelDeskTop = () => {
       name: "Check-in",
       path: "/check-in-reports"
     },
-    // {
-    //   name:"Customer",
-    //   path:""
-    // },
+    {
+      name:"Customer",
+      path:"/customer-reports"
+    },
     // {
     //   name:"Event",
     //   path:""
-    // }
-    // {
-    //   name: "Product",
-    //   path: "/product-reports"
     // }
   ];
   const offerMenuOptions = ["Special Price"];
