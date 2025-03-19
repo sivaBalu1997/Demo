@@ -30,6 +30,7 @@ const ProductAvailability = () => {
   const currencySymbol = countryCode === "US" ? "$" : "₹";
   // useSelector for Table states :
   const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
+  const getEmployeeChartSliceTableDataFromAPIReduxtotalElements = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalElements)
   const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
   const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
   const getEmployeeActivityDataFromAPIRedux = useSelector(
@@ -515,6 +516,7 @@ const ProductAvailability = () => {
             count={getEmployeeChartSliceTableDataFromAPIRedux?.length}
             searchPlaceHolder="Search By Category/Item"
             onSearch={handleSearch}
+            totalElements={getEmployeeChartSliceTableDataFromAPIReduxtotalElements || 0}
           />
         </div>
         ) : (

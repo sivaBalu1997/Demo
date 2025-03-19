@@ -509,6 +509,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             // count={liveOrdersAPIRedux?.length}
             searchPlaceHolder="Search by table number, customer name"
             onSearch={handleCheckInSearch}
+            totalElements={checkInOverviewTableDetails?.totalElements || 0}
           // // searchDebounce={()=>searchDebounce()}
           />
 
@@ -532,6 +533,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             // // searchDebounce={()=>searchDebounce()}
             showDateDropDown={true}
             onDateSelect={handleDateSelectForTable}
+            totalElements={checkInOverviewTopCustomer?.totalElements || 0}
           />
         </div>
         <div>

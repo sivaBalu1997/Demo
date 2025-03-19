@@ -67,6 +67,7 @@ export interface NewTableProps {
   rowNoWrap?: boolean;
   tableContainerClassName?: string;
   showIcons?: boolean;
+  totalElements?: number;
 }
 
 export interface SortConfig {

@@ -171,10 +171,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const salesCategoryLoading = useSelector((state: any) => state?.newReports?.salesByItemCategoryLoading);
   const salesCategoryError = useSelector((state: any) => state?.newReports?.salesByItemCategoryFailure);
   const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content);
+  const discountSummaryTotalElements = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalElements);
   const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
   const discountSummaryError = useSelector((state: any) => state?.newReports?.discountSummaryFailure);
   const discountSummaryTotalPages = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages);
   const cancellationSummary = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content);
+  const cancellationSummaryTotalElements = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalElements);
   const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading);
   const cancellationSummaryError = useSelector((state: any) => state?.newReports?.cancellationSummaryFailure);
   const cancellationSummaryTotalPages = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages);
@@ -789,6 +791,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 loader={discountSummaryLoading}
                 searchPlaceHolder="Search By Staff name"
                 onSearch={handleSearch}
+                totalElements={discountSummaryTotalElements || 0}
               />
             </ErrorHandler>
           </div>
@@ -819,6 +822,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               loader={cancellationSummaryLoading}
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
+              totalElements={cancellationSummaryTotalElements || 0}
             />
           </ErrorHandler>
         </div>

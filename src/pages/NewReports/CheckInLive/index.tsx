@@ -478,6 +478,7 @@ const handleRefreshClick=()=>{
                  loader={isLiveCheckInTableLoading}
                  onSearch={handleLiveCheckInSearch}
                 searchPlaceHolder="Search by table number, customer name"
+                totalElements={liveCheckInTable?.totalElements || 0}
               />
                 //  </ErrorHandler>
             )}
@@ -498,7 +499,7 @@ const handleRefreshClick=()=>{
                 loader={isLiveCheckInTodayLoading}
                 searchPlaceHolder="Search by table number, customer name"
                 onSearch={handleTodayCheckInSearch}
-    
+                totalElements={liveCheckInToday?.totalElements || 0}
               />
                 //  </ErrorHandler>
             )}

@@ -45,6 +45,8 @@ const TodaysReport: React.FC = () => {
     const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] = useState<number>(10)
 
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
+    const liveOrdersAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalElements)
+    const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
 
     const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped:any)=>({
         tableName: toBeMapped?.tableName,
@@ -55,8 +57,9 @@ const TodaysReport: React.FC = () => {
         orderTime: toBeMapped?.orderTime
     }))
 
-    const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
+    const liveOrderNonDineInAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalElements)
+    const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
 
     const liveNonDineOrder = liveOrderNonDineInAPIRedux?.map((toBeMapped:any)=>({
         orderNumber: toBeMapped?.orderNumber,
@@ -69,7 +72,6 @@ const TodaysReport: React.FC = () => {
         orderTotal: toBeMapped?.orderTotal,
     }))
 
-    const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
     const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
     const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
@@ -262,6 +264,7 @@ const TodaysReport: React.FC = () => {
                     count={liveOrdersDineIn?.length}
                     searchPlaceHolder="Search by order number, table name"
                     onSearch={handleSearch}
+                    totalElements={liveOrdersAPIReduxTotalElements}
                 />
                 <NewTable
                     kpiTitle="Live Off-Premise orders"
@@ -277,6 +280,7 @@ const TodaysReport: React.FC = () => {
                     count={liveNonDineOrder?.length}
                     searchPlaceHolder="Search by order number, customer name"
                     onSearch={handleSearch}
+                    totalElements={liveOrderNonDineInAPIReduxTotalElements}
                 />
             </div>
         </div >

@@ -56,6 +56,7 @@ const Overview: React.FC = () => {
 
   // useSelector for Table states :
   const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
+  const getEmployeeChartSliceTableDataFromAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalElements)
   const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
   const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
   // console.log("PPP", { getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux })
@@ -711,6 +712,7 @@ const Overview: React.FC = () => {
             count={getEmployeeChartSliceTableDataFromAPIRedux?.length}
             searchPlaceHolder="Search By Steward, Voided reasons"
             onSearch={handleSearch}
+            totalElements={getEmployeeChartSliceTableDataFromAPIReduxTotalElements || 0}
           />
         </div>
       ) : (

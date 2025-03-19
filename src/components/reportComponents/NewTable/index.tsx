@@ -49,6 +49,7 @@ const NewTable: React.FC<NewTableProps> = ({
   rowNoWrap = false,
   showIcons = true,
   tableContainerClassName = "",
+  totalElements = 0,
 }) => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "",
@@ -221,7 +222,7 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
           <div className="table-header">
             <div className="table-title-with-count-container">
               <h2 className="table-title">{kpiTitle}</h2>
-              {!!count && <p className="table-title-count">{count}</p>}
+              {!!count && <p className="table-title-count">{totalElements}</p>}
             </div>
             <div className="table-header-position">
 
@@ -429,20 +430,23 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                 Page {currentPage}/{totalPages}
               </div>
             ) : (
-              <div className="results-per-page">
-                <span>Result per page:</span>
-                <div className="options">
-                  {[10, 20, 30]?.map((num) => (
-                    <button
-                      key={num}
-                      className={`option ${rowsPerPage === num ? "selected" : ""
-                        }`}
-                      onClick={() => setRowsPerPage(num)}
-                    >
-                      {num}
-                    </button>
-                  ))}
+              <div className="record-limit-total-elements-container">
+                <div className="results-per-page">
+                  <span>Result per page:</span>
+                  <div className="options">
+                    {[10, 20, 30]?.map((num) => (
+                      <button
+                        key={num}
+                        className={`option ${rowsPerPage === num ? "selected" : ""
+                          }`}
+                        onClick={() => setRowsPerPage(num)}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
                 </div>
+                <span className="total-elements">{currentPage}-{rowsPerPage} of {totalElements}</span>
               </div>
             )}
             <ReactPaginate
