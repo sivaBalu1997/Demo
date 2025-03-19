@@ -25,8 +25,8 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
 }) => {
     const incrementOrDecrement = useMemo(() => transformSalesData(incrementDecrementValue || 0), [incrementDecrementValue]);
     const countryCode = useSelector(
-        (state: any) => state?.auth?.restaurantDetails?.country
-    );
+          (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess?.country
+        );
 
     const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
 

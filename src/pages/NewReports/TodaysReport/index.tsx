@@ -48,7 +48,9 @@ const TodaysReport: React.FC = () => {
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
     const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
-    const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
+    const countryCode = useSelector(
+        (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
+    );
     const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
     const billedDataAPIRedux = useSelector((state: any) => state?.newReports?.billedSuccess)
     const billedDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedLoading)
@@ -57,7 +59,7 @@ const TodaysReport: React.FC = () => {
 
     const currencySymbol = countryCode === "US" ? "$" : "₹";
     
-    console.log({countryCode},{currencySymbol})
+    console.log("FFFFFFFFFFF",{countryCode},{currencySymbol})
 
     const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped:any)=>({
         orderNumber: toBeMapped?.orderNumber,

@@ -409,6 +409,9 @@ const SidePanelDeskTop = () => {
           >
             <div
               style={{
+                backgroundColor: showOfferOptions === "MenuOptions" ? "#FAFAFA" : "",
+                paddingLeft: showOfferOptions === "MenuOptions" ? "10px" : "",
+                paddingRight: showOfferOptions === "MenuOptions" ? "10px" : "",
                 display: "flex",
                 flexDirection: "column",
                 marginLeft:
@@ -456,7 +459,7 @@ const SidePanelDeskTop = () => {
                   left:
                     !isExpanded && showOfferOptions === "MenuOptions"
                       ? "-0.4rem"
-                      : "4rem",
+                      : "1.5rem",
                 }}
               >
                 {showOfferOptions === "MenuOptions" && (
@@ -523,6 +526,9 @@ const SidePanelDeskTop = () => {
           >
             <div
               style={{
+                backgroundColor: showOptions === "reportOptions" ? "#FAFAFA" : "",
+                paddingLeft: showOptions === "reportOptions" ? "10px" : "",
+                paddingRight: showOptions === "reportOptions" ? "10px" : "",
                 display: "flex",
                 flexDirection: "column",
                 marginLeft:
@@ -561,6 +567,7 @@ const SidePanelDeskTop = () => {
                         className="arrow-dimensions"
                       // className="dropdown-arrow"
                       // style={{ marginLeft: "15px" }}
+                      // style={{color: showOptions === "reportOptions" ? "orange" : "pink"}}
                       />
                     ) : (
                       <Downarrow
@@ -573,12 +580,13 @@ const SidePanelDeskTop = () => {
               <div
                 className={"offers-nav-list"}
                 style={{
+                  // backgroundColor: showOptions === "reportOptions" ? "orange" : "pink",
                   padding: "0",
                   margin: "0",
                   left:
                     !isExpanded && showOptions === "reportOptions"
                       ? "-0.45rem"
-                      : "4rem",
+                      : "1.5rem",
                 }}
               >
                 {showOptions === "reportOptions" && (

@@ -41,18 +41,13 @@ const TenderType: React.FC<PaymentMethod> = ({
     setExpanded(!expanded);
   };
 
-  const FromNewReportsDetailsApiRes = useSelector(
-    (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess
-  );
-  console.log({FromNewReportsDetailsApiRes})
-
     const countryCodeFromNewReports = useSelector(
       (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess?.country
     );
 
-    const currencySymbolFromNewReports = useMemo(() => (countryCodeFromNewReports === "US" ? "US" : "India"), [countryCodeFromNewReports]);
+    const currencySymbol = countryCodeFromNewReports === "US" ? "$" : "₹";
 
-    console.log("From TendorTypeCard", {countryCodeFromNewReports},{currencySymbolFromNewReports});
+    console.log("From TendorTypeCard", {countryCodeFromNewReports});
 
   if (loader) return <ShimmerTenderCard />;
 
@@ -73,7 +68,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     <p className="tender-title">{tendorTitle}</p>
                   </div>
                   <div className="tender-amount-order-container">
-                    <span className="tender-amount">${formatNumberByCountry(amount, currencySymbolFromNewReports, true)}</span>
+                    <span className="tender-amount">{currencySymbol}{formatNumberByCountry(amount, countryCodeFromNewReports, true)}</span>
                     <span className="tender-orders">{orders} Orders</span>
                   </div>
                 </div>
@@ -90,21 +85,21 @@ const TenderType: React.FC<PaymentMethod> = ({
                   <div className="expand-row top">
                     <div>
                       <span>On Prem orders:</span>{" "}
-                      <strong>{formatNumberByCountry(onPremOrders, currencySymbolFromNewReports, false)}</strong>
+                      <strong>{formatNumberByCountry(onPremOrders, countryCodeFromNewReports, false)}</strong>
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${formatNumberByCountry(onPremSales, currencySymbolFromNewReports, true)}</strong>
+                      <strong>{currencySymbol}{formatNumberByCountry(onPremSales, countryCodeFromNewReports, true)}</strong>
                     </div>
                   </div>
                   <div className="expand-row">
                     <div>
                       <span>Off Prem orders:</span>{" "}
-                      <strong>{formatNumberByCountry(offPremOrders, currencySymbolFromNewReports, false)}</strong>
+                      <strong>{formatNumberByCountry(offPremOrders, countryCodeFromNewReports, false)}</strong>
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>${formatNumberByCountry(offPremSales, currencySymbolFromNewReports, true)}</strong>
+                      <strong>{currencySymbol}{formatNumberByCountry(offPremSales, countryCodeFromNewReports, true)}</strong>
                     </div>
                   </div>
                 </div>
