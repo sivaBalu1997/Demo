@@ -52,6 +52,7 @@ const generateQueryParams = (payload) => {
         query+=`&customerName=${payload?.customerName}`
 
     }
+
     if(payload?.phoneNumber){
         query+=`&phoneNumber=%2B${payload?.phoneNumber}`
 
@@ -125,10 +126,10 @@ export const getSummaryInsightsCustomersByLoyalty= (params) => {
 
 export const getDetailedInsightsCustomerDetails= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query = generateQueryParams(params);
+    // const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer-info${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
