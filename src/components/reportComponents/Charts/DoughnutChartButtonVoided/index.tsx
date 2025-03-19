@@ -1,43 +1,50 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter } from "utils";
-import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
+import DoughnutChartShimmer from "../DoughnutChartShimmer";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
+type DataItem = {
+  label: string;
+  amount?: string;
+  count?: string;
+  voidedItems?: string;
+};
+
+type Slice = {
+  label: string;
+  value: number;
+  color: string;
+  items: number;
+  amount: number;
+  orgAmount: number;
+};
 
 const predefinedColors = [
-  "#0FB36A",
-  "#F99D2B",
-  "#B33BB3",
-  "#14C9C9",
-  "#E3313C",
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEEAD",
-  "#774F38",
-  "#E1A679",
-  "#0366d6",
-  "#28a745",
-  "#6f42c1",
-  "#d73a49",
-  "#f66a0a",
-  "#17a2b8",
-  "#e83e8c",
-  "#6c757d",
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+  "#808080", // Gray
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#ffc0cb", // Pink
+  "#a52a2a", // Brown
+
+  "#808080", // Gray
 ];
+
 const centerTextPlugin = {
   id: "centerText",
-  beforeDraw: (chart) => {
+  beforeDraw: (chart:any) => {
     const {
       ctx,
       chartArea: { left, right, top, bottom },
@@ -47,29 +54,40 @@ const centerTextPlugin = {
     ctx.save();
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.fillStyle = "#8D8D8D";
+    ctx.font = "400 16px Poppins";
+    ctx.fillText("Total", centerX, centerY - 15);
     ctx.fillStyle = "#000";
-    ctx.font = chart.config.options.isMobile ? "12px Poppins" : "16px Poppins";
-    ctx.fillText("Total", centerX, centerY - 10);
-    ctx.font = chart.config.options.isMobile ? "20px Poppins" : "24px Poppins";
-    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 15);
+    ctx.font = "600 28px Poppins";
+    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 20);
     ctx.restore();
   },
 };
-function DoughnutChart({
+interface DoughnutChartProps {
+  dataList?: any[];
+  countryCode?: string;
+  handleClick?: (param?:any) => void;
+  handleOther?: (param?:any) => void;
+  loader?: boolean;
+  clickable?: boolean;
+}
+const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
   countryCode,
+  handleClick,
+  handleOther,
   loader,
-  isMobile,
-}) {
-  const chartRef = useRef(null);
+  clickable = true
+})=> {
+  const chartRef = useRef<any>(null);
   const containerRef = useRef(null);
-  const [hoverInfo, setHoverInfo] = useState(null);
+  const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
   const [totalSales, setTotalSales] = useState("$0");
   const [reRenderChart, setReRenderChart] = useState(true);
-  const [slices, setSlices] = useState([]);
-  const [data, setData] = useState({
+  const [slices, setSlices] = useState<any[]>([]);
+  const [data, setData] = useState<any>({
     labels: [],
     datasets: [
       {
@@ -97,7 +115,7 @@ function DoughnutChart({
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
-        const positions = meta.data.map((arc) => {
+        const positions = meta.data.map((arc:any) => {
           const centerX = arc.x;
           const centerY = arc.y;
           const angle = (arc.startAngle + arc.endAngle) / 2;
@@ -111,15 +129,15 @@ function DoughnutChart({
       }
     }
   }, []);
+ 
 
+  // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
 
-// Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
-
-  const handleHover = (event, elements) => {
+  const handleHover = (event:any, elements:any) => {
     if (elements.length > 0) {
       const index = elements[0].index;
       if (!hoverInfo || hoverInfo.index !== index) {
-        const pos = labelPositions[index];
+        const pos:any = labelPositions[index];
         if (pos) {
           setHoverInfo({ index, x: pos.x, y: pos.y });
         }
@@ -131,11 +149,12 @@ function DoughnutChart({
     }
   };
 
-  const options = {
+
+
+  const options :any= {
     responsive: true,
     maintainAspectRatio: false,
     totalSales: totalSales, // Pass total sales to plugin
-    isMobile: isMobile,
     cutout: "80%",
     onHover: handleHover,
     layout: {
@@ -146,28 +165,21 @@ function DoughnutChart({
     plugins: {
       tooltip: { enabled: false },
       legend: {
-        position: "bottom",
-        labels: {
-          generateLabels: (chart) => {
-            const original =
-              ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
+        position: "bottom", labels: {
+          generateLabels: (chart:any) => {
+            const original = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
             const labels = original(chart);
 
-            return labels.map((label) => ({
+            return labels.map(label => ({
               ...label,
               // Custom draw function to add border-radius
-              pointStyle: "rectRounded",
+              pointStyle: 'rectRounded',
               borderRadius: 4, // This is not default, but helps if supported in future versions
             }));
           },
-          usePointStyle: true, // Needed to apply the pointStyle shape
-          padding: 20,
-          boxWidth: isMobile?10:12,
-          boxHeight:isMobile?10: 12,
-          font:{
-            size:isMobile?10:12
-          }
-        },
+          usePointStyle: true, // Needed to apply the pointStyle shape 
+          padding: 20, boxWidth: 12, boxHeight: 12
+        }
       },
       datalabels: { display: false },
     },
@@ -178,18 +190,12 @@ function DoughnutChart({
     },
   };
 
-  // {
-  //   "steward": "",
-  //   "voidedAmount": "798.72",
-  //   "voidedItems": "",
-  //   "itemName": "CHEF NOT AVAILABLE",
-  //   "orderCount": 51128547
-  // }
 
   useEffect(() => {
+
     if (dataList?.length) {
       const totalDisplay = dataList?.reduce(
-        (sum, item) => sum + (Number(item?.voidedAmount) || 0),
+        (sum, item) => sum + (Number(item?.amount) || 0),
         0
       );
 
@@ -203,44 +209,43 @@ function DoughnutChart({
 
       // Sort by totalSales (descending) **ensuring correct numeric sorting**
       const sortedData = [...dataList].sort(
-        (a, b) => Number(b?.voidedAmount || 0) - Number(a?.voidedAmount || 0)
+        (a, b) => Number(b?.amount || 0) - Number(a?.amount || 0)
       );
 
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-        label: slice?.itemName,
-        value: (Number(slice?.voidedAmount || 0) * 100) / totalDisplay,
+        label: slice?.label,
+        value: ((Number(slice?.amount || 0) * 100) / totalDisplay),
         color: colors[index],
-        items: Number(slice?.voidedQuantity || 0),
-        amount: Number(slice?.voidedItems || 0),
-        voidedAmount: Number(slice?.voidedAmount || 0),
+        items: Number(slice?.count || 0),
+        amount: Number(slice?.items || 0),
+        orgAmount: Number(slice?.amount || 0),
       }));
 
       // Sum remaining records into "Other"
       const otherRecords = sortedData.slice(10);
-      let tempSlice = top10;
+      let tempSlice = top10
       if (otherRecords.length > 0) {
+        const other:any=[]    
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
-            acc.value += (Number(item?.voidedAmount || 0) * 100) / totalDisplay;
 
-            acc.items += Number(item?.voidedQuantity || 0);
-            acc.amount += Number(item?.voidedItems || 0);
+            other.push(item?.label)
+            acc.value += ((Number(item?.amount || 0) * 100) / totalDisplay)
+            acc.items += Number(item?.count || 0)
+            acc.amount += Number(item?.items || 0)
 
-            acc.voidedAmount += Number(item?.voidedAmount || 0);
+            acc.orgAmount += Number(item?.amount || 0)
             return acc;
           },
-          {
-            label: "Other",
-            value: 0,
-            color: predefinedColors[10],
-            items: 0,
-            amount: 0,
-            voidedAmount: 0,
-          }
+          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, orgAmount: 0 }
         );
 
-        tempSlice = [...top10, otherSummary];
+
+        tempSlice = [...top10, otherSummary]
+        if(clickable){
+          handleOther && handleOther(other?.join(","));
+        }
       }
       const tempData = {
         labels: tempSlice?.map((slice) => slice.label),
@@ -259,6 +264,8 @@ function DoughnutChart({
       setSlices(tempSlice);
     }
   }, [dataList, countryCode]);
+
+
 
   if (loader) return <DoughnutChartShimmer />;
   return (
@@ -279,18 +286,17 @@ function DoughnutChart({
       }}
     >
       <Doughnut
-        key={JSON.stringify()}
         ref={chartRef}
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-        // redraw={reRenderChart}
+      // redraw={reRenderChart}
       />
 
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
         slices?.map((slice, index) => {
-          const pos = labelPositions[index];
+          const pos:any = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;
           return (
@@ -307,7 +313,7 @@ function DoughnutChart({
                 padding: isHovered ? "12px" : "6px",
                 boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
                 textAlign: "center",
-                fontSize:isMobile?"10px": "14px",
+                fontSize: "14px",
                 fontWeight: "bold",
                 pointerEvents: "auto",
                 transition: "all 0.2s ease-in-out",
@@ -324,22 +330,31 @@ function DoughnutChart({
               }}
             >
               {!hoverInfo || hoverInfo.index !== index ? (
-                <span style={{ color: slice.color }}>
-                  {slice.value?.toFixed(2)}%
-                </span>
+                <span style={{ color: slice.color }}>{slice.value?.toFixed(2)}%</span>
               ) : (
                 <>
-                  {isMobile ? (
-                    ""
-                  ) : (
-                    <div style={{ color: slice.color, marginBottom: "5px" }}>
-                      {slice.label}
-                    </div>
-                  )}
-                  <div style={{ marginBottom: "5px" }}>
-                   <div> Total item: {Number(slice?.items || 0)}</div>
-                   <div> Amount: ${Number(slice?.voidedAmount || 0).toFixed(2)}</div>
+                  <div style={{ color: slice.color, marginBottom: "5px" }}>
+                    {slice.label}
                   </div>
+                  <div style={{ marginBottom: "5px" }}>
+                    Order: {slice.items} <br />
+                    Sales: ${slice?.orgAmount.toFixed(2)}
+                  </div>
+                  {clickable?
+                  <button
+                  style={{
+                      background: slice.color,
+                      color: "#fff",
+                      border: "none",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleClick && handleClick(slice)}
+                  >
+                    View Details
+                  </button>
+                    :null}
                 </>
               )}
             </div>

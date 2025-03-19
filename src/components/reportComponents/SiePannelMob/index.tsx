@@ -55,7 +55,7 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
         { name: "Reports & Insights", path: "/old-reports" },
         // { name: "Chart JS", path: "/live-reports" },
         { name: "Sales", path: "/sales-reports" },
-        // { name: "Product", path: "/product-reports" },
+        { name: "Product", path: "/product-reports" },
         { name: "Check-in", path: "/check-in-reports" },
       ],
     },
@@ -144,9 +144,9 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
         </div>
         <nav className={styles.nav}>
           <ul>
-            {menuOptions.map((menu) => (
+            {menuOptions.map((menu, index) => (
               <>
-                <li className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname) ? styles.activeParemt : ""}`} onClick={() => menu.submenu ? toggleSection(menu.name) : menu?.onClick ? menu?.onClick() : handlePathChange(menu.path)}>
+                <li key={index} className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname) ? styles.activeParemt : ""}`} onClick={() => menu.submenu ? toggleSection(menu.name) : menu?.onClick ? menu?.onClick() : handlePathChange(menu.path)}>
                   {menu.icon} {menu.name} {menu.submenu && (openSections[menu.name] ? <Uparrow /> : <Downarrow />)}
                 </li>
                 {menu.submenu && openSections[menu.name] && (

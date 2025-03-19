@@ -3,9 +3,24 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { amountFormatter } from "utils";
-import DoughnutChartShimmer from "../DoughnutChartShimmer";
+import DoughnutChartShimmer from "../../Charts/DoughnutChartShimmer";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
+type DataItem = {
+  label: string;
+  amount?: string;
+  count?: string;
+  voidedItems?: string;
+};
+
+type Slice = {
+  label: string;
+  value: number;
+  color: string;
+  items: number;
+  amount: number;
+  orgAmount: number;
+};
 
 const predefinedColors = [
   "#ff0000", // Red
@@ -29,7 +44,7 @@ const predefinedColors = [
 
 const centerTextPlugin = {
   id: "centerText",
-  beforeDraw: (chart) => {
+  beforeDraw: (chart:any) => {
     const {
       ctx,
       chartArea: { left, right, top, bottom },
@@ -48,23 +63,43 @@ const centerTextPlugin = {
     ctx.restore();
   },
 };
-function DoughnutChartButtonVoided({
+interface DoughnutChartProps {
+  dataList?: any[];
+  countryCode?: string;
+  handleClick?: (param?:any) => void;
+  handleOther?: (param?:any) => void;
+  loader?: boolean;
+  clickable?: boolean;
+  xKey:string;
+  yKey:string;
+  xLabel:string;
+  yLabel:string;  
+  isAmount?:boolean
+  customLabel?:boolean
+}
+const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
+  xKey,
+  yKey,
+  xLabel,
+  yLabel,
   countryCode,
   handleClick,
   handleOther,
   loader,
-}) {
-  const chartRef = useRef(null);
+  isAmount = false,
+  clickable = true,
+  customLabel=false
+})=> {
+  const chartRef = useRef<any>(null);
   const containerRef = useRef(null);
-  const [hoverInfo, setHoverInfo] = useState(null);
+  const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [totalSales, setTotalSales] = useState("$0");
   const [reRenderChart, setReRenderChart] = useState(true);
-  const [slices, setSlices] = useState([]);
-  const [data, setData] = useState({
+  const [slices, setSlices] = useState<any[]>([]);
+  const [data, setData] = useState<any>({
     labels: [],
     datasets: [
       {
@@ -82,12 +117,6 @@ function DoughnutChartButtonVoided({
     }
   }, [reRenderChart]);
 
-  // Update window width on resize to trigger re-render.
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   const computeLabelPositions = useCallback(() => {
     if (
       !chartRef.current ||
@@ -98,7 +127,7 @@ function DoughnutChartButtonVoided({
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
-        const positions = meta.data.map((arc) => {
+        const positions = meta.data.map((arc:any) => {
           const centerX = arc.x;
           const centerY = arc.y;
           const angle = (arc.startAngle + arc.endAngle) / 2;
@@ -112,40 +141,15 @@ function DoughnutChartButtonVoided({
       }
     }
   }, []);
-  // Force recalculation on initial render after a short delay.
-  useEffect(() => {
-    let observer;
-    if (containerRef.current) {
-      observer = new ResizeObserver(() => {
-        computeLabelPositions();
-      });
-      observer.observe(containerRef.current);
-    }
-    return () => observer?.disconnect();
-  }, []);
-  // Recompute label positions when windowWidth changes.
-  useEffect(() => {
-    computeLabelPositions();
-  }, [windowWidth, computeLabelPositions]);
-
-  // Also re-calc positions when container size changes.
-  useEffect(() => {
-    if (containerRef.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        computeLabelPositions();
-      });
-      resizeObserver.observe(containerRef.current);
-      return () => resizeObserver.disconnect();
-    }
-  }, [containerRef, computeLabelPositions]);
+ 
 
   // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
 
-  const handleHover = (event, elements) => {
+  const handleHover = (event:any, elements:any) => {
     if (elements.length > 0) {
       const index = elements[0].index;
       if (!hoverInfo || hoverInfo.index !== index) {
-        const pos = labelPositions[index];
+        const pos:any = labelPositions[index];
         if (pos) {
           setHoverInfo({ index, x: pos.x, y: pos.y });
         }
@@ -159,7 +163,7 @@ function DoughnutChartButtonVoided({
 
 
 
-  const options = {
+  const options :any= {
     responsive: true,
     maintainAspectRatio: false,
     totalSales: totalSales, // Pass total sales to plugin
@@ -174,7 +178,7 @@ function DoughnutChartButtonVoided({
       tooltip: { enabled: false },
       legend: {
         position: "bottom", labels: {
-          generateLabels: (chart) => {
+          generateLabels: (chart:any) => {
             const original = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
             const labels = original(chart);
 
@@ -199,24 +203,16 @@ function DoughnutChartButtonVoided({
   };
 
 
-  // {
-  //   "steward": "",
-  //   "voidedAmount": "798.72",
-  //   "voidedItems": "",
-  //   "label": "CHEF NOT AVAILABLE",
-  //   "orderCount": 51128547
-  // }
-
-
   useEffect(() => {
 
     if (dataList?.length) {
       const totalDisplay = dataList?.reduce(
-        (sum, item) => sum + (Number(item?.amount) || 0),
+        (sum, item) => sum + (Number(item?.[yKey]) || 0),
         0
       );
+console.log(dataList, totalDisplay, xKey, yKey);
 
-      const formattedTotal = amountFormatter(totalDisplay, countryCode);
+      const formattedTotal = isAmount ? amountFormatter(totalDisplay, countryCode) : totalDisplay;
       // Assign colors from predefined palette
       const colors = dataList.map(
         (_, index) => predefinedColors[index % predefinedColors.length]
@@ -226,33 +222,33 @@ function DoughnutChartButtonVoided({
 
       // Sort by totalSales (descending) **ensuring correct numeric sorting**
       const sortedData = [...dataList].sort(
-        (a, b) => Number(b?.amount || 0) - Number(a?.amount || 0)
+        (a, b) => Number(b?.[yKey] || 0) - Number(a?.[yKey] || 0)
       );
 
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-        label: slice?.label,
-        value: ((Number(slice?.amount || 0) * 100) / totalDisplay),
+        label: slice?.[xKey],
+        value: ((Number(slice?.[yKey] || 0) * 100) / totalDisplay),
         color: colors[index],
         items: Number(slice?.count || 0),
-        amount: Number(slice?.voidedItems || 0),
-        orgAmount: Number(slice?.amount || 0),
+        amount: Number(slice?.items || 0),
+        orgAmount: Number(slice?.[yKey] || 0),
       }));
 
       // Sum remaining records into "Other"
       const otherRecords = sortedData.slice(10);
       let tempSlice = top10
       if (otherRecords.length > 0) {
-        const other=[]    
+        const other:any=[]    
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
 
-            other.push(item?.label)
-            acc.value += ((Number(item?.amount || 0) * 100) / totalDisplay)
+            other.push(item?.[xKey])
+            acc.value += ((Number(item?.[yKey] || 0) * 100) / totalDisplay)
             acc.items += Number(item?.count || 0)
             acc.amount += Number(item?.items || 0)
 
-            acc.orgAmount += Number(item?.amount || 0)
+            acc.orgAmount += Number(item?.[yKey] || 0)
             return acc;
           },
           { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, orgAmount: 0 }
@@ -260,8 +256,9 @@ function DoughnutChartButtonVoided({
 
 
         tempSlice = [...top10, otherSummary]
-        handleOther(other?.join(","))
-
+        if(clickable){
+          handleOther && handleOther(other?.join(","));
+        }
       }
       const tempData = {
         labels: tempSlice?.map((slice) => slice.label),
@@ -302,9 +299,6 @@ function DoughnutChartButtonVoided({
       }}
     >
       <Doughnut
-        key={JSON.stringify(
-
-        )}
         ref={chartRef}
         data={data}
         options={options}
@@ -315,7 +309,7 @@ function DoughnutChartButtonVoided({
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
         slices?.map((slice, index) => {
-          const pos = labelPositions[index];
+          const pos:any = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;
           return (
@@ -353,14 +347,20 @@ function DoughnutChartButtonVoided({
               ) : (
                 <>
                   <div style={{ color: slice.color, marginBottom: "5px" }}>
-                    {slice.label}
+                    {customLabel?slice.label:null}
                   </div>
                   <div style={{ marginBottom: "5px" }}>
-                    Order: {slice.items} <br />
-                    Sales: ${slice?.orgAmount.toFixed(2)}
+                    {customLabel?<>
+                      {xLabel}: {slice.items} <br />
+                    </>:<>
+                    {xLabel}: {slice.label} <br /></>
+                    }
+                           
+                    {yLabel}: {isAmount ? amountFormatter(slice?.orgAmount, countryCode) : slice?.orgAmount}
                   </div>
+                  {clickable?
                   <button
-                    style={{
+                  style={{
                       background: slice.color,
                       color: "#fff",
                       border: "none",
@@ -372,6 +372,7 @@ function DoughnutChartButtonVoided({
                   >
                     View Details
                   </button>
+                    :null}
                 </>
               )}
             </div>
@@ -381,4 +382,4 @@ function DoughnutChartButtonVoided({
   );
 }
 
-export default DoughnutChartButtonVoided;
+export default DoughnutChart;

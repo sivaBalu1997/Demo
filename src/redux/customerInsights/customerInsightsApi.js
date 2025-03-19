@@ -48,6 +48,16 @@ const generateQueryParams = (payload) => {
     if(payload?.offer){
         query+=`&offer=${payload?.offer}`
     }
+    if(payload?.customerName || payload?.customerName==""){
+        query+=`&customerName=${payload?.customerName}`
+
+    }
+    if(payload?.phoneNumber){
+        query+=`&phoneNumber=%2B${payload?.phoneNumber}`
+
+    }
+
+    
     return "?"+query?.slice(1)
 }
 
@@ -56,7 +66,7 @@ export const getSummaryInsightsCustomerVolume = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customer/volume-summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -68,7 +78,7 @@ export const getSummaryInsightsCustomerByTenure = (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customerByTenure${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -82,7 +92,7 @@ export const getSummaryInsightsCustomersByTotalSpend= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customer/total-spend${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -94,7 +104,7 @@ export const getSummaryInsightsCustomersByAvgCoverSize= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/avgCoverSize${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -106,7 +116,7 @@ export const getSummaryInsightsCustomersByLoyalty= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customer/loyalty-counts${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -118,7 +128,7 @@ export const getDetailedInsightsCustomerDetails= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customer-info${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -129,7 +139,7 @@ export const getDetailedInsightsSummary= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -141,7 +151,7 @@ export const getDetailedInsightsDineIn= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/dinein-customer${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -153,7 +163,7 @@ export const getDetailedInsightsOffPrem= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/online-customer${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -166,7 +176,7 @@ export const getDetailedInsightsCustomersOrder= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customerOrderHistory${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -180,7 +190,7 @@ export const getDetailedInsightsLatestOrder= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/latest-order-items${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -193,7 +203,7 @@ export const getDetailedInsightsCustomersTopFavItems= (params) => {
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `${reportsBaseUrl}/customer/insights/favourite-items${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

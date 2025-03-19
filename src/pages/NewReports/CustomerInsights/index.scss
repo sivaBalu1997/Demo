@@ -7,6 +7,10 @@
         font-size: 12px;
         
     }
+    .select-food-item-dropdown-prefix__menu {
+        z-index: 20;
+
+    }
     .select-food-item-dropdown .select-food-item-dropdown-prefix__control{
         flex-direction: row-reverse;
     }

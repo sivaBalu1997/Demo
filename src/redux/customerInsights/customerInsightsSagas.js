@@ -63,6 +63,7 @@ export function* summaryInsightsCustomerVolumeSaga(action) {
       action.payload
     );
     const decryptedData = decryptJson(response?.data?.encryptedText);
+    console.log( "summaryInsightsCustomerVolumeSaga",decryptedData)
     if (response.status === 200) {
       yield put(summaryInsightsCustomerVolumeSuccess(decryptedData));
       showSuccessToast(decryptedData?.message);
@@ -194,6 +195,8 @@ export function* detailedInsightsDineInSaga(action) {
   try {
     const response = yield call(getDetailedInsightsDineIn, action.payload);
     const decryptedData = decryptJson(response?.data?.encryptedText);
+    console.log(decryptedData,"---------------swdsad")
+
     if (response.status === 200) {
       yield put(detailedInsightsDineInSuccess(decryptedData));
       showSuccessToast(decryptedData?.message);

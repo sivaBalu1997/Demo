@@ -37,7 +37,7 @@ interface RevenueChartProps {
   showLabel?:boolean
 }
 
-const RevenueClassChart: React.FC<RevenueChartProps> = ({
+const CustomBarChart: React.FC<RevenueChartProps> = ({
   dataList = [],
   loader,
   xAxisTooltipLabel = "",
@@ -153,4 +153,4 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({
   );
 };
 
-export default RevenueClassChart;
+export default CustomBarChart;

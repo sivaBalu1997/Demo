@@ -17,9 +17,10 @@ interface TooltipData {
 }
 
 interface CustomBarChartProps {
+    customTooltip?: boolean;
     data: ChartData[];
     tooltipData: TooltipData;
-    barColor?: string[];
+    barColor?: string[] | string;
     barStyle?: React.CSSProperties;
     showGrid?: boolean;
     gridColor?: string;
@@ -32,6 +33,8 @@ interface CustomBarChartProps {
 
 interface CustomTooltipProps {
     active?: boolean;
+    customTooltip?: boolean;
+    data: ChartData[];
     payload?: any[];
     tooltipData: TooltipData;
     showRelatedTable: boolean;
@@ -39,23 +42,31 @@ interface CustomTooltipProps {
     setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CustomTooltip = ({ active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice }: CustomTooltipProps) => {
+const CustomTooltip = ({ data, customTooltip, active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0].payload;
-        const tooltipInfo = tooltipData[name];
+        const tooltipInfo :any= tooltipData[name];
 
         if (!tooltipInfo) return null;
 
         const handleClick = () => {
-            setSelectedValueForChartSlice(name);
+            setSelectedValueForChartSlice(customTooltip ?{id: tooltipInfo?.id, name: name} : name);
             setShowRelatedTable(true);
         };
 
         return (
             <div className="custom-tooltip">
-                <p className="label"><strong>{name}</strong></p>
-                <p>{name} Amount: <strong>${value}</strong></p>
-                <button onClick={handleClick}>VIEW DETAILS</button>
+                {customTooltip ?
+                    <>
+                    {/* //TODO: MAKE it Dynamic */}
+                        <p>Channel: <strong>{name}</strong></p>
+                        <p>Quantity: <strong>{value}</strong></p>
+                        <button onClick={handleClick}>VIEW DETAILS</button>
+                    </> : <>
+                        <p className="label"><strong>{name}</strong></p>
+                        <p>{name} Amount: <strong>${value}</strong></p>
+                        <button onClick={handleClick}>VIEW DETAILS</button>
+                    </>}
             </div>
         );
     }
@@ -73,6 +84,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     gridStrokeWidth = 1,
     kpiTitle = "KPI Title",
     showRelatedTable,
+    customTooltip = false,
     setShowRelatedTable,
     setSelectedValueForChartSlice
 }) => {
@@ -87,35 +99,37 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                     <h3 className="chart-title">{kpiTitle}</h3>
                     <DownloadReport downloadRef={chartRef2} kpiTitle={kpiTitle} tableData={data} />
                 </div>
-                { data?.length === 0 ? 
-                (
-                    <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
-                ) 
-                : 
-                (
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
-                            {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip
-                                content={
-                                    <CustomTooltip
-                                        tooltipData={tooltipData}
-                                        showRelatedTable={showRelatedTable}
-                                        setShowRelatedTable={setShowRelatedTable}
-                                        setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-                                    />
-                                }
-                                wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
-                                position={{ y: 200 }}
-                            />
-                            {data.map((entry, index) => (
-                                <Bar key={index} dataKey="value" fill={getBarColor(index)} style={barStyle} />
-                            ))}
-                        </BarChart>
-                    </ResponsiveContainer>
-                )
+                {data?.length === 0 ?
+                    (
+                        <ErrorState pageTitle="Category report" isDataNotAvailable={true} />
+                    )
+                    :
+                    (
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={data} margin={{ bottom: 40, left: 20, right: 20, top: 10 }}>
+                                {showGrid && <CartesianGrid stroke={gridColor} strokeWidth={gridStrokeWidth} />}
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip
+                                    content={
+                                        <CustomTooltip
+                                            customTooltip={customTooltip}
+                                            data={data}
+                                            tooltipData={tooltipData}
+                                            showRelatedTable={showRelatedTable}
+                                            setShowRelatedTable={setShowRelatedTable}
+                                            setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+                                        />
+                                    }
+                                    wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
+                                    position={{ y: 200 }}
+                                />
+                                {/* {data.map((entry, index) => ( */}
+                                <Bar dataKey="value" fill={"#6b7d4a"} style={barStyle} />
+                                {/* ))} */}
+                            </BarChart>
+                        </ResponsiveContainer>
+                    )
                 }
             </div>
         </div>

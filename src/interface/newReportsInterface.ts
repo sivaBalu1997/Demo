@@ -38,6 +38,10 @@ export interface NewTableData {
 }
 
 export interface NewTableProps {
+  optionList?: { label: string; value: string }[];
+  selectedOption?: { label: string; value: string };
+  setOptions?: React.Dispatch<React.SetStateAction<any>>;
+  isCustomOption?: boolean;
   kpiTitle: string;
   searchQuery: string;
   // headerData: NewTableHeader[];
