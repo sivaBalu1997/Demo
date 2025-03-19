@@ -22,11 +22,6 @@ import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import "./style.scss";
 
-// Custom Bar Style
-const customBarStyle = {
-  borderRadius: "8px",
-};
-
 const Overview: React.FC = () => {
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
     useState<number>(10);
@@ -59,7 +54,6 @@ const Overview: React.FC = () => {
   const getEmployeeChartSliceTableDataFromAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalElements)
   const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
   const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
-  // console.log("PPP", { getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux })
 
   // Generic table states :
   const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);

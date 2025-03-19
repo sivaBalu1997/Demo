@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { 
+import {
     billedRequest,
     changeLocation,
-    liveDiscountRequest, 
-    liveNetSalesRequest, 
-    liveOpenSalesRequest, 
-    liveOrderNonDineInRequest, 
-    liveOrdersRequest, 
-    liveRefundsRequest, 
-    unBilledRequest, 
+    liveDiscountRequest,
+    liveNetSalesRequest,
+    liveOpenSalesRequest,
+    liveOrderNonDineInRequest,
+    liveOrdersRequest,
+    liveRefundsRequest,
+    unBilledRequest,
 } from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
 import { formatNumberByCountry } from 'utils';
@@ -48,9 +48,7 @@ const TodaysReport: React.FC = () => {
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
     const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
     const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
-    const countryCode = useSelector(
-        (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
-    );
+    const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
     const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
     const billedDataAPIRedux = useSelector((state: any) => state?.newReports?.billedSuccess)
     const billedDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedLoading)
@@ -58,10 +56,10 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
     const currencySymbol = countryCode === "US" ? "$" : "₹";
-    
-    console.log("FFFFFFFFFFF",{countryCode},{currencySymbol})
 
-    const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped:any)=>({
+    console.log("FFFFFFFFFFF", { countryCode }, { currencySymbol })
+
+    const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped: any) => ({
         orderNumber: toBeMapped?.orderNumber,
         tableName: toBeMapped?.tableName,
         orderDate: toBeMapped?.orderDate,
@@ -70,7 +68,7 @@ const TodaysReport: React.FC = () => {
         orderAmount: `${currencySymbol}${toBeMapped?.orderAmount}`,
     }))
 
-    const liveNonDineOrder = liveOrderNonDineInAPIRedux?.map((toBeMapped:any)=>({
+    const liveNonDineOrder = liveOrderNonDineInAPIRedux?.map((toBeMapped: any) => ({
         orderNumber: toBeMapped?.orderNumber,
         orderChannel: toBeMapped?.orderChannel,
         orderType: toBeMapped?.orderType,
@@ -153,11 +151,11 @@ const TodaysReport: React.FC = () => {
                 setLiveOrdersSearchQuery(value)
                 dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
                 break;
-                
+
             case 'Live Off-Premise orders':
-            setLiveOrderNonDineInSearchQuery(value)
-            currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
-            break;
+                setLiveOrderNonDineInSearchQuery(value)
+                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+                break;
 
             default:
                 console.warn(`Unknown KPI title: ${kpiTitle}`);
@@ -228,16 +226,16 @@ const TodaysReport: React.FC = () => {
                             loader={billedDataAPIReduxLoading}
                         />
                     ))
-                ) : (
-                    cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
-                        <CardWithMiniGraph
-                            key={key}
-                            cardTitle={title}
-                            cardValue={formatNumberByCountry(unBilledAPIRedux?.[key], countryCode, isMonetary)}
-                            isMonetary={isMonetary}
-                            loader={unBilledAPIReduxLoading}
-                        />
-                    ))
+                    ) : (
+                        cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
+                            <CardWithMiniGraph
+                                key={key}
+                                cardTitle={title}
+                                cardValue={formatNumberByCountry(unBilledAPIRedux?.[key], countryCode, isMonetary)}
+                                isMonetary={isMonetary}
+                                loader={unBilledAPIReduxLoading}
+                            />
+                        ))
                     )}
                 </div>
             </div>

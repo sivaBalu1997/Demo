@@ -466,26 +466,26 @@ const headers4 = [
     endDate,
     selectedLocation,
   ]);
-  useEffect(()=>{
-    console.log({
-      detailedInsightsCustomerDetailsData,
-      detailedInsightsSummaryData,
-      detailedInsightsDineInData,
-      detailedInsightsOffPremData,
-      detailedInsightsCustomersOrderData,
-      detailedInsightsLatestOrderData,
-      detailedInsightsCustomersTopFavItemsData
+  // useEffect(()=>{
+  //   console.log({
+  //     detailedInsightsCustomerDetailsData,
+  //     detailedInsightsSummaryData,
+  //     detailedInsightsDineInData,
+  //     detailedInsightsOffPremData,
+  //     detailedInsightsCustomersOrderData,
+  //     detailedInsightsLatestOrderData,
+  //     detailedInsightsCustomersTopFavItemsData
 
-    })
+  //   })
 
-  },[detailedInsightsCustomerDetailsData,
-    detailedInsightsSummaryData,
-    detailedInsightsDineInData,
-    detailedInsightsOffPremData,
-    detailedInsightsCustomersOrderData,
-    detailedInsightsLatestOrderData,
-    detailedInsightsCustomersTopFavItemsData
-  ])
+  // },[detailedInsightsCustomerDetailsData,
+  //   detailedInsightsSummaryData,
+  //   detailedInsightsDineInData,
+  //   detailedInsightsOffPremData,
+  //   detailedInsightsCustomersOrderData,
+  //   detailedInsightsLatestOrderData,
+  //   detailedInsightsCustomersTopFavItemsData
+  // ])
  
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
