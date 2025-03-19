@@ -275,7 +275,7 @@ const Menu = () => {
 
 
   useEffect(() => {
-    if(SearchedmenuItem?.subCategoryResponseList && SearchedmenuItem?.subCategoryResponseList[0]){
+    if(SearchedmenuItem?.subCategoryResponseList && !SearchedmenuItem?.subCategoryResponseList[0]){
       setOpenSubItems([SearchedmenuItem?.subCategoryResponseList[0]?.subCategoryId])
     }
   },[SearchedmenuItem])
@@ -525,7 +525,7 @@ const Menu = () => {
                           </div>
                         )}
 
-                        {(openSubItems.includes(item?.subCategoryId)) &&
+                        {!(openSubItems.includes(item?.subCategoryId)) &&
                           item?.itemResponseList?.map(
                             (subItem: any, itemIndex: number) => {
                               const dineInPrice = subItem?.orderTypes?.find(
@@ -559,6 +559,7 @@ const Menu = () => {
                               const allChannels =
                                 activeOrderTypes?.length ===
                                 filteredOrderTypes?.length;
+                                
                               return (
                                 <div
                                   className="v2-itemData"
