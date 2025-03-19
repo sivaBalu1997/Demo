@@ -519,8 +519,8 @@ const Menu = () => {
                               alt="subCategory-arrow"
                               className={`subCategory-arrow ${
                                 (openSubItems.includes(item?.subCategoryId))
-                                  ? ""
-                                  : "open"
+                                  ? "open"
+                                  : ""
                               }`}
                             />
                           </div>
