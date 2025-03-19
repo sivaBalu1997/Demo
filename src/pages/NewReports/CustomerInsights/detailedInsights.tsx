@@ -86,7 +86,7 @@ const headerData = [
   },
 ];
 
-const headerData2 = [
+const latestOrderTableHeader = [
   {
     key: "orderDate",
     label: "Order date",
@@ -106,21 +106,105 @@ const tableData2 = [
     itemDetails: "Mango lassi, Milkshake, Mutton biriyani, Chicken biriyani",
   },
 ];
-const headerData1 = [
+
+const offPremTableHeader = [
   {
-    key: "customerName",
+    key: "firstOrder",
+    label: "First order",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "lastOrder",
+    label: "Last order",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "totalOrders",
+    label: "Total orders",
+    alignment: "left",
+    isSortable: false,
+  },
+  {
+    key: "totalItems",
+    label: "Total items",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "maxOrderAmount",
+    label: "Max order amount",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "totalSpent",
+    label: "Total spent",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "avgCoverSize",
+    label: "Avg cov size",
+    alignment: "left",
+    isSortable: true,
+  },
+];
+
+const dineInTableHeader = [
+  {
+    key: "grpType",
+    label: "Group type",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "firstVisit",
+    label: "First visit",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "latestVisit",
+    label: "Latest visit",
+    alignment: "left",
+    isSortable: false,
+  },
+  {
+    key: "dineinTenure",
+    label: "Dine-in Tenure",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "totalVisits",
+    label: "Total visits",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "avgGrpSize",
+    label: "Avg Group size",
+    alignment: "left",
+    isSortable: true,
+  },
+];
+const summaryTableHeader = [
+  {
+    key: "fullName",
     label: "Customer name",
     alignment: "left",
     isSortable: true,
   },
   {
-    key: "contact",
+    key: "phoneNumber",
     label: "Contact",
     alignment: "left",
     isSortable: true,
   },
   {
-    key: "emailAddress",
+    key: "email",
     label: "Email address",
     alignment: "left",
     isSortable: false,
@@ -132,7 +216,7 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "loyaltyLevel",
+    key: "loyaltyTyp",
     label: "Loyalty level",
     alignment: "left",
     isSortable: true,
@@ -143,20 +227,20 @@ const headerData1 = [
     alignment: "left",
     isSortable: true,
   },
+  // {
+  //   key: "preOrderIndicator",
+  //   label: "Pre-order Indicator",
+  //   alignment: "left",
+  //   isSortable: true,
+  // },
+  // {
+  //   key: "qualityComplaints",
+  //   label: "Quality complaints",
+  //   alignment: "left",
+  //   isSortable: true,
+  // },
   {
-    key: "preOrderIndicator",
-    label: "Pre-order Indicator",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "qualityComplaints",
-    label: "Quality complaints",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "tenureInMonths",
+    key: "tenureMonths",
     label: "Tenure in months",
     alignment: "left",
     isSortable: true,
@@ -168,35 +252,35 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "totalSpent",
+    key: "totalSpend",
     label: "Total spent",
     alignment: "left",
     isSortable: true,
   },
   {
-    key: "cancelledOrders",
+    key: "canceledOrdersCount",
     label: "Cancelled Orders",
     alignment: "left",
     isSortable: true,
   },
   {
-    key: "cancelledItems",
+    key: "canceledItems",
     label: "Cancelled Items",
     alignment: "left",
     isSortable: true,
   },
-  {
-    key: "missingItems",
-    label: "Missing Items",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "chargebacks",
-    label: "Charge backs",
-    alignment: "right",
-    isSortable: true,
-  },
+  // {
+  //   key: "missingItems",
+  //   label: "Missing Items",
+  //   alignment: "left",
+  //   isSortable: true,
+  // },
+  // {
+  //   key: "chargebacks",
+  //   label: "Charge backs",
+  //   alignment: "right",
+  //   isSortable: true,
+  // },
 ];
 const tableData = [
   {
@@ -217,11 +301,7 @@ const tableData = [
     chargebacks: "N/A",
   },
 ];
-console.log(
-  headerData1.map((hea) => {
-    return { [hea.key]: "" };
-  })
-);
+
 const stackedDataList = [
   { xAxisData: "1 month", stackName: "Active", stackValue: 11 },
   { xAxisData: "1 month", stackName: "Dormant", stackValue: 6 },
@@ -282,9 +362,87 @@ const DetailedInsights = () => {
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
     useDateFilter();
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [selectedCustomerPhoneNumber, setSelectedCustomerPhoneNumber] =
-    useState("asdsa");
+    useState("");
+  const [searchCustomer, setSearchCustomer] = useState("");
+  const detailedInsightsCustomerDetailsData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomerDetailsSuccess
+  );
+  const detailedInsightsCustomerDetailsLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomerDetailsLoading
+  );
+  const detailedInsightsCustomerDetailsFailure = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomerDetailsFailure
+  );
+
+  const detailedInsightsSummaryData = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsSummarySuccess
+  );
+  const detailedInsightsSummaryLoading = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsSummaryLoading
+  );
+  const detailedInsightsSummaryFailure = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsSummaryFailure
+  );
+
+  const detailedInsightsDineInData = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsDineInSuccess
+  );
+  const detailedInsightsDineInLoading = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsDineInLoading
+  );
+  const detailedInsightsDineInFailure = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsDineInFailure
+  );
+
+  const detailedInsightsOffPremData = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsOffPremSuccess
+  );
+  const detailedInsightsOffPremLoading = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsOffPremLoading
+  );
+  const detailedInsightsOffPremFailure = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsOffPremFailure
+  );
+
+  const detailedInsightsCustomersOrderData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomersOrderSuccess
+  );
+  const detailedInsightsCustomersOrderLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomersOrderLoading
+  );
+  const detailedInsightsCustomersOrderFailure = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomersOrderFailure
+  );
+
+  const detailedInsightsLatestOrderData = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsLatestOrderSuccess
+  );
+  const detailedInsightsLatestOrderLoading = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsLatestOrderLoading
+  );
+  const detailedInsightsLatestOrderFailure = useSelector(
+    (state: any) => state?.customerInsights?.detailedInsightsLatestOrderFailure
+  );
+
+  const detailedInsightsCustomersTopFavItemsData = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomersTopFavItemsSuccess
+  );
+  const detailedInsightsCustomersTopFavItemsLoading = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomersTopFavItemsLoading
+  );
+  const detailedInsightsCustomersTopFavItemsFailure = useSelector(
+    (state: any) =>
+      state?.customerInsights?.detailedInsightsCustomersTopFavItemsFailure
+  );
   const headers4 = [
     {
       key: "customerDate",
@@ -356,7 +514,7 @@ const DetailedInsights = () => {
     },
     // ...
   ];
-  const headerData5 = [
+  const topFavItemTableHeader = [
     {
       key: "favoriteItem",
       label: "Favorite item",
@@ -364,7 +522,7 @@ const DetailedInsights = () => {
       isSortable: true,
     },
     {
-      key: "quantityOrdered",
+      key: "qtyOrdered",
       label: "Quantity ordered",
       alignment: "left",
       isSortable: true,
@@ -386,44 +544,48 @@ const DetailedInsights = () => {
     handleDateChange("Custom Date", data1, data2);
   };
   const handleDropDownOnChange: any = (e: any) => {
-    console.log(e, "Here it is ");
     setSelectedCustomerPhoneNumber(e.value);
   };
 
   const handleDropDownOnsearch: any = (e: any) => {
+    setSearchCustomer(e);
+  };
+
+  useEffect(() => {
+    console.log(selectedLocation, startDate, endDate);
     dispatch(
       detailedInsightsCustomerDetailsRequest({
-        locations: selectedLocation,
+        locationId: selectedLocation?.value,
         startDate: startDate,
         endDate: endDate,
-        searchText: e,
+        customerName: searchCustomer,
       })
     );
-  };
+  }, [searchCustomer, selectedLocation, startDate, endDate]);
   useEffect(() => {
     if (selectedCustomerPhoneNumber) {
       dispatch(
         detailedInsightsSummaryRequest({
-          locations: selectedLocation,
+          locationId: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          phnNo: selectedCustomerPhoneNumber,
+          phoneNumber: selectedCustomerPhoneNumber.split("+")[1],
         })
       );
       dispatch(
         detailedInsightsDineInRequest({
-          locations: selectedLocation,
+          locationId: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          phnNo: selectedCustomerPhoneNumber,
+          phoneNumber: selectedCustomerPhoneNumber.split("+")[1],
         })
       );
       dispatch(
         detailedInsightsOffPremRequest({
-          locations: selectedLocation,
+          locationId: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          phnNo: selectedCustomerPhoneNumber,
+          phoneNumber: selectedCustomerPhoneNumber.split("+")[1],
         })
       );
       // dispatch(
@@ -438,18 +600,18 @@ const DetailedInsights = () => {
       // );
       dispatch(
         detailedInsightsLatestOrderRequest({
-          locations: selectedLocation,
+          locationId: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          phnNo: selectedCustomerPhoneNumber,
+          phoneNumber: selectedCustomerPhoneNumber.split("+")[1],
         })
       );
       dispatch(
         detailedInsightsCustomerTopFavItemsRequest({
-          locations: selectedLocation,
+          locationId: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          phnNo: selectedCustomerPhoneNumber,
+          phoneNumber: selectedCustomerPhoneNumber.split("+")[1],
         })
       );
     }
@@ -458,12 +620,12 @@ const DetailedInsights = () => {
     if (selectedCustomerPhoneNumber) {
       dispatch(
         detailedInsightsCustomerOrderRequest({
-          locations: selectedLocation,
+          locationId: selectedLocation?.value,
           startDate: startDate,
           endDate: endDate,
-          phnNo: selectedCustomerPhoneNumber,
-          currentPage: customerOrderCurrentPage,
-          pageSize: customerOrderPageLimit,
+          phoneNumber: selectedCustomerPhoneNumber.split("+")[1],
+          tablePageNo: customerOrderCurrentPage,
+          tableRecordLimit: customerOrderPageLimit,
         })
       );
     }
@@ -475,6 +637,13 @@ const DetailedInsights = () => {
     endDate,
     selectedLocation,
   ]);
+
+  useEffect(() => {
+    console.log(
+      detailedInsightsSummaryData,
+      "This is where the customer data comes"
+    );
+  }, [detailedInsightsSummaryData]);
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -502,7 +671,15 @@ const DetailedInsights = () => {
           {/* </div> */}
           <div className="searchable-dropdown">
             <ReusableDropdown
-              options={[]}
+              isLoading={detailedInsightsCustomerDetailsLoading}
+              options={detailedInsightsCustomerDetailsData?.map(
+                (customerData: any) => {
+                  return {
+                    label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
+                    value: `${customerData?.phoneNumber}`,
+                  };
+                }
+              )}
               placeholder="Search by customer name, contact number"
               dropdownContainerClassName="select-food-item-dropdown-cotainer"
               dropdownClassName="select-food-item-dropdown"
@@ -520,13 +697,13 @@ const DetailedInsights = () => {
             <NewTable
               kpiTitle=""
               searchQuery={""}
-              headerData={headerData1 as any}
+              headerData={summaryTableHeader as any}
               onSearch={() => {}}
               tableData={
-                (tableData.length > 0
-                  ? tableData
+                (detailedInsightsSummaryData?.length > 0
+                  ? detailedInsightsSummaryData
                   : [
-                      headerData1.reduce((acc: any, { key }) => {
+                      summaryTableHeader.reduce((acc: any, { key }) => {
                         acc[key] = "N/A";
                         acc.color = "#8D8D8D";
                         return acc;
@@ -538,6 +715,7 @@ const DetailedInsights = () => {
               loader={false}
               searchPlaceHolder="Search by table number, customer name"
               rowNoWrap={true}
+              tableContainerClassName="full-width"
             />{" "}
           </div>
           <div>
@@ -549,13 +727,13 @@ const DetailedInsights = () => {
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
-              headerData={headerData1 as any}
+              headerData={dineInTableHeader as any}
               onSearch={() => {}}
               tableData={
-                (tableData.length > 0
-                  ? tableData
+                (detailedInsightsDineInData.length > 0
+                  ? detailedInsightsDineInData
                   : [
-                      headerData1.reduce((acc: any, { key }) => {
+                      dineInTableHeader.reduce((acc: any, { key }) => {
                         acc[key] = "N/A";
                         acc.color = "#8D8D8D";
                         return acc;
@@ -583,13 +761,13 @@ const DetailedInsights = () => {
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
-              headerData={headerData1 as any}
+              headerData={offPremTableHeader as any}
               onSearch={() => {}}
               tableData={
-                (tableData.length > 0
-                  ? tableData
+                (detailedInsightsOffPremData?.length > 0
+                  ? detailedInsightsOffPremData
                   : [
-                      headerData1.reduce((acc: any, { key }) => {
+                      offPremTableHeader.reduce((acc: any, { key }) => {
                         acc[key] = "N/A";
                         acc.color = "#8D8D8D";
                         return acc;
@@ -654,13 +832,13 @@ const DetailedInsights = () => {
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
-              headerData={headerData2 as any}
+              headerData={latestOrderTableHeader as any}
               onSearch={() => {}}
               tableData={
-                (tableData2.length > 0
-                  ? tableData2
+                (detailedInsightsLatestOrderData.length > 0
+                  ? detailedInsightsLatestOrderData
                   : [
-                      headerData2.reduce((acc: any, { key }) => {
+                      latestOrderTableHeader.reduce((acc: any, { key }) => {
                         acc[key] = "N/A";
                         acc.color = "#8D8D8D";
                         return acc;
@@ -691,19 +869,9 @@ const DetailedInsights = () => {
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
-              headerData={headerData5 as any}
+              headerData={topFavItemTableHeader as any}
               onSearch={() => {}}
-              tableData={
-                (tableData5.length > 0
-                  ? tableData5
-                  : [
-                      headerData5.reduce((acc: any, { key }) => {
-                        acc[key] = "N/A";
-                        acc.color = "#8D8D8D";
-                        return acc;
-                      }, {}),
-                    ]) as any
-              }
+              tableData={detailedInsightsCustomersTopFavItemsData}
               currentPage={1}
               totalPages={1}
               // count={10}

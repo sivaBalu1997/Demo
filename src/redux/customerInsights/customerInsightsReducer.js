@@ -202,7 +202,7 @@ export default function checkInReportsReducer(
         draft.detailedInsightsSummaryFailure = false;
         break;
       case DETAILED_INSIGHTS_SUMMARY_SUCCESS:
-        draft.detailedInsightsSummarySuccess = action.payload;
+        draft.detailedInsightsSummarySuccess =  action.payload?[action.payload]:[];
         draft.detailedInsightsSummaryLoading = false;
         draft.detailedInsightsSummaryFailure = false;
         break;
@@ -219,7 +219,7 @@ export default function checkInReportsReducer(
         draft.detailedInsightsDineInFailure = false;
         break;
       case DETAILED_INSIGHTS_DINE_IN_SUCCESS:
-        draft.detailedInsightsDineInSuccess = action.payload;
+        draft.detailedInsightsDineInSuccess =  action.payload?[action.payload]:[];
         draft.detailedInsightsDineInLoading = false;
         draft.detailedInsightsDineInFailure = false;
         break;
@@ -237,7 +237,7 @@ export default function checkInReportsReducer(
         draft.detailedInsightsOffPremFailure = false;
         break;
       case DETAILED_INSIGHTS_OFF_PREM_SUCCESS:
-        draft.detailedInsightsOffPremSuccess = action.payload;
+        draft.detailedInsightsOffPremSuccess =  action.payload?[action.payload]:[];
         draft.detailedInsightsOffPremLoading = false;
         draft.detailedInsightsOffPremFailure = false;
         break;
@@ -272,7 +272,7 @@ export default function checkInReportsReducer(
         draft.detailedInsightsLatestOrderFailure = false;
         break;
       case DETAILED_INSIGHTS_LATEST_ORDER_SUCCESS:
-        draft.detailedInsightsLatestOrderSuccess = action.payload;
+        draft.detailedInsightsLatestOrderSuccess = action.payload?[action.payload]:[];
         draft.detailedInsightsLatestOrderLoading = false;
         draft.detailedInsightsLatestOrderFailure = false;
         break;

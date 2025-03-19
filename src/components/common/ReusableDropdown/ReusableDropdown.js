@@ -22,6 +22,8 @@ const ReusableDropdown = ({
   dropdownPrefix = '',
   showSearchIcon=false,
   onInputChange=()=>{},
+  isLoading=false,
+  LoadingIndicator=() => null,loadingMessage="Loading...",
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -39,8 +41,10 @@ const ReusableDropdown = ({
         menuIsOpen={menuIsOpen}
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
-        components={showSearchIcon?{ DropdownIndicator }:null}
+        components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: LoadingIndicator, }:null}
         onInputChange={onInputChange}
+    isLoading={isLoading}
+    loadingMessage={() => loadingMessage}
 
         {...props}
       />
