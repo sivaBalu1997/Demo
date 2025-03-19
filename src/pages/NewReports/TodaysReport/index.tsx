@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { 
     billedRequest,
@@ -10,8 +9,7 @@ import {
     liveOrderNonDineInRequest, 
     liveOrdersRequest, 
     liveRefundsRequest, 
-    locationDetailsRequest, 
-    unBilledRequest 
+    unBilledRequest, 
 } from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
 import { formatNumberByCountry } from 'utils';
@@ -30,8 +28,6 @@ const TodaysReport: React.FC = () => {
     const dispatch = useDispatch();
 
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
-    const restaurantDetails = useSelector((state: any) => state?.auth?.restaurantDetails?.branch)
-    const mappedIdWithBranchName = restaurantDetails?.map((branchWithId: any) => ({ value: branchWithId?.id, label: branchWithId?.locationName }))
 
     const [currentDate, setCurrentDate] = useState('');
     const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
@@ -47,54 +43,46 @@ const TodaysReport: React.FC = () => {
     const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
     const liveOrdersAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalElements)
     const liveOrdersTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.totalPages)
-
-    const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped:any)=>({
-        tableName: toBeMapped?.tableName,
-        orderAmount: toBeMapped?.orderAmount,
-        tableOccupancyDuration: toBeMapped?.tableOccupancyDuration,
-        orderNumber: toBeMapped?.orderNumber,
-        orderDate: toBeMapped?.orderDate,
-        orderTime: toBeMapped?.orderTime
-    }))
-
     const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
     const liveOrderNonDineInAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalElements)
     const liveOrderNonDineInTotalPageNo = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.totalPages)
+    const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
+    const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
+    const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
+    const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
+    const billedDataAPIRedux = useSelector((state: any) => state?.newReports?.billedSuccess)
+    const billedDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedLoading)
+    const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
+    const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
+
+    const currencySymbol = countryCode === "US" ? "$" : "₹";
+
+    const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped:any)=>({
+        orderNumber: toBeMapped?.orderNumber,
+        tableName: toBeMapped?.tableName,
+        orderDate: toBeMapped?.orderDate,
+        orderTime: toBeMapped?.orderTime,
+        tableOccupancyDuration: toBeMapped?.tableOccupancyDuration,
+        orderAmount: toBeMapped?.orderAmount,
+    }))
 
     const liveNonDineOrder = liveOrderNonDineInAPIRedux?.map((toBeMapped:any)=>({
         orderNumber: toBeMapped?.orderNumber,
         orderChannel: toBeMapped?.orderChannel,
         orderType: toBeMapped?.orderType,
-        orderStatus: toBeMapped?.orderStatus,
         timeElapsed: toBeMapped?.timeElapsed,
+        orderStatus: toBeMapped?.orderStatus,
         customerName: toBeMapped?.customerName,
         customerNumber: toBeMapped?.customerNumber,
         orderTotal: toBeMapped?.orderTotal,
     }))
 
-    const liveOrdersLoading = useSelector((state: any) => state?.newReports?.liveOrdersLoading)
-    const liveOrderNonDineInLoading = useSelector((state: any) => state?.newReports?.liveOrderNonDineInLoading)
-    const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
-    const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
-
-
-    const billedDataAPIRedux = useSelector((state: any) => state?.newReports?.billedSuccess)
-    const billedDataAPIReduxLoading = useSelector((state: any) => state?.newReports?.billedLoading)
-
-    const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
-    const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
-
-
-
-    const currencySymbol = countryCode === "US" ? "$" : "₹";
-
-
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
         { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'left' },
         { key: 'orderChannel', label: 'Order Channel', isSortable: false, alignment: 'left' },
         { key: 'orderType', label: 'Order Type', isSortable: false, alignment: 'left' },
-        { key: 'orderStatus', label: 'Order Status', isSortable: false, alignment: 'left' },
         { key: 'timeElapsed', label: 'Time Elapsed', isSortable: true, alignment: 'left' },
+        { key: 'orderStatus', label: 'Order Status', isSortable: false, alignment: 'left' },
         { key: 'customerName', label: 'Customer Name', isSortable: true, alignment: 'left' },
         { key: 'customerNumber', label: 'Customer Number', isSortable: true, isPrivate: true, alignment: 'left' },
         { key: 'orderTotal', label: `Order Total (${currencySymbol})`, isSortable: true, alignment: 'right' },
@@ -104,12 +92,12 @@ const TodaysReport: React.FC = () => {
 
 
     const liveOrdersDineInTableHeaders: NewTableHeader[] = [
+        { key: 'orderNumber', label: 'Order number', isSortable: true, alignment: 'left' },
         { key: 'tableName', label: 'Table name', isSortable: true, alignment: 'left' },
-        { key: 'orderAmount', label: `Order amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
-        { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
-        { key: 'orderNumber', label: 'Order number', isSortable: true, alignment: 'right' },
         { key: 'orderDate', label: 'Order date', isSortable: true, alignment: 'left' },
         { key: 'orderTime', label: 'Order time', isSortable: true, alignment: 'left' },
+        { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
+        { key: 'orderAmount', label: `Order amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
     ];
 
     const cardWithMiniGraphData = [
