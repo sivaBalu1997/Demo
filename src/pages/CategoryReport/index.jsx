@@ -144,7 +144,6 @@ const CategoryReport = (props) => {
 
 
   const handleSelectCategoriesOnChange = (selectedCategoriesData) => {
-    
     if (!selectedCategoriesData.value) {
       setSelectedCategories([{ label: "All", value: "" }]);
       setSelectedItems([{ label: "All", value: "" }]);
@@ -161,7 +160,7 @@ const CategoryReport = (props) => {
       tempCategories = tempCategories?.filter(cat => cat.value !== "");
 
       // Add new category if it's not already selected
-      if (!tempCategories.some(cat => cat.value === category.categoryId)) {
+      if (!tempCategories.some(cat => cat.value === category.categoryId )&& tempCategories.length<=9) {
         tempCategories.push({
           value: category.categoryId,
           label: category.categoryName,

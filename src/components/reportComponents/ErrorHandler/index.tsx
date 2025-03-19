@@ -10,7 +10,8 @@ interface ErrorHandlerProps {
     | "error"
     | "salesNotFound"
     | "noContent"
-    | "reportNotFound";
+    | "reportNotFound"
+    |"customerNotFound";
   isError?: boolean;
   data: any;
   isLoading?: boolean;

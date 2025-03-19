@@ -17,74 +17,9 @@ import {
   detailedInsightsOffPremRequest,
   detailedInsightsSummaryRequest,
 } from "../../../redux/customerInsights/customerInsightsActions";
-interface CustomBarChartData {
-  xAxisValue: string;
-  yAxisValue: number;
-  tooltipValue: number;
-}
+import ErrorHandler from "components/reportComponents/ErrorHandler";
 
-const headerData = [
-  {
-    key: "checkInNumber",
-    label: "Check-in",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "guestName",
-    label: "Guest name",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "phone",
-    label: "Phone",
-    alignment: "left",
-    isSortable: false,
-  },
-  {
-    key: "channel",
-    label: "Channel",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "tableName",
-    label: "Table",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "checkInTime",
-    label: "Check-in time",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "assignedTime",
-    label: "Assigned time",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "liveCheckIn",
-    label: "Status",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "avgTime",
-    label: "Wait time",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "guestSize",
-    label: "Guest size",
-    alignment: "right",
-    isSortable: true,
-  },
-];
+
 
 const latestOrderTableHeader = [
   {
@@ -100,12 +35,7 @@ const latestOrderTableHeader = [
     isSortable: true,
   },
 ];
-const tableData2 = [
-  {
-    orderDate: "02-20-2025, 6:52 PM",
-    itemDetails: "Mango lassi, Milkshake, Mutton biriyani, Chicken biriyani",
-  },
-];
+
 
 const offPremTableHeader = [
   {
@@ -282,73 +212,56 @@ const summaryTableHeader = [
   //   isSortable: true,
   // },
 ];
-const tableData = [
+const headers4 = [
   {
-    customerName: "Devon Lane",
-    contact: "+1 9172881407",
-    emailAddress: "ashokofficial@gmail.com",
-    address: "14 Jackson Ave, Princeton, NJ28540,USA",
-    loyaltyLevel: "Loyal",
-    highNetworthCustomer: "Yes",
-    preOrderIndicator: "Yes",
-    qualityComplaints: "Yes",
-    tenureInMonths: 15,
-    totalVisits: 23,
-    totalSpent: "$1250.50",
-    cancelledOrders: 4,
-    cancelledItems: 12,
-    missingItems: 2,
-    chargebacks: "N/A",
+    key: "orderDate",
+    label: "Order date",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "orderNo",
+    label: "Order number",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "orderType",
+    label: "Order type",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "itemDetails",
+    label: "Item details",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "totalItems",
+    label: "Total items",
+    alignment: "left",
+    isSortable: true,
   },
 ];
 
-const stackedDataList = [
-  { xAxisData: "1 month", stackName: "Active", stackValue: 11 },
-  { xAxisData: "1 month", stackName: "Dormant", stackValue: 6 },
 
-  { xAxisData: "1-6 months", stackName: "Active", stackValue: 8 },
-  { xAxisData: "1-6 months", stackName: "Dormant", stackValue: 5 },
-
-  { xAxisData: "1-12 months", stackName: "Active", stackValue: 6 },
-  { xAxisData: "1-12 months", stackName: "Dormant", stackValue: 3 },
-
-  { xAxisData: "1-3 years", stackName: "Active", stackValue: 6 },
-  { xAxisData: "1-3 years", stackName: "Dormant", stackValue: 8 },
-
-  { xAxisData: "3+ years", stackName: "Active", stackValue: 5 },
-  { xAxisData: "3+ years", stackName: "Dormant", stackValue: 6 },
-];
-
-const dataList3: CustomBarChartData[] = [
+const topFavItemTableHeader = [
   {
-    xAxisValue: "Beverages",
-    yAxisValue: 742.0,
-    tooltipValue: 23,
+    key: "favoriteItem",
+    label: "Favorite item",
+    alignment: "left",
+    isSortable: true,
   },
   {
-    xAxisValue: "Snacks",
-    yAxisValue: 500.5,
-    tooltipValue: 15,
-  },
-  {
-    xAxisValue: "Bakery",
-    yAxisValue: 1200.75,
-    tooltipValue: 45,
-  },
-  {
-    xAxisValue: "Dairy",
-    yAxisValue: 300.25,
-    tooltipValue: 10,
-  },
-  {
-    xAxisValue: "Meat",
-    yAxisValue: 980.4,
-    tooltipValue: 30,
+    key: "qtyOrdered",
+    label: "Quantity ordered",
+    alignment: "left",
+    isSortable: true,
   },
 ];
 
 const DetailedInsights = () => {
-  const [activeBtn, setActiveBtn] = useState("Live Check-ins");
   const [customerOrderCurrentPage, setCustomerOrderCurrentPage] = useState(1);
   const [customerOrderPageLimit, setCustomerOrderPageLimit] = useState(10);
 
@@ -365,6 +278,7 @@ const DetailedInsights = () => {
   const [selectedCustomerPhoneNumber, setSelectedCustomerPhoneNumber] =
     useState("");
   const [searchCustomer, setSearchCustomer] = useState("");
+
   const detailedInsightsCustomerDetailsData = useSelector(
     (state: any) =>
       state?.customerInsights?.detailedInsightsCustomerDetailsSuccess
@@ -443,116 +357,9 @@ const DetailedInsights = () => {
     (state: any) =>
       state?.customerInsights?.detailedInsightsCustomersTopFavItemsFailure
   );
-  const headers4 = [
-    {
-      key: "customerDate",
-      label: "Customer date",
-      alignment: "left",
-      isSortable: true,
-    },
-    {
-      key: "orderNumber",
-      label: "Order number",
-      alignment: "left",
-      isSortable: true,
-    },
-    {
-      key: "orderType",
-      label: "Order type",
-      alignment: "left",
-      isSortable: true,
-    },
-    {
-      key: "itemDetails",
-      label: "Item details",
-      alignment: "left",
-      isSortable: true,
-    },
-    {
-      key: "totalItems",
-      label: "Total items",
-      alignment: "left",
-      isSortable: true,
-    },
-  ];
 
-  const tableData4 = [
-    {
-      customerDate: "02-20-2025, 6:52 PM",
-      orderNumber: "#006614",
-      orderType: "Pickup",
-      itemDetails: "Mango lassi-1",
-      totalItems: "4",
-    },
-    {
-      customerDate: "02-20-2025, 6:52 PM",
-      orderNumber: "#006615",
-      orderType: "Delivery",
-      itemDetails: "Mango lassi-1",
-      totalItems: "4",
-    },
-    {
-      customerDate: "02-20-2025, 6:52 PM",
-      orderNumber: "#006616",
-      orderType: "Dine-in",
-      itemDetails: "Mango lassi-1",
-      totalItems: "4",
-    },
-    {
-      customerDate: "02-20-2025, 6:52 PM",
-      orderNumber: "#006617",
-      orderType: "Pickup",
-      itemDetails: "Mango lassi-1",
-      totalItems: "4",
-    },
-    {
-      customerDate: "02-20-2025, 6:52 PM",
-      orderNumber: "#006618",
-      orderType: "Delivery",
-      itemDetails: "Mango lassi-1",
-      totalItems: "4",
-    },
-    // ...
-  ];
-  const topFavItemTableHeader = [
-    {
-      key: "favoriteItem",
-      label: "Favorite item",
-      alignment: "left",
-      isSortable: true,
-    },
-    {
-      key: "qtyOrdered",
-      label: "Quantity ordered",
-      alignment: "left",
-      isSortable: true,
-    },
-  ];
-  const tableData5 = [
-    { favoriteItem: "Mango lassi", quantityOrdered: 26 },
-    { favoriteItem: "Milkshake", quantityOrdered: 30 },
-    { favoriteItem: "Butter naan", quantityOrdered: 45 },
-    { favoriteItem: "Fish biryani", quantityOrdered: 14 },
-    { favoriteItem: "Ghee pongal", quantityOrdered: 67 },
-    { favoriteItem: "Mutton biryani", quantityOrdered: 19 },
-    { favoriteItem: "Chicken biryani", quantityOrdered: 26 },
-    { favoriteItem: "Garlic naan", quantityOrdered: 21 },
-    { favoriteItem: "Butter scotch icecream", quantityOrdered: 20 },
-    { favoriteItem: "Fish biryani", quantityOrdered: 11 },
-  ];
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-  const handleDropDownOnChange: any = (e: any) => {
-    setSelectedCustomerPhoneNumber(e.value);
-  };
-
-  const handleDropDownOnsearch: any = (e: any) => {
-    setSearchCustomer(e);
-  };
 
   useEffect(() => {
-    console.log(selectedLocation, startDate, endDate);
     dispatch(
       detailedInsightsCustomerDetailsRequest({
         locationId: selectedLocation?.value,
@@ -562,6 +369,7 @@ const DetailedInsights = () => {
       })
     );
   }, [searchCustomer, selectedLocation, startDate, endDate]);
+
   useEffect(() => {
     if (selectedCustomerPhoneNumber) {
       dispatch(
@@ -616,6 +424,42 @@ const DetailedInsights = () => {
       );
     }
   }, [selectedCustomerPhoneNumber, selectedLocation, startDate, endDate]);
+
+  // useEffect(()=>{
+  //   console.log({
+  //     detailedInsightsCustomerDetailsData,
+  //     detailedInsightsSummaryData,
+  //     detailedInsightsDineInData,
+  //     detailedInsightsOffPremData,
+  //     detailedInsightsCustomersOrderData,
+  //     detailedInsightsLatestOrderData,
+  //     detailedInsightsCustomersTopFavItemsData
+
+  //   })
+
+  // },[detailedInsightsCustomerDetailsData,
+  //   detailedInsightsSummaryData,
+  //   detailedInsightsDineInData,
+  //   detailedInsightsOffPremData,
+  //   detailedInsightsCustomersOrderData,
+  //   detailedInsightsLatestOrderData,
+  //   detailedInsightsCustomersTopFavItemsData
+  // ])
+ 
+
+  const datepickerApply = (type: string, data1?: any, data2?: any) => {
+    handleDateChange("Custom Date", data1, data2);
+  };
+  const handleDropDownOnChange: any = (e: any) => {
+    setSelectedCustomerPhoneNumber(e.value);
+  };
+
+  const handleDropDownOnsearch: any = (e: any) => {
+    setSearchCustomer(e);
+  };
+
+
+
   useEffect(() => {
     if (selectedCustomerPhoneNumber) {
       dispatch(
@@ -637,13 +481,6 @@ const DetailedInsights = () => {
     endDate,
     selectedLocation,
   ]);
-
-  useEffect(() => {
-    console.log(
-      detailedInsightsSummaryData,
-      "This is where the customer data comes"
-    );
-  }, [detailedInsightsSummaryData]);
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -694,104 +531,82 @@ const DetailedInsights = () => {
               <h1 className="reports-page-heading">Summary</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsSummaryFailure}  data={detailedInsightsSummaryData}>
+
             <NewTable
               kpiTitle=""
               searchQuery={""}
               headerData={summaryTableHeader as any}
               onSearch={() => {}}
-              tableData={
-                (detailedInsightsSummaryData?.length > 0
-                  ? detailedInsightsSummaryData
-                  : [
-                      summaryTableHeader.reduce((acc: any, { key }) => {
-                        acc[key] = "N/A";
-                        acc.color = "#8D8D8D";
-                        return acc;
-                      }, {}),
-                    ]) as any
-              }
+              tableData={detailedInsightsSummaryData}
               showTableHeader={false}
               showPagination={false}
-              loader={false}
+              loader={detailedInsightsSummaryLoading}
               searchPlaceHolder="Search by table number, customer name"
               rowNoWrap={true}
               tableContainerClassName="full-width"
             />{" "}
+            </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Dine-in Insights</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsDineInFailure}  data={detailedInsightsDineInData}>
             <NewTable
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
               headerData={dineInTableHeader as any}
               onSearch={() => {}}
-              tableData={
-                (detailedInsightsDineInData.length > 0
-                  ? detailedInsightsDineInData
-                  : [
-                      dineInTableHeader.reduce((acc: any, { key }) => {
-                        acc[key] = "N/A";
-                        acc.color = "#8D8D8D";
-                        return acc;
-                      }, {}),
-                    ]) as any
-              }
+              tableData={detailedInsightsDineInData}
               currentPage={1}
               totalPages={1}
               // count={10}
               showTableHeader={false}
               showPagination={false}
               rowsPerPage={10}
-              loader={false}
+              loader={detailedInsightsDineInLoading}
               // onSearch={handleTodayCheckInSearch}
               rowNoWrap={true}
               tableContainerClassName="full-width"
-            />{" "}
+            />
+             </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Off-prem Insights</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsOffPremFailure}  data={detailedInsightsOffPremData}>
             <NewTable
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
               headerData={offPremTableHeader as any}
               onSearch={() => {}}
-              tableData={
-                (detailedInsightsOffPremData?.length > 0
-                  ? detailedInsightsOffPremData
-                  : [
-                      offPremTableHeader.reduce((acc: any, { key }) => {
-                        acc[key] = "N/A";
-                        acc.color = "#8D8D8D";
-                        return acc;
-                      }, {}),
-                    ]) as any
-              }
+              tableData={detailedInsightsOffPremData}
               currentPage={1}
               totalPages={1}
               // count={10}
               showTableHeader={false}
               showPagination={false}
               rowsPerPage={10}
-              loader={false}
+              loader={detailedInsightsOffPremLoading}
               searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}
               rowNoWrap={true}
               tableContainerClassName="full-width"
-            />{" "}
+            />
+                   </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers Order History</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsCustomersOrderFailure}  data={detailedInsightsCustomersOrderData}>
             <NewTable
               kpiTitle=""
               searchQuery={""}
@@ -799,64 +614,48 @@ const DetailedInsights = () => {
               headerData={headers4 as any}
               onSearch={() => {}}
               showIcons={false}
-              tableData={
-                (tableData4.length > 0
-                  ? tableData4
-                  : [
-                      headers4.reduce((acc: any, { key }) => {
-                        acc[key] = "N/A";
-                        acc.color = "#8D8D8D";
-                        return acc;
-                      }, {}),
-                    ]) as any
-              }
-              totalPages={1}
+              tableData={detailedInsightsCustomersOrderData?.content||[]}
+              totalPages={detailedInsightsCustomersOrderData?.totalPages||0}
               // count={10}
               showTableHeader={false}
               onPageChange={setCustomerOrderCurrentPage}
               tableContainerClassName="full-width"
               currentPage={customerOrderCurrentPage}
+              loader={detailedInsightsCustomersOrderLoading}
               // totalPages={checkInOverviewTableDetails?.totalPages||0}
               rowsPerPage={customerOrderPageLimit}
               setRowsPerPage={setCustomerOrderPageLimit}
               // loader={isCheckInOverviewTableDetailsLoading}
               rowNoWrap={true}
-            />{" "}
+            />
+                   </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Latest Order Info</h1>
               <DownloadPopOver />
             </div>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsLatestOrderFailure}  data={detailedInsightsLatestOrderData}>
             <NewTable
               kpiTitle=""
               searchQuery={""}
               // onSearchChange={() => {}}
               headerData={latestOrderTableHeader as any}
               onSearch={() => {}}
-              tableData={
-                (detailedInsightsLatestOrderData.length > 0
-                  ? detailedInsightsLatestOrderData
-                  : [
-                      latestOrderTableHeader.reduce((acc: any, { key }) => {
-                        acc[key] = "N/A";
-                        acc.color = "#8D8D8D";
-                        return acc;
-                      }, {}),
-                    ]) as any
-              }
+              tableData={detailedInsightsLatestOrderData}
               currentPage={1}
               totalPages={1}
               // count={10}
               showPagination={false}
               showTableHeader={false}
               rowsPerPage={10}
-              loader={false}
+              loader={detailedInsightsLatestOrderLoading}
               searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}
               rowNoWrap={true}
               tableContainerClassName="full-width"
-            />{" "}
+            />
+                   </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
@@ -865,6 +664,8 @@ const DetailedInsights = () => {
               </h1>
               <DownloadPopOver />
             </div>
+            
+            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsCustomersTopFavItemsFailure}  data={detailedInsightsCustomersTopFavItemsData}>
             <NewTable
               kpiTitle=""
               searchQuery={""}
@@ -878,12 +679,13 @@ const DetailedInsights = () => {
               showTableHeader={false}
               showPagination={false}
               rowsPerPage={10}
-              loader={false}
+              loader={detailedInsightsCustomersTopFavItemsLoading}
               searchPlaceHolder="Search by table number, customer name"
               // onSearch={handleTodayCheckInSearch}
               rowNoWrap={true}
               tableContainerClassName="full-width"
-            />{" "}
+            />
+                   </ErrorHandler>
           </div>
         </div>
       </div>

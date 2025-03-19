@@ -75,9 +75,6 @@ const CheckInReport: React.FC<ReportProps> = () => {
     }
   }, [restaurantDetails, selectedLocation]);
 
-  const handleSideMenu = () => {
-    setIsExpanded(true);
-  };
 
   return (
     <>

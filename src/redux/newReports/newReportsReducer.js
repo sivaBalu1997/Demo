@@ -1066,6 +1066,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case CATEGORY_CHANNEL_SUMMARY_FAILURE:
                 draft.categoryChannelSummaryLoading = false;
                 draft.categoryChannelSummaryError = action.payload;
+                draft.categoryChannelSummaryData = null;
                 break;
 
             // Category Sales
@@ -1096,6 +1097,8 @@ export default function reportsReducer(state = initialNewReportsState, action) {
             case CATEGORY_SALES_SUMMARY_FAILURE:
                 draft.categorySalesSummaryLoading = false;
                 draft.categorySalesSummaryError = action.payload;
+                draft.categorySalesSummaryData = null;
+
                 break;
 
             // Location Details
