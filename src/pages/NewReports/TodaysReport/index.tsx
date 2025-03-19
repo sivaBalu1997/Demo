@@ -67,7 +67,7 @@ const TodaysReport: React.FC = () => {
         orderDate: toBeMapped?.orderDate,
         orderTime: toBeMapped?.orderTime,
         tableOccupancyDuration: toBeMapped?.tableOccupancyDuration,
-        orderAmount: toBeMapped?.orderAmount,
+        orderAmount: `${currencySymbol}${toBeMapped?.orderAmount}`,
     }))
 
     const liveNonDineOrder = liveOrderNonDineInAPIRedux?.map((toBeMapped:any)=>({
@@ -78,7 +78,7 @@ const TodaysReport: React.FC = () => {
         orderStatus: toBeMapped?.orderStatus,
         customerName: toBeMapped?.customerName,
         customerNumber: toBeMapped?.customerNumber,
-        orderTotal: toBeMapped?.orderTotal,
+        orderTotal: `${currencySymbol}${toBeMapped?.orderTotal}`,
     }))
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
@@ -89,7 +89,7 @@ const TodaysReport: React.FC = () => {
         { key: 'orderStatus', label: 'Order Status', isSortable: false, alignment: 'left' },
         { key: 'customerName', label: 'Customer Name', isSortable: true, alignment: 'left' },
         { key: 'customerNumber', label: 'Customer Number', isSortable: true, isPrivate: true, alignment: 'left' },
-        { key: 'orderTotal', label: `Order Total (${currencySymbol})`, isSortable: true, alignment: 'right' },
+        { key: 'orderTotal', label: `Order Total`, isSortable: true, alignment: 'right' },
         // { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
         // { key: 'requestedEta', label: 'Requested ETA', isSortable: true, alignment: 'left' },
     ];
@@ -101,7 +101,7 @@ const TodaysReport: React.FC = () => {
         { key: 'orderDate', label: 'Order date', isSortable: true, alignment: 'left' },
         { key: 'orderTime', label: 'Order time', isSortable: true, alignment: 'left' },
         { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
-        { key: 'orderAmount', label: `Order amount (${currencySymbol})`, isSortable: true, alignment: 'right' },
+        { key: 'orderAmount', label: `Order amount`, isSortable: true, alignment: 'right' },
     ];
 
     const cardWithMiniGraphData = [
