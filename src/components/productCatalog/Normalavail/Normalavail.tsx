@@ -440,7 +440,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setMealTypes({});
         setSelectedThirdValues([]);
         let thirdPartyData: any = []
-        optionsselectthird.forEach((name) => {
+        optionsselectthird.forEach((name: any) => {
           const data = {
             typeId: "",
             price: 0,
