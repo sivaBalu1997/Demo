@@ -162,7 +162,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const salesSummary = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
   const salesSummaryLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
   const salesSummaryError = useSelector((state: any) => state?.newReports?.salesSummaryFailure);
-  const staffSalesData = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceSuccess?.content);
+  const staffSalesData = useSelector((state: any) => state?.newReports?.staffSalesData?.content);
   const staffSalesLoading = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceLoading);
   const staffSalesError = useSelector((state: any) => state?.newReports?.employeeStaffPerformanceFailure);
   const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
