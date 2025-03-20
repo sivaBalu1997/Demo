@@ -486,7 +486,7 @@ const Menu = () => {
                               onMouseLeave={() => setHoveredItem(null)}
                             />
                             <p className="v2-item-price">{`${
-                              location === "US" ? "$" : "₹"
+                              location === "US" ? "$" : "Rs."
                             }${formattedPrice}`}</p>
                             {hoveredItem === item?.itemId && (
                               <ToolTips
@@ -519,8 +519,8 @@ const Menu = () => {
                               alt="subCategory-arrow"
                               className={`subCategory-arrow ${
                                 (openSubItems.includes(item?.subCategoryId))
-                                  ? ""
-                                  : "open"
+                                  ? "open"
+                                  : ""
                               }`}
                             />
                           </div>
@@ -596,7 +596,7 @@ const Menu = () => {
                                       onMouseLeave={() => setHoveredItem(null)}
                                     />
                                     <p className="v2-item-price">{`${
-                                      location === "US" ? "$" : "₹"
+                                      location === "US" ? "$" : "Rs."
                                     }${formattedPrice}`}</p>
                                     {hoveredItem === subItem?.itemId && (
                                       <ToolTips
