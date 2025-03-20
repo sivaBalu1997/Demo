@@ -47,7 +47,7 @@ const TenderType: React.FC<PaymentMethod> = ({
 
     const currencySymbol = countryCodeFromNewReports === "US" ? "$" : "₹";
 
-    console.log("From TendorTypeCard", {countryCodeFromNewReports});
+    // console.log("From TendorTypeCard", {countryCodeFromNewReports});
 
   if (loader) return <ShimmerTenderCard />;
 
