@@ -44,6 +44,9 @@ import {
   GET_EMPLOYEE_ROLE_BY_ID_FAILURE,
   GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,
   GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_SUCCESS,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,
 } from "../employee/employeeContants";
 import { SIGNOUT } from "../auth/authConstants";
 
@@ -406,6 +409,22 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case GET_EMPLOYEE_ROLE_BY_ID_FAILURE:
         draft.rolesAndFunctions=[];
         draft.roleFunctionFetching = false;
+        break;
+
+
+
+      case GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST:
+        draft.permissionsLoading = true
+        break;
+
+      case GET_EMPLOYEE_PERMISSIONS_BY_ID_SUCCESS:
+        draft.permissions=action.payload;
+        draft.permissionsLoading = false;
+        break;
+
+      case GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE:
+        draft.permissions=[];
+        draft.permissionsLoading = false;
         break;
 
       default:

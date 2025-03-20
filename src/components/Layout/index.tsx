@@ -1,15 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import styles from "./Layout.module.scss";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
 import { STORAGE_BUCKET_URL } from "shared/constants";
 import { ReactComponent as MenuIcon } from "../../assets/svg/menuNew.svg";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useLocation } from "react-router";
+// import { getEmployeePermissionsRequest } from "redux/employee/employeeActions";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const restaurantDetails = useSelector((state: RootState) => state.auth?.restaurantDetails);
   const location = useLocation();
+  // const dispatch=useDispatch()
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const getImageURL = useCallback(
     (type: string) => {
@@ -25,6 +27,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     },
     [restaurantDetails]
   );
+  // const staff:any=localStorage?.getItem("CREDENTIALS")
+  //     const staffId=JSON.parse(staff)?.id  
+  //   useEffect(() => {
+  //     if (staffId) {
+  //       dispatch(getEmployeePermissionsRequest({ staffId: staffId }));
+  //     }
+  //   }, [dispatch, staffId]);
   // TODO: add roles and access
   return (
     <div className={styles.layout}>
