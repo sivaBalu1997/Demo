@@ -49,7 +49,8 @@ const statusBasedMsg:  {
     icon:<ReportsNotAvailableIcon  className="icon"/>
   }
 }
-const ReportsWarning: React.FC<SalesReportProps> = ({errorType}) => {
+
+const     ReportNotFound: React.FC<SalesReportProps> = ({errorType}) => {
   return (
     <div className="sales-report-container">
       <div className="content">
@@ -67,4 +68,4 @@ const ReportsWarning: React.FC<SalesReportProps> = ({errorType}) => {
   );
 };
 
-export default ReportsWarning;
+export default ReportNotFound;

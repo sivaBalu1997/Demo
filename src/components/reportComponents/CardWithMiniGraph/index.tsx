@@ -7,7 +7,7 @@ import { ReactComponent as DecrementArrow } from "../../../assets/svg/r-decremen
 import { ReactComponent as LossArrowIcon } from "../../../assets/svg/lossArrow1.svg";
 import { ReactComponent as GainArrowIcon } from "../../../assets/svg/gainarrow1.svg";
 import { ICardWithMiniGraphProps } from "interface/newReportsInterface";
-import { transformSalesData } from "utils";
+import { getCurrencySymbol, transformSalesData } from "utils";
 import ShimmerCardMiniGraph from "./ShimmerCardMiniGraph";
 import "./style.scss";
 
@@ -28,7 +28,7 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
           (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess?.country
         );
 
-    const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
+    const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
     if (loader) return <ShimmerCardMiniGraph />
     return (

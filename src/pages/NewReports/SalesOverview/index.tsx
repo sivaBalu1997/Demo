@@ -43,6 +43,7 @@ import useDateFilter from "hooks/useDateFilter";
 import "./SalesOverview.scss";
 // import useDebounce from "hooks/useDebounce";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import ReportNotFound from "components/reportComponents/ReportsNotFound";
 
 
 interface ReportProps { }
@@ -167,9 +168,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const salesCardTypeData = useSelector((state: any) => state?.newReports?.salesCardTypeData?.content);
   const salesCardTypeDataLoading = useSelector((state: any) => state?.newReports?.salesCardTypeLoading);
   const salesCardTypeError = useSelector((state: any) => state?.newReports?.salesCardTypeFailure);
-  const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
-  const salesCategoryLoading = useSelector((state: any) => state?.newReports?.salesByItemCategoryLoading);
-  const salesCategoryError = useSelector((state: any) => state?.newReports?.salesByItemCategoryFailure);
+  // const salesCategory = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
+  // const salesCategoryLoading = useSelector((state: any) => state?.newReports?.salesByItemCategoryLoading);
+  // const salesCategoryError = useSelector((state: any) => state?.newReports?.salesByItemCategoryFailure);
   const discountSummary = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content);
   const discountSummaryTotalElements = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalElements);
   const discountSummaryLoading = useSelector((state: any) => state?.newReports?.discountSummaryLoading);
@@ -193,7 +194,28 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
-
+useEffect(()=>{
+console.log({
+  tendorTypes,
+  salesSummary,
+  staffSalesData,
+  salesCardTypeData,
+  discountSummary,
+  cancellationSummary,
+  salesByChannel,
+  salesByRevenueClass,
+  offerSummary,
+  voidedOrderSummary
+})
+},[tendorTypes,salesSummary,staffSalesData,
+  salesCardTypeData,
+  discountSummary,
+  cancellationSummary,
+  salesByChannel,
+  salesByRevenueClass,
+  offerSummary,
+  voidedOrderSummary
+])
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
@@ -385,6 +407,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   }, [selectedLocation, startDate, endDate, page, rows, voidedReason, searchQuery])
 
+  
 
   const handleGoBackToChart = () => {
     setViewType("default");
@@ -455,6 +478,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }
 
   }
+
+  
   return (
     <div className="sales-overview">
       {viewType === "default" ? (
@@ -470,7 +495,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
-
+            {selectedDateFilterType?.value==="Today"?// TODO: once eod report generation feature is enabled add the time of report generation based condition
+          <div><ReportNotFound errorType={"salesNotFound"} /></div>:<div>   
           <div className="todays-report-sales-overview-box-container-parent">
             <div className="total-sales-heading-container">
               <h2>Total sales Overview</h2>
@@ -762,7 +788,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               />
             </ErrorHandler>
           </div>
-          {/* </div> */}
+          </div>
+}
         </>
       ) : viewType === "discountOffer" ? (
         <>

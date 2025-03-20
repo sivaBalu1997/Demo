@@ -1,10 +1,18 @@
+// using module name util as folder name is ok in case of react but is not recommended
+//TODO: move contents of util to utils
 import { IncrementOrDecrementTypeEnum } from "interface/newReportsInterface";
 
-export function getRandomColor() {
+const countryCurrency:Record<string,string>={
+  "US":"$",
+  "IN":"₹"
+  //Add possible branch countruies here
+}
+
+function getRandomColor() {
   return '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 }
   
-  export function amountFormatter(amount: number|string, countryCode?: string) {
+ function amountFormatter(amount: number|string, countryCode?: string) {
     const currencySymbol = countryCode === "US" ? "$" : "₹";
     const amountToFormat=Number(amount||0)
     return `${currencySymbol}${amountToFormat.toFixed(2)}`;
@@ -12,7 +20,7 @@ export function getRandomColor() {
 
 
 
- export  const transformSalesData = (percent:string|number|null): IncrementOrDecrementTypeEnum => {
+  const transformSalesData = (percent:string|number|null): IncrementOrDecrementTypeEnum => {
   const percentType=IncrementOrDecrementTypeEnum.NULL
   if(!percent)return IncrementOrDecrementTypeEnum.NULL
   const percentVal=Number(percent)
@@ -22,13 +30,13 @@ export function getRandomColor() {
   return percentType
   };
 
-  export const roundNum=(num:string|number|null, round=2):string=>{
+ const roundNum=(num:string|number|null, round=2):string=>{
     return Number(num||0)?.toFixed(round)
 
   }
 
 
-export function formatNumberByCountry(
+ function formatNumberByCountry(
   input: string | number | null | undefined, 
   countryCode: 'US' | 'India'="US", 
   isMonetary: boolean = false
@@ -53,17 +61,17 @@ export function formatNumberByCountry(
 }
 
 
-export function maskPhone(phone: string): string {
+ function maskPhone(phone: string): string {
   if(!phone || phone === "-" || phone === "") return "-";
   const last4Digit = phone.slice(-4);
   return last4Digit ? "(XXX) XXX-" + last4Digit : "";
 }
 
-export function maskEmail(email: string): string {
+ function maskEmail(email: string): string {
   const [localPart, domain] = email.split('@');
   return '*'.repeat(localPart.length) + '@' + domain;
 }
-export function formatNumberByK(
+ function formatNumberByK(
   input: string | number | null | undefined
 ): string {
   if (input === null || input === undefined || input === "" || input === 0) {
@@ -88,4 +96,22 @@ export function formatNumberByK(
   }
 
   return formattedNumber;
+}
+
+function getCurrencySymbol(countryCode:string):string{
+  return countryCurrency?.[countryCode]?countryCurrency[countryCode]:""
+}
+
+// export all functions 
+export{
+  getRandomColor,
+  amountFormatter,
+  transformSalesData,
+  roundNum,
+  formatNumberByCountry,
+  maskPhone,
+  maskEmail,
+  formatNumberByK,
+  getCurrencySymbol
+  
 }

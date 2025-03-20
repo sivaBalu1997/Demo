@@ -109,21 +109,21 @@ const NewTable: React.FC<NewTableProps> = ({
     });
   }, [tableData, sortConfig]);
 
-  const filteredData = useMemo(() => {
-    if (!searchQuery) return sortedData;
-    return (
-      sortedData &&
-      sortedData?.filter((row) =>
-        Object.values(row).some((value) =>
-          String(value).toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      )
-    );
-  }, [sortedData, searchQuery]);
+  // const filteredData = useMemo(() => {
+  //   if (!searchQuery) return sortedData;
+  //   return (
+  //     sortedData &&
+  //     sortedData?.filter((row) =>
+  //       Object.values(row).some((value) =>
+  //         String(value).toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //     )
+  //   );
+  // }, [sortedData, searchQuery]);
 
   const paginatedData = useMemo(() => {
-    return filteredData;
-  }, [filteredData, currentPage, rowsPerPage]);
+    return sortedData;
+  }, [sortedData, currentPage, rowsPerPage]);
 
 
   const [showDownloadables, setShowDownloadables] = useState<boolean>(false);
@@ -325,26 +325,24 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
         </>
       )}
       <div className="table-wrapper">
-        {/* Case 1: No data available at all */}
-        {!tableLoader &&
+        {(!tableLoader &&
           !initialLoader &&
-          (!tableData || tableData?.length === 0) ? (
+          searchQuery && (!tableData || tableData?.length === 0))?
           <div className="no-results-container">
+          <NoResultsFoundStampIcon />
+          <p className="no-results-text">
+            No results found for "{searchQuery}"
+          </p>
+        </div>
+              :(
+                !tableLoader &&
+                !initialLoader &&(!tableData || tableData?.length === 0)) ? (
+                  <div className="no-results-container">
+                    {/* Case 1: No data available at all */}
             <NoOrdersFoundStampIcon />
             <p className="no-results-text">No Orders Found</p>
           </div>
-        ) : !tableLoader &&
-          !initialLoader &&
-          searchQuery &&
-          filteredData?.length === 0 ? (
-          /* Case 2: User searched but no matching results */
-          <div className="no-results-container">
-            <NoResultsFoundStampIcon />
-            <p className="no-results-text">
-              No results found for "{searchQuery}"
-            </p>
-          </div>
-        ) : (
+              ) : (
           /* Case 3: Display the table if data is available */
           <table>
             <thead>

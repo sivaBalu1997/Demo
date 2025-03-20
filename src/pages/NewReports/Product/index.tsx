@@ -22,7 +22,7 @@ const ProductReports: React.FC<ReportProps> = () => {
       const restaurantDetails = useSelector(    (state: RootState) => state?.auth?.restaurantDetails?.branch  );
         const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
           const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
-          const endtDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
+          const endDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
 
       
 
@@ -35,7 +35,7 @@ const ProductReports: React.FC<ReportProps> = () => {
         }, [selectedLocation]);    
           
       useEffect(() => {
-        if(!startDate ||!endtDate){
+        if(!startDate ||!endDate){
           dispatch(changeDateFilterType({
             label: "Today",
             value: "Today",
@@ -43,21 +43,28 @@ const ProductReports: React.FC<ReportProps> = () => {
           dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
           dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
         }
-      }, [startDate, endtDate])  
+      }, [startDate, endDate])  
     
-      useEffect(() => {
-        if (!selectedLocation?.value&&restaurantDetails?.length) {
-          const mappedIdWithBranchName = restaurantDetails?.map(
-            (branchWithId: any) => ({
-              value: branchWithId?.id,
-              label: branchWithId?.locationName,
-            })
-          );
-    
-          dispatch(storeLocationsList(mappedIdWithBranchName))
-          dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+
+  useEffect(() => {
+    let isLocationChanged=true
+    if (restaurantDetails?.length) {
+      const mappedIdWithBranchName = restaurantDetails?.map(
+        (branchWithId: any) => {
+          if(branchWithId?.id===selectedLocation?.value)isLocationChanged=false
+          return({
+          value: branchWithId?.id,
+          label: branchWithId?.locationName,
         }
-      }, [restaurantDetails, selectedLocation]);
+      )}
+      );
+
+      dispatch(storeLocationsList(mappedIdWithBranchName))
+      if(isLocationChanged){
+        dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+      }
+    }
+  }, [restaurantDetails, selectedLocation]);
     
   return (
     <>

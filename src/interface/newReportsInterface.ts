@@ -31,6 +31,7 @@ export interface NewTableHeader {
   isSortable?: boolean;
   isPrivate?: boolean;
   alignment?: "left" | "center" | "right";
+  prefix?: string;
 }
 
 export interface NewTableData {

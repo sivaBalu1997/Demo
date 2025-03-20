@@ -93,10 +93,6 @@ const ProductAvailability = () => {
     }
   }, [genericTableRecordLimit, currentPageGenericTable, searchQueryForGenericTable, selectedCategory])
 
-  useEffect(() => {
-    console.log({ availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData });
-
-  }, [availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData])
 
   const handleSwitch = (index: number) => {
     setActiveIndex(index);
@@ -159,17 +155,7 @@ const ProductAvailability = () => {
   };
 
 
-  const tooltipDataFromAPIOthers = availabilityByChannelsData?.reduce(
-    (acc: any, data: any) => {
-      acc[data.orderType] = {
-        tooltipContent: `Value: ${data.allItems}`,
-      };
-      return acc;
-    },
-    {}
-  );
-
-  // Custom Bar Style
+ // Custom Bar Style
   const customBarStyle = {
     borderRadius: "8px",
   };
