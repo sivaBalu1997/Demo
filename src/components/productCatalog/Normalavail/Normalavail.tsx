@@ -193,6 +193,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>(
       []
     );
+
     const [selectedValuesmealtype, setSelectedValuesMealType] =
       React.useState<SelectedValuesMealTypeState>([]);
 
@@ -346,6 +347,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }),
       });
 
+    const optionsselectthird = orderTypes
+      ?.filter(
+        (item: any) =>
+          item.typeGroup === "T" &&
+          (item.isEnabled === true || item.isEnabled === 1)
+      )
+      .map((item: any) => item.typeName);
+
+    // const optionsselectthird = ["GloriaFood", "GrubHub"]
+
     const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([
       {
         typeId: "",
@@ -428,11 +439,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
         setMealTypes({});
         setSelectedThirdValues([]);
-        setPriceInfo([
-          {
+        let thirdPartyData: any = []
+        optionsselectthird.forEach((name) => {
+          const data = {
             typeId: "",
             price: 0,
-            typeName: "",
+            typeName: name, 
             Enabled: true,
             typeGroup: "T",
             availabilities: [
@@ -446,8 +458,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(".")[0] ||
                 null,
             }),
-          },
-        ]);
+          }
+          thirdPartyData.push(data)
+      }
+    )
+        setPriceInfo([...thirdPartyData]);
         setDayDelivery([]);
         setShowDayDelivery(false);
       }
@@ -555,14 +570,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       // })
       ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
     };
-
-    const optionsselectthird = orderTypes
-      ?.filter(
-        (item: any) =>
-          item.typeGroup === "T" &&
-          (item.isEnabled === true || item.isEnabled === 1)
-      )
-      .map((item: any) => item.typeName);
 
     const thirdPartyData = orderTypes
       ?.filter((item: any) => item.typeGroup === "T")
@@ -1355,7 +1362,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       }
       setErrors(validationErrors);
     };
+
     const [thirdPartiesSelected, setThirdPartiesSelected] = useState(false);
+    
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
       setThirdPartiesSelected(true);
@@ -1373,16 +1382,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       validateDropdown(value, "ThirdDeliverySwiggyZomato");
 
       setPriceInfo(
-        dineinfields.map((dinein: any, index: number) => ({
+        value.map(() => ({
           typeId: "",
-          price: dinein?.DineInPrice || 0,
+          price: dineinfields[0]?.DineInPrice || 0,
           typeName: "",
-          Enabled: priceInfo[index].Enabled,
+          Enabled: 1,
           typeGroup: "T",
           availabilities: [
             {
               availabilityDays: [],
-              sessions: dinein?.DineInMealType || [],
+              sessions: dineinfields[0]?.DineInMealType || [],
             },
           ],
           ...(editData?.length && {
@@ -1395,11 +1404,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       );
     };
 
-    useEffect(() => {
-      priceInfo.map((item, index) => {
-        return validateThridPrice(index, item.price, item.Enabled);
-      });
-    }, [priceInfo]);
+    // useEffect(() => {
+    //   priceInfo.map((item, index) => {
+    //     return validateThridPrice(index, item.price, item.Enabled);
+    //   });
+    // }, [priceInfo]);
+
     const clearSelection = () => {
       setMealTypes({});
       setPriceInfo([
@@ -2616,7 +2626,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                         );
                                         validateThridPrice(
                                           index,
-                                          updatedData[0].price,
+                                          updatedData[index]?.price,
                                           priceInfo[index]?.Enabled
                                         );
                                         setPriceInfo(updatedData);
