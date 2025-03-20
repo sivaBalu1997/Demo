@@ -233,9 +233,8 @@ export function* salesSummaryRequestSaga(action) {
         const response = yield call(getSalesSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            // console.log("response of salesSummaryRequestSaga", { decryptedData });
             yield put(salesSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
+            // showSuccessToast(decryptedData?.message);
         } else {
             yield put(salesSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);

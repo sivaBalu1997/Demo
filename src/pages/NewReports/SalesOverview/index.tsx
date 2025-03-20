@@ -495,7 +495,7 @@ console.log({
             dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
-            {selectedDateFilterType?.value==="Today"?// TODO: once eod report generation feature is enabled add the time of report generation based condition
+            {salesSummary?.status==="204"?
           <div><ReportNotFound errorType={"salesNotFound"} /></div>:<div>   
           <div className="todays-report-sales-overview-box-container-parent">
             <div className="total-sales-heading-container">

@@ -11,7 +11,7 @@ import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, getRestaurantRequestFromNewReports, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
-import { getRestaurantRequest } from "redux/auth/authActions";
+// import { getRestaurantRequest } from "redux/auth/authActions";
 
 const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
