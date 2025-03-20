@@ -39,6 +39,9 @@ import {
   RESET_EMPLOYEE_ACTION_COMPLETED,
   REFRESH_PIN_REQUEST,
   GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_SUCCESS,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,
 } from "./employeeContants";
 
 // Get Outlet
@@ -202,6 +205,21 @@ export const getEmployeeByIdSuccess = (details) => ({
 
 export const getEmployeeByIdFailure = (details) => ({
   type: GET_EMPLOYEE_BY_ID_FAILURE,
+  payload: details
+});
+
+export const getEmployeePermissionsRequest = (requestData) => ({
+  type: GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,
+  payload: requestData
+});
+
+export const getEmployeePermissionsSuccess = (details) => ({
+  type: GET_EMPLOYEE_PERMISSIONS_BY_ID_SUCCESS,
+  payload: details
+});
+
+export const getEmployeePermissionsFailure = (details) => ({
+  type: GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,
   payload: details
 });
 

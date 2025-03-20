@@ -53,6 +53,8 @@ import {
   GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
   GET_EMPLOYEE_ROLE_BY_ID_FAILURE,
   GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,
+  GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,
 } from "./employeeContants";
 import { decryptJson } from "../../util/react-ec-utils";
 import { showErrorToast, showSuccessToast } from "../../util/toastUtils";
@@ -172,6 +174,30 @@ function* getEmployeeRolesByIdSaga(action:EmployeeAction): Generator<any, void, 
       requestData.sagaCallBack();
     }
     yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
+  }
+}
+
+function* getEmployeePermissionsByIdSaga(action:EmployeeAction): Generator<any, void, any> {
+  const requestData = action.payload  
+  try {
+    const response = yield call(getEmployeeRoleById, requestData?.staffId)
+    if(response.status === 200) {
+     // const employeeRoleFunction = decryptJson(response.data.data)
+     
+      yield put(yield put({type: GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,payload: response.data}));
+    }else {
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(yield put({type: GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,payload: errorMessage}));
+    }
+    if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
+      requestData.sagaCallBack();
+    }
+  } catch (err) {
+    if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
+      requestData.sagaCallBack();
+    }
+    yield put(yield put({type: GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,payload: ''}));
   }
 }
 
@@ -295,6 +321,7 @@ export default function* employeeSaga() {
   yield takeLatest(UPDATE_EMPLOYEE_PIN_REQUEST, updateEmployeePINSaga);
   yield takeLatest(GET_EMPLOYEE_BY_ID_REQUEST, getEmployeeByIdSaga);
   yield takeLatest(GET_EMPLOYEE_ROLE_BY_ID_REQUEST,getEmployeeRolesByIdSaga)
+  yield takeLatest(GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,getEmployeePermissionsByIdSaga)
   yield takeLatest(ROLES_REQUEST, getEmployeeRolesSaga);
   yield takeLatest(EMPLOYEE_STATUS_REQUEST, employeeSatusSaga);
   yield takeLatest(UPDATE_EMPLOYEE_REQUEST, updateEmployeeSaga);
