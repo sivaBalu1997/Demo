@@ -15,6 +15,7 @@ import { RootState } from "redux/rootReducer";
 import { getRestaurantRequest, signOut } from "redux/auth/authActions";
 import { useHistory, useLocation } from "react-router";
 import { clearMenuData } from "redux/menu/menuAction";
+import { clearPermissionsData } from "redux/employee/employeeActions";
 
 interface SidePanelMobProps {
   handleClose: () => void;
@@ -116,6 +117,7 @@ const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
   }
 
   const logoutUser = () => {
+    dispatch(clearPermissionsData())
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());

@@ -10,7 +10,6 @@ import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import { productAvailabilityByChannelsDetailsRequest, productAvailabilityByChannelsRequest, productAvailabilityDropdownRequest } from 'redux/productReports/productReportsActions';
 
-// r-arrow-left.svg
 
 const ProductAvailability = () => {
 

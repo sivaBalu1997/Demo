@@ -42,6 +42,7 @@ import {
   GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,
   GET_EMPLOYEE_PERMISSIONS_BY_ID_SUCCESS,
   GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,
+  CLEAR_PERMISSIONS_DATA,
 } from "./employeeContants";
 
 // Get Outlet
@@ -223,6 +224,10 @@ export const getEmployeePermissionsFailure = (details) => ({
   payload: details
 });
 
+
+export const clearPermissionsData = () => ({
+  type: CLEAR_PERMISSIONS_DATA,
+});
 
 //Roles and Functions
 export const getEmployeeRoles = () => ({

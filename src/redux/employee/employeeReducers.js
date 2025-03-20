@@ -47,6 +47,7 @@ import {
   GET_EMPLOYEE_PERMISSIONS_BY_ID_REQUEST,
   GET_EMPLOYEE_PERMISSIONS_BY_ID_SUCCESS,
   GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE,
+  CLEAR_PERMISSIONS_DATA,
 } from "../employee/employeeContants";
 import { SIGNOUT } from "../auth/authConstants";
 
@@ -116,7 +117,10 @@ const initialEmployeeState = {
   isGettingNewPin:false,
 
   rolesAndFunctions:[],
-  roleFunctionFetching:false
+  roleFunctionFetching:false,
+
+  permissionsLoading:false,
+  permissions:[],
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
@@ -425,6 +429,10 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case GET_EMPLOYEE_PERMISSIONS_BY_ID_FAILURE:
         draft.permissions=[];
         draft.permissionsLoading = false;
+        break;
+
+      case CLEAR_PERMISSIONS_DATA:
+        draft.permissions=[];
         break;
 
       default:

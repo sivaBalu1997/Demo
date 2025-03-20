@@ -61,7 +61,7 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
             return "";
           },
           label: (tooltipItem: any) => {
-            console.log({tooltipItem});
+            // console.log({tooltipItem});
             
             const dataPoint = tooltipItem.raw;
             return [

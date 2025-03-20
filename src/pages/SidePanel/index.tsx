@@ -33,15 +33,28 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanelMob from "components/reportComponents/SiePanelMob";
 import { showErrorToast } from "util/toastUtils";
+import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/employee/employeeActions";
 
 const SidePanel = () => {
-    // const permissions = useSelector((state:any) => state.employee.permissions)
-//     const isReportAccessible = useMemo(() => 
-//       permissions?.find((item: any) => item?.module === "REPORTS" && item?.funtions?.includes("Access Report")), 
-//   [permissions]
-// );
+
+  const dispatch = useDispatch();
+  
+    const permissions = useSelector((state:any) => state.employee.permissions)
+    const isReportAccessible = useMemo(() => 
+      permissions?.find((item: any) => item?.module === "REPORTS" && item?.funtions?.includes("Access Report")), 
+  [permissions]
+);
   // console.log({ isReportAccessible,permissions });
-  const isReportAccessible=true
+
+  useEffect(() => {
+    // console.log("isReportAccessible", isReportAccessible);
+
+    if(!permissions?.length){
+      const staff:any=localStorage?.getItem("CREDENTIALS")
+      const staffId=JSON.parse(staff)?.id  
+      dispatch(getEmployeePermissionsRequest({staffId : staffId}))
+    }
+  },[permissions])
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const location = useLocation();
@@ -244,6 +257,7 @@ const reportInsightsOptions = [
   };
 
   const logoutUser = () => {
+    dispatch(clearPermissionsData())
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());

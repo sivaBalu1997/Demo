@@ -194,28 +194,29 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
-useEffect(()=>{
-console.log({
-  tendorTypes,
-  salesSummary,
-  staffSalesData,
-  salesCardTypeData,
-  discountSummary,
-  cancellationSummary,
-  salesByChannel,
-  salesByRevenueClass,
-  offerSummary,
-  voidedOrderSummary
-})
-},[tendorTypes,salesSummary,staffSalesData,
-  salesCardTypeData,
-  discountSummary,
-  cancellationSummary,
-  salesByChannel,
-  salesByRevenueClass,
-  offerSummary,
-  voidedOrderSummary
-])
+  
+// useEffect(()=>{
+// console.log({
+//   tendorTypes,
+//   salesSummary,
+//   staffSalesData,
+//   salesCardTypeData,
+//   discountSummary,
+//   cancellationSummary,
+//   salesByChannel,
+//   salesByRevenueClass,
+//   offerSummary,
+//   voidedOrderSummary
+// })
+// },[tendorTypes,salesSummary,staffSalesData,
+//   salesCardTypeData,
+//   discountSummary,
+//   cancellationSummary,
+//   salesByChannel,
+//   salesByRevenueClass,
+//   offerSummary,
+//   voidedOrderSummary
+// ])
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
