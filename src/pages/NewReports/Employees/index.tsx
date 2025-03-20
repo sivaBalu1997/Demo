@@ -869,18 +869,18 @@ const Employees: React.FC = () => {
               <CardWithMiniGraph
                 cardTitle="Cancelled"
                 cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.cancelledOrders,
+                  employeeSalesOverViewFromAPIRedux?.cancelledAmt,
                   countryCode,
                   true
                 )}
                 isMonetary={true}
                 loader={employeeSalesOverViewFromAPIReduxLoader}
                 incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.cancelledPercentage
+                  employeeSalesOverViewFromAPIRedux?.cancelledAmtPercentage
                 }
                 graphType="arrow"
                 incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.cancelledPercentage
+                  employeeSalesOverViewFromAPIRedux?.cancelledAmtPercentage
                 )}
                 showMiniGraph={true}
               />
