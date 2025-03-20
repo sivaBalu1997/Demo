@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {
     billedRequest,
@@ -12,7 +12,7 @@ import {
     unBilledRequest,
 } from 'redux/newReports/newReportsActions';
 import { NewTableHeader } from 'interface/newReportsInterface';
-import { formatNumberByCountry } from 'utils';
+import { formatNumberByCountry, getCurrencySymbol } from 'utils';
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import moment from 'moment';
@@ -30,11 +30,9 @@ const TodaysReport: React.FC = () => {
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
 
     const [currentDate, setCurrentDate] = useState('');
-    const [selectedOptionStore, setSelectedOptionStore] = useState("Sales");
     const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
     const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
     const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
-    const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(textOne);
     const [liveOrdersSearchQuery, setLiveOrdersSearchQuery] = useState('')
     const [liveOrdersPageLimit, setLiveOrdersPageLimit] = useState<number>(10)
     const [liveOrderNonDineInSearchQuery, setLiveOrderNonDineInSearchQuery] = useState('')
@@ -55,29 +53,7 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
-    const currencySymbol = countryCode === "US" ? "$" : "₹";
-
-    console.log("FFFFFFFFFFF", { countryCode }, { currencySymbol })
-
-    const liveOrdersDineIn = liveOrdersAPIRedux?.map((toBeMapped: any) => ({
-        orderNumber: toBeMapped?.orderNumber,
-        tableName: toBeMapped?.tableName,
-        orderDate: toBeMapped?.orderDate,
-        orderTime: toBeMapped?.orderTime,
-        tableOccupancyDuration: toBeMapped?.tableOccupancyDuration,
-        orderAmount: `${currencySymbol}${toBeMapped?.orderAmount}`,
-    }))
-
-    const liveNonDineOrder = liveOrderNonDineInAPIRedux?.map((toBeMapped: any) => ({
-        orderNumber: toBeMapped?.orderNumber,
-        orderChannel: toBeMapped?.orderChannel,
-        orderType: toBeMapped?.orderType,
-        timeElapsed: toBeMapped?.timeElapsed,
-        orderStatus: toBeMapped?.orderStatus,
-        customerName: toBeMapped?.customerName,
-        customerNumber: toBeMapped?.customerNumber,
-        orderTotal: `${currencySymbol}${toBeMapped?.orderTotal}`,
-    }))
+     const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
         { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'left' },
@@ -87,7 +63,7 @@ const TodaysReport: React.FC = () => {
         { key: 'orderStatus', label: 'Order Status', isSortable: false, alignment: 'left' },
         { key: 'customerName', label: 'Customer Name', isSortable: true, alignment: 'left' },
         { key: 'customerNumber', label: 'Customer Number', isSortable: true, isPrivate: true, alignment: 'left' },
-        { key: 'orderTotal', label: `Order Total`, isSortable: true, alignment: 'right' },
+        { key: 'orderTotal', label: `Order Total`, isSortable: true, alignment: 'right', prefix:currencySymbol },
         // { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
         // { key: 'requestedEta', label: 'Requested ETA', isSortable: true, alignment: 'left' },
     ];
@@ -99,7 +75,7 @@ const TodaysReport: React.FC = () => {
         { key: 'orderDate', label: 'Order date', isSortable: true, alignment: 'left' },
         { key: 'orderTime', label: 'Order time', isSortable: true, alignment: 'left' },
         { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
-        { key: 'orderAmount', label: `Order amount`, isSortable: true, alignment: 'right' },
+        { key: 'orderAmount', label: `Order amount`, isSortable: true, alignment: 'right', prefix:currencySymbol },
     ];
 
     const cardWithMiniGraphData = [
@@ -117,7 +93,7 @@ const TodaysReport: React.FC = () => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
         currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
-    }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery])
+    }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery,])
 
 
     useEffect(() => {
@@ -126,22 +102,21 @@ const TodaysReport: React.FC = () => {
         currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
     }, [selectedLocation, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
 
-    useEffect(() => {
+    useEffect(() => { 
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(billedRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'completed' }))
+        currentDate && dispatch(billedRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'completed' }))        
     }, [currentDate, selectedLocation])
 
     useEffect(() => {
-        const formattedDate = moment().format('YYYY-MM-DD');
-        setCurrentDate(formattedDate);
-        currentDate && dispatch(unBilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'notcompleted' }))
+                 const formattedDate = moment().format('YYYY-MM-DD');
+            setCurrentDate(formattedDate);
+            currentDate && dispatch(unBilledRequest({ locationid: selectedLocation?.value, startDate: currentDate, type: 'notcompleted' }))    
     }, [currentDate, selectedLocation])
 
 
     const handleToggleSwitch = () => {
         setIsSwitchActive((prev) => !prev)
-        setActiveTextForSwitchableBox((prev) => (prev === textOne ? textTwo : textOne));
     }
 
 
@@ -171,8 +146,6 @@ const TodaysReport: React.FC = () => {
         setCurrentPageLiveOrders(1);
         setCurrentPageLiveOrdersNonDineIn(1);
         setIsSwitchActive(false);
-        setActiveTextForSwitchableBox(textOne);
-        setSelectedOptionStore("Sales");
 
         dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }));
         dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }));
@@ -244,14 +217,14 @@ const TodaysReport: React.FC = () => {
                     kpiTitle="Live Dine-in orders"
                     searchQuery={liveOrdersSearchQuery}
                     headerData={liveOrdersDineInTableHeaders}
-                    tableData={liveOrdersDineIn && liveOrdersDineIn?.length > 0 && liveOrdersDineIn}
+                    tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 && liveOrdersAPIRedux}
                     currentPage={currentPageLiveOrders}
                     totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
                     onPageChange={setCurrentPageLiveOrders}
                     rowsPerPage={liveOrdersPageLimit}
                     setRowsPerPage={setLiveOrdersPageLimit}
                     loader={liveOrdersLoading}
-                    count={liveOrdersDineIn?.length}
+                    count={liveOrdersAPIRedux?.length}
                     searchPlaceHolder="Search by order number, table name"
                     onSearch={handleSearch}
                     totalElements={liveOrdersAPIReduxTotalElements}
@@ -260,14 +233,14 @@ const TodaysReport: React.FC = () => {
                     kpiTitle="Live Off-Premise orders"
                     searchQuery={liveOrderNonDineInSearchQuery}
                     headerData={liveOrderNonDineInTableHeaders}
-                    tableData={liveNonDineOrder && liveNonDineOrder?.length > 0 && liveNonDineOrder}
+                    tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 && liveOrderNonDineInAPIRedux}
                     currentPage={currentPageLiveOrdersNonDineIn}
                     totalPages={liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1}
                     onPageChange={setCurrentPageLiveOrdersNonDineIn}
                     rowsPerPage={liveOrderNonDineInPageLimit}
                     setRowsPerPage={setLiveOrderNonDineInPageLimit}
                     loader={liveOrderNonDineInLoading}
-                    count={liveNonDineOrder?.length}
+                    count={liveOrderNonDineInAPIRedux?.length}
                     searchPlaceHolder="Search by order number, customer name"
                     onSearch={handleSearch}
                     totalElements={liveOrderNonDineInAPIReduxTotalElements}

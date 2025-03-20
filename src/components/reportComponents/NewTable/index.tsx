@@ -13,13 +13,13 @@ import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-ico
 import { NewTableProps } from "interface/newReportsInterface";
 import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
 import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
-import { maskPhone } from 'utils';
+import { maskPhone } from "utils";
 import ReactPaginate from "react-paginate";
 import TableShimmer from "./NewShimmerTable";
 import DownloadReport from "../DownloadReports";
 import TableDateDropdown from "../TableDateDropdown";
 import "jspdf-autotable";
-import './style.scss';
+import "./style.scss";
 import CustomDropdown from "components/common/customDropdown";
 
 interface SortConfig {
@@ -48,7 +48,7 @@ const NewTable: React.FC<NewTableProps> = ({
   onSearch,
   showDateDropDown = false,
   selectedDate,
-  onDateSelect = () => { },
+  onDateSelect = () => {},
   showTableHeader = true,
   showPagination = true,
   rowNoWrap = false,
@@ -71,7 +71,7 @@ const NewTable: React.FC<NewTableProps> = ({
   const toggleVisibility = (rowIndex: number) => {
     setVisibility((prev: any) => ({
       ...prev,
-      [rowIndex]: !prev[rowIndex]
+      [rowIndex]: !prev[rowIndex],
     }));
   };
 
@@ -109,22 +109,21 @@ const NewTable: React.FC<NewTableProps> = ({
     });
   }, [tableData, sortConfig]);
 
-  const filteredData = useMemo(() => {
-    if (!searchQuery) return sortedData;
-    return (
-      sortedData &&
-      sortedData?.filter((row) =>
-        Object.values(row).some((value) =>
-          String(value).toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      )
-    );
-  }, [sortedData, searchQuery]);
+  // const filteredData = useMemo(() => {
+  //   if (!searchQuery) return sortedData;
+  //   return (
+  //     sortedData &&
+  //     sortedData?.filter((row) =>
+  //       Object.values(row).some((value) =>
+  //         String(value).toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //     )
+  //   );
+  // }, [sortedData, searchQuery]);
 
   const paginatedData = useMemo(() => {
-    return filteredData;
-  }, [filteredData, currentPage, rowsPerPage]);
-
+    return sortedData;
+  }, [sortedData, currentPage, rowsPerPage]);
 
   const [showDownloadables, setShowDownloadables] = useState<boolean>(false);
 
@@ -158,28 +157,32 @@ const NewTable: React.FC<NewTableProps> = ({
     setSearchFlag(true);
   };
 
-  const getOrderChannelIcons = (rowvalue: string) => {
-    if (rowvalue === "Walkin") {
-      return <WalkinIcon />;
-    } else if (rowvalue === "Delivery") {
-      return <DeliveryIcon />;
-    } else if (rowvalue === "Pick-up") {
-      return <PickUpIcon />;
-    } else if (rowvalue === "GrubHub") {
-      return <GrubhubIcon />;
+  const getOrderChannelIcons = (rowvalue: string, headerKey?: string) => {
+    if (headerKey != "orderType") {
+      if (rowvalue === "Walkin" || rowvalue === "Instore") {
+        return <WalkinIcon />;
+      } else if (rowvalue === "Delivery") {
+        return <DeliveryIcon />;
+      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup") {
+        return <PickUpIcon />;
+      } else if (rowvalue === "Grubhub") {
+        return <GrubhubIcon />;
+      }
     }
   };
-
 
   const getDynamicClassNames = (rowvalue: string, headerValue: string) => {
     if (headerValue === "Order Status") {
       if (rowvalue === "In Queue") {
         return " bubble bubble-text-blue-one";
-      } else if (rowvalue === "Accepted") {
+      } else if (rowvalue === "Accepted" || rowvalue === "Order placed") {
         return " bubble bubble-text-blue-two";
-      } else if (rowvalue === "In Progress") {
+      } else if (
+        rowvalue === "In Progress" ||
+        rowvalue === "Pre Order Placed"
+      ) {
         return " bubble bubble-text-orange-one";
-      } else if (rowvalue === "KOT Ready") {
+      } else if (rowvalue === "KOT Ready" || rowvalue === "Order in prep") {
         return " bubble bubble-text-brown-one";
       } else if (rowvalue === "Order Ready") {
         return " bubble bubble-text-green-one";
@@ -195,24 +198,35 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-blue-one";
       } else if (rowvalue === "assigned") {
         return " bubble bubble-text-blue-two";
-      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled" || rowvalue === "Unavailable") {
+      } else if (
+        rowvalue === "Cancelled" ||
+        rowvalue === "cancelled" ||
+        rowvalue === "Unavailable"
+      ) {
         return " bubble bubble-text-orange-one";
       } else if (rowvalue === "LateShow" || rowvalue === "lateShow") {
         return " bubble bubble-text-brown-one";
-      } else if (rowvalue === "Completed" || rowvalue === "completed"|| rowvalue === "Available") {
+      } else if (
+        rowvalue === "Completed" ||
+        rowvalue === "completed" ||
+        rowvalue === "Available"
+      ) {
         return " bubble bubble-text-green-one";
       } else if (rowvalue === "seated") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
         return " bubble bubble-text-violet-one";
       }
-
     }
   };
-const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomDateDropdown: string) => {
-  onDateSelect(from, to, kpiTitleForCustomDateDropdown);
-  setSearchFlag(true);
-}
+  const handleDateSelect = (
+    from: string | null,
+    to: string | null,
+    kpiTitleForCustomDateDropdown: string
+  ) => {
+    onDateSelect(from, to, kpiTitleForCustomDateDropdown);
+    setSearchFlag(true);
+  };
   return initialLoader ? (
     <TableShimmer />
   ) : (
@@ -226,27 +240,30 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
               {!!count && <p className="table-title-count">{totalElements}</p>}
             </div>
             <div className="table-header-position">
-
               {showDateDropDown && (
                 <div className="table-date-dropdown-container">
-                  {isCustomOption?
-                        <CustomDropdown
-                        value={selectedOption}
-                        options={optionList||[]}
-                        onSelect={setOptions}
-                        placeholder="Select Option"
-                        className="table-date-dropdown"
-                        disabled={false}
-                        // controlClassName="dropdown-control"
-                      />
-                  :
-                  <TableDateDropdown
-                  kpiTitleForCustomDateDropdown={kpiTitle}
-                    onDateSelect={(from, to, kpiTitleForCustomDateDropdown) =>
-                      handleDateSelect(from, to, kpiTitleForCustomDateDropdown)
-                    }
-                  />
-                }
+                  {isCustomOption ? (
+                    <CustomDropdown
+                      value={selectedOption}
+                      options={optionList || []}
+                      onSelect={setOptions}
+                      placeholder="Select Option"
+                      className="table-date-dropdown"
+                      disabled={false}
+                      // controlClassName="dropdown-control"
+                    />
+                  ) : (
+                    <TableDateDropdown
+                      kpiTitleForCustomDateDropdown={kpiTitle}
+                      onDateSelect={(from, to, kpiTitleForCustomDateDropdown) =>
+                        handleDateSelect(
+                          from,
+                          to,
+                          kpiTitleForCustomDateDropdown
+                        )
+                      }
+                    />
+                  )}
                 </div>
               )}
 
@@ -262,10 +279,12 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                     onChange={handleInputChange}
                     className="search-input"
                   />
-                  {searchQuery?.length > 0 && <ClearSearchIcon
-                    className="clear-search-icon"
-                    onClick={() => onSearch("", kpiTitle)}
-                  />}
+                  {searchQuery?.length > 0 && (
+                    <ClearSearchIcon
+                      className="clear-search-icon"
+                      onClick={() => onSearch("", kpiTitle)}
+                    />
+                  )}
                 </div>
                 {tableData && headerData && (
                   <DownloadReport
@@ -325,24 +344,23 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
         </>
       )}
       <div className="table-wrapper">
-        {/* Case 1: No data available at all */}
         {!tableLoader &&
-          !initialLoader &&
-          (!tableData || tableData?.length === 0) ? (
-          <div className="no-results-container">
-            <NoOrdersFoundStampIcon />
-            <p className="no-results-text">No Orders Found</p>
-          </div>
-        ) : !tableLoader &&
-          !initialLoader &&
-          searchQuery &&
-          filteredData?.length === 0 ? (
-          /* Case 2: User searched but no matching results */
+        !initialLoader &&
+        searchQuery &&
+        (!tableData || tableData?.length === 0) ? (
           <div className="no-results-container">
             <NoResultsFoundStampIcon />
             <p className="no-results-text">
               No results found for "{searchQuery}"
             </p>
+          </div>
+        ) : !tableLoader &&
+          !initialLoader &&
+          (!tableData || tableData?.length === 0) ? (
+          <div className="no-results-container">
+            {/* Case 1: No data available at all */}
+            <NoOrdersFoundStampIcon />
+            <p className="no-results-text">No Orders Found</p>
           </div>
         ) : (
           /* Case 3: Display the table if data is available */
@@ -368,15 +386,26 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                       <span>{header?.label}</span>
                       {header?.isSortable && (
                         <SortIcon
-                          className={`sort-icon ${sortConfig?.key === header?.key
+                          className={`sort-icon ${
+                            sortConfig?.key === header?.key
                               ? sortConfig?.direction
                               : ""
-                            }`}
+                          }`}
                         />
                       )}
                       {header?.isPrivate && (
                         <span onClick={() => toggleVisibility(header.key)}>
-                          {visibility[header.key] ? <OpenEyeIcon className={`sort-icon`} style={{cursor: "pointer"}}/> : <CloseEyeIcon className={`sort-icon `} style={{cursor: "pointer"}}/>}
+                          {visibility[header.key] ? (
+                            <OpenEyeIcon
+                              className={`sort-icon`}
+                              style={{ cursor: "pointer" }}
+                            />
+                          ) : (
+                            <CloseEyeIcon
+                              className={`sort-icon `}
+                              style={{ cursor: "pointer" }}
+                            />
+                          )}
                         </span>
                       )}
                     </div>
@@ -387,52 +416,64 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
             <tbody>
               {tableLoader
                 ? // Shimmer Effect for Table Rows (only when search, pagination, row-limit changes)
-                [...Array(rowsPerPage)].map((_, index) => (
-                  <tr key={index} className="skeleton-row">
-                    {headerData.map((header: any, i: any) => (
-                      <td key={i}>
-                        <div className="skeleton-box"></div>
-                      </td>
-                    ))}
-                  </tr>
-                ))
-                : // Actual Data Rendering
-                paginatedData?.map((row, index) => {
-                  const rowStyle: any = {};
-                  if (rowNoWrap) {
-                    rowStyle.textWrap = "nowrap";
-                  }
-                  return (
-                    <tr key={index} style={rowStyle}>
-                      {headerData?.map((header: any) => {
-                        const styles: any = {
-                          textAlign: header?.alignment || "left",
-                        };
-                        if (row?.color) {
-                          styles.color = row?.color;
-                        }
-                        return (
-                          <td key={header?.key} style={styles}>
-                            <p
-                              className={getDynamicClassNames(
-                                row[header?.key],
-                                header?.label
-                              )}
-                            >
-                              {showIcons ? getOrderChannelIcons(row[header?.key]) : ""}{header?.prefix||""}{header?.isPrivate ? (visibility[header.key] ? row[header?.key] : maskPhone(row[header?.key])) : row[header?.key]} 
-                            </p>
-                          </td>
-                        );
-                      })}
+                  [...Array(rowsPerPage)].map((_, index) => (
+                    <tr key={index} className="skeleton-row">
+                      {headerData.map((header: any, i: any) => (
+                        <td key={i}>
+                          <div className="skeleton-box"></div>
+                        </td>
+                      ))}
                     </tr>
-                  );
-                })}
+                  ))
+                : // Actual Data Rendering
+                  paginatedData?.map((row, index) => {
+                    const rowStyle: any = {};
+                    if (rowNoWrap) {
+                      rowStyle.textWrap = "nowrap";
+                    }
+                    return (
+                      <tr key={index} style={rowStyle}>
+                        {headerData?.map((header: any) => {
+                          const styles: any = {
+                            textAlign: header?.alignment || "left",
+                          };
+                          if (row?.color) {
+                            styles.color = row?.color;
+                          }
+                          return (
+                            <td key={header?.key} style={styles}>
+                              <div
+                                className={getDynamicClassNames(
+                                  row[header?.key],
+                                  header?.label
+                                )}
+                              >
+                                {showIcons
+                                  ? getOrderChannelIcons(
+                                      row[header?.key],
+                                      header?.key
+                                    )
+                                  : ""}
+                                {header?.prefix || ""}
+                                {header?.isPrivate
+                                  ? visibility[header.key]
+                                    ? row[header?.key]
+                                    : maskPhone(row[header?.key])
+                                  : row[header?.key]}
+                              </div>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
         )}
       </div>
 
-      {tableData && tableData?.length !== 0 &&
+      {tableData &&
+        tableData?.length !== 0 &&
         setRowsPerPage &&
         showPagination &&
         currentPage !== undefined &&
@@ -450,8 +491,9 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                     {[10, 20, 30]?.map((num) => (
                       <button
                         key={num}
-                        className={`option ${rowsPerPage === num ? "selected" : ""
-                          }`}
+                        className={`option ${
+                          rowsPerPage === num ? "selected" : ""
+                        }`}
                         onClick={() => setRowsPerPage(num)}
                       >
                         {num}
@@ -459,7 +501,9 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                     ))}
                   </div>
                 </div>
-                <span className="total-elements">{currentPage}-{rowsPerPage} of {totalElements}</span>
+                <span className="total-elements">
+                  {currentPage}-{rowsPerPage} of {totalElements}
+                </span>
               </div>
             )}
             <ReactPaginate
@@ -470,12 +514,16 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
                 </button>
               }
               pageLabelBuilder={(page: number) => (
-                <button className={`${page == currentPage ? "active" : ""} pagination-number-button`}>
+                <button
+                  className={`${
+                    page == currentPage ? "active" : ""
+                  } pagination-number-button`}
+                >
                   {page}
-                </button>)
-              }
+                </button>
+              )}
               onPageChange={(event: { selected: number }) => {
-                onPageChange(event.selected + 1)
+                onPageChange(event.selected + 1);
               }}
               pageCount={totalPages}
               previousLabel={
@@ -494,8 +542,8 @@ const handleDateSelect = (from: string|null, to: string|null, kpiTitleForCustomD
             />
           </div>
         )}
-    </div >
-  )
+    </div>
+  );
 };
 
 export default NewTable;

@@ -10,7 +10,6 @@ import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
 import { productAvailabilityByChannelsDetailsRequest, productAvailabilityByChannelsRequest, productAvailabilityDropdownRequest } from 'redux/productReports/productReportsActions';
 
-// r-arrow-left.svg
 
 const ProductAvailability = () => {
 
@@ -93,10 +92,6 @@ const ProductAvailability = () => {
     }
   }, [genericTableRecordLimit, currentPageGenericTable, searchQueryForGenericTable, selectedCategory])
 
-  // useEffect(() => {
-  //   console.log({ availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData });
-
-  // }, [availabilityByChannelsData, availabilityByChannelsDetailsData, availabilityDropdownData])
 
   const handleSwitch = (index: number) => {
     setActiveIndex(index);
@@ -159,17 +154,7 @@ const ProductAvailability = () => {
   };
 
 
-  const tooltipDataFromAPIOthers = availabilityByChannelsData?.reduce(
-    (acc: any, data: any) => {
-      acc[data.orderType] = {
-        tooltipContent: `Value: ${data.allItems}`,
-      };
-      return acc;
-    },
-    {}
-  );
-
-  // Custom Bar Style
+ // Custom Bar Style
   const customBarStyle = {
     borderRadius: "8px",
   };

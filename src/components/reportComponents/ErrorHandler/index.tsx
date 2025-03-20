@@ -1,6 +1,5 @@
 import React from "react";
 import ReportNotFound from "../ReportsNotFound";
-import ErrorState from "../errorstatecomponents/ErrorState";
 
 interface ErrorHandlerProps {
   children: React.ReactNode;

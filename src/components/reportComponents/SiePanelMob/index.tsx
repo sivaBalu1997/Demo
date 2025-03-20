@@ -7,19 +7,21 @@ import { ReactComponent as Downarrow } from "../../../assets/svg/down_arrow.svg"
 import { ReactComponent as Offer } from "../../../assets/svg/offer.svg";
 import { ReactComponent as CloseIcon } from "../../../assets/svg/close.svg";
 import { ReactComponent as LogoutIcon } from "../../../assets/svg/LogoutIcon.svg";
-import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 
-import styles from "./SidePannelMob.module.scss";
+import styles from "./SidePanelMob.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { STORAGE_BUCKET_URL } from "shared/constants";
 import { RootState } from "redux/rootReducer";
 import { getRestaurantRequest, signOut } from "redux/auth/authActions";
 import { useHistory, useLocation } from "react-router";
 import { clearMenuData } from "redux/menu/menuAction";
-import path from "path";
+import { clearPermissionsData } from "redux/employee/employeeActions";
 
-interface SidePannelMobProps {
+interface SidePanelMobProps {
   handleClose: () => void;
+  roles?:{
+    reports:boolean
+  }
 }
 
 const parentPaths: Record<string, string[]> = {
@@ -30,27 +32,31 @@ const parentPaths: Record<string, string[]> = {
 }
 
 
-const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
+const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
   const menuOptions = [
     {
       name: "Employees",
       path: "/employees",
       icon: <EmployeesIcon className={styles.menuIcon} />,
+      hasAccess:true
     },
     {
       name: "Product Catalog",
       path: "/productCatalog/menuListing",
       icon: <Tableware className={styles.menuIcon} />,
       // onClick: (dispatch: any) => dispatch(removeDataRequest()),
+      hasAccess:true
     },
     {
       name: "Offer Management",
       icon: <Offer className={styles.menuIcon} />,
       submenu: [{ name: "Special Price", path: "/Offers/active" }],
+      hasAccess:true
     },
     {
       name: "Reports & Insights",
       icon: <Stats className={styles.menuIcon} />,
+      hasAccess:true,
       submenu: [
         { name: "Reports & Insights", path: "/old-reports" },
         // { name: "Chart JS", path: "/live-reports" },
@@ -64,6 +70,7 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
       name: "Log Out",
       icon: <LogoutIcon className={styles.menuIcon} />,
       path: "",
+      hasAccess:true,
       onClick: () => logoutUser(),
     }
   ];
@@ -110,6 +117,7 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
   }
 
   const logoutUser = () => {
+    dispatch(clearPermissionsData())
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());
@@ -166,4 +174,4 @@ const SidePannelMob = ({ handleClose }: SidePannelMobProps) => {
   );
 };
 
-export default SidePannelMob;
+export default SidePanelMob;

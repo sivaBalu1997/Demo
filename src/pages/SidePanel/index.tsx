@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useContext,
+  useMemo,
 } from "react";
 import "../../styles/menu.scss";
 import { useHistory, useLocation } from "react-router-dom";
@@ -10,7 +11,7 @@ import {
   SELECTED_BRANCH_DATA,
   STORAGE_BUCKET_URL,
 } from "../../shared/constants";
-import { clearMenuData } from "../../redux/menu/menuAction";
+import { clearMenuData, getMenus } from "../../redux/menu/menuAction";
 import { signOut } from "../../redux/auth/authActions";
 
 import {
@@ -30,24 +31,31 @@ import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
-import SidePannelMob from "components/reportComponents/SiePannelMob";
-// import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"; 
-// import { STORAGE_BUCKET_URL } from "";
-// import MenuItems from "../menuItems";     
-// import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
-// import exp from "constants";
-
-
-//TODO: Conert in this format
-const menuOptions = [{
-  name: "Reports & Insights",
-  path: "/old-reports",
-  icon: <div />, // Replace with the correct SVG import
-  submenu: [],
-}]
-
+import SidePanelMob from "components/reportComponents/SiePanelMob";
+import { showErrorToast } from "util/toastUtils";
+import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/employee/employeeActions";
 
 const SidePanel = () => {
+
+  const dispatch = useDispatch();
+  
+    const permissions = useSelector((state:any) => state.employee.permissions)
+    const isReportAccessible = useMemo(() => 
+      permissions?.find((item: any) => item?.module === "REPORTS" && item?.funtions?.includes("Access Report")), 
+  [permissions]
+);
+  // console.log({ isReportAccessible,permissions });
+
+  useEffect(() => {
+    // console.log("isReportAccessible", isReportAccessible);
+
+    if(!permissions?.length){
+      const staff:any=localStorage?.getItem("CREDENTIALS")
+      const staffId=JSON.parse(staff)?.id  
+      dispatch(getEmployeePermissionsRequest({staffId : staffId}))
+    }
+  },[permissions])
+
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const location = useLocation();
   useEffect(() => {
@@ -61,13 +69,17 @@ const SidePanel = () => {
   }, [location.pathname]);
   return (
     <>
-      <SidePanelDeskTop />
-      {isExpanded ? <SidePannelMob handleClose={() => setIsExpanded(false)} /> : null}
+      <SidePanelDeskTop roles={{reports:isReportAccessible}}/>
+      {isExpanded ? <SidePanelMob roles={{reports:isReportAccessible}} handleClose={() => setIsExpanded(false)} /> : null}
     </>
   )
-
 }
-const SidePanelDeskTop = () => {
+interface SidePanelInterface{
+  roles:{
+    reports:boolean
+  }
+}
+const SidePanelDeskTop = ({roles}:SidePanelInterface) => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
     localStorage.getItem(SELECTED_BRANCH_DATA) || "";
@@ -76,11 +88,13 @@ const SidePanelDeskTop = () => {
       ? JSON.parse(selectedBranch)
       : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const reportInsightsOptions = [
-    {
-      name: "Reports & Insights",
-      path: "/old-reports"
-    },
+
+
+const reportInsightsOptions = [
+  {
+    name: "Reports & Insights",
+    path: "/old-reports"
+  },
     // {
     //   name: "Chart JS",
     //   path: "/live-reports"
@@ -90,8 +104,8 @@ const SidePanelDeskTop = () => {
       path: "/sales-reports"
     },
     {
-      name:"Product",
-      path:"/product-reports"
+      name: "Product",
+      path: "/product-reports"
     },
     // {
     //   name:"Staff",
@@ -102,8 +116,8 @@ const SidePanelDeskTop = () => {
       path: "/check-in-reports"
     },
     {
-      name:"Customer",
-      path:"/customer-reports"
+      name: "Customer",
+      path: "/customer-reports"
     },
     // {
     //   name:"Event",
@@ -243,6 +257,7 @@ const SidePanelDeskTop = () => {
   };
 
   const logoutUser = () => {
+    dispatch(clearPermissionsData())
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());
@@ -277,50 +292,50 @@ const SidePanelDeskTop = () => {
             )}
           </div>
 
-                    <div className="restaurant-name-container  restaurant-name-container-rebranded">
-                      {isExpanded && (
-                        <span className="restaurant-name">
-                          {restaurantDetails &&
-                            restaurantDetails.branchName &&
-                            restaurantDetails.branchName.split(",")[0]}
-                        </span>
-                      )}
-                      {isExpanded && (
-                        <div>
-                          <select
-                            className="branch-dropdown"
-                            disabled={
-                              location.pathname?.includes("/employees/add") ||
-                              restaurantDetails?.branch?.length == 1 ||
-                              (UserRole !== "Restaurant_Owner" &&
-                                UserRole !== "Regional_Employee" &&
-                                UserRole !== "Magil_Admin")
-                            }
-                            onChange={(e) => {
-                              dispatch(selectBranch(JSON.parse(e.target.value)));
-                              localStorage.setItem(
-                                SELECTED_BRANCH_DATA,
-                                JSON.stringify(JSON.parse(e.target.value))
-                              );
-                            }}
-                            value={selectedBranch}
-                          >
-                            {restaurantDetails &&
-                              restaurantDetails.branch &&
-                              restaurantDetails.branch.map((u, i) => {
-                                return (
-                                  <option
-                                    value={`${JSON.stringify(u)}`}
-                                  //selected={userBranchName}
-                                  >
-                                    {u.locationName.split(",")[1]}
-                                  </option>
-                                );
-                              })}
-                          </select>
-                        </div>
-                      )}
-                    </div>
+          <div className="restaurant-name-container  restaurant-name-container-rebranded">
+            {isExpanded && (
+              <span className="restaurant-name">
+                {restaurantDetails &&
+                  restaurantDetails.branchName &&
+                  restaurantDetails.branchName.split(",")[0]}
+              </span>
+            )}
+            {isExpanded && (
+              <div>
+                <select
+                  className="branch-dropdown"
+                  disabled={
+                    location.pathname?.includes("/employees/add") ||
+                    restaurantDetails?.branch?.length == 1 ||
+                    (UserRole !== "Restaurant_Owner" &&
+                      UserRole !== "Regional_Employee" &&
+                      UserRole !== "Magil_Admin")
+                  }
+                  onChange={(e) => {
+                    dispatch(selectBranch(JSON.parse(e.target.value)));
+                    localStorage.setItem(
+                      SELECTED_BRANCH_DATA,
+                      JSON.stringify(JSON.parse(e.target.value))
+                    );
+                  }}
+                  value={selectedBranch}
+                >
+                  {restaurantDetails &&
+                    restaurantDetails.branch &&
+                    restaurantDetails.branch.map((u, i) => {
+                      return (
+                        <option
+                          value={`${JSON.stringify(u)}`}
+                        //selected={userBranchName}
+                        >
+                          {u.locationName.split(",")[1]}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+            )}
+          </div>
           {/* <div className="restaurant-name-container restaurant-name-container-rebranded">
             {isExpanded ? (
               <span className="restaurant-name restaurant-name-rebranded ">
@@ -410,7 +425,7 @@ const SidePanelDeskTop = () => {
             <div
               style={{
                 backgroundColor: showOfferOptions === "MenuOptions" ? "#FAFAFA" : "",
-                paddingLeft: showOfferOptions === "MenuOptions" ? "10px" : "",
+                // paddingLeft: showOfferOptions === "MenuOptions" ? "10px" : "",
                 paddingRight: showOfferOptions === "MenuOptions" ? "10px" : "",
                 display: "flex",
                 flexDirection: "column",
@@ -516,10 +531,18 @@ const SidePanelDeskTop = () => {
                 ? "activePath"
                 : "not-active  menu-items-name-rebranded"
             }
-            onClick={() => {
-              setShowOptions((prevState) =>
-                prevState === "reportOptions" ? "" : "reportOptions"
-              );
+            onClick={(e:any) => {
+              if(roles?.reports){
+                setShowOptions((prevState) =>
+                  prevState === "reportOptions" ? "" : "reportOptions"
+                )
+              }else{
+                e.preventDefault();
+                e.stopPropagation();
+                showErrorToast("You don't have permission");
+  
+              }
+         
 
               // setShowReportsOptions(!showReportsOptions);
             }}
@@ -527,7 +550,7 @@ const SidePanelDeskTop = () => {
             <div
               style={{
                 backgroundColor: showOptions === "reportOptions" ? "#FAFAFA" : "",
-                paddingLeft: showOptions === "reportOptions" ? "10px" : "",
+                // paddingLeft: showOptions === "reportOptions" ? "10px" : "",
                 paddingRight: showOptions === "reportOptions" ? "10px" : "",
                 display: "flex",
                 flexDirection: "column",

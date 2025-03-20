@@ -14,7 +14,6 @@ import {
   storeLocationsList,
 } from "redux/newReports/newReportsActions";
 import SummaryInsights from "./summaryInsights";
-import SidePannelMob from "components/reportComponents/SiePannelMob";
 import { RootState } from "redux/rootReducer";
 import DetailedInsights from "./detailedInsights";
 import "./index.scss";
@@ -23,7 +22,6 @@ interface ReportProps {}
 
 const CheckInReport: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Summary Insights");
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const dispatch = useDispatch();
   /*********************************************************** */
@@ -36,7 +34,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
   const startDate = useSelector(
     (state: RootState) => state?.newReports?.selectedStartDate
   );
-  const endtDate = useSelector(
+  const endDate = useSelector(
     (state: RootState) => state?.newReports?.selectedEndDate
   );
 
@@ -49,7 +47,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
   }, [selectedLocation]);
 
   useEffect(() => {
-    if (!startDate || !endtDate) {
+    if (!startDate || !endDate) {
       dispatch(
         changeDateFilterType({
           label: "Today",
@@ -59,19 +57,26 @@ const CheckInReport: React.FC<ReportProps> = () => {
       dispatch(changeStartDate(moment().format("YYYY-MM-DD")));
       dispatch(changeEndDate(moment().format("YYYY-MM-DD")));
     }
-  }, [startDate, endtDate]);
+  }, [startDate, endDate]);
+
 
   useEffect(() => {
-    if (!selectedLocation?.value && restaurantDetails?.length) {
+    let isLocationChanged=true
+    if (restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
-        (branchWithId: any) => ({
+        (branchWithId: any) => {
+          if(branchWithId?.id===selectedLocation?.value)isLocationChanged=false
+          return({
           value: branchWithId?.id,
           label: branchWithId?.locationName,
-        })
+        }
+      )}
       );
 
-      dispatch(storeLocationsList(mappedIdWithBranchName));
-      dispatch(changeLocation(mappedIdWithBranchName?.[0]));
+      dispatch(storeLocationsList(mappedIdWithBranchName))
+      if(isLocationChanged){
+        dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+      }
     }
   }, [restaurantDetails, selectedLocation]);
 

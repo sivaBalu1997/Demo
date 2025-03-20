@@ -19,13 +19,12 @@ const StaffReports: React.FC<ReportProps> = () => {
   
   /*****************************Selectors****************************** */
   const restaurantDetails = useSelector((state: RootState) => state?.auth?.restaurantDetails?.branch);
-  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
   const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
-  const endtDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
+  const endDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
 
   /*****************************useEffect****************************** */
   useEffect(() => {
-    if (!startDate || !endtDate) {
+    if (!startDate || !endDate) {
       dispatch(changeDateFilterType({
         label: "Today",
         value: "Today",
@@ -33,10 +32,10 @@ const StaffReports: React.FC<ReportProps> = () => {
       dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
       dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
     }
-  }, [startDate, endtDate])
+  }, [startDate, endDate])
 
   useEffect(() => {
-    if (!selectedLocation?.value && restaurantDetails?.length) {
+    if (restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
         (branchWithId: any) => ({
           value: branchWithId?.id,
@@ -47,7 +46,7 @@ const StaffReports: React.FC<ReportProps> = () => {
       dispatch(storeLocationsList(mappedIdWithBranchName))
       dispatch(changeLocation(mappedIdWithBranchName?.[0]))
     }
-  }, [restaurantDetails, selectedLocation]);
+  }, [restaurantDetails]);
 
   return (
     <>

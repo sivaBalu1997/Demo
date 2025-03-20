@@ -129,14 +129,17 @@ const ProductInsights = () => {
   };
 
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
+    // please dont remove this console log
     // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
   };
 
   const getToggledValueInParentPage = (activeTextForChart: string, kpiTitle: string) => {
+    // please dont remove this console log
     // console.log(`active text of ${kpiTitle} is ${activeTextForChart}`)
   }
 
   const handleViewDetails = (value: string) => {
+    // please dont remove this console log
     // console.log(`View details for: ${value}`);
   };
 

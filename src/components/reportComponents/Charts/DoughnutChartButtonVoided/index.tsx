@@ -6,22 +6,6 @@ import { amountFormatter } from "utils";
 import DoughnutChartShimmer from "../DoughnutChartShimmer";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
-type DataItem = {
-  label: string;
-  amount?: string;
-  count?: string;
-  voidedItems?: string;
-};
-
-type Slice = {
-  label: string;
-  value: number;
-  color: string;
-  items: number;
-  amount: number;
-  orgAmount: number;
-};
-
 const predefinedColors = [
   "#ff0000", // Red
   "#0000ff", // Blue

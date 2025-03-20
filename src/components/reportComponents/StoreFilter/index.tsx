@@ -55,16 +55,17 @@ const StoreFilter = ({
 }: StoreFilterProps) => {
 
 
-  const restaurantDetails = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.branch
-  );
+  // const restaurantDetails = useSelector(
+  //   (state: any) => state?.auth?.restaurantDetails?.branch
+  // );
 
-  const mappedIdWithBranchName: StoreOption[] = restaurantDetails?.map(
-    (branchWithId: any) => ({
-      value: branchWithId?.id,
-      label: branchWithId?.locationName,
-    })
-  );
+  // const mappedIdWithBranchName: StoreOption[] = restaurantDetails?.map(
+  //   (branchWithId: any) => ({
+  //     value: branchWithId?.id,
+  //     label: branchWithId?.locationName,
+  //   })
+  // );
+  
 
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
@@ -192,7 +193,7 @@ const StoreFilter = ({
             <span className="category-dropdown-text">Select store</span>
             <CustomDropdown
               onSelect={(option: StoreOption) => setSelectedStore(option)}
-              options={mappedIdWithBranchName}
+              options={storeOptions}
               value={selectedStore}
               className="category-dropdown"
             />

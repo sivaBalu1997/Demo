@@ -233,9 +233,8 @@ export function* salesSummaryRequestSaga(action) {
         const response = yield call(getSalesSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
-            // console.log("response of salesSummaryRequestSaga", { decryptedData });
             yield put(salesSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
+            // showSuccessToast(decryptedData?.message);
         } else {
             yield put(salesSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -1191,16 +1190,16 @@ export function* getDetailsRestaurantRequestSaga(action) {
     try {
         const response = yield call(getRestaurantDetails, action.payload);
         const decryptedData = response?.data
-        console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
+        // console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
         if (response.status === 200) {
-            console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
+            // console.log("response of getDetailsRestaurantRequestSaga", { decryptedData })
             yield put(getRestaurantSuccessFromNewReports(decryptedData));
         } else {
             yield put(getRestaurantFailreFromNewReports(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+
         yield put(getRestaurantFailreFromNewReports(error));
         showErrorToast(error.message);
     }

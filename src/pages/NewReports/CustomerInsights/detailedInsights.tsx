@@ -18,6 +18,7 @@ import {
   detailedInsightsSummaryRequest,
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import { getCurrencySymbol } from "utils";
 
 const latestOrderTableHeader = [
   {
@@ -185,12 +186,7 @@ const DetailedInsights = () => {
       state?.customerInsights?.detailedInsightsCustomersTopFavItemsFailure
   );
 
-
-
-  const currencySymbol = useMemo(() => (countryCode === "US" ? "$" : "₹"), [countryCode]);
-
-
-
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
 const offPremTableHeader = [
   {
@@ -344,7 +340,6 @@ const headers4 = [
     key: "orderNo",
     label: "Order number",
     alignment: "left",
-    prefix: "#",
     isSortable: true,
   },
   {
