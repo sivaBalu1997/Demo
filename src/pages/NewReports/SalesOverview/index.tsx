@@ -28,7 +28,7 @@ import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash
 import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
-import { NewTableHeader } from "interface/newReportsInterface";
+import { CardConfigItem, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
@@ -47,6 +47,14 @@ import ReportNotFound from "components/reportComponents/ReportsNotFound";
 
 
 interface ReportProps { }
+
+// interface CardConfigItem {
+//   title: string;
+//   value: string;
+//   percentage: string;
+//   isMonetary: boolean;
+//   showMiniGraph: boolean | ((val: string | number) => boolean);
+// }
 
 const knownTendorIcons: any = {
   "Swipe/Tap/Dip": <PayTapIcon />,
@@ -138,6 +146,65 @@ const voidedTableHeaders: NewTableHeader[] = [
 
 const leftGroup = ["Debit card", "Cash", "Aggregators"]
 const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
+
+const cardConfig: CardConfigItem[] = [
+  {
+    title: "Total Sales",
+    value: "totalMagilSales",
+    percentage: "totalSalesPercentage",
+    isMonetary: true,
+    showMiniGraph: true
+  },
+  {
+    title: "Net Sales", 
+    value: "totalMagilNetSales",
+    percentage: "netSalesPercentage",
+    isMonetary: true,
+    showMiniGraph: true
+  },
+  {
+    title: "Total Tax",
+    value: "totalMagilTax", 
+    percentage: "totalTaxPercentage",
+    isMonetary: true,
+    showMiniGraph: (val: string | number) => val !== "0.00" && val !== 0
+  },
+  {
+    title: "Total Tips",
+    value: "totalMagilTips",
+    percentage: "totalTipsPercentage", 
+    isMonetary: true,
+    showMiniGraph: true
+  },
+  {
+    title: "Gratuity",
+    value: "gratuity",
+    percentage: "gratuityPercentage",
+    isMonetary: true,
+    showMiniGraph: true
+  },
+  {
+    title: "Transactions",
+    value: "totalMagilOrders",
+    percentage: "transactionPercentage",
+    isMonetary: false,
+    showMiniGraph: true
+  },
+  {
+    title: "Discount",
+    value: "discounts",
+    percentage: "discountPercentage",
+    isMonetary: true,
+    showMiniGraph: true
+  },
+  {
+    title: "Cancelled",
+    value: "cancelledOrders",
+    percentage: "cancelledPercentage",
+    isMonetary: true,
+    showMiniGraph: true
+  }
+];
 
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
@@ -512,114 +579,30 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
 
             <div className="todays-report-sales-overview-box-container">
-              <CardWithMiniGraph
-                cardTitle="Total Sales"
-                cardValue={formatNumberByCountry(salesSummary?.totalMagilSales, countryCode, true)}
-                incrementDecrementValue={salesSummary?.totalSalesPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                // loader={true}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.totalSalesPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Net Sales"
-                cardValue={formatNumberByCountry(salesSummary?.totalMagilNetSales, countryCode, true)}
-                incrementDecrementValue={salesSummary?.netSalesPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.netSalesPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Total Tax"
-                cardValue={formatNumberByCountry(salesSummary?.totalMagilTax, countryCode, true)}
-                incrementDecrementValue={salesSummary?.totalTaxPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                showMiniGraph={
-                  salesSummary?.totalTaxPercentage !== "0.00" &&
-                  salesSummary?.totalTaxPercentage !== 0
-                }
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.totalTaxPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Total Tips"
-                cardValue={formatNumberByCountry(salesSummary?.totalMagilTips, countryCode, true)}
-                incrementDecrementValue={salesSummary?.totalTipsPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.totalTipsPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Gratuity"
-                cardValue={formatNumberByCountry(salesSummary?.gratuity, countryCode, true)}
-                incrementDecrementValue={salesSummary?.gratuityPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.gratuityPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Transactions"
-                cardValue={formatNumberByCountry(salesSummary?.totalMagilOrders, countryCode, false)}
-                incrementDecrementValue={salesSummary?.transactionPercentage}
-                isMonetary={false}
-                loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.transactionPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Discount"
-                cardValue={formatNumberByCountry(salesSummary?.discounts, countryCode, true)}
-                incrementDecrementValue={salesSummary?.discountPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.discountPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Cancelled"
-                cardValue={formatNumberByCountry(salesSummary?.cancelledOrders, countryCode, true)}
-                incrementDecrementValue={salesSummary?.cancelledPercentage}
-                isMonetary={true}
-                loader={salesSummaryLoader}
-                showMiniGraph={true}
-                incrementOrDecrement={transformSalesData(
-                  salesSummary?.cancelledPercentage
-                )}
-                graphType="arrow"
-                isPercent={true}
-              />
+              {cardConfig.map((card, index) => (
+                <CardWithMiniGraph
+                  key={index}
+                  cardTitle={card.title}
+                  cardValue={formatNumberByCountry(
+                    salesSummary?.[card.value],
+                    countryCode,
+                    card.isMonetary
+                  )}
+                  incrementDecrementValue={salesSummary?.[card.percentage]}
+                  isMonetary={card.isMonetary}
+                  loader={salesSummaryLoader}
+                  showMiniGraph={
+                    typeof card.showMiniGraph === 'function'
+                      ? card.showMiniGraph(salesSummary?.[card.percentage])
+                      : card.showMiniGraph
+                  }
+                  incrementOrDecrement={transformSalesData(
+                    salesSummary?.[card.percentage]
+                  )}
+                  graphType="arrow"
+                  isPercent={true}
+                />
+              ))}
             </div>
           </div>
 
