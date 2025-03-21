@@ -772,8 +772,11 @@ iframe {
   position: fixed;
   bottom: 5%;
   width: "100%";
-  align-items: flex-end;
+  // align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  // background-color: pink;
+  gap: 0.3vw;
   // align-self: center;
   // align-items: center;
 }
@@ -787,6 +790,19 @@ iframe {
   // padding-left: 50px;
 }
 
+.new-maghil-logo{
+  height: 1rem;
+  width: 1.5rem;
+}
+
+.new-maghil-text{
+  height: 3rem;
+  width: 5rem;
+  // background-color: orange;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .powered-text1 {
   font-family: "Poppins";
   font-weight: 500;
@@ -794,7 +810,7 @@ iframe {
   line-height: 24px;
   align-items: center;
   color: #000000;
-  margin-right: 8px;
+  // margin-right: 8px;
 }
 
 .merchant-footer-logo-container3 {
