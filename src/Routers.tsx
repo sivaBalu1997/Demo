@@ -16,17 +16,10 @@ import ReviewMenu from "pages/reviewMenu";
 import StickWithUs from "./pages/billing/stickWithUs";
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
-import CustomerInsights from "pages/reports/CustomerInsights";
-import Sales from "pages/reports/Sales";
-import ProductInsights from "pages/NewReports/Product/ProductAvailability";
-import GenAiReports from "pages/reports/GenAi";
-import CheckIn from "pages/reports/CheckIn";
 import CheckInReport from "pages/NewReports/CheckIn";
 import CustomerInsightsReport from "pages/NewReports/CustomerInsights";
 
-import EmployeeInsights from "pages/reports/EmployeeInsights";
 import { ThemeProvider } from "context/ThemeContext";
-import CustIns from "pages/reports/CustomerInsi";
 import Auth from "pages/auth";
 import ResetPassword from "pages/auth/ResetPassword";
 import BasicDetails from "pages/auth/BasicDetails";
@@ -329,7 +322,7 @@ const Routers = () => {
               </div>
 
               <div style={{ width: "100%" }}>
-                <Route exact path="/live-reports" component={CustomerInsights} />
+                {/* <Route exact path="/live-reports" component={CustomerInsights} />
                 <Route exact path="/sales" component={Sales} />
                 <Route
                   exact
@@ -337,8 +330,11 @@ const Routers = () => {
                   component={EmployeeInsights}
                 />
                 <Route exact path="/check-in" component={CheckIn} />
-                <Route exact path="/gen-ai-reports" component={GenAiReports} />
-                <Route exact path="/customer-insights" component={CustIns} />
+                <Route exact path="/gen-ai-reports" component={GenAiReports} /> */}
+
+                {/* <Route exact path="/customer-insights" component={CustIns} /> */}
+
+
                 <Route exact path="/sales-reports" component={SalesReport} />
                 <Route exact path="/product-reports" component={ProductReport} />
                 <Route exact path="/check-in-reports" component={CheckInReport} />

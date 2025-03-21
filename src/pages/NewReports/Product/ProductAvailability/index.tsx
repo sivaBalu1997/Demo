@@ -1,30 +1,56 @@
 import React, { useEffect, useRef, useState } from 'react'
-import MultiSwitchableBox from 'components/reportComponents/MultiSwitchableBox';
-import "./style.scss"
-import StoreFilter from 'components/reportComponents/StoreFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeLocation, employeeStaffActivityRequest, getEmployeeChartSliceTableRequest } from 'redux/newReports/newReportsActions';
+import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
+import { productAvailabilityByChannelsDetailsRequest, productAvailabilityByChannelsRequest, productAvailabilityDropdownRequest } from 'redux/productReports/productReportsActions';
+import MultiSwitchableBox from 'components/reportComponents/MultiSwitchableBox';
+import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
 import NewTable from 'components/reportComponents/NewTable';
-import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import CustomBarChart from 'components/reportComponents/ReusableCharts/CustomBarChart';
-import { productAvailabilityByChannelsDetailsRequest, productAvailabilityByChannelsRequest, productAvailabilityDropdownRequest } from 'redux/productReports/productReportsActions';
+import "./style.scss"
 
 
 const ProductAvailability = () => {
 
   const texts = ["All", "Available", "Unavailable"];
+
+  const headerData = [
+    {
+      key: "categoryName",
+      label: `Categories`,
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "itemName",
+      label: "Items",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "itemStatus",
+      label: `Status`,
+      isSortable: true,
+      alignment: "center",
+    },
+  ];
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
-    useState<number>(10);
+  useState<number>(10);
   const employeeChartRef = useRef<HTMLDivElement>(null);
   const [showAllActivityTable, setShowAllActivityTable] =
-    useState<boolean>(false);
+  useState<boolean>(false);
   const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<any>("");
-
-
-  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
-  const currencySymbol = countryCode === "US" ? "$" : "₹";
+  
+  // Generic table states :
+  const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
+  const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
+  const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<any>({ label: "All", value: "" })
+  
+  const dispatch = useDispatch();
 
   // Availability By Channels States
   const availabilityByChannelsData = useSelector((state: any) => state?.productReports?.availabilityByChannelsSuccess);
@@ -42,14 +68,6 @@ const ProductAvailability = () => {
   const availabilityDropdownLoading = useSelector((state: any) => state?.productReports?.availabilityDropdownLoading);
   const availabilityDropdownError = useSelector((state: any) => state?.productReports?.availabilityDropdownFailure);
 
-
-  // Generic table states :
-  const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
-  const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
-  const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
-  const [selectedCategory, setSelectedCategory] = useState<any>({ label: "All", value: "" })
-
-  const dispatch = useDispatch();
 
   const locations = useSelector((state: any) => state?.newReports?.storeLocationsList)
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
@@ -107,27 +125,6 @@ const ProductAvailability = () => {
 
     }
   }
-
-  const headerData = [
-    {
-      key: "categoryName",
-      label: `Categories`,
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "itemName",
-      label: "Items",
-      isSortable: true,
-      alignment: "left",
-    },
-    {
-      key: "itemStatus",
-      label: `Status`,
-      isSortable: true,
-      alignment: "center",
-    },
-  ];
 
 
   const handleSearch = (value: string, kpiTitle: string) => {
@@ -242,7 +239,7 @@ const ProductAvailability = () => {
                 },
                 {}
               )}
-              barColor={["#67823D"]}
+              barColor={["#67823D","#14A789","#E17100","#FF8C00","#06C167","#EE2637"]}
               barStyle={customBarStyle}
               showGrid={true}
               gridColor="#ccc"

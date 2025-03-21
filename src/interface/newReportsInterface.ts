@@ -104,7 +104,7 @@ export interface IcardWithMiniGraphData {
     isMonetary: boolean;
 }
 
-export interface CardConfigItem {
+export interface ICardConfigItem {
   title: string;
   value: string;
   percentage: string;

@@ -152,10 +152,12 @@ const reportInsightsOptions = [
     } else if (location?.pathname?.includes("report/32")) {
       setSelectSubForReport("Reports & Insights");
       setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/live-reports")) {
-      setSelectSubForReport("Chart JS");
-      setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/sales-reports")) {
+    } 
+    // else if (location?.pathname?.includes("/live-reports")) {
+    //   setSelectSubForReport("Chart JS");
+    //   setShowOptions("reportOptions");
+    // } 
+    else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
     } else if (location?.pathname?.includes("/check-in-reports")) {

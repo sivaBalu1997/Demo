@@ -1,12 +1,10 @@
 import React, { useState, ReactNode, useMemo } from "react";
-import "./TenderType.scss";
 import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow_down.svg";
 import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow_up.svg";
-import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
-import { S } from "assets/mockData/originalAPIData/OsalesReportData";
-import ShimmerTenderCard from "./ShimmerTenderCard";
 import { formatNumberByCountry, roundNum } from "utils";
 import { useSelector } from "react-redux";
+import ShimmerTenderCard from "./ShimmerTenderCard";
+import "./TenderType.scss";
 
 interface PaymentMethod {
   expandable?: boolean;

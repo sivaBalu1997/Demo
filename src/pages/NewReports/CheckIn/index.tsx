@@ -1,17 +1,16 @@
-import moment from "moment";
 import React, { useEffect, useState } from "react";
-import "../Sales/report.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  getRestaurantRequestFromNewReports,  storeLocationsList } from "redux/newReports/newReportsActions";
+import { RootState } from "redux/rootReducer";
+import { tabsForCheckIn } from "CommonConstants/reportConstants";
+import moment from "moment";
 import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";
 import SidePanel from "pages/SidePanel";
-import { useDispatch, useSelector } from "react-redux";
-import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  getRestaurantRequestFromNewReports,  storeLocationsList } from "redux/newReports/newReportsActions";
 import CheckInLiveReport from "../CheckInLive";
 import CheckInOverview from "../CheckInOverview";
-import { RootState } from "redux/rootReducer";
-import { getRestaurantRequest } from "redux/auth/authActions";
+import "../Sales/report.scss";
 
-const tabs = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
 interface ReportProps { }
 
 const CheckInReport: React.FC<ReportProps> = () => {
@@ -77,7 +76,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
           <Header title="Reports & Insights" />
 
           {/* Tab Navigation */}
-          <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <TabNavigation tabs={tabsForCheckIn} activeTab={activeTab} setActiveTab={setActiveTab} />
 
           {activeTab === "Live Check-in Report" ? <CheckInLiveReport /> : null}
           {activeTab === "Check-in Overview" ? <CheckInOverview /> : null}

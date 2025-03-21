@@ -9,7 +9,6 @@ import {
   dropdownDetailsRequest,
 } from "../../redux/newReports/newReportsActions";
 import { formatNumberByCountry } from "utils";
-
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import SalesChart from "./salesReport";
@@ -20,8 +19,8 @@ import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
-import "./Tabs.css";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import "./Tabs.css";
 
 const CategoryReport = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -51,30 +50,6 @@ const CategoryReport = (props) => {
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
-
-  // useEffect(() => {
-  //   console.log("use", {
-  //     locations,
-  //     selectedLocation,
-  //     salesByItemCategoryData,
-  //     dropdownDetailsData,
-  //     categorySalesData,
-  //     categorySalesSummaryData,
-  //     categoryChannelSummaryData,
-  //     voidedSummaryData,
-  //   });
-  // }, [
-  //   selectedLocation,
-  //   locations,
-  //   selectedLocation,
-  //   salesByItemCategoryData,
-  //   dropdownDetailsData,
-  //   categorySalesData,
-  //   categorySalesSummaryData,
-  //   categoryChannelSummaryData,
-  //   voidedSummaryData,
-  // ]);
-
 
   useEffect(() => {
     if (!categoryList?.length) {
@@ -174,7 +149,6 @@ const CategoryReport = (props) => {
               .map((item) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
           ).values(),
         ];
-console.log({filteredItems});
 
         // Update selected items state
         setSelectedItems(filteredItems);
@@ -394,6 +368,7 @@ console.log({filteredItems});
                   value: `${formatNumberByCountry(categorySalesSummaryData?.totalQuantity, countryCode, false) || 0}`,
                 },
               ]}
+              loader={categorySalesSummaryDataLoading}
             />
           </div>
           <div>

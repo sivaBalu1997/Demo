@@ -28,8 +28,9 @@ import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash
 import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
-import { CardConfigItem, NewTableHeader } from "interface/newReportsInterface";
+import { NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
+import { cardConfigForSalesTabOverView } from "CommonConstants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
@@ -40,21 +41,14 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import NewTable from "components/reportComponents/NewTable";
 import DoughnutChart from "components/reportComponents/Charts/DoughnutChartButtonVoided";
 import useDateFilter from "hooks/useDateFilter";
-import "./SalesOverview.scss";
 // import useDebounce from "hooks/useDebounce";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import ReportNotFound from "components/reportComponents/ReportsNotFound";
+import "./SalesOverview.scss";
 
 
 interface ReportProps { }
 
-// interface CardConfigItem {
-//   title: string;
-//   value: string;
-//   percentage: string;
-//   isMonetary: boolean;
-//   showMiniGraph: boolean | ((val: string | number) => boolean);
-// }
 
 const knownTendorIcons: any = {
   "Swipe/Tap/Dip": <PayTapIcon />,
@@ -147,64 +141,62 @@ const voidedTableHeaders: NewTableHeader[] = [
 const leftGroup = ["Debit card", "Cash", "Aggregators"]
 const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 
-const cardConfig: CardConfigItem[] = [
-  {
-    title: "Total Sales",
-    value: "totalMagilSales",
-    percentage: "totalSalesPercentage",
-    isMonetary: true,
-    showMiniGraph: true
-  },
-  {
-    title: "Net Sales", 
-    value: "totalMagilNetSales",
-    percentage: "netSalesPercentage",
-    isMonetary: true,
-    showMiniGraph: true
-  },
-  {
-    title: "Total Tax",
-    value: "totalMagilTax", 
-    percentage: "totalTaxPercentage",
-    isMonetary: true,
-    showMiniGraph: (val: string | number) => val !== "0.00" && val !== 0
-  },
-  {
-    title: "Total Tips",
-    value: "totalMagilTips",
-    percentage: "totalTipsPercentage", 
-    isMonetary: true,
-    showMiniGraph: true
-  },
-  {
-    title: "Gratuity",
-    value: "gratuity",
-    percentage: "gratuityPercentage",
-    isMonetary: true,
-    showMiniGraph: true
-  },
-  {
-    title: "Transactions",
-    value: "totalMagilOrders",
-    percentage: "transactionPercentage",
-    isMonetary: false,
-    showMiniGraph: true
-  },
-  {
-    title: "Discount",
-    value: "discounts",
-    percentage: "discountPercentage",
-    isMonetary: true,
-    showMiniGraph: true
-  },
-  {
-    title: "Cancelled",
-    value: "cancelledOrders",
-    percentage: "cancelledPercentage",
-    isMonetary: true,
-    showMiniGraph: true
-  }
-];
+//     title: "Total Sales",
+//     value: "totalMagilSales",
+//     percentage: "totalSalesPercentage",
+//     isMonetary: true,
+//     showMiniGraph: true
+//   },
+//   {
+//     title: "Net Sales", 
+//     value: "totalMagilNetSales",
+//     percentage: "netSalesPercentage",
+//     isMonetary: true,
+//     showMiniGraph: true
+//   },
+//   {
+//     title: "Total Tax",
+//     value: "totalMagilTax", 
+//     percentage: "totalTaxPercentage",
+//     isMonetary: true,
+//     showMiniGraph: (val: string | number) => val !== "0.00" && val !== 0
+//   },
+//   {
+//     title: "Total Tips",
+//     value: "totalMagilTips",
+//     percentage: "totalTipsPercentage", 
+//     isMonetary: true,
+//     showMiniGraph: true
+//   },
+//   {
+//     title: "Gratuity",
+//     value: "gratuity",
+//     percentage: "gratuityPercentage",
+//     isMonetary: true,
+//     showMiniGraph: true
+//   },
+//   {
+//     title: "Transactions",
+//     value: "totalMagilOrders",
+//     percentage: "transactionPercentage",
+//     isMonetary: false,
+//     showMiniGraph: true
+//   },
+//   {
+//     title: "Discount",
+//     value: "discounts",
+//     percentage: "discountPercentage",
+//     isMonetary: true,
+//     showMiniGraph: true
+//   },
+//   {
+//     title: "Cancelled",
+//     value: "cancelledOrders",
+//     percentage: "cancelledPercentage",
+//     isMonetary: true,
+//     showMiniGraph: true
+//   }
+// ];
 
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [viewType, setViewType] = useState("default");
@@ -579,7 +571,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
 
             <div className="todays-report-sales-overview-box-container">
-              {cardConfig.map((card, index) => (
+              {cardConfigForSalesTabOverView.map((card, index) => (
                 <CardWithMiniGraph
                   key={index}
                   cardTitle={card.title}
