@@ -17,6 +17,15 @@ import { useHistory, useLocation } from "react-router";
 import { clearMenuData } from "redux/menu/menuAction";
 import { clearPermissionsData } from "redux/employee/employeeActions";
 
+interface MenuItem {
+  name: string;
+  icon: JSX.Element;
+  hasAccess: boolean;
+  path?: string; // Optional because submenu items don’t have paths
+  submenu?: { name: string; path: string }[];
+  onClick?: () => void;
+}
+
 interface SidePanelMobProps {
   handleClose: () => void;
   roles?:{
@@ -33,26 +42,26 @@ const parentPaths: Record<string, string[]> = {
 
 
 const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
-  const menuOptions = [
-    {
-      name: "Employees",
-      path: "/employees",
-      icon: <EmployeesIcon className={styles.menuIcon} />,
-      hasAccess:true
-    },
-    {
-      name: "Product Catalog",
-      path: "/productCatalog/menuListing",
-      icon: <Tableware className={styles.menuIcon} />,
-      // onClick: (dispatch: any) => dispatch(removeDataRequest()),
-      hasAccess:true
-    },
-    {
-      name: "Offer Management",
-      icon: <Offer className={styles.menuIcon} />,
-      submenu: [{ name: "Special Price", path: "/Offers/active" }],
-      hasAccess:true
-    },
+  const menuOptions: MenuItem[] = [
+    // {
+    //   name: "Employees",
+    //   path: "/employees",
+    //   icon: <EmployeesIcon className={styles.menuIcon} />,
+    //   hasAccess:true
+    // },
+    // {
+    //   name: "Product Catalog",
+    //   path: "/productCatalog/menuListing",
+    //   icon: <Tableware className={styles.menuIcon} />,
+    //   // onClick: (dispatch: any) => dispatch(removeDataRequest()),
+    //   hasAccess:true
+    // },
+    // {
+    //   name: "Offer Management",
+    //   icon: <Offer className={styles.menuIcon} />,
+    //   submenu: [{ name: "Special Price", path: "/Offers/active" }],
+    //   hasAccess:true
+    // },
     {
       name: "Reports & Insights",
       icon: <Stats className={styles.menuIcon} />,
@@ -155,7 +164,13 @@ const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
           <ul>
             {menuOptions.map((menu, index) => (
               <>
-                <li key={index} className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname) ? styles.activeParemt : ""}`} onClick={() => menu.submenu ? toggleSection(menu.name) : menu?.onClick ? menu?.onClick() : handlePathChange(menu.path)}>
+                <li key={index} className={`${styles.navItem} ${parentPaths?.[`${menu?.name}`]?.includes(location?.pathname) ? styles.activeParemt : ""}`} onClick={() => 
+  menu.submenu
+    ? toggleSection(menu.name)
+    : menu.onClick
+    ? menu.onClick()
+    : menu.path && handlePathChange(menu.path)
+}>
                   {menu.icon} {menu.name} {menu.submenu && (openSections[menu.name] ? <Uparrow /> : <Downarrow />)}
                 </li>
                 {menu.submenu && openSections[menu.name] && (

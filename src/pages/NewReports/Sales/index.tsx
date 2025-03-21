@@ -11,9 +11,8 @@ import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, getRestaurantRequestFromNewReports, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
+import { tabsForSales } from "CommonConstants/reportConstants";
 // import { getRestaurantRequest } from "redux/auth/authActions";
-
-const tabs = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
 
 interface ReportProps { }
 
@@ -109,7 +108,7 @@ const SalesReport: React.FC<ReportProps> = () => {
           <Header  title="Reports & Insights"/>
 
           {/* Tab Navigation */}
-          <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <TabNavigation tabs={tabsForSales} activeTab={activeTab} setActiveTab={setActiveTab} />
 
           {activeTab === "Sales Overview" ? <SalesOverview /> : null}
           {activeTab === "Today's report" ? <TodaysReport /> : null}

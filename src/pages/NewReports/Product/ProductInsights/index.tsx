@@ -207,7 +207,7 @@ const ProductInsights = () => {
               bodyColor: "black",
             }}
             kpiTitle='Top 20 popular'
-            showChartFilter={false}
+            showChartFilter={true}
             handleChartFilter={handleChartFilter}
             showSwitchable={true}
             switchableTextOne='Popular'
@@ -237,7 +237,7 @@ const ProductInsights = () => {
           bodyColor: "black",
         }}
         kpiTitle='Top 20 popular revenue making'
-        showChartFilter={false}
+        showChartFilter={true}
         handleChartFilter={handleChartFilter}
         showSwitchable={true}
         switchableTextOne='Popular'

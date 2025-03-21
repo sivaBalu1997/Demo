@@ -334,10 +334,10 @@ const NewTable: React.FC<NewTableProps> = ({
                   onChange={handleInputChange}
                   className="search-input-small-screen"
                 />
-                <ClearSearchIcon
+                {searchQuery?.length > 0 && <ClearSearchIcon
                   className="clear-search-icon-small-screen"
                   onClick={() => onSearch("", kpiTitle)}
-                />
+                />}
               </div>
             </div>
           </div>

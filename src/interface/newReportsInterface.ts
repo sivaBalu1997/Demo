@@ -97,3 +97,17 @@ export enum IncrementOrDecrementTypeEnum {
   DECREMENT = "decrement",
   NULL = "",
 }
+
+export interface IcardWithMiniGraphData {
+    title: string;
+    key: string;
+    isMonetary: boolean;
+}
+
+export interface ICardConfigItem {
+  title: string;
+  value: string;
+  percentage: string;
+  isMonetary: boolean;
+  showMiniGraph: boolean | ((val: string | number) => boolean);
+}

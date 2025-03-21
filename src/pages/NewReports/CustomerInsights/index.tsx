@@ -13,11 +13,13 @@ import {
   getRestaurantRequestFromNewReports,
   storeLocationsList,
 } from "redux/newReports/newReportsActions";
-import SummaryInsights from "./summaryInsights";
 import { RootState } from "redux/rootReducer";
+import { tabsForCustomer } from "CommonConstants/reportConstants";
+import SummaryInsights from "./summaryInsights";
 import DetailedInsights from "./detailedInsights";
 import "./index.scss";
-const tabs = ["Summary Insights", "Detailed Insights"];
+
+
 interface ReportProps {}
 
 const CheckInReport: React.FC<ReportProps> = () => {
@@ -92,7 +94,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
 
           {/* Tab Navigation */}
           <TabNavigation
-            tabs={tabs}
+            tabs={tabsForCustomer}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
           />

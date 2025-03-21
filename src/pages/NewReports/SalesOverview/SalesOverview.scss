@@ -59,6 +59,13 @@
             gap: 10px;
       box-shadow: none;
       border: none;
+      .tender-type-sub-heading {
+          font-weight: 500;
+          font-size: 20px;
+          line-height: 30px;
+          letter-spacing: -0.2px;
+          color: #8D8D8D;
+        }
     }
 
     @media (max-width: 768px) {

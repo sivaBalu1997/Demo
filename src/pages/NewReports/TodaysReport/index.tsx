@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { formatNumberByCountry, getCurrencySymbol } from 'utils';
+import { cardWithMiniGraphDataForTodays, textOneForTodaysSwitch, textTwoForTodaysSwitch } from 'CommonConstants/reportConstants';
+import { NewTableHeader } from 'interface/newReportsInterface';
 import {
     billedRequest,
     changeLocation,
@@ -11,8 +14,6 @@ import {
     liveRefundsRequest,
     unBilledRequest,
 } from 'redux/newReports/newReportsActions';
-import { NewTableHeader } from 'interface/newReportsInterface';
-import { formatNumberByCountry, getCurrencySymbol } from 'utils';
 import SwitchableBox from 'components/reportComponents/SwitchableBox';
 import CardWithMiniGraph from 'components/reportComponents/CardWithMiniGraph';
 import moment from 'moment';
@@ -21,9 +22,6 @@ import StoreFilter from 'components/reportComponents/StoreFilter';
 import "./style.scss";
 
 const TodaysReport: React.FC = () => {
-
-    const textOne: string = "Live Orders";
-    const textTwo: string = "Overall";
 
     const dispatch = useDispatch();
 
@@ -53,7 +51,7 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
-     const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+    const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
         { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'left' },
@@ -63,7 +61,7 @@ const TodaysReport: React.FC = () => {
         { key: 'orderStatus', label: 'Order Status', isSortable: false, alignment: 'left' },
         { key: 'customerName', label: 'Customer Name', isSortable: true, alignment: 'left' },
         { key: 'customerNumber', label: 'Customer Number', isSortable: true, isPrivate: true, alignment: 'left' },
-        { key: 'orderTotal', label: `Order Total`, isSortable: true, alignment: 'right', prefix:currencySymbol },
+        { key: 'orderTotal', label: `Order Total`, isSortable: true, alignment: 'right', prefix: currencySymbol },
         // { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
         // { key: 'requestedEta', label: 'Requested ETA', isSortable: true, alignment: 'left' },
     ];
@@ -75,19 +73,8 @@ const TodaysReport: React.FC = () => {
         { key: 'orderDate', label: 'Order date', isSortable: true, alignment: 'left' },
         { key: 'orderTime', label: 'Order time', isSortable: true, alignment: 'left' },
         { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
-        { key: 'orderAmount', label: `Order amount`, isSortable: true, alignment: 'right', prefix:currencySymbol },
-    ];
-
-    const cardWithMiniGraphData = [
-        { title: "Total Sales", key: "totalSales", isMonetary: true },
-        { title: "Net Sales", key: "totalNetSales", isMonetary: true },
-        { title: "Total Tax", key: "totalTax", isMonetary: true },
-        { title: "Total Tips", key: "totalTip", isMonetary: true },
-        { title: "Gratuity", key: "totalServiceTax", isMonetary: true },
-        { title: "Transactions", key: "totalTransactions", isMonetary: false },
-        { title: "Discount", key: "totalDiscount", isMonetary: true },
-        { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
-    ];
+        { key: 'orderAmount', label: `Order amount`, isSortable: true, alignment: 'right', prefix: currencySymbol },
+    ]
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
@@ -182,15 +169,15 @@ const TodaysReport: React.FC = () => {
             />
 
             <SwitchableBox
-                textOne={textOne}
-                textTwo={textTwo}
+                textOne={textOneForTodaysSwitch}
+                textTwo={textTwoForTodaysSwitch}
                 isActive={isSwitchActive}
                 toggleSwitch={handleToggleSwitch}
             />
             <div className="todays-report-sales-overview-box-container-parent">
                 <h2>Sales Overview</h2>
                 <div className="todays-report-sales-overview-box-container">
-                    {isSwitchActive ? (cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
+                    {isSwitchActive ? (cardWithMiniGraphDataForTodays?.map(({ title, key, isMonetary }) => (
                         <CardWithMiniGraph
                             key={key}
                             cardTitle={title}
@@ -200,7 +187,7 @@ const TodaysReport: React.FC = () => {
                         />
                     ))
                     ) : (
-                        cardWithMiniGraphData?.map(({ title, key, isMonetary }) => (
+                        cardWithMiniGraphDataForTodays?.map(({ title, key, isMonetary }) => (
                             <CardWithMiniGraph
                                 key={key}
                                 cardTitle={title}

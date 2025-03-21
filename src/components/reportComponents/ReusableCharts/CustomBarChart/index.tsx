@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import "./style.scss";
 import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
@@ -40,12 +40,15 @@ interface CustomTooltipProps {
     showRelatedTable: boolean;
     setShowRelatedTable: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
+    barColor?: string[] | string;
 }
 
-const CustomTooltip = ({ data, customTooltip, active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice }: CustomTooltipProps) => {
+const CustomTooltip = ({ data, customTooltip, active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice, barColor }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0].payload;
         const tooltipInfo :any= tooltipData[name];
+        const index = data.findIndex(item => item.name === name);
+        const currentColor = Array.isArray(barColor) ? barColor[index % barColor.length] : barColor;
 
         if (!tooltipInfo) return null;
 
@@ -55,18 +58,19 @@ const CustomTooltip = ({ data, customTooltip, active, payload, tooltipData, show
         };
 
         return (
-            <div className="custom-tooltip">
+            <div className="custom-tooltip" style={{ border: `1px solid ${currentColor}` }}>
                 {customTooltip ?
                     <>
                     {/* //TODO: MAKE it Dynamic */}
                         <p>Channel: <strong>{name}</strong></p>
                         <p>Quantity: <strong>{value}</strong></p>
-                        <button onClick={handleClick}>VIEW DETAILS</button>
+                        <button onClick={handleClick} style={{ border: `1px solid ${currentColor}`, backgroundColor: `${currentColor}` }}>VIEW DETAILS</button>
                     </> : <>
                         <p className="label"><strong>{name}</strong></p>
                         <p>{name} Amount: <strong>${value}</strong></p>
-                        <button onClick={handleClick}>VIEW DETAILS</button>
-                    </>}
+                        <button onClick={handleClick} style={{ border: `1px solid ${currentColor}`, backgroundColor: `${currentColor}` }}>VIEW DETAILS</button>
+                    </>
+                }
             </div>
         );
     }
@@ -90,7 +94,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
 }) => {
     const chartRef2 = useRef<HTMLDivElement>(null);
     const getBarColor = (index: number) => {
-        return barColor.length === 1 ? barColor[0] : barColor[index % barColor.length];
+        return Array.isArray(barColor) ? barColor[index % barColor.length] : barColor as string;
     };
     return (
         <div className="chart-wrapper">
@@ -119,14 +123,51 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                             showRelatedTable={showRelatedTable}
                                             setShowRelatedTable={setShowRelatedTable}
                                             setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+                                            barColor={barColor}
                                         />
                                     }
                                     wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
                                     position={{ y: 200 }}
                                 />
                                 {/* {data.map((entry, index) => ( */}
-                                <Bar dataKey="value" fill={"#6b7d4a"} style={barStyle} />
+                                {/* <Bar dataKey="value" fill={getBarColor(1)} style={barStyle} /> */}
                                 {/* ))} */}
+
+                                {/* {data.map((entry, index) => (
+                                    <Bar 
+                                        key={`bar-${index}`}
+                                        dataKey="value"
+                                        fill={getBarColor(index)}
+                                        style={barStyle}
+                                        name={entry.name}
+                                    />
+                                ))} */}
+
+                                {/* <Bar 
+                                    dataKey="value"
+                                    fill="#000000"
+                                    style={barStyle}
+                                    fillOpacity={1}
+                                    fill={(entry, index) => getBarColor(index)}
+                                /> */}
+
+                                {/* <Bar
+                                    dataKey="value"
+                                    style={barStyle}
+                                    name="value"
+                                    stroke={(data: any, index: number) => getBarColor(index)}
+                                    fill={(data: any, index: number) => getBarColor(index)}
+                                /> */}
+
+                                <Bar 
+                                    dataKey="value"
+                                    style={barStyle}
+                                    name="value"
+                                >
+                                    {data?.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={getBarColor(index)} />
+                                    ))}
+                                </Bar>
                             </BarChart>
                         </ResponsiveContainer>
                     )

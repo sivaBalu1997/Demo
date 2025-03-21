@@ -10,8 +10,8 @@ import ProductInsights from './ProductInsights';
 import ProductAvailability from './ProductAvailability';
 import "../Sales/report.scss"
 import { getRestaurantRequest } from 'redux/auth/authActions';
+import { tabsForProduct } from 'CommonConstants/reportConstants';
 
-const tabs = ["Insights", "Availability"]; 
 interface ReportProps { }
 
 const ProductReports: React.FC<ReportProps> = () => {    
@@ -76,7 +76,7 @@ const ProductReports: React.FC<ReportProps> = () => {
         <Header  title="Reports & Insights"/>
 
         {/* Tab Navigation */}
-        <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabNavigation tabs={tabsForProduct} activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {activeTab === "Insights" ? <ProductInsights /> : null}
         {activeTab === "Availability" ? <ProductAvailability /> : null}
