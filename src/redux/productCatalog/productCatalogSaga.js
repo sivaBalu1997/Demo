@@ -404,17 +404,13 @@ const convertImageToBinaryString = (imageFile) => {
 
 function* imageUploadSaga (action) {
   const images = action.payload?.imageUrls;
-  console.log("aa",action.payload);
   
 
   let itemId = action.payload.itemId;
   const failureArray = [];
 
   try {
-    const firstImage = images[0];
-    console.log("image",firstImage);
-    console.log("imageon",itemId);
-    
+    const firstImage = images[0];    
     
     const response = yield call(uploadImageApi, firstImage, itemId);
     if (response.data && response.data.itemId) {
@@ -466,7 +462,6 @@ export const uploadImageApi = async (image, itemId) => {
   const formData = new FormData();
   // const binaryString = await convertImageToBinaryString(image.file);
   // console.log("blog image",binaryString);
-console.log("imageuploading");
 
   formData.append("image", image.file);
   formData.append("itemId", itemId);
@@ -656,7 +651,6 @@ function* triggerFcmSaga(action) {
 
 function* scheduleFCMSaga(action) {
   try {
-    console.log('Sagas')
     yield put({ type: UPDATE_SCHEDULE_TRIGGER_FCM, payload: true })
     const response = yield call(scheduleTriggerFCM,action.payload);
     if (response) {

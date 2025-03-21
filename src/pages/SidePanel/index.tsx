@@ -36,6 +36,8 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { ReactComponent as CMS } from "../../assets/svg/CMS.svg";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 import exp from "constants";
+import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.svg";
+import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
 
 const SidePanel = () => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
@@ -945,7 +947,10 @@ const SidePanel = () => {
           {isExpanded && (
             <div className="magilhub-bottom-logo">
               <span className="powered-text1">Powered by</span>
-              <span className="magilhub-logo1">Maghil</span>
+              {/* <span className="magilhub-logo1">Maghil</span>  */}
+              <NewMaghilLogo className="new-maghil-logo"/>
+              <MaghilText className="new-maghil-text"/>
+              {/* insert the logo here */}
             </div>
           )}
         </div>

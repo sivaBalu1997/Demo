@@ -12,17 +12,17 @@
     font-size: 24px;
     font-weight: 500;
     padding: 0;
-    margin: 0 40px 0 0;
+    margin: 0 95px 0 0;
   }
 
   .v2-searchBar {
-    width: 35vw;
-    margin-right: 11vw;
+    width: 500px;
+    margin-right: 10vw;
   }
 
   .v2-searchBar1{
-    width: 35vw;
-    margin-right: 17vw;
+    width: 500px;
+    margin-right: 19vw;
   }
 
   .filterProd {
@@ -32,8 +32,8 @@
   }
 
   .sync-container{
-    width: 7vw;
-    height: 38px;
+    width: 99px;
+    height: 46px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +43,8 @@
     border-radius: 8px;
     cursor: pointer;
     padding: 0 5px;
+    font-size: 16px;
+    font-weight: 500;
 
     img{
         width: 20px;
@@ -51,8 +53,9 @@
   }
 
   .sync-container-loading{
-    width: fit-content;
-    height: 38px;
+    width: 99px;
+    max-width: 99px;
+    height: 46px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,6 +65,9 @@
     border-radius: 8px;
     cursor: pointer;
     padding: 0 5px;
+    font-size: 16px;
+    font-weight: 500;    
+    overflow: hidden;
 
     img{
         width: 20px;
@@ -75,8 +81,8 @@
     margin-right: 22px;
 
     img{
-        width: 108px;
-        height: 78px !important;
+        width: 137px;
+        height: 49px !important;
     }
   }
 }

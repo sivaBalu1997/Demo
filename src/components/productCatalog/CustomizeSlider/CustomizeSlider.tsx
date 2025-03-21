@@ -287,7 +287,7 @@ const CustomizeSlider = () => {
       ref={customizeRefHeight}
       style={{ height: customizeHeight <= 509 ? "52vh" : customizeHeight }}
     >
-      <h3 className="customize-heading">Customize</h3>
+      <h3 className="customize-heading">Customization</h3>
 
       <div className="items-container">
         {customData.length > 0 ? (

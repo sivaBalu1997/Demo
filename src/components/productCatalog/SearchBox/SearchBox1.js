@@ -139,11 +139,31 @@ const SearchBox = (props) => {
       itemCode: everything?.itemCode,
     }));
 
-    const filtered = everything?.filter(
-      (item) =>
-        item?.itemName?.toLowerCase()?.includes(input?.toLowerCase()) ||
-        item?.itemCode?.toLowerCase()?.includes(input?.toLowerCase())
-    );
+    // const filtered = everything?.filter(
+    //   (item) =>
+    //     item?.itemName?.toLowerCase()?.includes(input?.toLowerCase()) ||
+    //     item?.itemCode?.toLowerCase()?.includes(input?.toLowerCase())
+    // );
+    const searchLower = input?.toLowerCase()
+    const filtered = everything.filter((menu) => {
+      return (
+          menu.itemName.toLowerCase().includes(searchLower) ||
+          menu.itemCode?.toLowerCase().includes(searchLower)
+      )
+      }).sort((a, b) => {
+          const aLower = a.itemName.toLowerCase();
+          const bLower = b.itemName.toLowerCase();
+
+          const aStartsWith = aLower.startsWith(searchLower) ? 0 : 1;
+          const bStartsWith = bLower.startsWith(searchLower) ? 0 : 1;
+
+          if (aStartsWith !== bStartsWith) {
+              return aStartsWith - bStartsWith;
+          }
+
+          return aLower.localeCompare(bLower);
+      });
+
     const startsWithInput = filtered.find((item) =>
       item?.itemName.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -280,7 +300,10 @@ const SearchBox = (props) => {
     <div className="MLSearch-Container">
       <div className="MLsearchbox">
         <input
-          className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
+          className={`${isExpanded ? 
+            searchTerm ? "MLHeader-Search1-term" : "MLHeader-Search1" : 
+            searchTerm ? "MLHeader-Search-term" : "MLHeader-Search"
+          }`}
           value={`${searchTerm}`}
           placeholder={"Search by item name, item code"}
           onChange={handleSearch}

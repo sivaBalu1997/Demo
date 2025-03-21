@@ -120,7 +120,7 @@ const HeaderV2 = (props: any) => {
         ) : (
           <>
             <img src={sync} alt="syncIcon" className="syncIcon" />
-            <p>Syncing...</p>
+            <p>Syncing..</p>
           </>
         )}
       </div>

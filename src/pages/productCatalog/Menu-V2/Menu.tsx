@@ -5,6 +5,7 @@ import SidePanel from "pages/SidePanel";
 import itemArrow from "../../../assets/svg/item-dropDown.svg";
 import channelIcon from "../../../assets/svg/channelIcon.svg";
 import notAllChannel from "../../../assets/svg/notAllChannel.svg";
+import noneAvail from "../../../assets/svg/noneAvail.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
 import {
@@ -16,10 +17,11 @@ import {
   selectedCategory,
   selectedMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
-import Slider from "components/productCatalog/Slider/Slider";
+import Slider from "components/productCatalog/Slider/SliderUpdated";
 import ToolTips from "components/toolTips/toolTips";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import { Contextpagejs } from "../contextpage";
+import NotFound from "../../../assets/svg/NotFound copy.svg";
 
 const Menu = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,12 @@ const Menu = () => {
   );
   const menuDataLoading = useSelector(
     (state: RootState) => state.productCatalog.menuDataLoading
+  );
+  const menuDataSuccess = useSelector(
+    (state: RootState) => state.productCatalog.menuDataSuccess
+  );
+  const menuDataFailed = useSelector(
+    (state: RootState) => state.productCatalog.menuDataFailed
   );
   const selectedBranch = useSelector(
     (state: RootState) => state.auth.selectedBranch || null
@@ -58,6 +66,8 @@ const Menu = () => {
   const [loading, setLoading] = useState(true);
   const [hideHeader, setHideHeader] = useState(false);
 
+  const [searchSubArrow, setShowSubArrow] = useState(false)
+
   //SidePanel component useState
   const [modal, setmodal] = useState(false);
   const [sidebartext, setSideBarText] = useState<any>(null);
@@ -67,18 +77,20 @@ const Menu = () => {
   //Tool tip useState
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
+  //loader state
+
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));
       dispatch(itemCustomizationPost([]));
     }
     dispatch(removeDataRequest());
+    dispatch(selectedMockDataRequest(SideBarData));
   }, [selectedBranch?.id]);
 
-  useEffect(() => {
-    dispatch(getMenuRequest(locationid));
-    dispatch(selectedMockDataRequest(SideBarData));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getMenuRequest(locationid));
+  // }, []);
 
   useEffect(() => {
     const isObjectEmpty = (obj: any) => {
@@ -105,6 +117,7 @@ const Menu = () => {
       const allItemResponseLists2 = menuData?.flatMap(
         (category: any) => category
       );
+
       const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
       const transformedList: any = mergedarray?.map((entry) => ({
         id: entry?.categoryId,
@@ -114,7 +127,7 @@ const Menu = () => {
 
       setItemList(transformedList);
       setMenudatalist(menuData);
-      setLoading(false);
+      setClosedItems([])
     } else {
       if (SearchedmenuItem?.subCategoryResponseList) {
         const filterdItem: any = {
@@ -125,7 +138,7 @@ const Menu = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
-        setLoading(false);
+        setClosedItems([])
       } else {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
@@ -134,9 +147,9 @@ const Menu = () => {
         };
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
-        setLoading(false);
+        setClosedItems([])
       }
-      //setLoading(false);
+      // setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
 
@@ -145,6 +158,12 @@ const Menu = () => {
       setmodal(false);
     }
   }, [deleteMenuItemSuccess]);
+
+  useEffect(() => {
+    if((menuDataSuccess || menuDataFailed) && !menuDataLoading){
+      setLoading(false)
+    }
+  },[menudatalist])
 
   useEffect(() => {
     if (Array.isArray(editData) && editData?.length > 0) {
@@ -254,6 +273,14 @@ const Menu = () => {
     );
   };
 
+
+  useEffect(() => {
+    if(SearchedmenuItem?.subCategoryResponseList){
+      setOpenSubItems([])
+    }
+    setOpenSubItems([])
+  },[SearchedmenuItem, menuData])
+
   const handlemodal = (value?: any) => {
     const filteredItem: any = menuData.find((item: any) =>
       item?.itemResponseList?.some(
@@ -292,7 +319,12 @@ const Menu = () => {
 
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
+        dispatch(
+          selectedCategory({
+            name: filteredItem?.categoryName,
+            id: filteredItem?.categoryId,
+          })
+        );
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -312,7 +344,12 @@ const Menu = () => {
 
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
+        dispatch(
+          selectedCategory({
+            name: filteredItem?.categoryName,
+            id: filteredItem?.categoryId,
+          })
+        );
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -353,12 +390,17 @@ const Menu = () => {
           </div>
         </div>
 
-        {!menuDataLoading ? (
-          <div className="v2-menuContainer">
+        {!menuDataLoading && !loading ? (
+          menudatalist?.length > 0 ? 
+          (<div className="v2-menuContainer">
             {menudatalist?.map((category: any) => (
               <>
-                {(category?.itemResponseList?.length > 0 || category?.subCategoryResponseList?.length > 0) && (
-                  <div className="v2-itemHeader">
+                {(category?.itemResponseList?.length > 0 ||
+                  category?.subCategoryResponseList?.length > 0) && (
+                  <div 
+                    className="v2-itemHeader"
+                    onClick={() => toggleItem(category?.categoryId)}
+                  >
                     <p>{`${category?.categoryName} ${
                       category?.itemResponseList?.length > 0
                         ? `- ${category?.itemResponseList?.length}`
@@ -370,7 +412,6 @@ const Menu = () => {
                       className={`subCategory-arrow ${
                         closedItems.includes(category?.categoryId) ? "open" : ""
                       }`}
-                      onClick={() => toggleItem(category?.categoryId)}
                     />
                   </div>
                 )}
@@ -398,6 +439,7 @@ const Menu = () => {
                           return (
                             typeName?.typeGroup !== "I" &&
                             typeName?.isEnabled == 1 &&
+                            typeName?.availabilityEnabled &&
                             typeName?.typeName
                           );
                         })
@@ -406,25 +448,45 @@ const Menu = () => {
                       // const filteredOrderTypes = item?.orderTypes?.filter(
                       //   (type: any) => type.typeGroup !== "I"
                       // );
-                      const filteredOrderTypes = selectedBranch?.orderTypes?.filter((type: any) => type?.typeGroup !== "I" && type?.isEnabled == 1)
-                      const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
+                      const filteredOrderTypes =
+                        selectedBranch?.orderTypes?.filter(
+                          (type: any) =>
+                            type?.typeGroup !== "I" && type?.isEnabled == 1
+                        );
+                      const allChannels =
+                        activeOrderTypes?.length === filteredOrderTypes?.length;
 
                       return (
                         <div
                           className="v2-itemData"
-                          onClick={() => handlemodal(item?.itemId)}
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            handlemodal(item?.itemId)
+                            handlesidbarhandling('1', item?.itemId)
+                          }
+                        }
                         >
                           <p>{item?.itemName}</p>
                           <div className="itemRight">
                             <img
-                              src={allChannels ? channelIcon : notAllChannel}
+                              src={
+                                allChannels
+                                  ? channelIcon
+                                  : activeOrderTypes?.length < 1
+                                  ? noneAvail
+                                  : notAllChannel
+                              }
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handlesidbarhandling('2', item?.itemId)
+                              }}  
                               alt="channelIcon"
                               className="channelIcon"
                               onMouseEnter={() => setHoveredItem(item?.itemId)}
                               onMouseLeave={() => setHoveredItem(null)}
                             />
                             <p className="v2-item-price">{`${
-                              location === "US" ? "$" : "₹"
+                              location === "US" ? "$" : "Rs."
                             }${formattedPrice}`}</p>
                             {hoveredItem === item?.itemId && (
                               <ToolTips
@@ -440,27 +502,31 @@ const Menu = () => {
                   {category?.subCategoryResponseList?.map(
                     (item: any, subIndex: number) => (
                       <div key={subIndex}>
-                        <div className="v2-sub-item">
-                          <p>{`${item?.subCategoryName} - ${
-                            item?.itemResponseList?.length > 0
-                              ? item?.itemResponseList?.length
-                              : ""
-                          }`}</p>
-                          <img
-                            src={itemArrow}
-                            alt="subCategory-arrow"
-                            className={`subCategory-arrow ${
-                              openSubItems.includes(item?.subCategoryId)
-                                ? ""
-                                : "open"
-                            }`}
+                        {item?.itemResponseList?.length > 0 && (
+                          <div 
+                            className="v2-sub-item"
                             onClick={() =>
                               toggleSubCategory(item?.subCategoryId)
                             }
-                          />
-                        </div>
+                          >
+                            <p>{`${item?.subCategoryName} - ${
+                              item?.itemResponseList?.length > 0
+                                ? item?.itemResponseList?.length
+                                : ""
+                            }`}</p>
+                            <img
+                              src={itemArrow}
+                              alt="subCategory-arrow"
+                              className={`subCategory-arrow ${
+                                (openSubItems.includes(item?.subCategoryId))
+                                  ? "open"
+                                  : ""
+                              }`}
+                            />
+                          </div>
+                        )}
 
-                        {openSubItems.includes(item?.subCategoryId) &&
+                        {!(openSubItems.includes(item?.subCategoryId)) &&
                           item?.itemResponseList?.map(
                             (subItem: any, itemIndex: number) => {
                               const dineInPrice = subItem?.orderTypes?.find(
@@ -479,18 +545,32 @@ const Menu = () => {
                                   return (
                                     typeName?.typeGroup !== "I" &&
                                     typeName?.isEnabled == 1 &&
+                                    typeName?.availabilityEnabled &&
                                     typeName?.typeName
                                   );
                                 })
                                 .filter(Boolean);
 
-                              const filteredOrderTypes = selectedBranch?.orderTypes?.filter((type: any) => type?.typeGroup !== "I" && type?.isEnabled == 1)
-                              const allChannels = activeOrderTypes?.length === filteredOrderTypes?.length;
+                              const filteredOrderTypes =
+                                selectedBranch?.orderTypes?.filter(
+                                  (type: any) =>
+                                    type?.typeGroup !== "I" &&
+                                    type?.isEnabled == 1
+                                );
+                              const allChannels =
+                                activeOrderTypes?.length ===
+                                filteredOrderTypes?.length;
+                              
                               return (
+                                
                                 <div
                                   className="v2-itemData"
                                   key={itemIndex}
-                                  onClick={() => handlemodal(subItem?.itemId)}
+                                  onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    handlemodal(subItem?.itemId)
+                                    handlesidbarhandling('1', subItem?.itemId)}
+                                  }
                                 >
                                   <p className="v2-itemName">
                                     {subItem?.itemName}
@@ -500,8 +580,14 @@ const Menu = () => {
                                       src={
                                         allChannels
                                           ? channelIcon
+                                          : activeOrderTypes?.length < 1
+                                          ? noneAvail
                                           : notAllChannel
                                       }
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        handlesidbarhandling('2', subItem?.itemId)
+                                      }}
                                       alt="channelIcon"
                                       className="channelIcon"
                                       onMouseEnter={() =>
@@ -510,7 +596,7 @@ const Menu = () => {
                                       onMouseLeave={() => setHoveredItem(null)}
                                     />
                                     <p className="v2-item-price">{`${
-                                      location === "US" ? "$" : "₹"
+                                      location === "US" ? "$" : "Rs."
                                     }${formattedPrice}`}</p>
                                     {hoveredItem === subItem?.itemId && (
                                       <ToolTips
@@ -529,7 +615,16 @@ const Menu = () => {
                 </div>
               </>
             ))}
-          </div>
+          </div>) 
+          : 
+          (<div className="no-results-found">
+            <img 
+              src={NotFound} 
+              alt="noResult" 
+              style={{width:'400px', height:'400px'}}
+            />
+            <p>No Results Found</p>
+          </div>)
         ) : (
           <div className="loader-conatainer">
             <Loader
