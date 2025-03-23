@@ -40,6 +40,7 @@ const SidePanel = () => {
   const dispatch = useDispatch();
   
     const permissions = useSelector((state:any) => state.employee.permissions)
+    console.log({permissions})
     const isReportAccessible = useMemo(() => 
       permissions?.find((item: any) => item?.module === "REPORTS" && item?.funtions?.includes("Access Report")), 
   [permissions]
@@ -54,7 +55,7 @@ const SidePanel = () => {
       const staffId=JSON.parse(staff)?.id  
       dispatch(getEmployeePermissionsRequest({staffId : staffId}))
     }
-  },[permissions])
+  },[permissions?.length])
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const location = useLocation();
