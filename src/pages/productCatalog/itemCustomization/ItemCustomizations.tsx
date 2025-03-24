@@ -148,12 +148,13 @@ const ItemCustomizations: React.FC<any> = () => {
       const noPriceDetails = ordertypesdetails.normalForm.thirdpartyDetails.filter(
         (detail:any) => detail.price || parseFloat(detail.price) > 0
       );
-          
+      
       if (noPriceDetails.length > 0) {
-        streams.push(noPriceDetails[0].typeName);
+        noPriceDetails?.map((data: any) => {
+          streams.push(data?.typeName);
+        })
       }
-    }
-    
+    }    
     setListOfStreams(streams);
 
     if (streams.length > 0) {
