@@ -66,6 +66,8 @@ import SalesReport from "pages/NewReports/Sales";
 import ProductReport from "pages/NewReports/Product";
 import Layout from "components/Layout";
 import StaffReports from "pages/NewReports/Staff";
+import Menu from "pages/productCatalog/Menu-V2/Menu";
+
 const Routers = () => {
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -197,39 +199,35 @@ const Routers = () => {
                   px. Please resize your window.
                 </div>
               ) : ( */}
-                <>
-                  <div>
-                    <Switch>
-                      <Route
-                        exact
-                        path="/productCatalog/menuListing"
-                        component={MenulistingPage}
-                      />
-                      {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
-                      {/* <Route exact path="/offer/special" component={offers} /> */}
-                      <Route
-                        path="/productCatalog/Reviewpage"
-                        component={PrimaryDetailsReviewpage}
-                      />
-                      <Route path="/productCatalog/Navigationpage">
-                        <Navigationpage />
-                      </Route>
-                      <Route
-                        path="/productCatalog/PrimaryDetails"
-                        component={PrimaryPage}
-                      />
-                      <Route
-                        path="/productCatalog/Pricingandkitchendetails"
-                        component={PricingDetails}
-                      />
-                      <Route
-                        path="/productCatalog/Itemcustomizations"
-                        component={ItemCustomizations}
-                      />
-                    </Switch>
-                  </div>
-                </>
-              </div>
+              <>
+                <div>
+                  <Switch>
+                    <Route exact path="/productCatalog/menuListing" component={Menu} />
+                    {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
+                    {/* <Route exact path="/offer/special" component={offers} /> */}
+                    <Route
+                      path="/productCatalog/Reviewpage"
+                      component={PrimaryDetailsReviewpage}
+                    />
+                    <Route path="/productCatalog/Navigationpage">
+                      <Navigationpage />
+                    </Route>
+                    <Route
+                      path="/productCatalog/PrimaryDetails"
+                      component={PrimaryPage}
+                    />
+                    <Route
+                      path="/productCatalog/Pricingandkitchendetails"
+                      component={PricingDetails}
+                    />
+                    <Route
+                      path="/productCatalog/Itemcustomizations"
+                      component={ItemCustomizations}
+                    />
+                  </Switch>
+                </div>
+              </>
+            </div>
 
               <div className="specialOffers">
                 <Route exact path="/offer/special" component={offerSpecial} />

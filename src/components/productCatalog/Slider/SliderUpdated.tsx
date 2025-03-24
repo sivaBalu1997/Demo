@@ -297,17 +297,17 @@ const SliderUpdated: React.FC<SliderProps> = ({
     };
 
     const [activeSection, setActiveSection] = useState<string | null>("Pricing");
-    const sections = ["Pricing", "Availability", "Customize"];
+    const sections = ["Pricing", "Availability", "Customization"];
   const containerRef:any = useRef(null);
   const sectionRefs:any = {
     Pricing: useRef(null),
     Availability: useRef(null),
-    Customize: useRef(null),
+    Customization: useRef(null),
   };
   const sectionComponents:any = {
     Pricing: <PricingSlider />,
     Availability: <AvailabilitySlider />,
-    Customize: <CustomizeSlider />,
+    Customization: <CustomizeSlider />,
   };
   const handleScrollTo = (section: string) => {
     

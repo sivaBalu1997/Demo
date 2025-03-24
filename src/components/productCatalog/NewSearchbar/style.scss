@@ -1,0 +1,18 @@
+.v2-searchBar{
+    width: 100%;
+
+    .v2-search-container{
+        position: relative;
+
+        .v2-input{
+            width: 35vw;
+            height: 48px;
+        }
+
+        .v2-search{
+            position: absolute;
+            right: 10px;
+            top: 13px;
+        }
+    }
+}

@@ -34,6 +34,9 @@ import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanelMob from "components/reportComponents/SiePanelMob";
 import { showErrorToast } from "util/toastUtils";
 import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/employee/employeeActions";
+import exp from "constants";
+import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.svg";
+import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
 
 const SidePanel = () => {
 
@@ -126,6 +129,7 @@ const reportInsightsOptions = [
     // }
   ];
   const offerMenuOptions = ["Special Price"];
+  const selectedBranchDispatch = useSelector((state: RootState) => state.auth.selectedBranch);
 
   const history = useHistory();
 
@@ -235,7 +239,7 @@ const reportInsightsOptions = [
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (!selectedBranch && restaurantDetails) {
+      if (!selectedBranchDispatch &&restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
@@ -253,7 +257,7 @@ const reportInsightsOptions = [
         }
       }
     }
-  }, [restaurantDetails]);
+  }, [restaurantDetails,selectedBranchDispatch]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -1063,6 +1067,17 @@ const reportInsightsOptions = [
               }
             </div> */}
         </ul>
+        <div>
+          {isExpanded && (
+            <div className="magilhub-bottom-logo">
+              <span className="powered-text1">Powered by</span>
+              {/* <span className="magilhub-logo1">Maghil</span>  */}
+              <NewMaghilLogo className="new-maghil-logo"/>
+              <MaghilText className="new-maghil-text"/>
+              {/* insert the logo here */}
+            </div>
+          )}
+        </div>
       </div>
       <div>
         <img

@@ -13,6 +13,8 @@ import { useHistory } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import { ReactComponent as MagilHub } from "../../assets/svg/magilhubLogo.svg";
+import logo2 from "../../assets/images/logoLatest.png";
+
 
 const SignIn = ({ setLogin }) => {
   const history = useHistory();
@@ -61,9 +63,9 @@ const SignIn = ({ setLogin }) => {
   return (
     <div className="otp_login">
       <div className="logo logoContainer">
-        {/* <img src={logo} alt="logo" /> */}
-        <MagilHub className="magilhub-login-logo" />
-        <span className="magilhub-logo2">Maghil</span>
+        <img src={logo2} alt="logo" />
+        {/* <MagilHub className="magilhub-login-logo" /> */}
+        {/* <span className="magilhub-logo2">Maghil</span> */}
       </div>
       <div className="sign_form">
         <h4>Sign In To Access</h4>
