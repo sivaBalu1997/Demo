@@ -29,7 +29,7 @@ import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
-import { formatNumberByCountry, transformSalesData } from "utils";
+import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
 import { cardConfigForSalesTabOverView } from "CommonConstants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
@@ -252,7 +252,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummary = useSelector((state: any) => state?.newReports?.voidedOrderSummaryData?.content);
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
-  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   
 // useEffect(()=>{
 // console.log({
@@ -810,7 +811,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               Back
             </button>
           </div>
-          <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError} >
+          {/* <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError} isLoading={cancellationSummaryLoading}> */}
             <NewTable
               kpiTitle={`Voided orders - ${voidedReason}`}
               searchQuery={searchQuery}
@@ -830,7 +831,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               onSearch={handleSearch}
               totalElements={cancellationSummaryTotalElements || 0}
             />
-          </ErrorHandler>
+          {/* </ErrorHandler> */}
         </div>
       )}
     </div>

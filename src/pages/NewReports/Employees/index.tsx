@@ -20,8 +20,8 @@ import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import CustomDropdown from "components/common/customDropdown";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
-import "./style.scss";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import "./style.scss";
 
 // Custom Bar Style
 const customBarStyle = {
@@ -49,7 +49,7 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.employeeSalesOverviewLoading
   );
 
-  const countryCode = useSelector(    (state: any) => state?.auth?.restaurantDetails?.country  );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   const currencySymbol = countryCode === "US" ? "$" : "₹";
 

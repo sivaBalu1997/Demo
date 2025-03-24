@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +14,8 @@ import {
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BarChartShimmer from "../Charts/BarChartShimmer";
 import ErrorState from "../errorstatecomponents/ErrorState";
+import { getCurrencySymbol } from "utils";
+import { useSelector } from "react-redux";
 
 // Register required components
 ChartJS.register(
@@ -35,11 +37,13 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
   dataList = [],
   loader,
 }) => {
+  const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.fullName))),
     datasets: [
       {
-        label: "Sales ($)",
+        label: `Sales (${currencySymbol})`,
         data: dataList?.map((item: any) => ({
           x: item.fullName, // X-axis label
           y: Number(item.total || 0), // Y-axis sales value
@@ -67,7 +71,7 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
             const dataPoint = tooltipItem.raw;
             return [
               `Orders: ${dataPoint.orders}`,
-              `Sales: $${dataPoint.y.toFixed(2)}`,
+              `Sales: ${currencySymbol}${dataPoint.y.toFixed(2)}`,
             ];
           },
         },

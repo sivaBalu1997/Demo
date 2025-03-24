@@ -2,8 +2,9 @@ import React, { useRef, useState, useEffect, useMemo, useCallback } from "react"
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { amountFormatter } from "utils";
+import { amountFormatter, getCurrencySymbol } from "utils";
 import DoughnutChartShimmer from "../DoughnutChartShimmer";
+import { useSelector } from "react-redux";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const predefinedColors = [
@@ -57,18 +58,19 @@ interface DoughnutChartProps {
 }
 const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
-  countryCode,
+  countryCode="",
   handleClick,
   handleOther,
   loader,
   clickable = true
 })=> {
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const chartRef = useRef<any>(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
-  const [totalSales, setTotalSales] = useState("$0");
+  const [totalSales, setTotalSales] = useState(`${countryCode}0`);
   const [reRenderChart, setReRenderChart] = useState(true);
   const [slices, setSlices] = useState<any[]>([]);
   const [data, setData] = useState<any>({
@@ -82,6 +84,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       },
     ],
   });
+  
 
   useEffect(() => {
     if (reRenderChart) {
@@ -322,7 +325,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
                   </div>
                   <div style={{ marginBottom: "5px" }}>
                     Order: {slice.items} <br />
-                    Sales: ${slice?.orgAmount.toFixed(2)}
+                    Sales: {`${currencySymbol} ${slice?.orgAmount.toFixed(2)}`}
                   </div>
                   {clickable?
                   <button
