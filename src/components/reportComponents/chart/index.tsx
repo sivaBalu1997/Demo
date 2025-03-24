@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +14,8 @@ import {
 import "./chart.scss";
 import BarChartShimmer from "../Charts/BarChartShimmer";
 import ErrorState from "../errorstatecomponents/ErrorState";
+import { useSelector } from "react-redux";
+import { getCurrencySymbol } from "utils";
 
 ChartJS.register(
   CategoryScale,
@@ -31,6 +33,8 @@ const CardTypeChart = ({
   dataList: any[];
   loader: boolean;
 }) => {
+  const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const cardNames= Array.from(new Set(dataList?.map((item: any) => item?.cardName)))
   const data = {
     labels: cardNames,
@@ -97,14 +101,14 @@ const CardTypeChart = ({
             const total = data.datasets.reduce((sum, dataset) => {
               return sum + (dataset.data[index] as number);
             }, 0);
-            return `${tooltipItems[0].label} - $${total?.toFixed(2)}`;
+            return `${tooltipItems[0].label} - ${currencySymbol} ${total?.toFixed(2)}`;
           },
           label: (tooltipItem: TooltipItem<"bar">) => {
             const index = tooltipItem.dataIndex;
             return data.datasets.map((dataset) => {
               const cardType = dataset.label || "";
               const value = dataset.data[index] as number;
-              return `${cardType}:  $${value?.toFixed(2)}`;
+              return `${cardType}:  ${currencySymbol} ${value?.toFixed(2)}`;
             });
           },
         },

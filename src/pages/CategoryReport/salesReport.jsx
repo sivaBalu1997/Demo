@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,10 +10,16 @@ import {
 } from "chart.js";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
 import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
+import { useSelector } from "react-redux";
+import { getCurrencySymbol } from "utils";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const SalesChart = ({dataList, loader,isMobile}) => {
+
+  const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+
 const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
   function transformData(datalist) {
     const categorySet = new Set();
@@ -86,7 +92,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
             // console.log(tooltipItem,"Here is th tooltip item");
             const channel = tooltipItem.dataset.label;
             const value = dataList?.find(data=>data.categoryName==tooltipItem.label&&data.channelName==tooltipItem.dataset.label)?.totalAmount
-            return [`Channel: ${channel}`, `Sales: $${value?.toFixed(2)}`];
+            return [`Channel: ${channel}`, `Sales: ${currencySymbol} ${value?.toFixed(2)}`];
           },
         },
       },

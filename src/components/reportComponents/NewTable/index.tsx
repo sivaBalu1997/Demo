@@ -383,7 +383,7 @@ const NewTable: React.FC<NewTableProps> = ({
                         justifyContent: header?.alignment,
                       }}
                     >
-                      <span>{header?.label}</span>
+                      <span className="re-table-header-label">{header?.label}</span>
                       {header?.isSortable && (
                         <SortIcon
                           className={`sort-icon ${

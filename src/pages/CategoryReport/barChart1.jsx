@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,11 +11,15 @@ import {
 } from "chart.js";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
 import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
+import { useSelector } from "react-redux";
+import { getCurrencySymbol } from "utils";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile }) {
+  const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   // console.log(dataList);
   // Prepare the Chart.js data object
   const data = {
@@ -61,7 +65,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
             const cat = dataList?.[idx];
-            return [`Qty: ${cat?.voidedQuantity}`, `Sales: $${Number(cat?.voidedAmount||0).toFixed(2)}`];
+            return [`Qty: ${cat?.voidedQuantity}`, `Sales: ${currencySymbol} ${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },
 
@@ -86,7 +90,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
         ticks: {
           color: "#777",
           font: { size: 12 },
-          callback: (value) => `$${value}`,
+          callback: (value) => `${currencySymbol}${value}`,
         },
       },
     },

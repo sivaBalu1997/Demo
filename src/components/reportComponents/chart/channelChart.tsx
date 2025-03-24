@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -13,6 +13,8 @@ import {
 import "./chart.scss";
 import BarChartShimmer from "../Charts/BarChartShimmer";
 import ErrorState from "../errorstatecomponents/ErrorState";
+import { getCurrencySymbol } from "utils";
+import { useSelector } from "react-redux";
 
 ChartJS.register(
   CategoryScale,
@@ -29,13 +31,15 @@ interface ChartData {
 }
 
 const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
+  const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const data = {
     labels: Array.from(
       new Set(dataList?.map((item: any) => item?.channelName))
     ),
     datasets: [
       {
-        label: "Sales ($)",
+        label: `Sales (${currencySymbol})`,
         data: dataList?.map((item: any) => ({
           x: item.channelName, // X-axis label
           y: Number(item.sales || 0), // Y-axis sales value
@@ -71,7 +75,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
             const dataPoint = tooltipItem.raw;
             return [
               `Orders: ${dataPoint.orders}`,
-              `Sales: $${dataPoint.y.toFixed(2)}`,
+              `Sales: ${currencySymbol}${dataPoint.y.toFixed(2)}`,
             ];
           },
         },
@@ -98,7 +102,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
           // stepSize: 1000,
           callback: function (tickValue: string | number) {
             const value = Number(tickValue);
-            return value < 1000 ? `$${value}` : `$${value / 1000} K`;
+            return value < 1000 ? `${currencySymbol} ${value}` : `${currencySymbol}${value / 1000} K`;
           },
         },
       },

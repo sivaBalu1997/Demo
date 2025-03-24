@@ -41,7 +41,9 @@
       justify-content: center;
       align-items: center;
       border-radius: 10px;
-      cursor: not-allowed;
+      // cursor: not-allowed;
+      cursor: pointer;
+      // cursor: default;
       @media (max-width: 600px) {
         width: 50vw;
       }

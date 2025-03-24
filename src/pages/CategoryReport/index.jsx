@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   voidedSummaryRequest,
@@ -8,7 +8,7 @@ import {
   changeLocation,
   dropdownDetailsRequest,
 } from "../../redux/newReports/newReportsActions";
-import { formatNumberByCountry } from "utils";
+import { formatNumberByCountry, getCurrencySymbol } from "utils";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import SalesChart from "./salesReport";
@@ -43,8 +43,9 @@ const CategoryReport = (props) => {
   const voidedSummaryData = useSelector((state) => state?.newReports?.voidedSummaryData);
   const voidedSummaryDataFailure = useSelector((state) => state?.newReports?.voidedSummaryError)
   const voidedSummaryDataLoading = useSelector((state) => state?.newReports?.voidedSummaryLoading);
-  const countryCode = useSelector((state) => state?.auth?.restaurantDetails?.country);
+  const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
 
 
@@ -350,17 +351,17 @@ const CategoryReport = (props) => {
               data={[
                 {
                   title: "TOTAL SALES",
-                  value: `$ ${formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0
+                  value: `${currencySymbol} ${formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0
                     }`,
                 },
                 {
                   title: "VOID",
-                  value: `$ ${formatNumberByCountry(categorySalesSummaryData?.voidAmount, countryCode, true) || 0
+                  value: `${currencySymbol} ${formatNumberByCountry(categorySalesSummaryData?.voidAmount, countryCode, true) || 0
                     }`,
                 },
                 {
                   title: "ADD-ON",
-                  value: `$ ${formatNumberByCountry(categorySalesSummaryData?.addOn, countryCode, true) || 0
+                  value: `${currencySymbol} ${formatNumberByCountry(categorySalesSummaryData?.addOn, countryCode, true) || 0
                     }`,
                 },
                 {
