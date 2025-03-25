@@ -81,11 +81,42 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
         const fileName = kpiTitle;
         const exportType = exportFromJSON.types.xls;
 
-        const transformedData = transformKeysToSentenceCase(data);
+        // const transformedData = transformKeysToSentenceCase(data);
 
         // console.log({transformedData})
 
+        // exportFromJSON({ data: transformedData, fileName, exportType });
+            // Add formatting options to treat data as text
+
+    // const exportConfig = {
+    //     data: transformedData,
+    //     fileName,
+    //     exportType,
+    //     cellDates: true,
+    //     numbers: {
+    //         type: 'string'
+    //     }
+    // };
+    // exportFromJSON(exportConfig);
+
+
+        // First transform the data to sentence case
+        const transformedData = transformKeysToSentenceCase(data).map(row => {
+            const newRow: Record<string, any> = {};
+            Object.entries(row).forEach(([key, value]) => {
+                // If value is a string containing only numbers and starts with 0, format it as text
+                if (typeof value === 'string' && /^\d+$/.test(value) && value.startsWith('0')) {
+                    // Format as text by adding ="value" which Excel will interpret correctly
+                    newRow[key] = `="${value}"`;
+                } else {
+                    newRow[key] = value;
+                }
+            });
+            return newRow;
+        });
+    
         exportFromJSON({ data: transformedData, fileName, exportType });
+
     };
 
     const pdfDownloadFn = (data: Array<Record<string, any>>, headers?: Array<{ key: string; label: string }>) => {
