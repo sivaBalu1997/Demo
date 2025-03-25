@@ -743,7 +743,7 @@ const Employees: React.FC = () => {
           <div className="employee-report-sales-overview-box-container-parent">
             <div className="employee-sales-overview-head-with-download">
             <h2>Sales Overview</h2>
-            {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading)&& <DownloadReport kpiTitle="Sales Overview" tableData={employeeSalesOverViewFromAPIReduxArrayForDownloading} headerData={employeeSalesOverViewFromAPIReduxHeaderForDownloading}/>}
+            {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading && employeeSalesOverViewFromAPIReduxHeaderForDownloading) && <DownloadReport kpiTitle="Sales Overview" tableData={employeeSalesOverViewFromAPIReduxArrayForDownloading} headerData={employeeSalesOverViewFromAPIReduxHeaderForDownloading}/>}
             </div>
             <div className="select-employee-container">
               <p>Select employee</p>

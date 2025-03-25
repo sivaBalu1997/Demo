@@ -53,13 +53,13 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
     const billedDataArrayForDownloading = [billedDataAPIRedux]
-    const billedDataAPIReduxHeaderForDownloading = Object.keys(billedDataAPIRedux).map((key) => ({
+    const billedDataAPIReduxHeaderForDownloading = billedDataAPIRedux && Object.keys(billedDataAPIRedux)?.map((key) => ({
         key,
         label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
       }));
     
     const unBilledAPIReduxArrayForDownloading = [unBilledAPIRedux]
-    const unBilledAPIReduxHeaderForDownloading = Object.keys(unBilledAPIRedux).map((key) => ({
+    const unBilledAPIReduxHeaderForDownloading = unBilledAPIRedux && Object.keys(unBilledAPIRedux)?.map((key) => ({
         key,
         label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
       }));

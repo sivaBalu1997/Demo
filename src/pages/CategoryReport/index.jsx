@@ -243,7 +243,7 @@ const CategoryReport = (props) => {
   };
 
   const categorySalesSummaryDataArrayForDownloading = [categorySalesSummaryData]
-  const categorySalesSummaryDataHeaderForDownloading = Object.keys(categorySalesSummaryData).map((key) => ({
+  const categorySalesSummaryDataHeaderForDownloading = categorySalesSummaryData && Object.keys(categorySalesSummaryData)?.map((key) => ({
     key,
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }));
@@ -352,7 +352,7 @@ const CategoryReport = (props) => {
                 {activeBtn == "categories" ? "Categories Overview" : ""}
                 {activeBtn == "items" ? "Items overview" : ""}
               </h1>
-              {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading}/>}
+              {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading}/>}
             </div>
             <MiniCard
               data={[

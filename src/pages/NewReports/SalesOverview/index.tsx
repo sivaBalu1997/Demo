@@ -519,7 +519,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const salesOverViewBoxForDownloading = [salesSummary]
-  const salesSummaryHeaderForDownloading = Object.keys(salesSummary).map((key) => ({
+  const salesSummaryHeaderForDownloading = salesSummary && Object.keys(salesSummary)?.map((key) => ({
     key,
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }));
@@ -577,7 +577,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   </div>
                 </div>
               </div>
-              {(!salesSummaryLoader && salesOverViewBoxForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
+              {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
             </div>
 
             <div className="todays-report-sales-overview-box-container">
