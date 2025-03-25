@@ -38,16 +38,15 @@ interface DownloadReportProps {
 const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerData=[], kpiTitle, downloadRef, apiParams }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false)
-    const dataToDownload = useSelector((state:RootState)=>state.newReports.downloadableReportSuccess)
+    const dataToDownload:any = useSelector((state:RootState)=>state.newReports.downloadableReportSuccess)
     const dataToDownloadLoading=useSelector((state:RootState)=>state.newReports.downloadableReportLoading)
     const dataToDownloadError=useSelector((state:RootState)=>state.newReports.downloadableReportFailure)
 const dispatch=useDispatch()
     useEffect(()=>{
-console.log(showDownloadables,apiParams);
+console.log({apiParams,showDownloadables},444);
 
-        if(showDownloadables && apiParams?.api){
-            console.log("1111");
+        if(showDownloadables&&apiParams?.apiEndPoint){
+            console.log("111231");
             
             dispatch(getDownloadableReportRequest(apiParams))
         }
@@ -169,17 +168,19 @@ console.log(showDownloadables,apiParams);
     }, []);
 
     const handleDownload = () => {
-        if (downloadRef?.current && selectedFormat === "pdf") {
-            generatePdfFromRef(); // Invoke if downloadRef is present
-        } 
+        // if (downloadRef?.current && selectedFormat === "pdf") { //TODO:Remove
+        //     generatePdfFromRef(); // Invoke if downloadRef is present
+        // }else
+        console.log({dataToDownload});
+        
          if (selectedFormat === "pdf") {
-            pdfDownloadFn(apiParams?.api?dataToDownload:tableData, headerData);
+            pdfDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData, headerData);
         } else if (selectedFormat === "json") {
-            jsonDownloadFn(apiParams?.api?dataToDownload:tableData);
+            jsonDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData);
         } else if (selectedFormat === "csv") {
-            csvDownloadFn(apiParams?.api?dataToDownload:tableData);
+            csvDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData);
         } else if (selectedFormat === "xlsx") {
-            xlsxDownloadFn(apiParams?.api?dataToDownload:tableData);
+            xlsxDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData);
         }
         setShowDownloadables(false);
         setSelectedFormat(null);

@@ -1213,7 +1213,7 @@ export function* getDetailsRestaurantRequestSaga(action) {
 export function* getDownloadableReportRequestSaga(action) {
     try {
         const response = yield call(getDownloadableReport, action.payload);
-        const decryptedData = response?.data
+        const decryptedData = decryptJson(response?.data?.encryptedText)
         // console.log("response of getDownloadableReportRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(getDownloadableReportSuccess(decryptedData));

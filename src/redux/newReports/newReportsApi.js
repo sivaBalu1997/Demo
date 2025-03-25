@@ -54,7 +54,7 @@ const generateQueryParams = (payload) => {
     }
     if(payload?.searchQuery){
         query+="&search="+payload?.searchQuery
-    }else if(payload?.search){
+    }else if(payload?.search|| payload?.search===""){
         query+="&search="+payload?.search
     }
 
@@ -720,14 +720,12 @@ export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
 
 export const getDownloadableReport = (payload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const apiEndpoint=payload.api
-    delete payload.api
-    const query=generateQueryParams(payload)
-    console.log({payload,query },111111111111111111111);
+    const {apiEndPoint, ...queryParams}=payload
+    const query=generateQueryParams(queryParams)
     
     return API({
         method: "get",
-        url: `${reportsBaseUrl}${apiEndpoint}${query}`,
+        url: `${reportsBaseUrl}${apiEndPoint}${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

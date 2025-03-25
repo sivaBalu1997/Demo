@@ -1370,9 +1370,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                     draft.downloadableReportLoading = false;
                     draft.downloadableReportSuccess = [];
                     draft.downloadableReportFailure = true;
-                    break;
-            default:
-                break;
+                    break;   
 
             // get details restaurant from new reports
             case GET_DETAILS_RESTAURANT_REQUEST:
@@ -1390,6 +1388,9 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.getDetailsRestaurantSuccess = [];
                 draft.getDetailsRestaurantFailure = true;
                 break;
+
+                default:
+                    break;
         }
     })
 }

@@ -298,8 +298,8 @@ const NewTable: React.FC<NewTableProps> = ({
                 {(tableData||apiEndPoint) && headerData && (
                   <DownloadReport
                     apiParams={{
+                      apiEndPoint:apiEndPoint||"",
                       ...queryParams,    
-                      api:apiEndPoint||"",
                       page:1,
                       size:totalElements,
                       search:searchQuery,
@@ -330,8 +330,15 @@ const NewTable: React.FC<NewTableProps> = ({
                   </div>
                 )}
               </div>
-              {tableData && headerData && (
+              {(tableData||apiEndPoint) && headerData && (
                 <DownloadReport
+                apiParams={{
+                  apiEndPoint:apiEndPoint||"",
+                  ...queryParams,    
+                  page:1,
+                  size:totalElements,
+                  search:searchQuery,
+                }}
                   tableData={tableData}
                   headerData={headerData}
                   kpiTitle={kpiTitle}

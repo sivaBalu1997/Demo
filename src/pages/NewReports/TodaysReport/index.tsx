@@ -255,7 +255,7 @@ const TodaysReport: React.FC = () => {
             <div className="todays-report-tables-container">
                 <NewTable
                     apiEndPoint="/sales/live/tables"
-                    queryParams={{locationId: selectedLocation?.id, startDate: currentDate, endDate: currentDate}}
+                    queryParams={{locationId: selectedLocation?.value, startDate: currentDate, endDate: currentDate}}
                     kpiTitle="Live Dine-in orders"
                     searchQuery={liveOrdersSearchQuery}
                     headerData={liveOrdersDineInTableHeaders}
