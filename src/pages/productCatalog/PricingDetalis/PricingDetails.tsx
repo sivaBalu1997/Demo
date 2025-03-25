@@ -298,7 +298,7 @@ const PricingDetails = () => {
         minutes: "mmm",
       },
       normalForm: mainFormState,
-      specialForm: mainFormStateSpecial,
+      specialForm: mainFormState,
     },
   });
 
@@ -453,7 +453,7 @@ const PricingDetails = () => {
     },
 
     KitchenStationId: "",
-    normalForm: isOptionTrue ? mainFormState : undefined,
+    normalForm:mainFormState,
 
     specialForm: isOptionTrue ? undefined : mainFormSpecial,
     resetInventory: resetInventory,
@@ -1104,7 +1104,7 @@ const PricingDetails = () => {
             </div>
 
             <div className="NormalSpecial">
-              {/* <div className="Normal">
+              <div className="Normal">
                 <input
                   type="radio"
                   value="true"
@@ -1112,9 +1112,9 @@ const PricingDetails = () => {
                   onChange={() => setIsOptionTrue(true)}
                   className="N1radio"
                 />
-                <label className="N1">Normal Availability</label>
-              </div> */}
-              {/* <div className="Special">
+                <label className="N1">Standard Availability</label>
+              </div>
+              <div className="Special">
                 <input
                   type="radio"
                   value="false"
@@ -1122,12 +1122,15 @@ const PricingDetails = () => {
                   onChange={() => setIsOptionTrue(false)}
                   className="S1radio"
                 />
-                <label className="S1">Special Availability</label>
-              </div> */}
+                <label className="S1">Custom Availability</label>
+              </div>
+            </div>
+            <div >
+             <p className="avaiability-texts">{isOptionTrue? <span>Normal Availability : This item will be available every working day.</span>: <span>Custom Availability: Choose specific days and preferred meal type for the item's availability.</span> }</p>
             </div>
 
-            {isOptionTrue ? (
-              <Normalavail
+
+            <Normalavail
                 validateDropdown={validateDropdown}
                 dinein={dinein}
                 setDineIn={setDineIn}
@@ -1144,9 +1147,35 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
                 getValues={getValues}
                 setValue={setValue}
+                isOptionTrue={isOptionTrue}
+                setIsOptionTrue={setIsOptionTrue}
                 setKitchenError={setKitchenError}
                 setValidationFunction={setValidationFunction}
               />
+
+            {isOptionTrue ? (
+              <></>
+              // <Normalavail
+              //   validateDropdown={validateDropdown}
+              //   dinein={dinein}
+              //   setDineIn={setDineIn}
+              //   validationState={validationState}
+              //   setMainFormState={setMainFormState}
+              //   mainFormState={mainFormState}
+              //   selectedValues2={selectedValues2}
+              //   setSelectedValues2={setSelectedValues2}
+              //   dineinfields={dineinfields}
+              //   handleValidate={handleValidate}
+              //   setDineInFields={setDineInFields}
+              //   setValidationStateerr={setValidationStateerr}
+              //   ValidationStateerr={validationStateerr}
+              //   resetSelection={normalFormRef}
+              //   getValues={getValues}
+              //   setValue={setValue}
+              //   isOptionTrue={isOptionTrue}
+              //   setKitchenError={setKitchenError}
+              //   setValidationFunction={setValidationFunction}
+              // />
             ) : (
               <>
                 {/* <Specialavail

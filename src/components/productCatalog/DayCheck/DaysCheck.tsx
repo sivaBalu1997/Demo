@@ -21,6 +21,8 @@ interface DaysCheckProps {
   errorarray?:any
   setErrorArray?:any
   Errorname?:string
+  disabledays?:any;
+  dateShow?: any;
 }
 
 // Define the type for the data returned by the API
@@ -55,7 +57,9 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   defaultDays,
   errorarray,
   setErrorArray,
-  Errorname
+  Errorname,
+  disabledays,
+  dateShow
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -85,9 +89,18 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       let updatedCheckedItems: number[];
 
       if (dayIndex === 0) {
-        updatedCheckedItems = checked ? Days?.map((_, i) => i) : [];
-        setId(checked ? data?.map((item) => item?.id) : []);
-      } else {
+        const val:any=[]
+        val.push(0)
+         Days.forEach((_, i) => {
+             const isEnabled = dateShow ? disabledays?.includes(i) : true
+             if(isEnabled)
+             {
+               val.push(i)
+             }
+         }) 
+         updatedCheckedItems =checked ?val:[]
+         setId(checked ? data.map((item) => item?.id) : []);
+       }  else {
         if (checked) {
           updatedCheckedItems = [...prevCheckedItems, dayIndex];
           setId((prevId) => [...prevId, data[dayIndex]?.id]);
@@ -141,11 +154,22 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
         }
       }, [checkedItems]);
 
+
+      useEffect(()=>{
+          if(disabledays.length>0&& checkedItems.length>0){
+               const data =checkedItems.filter((item)=>disabledays.includes(item))
+               setCheckedItems(data)
+               console.log("kkkk",data,disabledays)
+          }
+      
+        },[disabledays])
+
   return (
    
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
           const isChecked = checkedItems?.includes(index);
+          const isEnabled = dateShow ? disabledays?.includes(index) : true;
           return (
             <div key={index}>
               <input
@@ -153,7 +177,9 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 name={index?.toString()}
                 onChange={handleCheckboxChange}
                 // {...register(valueName)}
-                checked={isChecked}
+                checked={isChecked&&isEnabled}
+                disabled={!isEnabled}
+               
                 className="days"
               />
               <label>{elem}</label>

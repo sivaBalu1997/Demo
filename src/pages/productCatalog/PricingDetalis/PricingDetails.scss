@@ -549,7 +549,7 @@
   display: flex;
   justify-content: flex-start;
   gap: 60px;
-  margin-top: 10px;
+  margin-top: 40px;
   accent-color: #E52333;
 }
 
@@ -705,4 +705,18 @@
   left: 0.5rem;
   width: fit-content;
   margin-top: -0.5rem;
+}
+
+
+.avaiability-texts
+{
+  font-family: "Poppins",sans-serif;
+font-weight: 300;
+font-style: italic;
+font-size: 14px;
+line-height: 100%;
+color: #5F5F5F;
+letter-spacing: 0%;
+margin-left: 0.5vw;
+
 }

@@ -28,6 +28,11 @@ interface DineInField {
 interface NormalFormData {
   normalForm: {
     dineInDetails?: any;
+    AvaiabilityToDate?:any;
+    AvaiabilityFromDate:any;
+    availableDaysnew?:any;
+    MealTypes?:any;
+    isOptionTrue:boolean
     dineinfields: DineInField[];
     Normaldays:number[];
     DineIn: any;
@@ -88,6 +93,15 @@ const NormalStep2 = () => {
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
   );  
+console.log({prizingDetail});
+const formatDate = (date:Date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
 
   const thirdPartyDetails = useSelector(
     (state: any) =>
@@ -117,11 +131,24 @@ const NormalStep2 = () => {
     prizingDetail &&
     prizingDetail.normalForm &&
     prizingDetail?.normalForm.DineIn;
+    const availableDaysnew =
+    prizingDetail &&
+    prizingDetail.normalForm &&
+    prizingDetail?.normalForm.availableDaysnew;
   const [Dinein1, setDinein] = useState<number[]>(Dinein);
+  const [availableDays,setAvailableDays]=useState<number[]>(availableDaysnew);
 
   useEffect(() => {
     setDinein(
       prizingDetail?.normalForm?.DineIn?.map((elem:any, index:number) => {
+        return elem;
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    setAvailableDays(
+      prizingDetail?.normalForm?.availableDaysnew?.map((elem:any, index:number) => {
         return elem;
       })
     );
@@ -161,8 +188,48 @@ const NormalStep2 = () => {
     <div>
       <div className="Step2Avaliable">
         <h1 className="Step2Avaliable-heading">
-          Available Service Streams
+          Available Service Streams({`${prizingDetail?.normalForm?.isOptionTrue?"Standand":"Custom"}`})
         </h1>
+      </div>
+      {
+        !(prizingDetail?.normalForm?.isOptionTrue)&& 
+        <div>
+        <div className="date-range">
+          <div>
+            <label>From</label>
+            <p>{prizingDetail?.normalForm?.AvaiabilityFromDate&&formatDate(prizingDetail?.normalForm?.AvaiabilityFromDate)}</p>
+          </div>
+          <div>
+            <label>To</label>
+            <p>{prizingDetail?.normalForm?.AvaiabilityToDate&&formatDate(prizingDetail?.normalForm?.AvaiabilityToDate)}</p>
+          </div>
+        </div>
+        </div>
+      }
+     
+      
+
+<div>
+  
+
+{ !(prizingDetail?.normalForm?.isOptionTrue) && prizingDetail?.normalForm?.availableDaysnew?.length > 0 && <h1 className="Step2MealType-heading">Available days</h1>}
+<div className="mealTypes-data">
+{
+        !(prizingDetail?.normalForm?.isOptionTrue)&& <div>
+
+          {            prizingDetail?.normalForm?.availableDaysnew?.length > 0 && ( <DaysOfWeek days={availableDays} setDays={setAvailableDays} Marginpresent={true} />)
+        }
+
+        </div>
+      }
+</div>
+</div>
+      <div>
+
+        <h1 className="Step2MealType-heading">Meal Type</h1>
+        <div className="mealTypes-data">
+       {prizingDetail?.normalForm?.MealTypes?.join(", ")}
+        </div>
       </div>
       <h1 className="Step2Dinein-heading">Dine in</h1>
       <div className="Step2DineIn">

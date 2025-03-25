@@ -24,7 +24,12 @@ interface DropdownProps {
   validatepickupdelivery?: any;
   color?:string;
   streams?:boolean;
-  zIndex?:boolean
+  zIndex?:boolean;
+  ValiadteMealType?:any;
+  setSelectedMealType?:any;
+  errorarray?:any;
+                              Errorname?:any;
+                              setErrorArray?:any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -43,7 +48,13 @@ const Dropdown: React.FC<DropdownProps> = ({
   validatedineMealType,
   toggleOnorOff,
   validatepickupdelivery,
-  zIndex
+  zIndex,
+  ValiadteMealType,
+  setSelectedMealType,
+  errorarray,
+  Errorname,
+  setErrorArray
+
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -80,14 +91,28 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+ 
     const newSelectedValues = selectedValues.includes(value)
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     onSelect(newSelectedValues);
+    setSelectedMealType(newSelectedValues)
+    console.log("value",newSelectedValues);
+    
+    // ValiadteMealType && ValiadteMealType();
+    if(newSelectedValues.length>0)
+    {
+      const validationErrors = { ...errorarray};
+       
+      delete validationErrors[`${Errorname}`];
+    
+      setErrorArray?.(validationErrors);
+    }
+   
 
-    validatedineMealType && validatedineMealType();
-    validatepickupdelivery &&
-      validatepickupdelivery(toggleOnorOff, newSelectedValues);
+    // validatedineMealType && validatedineMealType();
+    // validatepickupdelivery &&
+    //   validatepickupdelivery(toggleOnorOff, newSelectedValues);
   };
 
   const validateDropdown = (values: string[]) => {

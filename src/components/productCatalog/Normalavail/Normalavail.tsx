@@ -4,7 +4,9 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useContext,
+  useRef,
 } from "react";
+import DatePicker from "react-datepicker";
 import Toggle from "../Toggle/Toggle";
 import "./Normalavail.scss";
 import DaysCheck from "../DayCheck/DaysCheck";
@@ -20,9 +22,10 @@ import { RootState } from "redux/rootReducer";
 import { State } from "sockjs-client";
 import session from "redux-persist/lib/storage/session";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-
+import { useForm, Controller, SubmitHandler, useWatch } from "react-hook-form";
 import { showErrorToast } from "../../../util/toastUtils";
 import { de } from "date-fns/locale";
+import calender from "../../../assets/svg/calendarsvg.svg";
 
 type MainFormType = {
   availabilityid: string[];
@@ -101,7 +104,7 @@ interface NormalavailProps {
     React.SetStateAction<DropdownValidationState>
   >;
   ValidationStateerr?: any;
-
+  isOptionTrue?:boolean;
   dinein: boolean;
   setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
   setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>;
@@ -116,6 +119,7 @@ interface NormalavailProps {
   getValues: any;
   setValue: any;
   setKitchenError: any;
+  setIsOptionTrue:any;
 }
 
 type MealType1 = string;
@@ -141,6 +145,7 @@ interface PriceInfo {
   typeGroup: string;
   availabilities: Availability[];
   inActiveUntil?: any;
+
 }
 
 const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
@@ -163,6 +168,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       getValues,
       setValue,
       setKitchenError,
+      isOptionTrue,
+      setIsOptionTrue
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -171,11 +178,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [showDineIn, setShowDineIn] = useState(true);
     const { setValiadtePriceFields, setStoredFunction } =
       useContext(Contextpagejs);
+console.log({isOptionTrue});
 
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
     const [deliveryEntry, setDeliveryEntry] = useState<string[]>([]);
     const [Normaldays, setNormalDays] = useState<number[]>([]);
+    const [availableDaysnew,setAvailableDaysnew]= useState<number[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
     const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -193,14 +202,18 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>(
       []
     );
+
+    const [selectedMealType, setSelectedMealType] = useState<string[]>(
+      []
+    );
+
+    console.log({selectedMealType});
+    
+    
     const [selectedValuesmealtype, setSelectedValuesMealType] =
       React.useState<SelectedValuesMealTypeState>([]);
 
-    const [optionsmealtype, setOptionsMealType] = useState([
-      "Breakfast",
-      "Lunch",
-      "Dinner",
-    ]);
+   
 
     const locationid = useSelector((state: any) => state.auth.selectedBranch);
 
@@ -247,6 +260,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const orderTypess = locationid?.orderTypes;
 
     const orderTypes = locationid?.orderTypes;
+    const datePickerRef = useRef<any | null>(null);
+    const datePickerRef1 = useRef<any | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
+  
 
     // const seletedItemOrderTypes=data
 
@@ -428,6 +446,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
         setMealTypes({});
         setSelectedThirdValues([]);
+        setSelectedMealType([]);
         setPriceInfo([
           {
             typeId: "",
@@ -528,9 +547,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       formNormal,
       dineinfields,
       Normaldays: Normaldays,
+      MealTypes:selectedMealType,
+      AvaiabilityFromDate:selectedDate,
+      AvaiabilityToDate:selectedDate1,
+      availableDaysnew:availableDaysnew,
       DeliveryMealType: selectedValues3,
       PicupMealType: selectedValues2,
       Pickup: DayPickup,
+      isOptionTrue:isOptionTrue,
+      
 
       DineInServiceArea: [selectedValues],
       Delivery: DayDelivery,
@@ -563,6 +588,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           (item.isEnabled === true || item.isEnabled === 1)
       )
       .map((item: any) => item.typeName);
+
+      const MealType=["Break fast","Lunch","Dinner"]
 
     const thirdPartyData = orderTypes
       ?.filter((item: any) => item.typeGroup === "T")
@@ -631,6 +658,17 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
 
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
+        setAvailableDaysnew(prizingDetail.normalForm.availableDaysnew || [])
+        setSelectedDate(prizingDetail.normalForm.AvaiabilityFromDate || [])
+        setSelectedDate1(prizingDetail.normalForm.AvaiabilityToDate || [])
+        setSelectedMealType(prizingDetail.normalForm.MealTypes || [])
+
+        if(prizingDetail.normalForm.AvaiabilityFromDate  && prizingDetail.normalForm.AvaiabilityToDate )
+        {
+          setIsSeasonalFood(true);
+        }
+
+     
         setDayPickup(prizingDetail.normalForm?.Pickup || []);
         setDayDelivery(prizingDetail.normalForm?.Delivery || []);
 
@@ -639,6 +677,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           availability.availabilityDays =
             prizingDetail?.normalForm?.Normaldays || [];
         });
+        setIsOptionTrue(prizingDetail?.normalForm?.isOptionTrue);
 
         setShowDayPickup(
           prizingDetail.normalForm?.Pickup?.length > 0 ? true : false
@@ -776,6 +815,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         const initialSelectedValues = [updatedField.DineInMealType];
         setSelectedValuesMealType(initialSelectedValues);
+        
 
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
 
@@ -1068,6 +1108,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setDayThird(prizingDetail.normalForm.thirdParty || []);
         setShowDayThird(true);
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
+        setAvailableDaysnew(prizingDetail.normalForm.Normaldays || []);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
         // setSelectedThirdValues(["Swiggy", "Zomato"]);
       }
@@ -1297,9 +1338,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       }
     };
 
-    const addOptionMealType = (newOption: OptionType): void => {
-      setOptionsMealType([...optionsmealtype, newOption]);
-    };
+
 
     const handleServiceSelect2 = (
       index: number,
@@ -1356,6 +1395,20 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
     const [thirdPartiesSelected, setThirdPartiesSelected] = useState(false);
+
+    const  handleMealType= (value: string[]): void => {
+      setSelectedMealType(value);
+    
+     
+
+    
+      // validateDropdown(value, "ThirdDeliverySwiggyZomato");
+
+     
+    };
+
+
+    console.log({selectedMealType});
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
       setThirdPartiesSelected(true);
@@ -1426,6 +1479,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setSelectedValuesMealType([]);
       setSelectedThirdValues([]);
       setNormalDays([]);
+      setAvailableDaysnew([]);
       setSelectedValues2([]);
       setformNormal({
         PickuppriceNormal: "",
@@ -1580,6 +1634,57 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     //  }
 
     //   },[online])
+    const ValiadteMealType=()=>{
+      const validationErrors: Record<string, string> = {};
+     
+       if (selectedMealType?.length === 0) {
+            validationErrors.MealType = "Meal type is empty";
+          }
+
+          else
+          {
+          
+       
+    delete validationErrors[`MealType`];
+  
+ 
+          }
+
+          setErrors(validationErrors);
+    
+
+    }
+    const fromDatevaliadtion=(date:Date|null)=>{
+
+      const validationErrors: Record<string, string> = {};
+     
+       if (!isOptionTrue &&isSeasonalFood && (!date)) {
+            validationErrors.fromDate = "From date required";
+          }
+
+          setErrors(validationErrors);
+
+    }
+    const toDatevaliadtion=(date:Date|null)=>{
+      const validationErrors: Record<string, string> = {};
+     
+      if (!isOptionTrue && isSeasonalFood && (!date)) {
+           validationErrors.toDate = "To date required";
+         }
+
+         setErrors(validationErrors);
+    }
+    const AvailableDatsvaliadtion=()=>{
+
+      const validationErrors: Record<string, string> = {};
+     
+      if (!isOptionTrue && availableDaysnew.length===0) {
+           validationErrors.Availabledays = "Available Days required";
+         }
+
+         setErrors(validationErrors);
+      
+    }
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
@@ -1693,6 +1798,32 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         delete validationErrors.atleastOneOrderType;
       }
 
+
+    
+
+      if (selectedMealType?.length === 0) {
+
+        validationErrors.MealType = "Meal type ee is empty";
+      }
+
+
+
+      if (!isOptionTrue &&isSeasonalFood && !selectedDate) {
+        validationErrors.fromDate = "From date required";
+      }
+
+      if (!isOptionTrue && isSeasonalFood && !selectedDate1) {
+        validationErrors.toDate = "To date required";
+      }
+      if (!isOptionTrue && availableDaysnew.length===0) {
+        validationErrors.Availabledays = "Available Days required";
+      }
+
+      // fromDatevaliadtion();
+      // toDatevaliadtion();
+      // AvailableDatsvaliadtion();
+
+
       // if (
       //   pickupDetails?.Enabled &&
       //   pickup &&
@@ -1738,6 +1869,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       //   }
       // }
 
+
       setErrors(validationErrors);
 
       setKitchenError(true);
@@ -1766,6 +1898,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const isValid = Math.random() > 0.5;
       return isValid;
     };
+      const [disabledDay, setDisableDay] = useState<any[]>([]);
 
     useEffect(() => {
       setValidationFunction(() => handleSubmit);
@@ -1778,6 +1911,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       pickup,
       delivery,
       Normaldays,
+      availableDaysnew,
       showDayPickup,
       showDayDelivery,
       selectedthirdvalues,
@@ -1787,6 +1921,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       DayPickup,
       dineInDates1,
       DayDelivery,
+      selectedMealType
     ]);
     const validatePickupPrice = (price: number, Enable: boolean): void => {
       const validationErrors = { ...errors };
@@ -1814,6 +1949,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const preFillDataPickup = () => {
+      
       if (dineinfields.length > 0) {
         setPickUpDetails((prevDetails) => ({
           ...prevDetails,
@@ -1853,14 +1989,264 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       setErrors(validationErrors);
     };
+
+
+   
+
+
+
     const handleWheel = (event: any) => {
       event.target.blur(); // Removes focus to prevent unintended changes
       event.preventDefault();
     };
 
+      const handleDateChange = (date: Date | null) => {
+        setSelectedDate(date);
+        fromDatevaliadtion(date);
+      };
+      const handleDateChange1 = (date: Date | null) => {
+        setSelectedDate1(date);
+        toDatevaliadtion(date)
+      };
+    const handleImageClick = () => {
+      if (datePickerRef.current) {
+        datePickerRef.current.setOpen(true);
+      }
+    };
+  
+    const handleImageClick2 = () => {
+      if (datePickerRef1.current) {
+        datePickerRef1.current.setOpen(true);
+      }
+    };
+      const [isSeasonalFood, setIsSeasonalFood] = useState(false);
+      const handleSeasonalFood = (value: boolean) => {
+        setIsSeasonalFood(value);
+      };
+      console.log({availableDaysnew});
+      console.log("selectedDate",selectedDate);
+      console.log("selectedDate1",selectedDate1);
+      const generateDateRange = (startDate: any, endDate: any) => {
+        let currentDate = new Date(startDate);
+        let range = [];
+    
+        while (currentDate <= new Date(endDate)) {
+          range.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return range;
+      };
+      function handleSingleDayRange(startDate: any, endDate: any) {
+        if (startDate === endDate) {
+          let dayIndex = new Date(startDate).getDay();
+          let mappedDay: any = dayIndex === 0 ? 7 : dayIndex;
+          setDisableDay(mappedDay);
+          setDayThird(mappedDay);
+        }
+      }
+      const validateDaysInRange = (startDate: any, endDate: any) => {
+        let dateRange = generateDateRange(startDate, endDate);
+        let availableDays = dateRange.map((date: any) =>
+          date.getDay() === 0 ? 7 : date.getDay()
+        );
+        setDisableDay(availableDays);
+        if (availableDays.length === 1) {
+          setDayThird(availableDays);
+          setValue("AvailableDays", availableDays);
+        }
+      };
+    
+ useEffect(() => {
+    if (selectedDate && selectedDate1) {
+     
+
+      if (selectedDate == selectedDate1) {
+        handleSingleDayRange(selectedDate, selectedDate1);
+      } else {
+        validateDaysInRange(selectedDate, selectedDate1);
+      }
+    }
+  }, [selectedDate, selectedDate1]);
+
+      // Seasonal - isSeasonalFood
+      // Available days- availableDaysnew
+      // MealType - selectedMealType
+      // fromdtae -selectedDate
+      // to date - selectedDate1
+      
     return (
       <div>
         <div className="AvailDaycheck">
+          {
+            !isOptionTrue &&
+            <div className="Custome-Availability-container">
+            <div className="Custom-Available">
+                          <input
+                            type="checkbox"
+                            className="checkbox1-Custom"
+                            onChange={() => handleSeasonalFood(!isSeasonalFood)}
+                            checked={isSeasonalFood}
+                          />
+                          <label
+                            onClick={() => handleSeasonalFood(!isSeasonalFood)}
+                            className="custom-available-seasonal-food"
+                          >
+                            Is this a seasonal food item? 
+                          </label>
+                        </div>
+                        <div>
+              <h3 className="available-days-heading">Available days*</h3>
+            </div>
+            <div>
+              {
+                isSeasonalFood &&
+                <div className="date-select-v2">
+                  <div className="FromdateWith-Error">
+                  <div className="from-date-v2">
+                  <DatePicker
+                    placeholderText="01/01/2025"
+                    dateFormat="MM/dd/yyyy"
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    ref={datePickerRef}
+                    className="datePicker-special-v2"
+                  />
+                  <img
+                    src={calender}
+                    className="calender-img-v2"
+                    onClick={handleImageClick}
+                  />
+                  
+                </div>
+                <div className="error-msg-Availabledays">
+                            <div style={{ width: "11.8rem" }}>
+                              <span className="AvailabledaysError">
+                                {errors.fromDate}
+                              </span>
+                            </div>
+                          </div>
+                  </div>
+               
+                <div className="TodateWith-Error">
+                <div className="to-date-v2">
+                  <DatePicker
+                    selected={selectedDate1}
+                    onChange={handleDateChange1}
+                    placeholderText="01/01/2025"
+                    dateFormat="MM/dd/yyyy"
+                    showPopperArrow
+                    ref={datePickerRef1}
+                    className="datePicker-special-v2"
+                  />
+                  <img
+                    src={calender}
+                    className="calender-img-v2"
+                    onClick={handleImageClick2}
+                  ></img>
+                  
+                </div>
+                <div className="error-msg-Availabledays">
+                            <div style={{ width: "11.8rem" }}>
+                              <span className="AvailabledaysError">
+                                {errors.toDate}
+                              </span>
+                            </div>
+                          </div>
+                </div>
+                
+                
+              </div>
+              }
+           
+  
+  
+  {
+    isSeasonalFood && <div>
+    <p className="Note-special-v2">
+                    Note: The item will be available only from start date to end date.
+                  </p>
+      </div>
+  }
+          
+            <div className="dayschecking-v2" style={{marginTop:isSeasonalFood?"2rem":"-1rem"}}>
+                        <DaysCheck
+                          checkedItems={availableDaysnew}
+                          setCheckedItems={setAvailableDaysnew}
+                          id={availabilityid}
+                          setId={setAvailabilityid}
+                          dateShow={isSeasonalFood}
+                          disabledays={disabledDay}
+                          errorarray={errors}
+                                Errorname="Availabledays"
+                                setErrorArray={setErrors}
+                         
+                        ></DaysCheck>
+
+
+                        <div className="error-msg-Availabledays">
+                            <div style={{ width: "11.8rem" }}>
+                              <span className="AvailabledaysError">
+                                {errors.Availabledays}
+                              </span>
+                            </div>
+                          </div>
+                       
+                      </div>
+  
+            </div>
+  
+  
+            </div>
+          }
+      
+         
+          
+        <div className="MealType-v2">
+        <h1 className="Melatype-normal-heading">Meal Type*</h1>
+        <div className="melatype-dropdown-v2">
+             <DropDown
+                              selectedValues={selectedMealType}
+                              // onSelect={handleMealType}
+                              onSelect={(values) =>
+                                handleMealType(values)
+                              }
+                              setSelectedMealType={setSelectedMealType}
+                              
+                              EnabledOrNot={true}
+                              options={MealType}
+                              errorarray={errors}
+                              Errorname="MealType"
+                              setErrorArray={setErrors}
+                              ValiadteMealType={ValiadteMealType}
+                              label=""
+                              // onBlur={() =>
+                              //   validateDropdown(
+                              //     selectedthirdvalues,
+                              //     "SwiggyZomato"
+                              //   )
+                              // }
+                              // validation={validationState.PickupSwiggy}
+                              width="Drop1"
+                              placeHolder="Meal Type*"
+                              zIndex={true}
+                            />
+
+<div className="error-msg-mealtype">
+                            <div style={{ width: "11.8rem" }}>
+                              <span className="deliverypriceerrormsg">
+                                {errors.MealType}
+                              </span>
+                            </div>
+                            {/* <div>
+                              <span className="Errormsg deliverymealtypeerrormsg">
+                                {errors.deliverymealTypeSessions}
+                              </span>
+                            </div> */}
+                          </div>
+        </div>
+
+     
+        </div>
           {/* <button onClick={handleSubmit}>Validate</button> */}
           {/* <div className="tooltip">
               <TooltipMsg
@@ -1923,6 +2309,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         </div>
         {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
         {/* DineIn Related */}
+
+      
+
+
 
         <div className="pricing-section">
           {DineInServiceEnabled && (
