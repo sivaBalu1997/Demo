@@ -19,6 +19,9 @@
     &.menu-rebranded {
       padding: 3.5% 1.5%;
       overflow-y: scroll;
+      .offers-nav-list{
+        display: block;
+      }
     }
     // @media (max-width: 1397px) {
     //   width: 7vw !important;
