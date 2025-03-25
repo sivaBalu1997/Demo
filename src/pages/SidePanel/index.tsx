@@ -417,7 +417,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
             )}
           </div>
 
-          <div
+          {/* <div
             className={
               showOfferOptions === "MenuOptions"
                 ? "activePath"
@@ -526,7 +526,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div
             style={{

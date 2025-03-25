@@ -107,7 +107,7 @@ const App = () => {
       <Loader />
       <div className="app">
         <div className="main-section">
-          <ToastContainer autoClose={3000} />
+          <ToastContainer autoClose={3000} limit={1}/>
           <Routers />
         </div>
       </div>

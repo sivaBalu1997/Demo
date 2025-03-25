@@ -13,17 +13,46 @@ import exportFromJSON from 'export-from-json';
 import html2canvas from "html2canvas";
 import jsPDF from 'jspdf';
 import "./style.scss";
+import { useDispatch, useSelector } from 'react-redux';
+import { getDownloadableReportRequest } from 'redux/newReports/newReportsActions';
+import { RootState } from 'redux/rootReducer';
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
+    apiParams?:Record<string,any>;
+    // {
+    //     limit: number;
+    //     api:string;
+    //     page:1;
+    //     sortBy?: string;
+    //     search?: string;
+    //     locationId?: string;
+    //     startDate?: string;
+    //     endDate?: string;
+    // }
     headerData?: Array<{ key: string; label: string }>;
     kpiTitle: string;
     downloadRef?: React.RefObject<HTMLDivElement>;
 }
 
-const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerData=[], kpiTitle, downloadRef }) => {
+const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerData=[], kpiTitle, downloadRef, apiParams }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false)
+    const dataToDownload = useSelector((state:RootState)=>state.newReports.downloadableReportSuccess)
+    const dataToDownloadLoading=useSelector((state:RootState)=>state.newReports.downloadableReportLoading)
+    const dataToDownloadError=useSelector((state:RootState)=>state.newReports.downloadableReportFailure)
+const dispatch=useDispatch()
+    useEffect(()=>{
+console.log(showDownloadables,apiParams);
+
+        if(showDownloadables && apiParams?.api){
+            console.log("1111");
+            
+            dispatch(getDownloadableReportRequest(apiParams))
+        }
+
+    },[apiParams,showDownloadables])
 
     const toSentenceCase = (text: string) => {
         return text
@@ -142,14 +171,15 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerDat
     const handleDownload = () => {
         if (downloadRef?.current && selectedFormat === "pdf") {
             generatePdfFromRef(); // Invoke if downloadRef is present
-        } else if (selectedFormat === "pdf") {
-            pdfDownloadFn(tableData, headerData);
+        } 
+         if (selectedFormat === "pdf") {
+            pdfDownloadFn(apiParams?.api?dataToDownload:tableData, headerData);
         } else if (selectedFormat === "json") {
-            jsonDownloadFn(tableData);
+            jsonDownloadFn(apiParams?.api?dataToDownload:tableData);
         } else if (selectedFormat === "csv") {
-            csvDownloadFn(tableData);
+            csvDownloadFn(apiParams?.api?dataToDownload:tableData);
         } else if (selectedFormat === "xlsx") {
-            xlsxDownloadFn(tableData);
+            xlsxDownloadFn(apiParams?.api?dataToDownload:tableData);
         }
         setShowDownloadables(false);
         setSelectedFormat(null);
@@ -164,7 +194,10 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerDat
                     setShowDownloadables((val) => !val);
                 }}
             />
+
             {showDownloadables && (
+                <>
+                          {dataToDownloadLoading?<>"Loading..."</>:<>
                 <div className="table-download-options-pop-over" ref={downloadPopoverRef} data-html2canvas-ignore="true">
                     <p className="pop-over-title">{kpiTitle || "Downloadables"}</p>
                     <div className="formats-container">
@@ -193,6 +226,8 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerDat
                         <DownloadBtn /> Download
                     </button>
                 </div>
+                </>}
+                </>
             )}
         </div>
     )

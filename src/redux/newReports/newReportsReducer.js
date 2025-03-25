@@ -171,6 +171,9 @@ import {
     GET_DETAILS_RESTAURANT_REQUEST,
     GET_DETAILS_RESTAURANT_SUCCESS,
     GET_DETAILS_RESTAURANT_FAILURE,
+    GET_DOWNLOADABLE_REPORT_REQUEST,
+    GET_DOWNLOADABLE_REPORT_SUCCESS,
+    GET_DOWNLOADABLE_REPORT_FAILURE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -442,6 +445,11 @@ const initialNewReportsState = {
     getDetailsRestaurantLoading: false,
     getDetailsRestaurantSuccess: [],
     getDetailsRestaurantFailure: false,
+
+    //getDownloadableReport
+    downloadableReportLoading: false,
+    downloadableReportSuccess: [],
+    downloadableReportFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1346,6 +1354,23 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.employeeChartSliceTableSuccess = [];
                 draft.employeeChartSliceTableFailure = true;
                 break;
+
+                //getDownloadableReport
+                case GET_DOWNLOADABLE_REPORT_REQUEST:
+                    draft.downloadableReportLoading = true;
+                    draft.downloadableReportSuccess = [];
+                    draft.downloadableReportFailure = false;
+                    break;
+                case GET_DOWNLOADABLE_REPORT_SUCCESS:
+                    draft.downloadableReportLoading = false;
+                    draft.downloadableReportSuccess = action.payload;
+                    draft.downloadableReportFailure = false;
+                    break;
+                case GET_DOWNLOADABLE_REPORT_FAILURE:
+                    draft.downloadableReportLoading = false;
+                    draft.downloadableReportSuccess = [];
+                    draft.downloadableReportFailure = true;
+                    break;
             default:
                 break;
 

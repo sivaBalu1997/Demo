@@ -67,7 +67,7 @@ const TodaysReport: React.FC = () => {
     const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
-        { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'left' },
+        { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'left', prefix: "#" },
         { key: 'orderChannel', label: 'Order Channel', isSortable: false, alignment: 'left' },
         { key: 'orderType', label: 'Order Type', isSortable: false, alignment: 'left' },
         { key: 'timeElapsed', label: 'Time Elapsed', isSortable: true, alignment: 'left' },
@@ -94,7 +94,7 @@ const TodaysReport: React.FC = () => {
 
 
     const liveOrdersDineInTableHeaders: NewTableHeader[] = [
-        { key: 'orderNumber', label: 'Order number', isSortable: true, alignment: 'left' },
+        { key: 'orderNumber', label: 'Order number', isSortable: true, alignment: 'left' , prefix: "#"},
         { key: 'tableName', label: 'Table name', isSortable: true, alignment: 'left' },
         { key: 'orderDate', label: 'Order date', isSortable: true, alignment: 'left' },
         { key: 'orderTime', label: 'Order time', isSortable: true, alignment: 'left' },
@@ -114,15 +114,20 @@ const TodaysReport: React.FC = () => {
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrdersSearchQuery }))
-    }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate, liveOrdersSearchQuery,])
+        let search=liveOrdersSearchQuery
+        if(search?.[0]==="#")   search = search.slice(1);
+        
+        currentDate && dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: search }))
+    }, [selectedLocation, currentPageLiveOrders, liveOrdersPageLimit, currentDate,liveOrdersSearchQuery])
 
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
         setCurrentDate(formattedDate);
-        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: liveOrderNonDineInSearchQuery }))
-    }, [selectedLocation, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit])
+        let search=liveOrderNonDineInSearchQuery
+        if(search[0]==="#")   search = search.slice(1);
+        currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: search }))
+    }, [selectedLocation, currentPageLiveOrdersNonDineIn, currentDate, liveOrderNonDineInPageLimit,liveOrderNonDineInSearchQuery])
 
     useEffect(() => { 
         const formattedDate = moment().format('YYYY-MM-DD');
@@ -142,16 +147,20 @@ const TodaysReport: React.FC = () => {
     }
 
 
-    const handleSearch = (value: string, kpiTitle: string) => {
+    const handleSearch = (value: string, kpiTitle: string) => {       
+        let search=value
+        if(search?.[0]==="#")   search = search.slice(1);
         switch (kpiTitle) {
             case 'Live Dine-in orders':
                 setLiveOrdersSearchQuery(value)
-                dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrders, tableRecordLimit: liveOrdersPageLimit, searchQuery: value }))
+                setCurrentPageLiveOrders(1)
+                dispatch(liveOrdersRequest({ locationid: selectedLocation?.value, tablePageNo: 1, tableRecordLimit: liveOrdersPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: search }))
                 break;
 
             case 'Live Off-Premise orders':
                 setLiveOrderNonDineInSearchQuery(value)
-                currentDate && dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: value }))
+                setCurrentPageLiveOrdersNonDineIn(1)
+                dispatch(liveOrderNonDineInRequest({ locationid: selectedLocation?.value, tablePageNo: 1, tableRecordLimit: liveOrderNonDineInPageLimit, startDate: currentDate, endDate: currentDate, searchQuery: search }))
                 break;
 
             default:
@@ -245,6 +254,8 @@ const TodaysReport: React.FC = () => {
             </div>
             <div className="todays-report-tables-container">
                 <NewTable
+                    apiEndPoint="/sales/live/tables"
+                    queryParams={{locationId: selectedLocation?.id, startDate: currentDate, endDate: currentDate}}
                     kpiTitle="Live Dine-in orders"
                     searchQuery={liveOrdersSearchQuery}
                     headerData={liveOrdersDineInTableHeaders}
@@ -261,6 +272,8 @@ const TodaysReport: React.FC = () => {
                     totalElements={liveOrdersAPIReduxTotalElements}
                 />
                 <NewTable
+                    apiEndPoint="/sales/live/tracking"
+                    queryParams={{locationId: selectedLocation?.value, startDate: currentDate, endDate: currentDate}}
                     kpiTitle="Live Off-Premise orders"
                     searchQuery={liveOrderNonDineInSearchQuery}
                     headerData={liveOrderNonDineInTableHeaders}

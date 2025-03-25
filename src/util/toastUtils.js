@@ -10,6 +10,7 @@ const ToastTimeout = 1500;
 // Wrapper functions for different types of notifications
 export const showSuccessToast = (message) => {
     toast.success(message, {
+        limit:1,
         position: toast.POSITION.TOP_RIGHT,
         autoClose: ToastTimeout,
         className: 'custom-toast-container', // Apply the custom class to the toast container

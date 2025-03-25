@@ -112,7 +112,9 @@ import {
     unBilledFailure,
     getRestaurantRequestFromNewReports,
     getRestaurantFailreFromNewReports,
-    getRestaurantSuccessFromNewReports
+    getRestaurantSuccessFromNewReports,
+    getDownloadableReportSuccess,
+    getDownloadableReportFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -168,7 +170,8 @@ import {
     GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST,
     BILLED_REQUEST,
     UNBILLED_REQUEST,
-    GET_DETAILS_RESTAURANT_REQUEST
+    GET_DETAILS_RESTAURANT_REQUEST,
+    GET_DOWNLOADABLE_REPORT_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -223,6 +226,7 @@ import {
     getEmployeeChartSliceTable,
     getUnbilled,
     getBilled,
+    getDownloadableReport,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -1205,6 +1209,24 @@ export function* getDetailsRestaurantRequestSaga(action) {
     }
 }
 
+//getDownloadableReport
+export function* getDownloadableReportRequestSaga(action) {
+    try {
+        const response = yield call(getDownloadableReport, action.payload);
+        const decryptedData = response?.data
+        // console.log("response of getDownloadableReportRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(getDownloadableReportSuccess(decryptedData));
+        } else {
+            yield put(getDownloadableReportFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(getDownloadableReportFailure(error));
+        showErrorToast(error.message);
+    }
+}
+
 
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
@@ -1262,4 +1284,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_PREMISES_SUMMARARY_REQUEST, getPremisesSummaryRequestSaga);
     yield takeLatest(GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST, getEmployeeChartSliceTableRequestSaga);
     yield takeLatest(GET_DETAILS_RESTAURANT_REQUEST, getDetailsRestaurantRequestSaga);
+    yield takeLatest(GET_DOWNLOADABLE_REPORT_REQUEST, getDownloadableReportRequestSaga);
 }

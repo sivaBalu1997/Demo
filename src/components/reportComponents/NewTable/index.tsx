@@ -33,6 +33,8 @@ const NewTable: React.FC<NewTableProps> = ({
   setOptions,
   isCustomOption,
   kpiTitle,
+  queryParams,
+  apiEndPoint,
   searchQuery,
   headerData,
   tableData,
@@ -231,6 +233,9 @@ const NewTable: React.FC<NewTableProps> = ({
     onDateSelect(from, to, kpiTitleForCustomDateDropdown);
     setSearchFlag(true);
   };
+
+  console.log(apiEndPoint,1112);
+  
   return initialLoader ? (
     <TableShimmer />
   ) : (
@@ -290,8 +295,15 @@ const NewTable: React.FC<NewTableProps> = ({
                     />
                   )}
                 </div>
-                {tableData && headerData && (
+                {(tableData||apiEndPoint) && headerData && (
                   <DownloadReport
+                    apiParams={{
+                      ...queryParams,    
+                      api:apiEndPoint||"",
+                      page:1,
+                      size:totalElements,
+                      search:searchQuery,
+                    }}
                     tableData={tableData}
                     headerData={headerData}
                     kpiTitle={kpiTitle}
