@@ -572,7 +572,32 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         salesPercentage: Number(salesPercentage.toFixed(2)), // Ensuring a number type
       }))
   );
-  const tenderTypeHeaderForDownloading = tenderTypeflatMappedData && Object.keys(tenderTypeflatMappedData[0])?.map((key) => ({
+  const tenderTypeHeaderForDownloading = tenderTypeflatMappedData?.length > 0 && Object.keys(tenderTypeflatMappedData[0])?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }))
+
+  const offerSummaryDataForDownloading = offerSummary && offerSummary?.map((dataToBeMapped: any)=>({
+    Label: dataToBeMapped?.offerName,
+    Count: dataToBeMapped?.totalOrders,
+    Items: dataToBeMapped?.totalDiscount,
+    Amount: dataToBeMapped?.totalSales
+  }))
+
+  const offerSummaryDataHeaderForDownloading = offerSummaryDataForDownloading?.length > 0 && Object.keys(offerSummaryDataForDownloading[0])?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }))
+
+  const voidedOrderSummaryDataForDownloading = voidedOrderSummary && voidedOrderSummary?.map((dataToBeMapped:any)=>({
+    Label: dataToBeMapped?.voidedReasons,
+    Orders: dataToBeMapped?.orderCount,
+    Amount: dataToBeMapped?.voidedAmount
+  }))
+
+  console.log({voidedOrderSummaryDataForDownloading}) 
+
+  const voidedOrderSummaryDataHeaderForDownloading = voidedOrderSummaryDataForDownloading?.length > 0 && Object.keys(voidedOrderSummaryDataForDownloading[0])?.map((key) => ({
     key,
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }))
@@ -783,7 +808,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
           <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width: "100%" }} ref={offerRef}>
             <div className="doughnut-chart-with-button">
-              <h2 className="sales-overview-sub-heading ">By Discount</h2>
+              <div className="doughnut-head-with-download-container">
+                <h2 className="sales-overview-sub-heading ">By Discount</h2>
+                {(!offerSummaryLoading && offerSummaryDataForDownloading && offerSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="By Discount" tableData={offerSummaryDataForDownloading} headerData={offerSummaryDataHeaderForDownloading}/>}
+              </div>
               <ErrorHandler data={offerSummary} isError={offerSummaryError}>
                 <DoughnutChart
 
@@ -805,7 +833,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               </ErrorHandler>
             </div>
             <div className="doughnut-chart-with-button" >
+            <div className="doughnut-head-with-download-container">
               <h2 className="sales-overview-sub-heading ">Voided orders</h2>
+              {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Voided orders" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading}/>}    
+            </div>
               <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                 <DoughnutChart
 
