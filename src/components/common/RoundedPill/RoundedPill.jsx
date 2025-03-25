@@ -13,7 +13,7 @@ const RoundedPill = ({ data, closeIconOnClick, handeClear ,showSelected=true}) =
               <span className="poppins-fw400-fs16 category-pill-text">
                 {item.label}
               </span>
-              <CloseIcon className="category-pill-close" onClick={() => { closeIconOnClick(item.value) }} />
+             {item.value!==""?<CloseIcon className="category-pill-close" onClick={() => { closeIconOnClick(item.value) }} />:<span  className="category-pill-close" ></span>}
             </div>
           </div>
         ))}

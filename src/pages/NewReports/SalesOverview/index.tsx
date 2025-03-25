@@ -503,8 +503,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label = otherOffer
       }
       setOtherOffer(label)
-      // params.offer = label
-      // dispatch(discountSummaryRequest(params))
+      params.offer = label
+      dispatch(discountSummaryRequest(params))
     }
     if (view === "voidedOffer") {
       let label = data?.label
@@ -512,8 +512,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label = otherVoided
       }
       setVoidedReason(label)
-      // params.reason = label
-      // dispatch(cancellationSummaryRequest(params))
+      params.reason = label
+      dispatch(cancellationSummaryRequest(params))
     }
   };
 
@@ -780,7 +780,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 Back
               </button>
             </div>
-            <ErrorHandler data={discountSummary} isError={discountSummaryError}>
+              {/* <ErrorHandler data={discountSummary} isError={discountSummaryError} */}
               <NewTable
                 kpiTitle={`By discount - ${offerType}`}
                 searchQuery={searchQuery}
@@ -800,7 +800,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 onSearch={handleSearch}
                 totalElements={discountSummaryTotalElements || 0}
               />
-            </ErrorHandler>
+                {/* </ErrorHandler> */}
           </div>
         </>
       ) : (
@@ -811,7 +811,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               Back
             </button>
           </div>
-          {/* <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError} isLoading={cancellationSummaryLoading}> */}
+          {/* <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError}  */}
             <NewTable
               kpiTitle={`Voided orders - ${voidedReason}`}
               searchQuery={searchQuery}
