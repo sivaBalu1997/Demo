@@ -39,26 +39,30 @@ import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.
 import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
 
 const SidePanel = () => {
-
   const dispatch = useDispatch();
-  
-    const permissions = useSelector((state:any) => state.employee.permissions)
-    console.log({permissions})
-    const isReportAccessible = useMemo(() => 
-      permissions?.find((item: any) => item?.module === "REPORTS" && item?.funtions?.includes("Access Report")), 
-  [permissions]
-);
+
+  const permissions = useSelector((state: any) => state.employee.permissions);
+  console.log({ permissions });
+  const isReportAccessible = useMemo(
+    () =>
+      permissions?.find(
+        (item: any) =>
+          item?.module === "REPORTS" &&
+          item?.funtions?.includes("Access Report")
+      ),
+    [permissions]
+  );
   // console.log({ isReportAccessible,permissions });
 
   useEffect(() => {
     // console.log("isReportAccessible", isReportAccessible);
 
-    if(!permissions?.length){
-      const staff:any=localStorage?.getItem("CREDENTIALS")
-      const staffId=JSON.parse(staff)?.id  
-      dispatch(getEmployeePermissionsRequest({staffId : staffId}))
+    if (!permissions?.length) {
+      const staff: any = localStorage?.getItem("CREDENTIALS");
+      const staffId = JSON.parse(staff)?.id;
+      dispatch(getEmployeePermissionsRequest({ staffId: staffId }));
     }
-  },[permissions?.length])
+  }, [permissions?.length]);
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const location = useLocation();
@@ -69,21 +73,25 @@ const SidePanel = () => {
     } else {
       setIsExpanded(true);
     }
-
   }, [location.pathname]);
   return (
     <>
-      <SidePanelDeskTop roles={{reports:isReportAccessible}}/>
-      {isExpanded ? <SidePanelMob roles={{reports:isReportAccessible}} handleClose={() => setIsExpanded(false)} /> : null}
+      <SidePanelDeskTop roles={{ reports: isReportAccessible }} />
+      {isExpanded ? (
+        <SidePanelMob
+          roles={{ reports: isReportAccessible }}
+          handleClose={() => setIsExpanded(false)}
+        />
+      ) : null}
     </>
-  )
+  );
+};
+interface SidePanelInterface {
+  roles: {
+    reports: boolean;
+  };
 }
-interface SidePanelInterface{
-  roles:{
-    reports:boolean
-  }
-}
-const SidePanelDeskTop = ({roles}:SidePanelInterface) => {
+const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
     localStorage.getItem(SELECTED_BRANCH_DATA) || "";
@@ -93,23 +101,22 @@ const SidePanelDeskTop = ({roles}:SidePanelInterface) => {
       : null;
   const menuOptions = ["Items", "Product Catalog"];
 
-
-const reportInsightsOptions = [
-  {
-    name: "Reports & Insights",
-    path: "/old-reports"
-  },
+  const reportInsightsOptions = [
+    {
+      name: "Reports & Insights",
+      path: "/old-reports",
+    },
     // {
     //   name: "Chart JS",
     //   path: "/live-reports"
     // },
     {
       name: "Sales",
-      path: "/sales-reports"
+      path: "/sales-reports",
     },
     {
       name: "Product",
-      path: "/product-reports"
+      path: "/product-reports",
     },
     // {
     //   name:"Staff",
@@ -117,11 +124,11 @@ const reportInsightsOptions = [
     // },
     {
       name: "Check-in",
-      path: "/check-in-reports"
+      path: "/check-in-reports",
     },
     {
       name: "Customer",
-      path: "/customer-reports"
+      path: "/customer-reports",
     },
     // {
     //   name:"Event",
@@ -132,7 +139,6 @@ const reportInsightsOptions = [
   const selectedBranchDispatch = useSelector((state: RootState) => state.auth.selectedBranch);
 
   const history = useHistory();
-
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -145,7 +151,6 @@ const reportInsightsOptions = [
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
 
-
   useEffect(() => {
     setIsExpanded(true);
     if (location?.pathname?.includes("/productCatalog")) {
@@ -157,11 +162,11 @@ const reportInsightsOptions = [
     } else if (location?.pathname?.includes("report/32")) {
       setSelectSubForReport("Reports & Insights");
       setShowOptions("reportOptions");
-    } 
+    }
     // else if (location?.pathname?.includes("/live-reports")) {
     //   setSelectSubForReport("Chart JS");
     //   setShowOptions("reportOptions");
-    // } 
+    // }
     else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
@@ -264,7 +269,7 @@ const reportInsightsOptions = [
   };
 
   const logoutUser = () => {
-    dispatch(clearPermissionsData())
+    dispatch(clearPermissionsData());
     dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());
@@ -273,14 +278,14 @@ const reportInsightsOptions = [
 
   const handlePathChange = (path: string) => {
     history.push(path);
-  }
-
+  };
 
   return (
     <>
       <div
-        className={`menu menu-rebranded is-sticky ${isExpanded ? "expanded" : ""
-          }`}
+        className={`menu menu-rebranded is-sticky ${
+          isExpanded ? "expanded" : ""
+        }`}
       >
         <div className="logo-container logo-container-rebranded">
           <div>
@@ -290,12 +295,10 @@ const reportInsightsOptions = [
                 className="restaurant-logo restaurant-logo-rebranded"
               />
             ) : (
-              (
-                <img
-                  src={getImageURL("LOGO")}
-                  className="restaurant-logo restaurant-logo-rebranded-min"
-                />
-              )
+              <img
+                src={getImageURL("LOGO")}
+                className="restaurant-logo restaurant-logo-rebranded-min"
+              />
             )}
           </div>
 
@@ -333,7 +336,7 @@ const reportInsightsOptions = [
                       return (
                         <option
                           value={`${JSON.stringify(u)}`}
-                        //selected={userBranchName}
+                          //selected={userBranchName}
                         >
                           {u.locationName.split(",")[1]}
                         </option>
@@ -374,7 +377,7 @@ const reportInsightsOptions = [
           <div
             className={
               showOptions === "employees" &&
-                location.pathname.includes("employees")
+              location.pathname.includes("employees")
                 ? "activePath"
                 : "not-active  menu-items-name-rebranded"
             }
@@ -431,7 +434,8 @@ const reportInsightsOptions = [
           >
             <div
               style={{
-                backgroundColor: showOfferOptions === "MenuOptions" ? "#FAFAFA" : "",
+                backgroundColor:
+                  showOfferOptions === "MenuOptions" ? "#FAFAFA" : "",
                 // paddingLeft: showOfferOptions === "MenuOptions" ? "10px" : "",
                 paddingRight: showOfferOptions === "MenuOptions" ? "10px" : "",
                 display: "flex",
@@ -498,26 +502,26 @@ const reportInsightsOptions = [
                   >
                     {showOfferOptions === "MenuOptions"
                       ? offerMenuOptions.map((option) => (
-                        <li
-                          className="menuList-offers-sub-category"
-                          style={{ width: !isExpanded ? "4rem" : "100%" }}
-                        >
-                          <span
-                            style={{
-                              color:
-                                SelectSub == option ? "#E52333" : "#000000",
-                            }}
-                            onClick={() => {
-                              option === "Offers"
-                                ? history.push("/Offer")
-                                : history.push("/Offers/active");
-                              setSelectedSub(option);
-                            }}
+                          <li
+                            className="menuList-offers-sub-category"
+                            style={{ width: !isExpanded ? "4rem" : "100%" }}
                           >
-                            {option}
-                          </span>
-                        </li>
-                      ))
+                            <span
+                              style={{
+                                color:
+                                  SelectSub == option ? "#E52333" : "#000000",
+                              }}
+                              onClick={() => {
+                                option === "Offers"
+                                  ? history.push("/Offer")
+                                  : history.push("/Offers/active");
+                                setSelectedSub(option);
+                              }}
+                            >
+                              {option}
+                            </span>
+                          </li>
+                        ))
                       : null}
                   </ul>
                 )}
@@ -529,7 +533,7 @@ const reportInsightsOptions = [
             style={{
               marginTop:
                 showOfferOptions === "MenuOptions" &&
-                  offerMenuOptions.length > 0
+                offerMenuOptions.length > 0
                   ? "-1.2rem"
                   : "0",
             }}
@@ -538,25 +542,11 @@ const reportInsightsOptions = [
                 ? "activePath"
                 : "not-active  menu-items-name-rebranded"
             }
-            onClick={(e:any) => {
-              if(roles?.reports){
-                setShowOptions((prevState) =>
-                  prevState === "reportOptions" ? "" : "reportOptions"
-                )
-              }else{
-                e.preventDefault();
-                e.stopPropagation();
-                showErrorToast("You don't have permission");
-  
-              }
-         
-
-              // setShowReportsOptions(!showReportsOptions);
-            }}
           >
             <div
               style={{
-                backgroundColor: showOptions === "reportOptions" ? "#FAFAFA" : "",
+                backgroundColor:
+                  showOptions === "reportOptions" ? "#FAFAFA" : "",
                 // paddingLeft: showOptions === "reportOptions" ? "10px" : "",
                 paddingRight: showOptions === "reportOptions" ? "10px" : "",
                 display: "flex",
@@ -573,6 +563,19 @@ const reportInsightsOptions = [
                   gap: !isExpanded ? "1.5rem" : "2rem",
                   justifyContent: "left",
                   alignItems: "center",
+                }}
+                onClick={(e: any) => {
+                  if (roles?.reports) {
+                    setShowOptions((prevState) =>
+                      prevState === "reportOptions" ? "" : "reportOptions"
+                    );
+                  } else {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showErrorToast("You don't have permission");
+                  }
+
+                  // setShowReportsOptions(!showReportsOptions);
                 }}
               >
                 <div
@@ -595,9 +598,9 @@ const reportInsightsOptions = [
                     (showOptions === "reportOptions" ? (
                       <Uparrow
                         className="arrow-dimensions"
-                      // className="dropdown-arrow"
-                      // style={{ marginLeft: "15px" }}
-                      // style={{color: showOptions === "reportOptions" ? "orange" : "pink"}}
+                        // className="dropdown-arrow"
+                        // style={{ marginLeft: "15px" }}
+                        // style={{color: showOptions === "reportOptions" ? "orange" : "pink"}}
                       />
                     ) : (
                       <Downarrow
@@ -637,24 +640,24 @@ const reportInsightsOptions = [
                   >
                     {showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
-                        <li
-                          key={option?.path}
-                          className="menuList-offers-sub-category"
-                          style={{ width: !isExpanded ? "4rem" : "100%" }}
-                        >
-                          <span
-                            style={{
-                              color:
-                                SelectSubForReport == option?.name
-                                  ? "#E52333"
-                                  : "#000000",
-                            }}
-                            onClick={() => handlePathChange(option?.path)}
+                          <li
+                            key={option?.path}
+                            className="menuList-offers-sub-category"
+                            style={{ width: !isExpanded ? "4rem" : "100%" }}
                           >
-                            {option?.name}
-                          </span>
-                        </li>
-                      ))
+                            <div
+                              style={{
+                                color:
+                                  SelectSubForReport == option?.name
+                                    ? "#E52333"
+                                    : "#000000",
+                              }}
+                              onClick={() => handlePathChange(option?.path)}
+                            >
+                              {option?.name}
+                            </div>
+                          </li>
+                        ))
                       : null}
                   </ul>
                 )}
@@ -671,7 +674,7 @@ const reportInsightsOptions = [
             //     ? "activePath"
             //     : "not-active"
             // }
-            onClick={() => { }}
+            onClick={() => {}}
           >
             {
               <>
@@ -1088,7 +1091,6 @@ const reportInsightsOptions = [
           style={{ zIndex: 9 }}
         />
       </div>
-
     </>
   );
 };

@@ -18,6 +18,7 @@ export interface CustomDatePickerProps {
   arrowClassName?: string;
   offsetY?: number;
   selectedDates?: any;
+  maxDate?: Date;
 }
 
 // forwardRef will allow an optional ref to be passed. If none is provided, ref is undefined.
@@ -37,10 +38,10 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
       arrowClassName = "",
       offsetY,
       selectedDates,
+      maxDate = new Date(),
     },
     ref
   ) => {
-
     return (
       <div className={containerClassName}>
         <DatePicker
@@ -49,6 +50,7 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
           value={selectedDates}
           containerClassName={datePickerContainerClassName}
           onChange={handleOnChange}
+          maxDate={maxDate}
           range
           sort
           inputMode={inputMode}

@@ -67,7 +67,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                   </div>
                   <div className="tender-amount-order-container">
                     <span className="tender-amount">{currencySymbol}{formatNumberByCountry(amount, countryCodeFromNewReports, true)}</span>
-                    <span className="tender-orders">{orders} Orders</span>
+                    <span className="tender-orders">{orders} {orders>1?"Orders":"Order"}</span>
                   </div>
                 </div>
                 <div

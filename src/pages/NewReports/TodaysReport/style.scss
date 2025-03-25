@@ -43,11 +43,16 @@
             display: flex;
             flex-direction: column;
             gap: 1vh;
-            h2{
-                font-weight: medium;
-                font-size: 20px;
-                line-height: 24px;
-                letter-spacing: -0.25px;
+            .sales-overview-box-with-download{
+                display: flex;
+                justify-content: space-between;
+                width: 98%;
+                h2{
+                    font-weight: medium;
+                    font-size: 20px;
+                    line-height: 24px;
+                    letter-spacing: -0.25px;
+                }
             }
             .todays-report-sales-overview-box-container{
                 display: grid;

@@ -80,3 +80,41 @@ export const cardConfigForSalesTabOverView: ICardConfigItem[] = [
   export const tabsForProduct = ["Insights", "Availability"]; 
   export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
   export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
+
+  export const cardDataForEmployees = [
+    {
+      title: "Total Sales",
+      value: "totalMagilSales",
+      percentage: "totalSalesPercentage"
+    },
+    {
+      title: "Net Sales",
+      value: "totalMagilNetSales",
+      percentage: "netSalesPercentage"
+    },
+    {
+      title: "Total Tax",
+      value: "totalMagilTax",
+      percentage: "totalTaxPercentage"
+    },
+    {
+      title: "Total Tips",
+      value: "totalMagilTips",
+      percentage: "totalTipsPercentage"
+    },
+    {
+      title: "Gratuity",
+      value: "gratuity",
+      percentage: "gratuityPercentage"
+    },
+    {
+      title: "Discount",
+      value: "discounts",
+      percentage: "discountPercentage"
+    },
+    {
+      title: "Cancelled",
+      value: "cancelledAmt",
+      percentage: "cancelledAmtPercentage"
+    }
+  ];

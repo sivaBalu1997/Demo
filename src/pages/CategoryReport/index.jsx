@@ -21,6 +21,7 @@ import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import "./Tabs.css";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 const CategoryReport = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -237,9 +238,77 @@ const CategoryReport = (props) => {
     setSelectedItems([{ label: "All", value: "" }]);
   }
 
+
   const datepickerApply = (type, data1, data2) => {
     handleDateChange("Custom Date", data1, data2);
   };
+
+  const categorySalesSummaryDataArrayForDownloading = [categorySalesSummaryData]
+  const categorySalesSummaryDataHeaderForDownloading = categorySalesSummaryData && Object.keys(categorySalesSummaryData)?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }));
+const categorySalesDataHeaderForDownloading=[{
+  key :"categoryName",
+ label:"Category Name"
+},
+{
+  key:"totalPrice",
+  label:"Sales",
+
+},
+{
+  key:"totalQuantity",
+  label:"Quantity",
+  
+}]
+
+const categoryChannelSummaryDataHeaderForDownloading = [{
+  key :"categoryName",
+ label:"Category Name"
+},
+{
+  key:"channelName",
+  label:"Channel Name",
+
+},
+{
+  key:"totalAmount",
+  label:"Total Amount",
+  
+}]
+
+const voidedCategoriesDownloadHeader = [{
+  key :"categoryName",
+ label:"Category Name"
+},
+{
+  key:"voidedQuantity",
+  label:"Quantity",
+
+},{
+  key:"voidedAmount",
+  label:"Sales",
+
+},
+]
+
+
+const cancelledItemsDownloadHeader = [{
+  key :"itemName",
+ label:"Item Name"
+},
+{
+  key:"voidedQuantity",
+  label:"Total Item",
+
+},{
+  key:"voidedAmount",
+  label:"Amount",
+
+},
+]
+console.log( voidedSummaryData,"tsfdsf it is")
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -345,7 +414,7 @@ const CategoryReport = (props) => {
                 {activeBtn == "categories" ? "Categories Overview" : ""}
                 {activeBtn == "items" ? "Items overview" : ""}
               </h1>
-              <DownloadPopOver />
+              {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading }/>}
             </div>
             <MiniCard
               data={[
@@ -378,7 +447,7 @@ const CategoryReport = (props) => {
                 {activeBtn == "categories" ? "Categories sales" : ""}
                 {activeBtn == "items" ? "Items sales" : ""}
               </h1>
-              <DownloadPopOver />
+              {(!categorySalesDataLoading && categorySalesData && categorySalesDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Sales" : activeBtn === "items" ? "Items Sales" : ""} tableData={categorySalesData} headerData={categorySalesDataHeaderForDownloading}/>}
             </div>
             <ErrorHandler data={categorySalesData} isError={categorySalesDataFailure}>
               <LinearBarChart
@@ -396,7 +465,7 @@ const CategoryReport = (props) => {
                 {activeBtn == "categories" ? "By Channels - Categories" : ""}
                 {activeBtn == "items" ? "By Channels - Items" : ""}
               </h1>
-              <DownloadPopOver />
+              {<DownloadReport kpiTitle={activeBtn === "categories" ? "By Channels - Categories" : activeBtn === "items" ? "By Channels - Items" : ""} tableData={categoryChannelSummaryData} headerData={categoryChannelSummaryDataHeaderForDownloading }/>}
             </div>
             <ErrorHandler data={categoryChannelSummaryData} isError={categoryChannelSummaryDataFailure}>
               <SalesChart
@@ -413,8 +482,8 @@ const CategoryReport = (props) => {
                 <h1 className="categories-overview-heading">
                   Categories Voids
                 </h1>
-                <DownloadPopOver />
-              </div>
+                {<DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Voids" : activeBtn === "items" ? "Cancellation" : ""} tableData={voidedSummaryData} headerData={voidedCategoriesDownloadHeader }/>}
+                </div>
               <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
                 <LinearBarChartCategorySales
                   dataList={voidedSummaryData}
@@ -432,7 +501,7 @@ const CategoryReport = (props) => {
             <div>
               <div className="categories-graph-header-container">
                 <h1 className="categories-overview-heading">Cancellation</h1>
-                <DownloadPopOver />
+                {<DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Voids" : activeBtn === "items" ? "Cancellation" : ""} tableData={voidedSummaryData} headerData={cancelledItemsDownloadHeader }/>}
               </div>
               <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
                 <DoughnutChart

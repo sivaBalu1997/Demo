@@ -20,6 +20,7 @@ import moment from 'moment';
 import NewTable from 'components/reportComponents/NewTable';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import "./style.scss";
+import DownloadReport from 'components/reportComponents/DownloadReports';
 
 const TodaysReport: React.FC = () => {
 
@@ -51,6 +52,18 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
+    const billedDataArrayForDownloading = [billedDataAPIRedux]
+    const billedDataAPIReduxHeaderForDownloading = billedDataAPIRedux && Object.keys(billedDataAPIRedux)?.map((key) => ({
+        key,
+        label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+      }));
+    
+    const unBilledAPIReduxArrayForDownloading = [unBilledAPIRedux]
+    const unBilledAPIReduxHeaderForDownloading = unBilledAPIRedux && Object.keys(unBilledAPIRedux)?.map((key) => ({
+        key,
+        label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+      }));
+
     const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
@@ -66,6 +79,19 @@ const TodaysReport: React.FC = () => {
         // { key: 'requestedEta', label: 'Requested ETA', isSortable: true, alignment: 'left' },
     ];
 
+    const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map((toBeMappedData: any) => ({
+        orderNumber: toBeMappedData.orderNumber,
+        orderChannel: toBeMappedData.orderChannel,
+        orderType: toBeMappedData.orderType,
+        timeElapsed: toBeMappedData.timeElapsed,
+        orderStatus: toBeMappedData.orderStatus,
+        customerName: toBeMappedData.customerName,
+        customerNumber: toBeMappedData.customerNumber,
+        orderTotal: toBeMappedData.orderTotal,
+        // orderDate: toBeMappedData.orderDate,
+        // requestedEta: toBeMappedData.requestedEta,
+    }));
+
 
     const liveOrdersDineInTableHeaders: NewTableHeader[] = [
         { key: 'orderNumber', label: 'Order number', isSortable: true, alignment: 'left' },
@@ -75,6 +101,15 @@ const TodaysReport: React.FC = () => {
         { key: 'tableOccupancyDuration', label: 'Table occupancy duration', isSortable: true, alignment: 'left' },
         { key: 'orderAmount', label: `Order amount`, isSortable: true, alignment: 'right', prefix: currencySymbol },
     ]
+
+    const orderedLiveOrdersData = liveOrdersAPIRedux?.map((toBeMappedData: any) => ({
+        orderNumber: toBeMappedData.orderNumber,
+        tableName: toBeMappedData.tableName,
+        orderDate: toBeMappedData.orderDate,
+        orderTime: toBeMappedData.orderTime,
+        tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
+        orderAmount: toBeMappedData.orderAmount,
+    }))
 
     useEffect(() => {
         const formattedDate = moment().format('YYYY-MM-DD');
@@ -175,7 +210,16 @@ const TodaysReport: React.FC = () => {
                 toggleSwitch={handleToggleSwitch}
             />
             <div className="todays-report-sales-overview-box-container-parent">
-                <h2>Sales Overview</h2>
+                <div className="sales-overview-box-with-download">
+                    <h2>Sales Overview</h2>
+                    {((!billedDataAPIReduxLoading && billedDataArrayForDownloading)&& (!unBilledAPIReduxLoading && unBilledAPIReduxArrayForDownloading)) && (
+                        <DownloadReport
+                            kpiTitle="Sales Overview"
+                            tableData={isSwitchActive ? billedDataArrayForDownloading : unBilledAPIReduxArrayForDownloading}
+                            headerData={isSwitchActive ? billedDataAPIReduxHeaderForDownloading : unBilledAPIReduxHeaderForDownloading}
+                        />
+                    )}                
+                </div>
                 <div className="todays-report-sales-overview-box-container">
                     {isSwitchActive ? (cardWithMiniGraphDataForTodays?.map(({ title, key, isMonetary }) => (
                         <CardWithMiniGraph
@@ -204,7 +248,7 @@ const TodaysReport: React.FC = () => {
                     kpiTitle="Live Dine-in orders"
                     searchQuery={liveOrdersSearchQuery}
                     headerData={liveOrdersDineInTableHeaders}
-                    tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 && liveOrdersAPIRedux}
+                    tableData={orderedLiveOrdersData && orderedLiveOrdersData?.length > 0 && orderedLiveOrdersData}
                     currentPage={currentPageLiveOrders}
                     totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
                     onPageChange={setCurrentPageLiveOrders}
@@ -220,7 +264,7 @@ const TodaysReport: React.FC = () => {
                     kpiTitle="Live Off-Premise orders"
                     searchQuery={liveOrderNonDineInSearchQuery}
                     headerData={liveOrderNonDineInTableHeaders}
-                    tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 && liveOrderNonDineInAPIRedux}
+                    tableData={orderedLiveNonDineInData && orderedLiveNonDineInData?.length > 0 && orderedLiveNonDineInData}
                     currentPage={currentPageLiveOrdersNonDineIn}
                     totalPages={liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1}
                     onPageChange={setCurrentPageLiveOrdersNonDineIn}

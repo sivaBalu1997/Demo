@@ -12,6 +12,7 @@
   margin-top: 8px;
   margin-bottom: 24px;
   padding: 0px;
+  // background-color: pink;
 
   & h2 {
     font-family: Poppins;
@@ -40,7 +41,6 @@
     // display: flex;
     // flex-direction: row;
     gap: 24px;
-    margin-top: 46px;
 
     h2 {
       font-family: Poppins;
@@ -100,37 +100,41 @@
   display: flex;
   gap: 5px;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   margin: 40px 0px 10px 0px;
   gap: 15px;
-
-  h2{
-      font-weight: 500;
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: -0.25px;
+  .total-sales-overview-header-with-download{
+    display: flex;
+    gap: 10px;
+    h2{
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.25px;
+      }
+    
+    .total-sales-info-content {
+      padding: 10px;
+      z-index: 10;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: "Poppins";
+      color: #ffff;
+      background-color: #6f6f6f !important;
+      border-radius: 5px;
     }
   
-  .total-sales-info-content {
-    padding: 10px;
-    z-index: 10;
-    font-weight: 400;
-    font-size: 14px;
-    font-family: "Poppins";
-    color: #ffff;
-    background-color: #6f6f6f !important;
-    border-radius: 5px;
+    .total-sales-info-container {
+      position: relative;
+      // background-color: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .total-sales-info-content {
+        display: none;
+      }
   }
-
-  .total-sales-info-container {
-    position: relative;
-    // background-color: pink;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .total-sales-info-content {
-      display: none;
-    }
   }
   .total-sales-info-container:hover {
     position: relative;
@@ -180,6 +184,14 @@
   }
 }
 
+.tender-type-head-container{
+  // background-color: pink;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .todays-report-tables-container {
   display: flex;
   flex-direction: column;
@@ -188,6 +200,19 @@
   width: 100%;
   height: fit-content;
   gap: 5vh;
+}
+
+.sales-charts-parent-container{
+  display: flex;
+  flex-direction: column;
+  // background-color: orange;
+  margin-top: 5vh;
+  .sales-chart-download-container{
+    // background-color: pink;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .sales-overview-doughnut-chart-container{
@@ -204,6 +229,12 @@
     @media(max-width: 600px){
       width: 100%;
     }
+  }
+  .doughnut-head-with-download-container{
+    // background-color: pink;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
