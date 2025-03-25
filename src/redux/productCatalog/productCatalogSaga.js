@@ -526,6 +526,9 @@ function* deleteMenuItemSaga(action) {
         })
       );
       yield put(removeDataRequest());
+
+      yield put({ type: STORE_MENU_REQUEST, payload: action.payload.locationid });
+
     } else {
       yield put(deleteMenuItemFailed({ message: "please Try Again" }));
     }

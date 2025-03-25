@@ -823,15 +823,18 @@ case SELECTED_COLUMNS:
         draft.deleteMenuItemFailed = false;
         draft.deleteMenuItemSuccess = true;
         draft.deleteMenuItemFailureMessage = "";
-        draft.menuData = draft.menuData.map((category) => {
-          if (!category.itemResponseList) return category;
-          return {
-            ...category,
-            itemResponseList: category.itemResponseList.filter(
-              (item) => item.itemId !== action.payload.itemId
-            ),
-          };
-        });
+
+        // draft.menuData = draft.menuData.map((category) => {
+        //   if (!category.itemResponseList) return category;
+        //   return {
+        //     ...category,
+        //     itemResponseList: category.itemResponseList.filter(
+        //       (item) => item.itemId !== action.payload.itemId
+        //     ),
+        //   };
+        // });
+        
+
         draft.deleteMenuItemSuccessMessage = action.payload;
         break;
       case DELETE_MENU_ITEM_FAILED:
