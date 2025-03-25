@@ -68,7 +68,9 @@ const NewTable: React.FC<NewTableProps> = ({
 
   const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
 
-  const toggleVisibility = (rowIndex: number) => {
+  const toggleVisibility = (e: React.MouseEvent<HTMLSpanElement>,rowIndex: number) => {
+      e?.preventDefault()
+      e?.stopPropagation()
     setVisibility((prev: any) => ({
       ...prev,
       [rowIndex]: !prev[rowIndex],
@@ -89,11 +91,13 @@ const NewTable: React.FC<NewTableProps> = ({
   }, [loader]);
 
   const handleSort = (key: string) => {
+    console.log({key,sk:sortConfig?.key, d: sortConfig?.direction  });
+    
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
       direction = "desc";
     else if (sortConfig?.key === key && sortConfig?.direction === "desc")
-      direction = null;
+      direction = "asc";
     setSortConfig({ key, direction });
   };
 
@@ -159,7 +163,7 @@ const NewTable: React.FC<NewTableProps> = ({
 
   const getOrderChannelIcons = (rowvalue: string, headerKey?: string) => {
     if (headerKey != "orderType") {
-      if (rowvalue === "Walkin" || rowvalue === "Instore") {
+      if (rowvalue === "Walkin" ) {//|| rowvalue === "Instore"
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
@@ -394,7 +398,7 @@ const NewTable: React.FC<NewTableProps> = ({
                         />
                       )}
                       {header?.isPrivate && (
-                        <span onClick={() => toggleVisibility(header.key)}>
+                        <span onClick={(e: React.MouseEvent<HTMLSpanElement>) => {toggleVisibility(e,header.key)}}>
                           {visibility[header.key] ? (
                             <OpenEyeIcon
                               className={`sort-icon`}
