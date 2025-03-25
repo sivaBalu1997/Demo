@@ -44,8 +44,8 @@ import useDateFilter from "hooks/useDateFilter";
 // import useDebounce from "hooks/useDebounce";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import ReportNotFound from "components/reportComponents/ReportsNotFound";
-import "./SalesOverview.scss";
 import DownloadReport from "components/reportComponents/DownloadReports";
+import "./SalesOverview.scss";
 
 
 interface ReportProps { }
@@ -241,10 +241,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const cancellationSummaryLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading);
   const cancellationSummaryError = useSelector((state: any) => state?.newReports?.cancellationSummaryFailure);
   const cancellationSummaryTotalPages = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages);
-  const salesByChannel = useSelector((state: any) => state?.newReports?.salesByChannelData?.content);
+  const salesByChannel = useSelector((state: any) => state?.newReports?.salesByChannelData?.content);  
   const salesByChannelLoading = useSelector((state: any) => state?.newReports?.salesByChannelLoading);
   const salesByChannelError = useSelector((state: any) => state?.newReports?.salesByChannelFailure);
-  const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
+  const salesByRevenueClass = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);  
   const salesByRevenueClassLoading = useSelector((state: any) => state?.newReports?.salesByRevenueClassLoading);
   const salesByRevenueClassError = useSelector((state: any) => state?.newReports?.salesByRevenueClassFailure);
   const offerSummary = useSelector((state: any) => state?.newReports?.offerSummaryData?.content);
@@ -524,6 +524,45 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }));
 
+  const salesCardTypeDataForDownloading = salesCardTypeData && salesCardTypeData?.map((dataToBeMapped: any) => ({
+    cardName: dataToBeMapped?.cardName,
+    cardType: dataToBeMapped?.cardType,
+    totalSales: dataToBeMapped?.totalSales,
+  }))
+  const salesCardTypeHeaderForDownloading = salesCardTypeData && salesCardTypeData?.length > 0 && Object.keys(salesCardTypeData[0])?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }))
+
+  const staffSalesDataForDownloading = staffSalesData && staffSalesData?.map((dataToBeMapped: any) => ({
+    fullName: dataToBeMapped?.fullName,
+    totalOrders: dataToBeMapped?.orders,
+    totalSales : dataToBeMapped?.total,
+  })) || [];
+  
+  const staffSalesHeaderForDownloading =
+    staffSalesDataForDownloading.length > 0
+      ? Object.keys(staffSalesDataForDownloading[0]).map((key) => ({
+          key,
+          label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim(),
+        }))
+      : []; // Return an empty array if no data
+
+  const salesByChannelHeader = salesByChannel && Object.keys(salesByChannel)?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }));
+
+  const salesByRevenueClassForDownloading = salesByRevenueClass && salesByRevenueClass?.map((dataToBeMapped: any) => ({
+    revenueClass: dataToBeMapped?.revenueClass,
+    itemsSold: dataToBeMapped?.itemsSold,
+    totalSales: dataToBeMapped?.totalSales,
+  }))
+
+  const salesByRevenueClassHeaderForDownloading = salesByRevenueClass && salesByRevenueClass?.length > 0 && Object.keys(salesByRevenueClass[0])?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }))
 
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
@@ -690,8 +729,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </ErrorHandler>
 
           {/* <div className="sales-charts-container">   */}
-          <div>
-            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>Card Type</h2>
+          <div className="sales-charts-parent-container">
+            <div className="sales-chart-download-container">
+              <h2 className="sales-overview-sub-heading ">Card Type</h2>
+              {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
+            </div>
             <ErrorHandler data={salesCardTypeData} isError={salesCardTypeError}>
               <CardTypeChart
                 dataList={salesCardTypeData}
@@ -700,8 +742,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </ErrorHandler>
           </div>
 
-          <div>
-            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Employees</h2>
+          <div className="sales-charts-parent-container">
+            <div className="sales-chart-download-container">
+              <h2 className="sales-overview-sub-heading ">By Employees</h2>
+              {(!staffSalesLoading && staffSalesDataForDownloading && staffSalesHeaderForDownloading) && <DownloadReport kpiTitle="By Employees" tableData={staffSalesDataForDownloading} headerData={staffSalesHeaderForDownloading}/>}
+            </div>  
             <ErrorHandler data={staffSalesData} isError={staffSalesError} >
               <EmployeeSalesChart
                 dataList={staffSalesData}
@@ -710,8 +755,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </ErrorHandler>
           </div>
 
-          <div>
-            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Channel</h2>
+          <div className="sales-charts-parent-container">
+            <div className="sales-chart-download-container">
+              <h2 className="sales-overview-sub-heading ">By Channel</h2>
+              {(!salesByChannelLoading && salesByChannel && salesByChannelHeader) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={salesByChannelHeader}/>}
+            </div>
             <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
               <ChannelSalesChart
                 dataList={salesByChannel}
@@ -765,8 +813,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               </ErrorHandler>
             </div>
           </div>
-          <div>
-            <h2 className="sales-overview-sub-heading " style={{ marginTop: "10vh" }}>By Revenue class</h2>
+          <div className="sales-charts-parent-container">
+            <div className="sales-chart-download-container">
+              <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
+              {(!salesByRevenueClassLoading && salesByRevenueClassForDownloading && salesByRevenueClassHeaderForDownloading) && <DownloadReport kpiTitle="By Revenue class" tableData={salesByRevenueClassForDownloading} headerData={salesByRevenueClassHeaderForDownloading}/>}
+            </div>
             <ErrorHandler data={salesByRevenueClass} isError={salesByRevenueClassError} >
               <RevenueClassChart
                 dataList={salesByRevenueClass}
