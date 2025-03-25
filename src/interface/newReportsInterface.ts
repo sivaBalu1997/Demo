@@ -111,3 +111,19 @@ export interface ICardConfigItem {
   isMonetary: boolean;
   showMiniGraph: boolean | ((val: string | number) => boolean);
 }
+
+export type groupedDataFlat = {
+  onPremiseSales: number;
+  onPremiseOrders: number;
+  offPremiseSales: number;
+  offPremiseOrders: number;
+  paymentMode: string;
+  totalSales: number;
+  totalOrders: number;
+  salesPercentage: number;
+  cardName: string | null;
+  cardType: string | null;
+  isExpandable: boolean;
+};
+
+export type GroupedDataArray = Record<string, groupedDataFlat[]>;

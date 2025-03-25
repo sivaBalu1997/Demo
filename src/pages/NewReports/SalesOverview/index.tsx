@@ -28,7 +28,7 @@ import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash
 import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
-import { NewTableHeader } from "interface/newReportsInterface";
+import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
 import { cardConfigForSalesTabOverView } from "CommonConstants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
@@ -564,6 +564,18 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }))
 
+  const tenderTypeflatMappedData: (Omit<groupedDataFlat, "isExpandable"> & { group: string })[] = Object.entries(groupedData as GroupedDataArray)?.flatMap(
+    ([group, items]) =>
+      items?.map(({ isExpandable, salesPercentage, ...rest }) => ({
+        ...rest,
+        group,
+        salesPercentage: Number(salesPercentage.toFixed(2)), // Ensuring a number type
+      }))
+  );
+  const tenderTypeHeaderForDownloading = tenderTypeflatMappedData && Object.keys(tenderTypeflatMappedData[0])?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }))
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
     handleDateChange("Custom Date", data1, data2);
@@ -649,8 +661,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
 
 
-          <div>
+          <div className="tender-type-head-container">
             <h2 className="sales-overview-sub-heading ">Tender Type</h2>
+            {(!tendorTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading}/>}
           </div>
           <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
             <div className="reports-tendor-container">
