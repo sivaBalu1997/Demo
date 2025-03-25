@@ -21,7 +21,7 @@ interface DownloadReportProps {
     downloadRef?: React.RefObject<HTMLDivElement>;
 }
 
-const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, kpiTitle, downloadRef }) => {
+const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerData=[], kpiTitle, downloadRef }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
 
@@ -77,28 +77,8 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData, headerData, 
     };
 
     const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
-        // console.log("XLS1",{data})
         const fileName = kpiTitle;
         const exportType = exportFromJSON.types.xls;
-
-        // const transformedData = transformKeysToSentenceCase(data);
-
-        // console.log({transformedData})
-
-        // exportFromJSON({ data: transformedData, fileName, exportType });
-            // Add formatting options to treat data as text
-
-    // const exportConfig = {
-    //     data: transformedData,
-    //     fileName,
-    //     exportType,
-    //     cellDates: true,
-    //     numbers: {
-    //         type: 'string'
-    //     }
-    // };
-    // exportFromJSON(exportConfig);
-
 
         // First transform the data to sentence case
         const transformedData = transformKeysToSentenceCase(data).map(row => {

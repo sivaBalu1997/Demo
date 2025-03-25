@@ -45,6 +45,7 @@ import useDateFilter from "hooks/useDateFilter";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import ReportNotFound from "components/reportComponents/ReportsNotFound";
 import "./SalesOverview.scss";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 
 interface ReportProps { }
@@ -517,6 +518,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     }
   };
 
+  const salesOverViewBoxForDownloading = [salesSummary]
+  const salesSummaryHeaderForDownloading = Object.keys(salesSummary).map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }));
 
 
 
@@ -560,15 +566,18 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           <div><ReportNotFound errorType={"salesNotFound"} /></div>:<div>   
           <div className="todays-report-sales-overview-box-container-parent">
             <div className="total-sales-heading-container">
-              <h2>Total sales Overview</h2>
-              <div className="total-sales-info-container">
-                <InfoIcon />
-                <div className="total-sales-info-content">
-                  The graph shows the percentage compared to the previous day.
-                  If you select this week, the comparison chart will display
-                  last week's data
+              <div className="total-sales-overview-header-with-download">
+                <h2>Total sales Overview</h2>
+                <div className="total-sales-info-container">
+                  <InfoIcon />
+                  <div className="total-sales-info-content">
+                    The graph shows the percentage compared to the previous day.
+                    If you select this week, the comparison chart will display
+                    last week's data
+                  </div>
                 </div>
               </div>
+              {(!salesSummaryLoader && salesOverViewBoxForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
             </div>
 
             <div className="todays-report-sales-overview-box-container">

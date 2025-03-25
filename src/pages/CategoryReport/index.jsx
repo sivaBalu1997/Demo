@@ -21,6 +21,7 @@ import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import "./Tabs.css";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 const CategoryReport = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -241,6 +242,12 @@ const CategoryReport = (props) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
+  const categorySalesSummaryDataArrayForDownloading = [categorySalesSummaryData]
+  const categorySalesSummaryDataHeaderForDownloading = Object.keys(categorySalesSummaryData).map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }));
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="category-page-cotainer">
@@ -345,7 +352,7 @@ const CategoryReport = (props) => {
                 {activeBtn == "categories" ? "Categories Overview" : ""}
                 {activeBtn == "items" ? "Items overview" : ""}
               </h1>
-              <DownloadPopOver />
+              {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading}/>}
             </div>
             <MiniCard
               data={[

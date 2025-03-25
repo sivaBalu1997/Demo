@@ -100,37 +100,41 @@
   display: flex;
   gap: 5px;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   margin: 40px 0px 10px 0px;
   gap: 15px;
-
-  h2{
-      font-weight: 500;
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: -0.25px;
+  .total-sales-overview-header-with-download{
+    display: flex;
+    gap: 10px;
+    h2{
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.25px;
+      }
+    
+    .total-sales-info-content {
+      padding: 10px;
+      z-index: 10;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: "Poppins";
+      color: #ffff;
+      background-color: #6f6f6f !important;
+      border-radius: 5px;
     }
   
-  .total-sales-info-content {
-    padding: 10px;
-    z-index: 10;
-    font-weight: 400;
-    font-size: 14px;
-    font-family: "Poppins";
-    color: #ffff;
-    background-color: #6f6f6f !important;
-    border-radius: 5px;
+    .total-sales-info-container {
+      position: relative;
+      // background-color: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .total-sales-info-content {
+        display: none;
+      }
   }
-
-  .total-sales-info-container {
-    position: relative;
-    // background-color: pink;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .total-sales-info-content {
-      display: none;
-    }
   }
   .total-sales-info-container:hover {
     position: relative;

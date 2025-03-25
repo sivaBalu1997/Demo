@@ -14,6 +14,7 @@ import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
+import { cardDataForEmployees } from "CommonConstants/reportConstants";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
@@ -21,6 +22,7 @@ import CustomDropdown from "components/common/customDropdown";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import DownloadReport from "components/reportComponents/DownloadReports";
 import "./style.scss";
 
 // Custom Bar Style
@@ -60,7 +62,6 @@ const Employees: React.FC = () => {
   const getEmployeeChartSliceTableDataFromAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalElements)
   const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
   const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
-  // console.log("PPP", { getEmployeeChartSliceTableDataFromAPIRedux, getEmployeeChartSliceTotalPagesFromAPIRedux, getEmployeeChartSliceTableDataLoaderFromAPIRedux })
 
   // Generic table states :
   const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
@@ -104,11 +105,7 @@ const Employees: React.FC = () => {
     }
   }, [selectedLocation?.value]);
 
-  const [selectedValueStateData, setSelectedValueStateData] =
-    useState<NewTableHeader[]>();
-
   const getChartSliceTableHeaders = (selectedValueForChartSlice: string) => {
-    // console.log("PPP5", { selectedValueForChartSlice })
     switch (selectedValueForChartSlice) {
       case "Remove tax":
         return [
@@ -641,20 +638,19 @@ const Employees: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedLocation?.value && employeeList) {
-      dispatch(
-        employeeSalesOverviewRequest({
-          locationid: selectedLocation?.value,
-          startDate: startDate,
-          endDate: endDate,
-          staffId: employeeList === "All" ? "" : employeeList,
-        })
-      );
-    }
-  }, [selectedLocation?.value, startDate, endDate, employeeList]);
-
-  useEffect(() => {
     if (selectedLocation?.value) {
+      // Dispatch both actions if conditions are met
+      if (employeeList) {
+        dispatch(
+          employeeSalesOverviewRequest({
+            locationid: selectedLocation?.value,
+            startDate: startDate,
+            endDate: endDate,
+            staffId: employeeList === "All" ? "" : employeeList,
+          })
+        );
+      }
+
       dispatch(
         getEmployeeActivityRequest({
           locationid: selectedLocation?.value,
@@ -690,6 +686,12 @@ const Employees: React.FC = () => {
     currentPageGenericTable,
     genericTableRecordLimit,
   ]);
+
+  const employeeSalesOverViewFromAPIReduxArrayForDownloading = [employeeSalesOverViewFromAPIRedux]
+  const employeeSalesOverViewFromAPIReduxHeaderForDownloading = Object.keys(employeeSalesOverViewFromAPIRedux).map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }));
 
   return (
     <div className="report-sales-employee-container">
@@ -739,7 +741,10 @@ const Employees: React.FC = () => {
             dateDropdownFunction={datepickerApply}
           />
           <div className="employee-report-sales-overview-box-container-parent">
+            <div className="employee-sales-overview-head-with-download">
             <h2>Sales Overview</h2>
+            {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading)&& <DownloadReport kpiTitle="Sales Overview" tableData={employeeSalesOverViewFromAPIReduxArrayForDownloading} headerData={employeeSalesOverViewFromAPIReduxHeaderForDownloading}/>}
+            </div>
             <div className="select-employee-container">
               <p>Select employee</p>
               <div className="select-employee-dropdown">
@@ -757,133 +762,27 @@ const Employees: React.FC = () => {
               </div>
             </div>
             <div className="employee-report-sales-overview-box-container">
-              <CardWithMiniGraph
-                cardTitle="Total Sales"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.totalMagilSales,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                // loader={true}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.totalSalesPercentage
-                )}
-                showMiniGraph={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Net Sales"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.totalMagilNetSales,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.netSalesPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.netSalesPercentage
-                )}
-                showMiniGraph={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Total Tax"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.totalMagilTax,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.totalTaxPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
-                )}
-                showMiniGraph={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Total Tips"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.totalMagilTips,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.totalTipsPercentage
-                )}
-                showMiniGraph={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Gratuity"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.gratuity,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.gratuityPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.gratuityPercentage
-                )}
-                showMiniGraph={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Discount"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.discounts,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.discountPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.discountPercentage
-                )}
-                showMiniGraph={true}
-              />
-              <CardWithMiniGraph
-                cardTitle="Cancelled"
-                cardValue={formatNumberByCountry(
-                  employeeSalesOverViewFromAPIRedux?.cancelledAmt,
-                  countryCode,
-                  true
-                )}
-                isMonetary={true}
-                loader={employeeSalesOverViewFromAPIReduxLoader}
-                incrementDecrementValue={
-                  employeeSalesOverViewFromAPIRedux?.cancelledAmtPercentage
-                }
-                graphType="arrow"
-                incrementOrDecrement={transformSalesData(
-                  employeeSalesOverViewFromAPIRedux?.cancelledAmtPercentage
-                )}
-                showMiniGraph={true}
-              />
+              {cardDataForEmployees.map((card) => (
+                <CardWithMiniGraph
+                  key={card.title}
+                  cardTitle={card.title}
+                  cardValue={formatNumberByCountry(
+                    employeeSalesOverViewFromAPIRedux?.[card.value],
+                    countryCode,
+                    true
+                  )}
+                  isMonetary={true}
+                  loader={employeeSalesOverViewFromAPIReduxLoader}
+                  incrementDecrementValue={
+                    employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                  }
+                  graphType="arrow"
+                  incrementOrDecrement={transformSalesData(
+                    employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                  )}
+                  showMiniGraph={true}
+                />
+              ))}
             </div>
           </div>
           <div ref={employeeChartRef}>

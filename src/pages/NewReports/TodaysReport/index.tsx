@@ -52,6 +52,18 @@ const TodaysReport: React.FC = () => {
     const unBilledAPIRedux = useSelector((state: any) => state?.newReports?.unBilledSuccess)
     const unBilledAPIReduxLoading = useSelector((state: any) => state?.newReports?.unBilledLoading)
 
+    const billedDataArrayForDownloading = [billedDataAPIRedux]
+    const billedDataAPIReduxHeaderForDownloading = Object.keys(billedDataAPIRedux).map((key) => ({
+        key,
+        label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+      }));
+    
+    const unBilledAPIReduxArrayForDownloading = [unBilledAPIRedux]
+    const unBilledAPIReduxHeaderForDownloading = Object.keys(unBilledAPIRedux).map((key) => ({
+        key,
+        label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+      }));
+
     const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
@@ -200,7 +212,13 @@ const TodaysReport: React.FC = () => {
             <div className="todays-report-sales-overview-box-container-parent">
                 <div className="sales-overview-box-with-download">
                     <h2>Sales Overview</h2>
-                    {(billedDataAPIRedux?.length > 0 || unBilledAPIRedux?.length > 0) && <DownloadReport kpiTitle='Sales Overview' tableData={isSwitchActive ? billedDataAPIRedux : unBilledAPIRedux}/>}
+                    {((!billedDataAPIReduxLoading && billedDataArrayForDownloading)&& (!unBilledAPIReduxLoading && unBilledAPIReduxArrayForDownloading)) && (
+                        <DownloadReport
+                            kpiTitle="Sales Overview"
+                            tableData={isSwitchActive ? billedDataArrayForDownloading : unBilledAPIReduxArrayForDownloading}
+                            headerData={isSwitchActive ? billedDataAPIReduxHeaderForDownloading : unBilledAPIReduxHeaderForDownloading}
+                        />
+                    )}                
                 </div>
                 <div className="todays-report-sales-overview-box-container">
                     {isSwitchActive ? (cardWithMiniGraphDataForTodays?.map(({ title, key, isMonetary }) => (
