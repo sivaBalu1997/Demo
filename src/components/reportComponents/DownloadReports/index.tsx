@@ -16,6 +16,7 @@ import "./style.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadableReportRequest } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
+import DownloadShimmer from './DownloadShimmer';
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
@@ -198,7 +199,7 @@ console.log({apiParams,showDownloadables},444);
 
             {showDownloadables && (
                 <>
-                          {dataToDownloadLoading?<>"Loading..."</>:<>
+                          {dataToDownloadLoading?<DownloadShimmer />:<>
                 <div className="table-download-options-pop-over" ref={downloadPopoverRef} data-html2canvas-ignore="true">
                     <p className="pop-over-title">{kpiTitle || "Downloadables"}</p>
                     <div className="formats-container">
