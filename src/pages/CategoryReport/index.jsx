@@ -420,18 +420,16 @@ console.log( voidedSummaryData,"tsfdsf it is")
               data={[
                 {
                   title: "TOTAL SALES",
-                  value: `${currencySymbol} ${formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0
-                    }`,
+                  value: <>{currencySymbol} {formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0 }</>
+                   ,
                 },
                 {
                   title: "VOID",
-                  value: `${currencySymbol} ${formatNumberByCountry(categorySalesSummaryData?.voidAmount, countryCode, true) || 0
-                    }`,
+                  value:  <>{currencySymbol} {formatNumberByCountry(categorySalesSummaryData?.voidAmount, countryCode, true) || 0 }</>
                 },
                 {
                   title: "ADD-ON",
-                  value: `${currencySymbol} ${formatNumberByCountry(categorySalesSummaryData?.addOn, countryCode, true) || 0
-                    }`,
+                  value:<>{currencySymbol} {formatNumberByCountry(categorySalesSummaryData?.addOn, countryCode, true) || 0 }</>
                 },
                 {
                   title: "TOTAL QUANTITY",

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss";
+import { amountFormatter } from "utils";
 
 type ChartProps = {
   graphType: "single" | "multi";
@@ -42,7 +43,6 @@ const CustomLegend = ({ customLegendData }: { customLegendData?: { value: string
 
 const CustomTooltip = ({ active, payload, colors }: any) => {
   const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
-  const currencySymbol = countryCode === "US" ? "$" : "₹";
 
   if (!active || !payload || payload?.length === 0) return null;
 
@@ -54,7 +54,7 @@ const CustomTooltip = ({ active, payload, colors }: any) => {
         entry?.value !== undefined && (
           <p key={index} className="tooltip-item">
             <span className="tooltip-label">{entry?.name || "N/A"}: </span>
-            <span className="tooltip-value">{regex.test(entry?.name) ? `${currencySymbol}${entry?.value}` : entry?.value}</span>
+            <span className="tooltip-value">{regex.test(entry?.name) ? `${amountFormatter(entry?.value, countryCode)}` : entry?.value}</span>
           </p>
         )
       ))}

@@ -335,9 +335,10 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             <div className="total-sales-info-container">
               <InfoIcon />
               <div className="total-sales-info-content">
-                The graph shows the percentage compared to the previous day. If
+              The graph shows percentage comparison based on the previous day or week, depending on your selection.
+                {/* The graph shows the percentage compared to the previous day. If
                 you select this week, the comparison chart will display last
-                week's data
+                week's data */}
               </div>
             </div>
           </div>

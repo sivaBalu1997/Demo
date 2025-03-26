@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "./style.scss";
 import ShimmerSummaryBox from './ShimmerSummaryBox';
+import { getCurrencySymbol } from 'utils';
 
 interface SummaryBoxProps {
     summaryTitle: string;
@@ -20,11 +21,11 @@ const SummaryBox = ({ summaryTitle, boxValue, toolTipMessage, isMonetary }: Summ
     // const dailyCancellationBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.dailyCancellationLoading)
     // const newCustomerSizeBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.newCustomerSizeLoading)
     // const repeatCustomerCountBoxAPIReduxLoader = useSelector((state: any) => state?.newReports?.customerSizeloading)
-    const [currencySymbol, setCurrencySymbol] = useState(countryCode === "US" ? '$' : '₹');
+
     const [showSummaryBoxToolTip, setShowSummaryBoxToolTip] = useState<boolean>(false);
     return (
         <div className="summary-box">
-            <h2>{isMonetary ? `${currencySymbol}${boxValue}` : (boxValue)}</h2>
+            <h2>{isMonetary ? `${getCurrencySymbol(countryCode)} ${boxValue}` : (boxValue)}</h2>
             <div className="label-tooltip-container">
                 <h3>{summaryTitle}</h3>
                 {toolTipMessage && <div

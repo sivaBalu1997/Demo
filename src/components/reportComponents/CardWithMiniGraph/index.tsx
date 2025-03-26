@@ -37,8 +37,7 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
             <div className="card-title-value-container">
                 <h4 className="card-title">{cardTitle?.trim() ? cardTitle : "Title"}</h4>
                 <h2 className="card-value">
-                    {isMonetary && currencySymbol}
-                    {cardValue !== null && cardValue !== undefined && cardValue !== "" ? cardValue : "0"}
+                    {isMonetary && currencySymbol} {cardValue !== null && cardValue !== undefined && cardValue !== "" ? cardValue : "0"}
                 </h2>
             </div>
 

@@ -1,21 +1,21 @@
 // using module name util as folder name is ok in case of react but is not recommended
 //TODO: move contents of util to utils
 import { IncrementOrDecrementTypeEnum } from "interface/newReportsInterface";
+import React from "react"
 
 const countryCurrency:Record<string,string>={
-  "US":"$",
-  "IN":"₹"
+  "IN":"$",
+  "US":"₹"
   //Add possible branch countruies here
-}
+} 
 
 function getRandomColor() {
   return '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 }
   
- function amountFormatter(amount: number|string, countryCode?: string) {
-    const currencySymbol = countryCode === "US" ? "$" : "₹";
+ function amountFormatter(amount: number|string, countryCode: string="US") {
     const amountToFormat=Number(amount||0)
-    return `${currencySymbol}${amountToFormat.toFixed(2)}`;
+    return `${getCurrencySymbol(countryCode)}${amountToFormat.toFixed(2)}`;
   }
 
 
@@ -98,8 +98,10 @@ function getRandomColor() {
   return formattedNumber;
 }
 
-function getCurrencySymbol(countryCode:string):string{
-  return countryCurrency?.[countryCode]?countryCurrency[countryCode]:""
+function getCurrencySymbol(countryCode:string):any{
+  console.log(countryCurrency?.[countryCode]?<span style={{fontFamily:"sans-serif"}}>{countryCurrency[countryCode]}</span>:"");
+  
+  return countryCurrency?.[countryCode]?<span style={{fontFamily:"sans-serif"}}>{countryCurrency[countryCode]}</span>:""
 }
 
 // export all functions 
