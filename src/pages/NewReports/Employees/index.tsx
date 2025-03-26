@@ -14,7 +14,7 @@ import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
-import { cardDataForEmployees } from "CommonConstants/reportConstants";
+import { cardDataForEmployees } from "commonconstants/reportConstants";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";

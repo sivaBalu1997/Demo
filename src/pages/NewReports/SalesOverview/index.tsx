@@ -30,7 +30,7 @@ import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
-import { cardConfigForSalesTabOverView } from "CommonConstants/reportConstants";
+import { cardConfigForSalesTabOverView } from "commonconstants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";

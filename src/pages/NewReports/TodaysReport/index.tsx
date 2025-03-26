@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberByCountry, getCurrencySymbol } from 'utils';
-import { cardWithMiniGraphDataForTodays, textOneForTodaysSwitch, textTwoForTodaysSwitch } from 'CommonConstants/reportConstants';
+import { cardWithMiniGraphDataForTodays, textOneForTodaysSwitch, textTwoForTodaysSwitch } from 'commonconstants/reportConstants';
 import { NewTableHeader } from 'interface/newReportsInterface';
 import {
     billedRequest,
