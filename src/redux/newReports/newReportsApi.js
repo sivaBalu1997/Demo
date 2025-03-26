@@ -2,7 +2,10 @@ import { API } from "redux/api";
 import Store from "../store";
 
 
-const baseUrl = "https://rptd.gcp.magilhub.com"
+// const baseUrl = "https://rptd.gcp.magilhub.com"
+const baseUrl = "http://34.23.205.137:8080" // PreProd Url
+
+
 const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 const LIVE_DISCOUNT_ENDPOINT = `${reportsBaseUrl}/sales/live/discounts?`;
