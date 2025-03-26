@@ -1,7 +1,7 @@
 import React, { useState, ReactNode, useMemo } from "react";
 import { ReactComponent as ArrowDown } from "../../../assets/svg/arrow_down.svg";
 import { ReactComponent as ArrowUp } from "../../../assets/svg/arrow_up.svg";
-import { formatNumberByCountry, roundNum } from "utils";
+import { formatNumberByCountry, getCurrencySymbol, roundNum } from "utils";
 import { useSelector } from "react-redux";
 import ShimmerTenderCard from "./ShimmerTenderCard";
 import "./TenderType.scss";
@@ -43,9 +43,6 @@ const TenderType: React.FC<PaymentMethod> = ({
       (state: any) =>  state?.newReports?.getDetailsRestaurantSuccess?.country
     );
 
-    const currencySymbol = countryCodeFromNewReports === "US" ? "$" : "₹";
-
-    // console.log("From TendorTypeCard", {countryCodeFromNewReports});
 
   if (loader) return <ShimmerTenderCard />;
 
@@ -66,7 +63,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     <p className="tender-title">{tendorTitle}</p>
                   </div>
                   <div className="tender-amount-order-container">
-                    <span className="tender-amount">{currencySymbol}{formatNumberByCountry(amount, countryCodeFromNewReports, true)}</span>
+                    <span className="tender-amount">{getCurrencySymbol(countryCodeFromNewReports)}{formatNumberByCountry(amount, countryCodeFromNewReports, true)}</span>
                     <span className="tender-orders">{orders} {orders>1?"Orders":"Order"}</span>
                   </div>
                 </div>
@@ -87,7 +84,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>{currencySymbol}{formatNumberByCountry(onPremSales, countryCodeFromNewReports, true)}</strong>
+                      <strong>{getCurrencySymbol(countryCodeFromNewReports)}{formatNumberByCountry(onPremSales, countryCodeFromNewReports, true)}</strong>
                     </div>
                   </div>
                   <div className="expand-row">
@@ -97,7 +94,7 @@ const TenderType: React.FC<PaymentMethod> = ({
                     </div>
                     <div>
                       <span>Sales:</span>{" "}
-                      <strong>{currencySymbol}{formatNumberByCountry(offPremSales, countryCodeFromNewReports, true)}</strong>
+                      <strong>{getCurrencySymbol(countryCodeFromNewReports)}{formatNumberByCountry(offPremSales, countryCodeFromNewReports, true)}</strong>
                     </div>
                   </div>
                 </div>

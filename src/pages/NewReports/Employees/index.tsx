@@ -536,10 +536,9 @@ const Employees: React.FC = () => {
         data.actionType === "Order cancelled"
       ) {
         if (acc["Others"]) {
-          acc["Others"].tooltipContent = `Value: ${
-            parseFloat(acc["Others"].tooltipContent.split(": ")[1]) +
+          acc["Others"].tooltipContent = `Value: ${parseFloat(acc["Others"].tooltipContent.split(": ")[1]) +
             data.extractedValue
-          }`;
+            }`;
         } else {
           acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
         }
@@ -596,7 +595,7 @@ const Employees: React.FC = () => {
       label: `${employee?.firstName}`,
     }));
 
-  const employeeTempArray = [{ label: "All", value: "All" },...employeeDropdownOptions ]
+  const employeeTempArray = [{ label: "All", value: "All" }, ...employeeDropdownOptions]
 
   const [employeeList, setEmployeeList] = useState(
     employeeTempArray?.[0]?.value
@@ -708,14 +707,15 @@ const Employees: React.FC = () => {
           </div>
           <NewTable
             apiEndPoint="/sales/employee/activity/actions"
-            queryParams={{         locationid: selectedLocation?.value,
+            queryParams={{
+              locationid: selectedLocation?.value,
               startDate: startDate,
               endDate: endDate,
               chartSliceName:
                 selectedValueForChartSlice === "Others"
                   ? "Order cancelled,Order edited"
                   : selectedValueForChartSlice
-                }}
+            }}
             kpiTitle={`${selectedValueForChartSlice}`}
             searchQuery={searchQueryForGenericTable}
             headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
@@ -751,8 +751,8 @@ const Employees: React.FC = () => {
           />
           <div className="employee-report-sales-overview-box-container-parent">
             <div className="employee-sales-overview-head-with-download">
-            <h2>Sales Overview</h2>
-            {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading && employeeSalesOverViewFromAPIReduxHeaderForDownloading) && <DownloadReport kpiTitle="Sales Overview" tableData={employeeSalesOverViewFromAPIReduxArrayForDownloading} headerData={employeeSalesOverViewFromAPIReduxHeaderForDownloading}/>}
+              <h2>Sales Overview</h2>
+              {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading && employeeSalesOverViewFromAPIReduxHeaderForDownloading) && <DownloadReport kpiTitle="Sales Overview" tableData={employeeSalesOverViewFromAPIReduxArrayForDownloading} headerData={employeeSalesOverViewFromAPIReduxHeaderForDownloading} />}
             </div>
             <div className="select-employee-container">
               <p>Select employee</p>
@@ -794,25 +794,25 @@ const Employees: React.FC = () => {
               ))}
             </div>
           </div>
-          {showChart && <div ref={employeeChartRef}>
-              <ErrorHandler data={getEmployeeActivityDataFromAPIRedux} isError={getEmployeeActivityDataFromAPIReduxFailure} >
-                <CustomBarChart
-                  // data={chartDataFromAPIRedux}
-                  data={chartDataFromAPIReduxOthers}
-                  // tooltipData={tooltipDataFromAPI}
-                  tooltipData={tooltipDataFromAPIOthers}
-                  barColor={["#67823D"]}
-                  barStyle={customBarStyle}
-                  showGrid={true}
-                  gridColor="#ccc"
-                  gridStrokeWidth={0.5}
-                  kpiTitle="All Activity"
-                  showRelatedTable={showAllActivityTable}
-                  setShowRelatedTable={setShowAllActivityTable}
-                  setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-                />
-              </ErrorHandler>
-          </div>}
+          {/* <div ref={employeeChartRef}>
+            <ErrorHandler data={getEmployeeActivityDataFromAPIRedux} isError={getEmployeeActivityDataFromAPIReduxFailure} >
+              <CustomBarChart
+                // data={chartDataFromAPIRedux}
+                data={chartDataFromAPIReduxOthers}
+                // tooltipData={tooltipDataFromAPI}
+                tooltipData={tooltipDataFromAPIOthers}
+                barColor={["#67823D"]}
+                barStyle={customBarStyle}
+                showGrid={true}
+                gridColor="#ccc"
+                gridStrokeWidth={0.5}
+                kpiTitle="All Activity"
+                showRelatedTable={showAllActivityTable}
+                setShowRelatedTable={setShowAllActivityTable}
+                setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+              />
+            </ErrorHandler>
+          </div> */}
         </>
       )}
     </div>
