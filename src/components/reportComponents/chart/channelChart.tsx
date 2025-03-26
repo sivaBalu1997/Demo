@@ -30,17 +30,11 @@ interface ChartData {
   qty: number;
 }
 
-const ChannelSalesChart = ({
-  dataList = [],
-  loader,
-}: {
-  dataList: any[];
-  loader: boolean;
-}) => {
-  const countryCode = useSelector(
-    (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
-  );
-  const currencySymbol = getCurrencySymbol(countryCode, false);
+
+const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
+  const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,false)), [countryCode]);
+
   const data = {
     labels: Array.from(
       new Set(dataList?.map((item: any) => item?.channelName))

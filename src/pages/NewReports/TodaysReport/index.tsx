@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { formatNumberByCountry, getCurrencySymbol } from "utils";
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { formatNumberByCountry, getCurrencySymbol } from 'utils';
 import {
   cardWithMiniGraphDataForTodays,
   textOneForTodaysSwitch,
   textTwoForTodaysSwitch,
-} from "commonconstants/reportConstants";
+} from "commonConstants/reportConstants";
 import { NewTableHeader } from "interface/newReportsInterface";
 import {
   billedRequest,
