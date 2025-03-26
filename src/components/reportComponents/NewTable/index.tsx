@@ -246,11 +246,20 @@ const NewTable: React.FC<NewTableProps> = ({
 
   console.log(apiEndPoint,1112);
   
-  const formatMonetaryValue = (value: any): string | any => {
-    if (typeof value === 'number') {
-      return value.toFixed(2);
+  const formatMonetaryValue = (value: any): string => {
+    // Return dash for any empty/invalid/special values
+    if (value === '' || 
+        value === '-' || 
+        value === null || 
+        value === undefined) {
+      return '-';
     }
-    return Number(value)?.toFixed(2);
+    
+    // Handle numeric values
+    const numValue = typeof value === 'number' ? value : Number(value);
+    
+    // Return dash if NaN, otherwise format the number
+    return isNaN(numValue) ? '-' : numValue.toFixed(2);
   };
 
   return initialLoader ? (
