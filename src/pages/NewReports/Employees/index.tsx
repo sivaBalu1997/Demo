@@ -707,8 +707,15 @@ const Employees: React.FC = () => {
             </button>
           </div>
           <NewTable
-            // apiEndPoint="/sales/discountSummary"
-            // queryParams={{locationId: selectedLocation?.value, startDate: startDate, endDate: endDate}}
+            apiEndPoint="/sales/employee/activity/actions"
+            queryParams={{         locationid: selectedLocation?.value,
+              startDate: startDate,
+              endDate: endDate,
+              chartSliceName:
+                selectedValueForChartSlice === "Others"
+                  ? "Order cancelled,Order edited"
+                  : selectedValueForChartSlice
+                }}
             kpiTitle={`${selectedValueForChartSlice}`}
             searchQuery={searchQueryForGenericTable}
             headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
