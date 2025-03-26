@@ -210,7 +210,6 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         (sum, item) => sum + (Number(item?.[yKey]) || 0),
         0
       );
-console.log(dataList, totalDisplay, xKey, yKey);
 
       const formattedTotal = isAmount ? amountFormatter(totalDisplay, countryCode) : totalDisplay;
       // Assign colors from predefined palette

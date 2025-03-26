@@ -81,6 +81,7 @@ const NewTable: React.FC<NewTableProps> = ({
           item?.module === "SECTION" &&
           item?.funtions?.includes("Employee details")
       )
+      
       if(employeeAccess){
         setVisibility((prev: any) => ({
           ...prev,
@@ -102,9 +103,7 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string) => {
-    console.log({key,sk:sortConfig?.key, d: sortConfig?.direction  });
-    
+  const handleSort = (key: string) => {    
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
       direction = "desc";
@@ -243,8 +242,6 @@ const NewTable: React.FC<NewTableProps> = ({
     onDateSelect(from, to, kpiTitleForCustomDateDropdown);
     setSearchFlag(true);
   };
-
-  console.log(apiEndPoint,1112);
   
   const formatMonetaryValue = (value: any): string => {
     // Return dash for any empty/invalid/special values

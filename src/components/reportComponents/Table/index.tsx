@@ -135,7 +135,6 @@ const Table = ({
   const formatItemDetails = (
     details: Array<{ itemName: string; quantity: number }>
   ) => {
-    console.log({ details })
     return details && details
       ?.map((item) => `${item.itemName} x${item.quantity}`)
       .join(", ");

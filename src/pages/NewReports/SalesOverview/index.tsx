@@ -30,7 +30,7 @@ import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
-import { cardConfigForSalesTabOverView } from "commonconstants/reportConstants";
+import { cardConfigForSalesTabOverView } from "commonConstants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
@@ -598,7 +598,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     Amount: dataToBeMapped?.voidedAmount
   }))
 
-  console.log({voidedOrderSummaryDataForDownloading}) 
 
   const voidedOrderSummaryDataHeaderForDownloading = voidedOrderSummaryDataForDownloading?.length > 0 && Object.keys(voidedOrderSummaryDataForDownloading[0])?.map((key) => ({
     key,
@@ -767,7 +766,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </ErrorHandler>
 
           {/* TODO: uncomment once BE deploys this change */}
-          <div className="sales-charts-parent-container">
+          {/* <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
               <h2 className="sales-overview-sub-heading ">Card Type</h2>
               {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
@@ -778,7 +777,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 loader={salesCardTypeDataLoading}
               />
             </ErrorHandler>
-          </div>
+          </div> */}
 
           <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
