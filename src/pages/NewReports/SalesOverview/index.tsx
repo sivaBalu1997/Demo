@@ -257,7 +257,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
   
 // useEffect(()=>{
 // console.log({
@@ -657,7 +657,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
 
             <div className="todays-report-sales-overview-box-container">
-              {cardConfigForSalesTabOverView.map((card, index) => (
+              {cardConfigForSalesTabOverView.map((card:any, index:number) => (
                 <CardWithMiniGraph
                   key={index}
                   cardTitle={card.title}
@@ -767,7 +767,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </ErrorHandler>
 
           {/* TODO: uncomment once BE deploys this change */}
-          {/* <div className="sales-charts-parent-container">
+          <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
               <h2 className="sales-overview-sub-heading ">Card Type</h2>
               {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
@@ -778,7 +778,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 loader={salesCardTypeDataLoading}
               />
             </ErrorHandler>
-          </div> */}
+          </div>
 
           <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
