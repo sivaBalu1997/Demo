@@ -21,6 +21,8 @@ import TableDateDropdown from "../TableDateDropdown";
 import "jspdf-autotable";
 import "./style.scss";
 import CustomDropdown from "components/common/customDropdown";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/rootReducer";
 
 interface SortConfig {
   key: string;
@@ -69,14 +71,22 @@ const NewTable: React.FC<NewTableProps> = ({
   const [width, setWidth] = useState(window.innerWidth);
 
   const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
+  const permissions = useSelector((state: RootState) => state.employee.permissions);
 
   const toggleVisibility = (e: React.MouseEvent<HTMLSpanElement>,rowIndex: number) => {
       e?.preventDefault()
       e?.stopPropagation()
-    setVisibility((prev: any) => ({
-      ...prev,
-      [rowIndex]: !prev[rowIndex],
-    }));
+      const employeeAccess=    permissions?.find(
+        (item: any) =>
+          item?.module === "SECTION" &&
+          item?.funtions?.includes("Employee details")
+      )
+      if(employeeAccess){
+        setVisibility((prev: any) => ({
+          ...prev,
+          [rowIndex]: !prev[rowIndex],
+        }));
+      }
   };
 
   useEffect(() => {
