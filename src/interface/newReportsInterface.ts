@@ -30,6 +30,7 @@ export interface NewTableHeader {
   label: string;
   isSortable?: boolean;
   isPrivate?: boolean;
+  isMonetary?:boolean;
   alignment?: "left" | "center" | "right";
   prefix?: string;
 }
