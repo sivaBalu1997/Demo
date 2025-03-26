@@ -25,7 +25,7 @@ const SummaryBox = ({ summaryTitle, boxValue, toolTipMessage, isMonetary }: Summ
     const [showSummaryBoxToolTip, setShowSummaryBoxToolTip] = useState<boolean>(false);
     return (
         <div className="summary-box">
-            <h2>{isMonetary ? `${getCurrencySymbol(countryCode)}${boxValue}` : (boxValue)}</h2>
+            <h2>{isMonetary ? `${getCurrencySymbol(countryCode)} ${boxValue}` : (boxValue)}</h2>
             <div className="label-tooltip-container">
                 <h3>{summaryTitle}</h3>
                 {toolTipMessage && <div
