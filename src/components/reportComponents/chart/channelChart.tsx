@@ -30,9 +30,11 @@ interface ChartData {
   qty: number;
 }
 
+
 const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
   const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,true)), [countryCode]);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,false)), [countryCode]);
+
   const data = {
     labels: Array.from(
       new Set(dataList?.map((item: any) => item?.channelName))
@@ -54,7 +56,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
           "#06C167",
           "#FF8C00",
         ],
-        barPercentage: 0.7, 
+        barPercentage: 0.7,
         categoryPercentage: 0.6,
       },
     ],
@@ -102,18 +104,20 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
           // stepSize: 1000,
           callback: function (tickValue: string | number) {
             const value = Number(tickValue);
-            return value < 1000 ? `${currencySymbol} ${value}` : `${currencySymbol}${value / 1000} K`;
+            return value < 1000
+              ? `${currencySymbol} ${value}`
+              : `${currencySymbol}${value / 1000} K`;
           },
         },
       },
     },
   };
 
-  if (loader) return <BarChartShimmer />
+  if (loader) return <BarChartShimmer />;
 
-  return  dataList?.length === 0 ? (
+  return dataList?.length === 0 ? (
     <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
-  ) :( 
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>

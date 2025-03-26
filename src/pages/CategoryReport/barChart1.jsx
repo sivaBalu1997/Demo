@@ -48,8 +48,8 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",
-        bodyFont: { size: isMobile?10:14, family: "Poppins" }, // Body font size set to 14px
-        titleFont: { weight: "normal", size: isMobile?10:14, family: "Poppins" }, // Title font size set to 14px
+        bodyFont: { size: isMobile?10:14, family: "sans-serif" }, // Body font size set to 14px
+        titleFont: { weight: "normal", size: isMobile?10:14, family: "sans-serif" }, // Title font size set to 14px
 
         cornerRadius: 4,      
         padding: 10, // Padding inside tooltip container
@@ -65,7 +65,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
             const cat = dataList?.[idx];
-            return [`Qty: ${cat?.voidedQuantity}`, `Sales: ${currencySymbol} ${Number(cat?.voidedAmount||0).toFixed(2)}`];
+            return [`Qty: ${cat?.voidedQuantity}`, `Sales: ${currencySymbol}${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },
 

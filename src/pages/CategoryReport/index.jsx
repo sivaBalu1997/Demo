@@ -46,7 +46,7 @@ const CategoryReport = (props) => {
   const voidedSummaryDataLoading = useSelector((state) => state?.newReports?.voidedSummaryLoading);
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,true)), [countryCode]);
 
 
 
