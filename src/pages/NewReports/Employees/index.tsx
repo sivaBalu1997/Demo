@@ -14,7 +14,7 @@ import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
-import { cardDataForEmployees } from "CommonConstants/reportConstants";
+import { cardDataForEmployees } from "commonconstants/reportConstants";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
@@ -68,7 +68,7 @@ const Employees: React.FC = () => {
   const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
   const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
 
-
+  const showChart:boolean = false // for later use - once BE preprod deployed
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
     useDateFilter();
@@ -794,7 +794,7 @@ const Employees: React.FC = () => {
               ))}
             </div>
           </div>
-          <div ref={employeeChartRef}>
+          {showChart && <div ref={employeeChartRef}>
               <ErrorHandler data={getEmployeeActivityDataFromAPIRedux} isError={getEmployeeActivityDataFromAPIReduxFailure} >
                 <CustomBarChart
                   // data={chartDataFromAPIRedux}
@@ -812,7 +812,7 @@ const Employees: React.FC = () => {
                   setSelectedValueForChartSlice={setSelectedValueForChartSlice}
                 />
               </ErrorHandler>
-          </div>
+          </div>}
         </>
       )}
     </div>
