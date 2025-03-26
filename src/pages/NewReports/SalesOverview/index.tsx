@@ -886,6 +886,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               {/* <ErrorHandler data={discountSummary} isError={discountSummaryError} */}
               <NewTable
                 kpiTitle={`By discount - ${offerType}`}
+                apiEndPoint="/sales/discountSummary"
+                queryParams={{locationId: selectedLocation?.value, startDate: startDate, endDate: endDate,offer:offerType}}
                 searchQuery={searchQuery}
                 headerData={discountTableHeaders}
                 tableData={
@@ -916,6 +918,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </div>
           {/* <ErrorHandler data={cancellationSummary} isError={cancellationSummaryError}  */}
             <NewTable
+             apiEndPoint="/sales/cancelSummary"
+                queryParams={{locationId: selectedLocation?.value, startDate: startDate, endDate: endDate,   reason: voidedReason}}
+
               kpiTitle={`Voided orders - ${voidedReason}`}
               searchQuery={searchQuery}
               headerData={voidedTableHeaders}
