@@ -646,9 +646,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 <div className="total-sales-info-container">
                   <InfoIcon />
                   <div className="total-sales-info-content">
-                    The graph shows the percentage compared to the previous day.
-                    If you select this week, the comparison chart will display
-                    last week's data
+                  The graph shows percentage comparison based on the previous day or week, depending on your selection.
                   </div>
                 </div>
               </div>
@@ -765,8 +763,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
           </ErrorHandler>
 
-          {/* <div className="sales-charts-container">   */}
-          <div className="sales-charts-parent-container">
+          {/* TODO: uncomment once BE deploys this change */}
+          {/* <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
               <h2 className="sales-overview-sub-heading ">Card Type</h2>
               {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
@@ -777,7 +775,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 loader={salesCardTypeDataLoading}
               />
             </ErrorHandler>
-          </div>
+          </div> */}
 
           <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
