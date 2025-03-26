@@ -487,12 +487,13 @@ const NewTable: React.FC<NewTableProps> = ({
                                       header?.key
                                     )
                                   : ""}
+                                  {/* TODO:change to func */}
                                 {header?.prefix || ""}
                                 {header?.isPrivate
                                   ? visibility[header.key]
                                     ? row[header?.key]
                                     : maskPhone(row[header?.key])
-                                  : row[header?.key]}
+                                  : header?.isMonetary?row?.[header?.key]?.toFixed(2):row[header?.key]}
                               </div>
                             </td>
                           );
