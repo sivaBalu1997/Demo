@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/rootReducer";
 import { ReactComponent as SearchIcon } from "../../../assets/svg/r-search-icon.svg";
 import { ReactComponent as SortIcon } from "../../../assets/svg/r-sort-icon.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
@@ -18,11 +20,9 @@ import ReactPaginate from "react-paginate";
 import TableShimmer from "./NewShimmerTable";
 import DownloadReport from "../DownloadReports";
 import TableDateDropdown from "../TableDateDropdown";
+import CustomDropdown from "components/common/customDropdown";
 import "jspdf-autotable";
 import "./style.scss";
-import CustomDropdown from "components/common/customDropdown";
-import { useSelector } from "react-redux";
-import { RootState } from "redux/rootReducer";
 
 interface SortConfig {
   key: string;
@@ -246,6 +246,13 @@ const NewTable: React.FC<NewTableProps> = ({
 
   console.log(apiEndPoint,1112);
   
+  const formatMonetaryValue = (value: any): string | any => {
+    if (typeof value === 'number') {
+      return value.toFixed(2);
+    }
+    return Number(value)?.toFixed(2);
+  };
+
   return initialLoader ? (
     <TableShimmer />
   ) : (
@@ -493,7 +500,10 @@ const NewTable: React.FC<NewTableProps> = ({
                                   ? visibility[header.key]
                                     ? row[header?.key]
                                     : maskPhone(row[header?.key])
-                                  : header?.isMonetary?row?.[header?.key]?.toFixed(2):row[header?.key]}
+                                  : header?.isMonetary 
+                                    ? formatMonetaryValue(row[header?.key])
+                                    : row[header?.key]
+                                }
                               </div>
                             </td>
                           );
