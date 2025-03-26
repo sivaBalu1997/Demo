@@ -60,7 +60,7 @@ const SidePanel = () => {
     if (!permissions?.length) {
       const staff: any = localStorage?.getItem("CREDENTIALS");
       const staffId = JSON.parse(staff)?.id;
-      dispatch(getEmployeePermissionsRequest({ staffId: staffId }));
+     dispatch(getEmployeePermissionsRequest({ staffId: staffId }));
     }
   }, [permissions?.length]);
 
@@ -418,7 +418,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
             )}
           </div>
 
-          <div
+          {/* <div
             className={
               showOfferOptions === "MenuOptions"
                 ? "activePath"
@@ -527,7 +527,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div
             style={{

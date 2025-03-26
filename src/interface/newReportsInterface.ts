@@ -44,6 +44,8 @@ export interface NewTableProps {
   setOptions?: React.Dispatch<React.SetStateAction<any>>;
   isCustomOption?: boolean;
   kpiTitle: string;
+  apiEndPoint?:string;
+  queryParams?: Record<string, any>;
   searchQuery: string;
   // headerData: NewTableHeader[];
   headerData: any;

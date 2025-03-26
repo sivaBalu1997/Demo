@@ -69,23 +69,6 @@ import StaffReports from "pages/NewReports/Staff";
 import Menu from "pages/productCatalog/Menu-V2/Menu";
 
 const Routers = () => {
-  const MIN_WIDTH = 800;
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [belowMinWidth, setBelowMinWidth] = useState(
-    window.innerWidth <= MIN_WIDTH
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      setBelowMinWidth(window.innerWidth <= MIN_WIDTH);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <div>
       <Switch>
@@ -128,7 +111,7 @@ const Routers = () => {
                 <Route exact path="/cms/welcome" component={WelcomPage} />
                 <Route
                   path="/cms/restaurantInfo"
-                  component={() => <RestaurantInfo />}
+                  component={RestaurantInfo}
                 />
                 <Route
                   path="/cms/exploreMenu"

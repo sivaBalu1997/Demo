@@ -622,7 +622,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   }
 
-  
   return (
     <div className="sales-overview">
       {viewType === "default" ? (

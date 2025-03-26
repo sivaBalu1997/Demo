@@ -97,7 +97,6 @@ const SalesReport: React.FC<ReportProps> = () => {
   }, [selectedLocation?.value]);
 
 
-
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>

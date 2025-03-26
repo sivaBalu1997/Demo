@@ -44,13 +44,17 @@ const generateQueryParams = (payload) => {
 
     if(payload?.tablePageNo){
         query+="&page="+payload?.tablePageNo
+    }else if(payload?.page){
+        query+="&page="+payload?.page
     }
     if(payload?.tableRecordLimit){
         query+="&size="+payload?.tableRecordLimit
+    }else if(payload?.size){
+        query+="&size="+payload?.size
     }
     if(payload?.searchQuery){
         query+="&search="+payload?.searchQuery
-    }else if(payload?.search){
+    }else if(payload?.search|| payload?.search===""){
         query+="&search="+payload?.search
     }
 
@@ -708,6 +712,20 @@ export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
     return API({
         method: "get",
         url: `${reportsBaseUrl}/sales/employee/activity/actions${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDownloadableReport = (payload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const {apiEndPoint, ...queryParams}=payload
+    const query=generateQueryParams(queryParams)
+    
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}${apiEndPoint}${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
