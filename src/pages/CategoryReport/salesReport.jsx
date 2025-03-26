@@ -72,9 +72,9 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
         borderWidth: 1,
         displayColors: false, // Hide color boxes
         titleColor: "#000",
-        titleFont: { weight: "normal", size: isMobile?10:14, family: "Poppins" }, // Title font size set to 14px
+        titleFont: { weight: "normal", size: isMobile?10:14, family: "sans-serif" }, // Title font size set to 14px
         titleMarginBottom: 2,
-        bodyFont: { size: isMobile?10:14, family: "Poppins" }, // Body font size set to 14px
+        bodyFont: { size: isMobile?10:14, family: "sans-serif" }, // Body font size set to 14px
         bodyColor: "#000",
         cornerRadius: 4,
         caretSize: 0,
@@ -92,7 +92,7 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
             // console.log(tooltipItem,"Here is th tooltip item");
             const channel = tooltipItem.dataset.label;
             const value = dataList?.find(data=>data.categoryName==tooltipItem.label&&data.channelName==tooltipItem.dataset.label)?.totalAmount
-            return [`Channel: ${channel}`, `Sales: ${currencySymbol} ${value?.toFixed(2)}`];
+            return [`Channel: ${channel}`, `Sales: ${currencySymbol}${value?.toFixed(2)}`];
           },
         },
       },

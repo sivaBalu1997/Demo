@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -29,7 +35,7 @@ const predefinedColors = [
 
 const centerTextPlugin = {
   id: "centerText",
-  beforeDraw: (chart:any) => {
+  beforeDraw: (chart: any) => {
     const {
       ctx,
       chartArea: { left, right, top, bottom },
@@ -40,31 +46,36 @@ const centerTextPlugin = {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#8D8D8D";
-    ctx.font = "400 16px Poppins";
+    ctx.font = "400 16px sans-serif";
     ctx.fillText("Total", centerX, centerY - 15);
+
     ctx.fillStyle = "#000";
-    ctx.font = "600 28px Poppins";
+    ctx.font = "500 28px sans-serif";
     ctx.fillText(chart.config.options.totalSales, centerX, centerY + 20);
     ctx.restore();
   },
 };
+
 interface DoughnutChartProps {
   dataList?: any[];
   countryCode?: string;
-  handleClick?: (param?:any) => void;
-  handleOther?: (param?:any) => void;
+  handleClick?: (param?: any) => void;
+  handleOther?: (param?: any) => void;
   loader?: boolean;
   clickable?: boolean;
 }
 const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
-  countryCode="",
+  countryCode = "",
   handleClick,
   handleOther,
   loader,
-  clickable = true
-})=> {
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+  clickable = true,
+}) => {
+  const currencySymbol = useMemo(
+    () => getCurrencySymbol(countryCode, true),
+    [countryCode]
+  );
   const chartRef = useRef<any>(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
@@ -84,7 +95,6 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       },
     ],
   });
-  
 
   useEffect(() => {
     if (reRenderChart) {
@@ -102,7 +112,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     if (chartRef.current) {
       const meta = chartRef.current.getDatasetMeta(0);
       if (meta && meta.data.length > 0) {
-        const positions = meta.data.map((arc:any) => {
+        const positions = meta.data.map((arc: any) => {
           const centerX = arc.x;
           const centerY = arc.y;
           const angle = (arc.startAngle + arc.endAngle) / 2;
@@ -116,15 +126,14 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       }
     }
   }, []);
- 
 
   // Compute label positions using arc.x, arc.y, outerRadius, and mid-angle.
 
-  const handleHover = (event:any, elements:any) => {
+  const handleHover = (event: any, elements: any) => {
     if (elements.length > 0) {
       const index = elements[0].index;
       if (!hoverInfo || hoverInfo.index !== index) {
-        const pos:any = labelPositions[index];
+        const pos: any = labelPositions[index];
         if (pos) {
           setHoverInfo({ index, x: pos.x, y: pos.y });
         }
@@ -136,9 +145,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     }
   };
 
-
-
-  const options :any= {
+  const options: any = {
     responsive: true,
     maintainAspectRatio: false,
     totalSales: totalSales, // Pass total sales to plugin
@@ -152,21 +159,25 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     plugins: {
       tooltip: { enabled: false },
       legend: {
-        position: "bottom", labels: {
-          generateLabels: (chart:any) => {
-            const original = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
+        position: "bottom",
+        labels: {
+          generateLabels: (chart: any) => {
+            const original =
+              ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
             const labels = original(chart);
 
-            return labels.map(label => ({
+            return labels.map((label) => ({
               ...label,
               // Custom draw function to add border-radius
-              pointStyle: 'rectRounded',
+              pointStyle: "rectRounded",
               borderRadius: 4, // This is not default, but helps if supported in future versions
             }));
           },
-          usePointStyle: true, // Needed to apply the pointStyle shape 
-          padding: 20, boxWidth: 12, boxHeight: 12
-        }
+          usePointStyle: true, // Needed to apply the pointStyle shape
+          padding: 20,
+          boxWidth: 12,
+          boxHeight: 12,
+        },
       },
       datalabels: { display: false },
     },
@@ -177,9 +188,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     },
   };
 
-
   useEffect(() => {
-
     if (dataList?.length) {
       const totalDisplay = dataList?.reduce(
         (sum, item) => sum + (Number(item?.amount) || 0),
@@ -202,7 +211,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
         label: slice?.label,
-        value: ((Number(slice?.amount || 0) * 100) / totalDisplay),
+        value: (Number(slice?.amount || 0) * 100) / totalDisplay,
         color: colors[index],
         items: Number(slice?.count || 0),
         amount: Number(slice?.items || 0),
@@ -211,26 +220,31 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
 
       // Sum remaining records into "Other"
       const otherRecords = sortedData.slice(10);
-      let tempSlice = top10
+      let tempSlice = top10;
       if (otherRecords.length > 0) {
-        const other:any=[]    
+        const other: any = [];
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
+            other.push(item?.label);
+            acc.value += (Number(item?.amount || 0) * 100) / totalDisplay;
+            acc.items += Number(item?.count || 0);
+            acc.amount += Number(item?.items || 0);
 
-            other.push(item?.label)
-            acc.value += ((Number(item?.amount || 0) * 100) / totalDisplay)
-            acc.items += Number(item?.count || 0)
-            acc.amount += Number(item?.items || 0)
-
-            acc.orgAmount += Number(item?.amount || 0)
+            acc.orgAmount += Number(item?.amount || 0);
             return acc;
           },
-          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, orgAmount: 0 }
+          {
+            label: "Other",
+            value: 0,
+            color: colors[10],
+            items: 0,
+            amount: 0,
+            orgAmount: 0,
+          }
         );
 
-
-        tempSlice = [...top10, otherSummary]
-        if(clickable){
+        tempSlice = [...top10, otherSummary];
+        if (clickable) {
           handleOther && handleOther(other?.join(","));
         }
       }
@@ -251,8 +265,6 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       setSlices(tempSlice);
     }
   }, [dataList, countryCode]);
-
-
 
   if (loader) return <DoughnutChartShimmer />;
   return (
@@ -277,13 +289,13 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         data={data}
         options={options}
         plugins={[centerTextPlugin]}
-      // redraw={reRenderChart}
+        // redraw={reRenderChart}
       />
 
       {/* Render floating labels for each slice using computed positions */}
       {labelPositions.length > 0 &&
         slices?.map((slice, index) => {
-          const pos:any = labelPositions[index];
+          const pos: any = labelPositions[index];
           if (!pos) return null;
           const isHovered = hoverInfo && hoverInfo.index === index;
           return (
@@ -317,7 +329,9 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
               }}
             >
               {!hoverInfo || hoverInfo.index !== index ? (
-                <span style={{ color: slice.color }}>{slice.value?.toFixed(2)}%</span>
+                <span style={{ color: slice.color }}>
+                  {slice.value?.toFixed(2)}%
+                </span>
               ) : (
                 <>
                   <div style={{ color: slice.color, marginBottom: "5px" }}>
@@ -325,23 +339,24 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
                   </div>
                   <div style={{ marginBottom: "5px" }}>
                     Order: {slice.items} <br />
-                    Sales: {`${currencySymbol} ${slice?.orgAmount.toFixed(2)}`}
+                    Sales: {currencySymbol}
+                    {`${slice?.orgAmount.toFixed(2)}`}
                   </div>
-                  {clickable?
-                  <button
-                  style={{
-                      background: slice.color,
-                      color: "#fff",
-                      border: "none",
-                      padding: "5px 10px",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleClick && handleClick(slice)}
-                  >
-                    View Details
-                  </button>
-                    :null}
+                  {clickable ? (
+                    <button
+                      style={{
+                        background: slice.color,
+                        color: "#fff",
+                        border: "none",
+                        padding: "5px 10px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleClick && handleClick(slice)}
+                    >
+                      View Details
+                    </button>
+                  ) : null}
                 </>
               )}
             </div>
@@ -349,6 +364,6 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         })}
     </div>
   );
-}
+};
 
 export default DoughnutChart;

@@ -27,7 +27,7 @@ ChartJS.register(
 
 function LinearBarChart({ barColorCode, dataList, loader,isMobile  }) {
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,false)), [countryCode]);
   
   
   // Prepare the Chart.js data object
@@ -59,8 +59,8 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile  }) {
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",
-        bodyFont: { size: isMobile?10:14, family: "Poppins" }, // Body font size set to 14px
-        titleFont: { weight: "normal", size: isMobile?10:14, family: "Poppins" }, // Title font size set to 14px
+        bodyFont: { size: isMobile?10:14, family: "sans-serif" }, // Body font size set to 14px
+        titleFont: { weight: "normal", size: isMobile?10:14, family: "sans-serif" }, // Title font size set to 14px
         titleMarginBottom: 0,
         cornerRadius: 4,
         displayColors: false, // Hide color box in tooltip

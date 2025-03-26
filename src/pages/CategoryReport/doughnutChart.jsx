@@ -8,9 +8,9 @@ import React, {
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { amountFormatter } from "utils";
+import { amountFormatter ,getCurrencySymbol} from "utils";
 import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
-
+import { useSelector } from "react-redux";
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const predefinedColors = [
@@ -48,9 +48,9 @@ const centerTextPlugin = {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#000";
-    ctx.font = chart.config.options.isMobile ? "12px Poppins" : "16px Poppins";
+    ctx.font = chart.config.options.isMobile ? "12px sans-serif" : "16px sans-serif";
     ctx.fillText("Total", centerX, centerY - 10);
-    ctx.font = chart.config.options.isMobile ? "20px Poppins" : "24px Poppins";
+    ctx.font = chart.config.options.isMobile ? "20px sans-serif" : "24px sans-serif";
     ctx.fillText(chart.config.options.totalSales, centerX, centerY + 15);
     ctx.restore();
   },
@@ -61,6 +61,8 @@ function DoughnutChart({
   loader,
   isMobile,
 }) {
+  const countryCoderedux = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCoderedux,true)), [countryCoderedux]);
   const chartRef = useRef(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState(null);
@@ -338,7 +340,7 @@ function DoughnutChart({
                   )}
                   <div style={{ marginBottom: "5px" }}>
                    <div> Total item: {Number(slice?.items || 0)}</div>
-                   <div> Amount: ${Number(slice?.voidedAmount || 0).toFixed(2)}</div>
+                   <div> Amount: {currencySymbol}{Number(slice?.voidedAmount || 0).toFixed(2)}</div>
                   </div>
                 </>
               )}

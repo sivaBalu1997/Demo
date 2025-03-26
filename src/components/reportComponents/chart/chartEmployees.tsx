@@ -30,15 +30,17 @@ ChartJS.register(
 
 interface EmployeeSalesChartProps {
   dataList: Record<string, any>[];
-  loader: boolean
+  loader: boolean;
 }
 
 const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
   dataList = [],
   loader,
 }) => {
-  const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+  const countryCode = useSelector(
+    (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
+  );
+  const currencySymbol = getCurrencySymbol(countryCode, false);
   const data = {
     labels: Array.from(new Set(dataList?.map((item: any) => item?.fullName))),
     datasets: [
@@ -81,7 +83,7 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
         bodyColor: "#333",
         borderColor: "#2196F3",
         titleFont: { weight: "normal", size: 14 }, // Title font size set to 14px
-        bodyFont: { size: 14 }, // Body font size set to 14px
+        bodyFont: { size: 14, family: "sans-serif" }, // Body font size set to 14px
         borderWidth: 1,
         padding: 15,
         displayColors: false,
@@ -97,11 +99,11 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
     },
   };
 
-  if (loader) return <BarChartShimmer />
+  if (loader) return <BarChartShimmer />;
 
   return dataList?.length === 0 ? (
-      <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
-    ) : (
+    <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
+  ) : (
     <div style={{ width: "100%", height: "500px" }}>
       <Bar data={data} options={options} />
     </div>
