@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  getRestaurantRequestFromNewReports,  storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
-import { tabsForCheckIn } from "commonconstants/reportConstants";
+import { tabsForCheckIn } from "CommonConstants/reportConstants";
 import moment from "moment";
 import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";

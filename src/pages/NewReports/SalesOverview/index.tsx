@@ -30,7 +30,7 @@ import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
 import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
-import { cardConfigForSalesTabOverView } from "commonconstants/reportConstants";
+import { cardConfigForSalesTabOverView } from "CommonConstants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
@@ -257,7 +257,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryLoader = useSelector((state: any) => state?.newReports?.voidedOrderSummaryLoading);
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
   
 // useEffect(()=>{
 // console.log({
@@ -657,7 +657,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
 
             <div className="todays-report-sales-overview-box-container">
-              {cardConfigForSalesTabOverView.map((card, index) => (
+              {cardConfigForSalesTabOverView.map((card:any, index:number) => (
                 <CardWithMiniGraph
                   key={index}
                   cardTitle={card.title}
@@ -767,7 +767,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           </ErrorHandler>
 
           {/* TODO: uncomment once BE deploys this change */}
-          {/* <div className="sales-charts-parent-container">
+          <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">
               <h2 className="sales-overview-sub-heading ">Card Type</h2>
               {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
@@ -778,7 +778,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 loader={salesCardTypeDataLoading}
               />
             </ErrorHandler>
-          </div> */}
+          </div>
 
           <div className="sales-charts-parent-container">
             <div className="sales-chart-download-container">

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberByCountry, getCurrencySymbol } from 'utils';
-import { cardWithMiniGraphDataForTodays, textOneForTodaysSwitch, textTwoForTodaysSwitch } from 'commonconstants/reportConstants';
+import { cardWithMiniGraphDataForTodays, textOneForTodaysSwitch, textTwoForTodaysSwitch } from 'CommonConstants/reportConstants';
 import { NewTableHeader } from 'interface/newReportsInterface';
 import {
     billedRequest,
@@ -64,7 +64,7 @@ const TodaysReport: React.FC = () => {
         label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
       }));
 
-    const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
+    const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
 
     const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
         { key: 'orderNumber', label: 'Order Number', isSortable: true, alignment: 'left', prefix: "#" },

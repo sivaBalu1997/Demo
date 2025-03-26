@@ -10,7 +10,7 @@ import ProductInsights from './ProductInsights';
 import ProductAvailability from './ProductAvailability';
 import "../Sales/report.scss"
 import { getRestaurantRequest } from 'redux/auth/authActions';
-import { tabsForProduct } from 'commonconstants/reportConstants';
+import { tabsForProduct } from 'CommonConstants/reportConstants';
 
 interface ReportProps { }
 

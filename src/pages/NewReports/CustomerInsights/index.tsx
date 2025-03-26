@@ -14,7 +14,7 @@ import {
   storeLocationsList,
 } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
-import { tabsForCustomer } from "commonconstants/reportConstants";
+import { tabsForCustomer } from "CommonConstants/reportConstants";
 import SummaryInsights from "./summaryInsights";
 import DetailedInsights from "./detailedInsights";
 import "./index.scss";

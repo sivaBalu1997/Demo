@@ -4,8 +4,8 @@ import { IncrementOrDecrementTypeEnum } from "interface/newReportsInterface";
 import React from "react"
 
 const countryCurrency:Record<string,string>={
-  "IN":"$",
-  "US":"₹"
+  "US":"$",
+  "IN":"₹"
   //Add possible branch countruies here
 } 
 
@@ -98,10 +98,8 @@ function getRandomColor() {
   return formattedNumber;
 }
 
-function getCurrencySymbol(countryCode:string):any{
-  console.log(countryCurrency?.[countryCode]?<span style={{fontFamily:"sans-serif"}}>{countryCurrency[countryCode]}</span>:"");
-  
-  return countryCurrency?.[countryCode]?<span style={{fontFamily:"sans-serif"}}>{countryCurrency[countryCode]}</span>:""
+function getCurrencySymbol(countryCode:string,styled:boolean=false):any{
+  return  countryCurrency?.[countryCode]?(styled?<span style={{fontFamily:"sans-serif"}}>{countryCurrency[countryCode]}</span>:countryCurrency[countryCode]):""
 }
 
 // export all functions 
