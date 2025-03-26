@@ -44,11 +44,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerDat
     const dataToDownloadError=useSelector((state:RootState)=>state.newReports.downloadableReportFailure)
 const dispatch=useDispatch()
     useEffect(()=>{
-console.log({apiParams,showDownloadables},444);
-
-        if(showDownloadables&&apiParams?.apiEndPoint){
-            console.log("111231");
-            
+        if(showDownloadables&&apiParams?.apiEndPoint){            
             dispatch(getDownloadableReportRequest(apiParams))
         }
 
@@ -172,7 +168,7 @@ console.log({apiParams,showDownloadables},444);
         // if (downloadRef?.current && selectedFormat === "pdf") { //TODO:Remove
         //     generatePdfFromRef(); // Invoke if downloadRef is present
         // }else
-        console.log({dataToDownload});
+
         
          if (selectedFormat === "pdf") {
             pdfDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData, headerData);

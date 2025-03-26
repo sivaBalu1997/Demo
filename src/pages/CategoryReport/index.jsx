@@ -308,7 +308,6 @@ const cancelledItemsDownloadHeader = [{
 
 },
 ]
-console.log( voidedSummaryData,"tsfdsf it is")
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>

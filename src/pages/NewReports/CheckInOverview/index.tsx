@@ -34,6 +34,7 @@ import DownloadPopOver from "pages/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 interface ReportProps { }
 interface CustomBarChartData {
@@ -306,9 +307,12 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     dispatch((checkInOverviewTopCustomerRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: checkInPageLimit, startDate: topTableDate?.from, endDate: topTableDate?.to })))
     settodayCheckInCurrentPage(1)
   }
+  const checkInOverviewHeaderForDownloading = checkInOverview && Object.keys(checkInOverview)?.map((key) => ({
+    key,
+    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
+  }));
 
   return (
-    <>
       <>
         <StoreFilter
           storeOptions={locations}
@@ -324,24 +328,21 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           setSelectedStore={(store) => dispatch(changeLocation(store))}
         />
 
-        <div className="todays-report-sales-overview-box-container-parent">
-          <div className="total-sales-heading-container">
-            <h2
-              className="sales-overview-sub-heading "          
-            >
-              Check-in Overview
-            </h2>
 
-            <div className="total-sales-info-container">
-              <InfoIcon />
-              <div className="total-sales-info-content">
-              The graph shows percentage comparison based on the previous day or week, depending on your selection.
-                {/* The graph shows the percentage compared to the previous day. If
-                you select this week, the comparison chart will display last
-                week's data */}
+       <div className="todays-report-sales-overview-box-container-parent">
+       <div className="total-sales-heading-container">
+              <div className="total-sales-overview-header-with-download">
+                <h2> Check-in Overview</h2>
+                <div className="total-sales-info-container">
+                  <InfoIcon />
+                  <div className="total-sales-info-content">
+                  The graph shows percentage comparison based on the previous day or week, depending on your selection.
+                  </div>
+                </div>
               </div>
+              {(!isCheckInOverviewLoading && checkInOverview && checkInOverviewHeaderForDownloading)&& <DownloadReport kpiTitle="Check-in Overview" tableData={checkInOverview} headerData={checkInOverviewHeaderForDownloading}/>}
             </div>
-          </div>
+
 
           <div className="todays-report-sales-overview-box-container">
             <CardWithMiniGraph
@@ -416,7 +417,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           >
             Hourly Checkin
           </h2>
-          <ErrorHandler isError={isCheckInOverviewHourlyLoading} data={checkInOverviewHourly}>
+          <ErrorHandler isError={checkInOverviewHourlyError} data={checkInOverviewHourly}>
             <HourlyCheckinChart
               dataList={checkInOverviewHourly}
               loader={isCheckInOverviewHourlyLoading}
@@ -431,7 +432,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           >
             Hourly Guest
           </h2>
-          <ErrorHandler isError={isCheckInOverviewGuestsHourlyLoading} data={checkInOverviewGuestsHourly}>
+          <ErrorHandler isError={checkInOverviewGuestsHourlyError} data={checkInOverviewGuestsHourly}>
             <HourlyCheckinChartGuest
               dataList={checkInOverviewGuestsHourly}
               loader={isCheckInOverviewGuestsHourlyLoading}
@@ -447,7 +448,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             {" "}
             Daily Check-ins & Guests
           </h2>
-          <ErrorHandler isError={isCheckInOverviewDailyAndGuestLoading} data={checkInOverviewDailyAndGuest}>
+          <ErrorHandler isError={checkInOverviewDailyAndGuestError} data={checkInOverviewDailyAndGuest}>
             <DailyCheckinsChart
               dataList={checkInOverviewDailyAndGuest}
               loader={isCheckInOverviewDailyAndGuestLoading}
@@ -462,7 +463,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           >
             Dine-in Duration By Groups
           </h2>
-          <ErrorHandler isError={isCheckInOverviewDineInGroupLoading} data={checkInOverviewDineInGroup}>
+          <ErrorHandler isError={checkInOverviewDineInGroupError} data={checkInOverviewDineInGroup}>
             <DineInDurationChart
               dataList={checkInOverviewDineInGroup}
               loader={isCheckInOverviewDineInGroupLoading}
@@ -475,7 +476,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             <h1 className="reports-page-heading">Group size Distrbution</h1>
             <DownloadPopOver />
           </div>
-          <ErrorHandler isError={isCheckInOverviewGuestSizeLoading} data={checkInOverviewGuestSize}>
+          <ErrorHandler isError={checkInOverviewGuestSizeError} data={checkInOverviewGuestSize}>
             <CustomBarChart
               barColor="#67833E"
               toolTipBorderColor="#67833E"
@@ -542,7 +543,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
             <DownloadPopOver />
           </div>
-          <ErrorHandler isError={isCheckInOverviewAvgWaitTimeGroupLoading} data={checkInOverviewAvgWaitTimeGroup}>
+          <ErrorHandler isError={checkInOverviewAvgWaitTimeGroupError} data={checkInOverviewAvgWaitTimeGroup}>
             <StackedBarChart
               loader={false}
               dataList={checkInOverviewAvgWaitTimeGroup?.map((data: any) => ({
@@ -555,7 +556,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         </div>
 
       </>
-    </>
   );
 };
 

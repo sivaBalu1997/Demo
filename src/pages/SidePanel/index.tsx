@@ -42,7 +42,6 @@ const SidePanel = () => {
   const dispatch = useDispatch();
 
   const permissions = useSelector((state: any) => state.employee.permissions);
-  console.log({ permissions });
   const isReportAccessible = useMemo(
     () =>
       permissions?.find(
