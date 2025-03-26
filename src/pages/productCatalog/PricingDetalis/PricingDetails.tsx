@@ -93,7 +93,15 @@ type MainFormTypespecial = {
 type DineInField = {
   DineInId?: string;
   DineInPrice: string | string[];
-  Enabled:boolean
+  Enabled:boolean;
+  availabilityEnabled?:boolean,
+  isEnabled?:number,
+  isNotHide?:number,
+  typeGroup?:string,
+  typeId?:string,
+  typeName?:string;
+
+
   // DineInMealType: string | string[];
 };
 
@@ -521,7 +529,13 @@ const PricingDetails = () => {
     {
       DineInId: DineInId,
       DineInPrice: "",
-      Enabled:true
+      Enabled:true,
+      availabilityEnabled:true,
+      isEnabled:1,
+      isNotHide:1,
+      typeGroup:"",
+      typeId:"",
+      typeName:""
       // DineInMealType: [],
     },
   ]);
@@ -536,11 +550,11 @@ const PricingDetails = () => {
     ]
   );
 
-  const dineInMapped = dineinfields?.map((field: any) => ({
-    typeId: field.DineInId,
-    typeName: field.DineInMealType,
-    price: parseFloat(field?.DineInPrice),
-  }));
+  // const dineInMapped = dineinfields?.map((field: any) => ({
+  //   typeId: field.DineInId,
+  //   typeName: field.DineInMealType,
+  //   price: parseFloat(field?.DineInPrice),
+  // }));
 
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {

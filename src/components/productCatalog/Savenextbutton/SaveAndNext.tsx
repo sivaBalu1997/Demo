@@ -239,6 +239,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       let PricingDetails:any = { ...mainForm };
 
+      console.log({PricingDetails});
+      
+
       const formData = getFormData();
 
       

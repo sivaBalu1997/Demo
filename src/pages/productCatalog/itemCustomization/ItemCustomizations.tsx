@@ -318,6 +318,8 @@ const ItemCustomizations: React.FC<any> = () => {
   }, [itemCustomizationData,listOfStreams]);
 
   const addModifier = () => {
+    const lastSelectedValue = modifications.length > 0 ? modifications[modifications.length - 1].selectedValue : ""; // Get last selectedValue
+  
     setModifications([
       ...modifications,
       {
@@ -328,7 +330,7 @@ const ItemCustomizations: React.FC<any> = () => {
         modifierOptions: [
           {
             modifierOptionName: "",
-            cost: '',
+            cost: "",
             isModifierOptionChanged: false,
             isEnabled: true,
           },
@@ -336,11 +338,12 @@ const ItemCustomizations: React.FC<any> = () => {
         minSelection: 0,
         maxSelection: 0,
         freeCustomization: 0,
-        selectedValue: selectedValue,
+        selectedValue: lastSelectedValue,
         selectionType: "Mandatory",
       },
     ]);
   };
+  
 
   const getFormData = (): FormData => {
     const formData = new FormData();

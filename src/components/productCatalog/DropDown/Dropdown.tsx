@@ -60,6 +60,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [touched, setTouched] = useState<boolean>(false);
+console.log("options",selectedValues);
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -96,7 +97,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     onSelect(newSelectedValues);
-    setSelectedMealType(newSelectedValues)
+    setSelectedMealType && setSelectedMealType(newSelectedValues)
     console.log("value",newSelectedValues);
     
     // ValiadteMealType && ValiadteMealType();

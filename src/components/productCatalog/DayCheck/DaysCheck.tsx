@@ -68,8 +68,9 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     (state: StateDataTag) => state.productCatalog.availability
   );
 
+ 
+  
   const [data, setData] = useState<DataItem[]>([]);
-  const dispatch = useDispatch();
   const Days = [
     "All days",
     "Monday",
@@ -139,7 +140,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
    useEffect(() => {
         if (checkedItems && checkedItems.length > 0) {
-          console.log("checkedItemsForIndex is not empty:", checkedItems);
           const validationErrors = { ...errorarray};
        
           delete validationErrors[`${Errorname}`];
@@ -158,11 +158,13 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       useEffect(()=>{
           if(disabledays.length>0&& checkedItems.length>0){
                const data =checkedItems.filter((item)=>disabledays.includes(item))
-               setCheckedItems(data)
-               console.log("kkkk",data,disabledays)
+               setCheckedItems(data)  
           }
       
         },[disabledays])
+        const AlldaysDisabled =Days.filter((item,index)=>disabledays.includes(index));
+        
+        
 
   return (
    
@@ -177,9 +179,8 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 name={index?.toString()}
                 onChange={handleCheckboxChange}
                 // {...register(valueName)}
-                checked={isChecked&&isEnabled}
-                disabled={!isEnabled}
-               
+                checked={index==0?isChecked:isChecked&&isEnabled}
+                disabled={index==0?AlldaysDisabled.length>0?false:true:!isEnabled}               
                 className="days"
               />
               <label>{elem}</label>
