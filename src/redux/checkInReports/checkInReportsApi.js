@@ -1,10 +1,8 @@
 import { API } from "redux/api";
 import Store from "../store";
 
-const baseUrl = "https://rptd.gcp.magilhub.com"
-// const baseUrl = "http://34.23.205.137:8080" //PreProd Url
-
-// http://34.23.205.137:8080/magilhub-data-services-reports/
+// const baseUrl = "https://rptd.gcp.magilhub.com"
+const baseUrl = "http://34.23.205.137:8080" //PreProd Url
 
 const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
