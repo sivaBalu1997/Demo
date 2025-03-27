@@ -301,8 +301,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         offPremiseSales: 0,
         offPremiseOrders: 0,
         paymentMode: item?.paymentMode,
-        totalSales: Number(item?.totalSales || 0),
-        totalOrders: Number(item?.totalOrders || 0),
+        totalSales: 0,
+        totalOrders:  0,
         salesPercentage: 0,
         cardName: item?.cardName,
         cardType: item?.cardType,
@@ -321,7 +321,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         key.totalOrders = Number(item?.wholeTotalOrders || 0);
         key.salesPercentage += Number(item?.salesPercentage || 0);
       } else {
-        key.salesPercentage = Number(item?.salesPercentage || 0);
+        key.totalSales += Number(item?.totalSales || 0);
+        key.totalOrders += Number(item?.totalOrders || 0);
+        key.salesPercentage += Number(item?.salesPercentage || 0);
       }
       tempdataObj[`${item?.paymentMode}-${item?.cardType}`] = key;
     });
