@@ -33,6 +33,7 @@ const HeaderV2 = (props: any) => {
   const menuData = useSelector(
     (state: RootState) => state.productCatalog?.menuData
   );
+   const locationid = useSelector((state:RootState) => state.auth.selectedBranch?.id);
 
   const { isExpanded } = useContext(Contextpagejs);
 
@@ -49,7 +50,7 @@ const HeaderV2 = (props: any) => {
       triggerFcm({
         topic: restaurantDetails?.id,
         eventName: "MENU_UPDATE",
-        locationId: restaurantDetails?.id,
+        locationId: locationid,
         updateMenuType: cuurentMenuTypes,
         sendToDefaultDeviceOnly: false,
       })
@@ -67,7 +68,7 @@ const HeaderV2 = (props: any) => {
       scheduleFCM({
         topic: restaurantDetails?.id,
         eventName: "SCHEDULE_UPDATE",
-        locationId: restaurantDetails?.id,
+        locationId: locationid,
         updateMenuType: cuurentMenuTypes,
         sendToDefaultDeviceOnly: false,
         scheduledTime: `${formattedDate} 11:00:00`,

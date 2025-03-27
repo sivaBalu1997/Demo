@@ -441,16 +441,10 @@ const formatDate = (date:Date) => {
                   </div>
                   <div>
                     <h1 className="Step2SellingPrizevalue">
-                    {restaurantDetails?.country === "US" ? "$" : "Rs."}  {(prizingDetail &&
+                    {restaurantDetails?.country === "US" ? "$" : "Rs."}  
+                    {(prizingDetail &&
                         prizingDetail?.normalForm &&
-                        prizingDetail?.normalForm?.thirdpartyDetails &&
-                        prizingDetail?.normalForm?.thirdpartyDetails.map(
-                          (elem: any) =>  Number(elem?.price)?.toFixed(2)
-                        )) ||
-                        "N/A"}
-
-
-                        
+                        prizingDetail?.normalForm?.thirdpartyDetails && Number(detail?.price)?.toFixed(2)) || "N/A"}
                       {/* {detail.price || "N/A"} */}
                     </h1>
                   </div>

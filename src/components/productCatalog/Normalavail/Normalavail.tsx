@@ -378,6 +378,16 @@ console.log({isOptionTrue});
         }),
       });
 
+    // const optionsselectthird = orderTypes
+    //   ?.filter(
+    //     (item: any) =>
+    //       item.typeGroup === "T" &&
+    //       (item.isEnabled === true || item.isEnabled === 1)
+    //   )
+    //   .map((item: any) => item.typeName);
+
+    // const optionsselectthird = ["GloriaFood", "GrubHub"]
+
     const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([
       {
         typeId: "",
@@ -468,12 +478,12 @@ console.log({isOptionTrue});
         });
         setMealTypes({});
         setSelectedThirdValues([]);
-      
-        setPriceInfo([
-          {
+        let thirdPartyData: any = []
+        optionsselectthird.forEach((name: any) => {
+          const data = {
             typeId: "",
             price: 0,
-            typeName: "",
+            typeName: name, 
             Enabled: true,
             availabilityEnabled:true,
             isEnabled:1,
@@ -490,8 +500,11 @@ console.log({isOptionTrue});
                 prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(".")[0] ||
                 null,
             }),
-          },
-        ]);
+          }
+          thirdPartyData.push(data)
+      }
+    )
+        setPriceInfo([...thirdPartyData]);
         setDayDelivery([]);
         setShowDayDelivery(false);
       }
@@ -1459,6 +1472,7 @@ console.log({isOptionTrue});
       }
       setErrors(validationErrors);
     };
+
     const [thirdPartiesSelected, setThirdPartiesSelected] = useState(false);
 
     const  handleMealType= (value: string[]): void => {
@@ -1491,9 +1505,9 @@ console.log({isOptionTrue});
       validateDropdown(value, "ThirdDeliverySwiggyZomato");
 
       setPriceInfo(
-        dineinfields.map((dinein: any, index: number) => ({
+        value.map((item,index) => ({
           typeId: "",
-          price: dinein?.DineInPrice || 0,
+          price: dineinfields[0]?.DineInPrice || 0,
           typeName: "",
           availabilityEnabled:priceInfo[index].availabilityEnabled,
           isEnabled:priceInfo[index].isEnabled,
@@ -1503,7 +1517,7 @@ console.log({isOptionTrue});
           availabilities: [
             {
               availabilityDays: [],
-              sessions: dinein?.DineInMealType || [],
+              sessions: dineinfields[0]?.DineInMealType || [],
             },
           ],
           ...(editData?.length && {
@@ -1516,11 +1530,12 @@ console.log({isOptionTrue});
       );
     };
 
-    useEffect(() => {
-      priceInfo.map((item, index) => {
-        return validateThridPrice(index, item.price, item.Enabled);
-      });
-    }, [priceInfo]);
+    // useEffect(() => {
+    //   priceInfo.map((item, index) => {
+    //     return validateThridPrice(index, item.price, item.Enabled);
+    //   });
+    // }, [priceInfo]);
+
     const clearSelection = () => {
       setMealTypes({});
       setPriceInfo([
@@ -3185,7 +3200,7 @@ const handleToggleDelivery = () => {
                                         );
                                         validateThridPrice(
                                           index,
-                                          updatedData[0].price,
+                                          updatedData[index]?.price,
                                           priceInfo[index]?.Enabled
                                         );
                                         setPriceInfo(updatedData);
