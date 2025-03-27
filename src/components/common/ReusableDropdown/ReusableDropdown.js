@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Select, { components } from 'react-select';
+<<<<<<< HEAD
 import { FixedSizeList as List } from "react-window";
+=======
+// import { FixedSizeList as List } from "react-window";
+>>>>>>> origin/report-checkin
 // Import your custom icon (for example, an SVG as a React component)
 import { ReactComponent as CustomIcon } from '../../../assets/svg/search.svg';
 
@@ -29,6 +33,7 @@ const ReusableDropdown = ({
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+<<<<<<< HEAD
 const MenuList=({ options, children, maxHeight, getValue })=>{
   const [value] = getValue();
   const height =35
@@ -44,6 +49,23 @@ const MenuList=({ options, children, maxHeight, getValue })=>{
   </List>
   )
 }
+=======
+// const MenuList=({ options, children, maxHeight, getValue })=>{
+//   const [value] = getValue();
+//   const height =35
+//   const initialOffset = options.indexOf(value) * height;
+//   return(
+//     <List
+//     height={maxHeight}
+//     itemCount={children.length}
+//     itemSize={height}
+//     initialScrollOffset={initialOffset}
+//   >
+//     {({ index, style }) => <div style={style}>{children[index]}</div>}
+//   </List>
+//   )
+// }
+>>>>>>> origin/report-checkin
   return (
     <div className={dropdownContainerClassName}>
       <Select
@@ -57,8 +79,13 @@ const MenuList=({ options, children, maxHeight, getValue })=>{
         menuIsOpen={menuIsOpen}
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
+<<<<<<< HEAD
         components={{ MenuList }}
         // components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: LoadingIndicator, }:null}
+=======
+        // components={{ MenuList }}
+        components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: LoadingIndicator, }:null}
+>>>>>>> origin/report-checkin
         onInputChange={onInputChange}
     isLoading={isLoading}
     loadingMessage={() => loadingMessage}
