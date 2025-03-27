@@ -76,7 +76,7 @@ const initialNewReportsState = {
 
  detailedInsightsOffPremSuccess :[],
  detailedInsightsOffPremLoading :false,
- detailedInsightsOffPremFailure : true,
+ detailedInsightsOffPremFailure : false,
 
  detailedInsightsCustomersOrderLoading : false,
  detailedInsightsCustomersOrderSuccess :[],
