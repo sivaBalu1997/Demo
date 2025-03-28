@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
+import DownloadPopOver from "../../NewReports/Sales/CategoryReport/downloadOption";
 
 import useDateFilter from "hooks/useDateFilter";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";

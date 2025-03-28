@@ -113,6 +113,8 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle="
           display: false,
         },
         ticks: {
+           beginAtZero: true,
+           autoSkip: false,
           display:!isMobile,
           color: "#555",
           font: { size: 14 },
@@ -123,6 +125,8 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle="
       y: {
         beginAtZero: true,
         ticks: {
+          autoSkip: false,
+          beginAtZero: true,
           color: "#777",
           font: { size: 12 },
           callback: (value:any) => `${currencySymbol}${value}`,
