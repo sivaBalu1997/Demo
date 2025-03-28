@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
+// import DoughnutChartShimmer from "components/reportComponents/Charts/DoughnutChartShimmer";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
 import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 import { useSelector } from "react-redux";
@@ -25,8 +25,16 @@ ChartJS.register(
   Legend
 );
 
-function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle=""  }) {
-  const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+interface LinearBarChartProps {
+  barColorCode: string;
+  dataList: any[];
+  loader: boolean;
+  isMobile: boolean;
+  bottomTitle?:string; 
+}
+
+function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle=""   }: LinearBarChartProps) {
+  const countryCode = useSelector((state:any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,false)), [countryCode]);
   
   
@@ -46,7 +54,7 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle="
   };
 
   // Chart.js configuration
-  const options = {
+  const options: any = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -82,13 +90,13 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle="
         padding: 10, // Padding inside tooltip container
         callbacks: {
           // Show the x-axis label in the tooltip title
-          title: (tooltipItems) => {
+          title: (tooltipItems:any) => {
             if (!tooltipItems.length ||!isMobile) return "";
             const { dataIndex } = tooltipItems[0];
             return dataList?.[dataIndex].categoryName;
           },
           // Multi-line body: Qty and Sales
-          label: (tooltipItem) => {
+          label: (tooltipItem:any) => {
             const idx = tooltipItem.dataIndex;
             const cat = dataList?.[idx];
             return [`Qty: ${cat?.totalQuantity}`, `Sales: ${currencySymbol}${Number(cat?.totalPrice||0).toFixed(2)}`];
@@ -117,7 +125,7 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle="
         ticks: {
           color: "#777",
           font: { size: 12 },
-          callback: (value) => `${currencySymbol}${value}`,
+          callback: (value:any) => `${currencySymbol}${value}`,
         },
       },
     },

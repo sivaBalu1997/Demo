@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import exportFromJSON from "export-from-json";
-import { ReactComponent as PdfDownloadIcon } from "../../assets/svg/r-pdf-download-option-icon.svg";
-import { ReactComponent as JsonDownloadIcon } from "../../assets/svg/r-json-download-option-icon.svg";
-import { ReactComponent as CsvDownloadIcon } from "../../assets/svg/r-csv-download-option-icon.svg";
-import { ReactComponent as DownloadBtn } from "../../assets/svg/r-download-button-icon.svg";
-import { ReactComponent as TableDownloadOptionsIcon } from "../../assets/svg/r-options-table.svg";
+import { ReactComponent as PdfDownloadIcon } from "../../../../assets/svg/r-pdf-download-option-icon.svg";
+import { ReactComponent as JsonDownloadIcon } from "../../../../assets/svg/r-json-download-option-icon.svg";
+import { ReactComponent as CsvDownloadIcon } from "../../../../assets/svg/r-csv-download-option-icon.svg";
+import { ReactComponent as DownloadBtn } from "../../../../assets/svg/r-download-button-icon.svg";
+import { ReactComponent as TableDownloadOptionsIcon } from "../../../../assets/svg/r-options-table.svg";
 
 
 

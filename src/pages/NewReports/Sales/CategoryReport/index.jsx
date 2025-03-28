@@ -7,7 +7,7 @@ import {
   categorySalesSummaryRequest,
   changeLocation,
   dropdownDetailsRequest,
-} from "../../redux/newReports/newReportsActions";
+} from "../../../../redux/newReports/newReportsActions";
 import { formatNumberByCountry, getCurrencySymbol } from "utils";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
@@ -15,7 +15,6 @@ import SalesChart from "./salesReport";
 import LinearBarChart from "./barChart";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
 import DoughnutChart from "./doughnutChart";
-import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
@@ -50,7 +49,6 @@ const CategoryReport = (props) => {
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,true)), [countryCode]);
-
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();

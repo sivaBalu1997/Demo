@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeLocation, salesByRevenueClassRequest } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter'
@@ -11,6 +11,7 @@ import "./style.scss"
 import {  productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRequest, productInsightsItemsCancelledReasonsRequest, productInsightsTopLeastPopularRequest, productInsightsTopLeastPopularRevenueRequest, productInsightsTopPopularRequest, productInsightsTopPopularRevenueRequest, productInsightsTopRevenueRequest, productInsightsTopRevenueStreamsRequest } from 'redux/productReports/productReportsActions';
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import DoughnutChart from 'components/reportComponents/ReusableCharts/ResuableDonoughtChart';
+import { getCurrencySymbol } from 'utils';
 
 
 interface dataList {
@@ -33,7 +34,9 @@ const ProductInsights = () => {
 
   const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
-  const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
+  // const countryCode = useSelector((state: any) => state?.auth?.restaurantDetails?.country);
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
   // Top Revenue States
   const topRevenueData = useSelector((state: any) => state?.productReports?.topRevenueSuccess);
@@ -81,7 +84,6 @@ const ProductInsights = () => {
     const salesByRevenueClassAPIRedux = useSelector(      (state: any) => state?.newReports?.salesByRevenueClassSuccess?.content    );
     const salesByRevenueClassLoading = useSelector(      (state: any) => state?.newReports?.salesByRevenueClassLoading    );
     const salesByRevenueClassError = useSelector(      (state: any) => state?.newReports?.salesByRevenueClassFailure    );
-
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
@@ -175,7 +177,7 @@ const ProductInsights = () => {
           title="Top 10 Revenue Making Categories"
           barColor="#049E16"
 
-          yPrefix="$"
+          yPrefix={currencySymbol}
           formatAmount={true}
           tooltipStyles={{
             backgroundColor: "white",
@@ -228,7 +230,7 @@ const ProductInsights = () => {
         yLabel='Sales'
         title="Top 20 popular revenue making"
         barColor="#AA562A"
-        yPrefix="$"
+        yPrefix={currencySymbol}
         // ySuffix="K"
         tooltipStyles={{
           backgroundColor: "white",

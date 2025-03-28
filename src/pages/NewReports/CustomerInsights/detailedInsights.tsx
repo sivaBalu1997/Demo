@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
+import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 
 import useDateFilter from "hooks/useDateFilter";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
@@ -97,9 +97,7 @@ const DetailedInsights = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
     useDateFilter();

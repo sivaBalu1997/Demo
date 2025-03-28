@@ -12,7 +12,7 @@ import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
-import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
+import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
 import { cardDataForEmployees } from "commonConstants/reportConstants";
 import StoreFilter from "components/reportComponents/StoreFilter";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -13,7 +13,6 @@ import {
 // @ts-ignore
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer";
-import ErrorState from "components/reportComponents/errorstatecomponents/ErrorState";
 import CustomDropdown from "components/common/customDropdown";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import SwitchableBox from "components/reportComponents/SwitchableBox";

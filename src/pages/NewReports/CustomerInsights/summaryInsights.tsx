@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
+import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
-import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";
-import useDateFilter from "hooks/useDateFilter";
+import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";  
 import {
   summaryInsightsCustomerVolumeRequest,
   summaryInsightsCustomerByTenureRequest,
@@ -15,6 +14,7 @@ import {
   summaryInsightsCustomerByLoyaltyLevelsRequest,
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import { getCurrencySymbol } from "utils";
 
 const SummaryInsights = () => {
   const locations = useSelector(
@@ -83,6 +83,8 @@ const SummaryInsights = () => {
     (state: any) =>
       state?.customerInsights?.summaryInsightsCustomerByLoyaltyFailure
   );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -98,7 +100,7 @@ const SummaryInsights = () => {
     }
   }, [selectedLocation]);
 
-
+console.log({summaryInsightsCustomerByTotalSpendData})
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -181,7 +183,7 @@ const SummaryInsights = () => {
                 loader={summaryInsightsCustomerByTotalSpendDataLoading}
                 dataList={
                   summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
-                    xAxisData: `${data?.spendCategory}`,
+                    xAxisData: `${data?.spendCategory?.replaceAll("$", currencySymbol)}`,
                     stackName: `${data?.orderCategory}`,
                     stackValue: Number(data?.customerCount),
                   }))
@@ -213,7 +215,7 @@ const SummaryInsights = () => {
                 dataList={
                   summaryInsightsCustomerByAvgCoverSizeData?.map(
                     (data: any) => ({
-                      xAxisValue: `${data?.orderTotalRange}`,
+                      xAxisValue: `${data?.orderTotalRange?.replaceAll("$", currencySymbol)}`,
                       yAxisValue: Number(data?.customerCount),
                     })
                   )

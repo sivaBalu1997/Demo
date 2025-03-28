@@ -15,19 +15,19 @@ import {
   staffSalesRequest,
   voidedOrderSummaryRequest,
 } from "redux/newReports/newReportsActions";
-import { ReactComponent as PayTapIcon } from "../../../assets/svg/pay_tap.svg";
-import { ReactComponent as KeyedInIcon } from "../../../assets/svg/pay-card.svg";
-import { ReactComponent as CashIcon } from "../../../assets/svg/pay-cash.svg";
-import { ReactComponent as CouponsIcon } from "../../../assets/svg/pay-coupon.svg";
-import { ReactComponent as GiftCardIcon } from "../../../assets/svg/pay-gift-card.svg";
-import { ReactComponent as UberEatsIcon } from "../../../assets/svg/pay-uber-eats.svg";
-import { ReactComponent as GooglePayIcon } from "../../../assets/svg/pay-gpay.svg";
-import { ReactComponent as GrubHubIcon } from "../../../assets/svg/pay-grub-hub.svg";
-import { ReactComponent as ApplePayIcon } from "../../../assets/svg/pay-apple.svg";
-import { ReactComponent as DoordashIcon } from "../../../assets/svg/pay-doordash.svg";
-import { ReactComponent as OfflineQRIcon } from "../../../assets/svg/pay-tap.svg";
-import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
-import { ReactComponent as ArrowLeft } from "../../../assets/svg/r-arrow-left.svg";
+import { ReactComponent as PayTapIcon } from "../../../../assets/svg/pay_tap.svg";
+import { ReactComponent as KeyedInIcon } from "../../../../assets/svg/pay-card.svg";
+import { ReactComponent as CashIcon } from "../../../../assets/svg/pay-cash.svg";
+import { ReactComponent as CouponsIcon } from "../../../../assets/svg/pay-coupon.svg";
+import { ReactComponent as GiftCardIcon } from "../../../../assets/svg/pay-gift-card.svg";
+import { ReactComponent as UberEatsIcon } from "../../../../assets/svg/pay-uber-eats.svg";
+import { ReactComponent as GooglePayIcon } from "../../../../assets/svg/pay-gpay.svg";
+import { ReactComponent as GrubHubIcon } from "../../../../assets/svg/pay-grub-hub.svg";
+import { ReactComponent as ApplePayIcon } from "../../../../assets/svg/pay-apple.svg";
+import { ReactComponent as DoordashIcon } from "../../../../assets/svg/pay-doordash.svg";
+import { ReactComponent as OfflineQRIcon } from "../../../../assets/svg/pay-tap.svg";
+import { ReactComponent as InfoIcon } from "../../../../assets/svg/info_grey.svg";
+import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
 import { cardConfigForSalesTabOverView } from "commonConstants/reportConstants";
@@ -210,8 +210,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [otherVoided, setOtherVoided] = useState<string>("");
 
   const offerRef = useRef<HTMLDivElement>(null);
-
-  const showChart:boolean = false // for later use - once BE preprod deployed
 
   const dispatch = useDispatch();
   // const debounceValue = useDebounce(searchQuery, 1000);
