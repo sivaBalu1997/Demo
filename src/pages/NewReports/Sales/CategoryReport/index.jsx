@@ -7,7 +7,7 @@ import {
   categorySalesSummaryRequest,
   changeLocation,
   dropdownDetailsRequest,
-} from "../../redux/newReports/newReportsActions";
+} from "../../../../redux/newReports/newReportsActions";
 import { formatNumberByCountry, getCurrencySymbol } from "utils";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  getRestaurantRequestFromNewReports,  storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
@@ -7,9 +7,10 @@ import moment from "moment";
 import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";
 import SidePanel from "pages/SidePanel";
-import CheckInLiveReport from "../CheckInLive";
-import CheckInOverview from "../CheckInOverview";
+import CheckInLiveReport from "./CheckInLive";
+import CheckInOverview from "./CheckInOverview";
 import "../Sales/report.scss";
+import { getCurrencySymbol } from "utils";
 
 interface ReportProps { }
 
@@ -23,6 +24,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
     const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
       const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
       const endDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
+
 
     useEffect(() => {
       if (selectedLocation?.value

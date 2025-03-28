@@ -1,12 +1,12 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import "./report.scss";
-import SalesOverview from "../SalesOverview/index";
+import SalesOverview from "./SalesOverview/index";
 import Header from "components/reportComponents/Header";
 import TabNavigation from "components/common/TabNavigation";
-import CategoryReport from "pages/CategoryReport";
-import TodaysReport from "../TodaysReport";
-import Employees from "../Employees";
+import CategoryReport from "pages/NewReports/Sales/CategoryReport";
+import TodaysReport from "./TodaysReport";
+import Employees from "./Employees";
 import SidePanel from "pages/SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, getRestaurantRequestFromNewReports, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";

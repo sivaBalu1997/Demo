@@ -1,5 +1,5 @@
 //Overview
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeLocation,
@@ -11,7 +11,7 @@ import {
 import { RootState } from "redux/rootReducer";
 import { getEmployees } from "redux/employee/employeeActions";
 import { EmployeeType } from "interface/employeeInterface";
-import { formatNumberByCountry, transformSalesData } from "utils";
+import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
 import StoreFilter from "components/reportComponents/StoreFilter";
@@ -44,8 +44,7 @@ const Overview: React.FC = () => {
   );
 
   const countryCode = useSelector(    (state: any) => state?.auth?.restaurantDetails?.country  );
-
-  const currencySymbol = countryCode === "US" ? "$" : "₹";
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
 
 
 
