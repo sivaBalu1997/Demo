@@ -238,9 +238,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       state?.checkInReports?.checkInOverviewAvgWaitTimeGroupFailure
   );
 
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   useEffect(() => {
     if (selectedLocation && startDate && endDate) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
@@ -14,6 +14,7 @@ import {
   summaryInsightsCustomerByLoyaltyLevelsRequest,
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
+import { getCurrencySymbol } from "utils";
 
 const SummaryInsights = () => {
   const locations = useSelector(
@@ -82,6 +83,8 @@ const SummaryInsights = () => {
     (state: any) =>
       state?.customerInsights?.summaryInsightsCustomerByLoyaltyFailure
   );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -180,7 +183,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
                 loader={summaryInsightsCustomerByTotalSpendDataLoading}
                 dataList={
                   summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
-                    xAxisData: `${data?.spendCategory}`,
+                    xAxisData: `${data?.spendCategory?.replaceAll("$", currencySymbol)}`,
                     stackName: `${data?.orderCategory}`,
                     stackValue: Number(data?.customerCount),
                   }))
@@ -212,7 +215,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
                 dataList={
                   summaryInsightsCustomerByAvgCoverSizeData?.map(
                     (data: any) => ({
-                      xAxisValue: `${data?.orderTotalRange}`,
+                      xAxisValue: `${data?.orderTotalRange?.replaceAll("$", currencySymbol)}`,
                       yAxisValue: Number(data?.customerCount),
                     })
                   )
