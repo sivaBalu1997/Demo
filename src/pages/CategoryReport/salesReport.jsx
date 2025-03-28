@@ -15,7 +15,7 @@ import { getCurrencySymbol } from "utils";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SalesChart = ({dataList, loader,isMobile}) => {
+const SalesChart = ({dataList, loader,isMobile, bottomTitle=""}) => {
 
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
@@ -65,6 +65,21 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
           size:isMobile?10:12
         }
       },  },
+      title: {
+        display: isMobile,
+        text: bottomTitle,
+        position: 'bottom',
+        padding: {
+          top: 10,
+          bottom: 10
+        },
+        font: {
+          size: 12,
+          family: 'Poppins',
+          weight: 500,
+        },
+        color: '#8D8D8D'
+      },
       tooltip: {
         // Tooltip style
         backgroundColor: "#fff",

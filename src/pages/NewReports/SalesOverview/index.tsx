@@ -656,7 +656,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               </div>
               {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
             </div>
-
+            <ErrorHandler data={salesSummary} isError={salesSummaryError}>
             <div className="todays-report-sales-overview-box-container">
               {cardConfigForSalesTabOverView.map((card:any, index:number) => (
                 <CardWithMiniGraph
@@ -683,6 +683,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 />
               ))}
             </div>
+            </ErrorHandler>
           </div>
 
 

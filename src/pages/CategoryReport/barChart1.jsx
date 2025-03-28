@@ -17,7 +17,7 @@ import { getCurrencySymbol } from "utils";
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile }) {
+function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile, bottomTitle="" }) {
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   // console.log(dataList);
@@ -41,6 +41,21 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
+      title: {
+        display: isMobile,
+        text: bottomTitle,
+        position: 'bottom',
+        padding: {
+          top: 10,
+          bottom: 10
+        },
+        font: {
+          size: 12,
+          family: 'Poppins',
+          weight: 500,
+        },
+        color: '#8D8D8D'
+      },
       tooltip: {
         // Customize tooltip styling
         backgroundColor: "#fff",

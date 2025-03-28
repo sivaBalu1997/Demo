@@ -461,6 +461,7 @@ const cancelledItemsDownloadHeader = [{
                 barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
                 loader={categorySalesDataLoading}
                 isMobile={isMobile}
+                bottomTitle={activeBtn === "categories" ? "categories" : "Items"}
               />
             </ErrorHandler>
 
@@ -477,8 +478,8 @@ const cancelledItemsDownloadHeader = [{
               <SalesChart
                 dataList={categoryChannelSummaryData}
                 loader={categoryChannelSummaryDataLoading}
-                // isMobile={window.matchMedia("(max-width: 768px)").matches}
-
+                isMobile={isMobile}
+                bottomTitle={activeBtn === "categories" ? "categories" : "Items"}
               />
             </ErrorHandler>
           </div>
@@ -495,8 +496,8 @@ const cancelledItemsDownloadHeader = [{
                   dataList={voidedSummaryData}
                   barColorCode={"#AA562A"}
                   loader={voidedSummaryDataLoading}
-                  // isMobile={window.matchMedia("(max-width: 768px)").matches}
-
+                  isMobile={isMobile}
+                  bottomTitle={activeBtn === "categories" ? "categories" : "Items"}
                 />
               </ErrorHandler>
             </div>
@@ -514,7 +515,7 @@ const cancelledItemsDownloadHeader = [{
                   dataList={voidedSummaryData}
                   countryCode={countryCode}
                   loader={voidedSummaryDataLoading}
-                  // isMobile={window.matchMedia("(max-width: 768px)").matches}
+                  isMobile={isMobile}
                 />
               </ErrorHandler>
             </div>
