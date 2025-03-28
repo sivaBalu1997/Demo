@@ -28,6 +28,8 @@ const CategoryReport = (props) => {
   const [selectedItems, setSelectedItems] = useState([{ label: "All", value: "" }]);
   const [itemlList, setItemList] = useState([{ label: "All", value: "" }]);
   const [activeBtn, setActiveBtn] = useState("categories");
+  const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
+
 
   const locations = useSelector((state) => state?.newReports?.storeLocationsList);
   const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation);
@@ -49,9 +51,16 @@ const CategoryReport = (props) => {
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,true)), [countryCode]);
 
 
-
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 600px)");
+    const handleResize = () => setIsMobile(mediaQuery.matches);
+  
+    mediaQuery.addEventListener("change", handleResize); 
+    return () => mediaQuery.removeEventListener("change", handleResize); 
+  }, []);
 
   useEffect(() => {
     if (!categoryList?.length) {
@@ -451,7 +460,7 @@ const cancelledItemsDownloadHeader = [{
                 dataList={categorySalesData}
                 barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
                 loader={categorySalesDataLoading}
-                // isMobile={window.matchMedia("(max-width: 768px)").matches}
+                isMobile={isMobile}
               />
             </ErrorHandler>
 
