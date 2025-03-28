@@ -211,8 +211,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   const offerRef = useRef<HTMLDivElement>(null);
 
-  const showChart:boolean = false // for later use - once BE preprod deployed
-
   const dispatch = useDispatch();
   // const debounceValue = useDebounce(searchQuery, 1000);
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();

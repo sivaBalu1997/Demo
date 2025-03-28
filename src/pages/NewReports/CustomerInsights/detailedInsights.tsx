@@ -97,9 +97,7 @@ const DetailedInsights = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } =
     useDateFilter();
