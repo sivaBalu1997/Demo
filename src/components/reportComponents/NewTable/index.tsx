@@ -78,7 +78,7 @@ const NewTable: React.FC<NewTableProps> = ({
       e?.stopPropagation()
       const employeeAccess=    permissions?.find(
         (item: any) =>
-          item?.module === "SECTION" &&
+          item?.module === "PORTAL" &&
           item?.funtions?.includes("Employee details")
       )
       
