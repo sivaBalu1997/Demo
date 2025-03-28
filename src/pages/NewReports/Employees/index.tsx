@@ -51,6 +51,10 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.employeeSalesOverviewLoading
   );
 
+  const employeeSalesOverViewFromAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewFailure
+  );
+
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   const currencySymbol = countryCode === "US" ? "$" : "₹";
@@ -771,6 +775,7 @@ const Employees: React.FC = () => {
               </div>
             </div>
             <div className="employee-report-sales-overview-box-container">
+              <ErrorHandler isLoading={employeeSalesOverViewFromAPIReduxLoader} data={employeeSalesOverViewFromAPIRedux} isError={employeeSalesOverViewFromAPIReduxError}>
               {cardDataForEmployees.map((card) => (
                 <CardWithMiniGraph
                   key={card.title}
@@ -792,6 +797,7 @@ const Employees: React.FC = () => {
                   showMiniGraph={true}
                 />
               ))}
+              </ErrorHandler>
             </div>
           </div>
           {/* <div ref={employeeChartRef}>

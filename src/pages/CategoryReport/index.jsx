@@ -40,6 +40,7 @@ const CategoryReport = (props) => {
   const categorySalesDataLoading = useSelector((state) => state?.newReports?.categorySalesLoading);
   const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData);
   const categorySalesSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
+  const categorySalesSummaryDataError = useSelector((state) => state?.newReports?.categorySalesSummaryError);
   const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData);
   const categoryChannelSummaryDataFailure = useSelector((state) => state?.newReports?.categoryChannelSummaryError)
   const categoryChannelSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
@@ -424,6 +425,7 @@ const cancelledItemsDownloadHeader = [{
               </h1>
               {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading }/>}
             </div>
+          <ErrorHandler data={categorySalesSummaryData} isError={categorySalesSummaryDataError} isLoading={categorySalesSummaryDataLoading}>
             <MiniCard
               data={[
                 {
@@ -446,6 +448,7 @@ const cancelledItemsDownloadHeader = [{
               ]}
               loader={categorySalesSummaryDataLoading}
             />
+            </ErrorHandler>
           </div>
           <div>
             <div className="categories-graph-header-container">
