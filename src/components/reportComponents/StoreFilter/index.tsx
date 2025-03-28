@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./StoreFilter.scss";
 import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
-import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
+import CustomDatePicker from "pages/NewReports/Sales/CategoryReport/CustomDatepicker";
 import { DateObject } from "react-multi-date-picker";
 import {  useSelector } from "react-redux";
 import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";

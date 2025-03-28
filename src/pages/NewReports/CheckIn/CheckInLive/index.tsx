@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLocation } from "../../../redux/newReports/newReportsActions";
+import { changeLocation } from "../../../../redux/newReports/newReportsActions";
 import {
   liveCheckInOverviewRequest,
   liveCheckInSeaterAvailabilityRequest,
@@ -10,23 +10,18 @@ import {
   liveCheckInGroupAvgWaitTimeRequest,
   liveCheckInTableRequest,
   liveCheckInTodayRequest,
-} from "../../../redux/checkInReports/checkInReportsActions";
+} from "../../../../redux/checkInReports/checkInReportsActions";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
+import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
-import { formatNumberByCountry } from "utils";
+import { formatNumberByCountry, getCurrencySymbol } from "utils";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import SwitchableBox from "components/reportComponents/SwitchableBox";
 
-interface CustomBarChartData {
-  xAxisValue: string;
-  yAxisValue: number;
-  tooltipValue: number;
-}
 
 const headerData = [
   {
@@ -345,7 +340,6 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
               <h1 className="reports-page-heading">Check-in Overview</h1>
               <DownloadPopOver />
             </div>
-
             <MiniCard
               data={[
                 {
@@ -365,7 +359,7 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
                   value: formatNumberByCountry(liveCheckInOverview?.lateShow),
                 },
               ]}
-            />
+              />
           </div>
           <div>
             <div className="reports-page-sub-header-container">

@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
+import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
-import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";
-import useDateFilter from "hooks/useDateFilter";
+import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";  
 import {
   summaryInsightsCustomerVolumeRequest,
   summaryInsightsCustomerByTenureRequest,
@@ -98,7 +97,7 @@ const SummaryInsights = () => {
     }
   }, [selectedLocation]);
 
-
+console.log({summaryInsightsCustomerByTotalSpendData})
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
