@@ -211,6 +211,8 @@ console.log({isOptionTrue});
       []
     );
 
+
+    
     const [selectedMealType, setSelectedMealType] = useState<string[]>(
       []
     );
@@ -362,6 +364,9 @@ console.log({isOptionTrue});
         typeId: DineInId,
         typeName: "DineIn",
         Enabled: true,
+        availabilityEnabled:true,
+        isEnabled:1,
+        isNotHide:1,
         price: 0,
         typeGroup: "D",
         availabilities: [
@@ -776,6 +781,9 @@ console.log({isOptionTrue});
           return {
             ...prevData,
             price: updatedField?.DineInPrice,
+            availabilityEnabled:updatedField?.availabilityEnabled,
+          isEnabled:updatedField?.isEnabled,
+          isNotHide:updatedField?.isNotHide,
             // Enabled: updatedField?.Enabled,
             Enabled: true,
             availabilities: updatedAvailabilities,
@@ -933,17 +941,7 @@ console.log({isOptionTrue});
 
         
 
-        // setValue("kitchenstation",prizingDetail?.kitchenstation)
-
-        const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === dineIndetail?.typeId
-        );
-        const filterOrderTypeAvailableorNotPickup = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === pickupDetails?.typeId
-        );
-        const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === deliveryDetails?.typeId
-        );
+       
 
         setShowDayPickup(
           prizingDetail.normalForm?.Pickup?.length > 0 ? true : false
@@ -958,28 +956,12 @@ console.log({isOptionTrue});
             dineIndetail.price>0 ? setShowDineIn(true):setShowDineIn(false);
           }
          
-          
-          // if (
-          //   editData?.length > 0 &&
-          //   filterOrderTypeAvailableorNotDineIn &&
-          //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
-          // ) {
-          //   setShowDineIn(false);
-          //   setdineInEnable(false);
-          // }
+      
         }
 
         if (pickupDetails) {
           pickupDetails.price > 0 && setPickup(true);
-          // setPickup(true);
-          // if (
-          //   editData?.length > 0 &&
-          //   filterOrderTypeAvailableorNotPickup &&
-          //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 0
-          // ) {
-          //   setPickup(false);
-          //   setpickupEnable(false);
-          // }
+          
 
           pickupDetails.price > 0 && setOnline(true);
 
@@ -1165,6 +1147,9 @@ console.log({isOptionTrue});
           return {
             ...prevData,
             price: updatedField && updatedField?.DineInPrice,
+            availabilityEnabled:updatedField?.availabilityEnabled,
+          isEnabled:updatedField?.isEnabled,
+          isNotHide:updatedField?.isNotHide,
             // Enabled: updatedField && updatedField?.Enabled,
             Enabled: true,
             availabilities: updatedAvailabilities && updatedAvailabilities,
@@ -1192,15 +1177,7 @@ console.log({isOptionTrue});
       }
     }, [prizingDetail, dataFromRedux[0]]);
 
-    const getDisabledDays = (index: number) => {
-      const allSelectedDays = new Set<number>();
-      dineInDates1?.forEach((selectedDays, i) => {
-        if (i !== index) {
-          selectedDays?.forEach((day) => allSelectedDays?.add(day));
-        }
-      });
-      return Array.from(allSelectedDays);
-    };
+    
 
     const handleChange = (
       index: number,
@@ -1257,31 +1234,7 @@ console.log({isOptionTrue});
     //   }
     // };
 
-    const addDayPickup = () => {
-      setShowDayPickup(true);
-    };
 
-    const addDayPickupfalse = () => {
-      setShowDayPickup(false);
-    };
-
-    const addDayDelivery = () => {
-      setShowDayDelivery(true);
-    };
-    const addDayDeliveryfalse = () => {
-      setShowDayDelivery(false);
-    };
-
-    const addDayThird = () => {
-      if (selectedthirdvalues.length > 0) {
-        setShowDayThird(true);
-      }
-      // setShowDayThird(true);
-    };
-
-    const addDayThirdfalse = () => {
-      setShowDayThird(false);
-    };
 
     useEffect(() => {
       if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
@@ -1333,131 +1286,7 @@ console.log({isOptionTrue});
       }));
     }, [DayPickup]);
 
-    const handleSelect2 = (values: any, index: number): void => {
-      setSelectedValues((prevState: SelectedValuesState) => ({
-        ...prevState,
-        [index]: values,
-      }));
-
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index] = {
-        ...newDineInFields[index],
-        DineInService: values,
-      };
-      setDineInFields(newDineInFields);
-    };
-
-    const addOption2 = (newOption: OptionType): void => {
-      setOptions2((prevOptions) => [...prevOptions, newOption]);
-    };
-    const handleSelect3 = (newSelectedValues: string[]) => {
-      setSelectedValues2(newSelectedValues);
-    };
-
-    const addOption3 = (newOption: OptionType): void => {
-      setOptions3((prevOptions) => [...prevOptions, newOption]);
-    };
-
-    const handleSelect4 = (values: string[]): void => {
-      setSelectedValues3(values);
-      validateDropdown(values, "Pickup");
-    };
-
-    const addOption4 = (newOption: OptionType): void => {
-      setOptions4([...options4, newOption]);
-    };
-
-    const handleSelect5 = (value: string[]): void => {
-      setSelectedValues4(value);
-      validateDropdown(value, "ThirdDelivery1");
-    };
-
-    const addOption5 = (newOption: OptionType): void => {
-      setOptions5([...options5, newOption]);
-    };
-
-    const handleSelect6 = (value: string[]): void => {
-      setSelectedValues5(value);
-      validateDropdown(value, "ThirdDelivery2");
-    };
-
-    const addOption6 = (newOption: OptionType): void => {
-      setOptions6([...options6, newOption]);
-    };
-
-    const handleSelectMealtype = (value: MealType, index: number): void => {
-      // Ensure selectedValuesmealtype is iterable
-      const newSelectedValues = Array.isArray(selectedValuesmealtype)
-        ? [...selectedValuesmealtype]
-        : [];
-      newSelectedValues[index] = value;
-      setSelectedValuesMealType(newSelectedValues);
-
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index].DineInMealType = value;
-      setDineInFields(newDineInFields);
-
-      setFormattedDineInData((prevData: DeliveryDetails) => {
-        const updatedAvailabilities = [...prevData.availabilities];
-
-        updatedAvailabilities[index] = {
-          ...updatedAvailabilities[index],
-          sessions: [...newSelectedValues.filter(Boolean).flat()],
-        };
-
-        return {
-          ...prevData,
-          availabilities: updatedAvailabilities,
-        };
-      });
-
-      if (showDineIn) {
-        validateDropdown(value, index);
-      }
-    };
-
-
-
-    const handleServiceSelect2 = (
-      index: number,
-      value: ServiceValueType,
-      validfield: string
-    ): void => {
-      setSelectedValues(value);
-
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index].DineInService = value;
-      setDineInFields(newDineInFields);
-      setValidationStateerr((prevState) => ({
-        ...prevState,
-        [validfield]: {
-          ...prevState[validfield],
-          isValid: false,
-          errorMessage: "",
-        },
-      }));
-    };
-
-    const handleMealSelect2 = (
-      index: number,
-      value: MealType,
-      validfield: string
-    ): void => {
-      if (index < 0 || index >= dineinfields.length) {
-        return;
-      }
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index].DineInMealType = value;
-      setDineInFields(newDineInFields);
-      setValidationStateerr((prevState) => ({
-        ...prevState,
-        [validfield]: {
-          ...prevState[validfield],
-          isValid: false,
-          errorMessage: "",
-        },
-      }));
-    };
+    
 
     const validateThridPrice = (
       index: number,
@@ -1509,10 +1338,10 @@ console.log({isOptionTrue});
           typeId: "",
           price: dineinfields[0]?.DineInPrice || 0,
           typeName: "",
-          availabilityEnabled:priceInfo[index].availabilityEnabled,
-          isEnabled:priceInfo[index].isEnabled,
-          isNotHide:priceInfo[index].isNotHide,
-          Enabled: priceInfo[index].Enabled,
+          availabilityEnabled:true,
+          isEnabled:1,
+          isNotHide:1,
+          Enabled: true,
           typeGroup: "T",
           availabilities: [
             {
@@ -1886,7 +1715,7 @@ console.log({isOptionTrue});
 
       if (selectedMealType?.length === 0) {
 
-        validationErrors.MealType = "Meal type ee is empty";
+        validationErrors.MealType = "Meal type is empty";
       }
 
 
@@ -1959,12 +1788,7 @@ console.log({isOptionTrue});
       return Object.keys(validationErrors).length === 0;
     };
 
-    const validationOfAvailbleDays = () => {
-      const validationErrors: Record<string, string> = {};
-      setErrors(validationErrors);
-
-      return Object.keys(validationErrors).length === 0;
-    };
+    
 
     const handleSubmit = () => {
       let isValid = validateDineinFields();
@@ -2001,7 +1825,9 @@ console.log({isOptionTrue});
       DayPickup,
       dineInDates1,
       DayDelivery,
-      selectedMealType
+      selectedMealType,
+      selectedDate,
+      selectedDate1
     ]);
     const validatePickupPrice = (price: number, Enable: boolean): void => {
       const validationErrors = { ...errors };
@@ -2154,6 +1980,11 @@ console.log({isOptionTrue});
       i === index ? { ...entry, availabilityEnabled: !entry.availabilityEnabled } : entry
     )
   );
+  setFormattedDineInData((prevData: any) => ({
+    ...prevData,
+
+    availabilityEnabled: !prevData.availabilityEnabled,
+  }));
 };
 
 const handleToggleThirdParty = (index: number) => {

@@ -609,12 +609,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
+  console.log({dineInDetails});
+  
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
       isEnabled: dineInDetails?.Enabled===true||dineInDetails?.Enabled===1?1:0, 
       isNotHide:dineInDetails && dineInDetails?.price && parseFloat(dineInDetails?.price) > 0.00 ? 1 : 0,
+      availabilityEnabled:dineInDetails && dineInDetails?.availabilityEnabled===true,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
       
       inActiveUntil: dineInDetails?.inActiveUntil ? dineInDetails.inActiveUntil.split(".")[0] : null,
@@ -633,6 +636,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       ...pickupDetails,
       isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
       isNotHide: pickupDetails && pickupDetails?.price && parseFloat(pickupDetails?.price) > 0.00 ? 1 : 0,
+      availabilityEnabled:pickupDetails && pickupDetails?.availabilityEnabled===true,
+
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
       inActiveUntil: pickupDetails?.inActiveUntil ? pickupDetails.inActiveUntil.split(".")[0] : null,
 
@@ -649,6 +654,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       ...deliveryDetails,
       isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
       inActiveUntil: deliveryDetails?.inActiveUntil ? deliveryDetails.inActiveUntil.split(".")[0] : null,
+      availabilityEnabled:deliveryDetails && deliveryDetails?.availabilityEnabled===true,
+
 
       isNotHide:  deliveryDetails && deliveryDetails?.price && parseFloat(deliveryDetails?.price) > 0.00 ? 1 : 0,
       availabilities: deliveryDetails.availabilities?.map((availability: any) => ({
@@ -667,6 +674,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
           isNotHide:detail && detail?.price && parseFloat(detail?.price) > 0.00 ? 1 : 0,
           inActiveUntil: detail?.inActiveUntil ? detail.inActiveUntil.split(".")[0] : null,
+          availabilityEnabled: detail?.availabilityEnabled && detail?.availabilityEnabled===true,
+
 
           availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
