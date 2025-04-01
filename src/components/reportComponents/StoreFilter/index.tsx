@@ -5,8 +5,8 @@ import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg
 import moment from "moment";
 import CustomDropdown from "components/common/customDropdown";
 import ReportsRefreshButton from "../ReportsRefreshButton";
-import CustomDatePicker from "pages/CategoryReport/CustomDatepicker";
 import DateRangeCompareDropdown from "../DateRangeCompareDropdown";
+import CustomDatePicker from "pages/NewReports/Sales/CategoryReport/CustomDatepicker";
 import "./StoreFilter.scss";
 
 interface StoreFilterProps {

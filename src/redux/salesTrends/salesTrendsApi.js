@@ -4,7 +4,6 @@ import Store from "../store";
 const baseUrl = "https://rptd.gcp.magilhub.com"
 const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
-
 const generateQueryParams = (payload) => {
     let query = "";
     if(payload?.locationId){
@@ -49,15 +48,51 @@ const generateQueryParams = (payload) => {
     if(payload?.offer){
         query+=`&offer=${payload?.offer}`
     }
+    if(payload?.customerName || payload?.customerName==""){
+        query+=`&customerName=${payload?.customerName}`
+
+    }
+
+    if(payload?.phoneNumber){
+        query+=`&phoneNumber=%2B${payload?.phoneNumber}`
+
+    }
+
+    
     return "?"+query?.slice(1)
 }
 
-export const getProductInsightsTopRevenue = (params) => {
+export const getSalesTrends = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
     return API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/top-revenue-categories${query}`,
+        url: `${reportsBaseUrl}/customer/insights/customer/volume-summary${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+export const getCategoriesLevelSalesTrend = (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/customer/insights/customerByTenure${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
+
+export const getItemsLevelSalesTrend= (params) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query = generateQueryParams(params);
+    return API({
+        method: "get",
+        url: `${reportsBaseUrl}/customer/insights/customer/total-spend${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

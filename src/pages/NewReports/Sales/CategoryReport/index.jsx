@@ -7,7 +7,7 @@ import {
   categorySalesSummaryRequest,
   changeLocation,
   dropdownDetailsRequest,
-} from "../../redux/newReports/newReportsActions";
+} from "../../../../redux/newReports/newReportsActions";
 import { formatNumberByCountry, getCurrencySymbol } from "utils";
 import RoundedPill from "components/common/RoundedPill/RoundedPill";
 import MiniCard from "components/common/MiniCard/MiniCard";
@@ -15,7 +15,6 @@ import SalesChart from "./salesReport";
 import LinearBarChart from "./barChart";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
 import DoughnutChart from "./doughnutChart";
-import DownloadPopOver from "./downloadOption";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import LinearBarChartCategorySales from "./barChart1";
 import useDateFilter from "hooks/useDateFilter";
@@ -47,8 +46,6 @@ const CategoryReport = (props) => {
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const categoryList = useSelector((state) => state?.newReports?.categoryList);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,true)), [countryCode]);
-
-
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
@@ -441,15 +438,15 @@ const cancelledItemsDownloadHeader = [{
           <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
-                {activeBtn == "categories" ? "Categories sales" : ""}
-                {activeBtn == "items" ? "Items sales" : ""}
+              {activeBtn === "categories" ? "Categories sales" : ""}
+                {activeBtn === "items" ? "Items sales" : ""}
               </h1>
               {(!categorySalesDataLoading && categorySalesData && categorySalesDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Sales" : activeBtn === "items" ? "Items Sales" : ""} tableData={categorySalesData} headerData={categorySalesDataHeaderForDownloading}/>}
             </div>
             <ErrorHandler data={categorySalesData} isError={categorySalesDataFailure}>
               <LinearBarChart
                 dataList={categorySalesData}
-                barColorCode={activeBtn == "categories" ? "#02B04C" : "#14A789"}
+                barColorCode={activeBtn === "categories" ? "#02B04C" : "#14A789"}
                 loader={categorySalesDataLoading}
                 // isMobile={window.matchMedia("(max-width: 768px)").matches}
               />
@@ -459,8 +456,8 @@ const cancelledItemsDownloadHeader = [{
           <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
-                {activeBtn == "categories" ? "By Channels - Categories" : ""}
-                {activeBtn == "items" ? "By Channels - Items" : ""}
+                {activeBtn ==="categories" ? "By Channels - Categories" : ""}
+                {activeBtn === "items" ? "By Channels - Items" : ""}
               </h1>
               {<DownloadReport kpiTitle={activeBtn === "categories" ? "By Channels - Categories" : activeBtn === "items" ? "By Channels - Items" : ""} tableData={categoryChannelSummaryData} headerData={categoryChannelSummaryDataHeaderForDownloading }/>}
             </div>
@@ -473,7 +470,7 @@ const cancelledItemsDownloadHeader = [{
               />
             </ErrorHandler>
           </div>
-          {activeBtn == "categories" ? (
+          {activeBtn === "categories" ? (
             <div>
               <div className="categories-graph-header-container">
                 <h1 className="categories-overview-heading">
@@ -494,7 +491,7 @@ const cancelledItemsDownloadHeader = [{
           ) : (
             ""
           )}
-          {activeBtn == "items" ? (
+          {activeBtn === "items" ? (
             <div>
               <div className="categories-graph-header-container">
                 <h1 className="categories-overview-heading">Cancellation</h1>

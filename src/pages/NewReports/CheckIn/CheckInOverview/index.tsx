@@ -17,20 +17,20 @@ import {
   checkInOverviewAvgWaitTimeGroupRequest,
 } from "redux/checkInReports/checkInReportsActions";
 
-import { ReactComponent as InfoIcon } from "../../../assets/svg/info_grey.svg";
+import { ReactComponent as InfoIcon } from "../../../../assets/svg/info_grey.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry } from "utils";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import NewTable from "components/reportComponents/NewTable";
 import useDateFilter from "hooks/useDateFilter";
-import "../SalesOverview/SalesOverview.scss";
+import "../../Sales/SalesOverview/SalesOverview.scss";
 import HourlyCheckinChart from "./hourlyChart";
 import HourlyCheckinChartGuest from "./hourlyChartGuest";
 
 import DailyCheckinsChart from "./DailyCheckinsChart";
 import DineInDurationChart from "./DineInDurationChart";
-import DownloadPopOver from "pages/CategoryReport/downloadOption";
+import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
@@ -238,9 +238,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       state?.checkInReports?.checkInOverviewAvgWaitTimeGroupFailure
   );
 
-  const countryCode = useSelector(
-    (state: any) => state?.auth?.restaurantDetails?.country
-  );
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   useEffect(() => {
     if (selectedLocation && startDate && endDate) {

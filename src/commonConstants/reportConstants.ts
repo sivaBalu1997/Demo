@@ -70,7 +70,7 @@ export const cardConfigForSalesTabOverView: ICardConfigItem[] = [
     {
       title: "Cancelled",
       value: "cancelledOrders",
-      percentage: "cancelledPercentage",
+      percentage: "cancelledAmtPercentage",
       isMonetary: true,
       showMiniGraph: true
     }
