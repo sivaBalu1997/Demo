@@ -129,6 +129,7 @@ import {
   SELECTED_COLUMNS,
   TRIGGER_FCM,
   TRIGGERED_FCM,
+  SELECTED_SUBCATEGORY_DATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -254,6 +255,8 @@ const initialProductCatalogState = {
   updateMenuAttributeSuccess: "",
   updateMenuAttributeFailed: false,
   selectedCategory: {},
+  selectedSubCategory: {},
+
   updateModifierId: [],
   //partialUpdate
   partialDataSendingLoading: false,
@@ -473,6 +476,8 @@ case SELECTED_COLUMNS:
         break;
       case SELECTED_CATEGORY_DATA_REQUEST:
         draft.selectedCategory = action.payload;
+        case SELECTED_SUBCATEGORY_DATA_REQUEST:
+        draft.selectedSubCategory = action.payload;
 
       //kitchenStation
       case KITCHEN_DATA_REQUEST:

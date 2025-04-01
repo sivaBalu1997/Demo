@@ -469,6 +469,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const selectedCategory = useSelector((state:any) => state.productCatalog.selectedCategory)
+  const selectedSubCategory = useSelector((state:any) => state.productCatalog.selectedSubCategory)
+
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -532,10 +534,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.subCategoryData.data
   );
 
+
+
   const matchedSubCategory = subCategoryData?.find(
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
-
+  console.log({matchedSubCategory});
   const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
@@ -757,7 +761,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.updatedPayload
   );
 
-  const categoryIdMatch = selectedCategory.id !==  matchedCategoryId
+  const categoryIdMatch = selectedCategory.id !==  matchedCategoryId||(matchedSubCategoryId ?(matchedSubCategoryId!==selectedSubCategory.id):false)
+  console.log({selectedSubCategory});
+  console.log({selectedCategory});
+  console.log({matchedCategoryId});
+  
+  
+  
 
   const editPayload = {
     itemId: editData[0]?.itemId,

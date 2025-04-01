@@ -16,6 +16,7 @@ import {
   removeDataRequest,
   selectedCategory,
   selectedMockDataRequest,
+  selectedSubCategory
 } from "redux/productCatalog/productCatalogActions";
 import Slider from "components/productCatalog/Slider/SliderUpdated";
 import ToolTips from "components/toolTips/toolTips";
@@ -306,16 +307,24 @@ const Menu = () => {
         (response: any) => response?.itemId === value
       )
     );
+    
 
     if (filteredItem) {
       setCategoryData({
         name: filteredItem?.categoryName,
         id: filteredItem?.categoryId,
       });
+      const subcategorySeleted={
+        name:"",
+        id:""
+      }
+      dispatch(selectedSubCategory(subcategorySeleted))
 
       const specificResponse = filteredItem.itemResponseList?.filter(
         (response: any) => response?.itemId === value
       );
+     
+    // console.log({filtesubItems});
 
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
@@ -323,6 +332,12 @@ const Menu = () => {
           selectedCategory({
             name: filteredItem?.categoryName,
             id: filteredItem?.categoryId,
+          })
+        );
+        dispatch(
+          selectedSubCategory({
+            name: "",
+            id: "",
           })
         );
         dispatch(selectedMockDataRequest(specificResponse));
@@ -333,6 +348,14 @@ const Menu = () => {
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
       });
+      const subcategorySelected={
+        name:filtesubItems?.subCategoryName,
+        id:filtesubItems?.subCategoryId
+      }
+     
+      console.log({filtesubItems});
+
+
 
       const specificResponse = filtesubItems?.itemResponseList
         ?.filter((response: any) => response?.itemId === value)
@@ -346,10 +369,14 @@ const Menu = () => {
         setSideBar(specificResponse);
         dispatch(
           selectedCategory({
-            name: filteredItem?.categoryName,
-            id: filteredItem?.categoryId,
+            name: filtesubItems?.categoryName,
+            id: filtesubItems?.categoryId,
           })
         );
+        dispatch(selectedSubCategory({
+          name: filtesubItems?.subCategoryName,
+            id: filtesubItems?.subCategoryId,
+        }))
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }

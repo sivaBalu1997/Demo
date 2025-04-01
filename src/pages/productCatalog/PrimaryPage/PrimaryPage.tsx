@@ -312,6 +312,7 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
+console.log({ItemsPrimaryDetails});
 
   const [images, setImages] = useState<ImageFile[]>([]);
 

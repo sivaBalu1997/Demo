@@ -164,6 +164,7 @@ import {
   TRIGGERED_FCM,
   SCHEDULE_FCM,
   SCHEDULE_FCM_RESPONSE,
+  SELECTED_SUBCATEGORY_DATA_REQUEST,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -531,6 +532,10 @@ export const selectedCategory = (data) => ({
   payload: data,
 });
 
+export const selectedSubCategory = (data) => ({
+  type: SELECTED_SUBCATEGORY_DATA_REQUEST,
+  payload: data,
+});
 
 
 //bestPair
