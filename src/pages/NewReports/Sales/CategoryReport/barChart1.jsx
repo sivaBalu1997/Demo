@@ -54,6 +54,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
         cornerRadius: 4,      
         padding: 10, // Padding inside tooltip container
         displayColors: false, // Hide color box in tooltip
+        caretSize: 0, // Remove the caret
         callbacks: {
           // Show the x-axis label in the tooltip title
           title: (tooltipItems) => {
@@ -65,7 +66,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
             const cat = dataList?.[idx];
-            return [`Qty: ${cat?.voidedQuantity}`, `Sales: ${currencySymbol}${Number(cat?.voidedAmount||0).toFixed(2)}`];
+            return [`Qty: ${cat?.voidedQuantity}`, `Voided amount: ${currencySymbol}${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },
 

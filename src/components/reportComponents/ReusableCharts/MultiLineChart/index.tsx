@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { generateTooltipContent } from 'utils';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
 import DownloadReport from "components/reportComponents/DownloadReports";
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss"
-import { generateTooltipContent } from 'utils';
 
 interface Dataset {
     label: string;
@@ -264,7 +264,7 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                     {showDownloadReport && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
                 </div>
             </div>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative',  width: '100%', height: '100%'  }}>
                 <canvas ref={chartRef} />
                 <div
                     ref={tooltipRef}
