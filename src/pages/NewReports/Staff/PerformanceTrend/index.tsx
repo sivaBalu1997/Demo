@@ -80,7 +80,7 @@ const PerformanceTrend = () => {
     const [selectedLabel, setSelectedLabel] = useState<string>("");
 
     const [employeeLabelPill, setEmployeeLabelPill] = useState<{ label: string; value: string }[]>([employeeTempArray?.[0]])
-    console.log({employeeLabelPill});
+    // console.log({employeeLabelPill});
 
 
     const handleDropdownChangeStore = (selectedValue: any) => {
@@ -188,7 +188,7 @@ const removeItem = (value: string) => {
                 onClick={() => removeItem(item?.value)} // Pass the item's value to removeItem
                 className='remove-employee-pill'
                 >
-                  x
+                  {item?.label === "All" ? "" : "x" }
                 </span>
               </div>
             ))}

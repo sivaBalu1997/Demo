@@ -4,16 +4,14 @@ import 'chartjs-plugin-datalabels';
 import DownloadReport from "components/reportComponents/DownloadReports";
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss"
+import { generateTooltipContent } from 'utils';
 
 interface Dataset {
     label: string;
     data: number[];
     borderColor: string;
     backgroundColor: string;
-    orders?: number[];
-    sales?: number[];
-    tips?: number[];
-    gratuities?: number[];
+    [key: string]: any | number[] | number; // 👈 Allows any additional dataset fields dynamically
 }
 
 interface MultiLineChartProps {
@@ -95,6 +93,7 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                     data: data,
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             datalabels: {
                                 display: false,
@@ -121,43 +120,65 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                             tooltip: {
                                 enabled: false, // Disable default tooltip
                                 external: (context) => {
-                                    // Custom external tooltip
-                                    const tooltipEl = tooltipRef.current;
-                                    if (!tooltipEl) return;
+                                  const tooltipEl = tooltipRef.current;
+                                  if (!tooltipEl) return;
+                
+                                  if (context.tooltip.opacity === 0) {
+                                    tooltipEl.style.opacity = '0';
+                                    return;
+                                  }
+                
+                                  const dataIndex = context.tooltip.dataPoints[0].dataIndex;
+                                  const dataset = data.datasets[context.tooltip.dataPoints[0].datasetIndex];
+                                  const label = dataset.label || '';
+                
+                                  const detailsHTML = generateTooltipContent(dataset, dataIndex); // Use the helper function
 
-                                    if (context.tooltip.opacity === 0) {
-                                        tooltipEl.style.opacity = '0';
-                                        return;
-                                    }
+                                    tooltipEl.innerHTML = `
+                                        <div style="display: flex; flex-direction: column;">
+                                            <div style="display: flex; flex-direction: row;">
+                                                <span style=" text-align: left; color: #8D8D8D">Label:</span>
+                                                <span>${label}</span>
+                                            </div>
+                                            ${detailsHTML}
+                                        </div>
+                                        `;
 
-                                    // Set tooltip content
-                                    const dataset = data.datasets[context.tooltip.dataPoints[0].datasetIndex];
-                                    const label = dataset.label || '';
-                                    const orders = dataset.orders?.[context.tooltip.dataPoints[0].dataIndex] || 0;
-                                    const sales = dataset.sales?.[context.tooltip.dataPoints[0].dataIndex] || 0;
-                                    const tips = dataset.tips?.[context.tooltip.dataPoints[0].dataIndex] || 0;
-                                    const gratuities = dataset.gratuities?.[context.tooltip.dataPoints[0].dataIndex] || 0;
+                                  // Position the tooltip relative to the chart
+                                  const { caretX, caretY, width } = context.tooltip;
+                                  const chartRect = context.chart.canvas.getBoundingClientRect();
+                                  const tooltipWidth = tooltipEl.offsetWidth;
+                                  const tooltipHeight = tooltipEl.offsetHeight;
+                                  const borderColor = dataset.borderColor as string;
 
-                                    tooltipEl.innerHTML = 
-                                    `
-                                    <div class="tooltip-content">
-                                        <strong>${label}</strong><br>
-                                        Orders: ${orders}<br>
-                                        Sales: $${sales.toFixed(2)}<br>
-                                        Tips: $${tips.toFixed(2)}<br>
-                                        Gratuities: $${gratuities.toFixed(2)}
-                                    </div>
-                                    `;
+                                // **Calculate new position**
+                                let left = chartRect.left + caretX;
+                                let top = chartRect.top + caretY;
 
-                                    // Position the tooltip relative to the chart canvas
-                                    const { caretX, caretY } = context.tooltip;
-                                    const chartRect = context.chart.canvas.getBoundingClientRect();
+                                // **Check for right boundary overflow**
+                                const rightOverflow = left + tooltipWidth > window.innerWidth;
+                                if (rightOverflow) {
+                                    left -= tooltipWidth * 0.4; // Move slightly left instead of fully shifting
+                                }
 
-                                    tooltipEl.style.opacity = '1';
-                                    tooltipEl.style.left = `${chartRect.left + caretX}px`;
-                                    tooltipEl.style.top = `${chartRect.top + caretY}px`;
+                                // **Prevent left boundary overflow**
+                                if (left < chartRect.left) {
+                                    left = chartRect.left + 10;
+                                }
+
+                                // **Prevent bottom overflow**
+                                if (top + tooltipHeight > window.innerHeight) {
+                                    top -= tooltipHeight + 10;
+                                }
+
+                
+                                  tooltipEl.style.opacity = '1';
+                                  tooltipEl.style.borderColor = borderColor;
+                                  tooltipEl.style.left = `${left}px`;
+                                  tooltipEl.style.top = `${top}px`;
                                 },
-                            },
+                              },
+                            
                         },
                         interaction: {
                             mode: 'nearest', // Show tooltip for the nearest point

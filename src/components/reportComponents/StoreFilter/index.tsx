@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./StoreFilter.scss";
-import CustomDropdown from "components/common/customDropdown";
-import ReportsRefreshButton from "../ReportsRefreshButton";
-import CustomDatePicker from "pages/NewReports/Sales/CategoryReport/CustomDatepicker";
-import { DateObject } from "react-multi-date-picker";
 import {  useSelector } from "react-redux";
+import { DateObject } from "react-multi-date-picker";
 import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";
 import moment from "moment";
+import CustomDropdown from "components/common/customDropdown";
+import ReportsRefreshButton from "../ReportsRefreshButton";
+import DateRangeCompareDropdown from "../DateRangeCompareDropdown";
+import CustomDatePicker from "pages/NewReports/Sales/CategoryReport/CustomDatepicker";
+import "./StoreFilter.scss";
 
 interface StoreFilterProps {
   startDate?: string;
@@ -22,6 +23,8 @@ interface StoreFilterProps {
   showRefresh?: boolean;
   handleRefreshClick?: () => void;
   storeOptions?: StoreOption[];
+  showComparableDateDropdown?: boolean;
+  onFilterChangeForCompare?: (firstDate: { startDate: string; endDate: string }, secondDate: { startDate: string; endDate: string }) => void;
 }
 interface StoreOption {
   label: string;
@@ -52,6 +55,8 @@ const StoreFilter = ({
   showStore = true,
   showRefresh = false,
   storeOptions = [],
+  showComparableDateDropdown = false,
+  onFilterChangeForCompare = () => {},
 }: StoreFilterProps) => {
 
 
@@ -65,13 +70,23 @@ const StoreFilter = ({
   //     label: branchWithId?.locationName,
   //   })
   // );
-  
+  // const [selectedDateRange, setSelectedDateRange] = useState<IDateRange>({
+  //   startDate: formatDateToYYYYMMDD(new Date()),
+  //   endDate: formatDateToYYYYMMDD(new Date())
+  // });
+
+  const [firstDateRange,  setFirstDateRange] = useState({ startDate: "", endDate: "" });
+  const [secondDateRange, setSecondDateRange] = useState({ startDate: "", endDate: "" });
 
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
   const datePickerHandleOnChange: any = (dates: any): void => {
     setSelectedDates(dates);
   };
+
+  useEffect(() => {
+    onFilterChangeForCompare(firstDateRange, secondDateRange);
+  }, [firstDateRange, secondDateRange, onFilterChangeForCompare]);
 
   const closeBtnOnclick = () => {
     setIsDateSelected(false);
@@ -188,6 +203,17 @@ const StoreFilter = ({
             {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
           </div>
         ) : null}
+        {showComparableDateDropdown && <div className="comparable-dropdowns-container">
+          <div className="comparable-date-container">
+            <span className="comparable-date-label">Select date</span>
+            <DateRangeCompareDropdown onDateChange={(start, end) => setFirstDateRange({ startDate: start, endDate: end })} />
+          </div>
+          <div className="comparable-date-container">
+            <span className="comparable-date-label">Compare to</span>
+            <DateRangeCompareDropdown onDateChange={(start, end) => setSecondDateRange({ startDate: start, endDate: end })} />
+          </div>
+        </div>
+        }
         {showStore ? (
           <div className="category-dropdown-sub-container">
             <span className="category-dropdown-text">Select store</span>
