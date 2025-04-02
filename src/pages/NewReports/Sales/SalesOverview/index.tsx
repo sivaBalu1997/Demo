@@ -935,7 +935,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               rowsPerPage={rows}
               setRowsPerPage={setRows}
               loader={cancellationSummaryLoading}
-              searchPlaceHolder="Search By Staff name"
+              searchPlaceHolder="Search By order number, staff name"
               onSearch={handleSearch}
               totalElements={cancellationSummaryTotalElements || 0}
             />
