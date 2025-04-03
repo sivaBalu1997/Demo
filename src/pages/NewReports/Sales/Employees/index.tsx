@@ -590,6 +590,7 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
+
   const employeeLoader = useSelector(
     (state: RootState) => state.employee.employeeDetailsLoading
   );
@@ -597,7 +598,7 @@ const Employees: React.FC = () => {
   const employeeDropdownOptions =
     employeeLists?.map((employee) => ({
       value: employee?.staffId,
-      label: `${employee?.firstName}`,
+      label: employee?.lastName ? `${employee?.firstName} ${employee?.lastName}` : employee?.firstName,
     }));
 
   const employeeTempArray = [{ label: "All", value: "All" }, ...employeeDropdownOptions]
