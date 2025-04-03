@@ -5,7 +5,7 @@ import {
   cardWithMiniGraphDataForTodays,
   textOneForTodaysSwitch,
   textTwoForTodaysSwitch,
-} from "commonConstants/reportConstants";
+} from "constants/reportConstants";
 import { NewTableHeader } from "interface/newReportsInterface";
 import {
   billedRequest,
