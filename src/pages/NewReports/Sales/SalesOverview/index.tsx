@@ -30,7 +30,7 @@ import { ReactComponent as InfoIcon } from "../../../../assets/svg/info_grey.svg
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
-import { cardConfigForSalesTabOverView } from "commonConstants/reportConstants";
+import { cardConfigForSalesTabOverView } from "constants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
@@ -139,7 +139,7 @@ const voidedTableHeaders: NewTableHeader[] = [
   },
 ];
 
-const leftGroup = ["Debit card", "Cash", "Aggregators"]
+const leftGroup = ["Debit card","Card", "Cash", "Aggregators"]
 const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 
 //     title: "Total Sales",
@@ -282,6 +282,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
+      "Card": [],
       "Credit card": [],
       Cash: [],
       Coupons: [],
@@ -306,7 +307,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         cardType: item?.cardType,
         isExpandable: false,
       };
-      if (item?.cardType && key) {
+      if (item?.premises) {
         key.isExpandable = true;
         if (item?.premises === "ONPREM") {
           key.onPremiseSales += Number(item?.totalSales || 0);
@@ -315,8 +316,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           key.offPremiseSales += Number(item?.totalSales || 0);
           key.offPremiseOrders += Number(item?.totalOrders || 0);
         }
-        key.totalSales = Number(item?.wholeTotalSales || 0);
-        key.totalOrders = Number(item?.wholeTotalOrders || 0);
+        key.totalSales += Number(item?.totalSales || 0);
+        key.totalOrders += Number(item?.totalOrders || 0);
         key.salesPercentage += Number(item?.salesPercentage || 0);
       } else {
         key.totalSales += Number(item?.totalSales || 0);
@@ -336,12 +337,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           tendorGroups["Credit card"].push(value);
         } else if (cardType === "DEBIT") {
           tendorGroups["Debit card"].push(value);
+        }  else{
+          tendorGroups["Card"].push(value);
         }
       } else if (["Keyed In", "Online/Key-In"]?.includes(key)) {
         if (cardType === "CREDIT") {
           tendorGroups["Credit card"].push(value);
         } else if (cardType === "DEBIT") {
           tendorGroups["Debit card"].push(value);
+        }else{
+          tendorGroups["Card"].push(value);
         }
       } else if (["CASH"]?.includes(key)) {
         tendorGroups["Cash"].push(value);
@@ -693,7 +698,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             <div className="reports-tendor-container">
               <div className="left-section">
                 {leftGroup?.map((key) => (
-
                   <>
                     {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
                       <>

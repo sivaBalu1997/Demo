@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DateOptions } from "commonConstants/reportConstants";
+import { DateOptions } from "constants/reportConstants";
 import { DateDropdownProps, IDateRange } from "interface/newReportsInterface";
 import CustomDropdown from "../../common/customDropdown";
 
