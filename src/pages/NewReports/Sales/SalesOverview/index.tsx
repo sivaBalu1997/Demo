@@ -39,7 +39,7 @@ import ChannelSalesChart from "components/reportComponents/chart/channelChart";
 import RevenueClassChart from "components/reportComponents/chart/RevenueClassChart";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import NewTable from "components/reportComponents/NewTable";
-import DoughnutChart from "components/reportComponents/Charts/DoughnutChartButtonVoided";
+import DoughnutChart from "components/reportComponents/Charts/DoughnutChart";
 import useDateFilter from "hooks/useDateFilter";
 // import useDebounce from "hooks/useDebounce";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
@@ -826,7 +826,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 </div>
                 <ErrorHandler data={offerSummary} isError={offerSummaryError}>
                   <DoughnutChart
-
                     dataList={offerSummary
                       ?.map((data: any) => ({
                       name: data?.steward,
@@ -851,7 +850,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               </div>
                 <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                   <DoughnutChart
-                    kpiTitle="Voided orders"
                     dataList={voidedOrderSummary?.map((data: any) => ({
                       name: data?.steward,
                       label: data?.voidedReasons,
