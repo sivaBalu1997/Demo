@@ -178,9 +178,9 @@ const NewTable: React.FC<NewTableProps> = ({
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
-      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup") {
+      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up") {
         return <PickUpIcon />;
-      } else if (rowvalue === "Grubhub") {
+      } else if (rowvalue === "Grubhub" || rowvalue === "GrubHub") {
         return <GrubhubIcon />;
       }
     }

@@ -15,7 +15,7 @@ import { getCurrencySymbol } from "utils";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SalesChart = ({dataList, loader,isMobile}) => {
+const SalesChart = ({dataList, loader,isMobile, bottomTitle=""}) => {
 
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
@@ -71,15 +71,33 @@ const SalesChart = ({dataList, loader,isMobile}) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom",labels: {
-        boxWidth: isMobile?10:12, // Set legend box width
-        boxHeight:isMobile?10: 12, // Set legend box height
-        usePointStyle: true,
-        pointStyle: "rectRounded", // Rounded rectangle legend symbol
-        font:{
-          size:isMobile?10:12
-        }
-      },  },
+      legend: { 
+        position: "bottom",
+        labels: {
+          boxWidth: isMobile?10:12, // Set legend box width
+          boxHeight:isMobile?10: 12, // Set legend box height
+          usePointStyle: true,
+          pointStyle: "rectRounded", // Rounded rectangle legend symbol
+          font:{
+            size:isMobile?10:12
+          }
+        },
+      },
+      title: {
+        display: isMobile,
+        text: bottomTitle,
+        position: 'bottom',
+        padding: {
+          top: 10,
+          bottom: 10
+        },
+        font: {
+          size: 12,
+          family: 'Poppins',
+          weight: 500,
+        },
+        color: '#8D8D8D'
+      },
       tooltip: {
         // Tooltip style
         backgroundColor: "#fff",

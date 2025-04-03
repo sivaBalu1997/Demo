@@ -904,6 +904,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 searchPlaceHolder="Search By Staff name"
                 onSearch={handleSearch}
                 totalElements={discountSummaryTotalElements || 0}
+                // rowNoWrap={true}
               />
                 {/* </ErrorHandler> */}
           </div>

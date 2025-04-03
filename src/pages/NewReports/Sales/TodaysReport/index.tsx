@@ -23,8 +23,9 @@ import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import moment from "moment";
 import NewTable from "components/reportComponents/NewTable";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import "./style.scss";
 import DownloadReport from "components/reportComponents/DownloadReports";
+import ErrorHandler from 'components/reportComponents/ErrorHandler';
+import "./style.scss";
 
 const TodaysReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -81,11 +82,20 @@ const TodaysReport: React.FC = () => {
   const billedDataAPIReduxLoading = useSelector(
     (state: any) => state?.newReports?.billedLoading
   );
+
+  const billedDataAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.billedFailure
+  );
+
   const unBilledAPIRedux = useSelector(
     (state: any) => state?.newReports?.unBilledSuccess
   );
   const unBilledAPIReduxLoading = useSelector(
     (state: any) => state?.newReports?.unBilledLoading
+  );
+
+  const unBilledAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.unBilledFailure
   );
 
   const billedDataArrayForDownloading = [billedDataAPIRedux];
@@ -448,36 +458,49 @@ const TodaysReport: React.FC = () => {
         </div>
         <div className="todays-report-sales-overview-box-container">
           {isSwitchActive
-            ? cardWithMiniGraphDataForTodays?.map(
-                ({ title, key, isMonetary }) => (
-                  <CardWithMiniGraph
-                    key={key}
-                    cardTitle={title}
-                    cardValue={formatNumberByCountry(
-                      billedDataAPIRedux?.[key],
-                      countryCode,
-                      isMonetary
-                    )}
-                    isMonetary={isMonetary}
-                    loader={billedDataAPIReduxLoading}
-                  />
-                )
-              )
-            : cardWithMiniGraphDataForTodays?.map(
-                ({ title, key, isMonetary }) => (
-                  <CardWithMiniGraph
-                    key={key}
-                    cardTitle={title}
-                    cardValue={formatNumberByCountry(
-                      unBilledAPIRedux?.[key],
-                      countryCode,
-                      isMonetary
-                    )}
-                    isMonetary={isMonetary}
-                    loader={unBilledAPIReduxLoading}
-                  />
-                )
-              )}
+            ?
+            (
+              <>
+              <ErrorHandler data={billedDataAPIRedux} isError={billedDataAPIReduxError} isLoading={billedDataAPIReduxLoading}>
+                {cardWithMiniGraphDataForTodays?.map(
+                  ({ title, key, isMonetary }) => (
+                    <CardWithMiniGraph
+                      key={key}
+                      cardTitle={title}
+                      cardValue={formatNumberByCountry(
+                        billedDataAPIRedux?.[key],
+                        countryCode,
+                        isMonetary
+                      )}
+                      isMonetary={isMonetary}
+                      loader={billedDataAPIReduxLoading}
+                    />
+
+                  )
+                )}
+              </ErrorHandler>
+          </>
+            )
+            :
+            (
+              <ErrorHandler data={unBilledAPIRedux} isError={unBilledAPIReduxError} isLoading={unBilledAPIReduxLoading}>
+                {cardWithMiniGraphDataForTodays?.map(
+                  ({ title, key, isMonetary }) => (
+                    <CardWithMiniGraph
+                      key={key}
+                      cardTitle={title}
+                      cardValue={formatNumberByCountry(
+                        unBilledAPIRedux?.[key],
+                        countryCode,
+                        isMonetary
+                      )}
+                      isMonetary={isMonetary}
+                      loader={unBilledAPIReduxLoading}
+                    />
+                  )
+                )}
+              </ErrorHandler>
+            )}
         </div>
       </div>
       <div className="todays-report-tables-container">

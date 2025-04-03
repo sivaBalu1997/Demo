@@ -30,9 +30,10 @@ interface LinearBarChartProps {
   dataList: any[];
   loader: boolean;
   isMobile: boolean;
+  bottomTitle?:string; 
 }
 
-function LinearBarChart({ barColorCode, dataList, loader,isMobile  }: LinearBarChartProps) {
+function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle=""   }: LinearBarChartProps) {
   const countryCode = useSelector((state:any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,false)), [countryCode]);
   
@@ -58,6 +59,21 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile  }: LinearBarC
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
+      title: {
+        display: isMobile,
+        text: bottomTitle,
+        position: 'bottom',
+        padding: {
+          top: 10,
+          bottom: 10
+        },
+        font: {
+          size: 12,
+          family: 'Poppins',
+          weight: 500,
+        },
+        color: '#8D8D8D'
+      },
       tooltip: {
         // Customize tooltip styling
         backgroundColor: "#fff",

@@ -51,6 +51,11 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.employeeSalesOverviewLoading
   );
 
+  const employeeSalesOverViewFromAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewFailure
+  );
+
+
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   const currencySymbol = countryCode === "US" ? "$" : "₹";
@@ -771,27 +776,29 @@ const Employees: React.FC = () => {
               </div>
             </div>
             <div className="employee-report-sales-overview-box-container">
-              {cardDataForEmployees.map((card) => (
-                <CardWithMiniGraph
-                  key={card.title}
-                  cardTitle={card.title}
-                  cardValue={formatNumberByCountry(
-                    employeeSalesOverViewFromAPIRedux?.[card.value],
-                    countryCode,
-                    true
-                  )}
-                  isMonetary={true}
-                  loader={employeeSalesOverViewFromAPIReduxLoader}
-                  incrementDecrementValue={
-                    employeeSalesOverViewFromAPIRedux?.[card.percentage]
-                  }
-                  graphType="arrow"
-                  incrementOrDecrement={transformSalesData(
-                    employeeSalesOverViewFromAPIRedux?.[card.percentage]
-                  )}
-                  showMiniGraph={true}
-                />
-              ))}
+              <ErrorHandler data={employeeSalesOverViewFromAPIRedux} isError={employeeSalesOverViewFromAPIReduxError} isLoading={employeeSalesOverViewFromAPIReduxLoader}>  
+                {cardDataForEmployees.map((card) => (
+                  <CardWithMiniGraph
+                    key={card.title}
+                    cardTitle={card.title}
+                    cardValue={formatNumberByCountry(
+                      employeeSalesOverViewFromAPIRedux?.[card.value],
+                      countryCode,
+                      true
+                    )}
+                    isMonetary={true}
+                    loader={employeeSalesOverViewFromAPIReduxLoader}
+                    incrementDecrementValue={
+                      employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                    }
+                    graphType="arrow"
+                    incrementOrDecrement={transformSalesData(
+                      employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                    )}
+                    showMiniGraph={true}
+                  />
+                ))}
+              </ErrorHandler>
             </div>
           </div>
           {/* <div ref={employeeChartRef}>

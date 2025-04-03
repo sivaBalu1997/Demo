@@ -27,6 +27,8 @@ const CategoryReport = (props) => {
   const [selectedItems, setSelectedItems] = useState([{ label: "All", value: "" }]);
   const [itemlList, setItemList] = useState([{ label: "All", value: "" }]);
   const [activeBtn, setActiveBtn] = useState("categories");
+  const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
+
 
   const locations = useSelector((state) => state?.newReports?.storeLocationsList);
   const selectedLocation = useSelector((state) => state?.newReports?.selectedLocation);
@@ -37,6 +39,7 @@ const CategoryReport = (props) => {
   const categorySalesDataLoading = useSelector((state) => state?.newReports?.categorySalesLoading);
   const categorySalesSummaryData = useSelector((state) => state?.newReports?.categorySalesSummaryData);
   const categorySalesSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
+  const categorySalesSummaryDataError = useSelector((state) => state?.newReports?.categorySalesSummaryError);
   const categoryChannelSummaryData = useSelector((state) => state?.newReports?.categoryChannelSummaryData);
   const categoryChannelSummaryDataFailure = useSelector((state) => state?.newReports?.categoryChannelSummaryError)
   const categoryChannelSummaryDataLoading = useSelector((state) => state?.newReports?.categorySalesSummaryLoading);
@@ -49,6 +52,14 @@ const CategoryReport = (props) => {
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 600px)");
+    const handleResize = () => setIsMobile(mediaQuery.matches);
+  
+    mediaQuery.addEventListener("change", handleResize); 
+    return () => mediaQuery.removeEventListener("change", handleResize); 
+  }, []);
 
   useEffect(() => {
     if (!categoryList?.length) {
@@ -412,6 +423,7 @@ const cancelledItemsDownloadHeader = [{
               </h1>
               {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading }/>}
             </div>
+          <ErrorHandler data={categorySalesSummaryData} isError={categorySalesSummaryDataError} isLoading={categorySalesSummaryDataLoading}>
             <MiniCard
               data={[
                 {
@@ -434,6 +446,7 @@ const cancelledItemsDownloadHeader = [{
               ]}
               loader={categorySalesSummaryDataLoading}
             />
+            </ErrorHandler>
           </div>
           <div>
             <div className="categories-graph-header-container">
@@ -448,7 +461,8 @@ const cancelledItemsDownloadHeader = [{
                 dataList={categorySalesData}
                 barColorCode={activeBtn === "categories" ? "#02B04C" : "#14A789"}
                 loader={categorySalesDataLoading}
-                // isMobile={window.matchMedia("(max-width: 768px)").matches}
+                isMobile={isMobile}
+                bottomTitle={activeBtn === "categories" ? "categories" : "Items"}
               />
             </ErrorHandler>
 
@@ -465,8 +479,8 @@ const cancelledItemsDownloadHeader = [{
               <SalesChart
                 dataList={categoryChannelSummaryData}
                 loader={categoryChannelSummaryDataLoading}
-                // isMobile={window.matchMedia("(max-width: 768px)").matches}
-
+                isMobile={isMobile}
+                bottomTitle={activeBtn === "categories" ? "categories" : "Items"}
               />
             </ErrorHandler>
           </div>
@@ -483,8 +497,8 @@ const cancelledItemsDownloadHeader = [{
                   dataList={voidedSummaryData}
                   barColorCode={"#AA562A"}
                   loader={voidedSummaryDataLoading}
-                  // isMobile={window.matchMedia("(max-width: 768px)").matches}
-
+                  isMobile={isMobile}
+                  bottomTitle={activeBtn === "categories" ? "categories" : "Items"}
                 />
               </ErrorHandler>
             </div>
@@ -502,7 +516,7 @@ const cancelledItemsDownloadHeader = [{
                   dataList={voidedSummaryData}
                   countryCode={countryCode}
                   loader={voidedSummaryDataLoading}
-                  // isMobile={window.matchMedia("(max-width: 768px)").matches}
+                  isMobile={isMobile}
                 />
               </ErrorHandler>
             </div>
