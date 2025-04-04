@@ -31,6 +31,9 @@ const SalesChart = ({dataList, loader,isMobile, bottomTitle=""}) => {
     "UberEats": "#06C167",
     "Direct Online": "#C9CC3F",
     "Instore": "#00FF7F",
+    "GloriaFood": "#735557",
+    "Swiggy": "#FF5200",
+    "Zomato": "#EF4F5F",
   };
 
   function transformData(datalist) {

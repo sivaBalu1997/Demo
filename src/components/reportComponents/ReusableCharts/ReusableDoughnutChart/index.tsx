@@ -8,38 +8,37 @@ import DoughnutChartShimmer from "../../Charts/DoughnutChartShimmer";
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 type DataItem = {
   label: string;
-  amount?: string;
   count?: string;
   voidedItems?: string;
 };
 
 type Slice = {
   label: string;
-  value: number;
+  percent: number;
   color: string;
   items: number;
-  amount: number;
-  orgAmount: number;
+  value: number;
 };
 
 const predefinedColors = [
-  "#ff0000", // Red
-  "#0000ff", // Blue
-  "#008000", // Green
-  "#ffA500", // Orange
-  "#800080", // Purple
-  "#ffc0cb", // Pink
-  "#a52a2a", // Brown
-  "#808080", // Gray
-  "#ff0000", // Red
-  "#0000ff", // Blue
-  "#008000", // Green
-  "#ffA500", // Orange
-  "#800080", // Purple
-  "#ffc0cb", // Pink
-  "#a52a2a", // Brown
+  "#E17100", // Orange
+  "#E60076", // Pink  
+  "#009689", // Teal
+  "#F54900", // Redish orange
+  "#049E16", // Green
+  "#CE9E0F", // Yellow
+  "#AF4B7E", // Purple
+  "#17BECF", // Light blue
+  "#1F77B4", // Blue
 
+  "#ff0000", // Red
+  "#0000ff", // Blue
+  "#008000", // Green
+  "#ffA500", // Orange
+  "#800080", // Purple
+  "#a52a2a", // Brown
   "#808080", // Gray
+  "#ffc0cb", // Pink
 ];
 
 const centerTextPlugin = {
@@ -59,7 +58,7 @@ const centerTextPlugin = {
     ctx.fillText("Total", centerX, centerY - 15);
     ctx.fillStyle = "#000";
     ctx.font = "600 28px Poppins";
-    ctx.fillText(chart.config.options.totalSales, centerX, centerY + 20);
+    ctx.fillText(chart.config.options.totalValue, centerX, centerY + 20);
     ctx.restore();
   },
 };
@@ -72,31 +71,30 @@ interface DoughnutChartProps {
   clickable?: boolean;
   xKey:string;
   yKey:string;
-  xLabel:string;
-  yLabel:string;  
-  isAmount?:boolean
-  customLabel?:boolean
+  labelKeys:{key:string;value:string;isAmount?:boolean}[]
+  isAmount?:boolean;
+  customLabel?:boolean;
+  otherKeys?:string[]
 }
 const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
+  labelKeys,
   xKey,
   yKey,
-  xLabel,
-  yLabel,
   countryCode,
   handleClick,
   handleOther,
   loader,
   isAmount = false,
   clickable = true,
-  customLabel=false
+  otherKeys,
 })=> {
   const chartRef = useRef<any>(null);
   const containerRef = useRef(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [labelPositions, setLabelPositions] = useState([]);
   const overlayHoverRef = useRef(false);
-  const [totalSales, setTotalSales] = useState("$0");
+  const [totalValue, setTotalValue] = useState(`${isAmount?countryCode:null}0`);
   const [reRenderChart, setReRenderChart] = useState(true);
   const [slices, setSlices] = useState<any[]>([]);
   const [data, setData] = useState<any>({
@@ -166,7 +164,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
   const options :any= {
     responsive: true,
     maintainAspectRatio: false,
-    totalSales: totalSales, // Pass total sales to plugin
+    totalValue: totalValue, // Pass total sales to plugin
     cutout: "80%",
     onHover: handleHover,
     layout: {
@@ -217,9 +215,9 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         (_, index) => predefinedColors[index % predefinedColors.length]
       );
 
-      setTotalSales(formattedTotal);
+      setTotalValue(formattedTotal);
 
-      // Sort by totalSales (descending) **ensuring correct numeric sorting**
+      // Sort by totalValue (descending) **ensuring correct numeric sorting**
       const sortedData = [...dataList].sort(
         (a, b) => Number(b?.[yKey] || 0) - Number(a?.[yKey] || 0)
       );
@@ -227,11 +225,12 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       // Get the top 10 records
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
         label: slice?.[xKey],
-        value: ((Number(slice?.[yKey] || 0) * 100) / totalDisplay),
+        percent: ((Number(slice?.[yKey] || 0) * 100) / totalDisplay),
         color: colors[index],
-        items: Number(slice?.count || 0),
-        amount: Number(slice?.items || 0),
-        orgAmount: Number(slice?.[yKey] || 0),
+        ...otherKeys?.reduce((acc:Record<string, any>, item:string) => {
+          acc[item] = slice?.[item];
+          return acc;
+        }, {}),
       }));
 
       // Sum remaining records into "Other"
@@ -243,14 +242,20 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
           (acc, item) => {
 
             other.push(item?.[xKey])
-            acc.value += ((Number(item?.[yKey] || 0) * 100) / totalDisplay)
-            acc.items += Number(item?.count || 0)
-            acc.amount += Number(item?.items || 0)
-
-            acc.orgAmount += Number(item?.[yKey] || 0)
+            acc.percent += ((Number(item?.[yKey] || 0) * 100) / totalDisplay)
+            acc.value += Number(item?.[yKey] || 0)
+            otherKeys?.forEach((key) => {
+              if(!isNaN(Number(item?.[key]))){
+                acc[key] +=Number(item?.[key] || 0)
+              }
+            });
             return acc;
           },
-          { label: "Other", value: 0, color: colors[10], items: 0, amount: 0, orgAmount: 0 }
+          { label: "Other", percent: 0, color: colors[10], items: 0, value: 0, ...otherKeys?.reduce((acc:Record<string, any>, item:string) => {
+            acc[item] = 0;
+            return acc;
+          }
+          , {}) }
         );
 
 
@@ -263,7 +268,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         labels: tempSlice?.map((slice) => slice.label),
         datasets: [
           {
-            data: tempSlice.map((slice) => slice.value),
+            data: tempSlice.map((slice) => slice.percent),
             backgroundColor: tempSlice.map((slice) => slice.color),
             borderWidth: 0,
             hoverOffset: 15,
@@ -306,7 +311,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       />
 
       {/* Render floating labels for each slice using computed positions */}
-      {labelPositions.length > 0 &&
+      {/* {labelPositions.length > 0 &&
         slices?.map((slice, index) => {
           const pos:any = labelPositions[index];
           if (!pos) return null;
@@ -353,8 +358,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
                       {xLabel}: {slice.items} <br />
                     </>:<>
                     {xLabel}: {slice.label} <br /></>
-                    }
-                           
+                    }                           
                     {yLabel}: {isAmount ? amountFormatter(slice?.orgAmount, countryCode) : slice?.orgAmount}
                   </div>
                   {clickable?
@@ -376,7 +380,75 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
               )}
             </div>
           );
-        })}
+        })} */}
+
+{labelPositions.length > 0 &&
+  hoverInfo && // Ensure a slice is actually hovered over
+  slices?.map((slice, index) => {
+    if (!hoverInfo || hoverInfo.index !== index) return null; // Hide when not hovered
+    const pos: any = labelPositions[index];
+    if (!pos) return null;
+    
+    return (
+      <div
+        key={index}
+        style={{
+          position: "absolute",
+          left: `${hoverInfo.x}px`,
+          top: `${hoverInfo.y}px`,
+          transform: "translate(-50%, -50%)",
+          background: "#fff",
+          border: `2px solid ${slice.color}`,
+          borderRadius: "8px",
+          padding: "12px",
+          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          textAlign: "center",
+          fontSize: "14px",
+          fontWeight: "bold",
+          pointerEvents: "auto",
+          transition: "all 0.2s ease-in-out",
+          zIndex: 1000,
+          minWidth: "50px",
+        }}
+        onMouseEnter={() => {
+          overlayHoverRef.current = true;
+          setHoverInfo({ index, x: pos.x, y: pos.y });
+        }}
+        onMouseLeave={() => {
+          overlayHoverRef.current = false;
+          setHoverInfo(null);
+        }}
+      >
+{clickable?
+        <div style={{ color: slice.color, marginBottom: "5px" }}>
+          {slice.label}
+        </div>
+        :null}
+        <div style={{ marginBottom: "5px" }}>
+          {labelKeys?.map((item) =>   <>
+                {item?.key}: {item?.isAmount?amountFormatter(slice[item?.value], countryCode):slice[item?.value]} <br />
+              </>
+            )}
+          Percentage: {(slice.percent)?.toFixed(2)}%
+        </div>
+        {clickable ? (
+          <button
+            style={{
+              background: slice.color,
+              color: "#fff",
+              border: "none",
+              padding: "5px 10px",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            onClick={() => handleClick && handleClick(slice)}
+          >
+            View Details
+          </button>
+        ) : null}
+      </div>
+    );
+  })}
     </div>
   );
 }

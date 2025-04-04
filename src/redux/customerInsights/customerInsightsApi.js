@@ -1,9 +1,6 @@
 import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
-// const baseUrl = "https://rptd.gcp.magilhub.com"
-// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
-
 const generateQueryParams = (payload) => {
     let query = "";
     if(payload?.locationId){
@@ -126,10 +123,11 @@ export const getSummaryInsightsCustomersByLoyalty= (params) => {
 
 export const getDetailedInsightsCustomerDetails= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    // const query = generateQueryParams(params);
+    // const { search, ...queryParams } = params;
+    // const query = generateQueryParams(queryParams);
     return REPORTS_API({
         method: "get",
-        url: `/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}`,
+        url: `/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}&page=${params?.page}&size=${params?.size}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

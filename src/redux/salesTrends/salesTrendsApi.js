@@ -1,8 +1,5 @@
-import { API } from "redux/api";
+import { REPORTS_API} from "redux/api";
 import Store from "../store";
-
-// const baseUrl = "https://rptd.gcp.magilhub.com"
-// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 const generateQueryParams = (payload) => {
     let query = "";
@@ -65,9 +62,9 @@ const generateQueryParams = (payload) => {
 export const getSalesTrends = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer/volume-summary${query}`,
+        url: `/customer/insights/customer/volume-summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -77,9 +74,9 @@ export const getSalesTrends = (params) => {
 export const getCategoriesLevelSalesTrend = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customerByTenure${query}`,
+        url: `/customer/insights/customerByTenure${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -90,9 +87,9 @@ export const getCategoriesLevelSalesTrend = (params) => {
 export const getItemsLevelSalesTrend= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer/total-spend${query}`,
+        url: `/customer/insights/customer/total-spend${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
