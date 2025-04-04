@@ -30,7 +30,7 @@ const statusBasedMsg:  {
   },
   yestedaySalesNotFound:{
     title:"Sales Report Not Available",
-    description:"Sales data for the mentioned day will be available after business hours when the day is closed. Please check back later or view previous days' reports.",
+    description:"Sales data for the mentioned day will be available after business hours when the day is closed. Please check back later.",
     icon:<ReportsNotAvailableIcon  className="icon"/>
   },
   checkinNotFound:{
