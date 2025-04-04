@@ -1,8 +1,8 @@
-import { API } from "redux/api";
+import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
-const baseUrl = "https://rptd.gcp.magilhub.com"
-const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
+// const baseUrl = "https://rptd.gcp.magilhub.com"
+// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 
 const generateQueryParams = (payload) => {
@@ -54,9 +54,9 @@ const generateQueryParams = (payload) => {
 export const getProductInsightsTopRevenue = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/top-revenue-categories${query}`,
+        url: `/product/insights/top-revenue-categories${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -66,9 +66,9 @@ export const getProductInsightsTopRevenue = (params) => {
 export const getProductInsightsTopPopular = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular${query}&sortOrder=${false}`,
+        url: `/product/insights/popular${query}&sortOrder=${false}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -78,9 +78,9 @@ export const getProductInsightsTopPopular = (params) => {
 export const getProductInsightsTopLeastPopular = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular${query}&sortOrder=${true}`,
+        url: `/product/insights/popular${query}&sortOrder=${true}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -90,9 +90,9 @@ export const getProductInsightsTopLeastPopular = (params) => {
 export const getProductInsightsTopPopularRevenue = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular-revenue${query}&sortOrder=${false}`,
+        url: `/product/insights/popular-revenue${query}&sortOrder=${false}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -102,9 +102,9 @@ export const getProductInsightsTopPopularRevenue = (params) => {
 export const getProductInsightsTopLeastPopularRevenue = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/popular-revenue${query}&sortOrder=${true}`,
+        url: `/product/insights/popular-revenue${query}&sortOrder=${true}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -115,9 +115,9 @@ export const getProductInsightsTopLeastPopularRevenue = (params) => {
 export const getProductInsightsTopRevenueStreams = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/top-revenue-categories${query}`,
+        url: `/product/insights/top-revenue-categories${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -127,9 +127,9 @@ export const getProductInsightsTopRevenueStreams = (params) => {
 export const getProductInsightsCancelledItems = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/cancelled-items${query}&sortOrder=true`,
+        url: `/product/insights/cancelled-items${query}&sortOrder=true`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -139,9 +139,9 @@ export const getProductInsightsCancelledItems = (params) => {
 export const getProductInsightsCancelledReasons = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/cancelled-reason${query}`,
+        url: `/product/insights/cancelled-reason${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -151,9 +151,9 @@ export const getProductInsightsCancelledReasons = (params) => {
 export const getProductInsightsItemsCancelledReasons = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/items-cancelled-reason${query}`,
+        url: `/product/insights/items-cancelled-reason${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -163,9 +163,9 @@ export const getProductInsightsItemsCancelledReasons = (params) => {
 export const getProductInsightsAvailabilityByChannels = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     // const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/available-items?locationId=${params.locationId}`,
+        url: `/product/insights/available-items?locationId=${params.locationId}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -175,9 +175,9 @@ export const getProductInsightsAvailabilityByChannels = (params) => {
 export const getProductAvailabilityDropDown = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     // const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/avilability-category-names?orderTypeId=${params.orderTypeId}`,
+        url: `/product/insights/avilability-category-names?orderTypeId=${params.orderTypeId}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -187,9 +187,9 @@ export const getProductAvailabilityDropDown = (params) => {
 export const getProductInsightsAvailabilityByChannelsDetails = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/product/insights/items-availability-status${query}`,
+        url: `/product/insights/items-availability-status${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
