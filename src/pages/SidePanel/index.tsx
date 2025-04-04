@@ -101,10 +101,6 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const menuOptions = ["Items", "Product Catalog"];
 
   const reportInsightsOptions = [
-    {
-      name: "Reports & Insights",
-      path: "/old-reports",
-    },
     // {
     //   name: "Chart JS",
     //   path: "/live-reports"
@@ -113,10 +109,10 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
       name: "Sales",
       path: "/sales-reports",
     },
-    {
-      name: "Product",
-      path: "/product-reports",
-    },
+    // {
+    //   name: "Product",
+    //   path: "/product-reports",
+    // },
     // {
     //   name:"Staff",
     //   path:""
@@ -126,9 +122,13 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
       path: "/check-in-reports",
     },
     {
-      name: "Customer",
-      path: "/customer-reports",
+      name: "Reports & Insights",
+      path: "/old-reports",
     },
+    // {
+    //   name: "Customer",
+    //   path: "/customer-reports",
+    // },
     // {
     //   name:"Event",
     //   path:""
@@ -584,7 +584,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                       : "not-active"
                   }
                 >
-                  <Stats className="menu-items-icon menu-items-icons-resize" onClick={()=> history.push("report/32")}/>
+                  <Stats className="menu-items-icon menu-items-icons-resize" onClick={()=> history.push("/sales-reports")}/>
                   {isExpanded && (
                     <span className="menu-items-name  menu-items-name-rebranded">
                       Reports & Insights
