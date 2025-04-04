@@ -30,7 +30,7 @@ import { ReactComponent as InfoIcon } from "../../../../assets/svg/info_grey.svg
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
-import { cardConfigForSalesTabOverView } from "constants/reportConstants";
+import { cardConfigForSalesTabOverView, cardConfigForSalesTabOverViewWithoutGratuity } from "constants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
@@ -669,32 +669,61 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
               </div>
 
-              <div className="todays-report-sales-overview-box-container">
-                {cardConfigForSalesTabOverView.map((card:any, index:number) => (
-                  <CardWithMiniGraph
-                    key={index}
-                    cardTitle={card.title}
-                    cardValue={formatNumberByCountry(
-                      salesSummary?.[card.value],
-                      countryCode,
-                      card.isMonetary
-                    )}
-                    incrementDecrementValue={salesSummary?.[card.percentage]}
-                    isMonetary={card.isMonetary}
-                    loader={salesSummaryLoader}
-                    showMiniGraph={
-                      typeof card.showMiniGraph === 'function'
-                        ? card.showMiniGraph(salesSummary?.[card.percentage])
-                        : card.showMiniGraph
-                    }
-                    incrementOrDecrement={transformSalesData(
-                      salesSummary?.[card.percentage]
-                    )}
-                    graphType="arrow"
-                    isPercent={true}
-                  />
-                ))}
-              </div>
+              <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound">
+                <div className="todays-report-sales-overview-box-container">
+                  {countryCode === "US" ?
+                    (cardConfigForSalesTabOverView?.map((card: any, index: number) => (
+                      <CardWithMiniGraph
+                        key={index}
+                        cardTitle={card.title}
+                        cardValue={formatNumberByCountry(
+                          salesSummary?.[card.value],
+                          countryCode,
+                          card.isMonetary
+                        )}
+                        incrementDecrementValue={salesSummary?.[card.percentage]}
+                        isMonetary={card.isMonetary}
+                        loader={salesSummaryLoader}
+                        showMiniGraph={
+                          typeof card.showMiniGraph === 'function'
+                            ? card.showMiniGraph(salesSummary?.[card.percentage])
+                            : card.showMiniGraph
+                        }
+                        incrementOrDecrement={transformSalesData(
+                          salesSummary?.[card.percentage]
+                        )}
+                        graphType="arrow"
+                        isPercent={true}
+                      />
+                    ))
+                    ) : (
+                      cardConfigForSalesTabOverViewWithoutGratuity?.map((card: any, index: number) => (
+                        <CardWithMiniGraph
+                          key={index}
+                          cardTitle={card.title}
+                          cardValue={formatNumberByCountry(
+                            salesSummary?.[card.value],
+                            countryCode,
+                            card.isMonetary
+                          )}
+                          incrementDecrementValue={salesSummary?.[card.percentage]}
+                          isMonetary={card.isMonetary}
+                          loader={salesSummaryLoader}
+                          showMiniGraph={
+                            typeof card.showMiniGraph === 'function'
+                              ? card.showMiniGraph(salesSummary?.[card.percentage])
+                              : card.showMiniGraph
+                          }
+                          incrementOrDecrement={transformSalesData(
+                            salesSummary?.[card.percentage]
+                          )}
+                          graphType="arrow"
+                          isPercent={true}
+                        />
+                      )))
+                  }
+                </div>
+              </ErrorHandler> 
             </div>
 
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberByCountry, getCurrencySymbol } from 'utils';
 import {
   cardWithMiniGraphDataForTodays,
+  cardWithMiniGraphDataForTodaysWithoutGratuity,
   textOneForTodaysSwitch,
   textTwoForTodaysSwitch,
 } from "constants/reportConstants";
@@ -124,6 +125,8 @@ const TodaysReport: React.FC = () => {
     () => getCurrencySymbol(countryCode, true),
     [countryCode]
   );
+
+  // console.log("1111",{currencySymbol, countryCode})
 
   const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
     {
@@ -461,45 +464,88 @@ const TodaysReport: React.FC = () => {
             ?
             (
               <>
-              <ErrorHandler data={billedDataAPIRedux} isError={billedDataAPIReduxError} isLoading={billedDataAPIReduxLoading}>
-                {cardWithMiniGraphDataForTodays?.map(
-                  ({ title, key, isMonetary }) => (
-                    <CardWithMiniGraph
-                      key={key}
-                      cardTitle={title}
-                      cardValue={formatNumberByCountry(
-                        billedDataAPIRedux?.[key],
-                        countryCode,
-                        isMonetary
-                      )}
-                      isMonetary={isMonetary}
-                      loader={billedDataAPIReduxLoading}
-                    />
-
-                  )
-                )}
-              </ErrorHandler>
-          </>
+                <ErrorHandler data={billedDataAPIRedux} isError={billedDataAPIReduxError} isLoading={billedDataAPIReduxLoading}>
+                  {
+                    countryCode === "US" ?
+                      (
+                        cardWithMiniGraphDataForTodays?.map(
+                          ({ title, key, isMonetary }) => (
+                            <CardWithMiniGraph
+                              key={key}
+                              cardTitle={title}
+                              cardValue={formatNumberByCountry(
+                                billedDataAPIRedux?.[key],
+                                countryCode,
+                                isMonetary
+                              )}
+                              isMonetary={isMonetary}
+                              loader={billedDataAPIReduxLoading}
+                            />
+                          )
+                        )
+                      ) : (
+                        cardWithMiniGraphDataForTodaysWithoutGratuity?.map(
+                          ({ title, key, isMonetary }) => (
+                            <CardWithMiniGraph
+                              key={key}
+                              cardTitle={title}
+                              cardValue={formatNumberByCountry(
+                                billedDataAPIRedux?.[key],
+                                countryCode,
+                                isMonetary
+                              )}
+                              isMonetary={isMonetary}
+                              loader={billedDataAPIReduxLoading}
+                            />
+                          )
+                        )
+                      )
+                  }
+                </ErrorHandler>
+              </>
             )
             :
             (
-              <ErrorHandler data={unBilledAPIRedux} isError={unBilledAPIReduxError} isLoading={unBilledAPIReduxLoading}>
-                {cardWithMiniGraphDataForTodays?.map(
-                  ({ title, key, isMonetary }) => (
-                    <CardWithMiniGraph
-                      key={key}
-                      cardTitle={title}
-                      cardValue={formatNumberByCountry(
-                        unBilledAPIRedux?.[key],
-                        countryCode,
-                        isMonetary
-                      )}
-                      isMonetary={isMonetary}
-                      loader={unBilledAPIReduxLoading}
-                    />
-                  )
-                )}
-              </ErrorHandler>
+              <>
+                <ErrorHandler data={unBilledAPIRedux} isError={unBilledAPIReduxError} isLoading={unBilledAPIReduxLoading}>
+                  {
+                    countryCode === "US" ?
+                      (
+                        cardWithMiniGraphDataForTodays?.map(
+                          ({ title, key, isMonetary }) => (
+                            <CardWithMiniGraph
+                              key={key}
+                              cardTitle={title}
+                              cardValue={formatNumberByCountry(
+                                unBilledAPIRedux?.[key],
+                                countryCode,
+                                isMonetary
+                              )}
+                              isMonetary={isMonetary}
+                              loader={unBilledAPIReduxLoading}
+                            />
+                          )
+                        )
+                      ) : (
+                        cardWithMiniGraphDataForTodaysWithoutGratuity?.map(
+                          ({ title, key, isMonetary }) => (
+                            <CardWithMiniGraph
+                              key={key}
+                              cardTitle={title}
+                              cardValue={formatNumberByCountry(
+                                unBilledAPIRedux?.[key],
+                                countryCode,
+                                isMonetary
+                              )}
+                              isMonetary={isMonetary}
+                              loader={unBilledAPIReduxLoading}
+                            />
+                          )
+                        )
+                      )
+                  }
+                </ErrorHandler>
+              </>
             )}
         </div>
       </div>
