@@ -427,7 +427,7 @@ const cancelledItemsDownloadHeader = [{
             <MiniCard
               data={[
                 {
-                  title: "TOTAL SALES",
+                  title: "NET SALES",
                   value: <>{currencySymbol} {formatNumberByCountry(categorySalesSummaryData?.totalSales, countryCode, true) || 0 }</>
                    ,
                 },
