@@ -4,7 +4,7 @@ import Select, { components } from 'react-select';
 // Import your custom icon (for example, an SVG as a React component)
 import { ReactComponent as CustomIcon } from '../../../assets/svg/search.svg';
 
-const DropdownIndicator = (props) => {
+const DropdownIndicator = (props:any) => {
   return (
     <components.DropdownIndicator {...props}>
       <CustomIcon style={{ width: 16, height: 16 }} />
@@ -12,7 +12,24 @@ const DropdownIndicator = (props) => {
   );
 };
 
-const ReusableDropdown = ({
+interface ReusableDropdownProps {
+  options?: Array<{ label: string; value: any }>;
+  value?: { label: string; value: any } | { label: string; value: any }[] | null;
+  onChange?: (selectedOption: any) => void;
+  placeholder?: string;
+  isSearchable?: boolean;
+  dropdownContainerClassName?: string;
+  dropdownClassName?: string;
+  dropdownPrefix?: string;
+  showSearchIcon?: boolean;
+  onInputChange?: (inputValue: string) => void;
+  isLoading?: boolean;
+  LoadingIndicator?: () => JSX.Element;
+  loadingMessage?: string;
+  [key: string]: any; // To allow additional props
+}
+
+const ReusableDropdown: React.FC<ReusableDropdownProps> = ({
   options = [],
   value = null,
   onChange = () => {},
@@ -21,31 +38,15 @@ const ReusableDropdown = ({
   dropdownContainerClassName = '',
   dropdownClassName = '',
   dropdownPrefix = '',
-  showSearchIcon=false,
-  onInputChange=()=>{},
-  isLoading=false,
-  LoadingIndicator=() => null,
-  loadingMessage="Loading...",
-  onLoadMore,
-  onLoadPrev,
+  showSearchIcon = false,
+  onInputChange = () => {},
+  isLoading = false,
+  LoadingIndicator = () => null,
+  loadingMessage = "Loading...",
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-// const MenuList=({ options, children, maxHeight, getValue })=>{
-//   const [value] = getValue();
-//   const height =35
-//   const initialOffset = options.indexOf(value) * height;
-//   return(
-//     <List
-//     height={maxHeight}
-//     itemCount={children.length}
-//     itemSize={height}
-//     initialScrollOffset={initialOffset}
-//   >
-//     {({ index, style }) => <div style={style}>{children[index]}</div>}
-//   </List>
-//   )
-// }
+
   return (
     <div className={dropdownContainerClassName}>
       <Select
@@ -55,18 +56,14 @@ const ReusableDropdown = ({
         placeholder={placeholder}
         isSearchable={isSearchable}
         className={dropdownClassName}
-        classNamePrefix={`${menuIsOpen?"menu-open ":""} ${dropdownPrefix}`}
+        classNamePrefix={`${menuIsOpen ? "menu-open " : ""} ${dropdownPrefix}`}
         menuIsOpen={menuIsOpen}
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
-        // components={{ MenuList }}
-        components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: LoadingIndicator, }:null}
+        components={showSearchIcon ? { DropdownIndicator, LoadingIndicator: LoadingIndicator } : {}}
         onInputChange={onInputChange}
-    isLoading={isLoading}
-    loadingMessage={() => loadingMessage}
-    onMenuScrollToTop={onLoadPrev}
-    onMenuScrollToBottom={onLoadMore}
-
+        isLoading={isLoading}
+        loadingMessage={() => loadingMessage}
         {...props}
       />
     </div>

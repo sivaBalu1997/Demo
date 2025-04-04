@@ -1,10 +1,6 @@
 import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
-
-// const baseUrl = "https://rptd.gcp.magilhub.com"
-// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
-
 const LIVE_DISCOUNT_ENDPOINT = `/sales/live/discounts?`;
 
 const LIVE_OPEN_SALES_ENDPOINT = `/sales/live/open-sales?`;

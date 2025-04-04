@@ -335,88 +335,88 @@ const initialNewReportsState = {
     // voided summary
     voidedSummaryLoading: false,
     voidedSummaryData: null,
-    voidedSummaryError: null,
+    voidedSummaryError: false,
 
     // dropdown details
     dropdownDetailsLoading: false,
     dropdownDetailsData: [],
-    dropdownDetailsError: null,
+    dropdownDetailsError: false,
 
     // category channel summary
     categoryChannelSummaryLoading: false,
     categoryChannelSummaryData: [],
-    categoryChannelSummaryError: null,
+    categoryChannelSummaryError: false,
 
     // category sales
     categorySalesLoading: false,
     categorySalesData: null,
-    categorySalesError: null,
+    categorySalesError: false,
 
     // category sales summary
     categorySalesSummaryLoading: false,
     categorySalesSummaryData: null,
-    categorySalesSummaryError: null,
+    categorySalesSummaryError: false,
 
     // Location Details
     locationDetailsLoading: false,
     locationDetailsData: null,
-    locationDetailsError: null,
+    locationDetailsError: false,
 
 
     // Payment Details
     paymentDetailsLoading: false,
     paymentDetailsData: [],
-    paymentDetailsError: null,
+    paymentDetailsError: false,
 
     // Sales Summary Report
     salesSummaryReportData: {},
     salesSummaryReportLoading: false,
-    salesSummaryReportError: null,
+    salesSummaryReportError: false,
 
     // Staff Sales
     staffSalesData: [],
     staffSalesLoading: false,
-    staffSalesError: null,
+    staffSalesError: false,
 
     // Sales Category
     salesCategoryLoading: false,
     salesCategoryData: null,
-    salesCategoryError: null,
+    salesCategoryError: false,
 
     // Sales Card Type
     salesCardTypeLoading: false,
     salesCardTypeData: [],
-    salesCardTypeError: null,
+    salesCardTypeError: false,
 
     // Hourly Sales Report Chart
     hourlySalesReportChartLoading: false,
     hourlySalesReportChartData: null,
-    hourlySalesReportChartError: null,
+    hourlySalesReportChartError: false,
 
     // Sales By Channel
     salesByChannelLoading: false,
     salesByChannelData: [],
-    salesByChannelError: null,
+    salesByChannelError: false,
 
     // Sales By Revenue Class
     salesByRevenueClassLoading: false,
     salesByRevenueClassData: null,
-    salesByRevenueClassError: null,
+    salesByRevenueClassError: false,
 
     // Voided Order Summary
     voidedOrderSummaryLoading: false,
     voidedOrderSummaryData: [],
-    voidedOrderSummaryError: null,
+    voidedOrderSummaryError: false,
 
     // Offer Summary
     offerSummaryLoading: false,
     offerSummaryData: [],
-    offerSummaryError: null,
+    offerSummaryError: false,
 
         // get premises summary
         getPremisesSummaryLoading: false,
         getPremisesSummaryData: [],
-        getPremisesSummaryError: null,
+        getPremisesSummaryError: false,
 
         selectedDateFilterType:{
             label: "Today",

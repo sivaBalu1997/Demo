@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
@@ -372,9 +372,6 @@ const headers4 = [
 ];
 
 
-
-
-
   useEffect(() => {
     dispatch(
       detailedInsightsCustomerDetailsRequest({
@@ -382,6 +379,8 @@ const headers4 = [
         startDate: startDate,
         endDate: endDate,
         search: searchCustomer,
+        page:1,
+        size:20
       })
     );
   }, [searchCustomer, selectedLocation, startDate, endDate]);
@@ -498,12 +497,36 @@ const headers4 = [
 
   const options = useMemo(
     () =>
-      detailedInsightsCustomerDetailsData?.map((customerData: any) => ({
+      (detailedInsightsCustomerDetailsData?.content||[])?.map((customerData: any) => ({
         label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
         value: `${customerData?.phoneNumber}`,
       })) || [],
     [detailedInsightsCustomerDetailsData]
-  );
+  )
+
+
+  const loadOptions = async (type:string) => {    
+    console.log("Loading", type);
+    console.log(detailedInsightsCustomerDetailsData);
+    const page=detailedInsightsCustomerDetailsData?.number+1
+    let pageNumber=page
+    if(type==="prev"&&page>1){
+      pageNumber-=1
+    }else if(type==="next"&&page<detailedInsightsCustomerDetailsData?.totalPages-1){
+      pageNumber+=1
+    }
+  
+    dispatch(      detailedInsightsCustomerDetailsRequest({
+      locationId: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      search: searchCustomer,
+      page:pageNumber,
+      size:20
+    }))
+  }
+
+
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -532,11 +555,10 @@ const headers4 = [
           {/* </div> */}
           <div className="searchable-dropdown">
             <ReusableDropdown
+            onLoadPrev={()=>loadOptions("prev")}
+              onLoadMore={()=>loadOptions("next")}            
               isLoading={detailedInsightsCustomerDetailsLoading}
-              options={detailedInsightsCustomerDetailsData?.map((customerData: any) => ({
-                label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
-                value: `${customerData?.phoneNumber}`,
-              })) || []}
+              options={options}
               placeholder="Search by customer name, contact number"
               dropdownContainerClassName="select-food-item-dropdown-cotainer"
               dropdownClassName="select-food-item-dropdown"
