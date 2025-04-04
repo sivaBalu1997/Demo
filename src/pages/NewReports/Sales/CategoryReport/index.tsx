@@ -22,34 +22,34 @@ import ErrorHandler from "components/reportComponents/ErrorHandler";
 import "./Tabs.css";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import { RootState } from "redux/rootReducer";
-import DoughnutChart from "components/reportComponents/Charts/DoughnutChart";
+import DoughnutChart from "components/reportComponents/ReusableCharts/ReusableDoughnutChart";
 
-const CategoryReport = (props:any) => {
+const CategoryReport = (props: any) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
   const [selectedItems, setSelectedItems] = useState([{ label: "All", value: "" }]);
   const [itemlList, setItemList] = useState([{ label: "All", value: "" }]);
   const [activeBtn, setActiveBtn] = useState<"categories" | "items">("categories");
   const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 600px)").matches);
 
-  const locations = useSelector((state:RootState) => state?.newReports?.storeLocationsList);
-  const selectedLocation:any = useSelector((state:RootState) => state?.newReports?.selectedLocation);
-  const salesByItemCategoryData = useSelector((state:any) => state?.newReports?.salesByItemCategorySuccess?.content);
-  const dropdownDetailsData = useSelector((state:RootState) => state?.newReports?.dropdownDetailsData);
-  const categorySalesData = useSelector((state:RootState) => state?.newReports?.categorySalesData);
-  const categorySalesDataFailure = useSelector((state:RootState) => state?.newReports?.categorySalesError);
-  const categorySalesDataLoading = useSelector((state:RootState) => state?.newReports?.categorySalesLoading);
-  const categorySalesSummaryData:any = useSelector((state:RootState) => state?.newReports?.categorySalesSummaryData);
-  const categorySalesSummaryDataLoading = useSelector((state:RootState) => state?.newReports?.categorySalesSummaryLoading);
-  const categorySalesSummaryDataError = useSelector((state:RootState) => state?.newReports?.categorySalesSummaryError);
-  const categoryChannelSummaryData = useSelector((state:RootState) => state?.newReports?.categoryChannelSummaryData);
-  const categoryChannelSummaryDataFailure = useSelector((state:RootState) => state?.newReports?.categoryChannelSummaryError)
-  const categoryChannelSummaryDataLoading = useSelector((state:RootState) => state?.newReports?.categorySalesSummaryLoading);
-  const voidedSummaryData = useSelector((state:RootState) => state?.newReports?.voidedSummaryData);
-  const voidedSummaryDataFailure = useSelector((state:RootState) => state?.newReports?.voidedSummaryError)
-  const voidedSummaryDataLoading = useSelector((state:RootState) => state?.newReports?.voidedSummaryLoading);
-  const countryCode = useSelector((state:any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
-  const categoryList = useSelector((state:RootState) => state?.newReports?.categoryList);
-  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,true)), [countryCode]);
+  const locations = useSelector((state: RootState) => state?.newReports?.storeLocationsList);
+  const selectedLocation: any = useSelector((state: RootState) => state?.newReports?.selectedLocation);
+  const salesByItemCategoryData = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.content);
+  const dropdownDetailsData = useSelector((state: RootState) => state?.newReports?.dropdownDetailsData);
+  const categorySalesData = useSelector((state: RootState) => state?.newReports?.categorySalesData);
+  const categorySalesDataFailure = useSelector((state: RootState) => state?.newReports?.categorySalesError);
+  const categorySalesDataLoading = useSelector((state: RootState) => state?.newReports?.categorySalesLoading);
+  const categorySalesSummaryData: any = useSelector((state: RootState) => state?.newReports?.categorySalesSummaryData);
+  const categorySalesSummaryDataLoading = useSelector((state: RootState) => state?.newReports?.categorySalesSummaryLoading);
+  const categorySalesSummaryDataError = useSelector((state: RootState) => state?.newReports?.categorySalesSummaryError);
+  const categoryChannelSummaryData = useSelector((state: RootState) => state?.newReports?.categoryChannelSummaryData);
+  const categoryChannelSummaryDataFailure = useSelector((state: RootState) => state?.newReports?.categoryChannelSummaryError)
+  const categoryChannelSummaryDataLoading = useSelector((state: RootState) => state?.newReports?.categorySalesSummaryLoading);
+  const voidedSummaryData = useSelector((state: RootState) => state?.newReports?.voidedSummaryData);
+  const voidedSummaryDataFailure = useSelector((state: RootState) => state?.newReports?.voidedSummaryError)
+  const voidedSummaryDataLoading = useSelector((state: RootState) => state?.newReports?.voidedSummaryLoading);
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+  const categoryList = useSelector((state: RootState) => state?.newReports?.categoryList);
+  const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
 
   const dispatch = useDispatch();
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
@@ -57,9 +57,9 @@ const CategoryReport = (props:any) => {
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 600px)");
     const handleResize = () => setIsMobile(mediaQuery.matches);
-  
-    mediaQuery.addEventListener("change", handleResize); 
-    return () => mediaQuery.removeEventListener("change", handleResize); 
+
+    mediaQuery.addEventListener("change", handleResize);
+    return () => mediaQuery.removeEventListener("change", handleResize);
   }, []);
 
   useEffect(() => {
@@ -71,14 +71,14 @@ const CategoryReport = (props:any) => {
   useEffect(() => {
     setSelectedCategories([{ label: "All", value: "" }]);
     setSelectedItems([{ label: "All", value: "" }]);
-    setItemList([{ label: "All", value: "" }, ...(dropdownDetailsData || [])?.map((item:any) => ({ label: item.itemName, value: item.itemId }))]);
+    setItemList([{ label: "All", value: "" }, ...(dropdownDetailsData || [])?.map((item: any) => ({ label: item.itemName, value: item.itemId }))]);
   }, [dropdownDetailsData])
 
   useEffect(() => {
     const categoryIds = selectedCategories?.map((item) => item.value);
     const itemIds = selectedItems?.map((item) => item.value);
     if (selectedLocation?.value) {
-      let params:any = {
+      let params: any = {
         locationId: selectedLocation?.value,
         startDate: startDate,
         endDate: endDate,
@@ -114,14 +114,14 @@ const CategoryReport = (props:any) => {
     if (!selectedCategories?.[0]?.value) {
       filteredItems = [
         ...new Map((dropdownDetailsData || [])
-          .map((item:any) => [item.itemId, { value: item.itemId, label: item.itemName }])
+          .map((item: any) => [item.itemId, { value: item.itemId, label: item.itemName }])
         ).values(),
       ];
     } else {
       filteredItems = [
         ...new Map((dropdownDetailsData || [])
-          .filter((item:any) => selectedCategoryIds?.includes(item?.categoryId))
-          .map((item:any) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
+          .filter((item: any) => selectedCategoryIds?.includes(item?.categoryId))
+          .map((item: any) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
         ).values(),
       ];
     }
@@ -129,24 +129,24 @@ const CategoryReport = (props:any) => {
   }, [selectedCategories])
 
 
-  const handleSelectCategoriesOnChange = (selectedCategoriesData:any) => {
+  const handleSelectCategoriesOnChange = (selectedCategoriesData: any) => {
     if (!selectedCategoriesData.value) {
       setSelectedCategories([{ label: "All", value: "" }]);
       setSelectedItems([{ label: "All", value: "" }]);
       return;
     }
-    
-    const category:any = dropdownDetailsData?.find(
-      (cat:any) => cat.categoryId === selectedCategoriesData?.value
+
+    const category: any = dropdownDetailsData?.find(
+      (cat: any) => cat.categoryId === selectedCategoriesData?.value
     );
-    
+
     if (category) {
       let tempCategories = [...selectedCategories];
 
       tempCategories = tempCategories?.filter(cat => cat.value !== "");
 
       // Add new category if it's not already selected
-      if (!tempCategories.some((cat:any) => cat.value === category.categoryId )&& tempCategories.length<=9) {
+      if (!tempCategories.some((cat: any) => cat.value === category.categoryId) && tempCategories.length <= 9) {
         tempCategories.push({
           value: category.categoryId,
           label: category.categoryName,
@@ -156,8 +156,8 @@ const CategoryReport = (props:any) => {
         const filteredItems = [
           ...new Map(
             (dropdownDetailsData || [])
-              .filter((item:any) => selectedCategoryIds?.includes(item?.categoryId))
-              .map((item:any) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
+              .filter((item: any) => selectedCategoryIds?.includes(item?.categoryId))
+              .map((item: any) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
           ).values(),
         ];
 
@@ -166,22 +166,22 @@ const CategoryReport = (props:any) => {
       }
 
     }
-    
+
   };
 
-  const handleSelectItemsOnChange = (selectedItemsData:any) => {
+  const handleSelectItemsOnChange = (selectedItemsData: any) => {
     if (!selectedItemsData.value) {
       setSelectedItems([{ label: "All", value: "" }]);
       return;
     }
-    const item :any= dropdownDetailsData?.find(
-      (item:any) => item.itemId === selectedItemsData.value
+    const item: any = dropdownDetailsData?.find(
+      (item: any) => item.itemId === selectedItemsData.value
     );
     if (item) {
       let tempItems = [...selectedItems];
 
       tempItems = tempItems.filter(cat => cat.value !== "");
-      if (!tempItems.some((a:any) => a.value === item.itemId)) {
+      if (!tempItems.some((a: any) => a.value === item.itemId)) {
         tempItems.push({ value: item.itemId, label: item.itemName });
       }
 
@@ -189,44 +189,43 @@ const CategoryReport = (props:any) => {
     }
   };
 
-  const categoryCloseOnClick = (categoryId:string) => {
-    
-      let tempCategories = [...(selectedCategories || [])];
-      tempCategories = tempCategories?.filter(
-        (selectedData) => selectedData.value !== categoryId
-      );
+  const categoryCloseOnClick = (categoryId: string) => {
 
-      if (!categoryId||!tempCategories?.length) {
+    let tempCategories = [...(selectedCategories || [])];
+    tempCategories = tempCategories?.filter(
+      (selectedData) => selectedData.value !== categoryId
+    );
 
-        setSelectedCategories([{ label: "All", value: "" }]);
-        setSelectedItems([{ label: "All", value: "" }]);
-      } else{        
-        
-        const selectedCategoryIds = tempCategories?.map((cat) => cat.value);
+    if (!categoryId || !tempCategories?.length) {
+      setSelectedCategories([{ label: "All", value: "" }]);
+      setSelectedItems([{ label: "All", value: "" }]);
+    } else {
+
+      const selectedCategoryIds = tempCategories?.map((cat) => cat.value);
 
       let tempItems = [
         ...new Map(
           (dropdownDetailsData || [])
-            .filter((item:any) => selectedCategoryIds?.includes(item?.categoryId))
-            .map((item:any) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
+            .filter((item: any) => selectedCategoryIds?.includes(item?.categoryId))
+            .map((item: any) => [item?.itemId, { value: item?.itemId, label: item?.itemName }])
         ).values(),
       ];
-      
+
       if (!tempItems?.length) {
         tempItems = [{ label: "All", value: "" }]
       }
       setSelectedItems(tempItems);
-      
+
       if (!tempCategories?.length) {
         tempCategories = [{ label: "All", value: "" }]
       }
-      
+
       setSelectedCategories(tempCategories);
     }
   };
 
-  const itemsCloseOnClick = (itemId:string) => {
-    let tempItems = [...(selectedItems||[])];
+  const itemsCloseOnClick = (itemId: string) => {
+    let tempItems = [...(selectedItems || [])];
     tempItems = tempItems?.filter(
       (selectedData) => selectedData?.value !== itemId
     );
@@ -248,7 +247,7 @@ const CategoryReport = (props:any) => {
   }
 
 
-  const datepickerApply = (type:string, data1:any, data2:any) => {
+  const datepickerApply = (type: string, data1: any, data2: any) => {
     handleDateChange("Custom Date", data1, data2);
   };
 
@@ -257,66 +256,66 @@ const CategoryReport = (props:any) => {
     key,
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }));
-const categorySalesDataHeaderForDownloading=[{
-  key :"categoryName",
- label:"Category Name"
-},
-{
-  key:"totalPrice",
-  label:"Sales",
+  const categorySalesDataHeaderForDownloading = [{
+    key: "categoryName",
+    label: "Category Name"
+  },
+  {
+    key: "totalPrice",
+    label: "Sales",
 
-},
-{
-  key:"totalQuantity",
-  label:"Quantity",
-  
-}]
+  },
+  {
+    key: "totalQuantity",
+    label: "Quantity",
 
-const categoryChannelSummaryDataHeaderForDownloading = [{
-  key :"categoryName",
- label:"Category Name"
-},
-{
-  key:"channelName",
-  label:"Channel Name",
+  }]
 
-},
-{
-  key:"totalAmount",
-  label:"Total Amount",
-  
-}]
+  const categoryChannelSummaryDataHeaderForDownloading = [{
+    key: "categoryName",
+    label: "Category Name"
+  },
+  {
+    key: "channelName",
+    label: "Channel Name",
 
-const voidedCategoriesDownloadHeader = [{
-  key :"categoryName",
- label:"Category Name"
-},
-{
-  key:"voidedQuantity",
-  label:"Quantity",
+  },
+  {
+    key: "totalAmount",
+    label: "Total Amount",
 
-},{
-  key:"voidedAmount",
-  label:"Sales",
+  }]
 
-},
-]
+  const voidedCategoriesDownloadHeader = [{
+    key: "categoryName",
+    label: "Category Name"
+  },
+  {
+    key: "voidedQuantity",
+    label: "Quantity",
+
+  }, {
+    key: "voidedAmount",
+    label: "Sales",
+
+  },
+  ]
 
 
-const cancelledItemsDownloadHeader = [{
-  key :"itemName",
- label:"Item Name"
-},
-{
-  key:"voidedQuantity",
-  label:"Total Item",
+  const cancelledItemsDownloadHeader = [{
+    key: "itemName",
+    label: "Item Name"
+  },
+  {
+    key: "voidedQuantity",
+    label: "Total Item",
 
-},{
-  key:"voidedAmount",
-  label:"Amount",
+  }, {
+    key: "voidedAmount",
+    label: "Amount",
 
-},
-]
+  },
+  ]
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -330,8 +329,8 @@ const cancelledItemsDownloadHeader = [{
             selectedStore={selectedLocation}
             setSelectedDate={(data) => handleDateChange(data?.value)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
-            datePickerApplyFunction={(date1:any, date2:any) => datepickerApply("Custom Date", date1, date2)}
-            dateDropdownFunction={(date1:any, date2:any) => datepickerApply("Custom Date", date1, date2)}
+            datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
+            dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
           />
           <div className="category-btn-switch">
             <button
@@ -422,7 +421,7 @@ const cancelledItemsDownloadHeader = [{
                 {activeBtn == "categories" ? "Categories Overview" : ""}
                 {activeBtn == "items" ? "Items overview" : ""}
               </h1>
-              {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading }/>}
+              {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading} />}
             </div>
           <ErrorHandler data={categorySalesSummaryData} isError={categorySalesSummaryDataError} isLoading={categorySalesSummaryDataLoading}>
             <MiniCard
@@ -452,14 +451,14 @@ const cancelledItemsDownloadHeader = [{
           <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
-              {activeBtn === "categories" ? "Categories sales" : ""}
+                {activeBtn === "categories" ? "Categories sales" : ""}
                 {activeBtn === "items" ? "Items sales" : ""}
               </h1>
-              {(!categorySalesDataLoading && categorySalesData && categorySalesDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Sales" : activeBtn === "items" ? "Items Sales" : ""} tableData={categorySalesData} headerData={categorySalesDataHeaderForDownloading}/>}
+              {(!categorySalesDataLoading && categorySalesData && categorySalesDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Sales" : activeBtn === "items" ? "Items Sales" : ""} tableData={categorySalesData} headerData={categorySalesDataHeaderForDownloading} />}
             </div>
             <ErrorHandler data={categorySalesData} isError={categorySalesDataFailure}>
               <LinearBarChart
-                dataList={categorySalesData||[]}
+                dataList={categorySalesData || []}
                 barColorCode={activeBtn === "categories" ? "#02B04C" : "#14A789"}
                 loader={categorySalesDataLoading}
                 isMobile={isMobile}
@@ -471,10 +470,10 @@ const cancelledItemsDownloadHeader = [{
           <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
-                {activeBtn ==="categories" ? "By Channels - Categories" : ""}
+                {activeBtn === "categories" ? "By Channels - Categories" : ""}
                 {activeBtn === "items" ? "By Channels - Items" : ""}
               </h1>
-              {<DownloadReport kpiTitle={activeBtn === "categories" ? "By Channels - Categories" : activeBtn === "items" ? "By Channels - Items" : ""} tableData={categoryChannelSummaryData} headerData={categoryChannelSummaryDataHeaderForDownloading }/>}
+              {<DownloadReport kpiTitle={activeBtn === "categories" ? "By Channels - Categories" : activeBtn === "items" ? "By Channels - Items" : ""} tableData={categoryChannelSummaryData} headerData={categoryChannelSummaryDataHeaderForDownloading} />}
             </div>
             <ErrorHandler data={categoryChannelSummaryData} isError={categoryChannelSummaryDataFailure}>
               <SalesChart
@@ -492,8 +491,8 @@ const cancelledItemsDownloadHeader = [{
                   Categories Voids
                 </h1>
                 {<DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Voids" : activeBtn === "items" ? "Cancellation" : ""}
-                 tableData={voidedSummaryData||[]} headerData={voidedCategoriesDownloadHeader }/>}
-                </div>
+                  tableData={voidedSummaryData || []} headerData={voidedCategoriesDownloadHeader} />}
+              </div>
               <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
                 <LinearBarChartCategorySales
                   dataList={voidedSummaryData}
@@ -512,29 +511,20 @@ const cancelledItemsDownloadHeader = [{
               <div className="categories-graph-header-container">
                 <h1 className="categories-overview-heading">Cancellation</h1>
                 {<DownloadReport kpiTitle="Cancellation"
-                tableData={voidedSummaryData||[]} headerData={cancelledItemsDownloadHeader }/>}
+                  tableData={voidedSummaryData || []} headerData={cancelledItemsDownloadHeader} />}
               </div>
               <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
                 
                 <DoughnutChart
-                  xKey="voidedQuantity"
-                  yKey="voidedReason"
-                                xLabel="Total item"
-                                yLabel="Amount"
-                
-                                dataList={(voidedSummaryData||[])
-                                    ?.map((data: any) => ({
-                                    name: data?.voidedReason,
-                                    label: data?.voidedReason,
-                                    count: data?.voidedQuantity,
-                                    items: data?.voidedAmount,
-                                    amount: data?.voidedAmount
-                                  }))}
-                                  countryCode={countryCode}
-                                  clickable={false}
-  
+                  xKey="voidedReason"
+                  yKey="voidedQuantity"
+                  labelKeys={[{ key: "Total item", value: "voidedQuantity" }, { key: "Amount", value: "voidedAmount", isAmount: true }]}
+                  isAmount={true}
+                  dataList={(voidedSummaryData || [])}
+                  otherKeys={["voidedQuantity", "voidedAmount"]}
+                  countryCode={countryCode}
                   loader={voidedSummaryDataLoading}
-         
+                  clickable={false}
                 />
               </ErrorHandler>
             </div>

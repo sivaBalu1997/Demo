@@ -26,6 +26,8 @@ const ReusableDropdown = ({
   isLoading=false,
   LoadingIndicator=() => null,
   loadingMessage="Loading...",
+  onLoadMore,
+  onLoadPrev,
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -62,6 +64,8 @@ const ReusableDropdown = ({
         onInputChange={onInputChange}
     isLoading={isLoading}
     loadingMessage={() => loadingMessage}
+    onMenuScrollToTop={onLoadPrev}
+    onMenuScrollToBottom={onLoadMore}
 
         {...props}
       />
