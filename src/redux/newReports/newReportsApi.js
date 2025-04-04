@@ -719,12 +719,12 @@ export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
 
 export const getDownloadableReport = (payload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const {REPORTS_APIEndPoint, ...queryParams}=payload
+    const {apiEndPoint, ...queryParams}=payload
     const query=generateQueryParams(queryParams)
     
     return REPORTS_API({
         method: "get",
-        url: `${REPORTS_APIEndPoint}${query}`,
+        url: `${apiEndPoint}${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
