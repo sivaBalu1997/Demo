@@ -30,7 +30,7 @@ import { ReactComponent as InfoIcon } from "../../../../assets/svg/info_grey.svg
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { GroupedDataArray, groupedDataFlat, NewTableHeader } from "interface/newReportsInterface";
 import { formatNumberByCountry, getCurrencySymbol, transformSalesData } from "utils";
-import { cardConfigForSalesTabOverView } from "commonConstants/reportConstants";
+import { cardConfigForSalesTabOverView } from "constants/reportConstants";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import TenderType from "components/reportComponents/TendorTypeCard";
 import CardTypeChart from "components/reportComponents/chart";
@@ -139,7 +139,7 @@ const voidedTableHeaders: NewTableHeader[] = [
   },
 ];
 
-const leftGroup = ["Debit card", "Cash", "Aggregators"]
+const leftGroup = ["Debit card","Card", "Cash", "Aggregators"]
 const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 
 //     title: "Total Sales",
@@ -282,6 +282,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const groupedData: any = useMemo(() => {
     const tendorGroups: any = {
       "Debit card": [],
+      "Card": [],
       "Credit card": [],
       Cash: [],
       Coupons: [],
@@ -306,7 +307,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         cardType: item?.cardType,
         isExpandable: false,
       };
-      if (item?.cardType && key) {
+      if (item?.premises) {
         key.isExpandable = true;
         if (item?.premises === "ONPREM") {
           key.onPremiseSales += Number(item?.totalSales || 0);
@@ -315,8 +316,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           key.offPremiseSales += Number(item?.totalSales || 0);
           key.offPremiseOrders += Number(item?.totalOrders || 0);
         }
-        key.totalSales = Number(item?.wholeTotalSales || 0);
-        key.totalOrders = Number(item?.wholeTotalOrders || 0);
+        key.totalSales += Number(item?.totalSales || 0);
+        key.totalOrders += Number(item?.totalOrders || 0);
         key.salesPercentage += Number(item?.salesPercentage || 0);
       } else {
         key.totalSales += Number(item?.totalSales || 0);
@@ -336,12 +337,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           tendorGroups["Credit card"].push(value);
         } else if (cardType === "DEBIT") {
           tendorGroups["Debit card"].push(value);
+        }  else{
+          tendorGroups["Card"].push(value);
         }
       } else if (["Keyed In", "Online/Key-In"]?.includes(key)) {
         if (cardType === "CREDIT") {
           tendorGroups["Credit card"].push(value);
         } else if (cardType === "DEBIT") {
           tendorGroups["Debit card"].push(value);
+        }else{
+          tendorGroups["Card"].push(value);
         }
       } else if (["CASH"]?.includes(key)) {
         tendorGroups["Cash"].push(value);
@@ -639,236 +644,245 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
-            {salesSummary?.status==="204"?
-          <div><ReportNotFound errorType={"salesNotFound"} /></div>:<div>   
-          <div className="todays-report-sales-overview-box-container-parent">
-            <div className="total-sales-heading-container">
-              <div className="total-sales-overview-header-with-download">
-                <h2>Total sales Overview</h2>
-                <div className="total-sales-info-container">
-                  <InfoIcon />
-                  <div className="total-sales-info-content">
-                  The graph shows percentage comparison based on the previous day or week, depending on your selection.
+          {salesSummary?.status==="204" && selectedDateFilterType?.value === "Today" ?
+          (
+            <div>
+              <ReportNotFound errorType={"salesNotFound"} />
+            </div>
+          ) : selectedDateFilterType?.value === "Yesterday" ? (
+            <div><ReportNotFound errorType={"yestedaySalesNotFound"} /></div>
+          )
+            :
+          (
+          <div>   
+            <div className="todays-report-sales-overview-box-container-parent">
+              <div className="total-sales-heading-container">
+                <div className="total-sales-overview-header-with-download">
+                  <h2>Total sales Overview</h2>
+                  <div className="total-sales-info-container">
+                    <InfoIcon />
+                    <div className="total-sales-info-content">
+                    The graph shows percentage comparison based on the previous day or week, depending on your selection.
+                    </div>
                   </div>
                 </div>
+                {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
               </div>
-              {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading)&& <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading}/>}
+
+              <div className="todays-report-sales-overview-box-container">
+                {cardConfigForSalesTabOverView.map((card:any, index:number) => (
+                  <CardWithMiniGraph
+                    key={index}
+                    cardTitle={card.title}
+                    cardValue={formatNumberByCountry(
+                      salesSummary?.[card.value],
+                      countryCode,
+                      card.isMonetary
+                    )}
+                    incrementDecrementValue={salesSummary?.[card.percentage]}
+                    isMonetary={card.isMonetary}
+                    loader={salesSummaryLoader}
+                    showMiniGraph={
+                      typeof card.showMiniGraph === 'function'
+                        ? card.showMiniGraph(salesSummary?.[card.percentage])
+                        : card.showMiniGraph
+                    }
+                    incrementOrDecrement={transformSalesData(
+                      salesSummary?.[card.percentage]
+                    )}
+                    graphType="arrow"
+                    isPercent={true}
+                  />
+                ))}
+              </div>
             </div>
 
-            <div className="todays-report-sales-overview-box-container">
-              {cardConfigForSalesTabOverView.map((card:any, index:number) => (
-                <CardWithMiniGraph
-                  key={index}
-                  cardTitle={card.title}
-                  cardValue={formatNumberByCountry(
-                    salesSummary?.[card.value],
-                    countryCode,
-                    card.isMonetary
-                  )}
-                  incrementDecrementValue={salesSummary?.[card.percentage]}
-                  isMonetary={card.isMonetary}
-                  loader={salesSummaryLoader}
-                  showMiniGraph={
-                    typeof card.showMiniGraph === 'function'
-                      ? card.showMiniGraph(salesSummary?.[card.percentage])
-                      : card.showMiniGraph
-                  }
-                  incrementOrDecrement={transformSalesData(
-                    salesSummary?.[card.percentage]
-                  )}
-                  graphType="arrow"
-                  isPercent={true}
+
+
+            <div className="tender-type-head-container">
+              <h2 className="sales-overview-sub-heading ">Tender Type</h2>
+              {(!tendorTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading}/>}
+            </div>
+            <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
+              <div className="reports-tendor-container">
+                <div className="left-section">
+                  {leftGroup?.map((key) => (
+                    <>
+                      {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                        <>
+                          <h3 className="tender-type-sub-heading">{key}</h3>
+                          <div className="tender-type-container">
+                            {Array.isArray(groupedData[key]) &&
+                              groupedData[key].map((item: any, index: number) => (
+                                <TenderType
+                                  icon={
+                                    knownTendorIcons?.[item?.paymentMode] || (
+                                      <KeyedInIcon />
+                                    )
+                                  }
+                                  key={index}
+                                  tendorTitle={item?.paymentMode}
+                                  expandable={item?.isExpandable}
+                                  amount={item?.totalSales || 0}
+                                  orders={item?.totalOrders || 0}
+                                  percentage={Number(item?.salesPercentage || 0)}
+                                  onPremOrders={item?.onPremiseOrders || 0}
+                                  onPremSales={item?.onPremiseSales || 0}
+                                  offPremOrders={item?.offPremiseOrders || 0}
+                                  offPremSales={item?.offPremiseSales || 0}
+                                  loader={tendorTypesLoader}
+                                />
+                              ))}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ))}
+                </div>
+
+                <div className="right-section">
+                  {rightGroup?.map((key) => (
+
+                    <>
+                      {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                        <>
+                          <h3 className="tender-type-sub-heading">{key}</h3>
+                          <div className="tender-type-container">
+                            {Array.isArray(groupedData[key]) &&
+                              groupedData[key].map((item: any, index: number) => (
+                                <TenderType
+                                  icon={
+                                    knownTendorIcons?.[item?.paymentMode] || (
+                                      <KeyedInIcon />
+                                    )
+                                  }
+                                  key={index}
+                                  tendorTitle={item?.paymentMode}
+                                  expandable={item?.isExpandable}
+                                  amount={item?.totalSales || 0}
+                                  orders={item?.totalOrders || 0}
+                                  percentage={Number(item?.salesPercentage || 0)}
+                                  onPremOrders={item?.onPremiseOrders || 0}
+                                  onPremSales={item?.onPremiseSales || 0}
+                                  offPremOrders={item?.offPremiseOrders || 0}
+                                  offPremSales={item?.offPremiseSales || 0}
+                                  loader={tendorTypesLoader}
+                                />
+                              ))}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </div>
+            </ErrorHandler>
+
+            {/* TODO: uncomment once BE deploys this change */}
+            {/* <div className="sales-charts-parent-container">
+              <div className="sales-chart-download-container">
+                <h2 className="sales-overview-sub-heading ">Card Type</h2>
+                {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
+              </div>
+              <ErrorHandler data={salesCardTypeData} isError={salesCardTypeError}>
+                <CardTypeChart
+                  dataList={salesCardTypeData}
+                  loader={salesCardTypeDataLoading}
                 />
-              ))}
+              </ErrorHandler>
+            </div> */}
+
+            <div className="sales-charts-parent-container">
+              <div className="sales-chart-download-container">
+                <h2 className="sales-overview-sub-heading ">By Employees</h2>
+                {(!staffSalesLoading && staffSalesDataForDownloading && staffSalesHeaderForDownloading) && <DownloadReport kpiTitle="By Employees" tableData={staffSalesDataForDownloading} headerData={staffSalesHeaderForDownloading}/>}
+              </div>  
+              <ErrorHandler data={staffSalesData} isError={staffSalesError} >
+                <EmployeeSalesChart
+                  dataList={staffSalesData}
+                  loader={staffSalesLoading}
+                />
+              </ErrorHandler>
             </div>
-          </div>
 
-
-
-          <div className="tender-type-head-container">
-            <h2 className="sales-overview-sub-heading ">Tender Type</h2>
-            {(!tendorTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading}/>}
-          </div>
-          <ErrorHandler data={tendorTypes} isError={tendorTypesError}>
-            <div className="reports-tendor-container">
-              <div className="left-section">
-                {leftGroup?.map((key) => (
-
-                  <>
-                    {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
-                      <>
-                        <h3 className="tender-type-sub-heading">{key}</h3>
-                        <div className="tender-type-container">
-                          {Array.isArray(groupedData[key]) &&
-                            groupedData[key].map((item: any, index: number) => (
-                              <TenderType
-                                icon={
-                                  knownTendorIcons?.[item?.paymentMode] || (
-                                    <KeyedInIcon />
-                                  )
-                                }
-                                key={index}
-                                tendorTitle={item?.paymentMode}
-                                expandable={item?.isExpandable}
-                                amount={item?.totalSales || 0}
-                                orders={item?.totalOrders || 0}
-                                percentage={Number(item?.salesPercentage || 0)}
-                                onPremOrders={item?.onPremiseOrders || 0}
-                                onPremSales={item?.onPremiseSales || 0}
-                                offPremOrders={item?.offPremiseOrders || 0}
-                                offPremSales={item?.offPremiseSales || 0}
-                                loader={tendorTypesLoader}
-                              />
-                            ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                ))}
+            <div className="sales-charts-parent-container">
+              <div className="sales-chart-download-container">
+                <h2 className="sales-overview-sub-heading ">By Channel</h2>
+                {(!salesByChannelLoading && salesByChannel && salesByChannelHeader) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={salesByChannelHeader}/>}
               </div>
+              <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
+                <ChannelSalesChart
+                  dataList={salesByChannel}
+                  loader={salesByChannelLoading}
+                />
+              </ErrorHandler>
+            </div>
 
-              <div className="right-section">
-                {rightGroup?.map((key) => (
+            <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width: "100%" }} ref={offerRef}>
+              <div className="doughnut-chart-with-button">
+                <div className="doughnut-head-with-download-container">
+                  <h2 className="sales-overview-sub-heading ">By Discount</h2>
+                  {(!offerSummaryLoading && offerSummaryDataForDownloading && offerSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="By Discount" tableData={offerSummaryDataForDownloading} headerData={offerSummaryDataHeaderForDownloading}/>}
+                </div>
+                <ErrorHandler data={offerSummary} isError={offerSummaryError}>
+                  <DoughnutChart
 
-                  <>
-                    {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
-                      <>
-                        <h3 className="tender-type-sub-heading">{key}</h3>
-                        <div className="tender-type-container">
-                          {Array.isArray(groupedData[key]) &&
-                            groupedData[key].map((item: any, index: number) => (
-                              <TenderType
-                                icon={
-                                  knownTendorIcons?.[item?.paymentMode] || (
-                                    <KeyedInIcon />
-                                  )
-                                }
-                                key={index}
-                                tendorTitle={item?.paymentMode}
-                                expandable={item?.isExpandable}
-                                amount={item?.totalSales || 0}
-                                orders={item?.totalOrders || 0}
-                                percentage={Number(item?.salesPercentage || 0)}
-                                onPremOrders={item?.onPremiseOrders || 0}
-                                onPremSales={item?.onPremiseSales || 0}
-                                offPremOrders={item?.offPremiseOrders || 0}
-                                offPremSales={item?.offPremiseSales || 0}
-                                loader={tendorTypesLoader}
-                              />
-                            ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                ))}
+                    dataList={offerSummary
+                      ?.map((data: any) => ({
+                      name: data?.steward,
+                      label: data?.offerName,
+                      count: data?.totalOrders,
+                      items: data?.totalDiscount,
+                      amount: data?.totalSales
+                    }))}
+                    countryCode={countryCode}
+                    handleOther={(other: string) => handleOther("discountOffer", other)}
+                    handleClick={(data: any) =>
+                      handleSummaryView("discountOffer", data)
+                    }
+                    loader={offerSummaryLoading}
+                  />
+                </ErrorHandler>
               </div>
-            </div>
-          </ErrorHandler>
-
-          {/* TODO: uncomment once BE deploys this change */}
-          {/* <div className="sales-charts-parent-container">
-            <div className="sales-chart-download-container">
-              <h2 className="sales-overview-sub-heading ">Card Type</h2>
-              {(!salesCardTypeDataLoading && salesCardTypeDataForDownloading && salesCardTypeHeaderForDownloading) && <DownloadReport kpiTitle="Card Type" tableData={salesCardTypeDataForDownloading} headerData={salesCardTypeHeaderForDownloading}/>}
-            </div>
-            <ErrorHandler data={salesCardTypeData} isError={salesCardTypeError}>
-              <CardTypeChart
-                dataList={salesCardTypeData}
-                loader={salesCardTypeDataLoading}
-              />
-            </ErrorHandler>
-          </div> */}
-
-          <div className="sales-charts-parent-container">
-            <div className="sales-chart-download-container">
-              <h2 className="sales-overview-sub-heading ">By Employees</h2>
-              {(!staffSalesLoading && staffSalesDataForDownloading && staffSalesHeaderForDownloading) && <DownloadReport kpiTitle="By Employees" tableData={staffSalesDataForDownloading} headerData={staffSalesHeaderForDownloading}/>}
-            </div>  
-            <ErrorHandler data={staffSalesData} isError={staffSalesError} >
-              <EmployeeSalesChart
-                dataList={staffSalesData}
-                loader={staffSalesLoading}
-              />
-            </ErrorHandler>
-          </div>
-
-          <div className="sales-charts-parent-container">
-            <div className="sales-chart-download-container">
-              <h2 className="sales-overview-sub-heading ">By Channel</h2>
-              {(!salesByChannelLoading && salesByChannel && salesByChannelHeader) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={salesByChannelHeader}/>}
-            </div>
-            <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
-              <ChannelSalesChart
-                dataList={salesByChannel}
-                loader={salesByChannelLoading}
-              />
-            </ErrorHandler>
-          </div>
-
-          <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width: "100%" }} ref={offerRef}>
-            <div className="doughnut-chart-with-button">
+              <div className="doughnut-chart-with-button" >
               <div className="doughnut-head-with-download-container">
-                <h2 className="sales-overview-sub-heading ">By Discount</h2>
-                {(!offerSummaryLoading && offerSummaryDataForDownloading && offerSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="By Discount" tableData={offerSummaryDataForDownloading} headerData={offerSummaryDataHeaderForDownloading}/>}
+                <h2 className="sales-overview-sub-heading ">Voided orders</h2>
+                {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Voided orders" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading}/>}    
               </div>
-              <ErrorHandler data={offerSummary} isError={offerSummaryError}>
-                <DoughnutChart
-
-                  dataList={offerSummary
-                    ?.map((data: any) => ({
-                    name: data?.steward,
-                    label: data?.offerName,
-                    count: data?.totalOrders,
-                    items: data?.totalDiscount,
-                    amount: data?.totalSales
-                  }))}
-                  countryCode={countryCode}
-                  handleOther={(other: string) => handleOther("discountOffer", other)}
-                  handleClick={(data: any) =>
-                    handleSummaryView("discountOffer", data)
-                  }
-                  loader={offerSummaryLoading}
-                />
-              </ErrorHandler>
+                <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
+                  <DoughnutChart
+                    kpiTitle="Voided orders"
+                    dataList={voidedOrderSummary?.map((data: any) => ({
+                      name: data?.steward,
+                      label: data?.voidedReasons,
+                      count: data?.orderCount,
+                      items: data?.voidedItems,
+                      amount: data?.voidedAmount
+                    }))}
+                    countryCode={countryCode}
+                    handleOther={(other: string) => handleOther("voidedOffer", other)}
+                    handleClick={(data: any) =>
+                      handleSummaryView("voidedOffer", data)
+                    }
+                    loader={voidedOrderSummaryLoader}
+                  />
+                </ErrorHandler>
+              </div>
             </div>
-            <div className="doughnut-chart-with-button" >
-            <div className="doughnut-head-with-download-container">
-              <h2 className="sales-overview-sub-heading ">Voided orders</h2>
-              {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Voided orders" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading}/>}    
-            </div>
-              <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
-                <DoughnutChart
-
-                  dataList={voidedOrderSummary?.map((data: any) => ({
-                    name: data?.steward,
-                    label: data?.voidedReasons,
-                    count: data?.orderCount,
-                    items: data?.voidedItems,
-                    amount: data?.voidedAmount
-                  }))}
-                  countryCode={countryCode}
-                  handleOther={(other: string) => handleOther("voidedOffer", other)}
-                  handleClick={(data: any) =>
-                    handleSummaryView("voidedOffer", data)
-                  }
-                  loader={voidedOrderSummaryLoader}
+            <div className="sales-charts-parent-container">
+              <div className="sales-chart-download-container">
+                <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
+                {(!salesByRevenueClassLoading && salesByRevenueClassForDownloading && salesByRevenueClassHeaderForDownloading) && <DownloadReport kpiTitle="By Revenue class" tableData={salesByRevenueClassForDownloading} headerData={salesByRevenueClassHeaderForDownloading}/>}
+              </div>
+              <ErrorHandler data={salesByRevenueClass} isError={salesByRevenueClassError} >
+                <RevenueClassChart
+                  dataList={salesByRevenueClass}
+                  loader={salesByRevenueClassLoading}
                 />
               </ErrorHandler>
             </div>
           </div>
-          <div className="sales-charts-parent-container">
-            <div className="sales-chart-download-container">
-              <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-              {(!salesByRevenueClassLoading && salesByRevenueClassForDownloading && salesByRevenueClassHeaderForDownloading) && <DownloadReport kpiTitle="By Revenue class" tableData={salesByRevenueClassForDownloading} headerData={salesByRevenueClassHeaderForDownloading}/>}
-            </div>
-            <ErrorHandler data={salesByRevenueClass} isError={salesByRevenueClassError} >
-              <RevenueClassChart
-                dataList={salesByRevenueClass}
-                loader={salesByRevenueClassLoading}
-              />
-            </ErrorHandler>
-          </div>
-          </div>
+        )
 }
         </>
       ) : viewType === "discountOffer" ? (
@@ -904,6 +918,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                 searchPlaceHolder="Search By Staff name"
                 onSearch={handleSearch}
                 totalElements={discountSummaryTotalElements || 0}
+                // rowNoWrap={true}
               />
                 {/* </ErrorHandler> */}
           </div>
@@ -935,7 +950,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               rowsPerPage={rows}
               setRowsPerPage={setRows}
               loader={cancellationSummaryLoading}
-              searchPlaceHolder="Search By Staff name"
+              searchPlaceHolder="Search By order number, staff name"
               onSearch={handleSearch}
               totalElements={cancellationSummaryTotalElements || 0}
             />

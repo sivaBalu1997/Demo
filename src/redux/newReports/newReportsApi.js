@@ -1,32 +1,29 @@
-import { API } from "redux/api";
+import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
 
-const baseUrl = "https://rptd.gcp.magilhub.com"
-// const baseUrl = "http://34.23.205.137:8080" // PreProd Url
+// const baseUrl = "https://rptd.gcp.magilhub.com"
+// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
+const LIVE_DISCOUNT_ENDPOINT = `/sales/live/discounts?`;
 
-const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
+const LIVE_OPEN_SALES_ENDPOINT = `/sales/live/open-sales?`;
 
-const LIVE_DISCOUNT_ENDPOINT = `${reportsBaseUrl}/sales/live/discounts?`;
+const LIVE_ORDERS_ENDPOINT = `/sales/live/tables?`;
 
-const LIVE_OPEN_SALES_ENDPOINT = `${reportsBaseUrl}/sales/live/open-sales?`;
+const LIVE_REFUNDS_ENDPOINT = `/sales/live/refunds?`;
 
-const LIVE_ORDERS_ENDPOINT = `${reportsBaseUrl}/sales/live/tables?`;
+const LIVE_NET_SALES_ENDPOINT = `/sales/live/net-sales?`;
 
-const LIVE_REFUNDS_ENDPOINT = `${reportsBaseUrl}/sales/live/refunds?`;
+const LIVE_ORDER_NON_DINE_IN_ENDPOINT = `/sales/live/tracking?`;
 
-const LIVE_NET_SALES_ENDPOINT = `${reportsBaseUrl}/sales/live/net-sales?`;
+const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = `/sales/employee/staffTipAndGratuity?`;
 
-const LIVE_ORDER_NON_DINE_IN_ENDPOINT = `${reportsBaseUrl}/sales/live/tracking?`;
+const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = `/sales/employee/staffDiscount?`;
 
-const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffTipAndGratuity?`;
+const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `/sales/employee/staffPerformance?`;
 
-const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffDiscount?`;
-
-const EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffPerformance?`;
-
-const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `${reportsBaseUrl}/sales/employee/staffActivity?`;
+const EMPLOYEE_STAFF_ACTIVITY_ENDPOINT = `/sales/employee/staffActivity?`;
 
 
 
@@ -82,9 +79,9 @@ const generateQueryParams = (payload) => {
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(getSalesLocationStartEndDate)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/summary${query}`,
+        url: `/sales/summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -94,9 +91,9 @@ export const getSalesSummary = (getSalesLocationStartEndDate) => {
 export const getSalesByItemCategory = (salesByItemCategoryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(salesByItemCategoryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category${query}`,
+        url: `/sales/category${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -106,9 +103,9 @@ export const getSalesByItemCategory = (salesByItemCategoryPayload) => {
 export const getSalesByRevenueClass = (salesByRevenueClassPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(salesByRevenueClassPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/tags${query}`,
+        url: `/sales/tags${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -118,9 +115,9 @@ export const getSalesByRevenueClass = (salesByRevenueClassPayload) => {
 export const getActualSales = (actualSalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(actualSalesPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/payment${query}`,
+        url: `/sales/payment${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -130,9 +127,9 @@ export const getActualSales = (actualSalesPayload) => {
 export const getHourlySalesChart = (hourlySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(hourlySalesPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/hourly${query}`,
+        url: `/sales/hourly${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -143,7 +140,7 @@ export const getHourlySalesChart = (hourlySalesPayload) => {
 export const getLiveDiscount = (liveDiscountPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${LIVE_DISCOUNT_ENDPOINT}locationId=${liveDiscountPayload?.locationid}`,
         headers: {
@@ -154,7 +151,7 @@ export const getLiveDiscount = (liveDiscountPayload) => {
 
 export const getLiveOpenSales = (liveOpenSalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${LIVE_OPEN_SALES_ENDPOINT}locationId=${liveOpenSalesPayload?.locationid}`,
         headers: {
@@ -166,7 +163,7 @@ export const getLiveOpenSales = (liveOpenSalesPayload) => {
 
 export const getLiveOrders = (liveOrdersPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}&search=${liveOrdersPayload?.searchQuery || ""}`,
         headers: {
@@ -177,7 +174,7 @@ export const getLiveOrders = (liveOrdersPayload) => {
 
 export const getLiveRefunds = (liveRefundsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${LIVE_REFUNDS_ENDPOINT}locationId=${liveRefundsPayload?.locationid}`,
         headers: {
@@ -188,7 +185,7 @@ export const getLiveRefunds = (liveRefundsPayload) => {
 
 export const getLiveNetSales = (liveNetSalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${LIVE_NET_SALES_ENDPOINT}locationId=${liveNetSalesPayload?.locationid}`,
         headers: {
@@ -200,7 +197,7 @@ export const getLiveNetSales = (liveNetSalesPayload) => {
 export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&search=${liveOrderNonDineInPayload?.searchQuery || ""}`,
         headers: {
@@ -212,9 +209,9 @@ export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
 export const getDiscountSummary = (discountSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(discountSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/discountSummary${query}`,
+        url: `/sales/discountSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -224,9 +221,9 @@ export const getDiscountSummary = (discountSummaryPayload) => {
 export const getCancellationSummary = (cancellationSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(cancellationSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/cancelSummary${query}`,
+        url: `/sales/cancelSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -235,7 +232,7 @@ export const getCancellationSummary = (cancellationSummaryPayload) => {
 
 export const getEmployeeStaffTipGratuity = (employeeStaffTipGratuityPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT}locationId=${employeeStaffTipGratuityPayload?.locationid}&startDate=${employeeStaffTipGratuityPayload?.startDate}&endDate=${employeeStaffTipGratuityPayload?.endDate}&page=${employeeStaffTipGratuityPayload?.tablePageNo}&size=${employeeStaffTipGratuityPayload?.tableRecordLimit}`,
         headers: {
@@ -246,7 +243,7 @@ export const getEmployeeStaffTipGratuity = (employeeStaffTipGratuityPayload) => 
 
 export const getEmployeeStaffDiscount = (employeeStaffDiscountPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${EMPLOYEE_STAFF_DISCOUNT_ENDPOINT}locationId=${employeeStaffDiscountPayload?.locationid}&startDate=${employeeStaffDiscountPayload?.startDate}&endDate=${employeeStaffDiscountPayload?.endDate}&page=${employeeStaffDiscountPayload?.tablePageNo}&size=${employeeStaffDiscountPayload?.tableRecordLimit}`,
         headers: {
@@ -257,7 +254,7 @@ export const getEmployeeStaffDiscount = (employeeStaffDiscountPayload) => {
 
 export const getEmployeeStaffPerformance = (employeeStaffPerformancePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${EMPLOYEE_STAFF_PERFORMANCE_ENDPOINT}locationId=${employeeStaffPerformancePayload?.locationid}&startDate=${employeeStaffPerformancePayload?.startDate}&endDate=${employeeStaffPerformancePayload?.endDate}&page=${employeeStaffPerformancePayload?.tablePageNo}&size=${employeeStaffPerformancePayload?.tableRecordLimit}`,
         headers: {
@@ -268,7 +265,7 @@ export const getEmployeeStaffPerformance = (employeeStaffPerformancePayload) => 
 
 export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
         url: `${EMPLOYEE_STAFF_ACTIVITY_ENDPOINT}locationId=${employeeStaffActivityPayload?.locationid}&startDate=${employeeStaffActivityPayload?.startDate}&endDate=${employeeStaffActivityPayload?.endDate}&page=${employeeStaffActivityPayload?.tablePageNo}&size=${employeeStaffActivityPayload?.tableRecordLimit}`,
         headers: {
@@ -281,9 +278,9 @@ export const getEmployeeStaffActivity = (employeeStaffActivityPayload) => {
 export const getDayCheckIn = (dayCheckInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dayCheckIn?locationId=${dayCheckInPayload?.locationid}&startDate=${dayCheckInPayload?.startDate}&endDate=${dayCheckInPayload?.endDate}&page=${dayCheckInPayload?.tablePageNo}&size=${dayCheckInPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/dayCheckIn?locationId=${dayCheckInPayload?.locationid}&startDate=${dayCheckInPayload?.startDate}&endDate=${dayCheckInPayload?.endDate}&page=${dayCheckInPayload?.tablePageNo}&size=${dayCheckInPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -292,9 +289,9 @@ export const getDayCheckIn = (dayCheckInPayload) => {
 
 export const getDailyCheckIn = (dailyCheckInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dailyCheckIn?locationId=${dailyCheckInPayload?.locationid}&startDate=${dailyCheckInPayload?.startDate}&endDate=${dailyCheckInPayload?.endDate}&page=${dailyCheckInPayload?.tablePageNo || null}&size=${dailyCheckInPayload?.tableRecordLimit || null}`,
+        url: `/sales/checkIn/dailyCheckIn?locationId=${dailyCheckInPayload?.locationid}&startDate=${dailyCheckInPayload?.startDate}&endDate=${dailyCheckInPayload?.endDate}&page=${dailyCheckInPayload?.tablePageNo || null}&size=${dailyCheckInPayload?.tableRecordLimit || null}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -303,9 +300,9 @@ export const getDailyCheckIn = (dailyCheckInPayload) => {
 
 export const getDailyGuest = (dailyGuestPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dailyGuests?locationId=${dailyGuestPayload?.locationid}&startDate=${dailyGuestPayload?.startDate}&endDate=${dailyGuestPayload?.endDate}&page=${dailyGuestPayload?.tablePageNo}&size=${dailyGuestPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/dailyGuests?locationId=${dailyGuestPayload?.locationid}&startDate=${dailyGuestPayload?.startDate}&endDate=${dailyGuestPayload?.endDate}&page=${dailyGuestPayload?.tablePageNo}&size=${dailyGuestPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -314,9 +311,9 @@ export const getDailyGuest = (dailyGuestPayload) => {
 
 export const getDailyCancellation = (dailyCancellationPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dailyCancellation?locationId=${dailyCancellationPayload?.locationid}&startDate=${dailyCancellationPayload?.startDate}&endDate=${dailyCancellationPayload?.endDate}&page=${dailyCancellationPayload?.tablePageNo}&size=${dailyCancellationPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/dailyCancellation?locationId=${dailyCancellationPayload?.locationid}&startDate=${dailyCancellationPayload?.startDate}&endDate=${dailyCancellationPayload?.endDate}&page=${dailyCancellationPayload?.tablePageNo}&size=${dailyCancellationPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -325,9 +322,9 @@ export const getDailyCancellation = (dailyCancellationPayload) => {
 
 export const getHourlyGuests = (hourlyGuestsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/hourlyGuests?locationId=${hourlyGuestsPayload?.locationid}&startDate=${hourlyGuestsPayload?.startDate}&endDate=${hourlyGuestsPayload?.endDate}&page=${hourlyGuestsPayload?.tablePageNo || null}&size=${hourlyGuestsPayload?.tableRecordLimit || null}`,
+        url: `/sales/checkIn/hourlyGuests?locationId=${hourlyGuestsPayload?.locationid}&startDate=${hourlyGuestsPayload?.startDate}&endDate=${hourlyGuestsPayload?.endDate}&page=${hourlyGuestsPayload?.tablePageNo || null}&size=${hourlyGuestsPayload?.tableRecordLimit || null}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -336,9 +333,9 @@ export const getHourlyGuests = (hourlyGuestsPayload) => {
 
 export const getDailyHourlyCheckIn = (dailyHouryCheckInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dailyHourlyCheckin?locationId=${dailyHouryCheckInPayload?.locationid}&startDate=${dailyHouryCheckInPayload?.startDate}&endDate=${dailyHouryCheckInPayload?.endDate}&page=${dailyHouryCheckInPayload?.tablePageNo}&size=${dailyHouryCheckInPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/dailyHourlyCheckin?locationId=${dailyHouryCheckInPayload?.locationid}&startDate=${dailyHouryCheckInPayload?.startDate}&endDate=${dailyHouryCheckInPayload?.endDate}&page=${dailyHouryCheckInPayload?.tablePageNo}&size=${dailyHouryCheckInPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -347,9 +344,9 @@ export const getDailyHourlyCheckIn = (dailyHouryCheckInPayload) => {
 
 export const getDayOverDayGuest = (dayOverDayGuestPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dayOverDayGuest?locationId=${dayOverDayGuestPayload?.locationid}&startDate=${dayOverDayGuestPayload?.startDate}&endDate=${dayOverDayGuestPayload?.endDate}&page=${dayOverDayGuestPayload?.tablePageNo}&size=${dayOverDayGuestPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/dayOverDayGuest?locationId=${dayOverDayGuestPayload?.locationid}&startDate=${dayOverDayGuestPayload?.startDate}&endDate=${dayOverDayGuestPayload?.endDate}&page=${dayOverDayGuestPayload?.tablePageNo}&size=${dayOverDayGuestPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -358,9 +355,9 @@ export const getDayOverDayGuest = (dayOverDayGuestPayload) => {
 
 export const getPeakSummary = (peakSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/peakSummary?locationId=${peakSummaryPayload?.locationid}&startDate=${peakSummaryPayload?.startDate}&endDate=${peakSummaryPayload?.endDate}&page=${peakSummaryPayload?.tablePageNo}&size=${peakSummaryPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/peakSummary?locationId=${peakSummaryPayload?.locationid}&startDate=${peakSummaryPayload?.startDate}&endDate=${peakSummaryPayload?.endDate}&page=${peakSummaryPayload?.tablePageNo}&size=${peakSummaryPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -369,9 +366,9 @@ export const getPeakSummary = (peakSummaryPayload) => {
 
 export const getPartySize = (partySizePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/partySize?locationId=${partySizePayload?.locationid}&startDate=${partySizePayload?.startDate}&endDate=${partySizePayload?.endDate}&page=${partySizePayload?.tablePageNo}&size=${partySizePayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/partySize?locationId=${partySizePayload?.locationid}&startDate=${partySizePayload?.startDate}&endDate=${partySizePayload?.endDate}&page=${partySizePayload?.tablePageNo}&size=${partySizePayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -380,9 +377,9 @@ export const getPartySize = (partySizePayload) => {
 
 export const getCustomerSize = (customerSizePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/customerSize?locationId=${customerSizePayload?.locationid}&startDate=${customerSizePayload?.startDate}&endDate=${customerSizePayload?.endDate}&page=${customerSizePayload?.tablePageNo}&size=${customerSizePayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/customerSize?locationId=${customerSizePayload?.locationid}&startDate=${customerSizePayload?.startDate}&endDate=${customerSizePayload?.endDate}&page=${customerSizePayload?.tablePageNo}&size=${customerSizePayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -391,9 +388,9 @@ export const getCustomerSize = (customerSizePayload) => {
 
 export const getNewCustomerSize = (newCustomerSizePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/newCustomerSize?locationId=${newCustomerSizePayload?.locationid}&startDate=${newCustomerSizePayload?.startDate}&endDate=${newCustomerSizePayload?.endDate}&page=${newCustomerSizePayload?.tablePageNo}&size=${newCustomerSizePayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/newCustomerSize?locationId=${newCustomerSizePayload?.locationid}&startDate=${newCustomerSizePayload?.startDate}&endDate=${newCustomerSizePayload?.endDate}&page=${newCustomerSizePayload?.tablePageNo}&size=${newCustomerSizePayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -402,9 +399,9 @@ export const getNewCustomerSize = (newCustomerSizePayload) => {
 
 export const getCustomerDetails = (customerDetailsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/customerDetails?locationId=${customerDetailsPayload?.locationid}&startDate=${customerDetailsPayload?.startDate}&endDate=${customerDetailsPayload?.endDate}&page=${customerDetailsPayload?.tablePageNo}&size=${customerDetailsPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/customerDetails?locationId=${customerDetailsPayload?.locationid}&startDate=${customerDetailsPayload?.startDate}&endDate=${customerDetailsPayload?.endDate}&page=${customerDetailsPayload?.tablePageNo}&size=${customerDetailsPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -413,9 +410,9 @@ export const getCustomerDetails = (customerDetailsPayload) => {
 
 export const getLiveCheckInStatus = (liveCheckInStatusPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/liveCheckInStatus?locationId=${liveCheckInStatusPayload?.locationid}&startDate=${liveCheckInStatusPayload?.startDate}&endDate=${liveCheckInStatusPayload?.endDate}&page=${liveCheckInStatusPayload?.tablePageNo}&size=${liveCheckInStatusPayload?.tableRecordLimit}`,
+        url: `/sales/checkIn/liveCheckInStatus?locationId=${liveCheckInStatusPayload?.locationid}&startDate=${liveCheckInStatusPayload?.startDate}&endDate=${liveCheckInStatusPayload?.endDate}&page=${liveCheckInStatusPayload?.tablePageNo}&size=${liveCheckInStatusPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -425,9 +422,9 @@ export const getLiveCheckInStatus = (liveCheckInStatusPayload) => {
 export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(dailyCheckInStatusPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/checkIn/dailyCheckInStatus${query}`,
+        url: `/sales/checkIn/dailyCheckInStatus${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -436,10 +433,10 @@ export const getDailyCheckInStatus = (dailyCheckInStatusPayload) => {
 
 export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    // console.log('inside Api')
-    return API({
+    // console.log('inside REPORTS_API')
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/live/billedOrders?locationId=${billedAndUnbilledPayload?.locationid}&type=${billedAndUnbilledPayload?.type}`,
+        url: `/sales/live/billedOrders?locationId=${billedAndUnbilledPayload?.locationid}&type=${billedAndUnbilledPayload?.type}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -448,10 +445,10 @@ export const getBilledAndUnbilled = (billedAndUnbilledPayload) => {
 
 export const getBilled = (billedPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    // console.log('inside Api')
-    return API({
+    // console.log('inside REPORTS_API')
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/live/billedOrders?locationId=${billedPayload?.locationid}&type=${billedPayload?.type}`,
+        url: `/sales/live/billedOrders?locationId=${billedPayload?.locationid}&type=${billedPayload?.type}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -460,10 +457,10 @@ export const getBilled = (billedPayload) => {
 
 export const getUnbilled = (unBilledPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    // console.log('inside Api')
-    return API({
+    // console.log('inside REPORTS_API')
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/live/billedOrders?locationId=${unBilledPayload?.locationid}&type=${unBilledPayload?.type}`,
+        url: `/sales/live/billedOrders?locationId=${unBilledPayload?.locationid}&type=${unBilledPayload?.type}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -476,13 +473,13 @@ export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const { locationid, startDate, endDate, staffId } = employeeSalesOverviewPayload || {};
 
-    let url = `${reportsBaseUrl}/sales/employee/overview?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
+    let url = `/sales/employee/overview?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
 
     if (staffId && staffId !== "all") {
         url += `&staffId=${staffId}`;
     }
 
-    return API({
+    return REPORTS_API({
         method: "get",
         url,
         headers: {
@@ -495,9 +492,9 @@ export const getEmployeeSalesOverview = (employeeSalesOverviewPayload) => {
 export const getVoidedSummary = (voidedSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
 const query=  generateQueryParams(voidedSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category/getVoidedDetailsSummary${query}`,
+        url: `/sales/category/getVoidedDetailsSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -507,9 +504,9 @@ const query=  generateQueryParams(voidedSummaryPayload)
 
 export const getDropDownDetails = (dropDownDetailsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category/getDropDownDetails?locationId=${dropDownDetailsPayload?.locationid}`,
+        url: `/sales/category/getDropDownDetails?locationId=${dropDownDetailsPayload?.locationid}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -520,11 +517,11 @@ export const getCategoryChannelSummary = (categoryChannelSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
 const query=  generateQueryParams(categoryChannelSummaryPayload)
 
-    let url = `${reportsBaseUrl}/sales/category/getCategoryChannelSummary${query}`;
+    let url = `/sales/category/getCategoryChannelSummary${query}`;
 
 
 
-    return API({
+    return REPORTS_API({
         method: "get",
         url: url,
         headers: {
@@ -537,9 +534,9 @@ const query=  generateQueryParams(categoryChannelSummaryPayload)
 export const getSalesSummaryReport = (salesSummaryReportPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
 const query=  generateQueryParams(salesSummaryReportPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/summary${query}`,
+        url: `/sales/summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -550,9 +547,9 @@ const query=  generateQueryParams(salesSummaryReportPayload)
 export const getCategorySalesSummary = (categorySalesSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
 const query=  generateQueryParams(categorySalesSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category/getCategorySalesSummary${query}`,
+        url: `/sales/category/getCategorySalesSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -562,9 +559,9 @@ const query=  generateQueryParams(categorySalesSummaryPayload)
 export const getSalesByChannel = (salesByChannelPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=  generateQueryParams(salesByChannelPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/channel${query}`,
+        url: `/sales/channel${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -576,9 +573,9 @@ export const getCategorySales = (categorySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(categorySalesPayload)
 
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category/getCategorySales${query}`,
+        url: `/sales/category/getCategorySales${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -587,9 +584,9 @@ export const getCategorySales = (categorySalesPayload) => {
 export const getOfferSummary = (offerSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(offerSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/offerSummary${query}`,
+        url: `/sales/offerSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -599,9 +596,9 @@ export const getOfferSummary = (offerSummaryPayload) => {
 export const getVoidedOrderSummary = (voidedSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(voidedSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/voidedSummary${query}`,
+        url: `/sales/voidedSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -611,9 +608,9 @@ export const getVoidedOrderSummary = (voidedSummaryPayload) => {
 export const getStaffSales = (staffSalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(staffSalesPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/staff${query}`,
+        url: `/sales/staff${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -624,9 +621,9 @@ export const getStaffSales = (staffSalesPayload) => {
 export const getPaymentDetails = (paymentDetailsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(paymentDetailsPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/payment${query}`,
+        url: `/sales/payment${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -636,9 +633,9 @@ export const getPaymentDetails = (paymentDetailsPayload) => {
 export const getSalesCategory = (salesCategoryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(salesCategoryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/category${query}`,
+        url: `/sales/category${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -648,9 +645,9 @@ export const getSalesCategory = (salesCategoryPayload) => {
 export const getSalesCardType = (salesCardTypePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(salesCardTypePayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/cardType${query}`,
+        url: `/sales/cardType${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -658,9 +655,9 @@ export const getSalesCardType = (salesCardTypePayload) => {
 }
 export const getLocationDetails = (LocationDetailsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/location?locationId=${LocationDetailsPayload?.locationId}`,
+        url: `/sales/location?locationId=${LocationDetailsPayload?.locationId}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -669,9 +666,9 @@ export const getLocationDetails = (LocationDetailsPayload) => {
 export const getHourlySalesReportChart = (hourlySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(hourlySalesPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/hourly?${query}`,
+        url: `/sales/hourly?${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -683,13 +680,13 @@ export const getEmployeeActivity = (employeeActivityPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const { locationid, startDate, endDate, staffId } = employeeActivityPayload || {};
 
-    let url = `${reportsBaseUrl}/sales/employee/activity?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
+    let url = `/sales/employee/activity?locationId=${locationid}&startDate=${startDate}&endDate=${endDate}`;
 
     if (staffId && staffId !== "all" && staffId !== "All") {
         url += `&staffId=${staffId}`;
     }
 
-    return API({
+    return REPORTS_API({
         method: "get",
         url,
         headers: {
@@ -701,9 +698,9 @@ export const getEmployeeActivity = (employeeActivityPayload) => {
 export const getPremisesSummary = (premisesSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(premisesSummaryPayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/premisesSummary${query}`,
+        url: `/sales/premisesSummary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -715,9 +712,9 @@ export const getPremisesSummary = (premisesSummaryPayload) => {
 export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(employeeChartSliceTablePayload)
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/sales/employee/activity/actions${query}`,
+        url: `/sales/employee/activity/actions${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -726,12 +723,12 @@ export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
 
 export const getDownloadableReport = (payload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const {apiEndPoint, ...queryParams}=payload
+    const {REPORTS_APIEndPoint, ...queryParams}=payload
     const query=generateQueryParams(queryParams)
     
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}${apiEndPoint}${query}`,
+        url: `${REPORTS_APIEndPoint}${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

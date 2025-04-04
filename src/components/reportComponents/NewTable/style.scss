@@ -40,9 +40,10 @@ $text-secondary: #6b7280;
 .new-table-container {
   background: white;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  // overflow: hidden;
   width: 95%;
+  width: 100%;
   // height: 120%;
   height: fit-content;
   &.full-width{
@@ -69,7 +70,7 @@ $text-secondary: #6b7280;
     border-bottom: 1px solid $border-color;
     background: white;
     // background-color: pink;
-    position: sticky;
+    // position: sticky;
     top: 0;
     z-index: 10;
 
@@ -220,7 +221,7 @@ $text-secondary: #6b7280;
     border-bottom: 1px solid $border-color;
     background: white;
     // background-color: pink;
-    position: sticky;
+    // position: sticky;
     top: 0;
     z-index: 10;
     padding-bottom: 2.5vh;
@@ -383,7 +384,7 @@ $text-secondary: #6b7280;
         color: $text-secondary;
         // text-transform: uppercase;
         // background-color: lightsalmon;
-        position: sticky;
+        // position: sticky;
         z-index: 9;
         top: 0;
 
@@ -486,6 +487,7 @@ $text-secondary: #6b7280;
       align-items: center;
       height: 300px; // Adjust as needed
       text-align: center;
+      background-color: #FAFAFA;
   
       .no-results-text {
           margin-top: 10px;
@@ -502,7 +504,7 @@ $text-secondary: #6b7280;
     align-items: center;
     border-top: 1px solid $border-color;
     background: white;
-    position: sticky;
+    // position: sticky;
     bottom: 0;
 
     .record-limit-total-elements-container{

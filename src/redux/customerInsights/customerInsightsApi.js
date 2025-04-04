@@ -1,10 +1,8 @@
-import { API } from "redux/api";
+import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
-const baseUrl = "https://rptd.gcp.magilhub.com"
-// const baseUrl = "http://34.23.205.137:8080" // PreProd Url
-
-const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
+// const baseUrl = "https://rptd.gcp.magilhub.com"
+// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 const generateQueryParams = (payload) => {
     let query = "";
@@ -67,9 +65,9 @@ const generateQueryParams = (payload) => {
 export const getSummaryInsightsCustomerVolume = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer/volume-summary${query}`,
+        url: `/customer/insights/customer/volume-summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -79,9 +77,9 @@ export const getSummaryInsightsCustomerVolume = (params) => {
 export const getSummaryInsightsCustomerByTenure = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customerByTenure${query}`,
+        url: `/customer/insights/customerByTenure${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -93,9 +91,9 @@ export const getSummaryInsightsCustomerByTenure = (params) => {
 export const getSummaryInsightsCustomersByTotalSpend= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer/total-spend${query}`,
+        url: `/customer/insights/customer/total-spend${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -105,9 +103,9 @@ export const getSummaryInsightsCustomersByTotalSpend= (params) => {
 export const getSummaryInsightsCustomersByAvgCoverSize= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/avgCoverSize${query}`,
+        url: `/customer/insights/avgCoverSize${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -117,9 +115,9 @@ export const getSummaryInsightsCustomersByAvgCoverSize= (params) => {
 export const getSummaryInsightsCustomersByLoyalty= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer/loyalty-counts${query}`,
+        url: `/customer/insights/customer/loyalty-counts${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -129,9 +127,9 @@ export const getSummaryInsightsCustomersByLoyalty= (params) => {
 export const getDetailedInsightsCustomerDetails= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     // const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}`,
+        url: `/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -140,9 +138,9 @@ export const getDetailedInsightsCustomerDetails= (params) => {
 export const getDetailedInsightsSummary= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/summary${query}`,
+        url: `/customer/insights/summary${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -152,9 +150,9 @@ export const getDetailedInsightsSummary= (params) => {
 export const getDetailedInsightsDineIn= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/dinein-customer${query}`,
+        url: `/customer/insights/dinein-customer${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -164,9 +162,9 @@ export const getDetailedInsightsDineIn= (params) => {
 export const getDetailedInsightsOffPrem= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/online-customer${query}`,
+        url: `/customer/insights/online-customer${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -177,9 +175,9 @@ export const getDetailedInsightsOffPrem= (params) => {
 export const getDetailedInsightsCustomersOrder= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customerOrderHistory${query}`,
+        url: `/customer/insights/customerOrderHistory${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -191,9 +189,9 @@ export const getDetailedInsightsCustomersOrder= (params) => {
 export const getDetailedInsightsLatestOrder= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/latest-order-items${query}`,
+        url: `/customer/insights/latest-order-items${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -204,9 +202,9 @@ export const getDetailedInsightsLatestOrder= (params) => {
 export const getDetailedInsightsCustomersTopFavItems= (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/favourite-items${query}`,
+        url: `/customer/insights/favourite-items${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

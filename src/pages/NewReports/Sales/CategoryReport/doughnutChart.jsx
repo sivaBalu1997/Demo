@@ -204,19 +204,23 @@ function DoughnutChart({
       setTotalSales(formattedTotal);
 
       // Sort by totalSales (descending) **ensuring correct numeric sorting**
+      // console.log("1111",{dataList});
+      
       const sortedData = [...dataList].sort(
         (a, b) => Number(b?.voidedAmount || 0) - Number(a?.voidedAmount || 0)
       );
 
       // Get the top 10 records
+      // console.log("2222",{sortedData});
       const top10 = sortedData.slice(0, 10)?.map((slice, index) => ({
-        label: slice?.itemName,
+        label: slice?.voidedReason,
         value: (Number(slice?.voidedAmount || 0) * 100) / totalDisplay,
         color: colors[index],
         items: Number(slice?.voidedQuantity || 0),
         amount: Number(slice?.voidedItems || 0),
         voidedAmount: Number(slice?.voidedAmount || 0),
       }));
+
 
       // Sum remaining records into "Other"
       const otherRecords = sortedData.slice(10);

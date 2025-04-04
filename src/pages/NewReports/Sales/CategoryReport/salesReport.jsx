@@ -15,12 +15,24 @@ import { getCurrencySymbol } from "utils";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SalesChart = ({dataList, loader,isMobile}) => {
+const SalesChart = ({dataList, loader,isMobile, bottomTitle=""}) => {
 
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
-const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
+// const colorList=["#E17100", "#14A789", "#67833E","#FF8C00","#06C167","#EE2637"]
+
+  const channelColorMap = {
+    "Pickup": "#E17100",
+    "Dinein": "#67833E",
+    "Grubhub": "#FF8C00",
+    "Doordash": "#EE2637",
+    "Delivery": "#14A789",
+    "UberEats": "#06C167",
+    "Direct Online": "#C9CC3F",
+    "Instore": "#00FF7F",
+  };
+
   function transformData(datalist) {
     const categorySet = new Set();
     const channelSet = new Set();
@@ -30,13 +42,16 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
       channelSet.add(channelName);
     });
     // console.log(datalist ,"The whole data i")
+
+
     const labels = Array.from(categorySet);
     const channels = Array.from(channelSet);
+
     
-    const datasets = channels.map((channel,index) => {
+    const datasets = channels.map((channel) => {
       return {
         label: channel,
-        backgroundColor: colorList?.[index]||"#E87C3D",
+        backgroundColor: channelColorMap[channel] || "#E87C3D",
         data: labels.map((category) => {
           const entry = datalist.find(
             (item) => item.categoryName === category &&item.channelName === channel );
@@ -45,26 +60,44 @@ const colorList=["#E87C3D", "#14C9C9", "#787B4B","#F99D2B","#0FB36A","#E3313C"]
       };
     });
 
+
     return { labels, datasets };
     
   }
   
 
 
-
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom",labels: {
-        boxWidth: isMobile?10:12, // Set legend box width
-        boxHeight:isMobile?10: 12, // Set legend box height
-        usePointStyle: true,
-        pointStyle: "rectRounded", // Rounded rectangle legend symbol
-        font:{
-          size:isMobile?10:12
-        }
-      },  },
+      legend: { 
+        position: "bottom",
+        labels: {
+          boxWidth: isMobile?10:12, // Set legend box width
+          boxHeight:isMobile?10: 12, // Set legend box height
+          usePointStyle: true,
+          pointStyle: "rectRounded", // Rounded rectangle legend symbol
+          font:{
+            size:isMobile?10:12
+          }
+        },
+      },
+      title: {
+        display: isMobile,
+        text: bottomTitle,
+        position: 'bottom',
+        padding: {
+          top: 10,
+          bottom: 10
+        },
+        font: {
+          size: 12,
+          family: 'Poppins',
+          weight: 500,
+        },
+        color: '#8D8D8D'
+      },
       tooltip: {
         // Tooltip style
         backgroundColor: "#fff",

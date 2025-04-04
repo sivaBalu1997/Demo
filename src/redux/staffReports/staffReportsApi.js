@@ -1,8 +1,8 @@
-import { API } from "redux/api";
+import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
-const baseUrl = "https://rptd.gcp.magilhub.com"
-const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
+// const baseUrl = "https://rptd.gcp.magilhub.com"
+// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 
 const generateQueryParams = (payload) => {
@@ -55,9 +55,9 @@ const generateQueryParams = (payload) => {
 export const getStaffOverviewEmployeePerformance = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/staff/overview/employee-performance${query}`,
+        url: `/staff/overview/employee-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -67,9 +67,9 @@ export const getStaffOverviewEmployeePerformance = (params) => {
 export const getStaffOverviewActivities = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/staff/overview/activities${query}`,
+        url: `/staff/overview/activities${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -79,9 +79,9 @@ export const getStaffOverviewActivities = (params) => {
 export const getStaffOverviewEmployeePerformanceTable = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/staff/overview/employee-performance-table${query}`,
+        url: `/staff/overview/employee-performance-table${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -91,9 +91,9 @@ export const getStaffOverviewEmployeePerformanceTable = (params) => {
 export const getStaffTrendSalesPerformance = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/staff/trend/sales-performance${query}`,
+        url: `/staff/trend/sales-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -103,9 +103,9 @@ export const getStaffTrendSalesPerformance = (params) => {
 export const getStaffTrendRevenueImpactPerformance = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/staff/trend/revenue-impact-performance${query}`,
+        url: `/staff/trend/revenue-impact-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -115,9 +115,9 @@ export const getStaffTrendRevenueImpactPerformance = (params) => {
 export const getStaffTrendErrorPerformance = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/staff/trend/error-performance${query}`,
+        url: `/staff/trend/error-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

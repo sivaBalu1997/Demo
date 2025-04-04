@@ -63,6 +63,7 @@ interface DoughnutChartProps {
   handleOther?: (param?: any) => void;
   loader?: boolean;
   clickable?: boolean;
+  kpiTitle?: string
 }
 const DoughnutChart: React.FC<DoughnutChartProps> = ({
   dataList = [],
@@ -71,6 +72,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
   handleOther,
   loader,
   clickable = true,
+  kpiTitle=""
 }) => {
   const currencySymbol = useMemo(
     () => getCurrencySymbol(countryCode, true),
@@ -339,7 +341,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
                   </div>
                   <div style={{ marginBottom: "5px" }}>
                     Order: {slice.items} <br />
-                    Sales: {currencySymbol}
+                    {`${kpiTitle === "Voided orders" ? "Refunds" : "Sales"}`}: {currencySymbol}
                     {`${slice?.orgAmount.toFixed(2)}`}
                   </div>
                   {clickable ? (
