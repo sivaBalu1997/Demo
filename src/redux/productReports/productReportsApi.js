@@ -1,10 +1,6 @@
 import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
-// const baseUrl = "https://rptd.gcp.magilhub.com"
-// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
-
-
 const generateQueryParams = (payload) => {
     let query = "";
     if(payload?.locationId){

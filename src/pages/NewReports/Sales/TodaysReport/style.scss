@@ -58,26 +58,26 @@
                 display: flex;
                 flex-wrap: wrap;
                 gap: 16px;
-                width: 98%;
+                width: 100%;
                 // max-width: 1200px;
-
-                >* {
+            
+                > * {
                     flex: 1 1 calc(25% - 16px); // 4 columns
+                    max-width: calc(25% - 16px); 
                 }
-
+            
                 @media (max-width: 1024px) {
-                    >* {
+                    > * {
                         flex: 1 1 calc(50% - 16px); // 2 columns
+                        max-width: calc(50% - 16px);
                     }
                 }
-
+            
                 @media (max-width: 600px) {
-                    >* {
+                    > * {
                         flex: 1 1 calc(50% - 16px); // 2 columns
+                        max-width: calc(50% - 16px);
                     }
-
-                    width: 100%;
-                    height: fit-content;
                 }
             }
         }

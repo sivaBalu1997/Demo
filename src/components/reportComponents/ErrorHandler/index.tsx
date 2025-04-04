@@ -26,6 +26,8 @@ const ErrorHandler = ({
     return <ReportNotFound errorType={"error"} />;
   } else if (isLoading) {
     return <>{children}</>;
+  } else if (!Array.isArray(data) && data?.status === "204"){
+    return <ReportNotFound errorType={"reportNotFound"} />
   } else if (data?.status === "204") {
     return <ReportNotFound errorType={"noContent"} />;
   } else if (Array.isArray(data) && data.length === 0) {
