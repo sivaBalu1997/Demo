@@ -17,7 +17,7 @@ import { getCurrencySymbol } from "utils";
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile, bottomTitle="" }) {
+function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile , bottomTitle=""}) {
   const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   // console.log(dataList);
@@ -69,6 +69,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile,
         cornerRadius: 4,      
         padding: 10, // Padding inside tooltip container
         displayColors: false, // Hide color box in tooltip
+        caretSize: 0, // Remove the caret
         callbacks: {
           // Show the x-axis label in the tooltip title
           title: (tooltipItems) => {
@@ -80,7 +81,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile,
           label: (tooltipItem) => {
             const idx = tooltipItem.dataIndex;
             const cat = dataList?.[idx];
-            return [`Qty: ${cat?.voidedQuantity}`, `Sales: ${currencySymbol}${Number(cat?.voidedAmount||0).toFixed(2)}`];
+            return [`Qty: ${cat?.voidedQuantity}`, `Voided amount: ${currencySymbol}${Number(cat?.voidedAmount||0).toFixed(2)}`];
           },
         },
 

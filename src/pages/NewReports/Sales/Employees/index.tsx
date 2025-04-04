@@ -14,7 +14,7 @@ import { EmployeeType } from "interface/employeeInterface";
 import { formatNumberByCountry, transformSalesData } from "utils";
 import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
 import { NewTableHeader } from "interface/newReportsInterface";
-import { cardDataForEmployees } from "commonConstants/reportConstants";
+import { cardDataForEmployees } from "constants/reportConstants";
 import StoreFilter from "components/reportComponents/StoreFilter";
 import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
 import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
@@ -55,6 +55,10 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.employeeSalesOverviewFailure
   );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> report-checkin
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   const currencySymbol = countryCode === "US" ? "$" : "₹";
@@ -589,6 +593,7 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
+
   const employeeLoader = useSelector(
     (state: RootState) => state.employee.employeeDetailsLoading
   );
@@ -596,7 +601,7 @@ const Employees: React.FC = () => {
   const employeeDropdownOptions =
     employeeLists?.map((employee) => ({
       value: employee?.staffId,
-      label: `${employee?.firstName}`,
+      label: employee?.lastName ? `${employee?.firstName} ${employee?.lastName}` : employee?.firstName,
     }));
 
   const employeeTempArray = [{ label: "All", value: "All" }, ...employeeDropdownOptions]
@@ -775,28 +780,28 @@ const Employees: React.FC = () => {
               </div>
             </div>
             <div className="employee-report-sales-overview-box-container">
-              <ErrorHandler isLoading={employeeSalesOverViewFromAPIReduxLoader} data={employeeSalesOverViewFromAPIRedux} isError={employeeSalesOverViewFromAPIReduxError}>
-              {cardDataForEmployees.map((card) => (
-                <CardWithMiniGraph
-                  key={card.title}
-                  cardTitle={card.title}
-                  cardValue={formatNumberByCountry(
-                    employeeSalesOverViewFromAPIRedux?.[card.value],
-                    countryCode,
-                    true
-                  )}
-                  isMonetary={true}
-                  loader={employeeSalesOverViewFromAPIReduxLoader}
-                  incrementDecrementValue={
-                    employeeSalesOverViewFromAPIRedux?.[card.percentage]
-                  }
-                  graphType="arrow"
-                  incrementOrDecrement={transformSalesData(
-                    employeeSalesOverViewFromAPIRedux?.[card.percentage]
-                  )}
-                  showMiniGraph={true}
-                />
-              ))}
+              <ErrorHandler data={employeeSalesOverViewFromAPIRedux} isError={employeeSalesOverViewFromAPIReduxError} isLoading={employeeSalesOverViewFromAPIReduxLoader}>  
+                {cardDataForEmployees.map((card) => (
+                  <CardWithMiniGraph
+                    key={card.title}
+                    cardTitle={card.title}
+                    cardValue={formatNumberByCountry(
+                      employeeSalesOverViewFromAPIRedux?.[card.value],
+                      countryCode,
+                      true
+                    )}
+                    isMonetary={true}
+                    loader={employeeSalesOverViewFromAPIReduxLoader}
+                    incrementDecrementValue={
+                      employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                    }
+                    graphType="arrow"
+                    incrementOrDecrement={transformSalesData(
+                      employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                    )}
+                    showMiniGraph={true}
+                  />
+                ))}
               </ErrorHandler>
             </div>
           </div>

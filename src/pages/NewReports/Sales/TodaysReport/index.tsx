@@ -5,7 +5,7 @@ import {
   cardWithMiniGraphDataForTodays,
   textOneForTodaysSwitch,
   textTwoForTodaysSwitch,
-} from "commonConstants/reportConstants";
+} from "constants/reportConstants";
 import { NewTableHeader } from "interface/newReportsInterface";
 import {
   billedRequest,
@@ -23,9 +23,9 @@ import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
 import moment from "moment";
 import NewTable from "components/reportComponents/NewTable";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import "./style.scss";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
+import "./style.scss";
 
 const TodaysReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -85,6 +85,8 @@ const TodaysReport: React.FC = () => {
   const billedDataAPIReduxLoading = useSelector(
     (state: any) => state?.newReports?.billedLoading
   );
+
+
   const unBilledAPIRedux = useSelector(
     (state: any) => state?.newReports?.unBilledSuccess
   );
@@ -94,6 +96,7 @@ const TodaysReport: React.FC = () => {
   const unBilledAPIReduxLoading = useSelector(
     (state: any) => state?.newReports?.unBilledLoading
   );
+
 
   const billedDataArrayForDownloading = [billedDataAPIRedux];
   const billedDataAPIReduxHeaderForDownloading =
@@ -455,10 +458,10 @@ const TodaysReport: React.FC = () => {
           {isSwitchActive
             ?
             (
+              <>
               <ErrorHandler data={billedDataAPIRedux} isError={billedDataAPIReduxError} isLoading={billedDataAPIReduxLoading}>
                 {cardWithMiniGraphDataForTodays?.map(
                   ({ title, key, isMonetary }) => (
-
                     <CardWithMiniGraph
                       key={key}
                       cardTitle={title}
@@ -474,6 +477,7 @@ const TodaysReport: React.FC = () => {
                   )
                 )}
               </ErrorHandler>
+          </>
             )
             :
             (

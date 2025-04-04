@@ -1,12 +1,8 @@
-import { API } from "redux/api";
+import { REPORTS_API } from "redux/api";
 import Store from "../store";
 
 // const baseUrl = "https://rptd.gcp.magilhub.com"
-const baseUrl = "https://apireports.magilhub.com" //PreProd Url
-
-// http://34.23.205.137:8080/magilhub-data-services-reports/
-
-const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
+// const reportsBaseUrl = `${baseUrl}/magilhub-data-services-reports`
 
 const generateQueryParams = (payload) => {
     let query = "";
@@ -58,9 +54,9 @@ const generateQueryParams = (payload) => {
 export const getLiveCheckInOverview = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/checkin-overview${query}`,
+        url: `/live/checkin/checkin-overview${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -70,9 +66,9 @@ export const getLiveCheckInOverview = (params) => {
 export const getLiveSeaterAvailability = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/seater-wise-availability${query}`,
+        url: `/live/checkin/seater-wise-availability${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -82,9 +78,9 @@ export const getLiveSeaterAvailability = (params) => {
 export const getLiveGuestCount = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/inqueue-guest-count${query}`,
+        url: `/live/checkin/inqueue-guest-count${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -94,9 +90,9 @@ export const getLiveGuestCount = (params) => {
 export const getLiveCheckInStatus = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/status-checkin${query}`,
+        url: `/live/checkin/status-checkin${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -106,9 +102,9 @@ export const getLiveCheckInStatus = (params) => {
 export const getLiveAvgWaitTime = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/average-wait-time${query}`,
+        url: `/live/checkin/average-wait-time${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -118,9 +114,9 @@ export const getLiveAvgWaitTime = (params) => {
 export const getLiveGroupAvgWaitTime = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/average-wait-time-by-groups${query}`,
+        url: `/live/checkin/average-wait-time-by-groups${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -130,9 +126,9 @@ export const getLiveGroupAvgWaitTime = (params) => {
 export const getLiveCheckInTable = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/liveortoday-checkins${query}&type=livecheckin`,
+        url: `/live/checkin/liveortoday-checkins${query}&type=livecheckin`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -142,9 +138,9 @@ export const getLiveCheckInTable = (params) => {
 export const getLiveCheckInToday = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/live/checkin/liveortoday-checkins${query}&type=todaycheckin`,
+        url: `/live/checkin/liveortoday-checkins${query}&type=todaycheckin`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -154,9 +150,9 @@ export const getLiveCheckInToday = (params) => {
 export const getCheckInOverview = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/totals${query}`,
+        url: `/checkin/overview/totals${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -166,9 +162,9 @@ export const getCheckInOverview = (params) => {
 export const getCheckInOverviewHourly = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/hourlyCheckin${query}`,
+        url: `/checkin/overview/hourlyCheckin${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -178,9 +174,9 @@ export const getCheckInOverviewHourly = (params) => {
 export const getCheckInOverviewGuestsHourly = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/hourlyGuests${query}`,
+        url: `/checkin/overview/hourlyGuests${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -190,9 +186,9 @@ export const getCheckInOverviewGuestsHourly = (params) => {
 export const getCheckInOverviewDailyAndGuest = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/daily-checkIns-and-guests${query}`,
+        url: `/checkin/overview/daily-checkIns-and-guests${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -202,9 +198,9 @@ export const getCheckInOverviewDailyAndGuest = (params) => {
 export const getCheckInOverviewDineInGroup = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/dineInDuration${query}`,
+        url: `/checkin/overview/dineInDuration${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -214,9 +210,9 @@ export const getCheckInOverviewDineInGroup = (params) => {
 export const getCheckInOverviewGuestSize = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/guestSizeDistribution${query}`,
+        url: `/checkin/overview/guestSizeDistribution${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -226,9 +222,9 @@ export const getCheckInOverviewGuestSize = (params) => {
 export const getCheckInOverviewTableDetails = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/checkin-details${query}`,
+        url: `/checkin/overview/checkin-details${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -238,9 +234,9 @@ export const getCheckInOverviewTableDetails = (params) => {
 export const getCheckInOverviewTopCustomer = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/top-repeat-customers${query}`, // api not recieved
+        url: `/checkin/overview/top-repeat-customers${query}`, // REPORTS_API not recieved
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -250,9 +246,9 @@ export const getCheckInOverviewTopCustomer = (params) => {
 export const getCheckInOverviewAvgWaitTimeGroup = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
-    return API({
+    return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/checkin/overview/avgWaitTimeByGroup${query}`,// api not recieved
+        url: `/checkin/overview/avgWaitTimeByGroup${query}`,// REPORTS_API not recieved
         headers: {
             Authorization: 'bearer ' + token,
         }

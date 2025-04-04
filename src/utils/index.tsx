@@ -102,6 +102,64 @@ function getCurrencySymbol(countryCode:string,styled:boolean=false):any{
   return  countryCurrency?.[countryCode]?(styled?<span style={{fontFamily:"sans-serif"}}>{countryCurrency[countryCode]}</span>:countryCurrency[countryCode]):""
 }
 
+// const generateTooltipContent = (dataset: any, dataIndex: number) => {
+//   let detailsHTML = '';
+
+//   // Add the hour information at the top
+//   if (dataset.hours && dataset.hours[dataIndex]) {
+//     detailsHTML += `Hour: ${dataset.hours[dataIndex]}`;
+//   }
+
+//   // Loop through the dataset and extract the relevant values
+//   Object.entries(dataset).forEach(([key, value]) => {
+//     if (Array.isArray(value) && typeof value?.[dataIndex] === 'number') {
+//       if (key !== 'data' && key !== 'hours') { // Exclude 'data' and 'hours' from this loop
+//         if (key === 'orders') {
+//           detailsHTML += `<br>${key.charAt(0).toUpperCase() + key.slice(1)}: ${value[dataIndex]}`;
+//         } else {
+//           detailsHTML += `<br>${key.charAt(0).toUpperCase() + key.slice(1)}: $${value[dataIndex]?.toFixed(2)}`;
+//         }
+//       }
+//     }
+//   });
+
+//   return detailsHTML;
+// };
+
+const generateTooltipContent = (dataset: any, dataIndex: number) => {
+  let detailsHTML = '';
+
+  // Define a map for custom labels
+  const labelMap: { [key: string]: string } = {
+    hours: 'Hour',
+    orders: 'Orders',
+    sales: 'Sales',
+    // Add more mappings as needed
+  };
+
+  // Add the hour information at the top
+  if (dataset.hours && dataset.hours[dataIndex]) {
+    detailsHTML += `<div style="display: flex;"><span style="color: #8D8D8D;">${labelMap['hours']}:</span> <span>${dataset.hours[dataIndex]}</span></div>`;
+  }
+
+  // Loop through the dataset and extract the relevant values
+  Object.entries(dataset).forEach(([key, value]) => {
+    if (Array.isArray(value) && typeof value?.[dataIndex] === 'number') {
+      if (key !== 'data' && key !== 'hours') { // Exclude 'data' and 'hours' from this loop
+        const label = labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1);
+        if (key === 'orders') {
+          detailsHTML += `<div style="display: flex;"><span style="color: #8D8D8D;">${label} : </span><span>${value[dataIndex]}</span></div>`;
+        } else {
+          detailsHTML += `<div style="display: flex;"><span style="color: #8D8D8D; text-wrap: nowrap;">${label} : </span><span>$${value[dataIndex]?.toFixed(2)}</span></div>`;
+        }
+      }
+    }
+  });
+
+  return detailsHTML;
+};
+
+
 // export all functions 
 export{
   getRandomColor,
@@ -112,6 +170,6 @@ export{
   maskPhone,
   maskEmail,
   formatNumberByK,
-  getCurrencySymbol
-  
+  getCurrencySymbol,
+  generateTooltipContent,
 }

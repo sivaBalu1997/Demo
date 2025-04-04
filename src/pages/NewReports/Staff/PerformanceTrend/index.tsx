@@ -80,7 +80,7 @@ const PerformanceTrend = () => {
     const [selectedLabel, setSelectedLabel] = useState<string>("");
 
     const [employeeLabelPill, setEmployeeLabelPill] = useState<{ label: string; value: string }[]>([employeeTempArray?.[0]])
-    console.log({employeeLabelPill});
+    // console.log({employeeLabelPill});
 
 
     const handleDropdownChangeStore = (selectedValue: any) => {
@@ -141,6 +141,9 @@ const PerformanceTrend = () => {
 
   // Function to remove an item from the employeeLabelPill array
 const removeItem = (value: string) => {
+  if (value.toLowerCase() === "all") {
+    return; // Don't remove if value is "All" or "all"
+  }
   setEmployeeLabelPill((prevLabels) =>
     prevLabels?.filter((item) => item?.value !== value)
   );
@@ -174,7 +177,7 @@ const removeItem = (value: string) => {
               }
             />
           </div>
-          <p className='pt-select-employee-clear-text' onClick={()=>setEmployeeLabelPill([])}>clear</p>
+          <p className='pt-select-employee-clear-text' onClick={()=>setEmployeeLabelPill([employeeTempArray[0]])}>clear</p>
         </div>
         <div className='employee-pt-pill-container'>
             <p className='selected-label'>Selected:</p>
@@ -188,39 +191,45 @@ const removeItem = (value: string) => {
                 onClick={() => removeItem(item?.value)} // Pass the item's value to removeItem
                 className='remove-employee-pill'
                 >
-                  x
+                  {item?.label === "All" ? "" : "x" }
                 </span>
               </div>
             ))}
         </div>
       </div>
-      <MultiLineChart 
-        kpiLoaderState={false} 
-        kpiTitle='Sales Performance' 
-        data={chartData} 
-        showDownloadReport={true}
-        showChartFilter={true}
-        chartFilterOptions={orderFilterOptions}
-        handleChartFilter={handleChartFilter}
-      />
-            <MultiLineChart 
-        kpiLoaderState={false} 
-        kpiTitle='Revenue Impact' 
-        data={chartData} 
-        showDownloadReport={true}
-        showChartFilter={true}
-        chartFilterOptions={refundsFilterOptions}
-        handleChartFilter={handleChartFilter}
-      />
-            <MultiLineChart 
-        kpiLoaderState={false} 
-        kpiTitle='Error Performance' 
-        data={chartData} 
-        showDownloadReport={true}
-        showChartFilter={true}
-        chartFilterOptions={deletedFilterOptions}
-        handleChartFilter={handleChartFilter}
-      />
+      <div>
+        <MultiLineChart 
+          kpiLoaderState={false} 
+          kpiTitle='Sales Performance' 
+          data={chartData} 
+          showDownloadReport={true}
+          showChartFilter={true}
+          chartFilterOptions={orderFilterOptions}
+          handleChartFilter={handleChartFilter}
+        />
+      </div>
+      <div>
+        <MultiLineChart 
+          kpiLoaderState={false} 
+          kpiTitle='Revenue Impact' 
+          data={chartData} 
+          showDownloadReport={true}
+          showChartFilter={true}
+          chartFilterOptions={refundsFilterOptions}
+          handleChartFilter={handleChartFilter}
+        />
+      </div>
+      <div>
+        <MultiLineChart
+          kpiLoaderState={false}
+          kpiTitle='Error Performance'
+          data={chartData}
+          showDownloadReport={true}
+          showChartFilter={true}
+          chartFilterOptions={deletedFilterOptions}
+          handleChartFilter={handleChartFilter}
+        />
+      </div>
     </div>
   )
 }

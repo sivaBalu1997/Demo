@@ -584,7 +584,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                       : "not-active"
                   }
                 >
-                  <Stats className="menu-items-icon menu-items-icons-resize" />
+                  <Stats className="menu-items-icon menu-items-icons-resize" onClick={()=> history.push("report/32")}/>
                   {isExpanded && (
                     <span className="menu-items-name  menu-items-name-rebranded">
                       Reports & Insights
@@ -637,7 +637,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                           : "",
                     }}
                   >
-                    {showOptions === "reportOptions"
+                    {isExpanded && showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
                           <li
                             key={option?.path}

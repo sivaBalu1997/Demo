@@ -130,3 +130,12 @@ export type groupedDataFlat = {
 };
 
 export type GroupedDataArray = Record<string, groupedDataFlat[]>;
+
+export interface IDateRange {
+  startDate: string;
+  endDate: string;
+}
+
+export interface DateDropdownProps {
+  onDateChange: (startDate: string, endDate: string) => void;
+} 
