@@ -851,7 +851,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               </div>
                 <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                   <DoughnutChart
-
+                    kpiTitle="Voided orders"
                     dataList={voidedOrderSummary?.map((data: any) => ({
                       name: data?.steward,
                       label: data?.voidedReasons,
