@@ -74,6 +74,7 @@ const discountTableHeaders: NewTableHeader[] = [
     label: `Order number`,
     isSortable: true,
     alignment: "left",
+    prefix: "#"
   },
   {
     key: "orderType",
@@ -106,6 +107,7 @@ const voidedTableHeaders: NewTableHeader[] = [
     label: `Order number`,
     isSortable: true,
     alignment: "left",
+    prefix: "#",
   },
   {
     key: "orderType",

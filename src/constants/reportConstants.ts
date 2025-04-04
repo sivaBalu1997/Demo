@@ -50,7 +50,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     },
     {
       title: "Total Tax",
-      value: "totalMagilTax", 
+      value: "totalTaxIncludingThirdparty", 
       percentage: "totalTaxPercentage",
       isMonetary: true,
       showMiniGraph: (val: string | number) => val !== "0.00" && val !== 0
@@ -71,7 +71,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     },
     {
       title: "Transactions",
-      value: "totalMagilOrders",
+      value: "totalOrdersIncludingThirdparty",
       percentage: "transactionPercentage",
       isMonetary: false,
       showMiniGraph: true
@@ -109,7 +109,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     },
     {
       title: "Total Tax",
-      value: "totalMagilTax", 
+      value: "totalTaxIncludingThirdparty", 
       percentage: "totalTaxPercentage",
       isMonetary: true,
       showMiniGraph: (val: string | number) => val !== "0.00" && val !== 0
@@ -123,7 +123,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     },
     {
       title: "Transactions",
-      value: "totalMagilOrders",
+      value: "totalOrdersIncludingThirdparty",
       percentage: "transactionPercentage",
       isMonetary: false,
       showMiniGraph: true
