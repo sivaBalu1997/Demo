@@ -193,9 +193,14 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
   useEffect(() => {
     if (dataList?.length) {
       const totalDisplay = dataList?.reduce(
-        (sum, item) => sum + (Number(item?.amount) || 0),
+        (sum, item) =>
+          sum +
+          (kpiTitle !== "Voided orders"
+            ? Number(item?.items) || 0
+            : Number(item?.amount) || 0),
         0
       );
+      
 
       const formattedTotal = amountFormatter(totalDisplay, countryCode);
       // Assign colors from predefined palette
