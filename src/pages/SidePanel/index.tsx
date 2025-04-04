@@ -584,7 +584,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                       : "not-active"
                   }
                 >
-                  <Stats className="menu-items-icon menu-items-icons-resize" onClick={()=> history.push("report/32")}/>
+                  <Stats className="menu-items-icon menu-items-icons-resize" onClick={()=> history.push("/sales-reports")}/>
                   {isExpanded && (
                     <span className="menu-items-name  menu-items-name-rebranded">
                       Reports & Insights
