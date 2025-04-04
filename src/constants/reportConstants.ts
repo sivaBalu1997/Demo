@@ -14,9 +14,9 @@ export const textTwoForTodaysSwitch: string = "Overall";
       { title: "Total Tax", key: "totalTax", isMonetary: true },
       { title: "Total Tips", key: "totalTip", isMonetary: true },
       { title: "Gratuity", key: "totalServiceTax", isMonetary: true },
-      { title: "Transactions", key: "totalTransactions", isMonetary: false },
+      { title: "Orders", key: "totalTransactions", isMonetary: false },
       { title: "Discount", key: "totalDiscount", isMonetary: true },
-      { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
+      // { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
   ];
 
   export const cardWithMiniGraphDataForTodaysWithoutGratuity: IcardWithMiniGraphData[] = [
@@ -24,9 +24,9 @@ export const textTwoForTodaysSwitch: string = "Overall";
     { title: "Net Sales", key: "totalNetSales", isMonetary: true },
     { title: "Total Tax", key: "totalTax", isMonetary: true },
     { title: "Total Tips", key: "totalTip", isMonetary: true },
-    { title: "Transactions", key: "totalTransactions", isMonetary: false },
+    { title: "Orders", key: "totalTransactions", isMonetary: false },
     { title: "Discount", key: "totalDiscount", isMonetary: true },
-    { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
+    // { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
   ];
 // ============================================================================================
 
@@ -43,7 +43,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     },
     {
       title: "Net Sales", 
-      value: "totalMagilNetSales",
+      value: "totalNetSalesIncludingThirdparty",
       percentage: "netSalesPercentage",
       isMonetary: true,
       showMiniGraph: true
@@ -102,7 +102,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     },
     {
       title: "Net Sales", 
-      value: "totalMagilNetSales",
+      value: "totalNetSalesIncludingThirdparty",
       percentage: "netSalesPercentage",
       isMonetary: true,
       showMiniGraph: true

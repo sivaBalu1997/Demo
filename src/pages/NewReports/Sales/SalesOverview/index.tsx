@@ -669,7 +669,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading} />}
                     </div>
 
-                    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound">
+    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound">
                 <div className="todays-report-sales-overview-box-container">
                   {countryCode === "US" ?
                     (cardConfigForSalesTabOverView?.map((card: any, index: number) => (
@@ -855,11 +855,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       </div>
                       <ErrorHandler data={offerSummary} isError={offerSummaryError}>
                         <DoughnutChart
-                          labelKeys={[{ key: "Count", value: "totalOrders" }, { key: "Sales", value: "totalSales", isAmount: true }]}
+                          labelKeys={[{ key: "Count", value: "totalOrders" }, { key: "Sales", value: "totalDiscount", isAmount: true }]}
                           xKey="offerName"
-                          yKey="totalSales"
+                          yKey="totalDiscount"
                           isAmount={true}
-                          otherKeys={["totalOrders", "totalSales"]}
+                          otherKeys={["totalOrders", "totalDiscount"]}
                           dataList={offerSummary}
                           countryCode={countryCode}
                           handleOther={(other: string) => handleOther("discountOffer", other)}

@@ -459,95 +459,44 @@ const TodaysReport: React.FC = () => {
               />
             )}
         </div>
-        <div className="todays-report-sales-overview-box-container">
-          {isSwitchActive
-            ?
-            (
-              <>
-                <ErrorHandler data={billedDataAPIRedux} isError={billedDataAPIReduxError} isLoading={billedDataAPIReduxLoading}>
-                  {
-                    countryCode === "US" ?
-                      (
-                        cardWithMiniGraphDataForTodays?.map(
-                          ({ title, key, isMonetary }) => (
-                            <CardWithMiniGraph
-                              key={key}
-                              cardTitle={title}
-                              cardValue={formatNumberByCountry(
-                                billedDataAPIRedux?.[key],
-                                countryCode,
-                                isMonetary
-                              )}
-                              isMonetary={isMonetary}
-                              loader={billedDataAPIReduxLoading}
-                            />
-                          )
-                        )
-                      ) : (
-                        cardWithMiniGraphDataForTodaysWithoutGratuity?.map(
-                          ({ title, key, isMonetary }) => (
-                            <CardWithMiniGraph
-                              key={key}
-                              cardTitle={title}
-                              cardValue={formatNumberByCountry(
-                                billedDataAPIRedux?.[key],
-                                countryCode,
-                                isMonetary
-                              )}
-                              isMonetary={isMonetary}
-                              loader={billedDataAPIReduxLoading}
-                            />
-                          )
-                        )
-                      )
-                  }
-                </ErrorHandler>
-              </>
-            )
-            :
-            (
-              <>
-                <ErrorHandler data={unBilledAPIRedux} isError={unBilledAPIReduxError} isLoading={unBilledAPIReduxLoading}>
-                  {
-                    countryCode === "US" ?
-                      (
-                        cardWithMiniGraphDataForTodays?.map(
-                          ({ title, key, isMonetary }) => (
-                            <CardWithMiniGraph
-                              key={key}
-                              cardTitle={title}
-                              cardValue={formatNumberByCountry(
-                                unBilledAPIRedux?.[key],
-                                countryCode,
-                                isMonetary
-                              )}
-                              isMonetary={isMonetary}
-                              loader={unBilledAPIReduxLoading}
-                            />
-                          )
-                        )
-                      ) : (
-                        cardWithMiniGraphDataForTodaysWithoutGratuity?.map(
-                          ({ title, key, isMonetary }) => (
-                            <CardWithMiniGraph
-                              key={key}
-                              cardTitle={title}
-                              cardValue={formatNumberByCountry(
-                                unBilledAPIRedux?.[key],
-                                countryCode,
-                                isMonetary
-                              )}
-                              isMonetary={isMonetary}
-                              loader={unBilledAPIReduxLoading}
-                            />
-                          )
-                        )
-                      )
-                  }
-                </ErrorHandler>
-              </>
-            )}
-        </div>
+
+
+        <ErrorHandler
+          data={isSwitchActive ? billedDataAPIRedux : unBilledAPIRedux}
+          isError={isSwitchActive ? billedDataAPIReduxError : unBilledAPIReduxError}
+          isLoading={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
+        >
+          <div className="todays-report-sales-overview-box-container">
+            {countryCode === "US"
+              ? cardWithMiniGraphDataForTodays?.map(({ title, key, isMonetary }) => (
+                <CardWithMiniGraph
+                  key={key}
+                  cardTitle={title}
+                  cardValue={formatNumberByCountry(
+                    (isSwitchActive ? billedDataAPIRedux : unBilledAPIRedux)?.[key],
+                    countryCode,
+                    isMonetary
+                  )}
+                  isMonetary={isMonetary}
+                  loader={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
+                />
+              ))
+              : cardWithMiniGraphDataForTodaysWithoutGratuity?.map(({ title, key, isMonetary }) => (
+                <CardWithMiniGraph
+                  key={key}
+                  cardTitle={title}
+                  cardValue={formatNumberByCountry(
+                    (isSwitchActive ? billedDataAPIRedux : unBilledAPIRedux)?.[key],
+                    countryCode,
+                    isMonetary
+                  )}
+                  isMonetary={isMonetary}
+                  loader={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
+                />
+              ))}
+          </div>
+        </ErrorHandler>
+
       </div>
       <div className="todays-report-tables-container">
         <NewTable
