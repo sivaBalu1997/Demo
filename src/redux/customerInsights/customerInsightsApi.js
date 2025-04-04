@@ -127,8 +127,7 @@ export const getDetailedInsightsCustomerDetails= (params) => {
     // const query = generateQueryParams(queryParams);
     return REPORTS_API({
         method: "get",
-        url: `${reportsBaseUrl}/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}&page=${params?.page}&size=${params?.size}`,
-        // url: `${reportsBaseUrl}/customer/insights/customer-info?${query}&search=${search}`,
+        url: `/customer/insights/customer-info?locationId=${params?.locationId}&startDate=${params?.startDate}&endDate=${params?.endDate}&search=${params?.search}&page=${params?.page}&size=${params?.size}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
