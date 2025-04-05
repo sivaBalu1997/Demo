@@ -154,7 +154,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
 // ============================================================================================
 
 
-  export const tabsForSales = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
+  export const tabsForSales = ["Today's report", "Sales Overview", "Employees"]; //"Trends" ,"Categories"
   export const tabsForProduct = ["Insights", "Availability"]; 
   export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
   export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"

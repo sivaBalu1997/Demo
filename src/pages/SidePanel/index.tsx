@@ -118,10 +118,10 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
     //   name:"Staff",
     //   path:""
     // },
-    {
-      name: "Check-in",
-      path: "/check-in-reports",
-    },
+    // {
+    //   name: "Check-in",
+    //   path: "/check-in-reports",
+    // },
     {
       name: "Reports & Insights",
       path: "/old-reports",

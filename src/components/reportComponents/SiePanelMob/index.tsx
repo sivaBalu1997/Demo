@@ -72,7 +72,7 @@ const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
         // { name: "Chart JS", path: "/live-reports" },
         { name: "Sales", path: "/sales-reports" },
         // { name: "Product", path: "/product-reports" },
-        { name: "Check-in", path: "/check-in-reports" },
+        // { name: "Check-in", path: "/check-in-reports" },
         // { name: "Customer", path: "/customer-reports" },
       ],
     },
