@@ -162,21 +162,21 @@ export const textTwoForTodaysSwitch: string = "Overall";
 // ============================================================================================
   //Employees
   export const cardDataForEmployees = [
-    {
-      title: "Total Sales",
-      value: "totalMagilSales",
-      percentage: "totalSalesPercentage"
-    },
+    // {
+    //   title: "Total Sales",
+    //   value: "totalMagilSales",
+    //   percentage: "totalSalesPercentage"
+    // },
     {
       title: "Net Sales",
       value: "totalMagilNetSales",
       percentage: "netSalesPercentage"
     },
-    {
-      title: "Total Tax",
-      value: "totalMagilTax",
-      percentage: "totalTaxPercentage"
-    },
+    // {
+    //   title: "Total Tax",
+    //   value: "totalMagilTax",
+    //   percentage: "totalTaxPercentage"
+    // },
     {
       title: "Total Tips",
       value: "totalMagilTips",
@@ -187,34 +187,34 @@ export const textTwoForTodaysSwitch: string = "Overall";
       value: "gratuity",
       percentage: "gratuityPercentage"
     },
-    {
-      title: "Discount",
-      value: "discounts",
-      percentage: "discountPercentage"
-    },
-    {
-      title: "Cancelled",
-      value: "cancelledAmt",
-      percentage: "cancelledAmtPercentage"
-    }
+    // {
+    //   title: "Discount",
+    //   value: "discounts",
+    //   percentage: "discountPercentage"
+    // },
+    // {
+    //   title: "Cancelled",
+    //   value: "cancelledAmt",
+    //   percentage: "cancelledAmtPercentage"
+    // }
   ];
 
   export const cardDataForEmployeesWithoutGratuity = [
-    {
-      title: "Total Sales",
-      value: "totalMagilSales",
-      percentage: "totalSalesPercentage"
-    },
+    // {
+    //   title: "Total Sales",
+    //   value: "totalMagilSales",
+    //   percentage: "totalSalesPercentage"
+    // },
     {
       title: "Net Sales",
       value: "totalMagilNetSales",
       percentage: "netSalesPercentage"
     },
-    {
-      title: "Total Tax",
-      value: "totalMagilTax",
-      percentage: "totalTaxPercentage"
-    },
+    // {
+    //   title: "Total Tax",
+    //   value: "totalMagilTax",
+    //   percentage: "totalTaxPercentage"
+    // },
     {
       title: "Service Charge",
       value: "gratuity",
@@ -225,16 +225,16 @@ export const textTwoForTodaysSwitch: string = "Overall";
       value: "totalMagilTips",
       percentage: "totalTipsPercentage"
     },
-    {
-      title: "Discount",
-      value: "discounts",
-      percentage: "discountPercentage"
-    },
-    {
-      title: "Cancelled",
-      value: "cancelledAmt",
-      percentage: "cancelledAmtPercentage"
-    }
+    // {
+    //   title: "Discount",
+    //   value: "discounts",
+    //   percentage: "discountPercentage"
+    // },
+    // {
+    //   title: "Cancelled",
+    //   value: "cancelledAmt",
+    //   percentage: "cancelledAmtPercentage"
+    // }
   ];
 // ============================================================================================
 

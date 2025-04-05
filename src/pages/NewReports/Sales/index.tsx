@@ -48,7 +48,7 @@ const SalesReport: React.FC<ReportProps> = () => {
     let isLocationChanged=true
     if (restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
-        (branchWithId: any) => {
+        (branchWithId: any) => {         
           if(branchWithId?.id===selectedLocation?.value)isLocationChanged=false
           return({
           value: branchWithId?.id,
@@ -59,7 +59,7 @@ const SalesReport: React.FC<ReportProps> = () => {
 
       dispatch(storeLocationsList(mappedIdWithBranchName))
       if(isLocationChanged){
-        const branch =mappedIdWithBranchName?.find((branch: any) => branch.label === restaurant?.branchName);
+        const branch =mappedIdWithBranchName?.find((branch: any) => branch.label === restaurant?.branchName);        
         dispatch(changeLocation(branch))
       }
     }

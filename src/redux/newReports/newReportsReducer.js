@@ -173,7 +173,8 @@ import {
     GET_DETAILS_RESTAURANT_FAILURE,
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
-    GET_DOWNLOADABLE_REPORT_FAILURE
+    GET_DOWNLOADABLE_REPORT_FAILURE,
+    LOGOUT
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -1388,6 +1389,9 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.getDetailsRestaurantSuccess = [];
                 draft.getDetailsRestaurantFailure = true;
                 break;
+
+                case LOGOUT:
+                    return {...draft,initialNewReportsState};
 
                 default:
                     break;

@@ -16,6 +16,7 @@ import { getRestaurantRequest, signOut } from "redux/auth/authActions";
 import { useHistory, useLocation } from "react-router";
 import { clearMenuData } from "redux/menu/menuAction";
 import { clearPermissionsData } from "redux/employee/employeeActions";
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 interface MenuItem {
   name: string;
@@ -128,6 +129,7 @@ const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
   const logoutUser = () => {
     dispatch(clearPermissionsData())
     dispatch(clearMenuData());
+        dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");

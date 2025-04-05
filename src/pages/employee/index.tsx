@@ -17,6 +17,7 @@ import { SelectedBranch } from "../../interface/authInterface";
 import { RootState } from "redux/rootReducer";
 import { EmployeeType } from "../../interface/employeeInterface";
 import SidePanel from "pages/SidePanel";
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 const Employees = () => {
   const [loading, setLoading] = useState(true);
@@ -51,6 +52,7 @@ const Employees = () => {
 
   const logoutUser = () => {
     dispatch(clearMenuData());
+        dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");

@@ -9,6 +9,7 @@ import { RootState } from "./redux/rootReducer";
 import Routers from "../src/Routers";
 import { Contextpage } from "pages/productCatalog/contextpage";
 import MainPage from "pages/productCatalog/MainPage/MainPage";
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 interface Credentials {
   accessToken: string;
@@ -94,6 +95,7 @@ const App = () => {
       );
       if (!credentails?.accessToken) {
         dispatch(clearMenuData());
+            dispatch(clearReportData())
         localStorage.clear();
         dispatch(signOut());
         history.replace("/");

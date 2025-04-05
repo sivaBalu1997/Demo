@@ -37,6 +37,7 @@ import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/emplo
 import exp from "constants";
 import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.svg";
 import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 const SidePanel = () => {
   const dispatch = useDispatch();
@@ -270,6 +271,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const logoutUser = () => {
     dispatch(clearPermissionsData());
     dispatch(clearMenuData());
+        dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
