@@ -24,6 +24,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     { title: "Net Sales", key: "totalNetSales", isMonetary: true },
     { title: "Total Tax", key: "totalTax", isMonetary: true },
     { title: "Total Tips", key: "totalTip", isMonetary: true },
+    { title: "Service Charges", key: "totalServiceTax", isMonetary: true },
     { title: "Orders", key: "totalTransactions", isMonetary: false },
     { title: "Discount", key: "totalDiscount", isMonetary: true },
     // { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
@@ -122,6 +123,13 @@ export const textTwoForTodaysSwitch: string = "Overall";
       showMiniGraph: true
     },
     {
+      title: "Service Charge",
+      value: "gratuity",
+      percentage: "gratuityPercentage",
+      isMonetary: true,
+      showMiniGraph: true
+    },
+    {
       title: "Transactions",
       value: "totalOrdersIncludingThirdparty",
       percentage: "transactionPercentage",
@@ -206,6 +214,11 @@ export const textTwoForTodaysSwitch: string = "Overall";
       title: "Total Tax",
       value: "totalMagilTax",
       percentage: "totalTaxPercentage"
+    },
+    {
+      title: "Service Charge",
+      value: "gratuity",
+      percentage: "gratuityPercentage"
     },
     {
       title: "Total Tips",
