@@ -73,14 +73,15 @@ const NewTable: React.FC<NewTableProps> = ({
   const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
   const permissions = useSelector((state: RootState) => state.employee.permissions);
 
+
+  const employeeAccess =useMemo(()=> permissions?.find(
+    (item: any) =>
+      item?.module === "PORTAL" &&
+      item?.funtions?.includes("Employee details")
+  ),[permissions])
   const toggleVisibility = (e: React.MouseEvent<HTMLSpanElement>,rowIndex: number) => {
       e?.preventDefault()
       e?.stopPropagation()
-      const employeeAccess=    permissions?.find(
-        (item: any) =>
-          item?.module === "PORTAL" &&
-          item?.funtions?.includes("Employee details")
-      )
       
       if(employeeAccess){
         setVisibility((prev: any) => ({
@@ -178,7 +179,7 @@ const NewTable: React.FC<NewTableProps> = ({
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
-      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up") {
+      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up" || rowvalue === "Instore" || rowvalue === "In-store") {
         return <PickUpIcon />;
       } else if (rowvalue === "Grubhub" || rowvalue === "GrubHub") {
         return <GrubhubIcon />;
@@ -327,6 +328,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 </div>
                 {(tableData||apiEndPoint) && headerData && (
                   <DownloadReport
+                  employeeAccess={employeeAccess}
                     apiParams={{
                       apiEndPoint:apiEndPoint||"",
                       ...queryParams,    
@@ -362,6 +364,8 @@ const NewTable: React.FC<NewTableProps> = ({
               </div>
               {(tableData||apiEndPoint) && headerData && (
                 <DownloadReport
+
+                employeeAccess={employeeAccess  } //TODO : change dynamic
                 apiParams={{
                   apiEndPoint:apiEndPoint||"",
                   ...queryParams,    
@@ -558,7 +562,9 @@ const NewTable: React.FC<NewTableProps> = ({
                   </div>
                 </div>
                 <span className="total-elements">
-                  {currentPage}-{rowsPerPage} of {totalElements}
+                  {/* {currentPage}-{rowsPerPage} of {totalElements}  */}
+                  {/* changed as per prod input */}
+                  {currentPage}-{rowsPerPage && rowsPerPage < totalElements ? rowsPerPage : totalElements} of {totalElements}
                 </span>
               </div>
             )}
