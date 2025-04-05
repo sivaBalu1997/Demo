@@ -671,7 +671,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading} />}
                     </div>
 
-    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound">
+    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={salesSummaryLoader}>
                 <div className="todays-report-sales-overview-box-container">
                   {countryCode === "US" ?
                     (cardConfigForSalesTabOverView?.map((card: any, index: number) => (
