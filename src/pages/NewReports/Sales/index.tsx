@@ -116,7 +116,7 @@ const SalesReport: React.FC<ReportProps> = () => {
 
           {activeTab === "Sales Overview" ? <SalesOverview /> : null}
           {activeTab === "Today's report" ? <TodaysReport /> : null}
-          {activeTab === "Categories" ? <CategoryReport /> : null}
+          {/* {activeTab === "Categories" ? <CategoryReport /> : null} */}
           {activeTab === "Employees" ? <Employees /> : null}
           {activeTab === "Trends" ?  <SalesTrend /> : null}
         </div>
