@@ -28,6 +28,9 @@ const SalesReport: React.FC<ReportProps> = () => {
   const restaurantDetails = useSelector(
     (state: RootState) => state?.auth?.restaurantDetails?.branch
   );
+  const restaurant = useSelector(
+    (state: RootState) => state?.auth?.restaurantDetails
+  );
   const dropdownDetailsData = useSelector((state: RootState) => state?.newReports?.dropdownDetailsData)
   useEffect(() => {
     if(!startDate ||!endDate){
@@ -56,7 +59,8 @@ const SalesReport: React.FC<ReportProps> = () => {
 
       dispatch(storeLocationsList(mappedIdWithBranchName))
       if(isLocationChanged){
-        dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+        const branch =mappedIdWithBranchName?.find((branch: any) => branch.label === restaurant?.branchName);
+        dispatch(changeLocation(branch))
       }
     }
   }, [restaurantDetails, selectedLocation]);

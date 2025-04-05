@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  changeDateFilterType, changeEndDate, changeLocation, changeStartDate,  getRestaurantRequestFromNewReports,  storeLocationsList } from "redux/newReports/newReportsActions";
+import { changeDateFilterType, changeEndDate, changeLocation, changeStartDate, getRestaurantRequestFromNewReports, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
 import { tabsForCheckIn } from "constants/reportConstants";
 import moment from "moment";
@@ -10,32 +10,30 @@ import SidePanel from "pages/SidePanel";
 import CheckInLiveReport from "./CheckInLive";
 import CheckInOverview from "./CheckInOverview";
 import "../Sales/report.scss";
-import { getCurrencySymbol } from "utils";
 
 interface ReportProps { }
 
 const CheckInReport: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Live Check-in Report");
-  const [isExpanded, setIsExpanded] = useState(false); 
 
   const dispatch = useDispatch();
   /*********************************************************** */
-  const restaurantDetails = useSelector(    (state: RootState) => state?.auth?.restaurantDetails?.branch  );
-    const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
-      const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
-      const endDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
-
-
-    useEffect(() => {
-      if (selectedLocation?.value
-      ) {
-        dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
-        ));
-      }
-    }, [selectedLocation]);
+  const restaurantDetails = useSelector((state: RootState) => state?.auth?.restaurantDetails?.branch);
+  const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation)
+  const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
+  const endDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
+  const restaurant = useSelector((state: RootState) => state?.auth?.restaurantDetails);
 
   useEffect(() => {
-    if(!startDate ||!endDate){
+    if (selectedLocation?.value
+    ) {
+      dispatch(getRestaurantRequestFromNewReports(selectedLocation?.value
+      ));
+    }
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    if (!startDate || !endDate) {
       dispatch(changeDateFilterType({
         label: "Today",
         value: "Today",
@@ -43,25 +41,27 @@ const CheckInReport: React.FC<ReportProps> = () => {
       dispatch(changeStartDate(moment().format("YYYY-MM-DD")))
       dispatch(changeEndDate(moment().format("YYYY-MM-DD")))
     }
-  }, [startDate, endDate])  
+  }, [startDate, endDate])
 
 
   useEffect(() => {
-    let isLocationChanged=true
+    let isLocationChanged = true
     if (restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
         (branchWithId: any) => {
-          if(branchWithId?.id===selectedLocation?.value)isLocationChanged=false
-          return({
-          value: branchWithId?.id,
-          label: branchWithId?.locationName,
+          if (branchWithId?.id === selectedLocation?.value) isLocationChanged = false
+          return ({
+            value: branchWithId?.id,
+            label: branchWithId?.locationName,
+          }
+          )
         }
-      )}
       );
 
       dispatch(storeLocationsList(mappedIdWithBranchName))
-      if(isLocationChanged){
-        dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+      if (isLocationChanged) {
+        const branch = mappedIdWithBranchName?.find((branch: any) => branch.label === restaurant?.branchName);
+        dispatch(changeLocation(branch))
       }
     }
   }, [restaurantDetails, selectedLocation]);
@@ -70,8 +70,8 @@ const CheckInReport: React.FC<ReportProps> = () => {
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <SidePanel/>
-     
+        <SidePanel />
+
         <div className="reports-container ">
 
           {/* Header */}
