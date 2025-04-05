@@ -259,6 +259,13 @@ const NewTable: React.FC<NewTableProps> = ({
     return isNaN(numValue) ? '-' : numValue.toFixed(2);
   };
 
+  const handleRecordPerPageLimitChange = (num: number) => {
+    if(setRowsPerPage) {
+      setRowsPerPage(num)
+    }
+    onPageChange(1);
+  }
+
   return initialLoader ? (
     <TableShimmer />
   ) : (
@@ -543,7 +550,7 @@ const NewTable: React.FC<NewTableProps> = ({
                         className={`option ${
                           rowsPerPage === num ? "selected" : ""
                         }`}
-                        onClick={() => setRowsPerPage(num)}
+                        onClick={() => handleRecordPerPageLimitChange(num)}
                       >
                         {num}
                       </button>
