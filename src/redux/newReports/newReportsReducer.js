@@ -458,7 +458,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
         switch (action.type) {
             // Sales Summary :
             case SALES_SUMMARY_REQUEST:
-                draft.salesSummarySuccess = [];
+                // draft.salesSummarySuccess = [];
                 draft.SalesSummaryLoading = true;
                 draft.salesSummaryFailure = false;
                 draft.salesSummaryStatus = false;
@@ -1391,7 +1391,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 break;
 
                 case LOGOUT:
-                    return {...draft,initialNewReportsState};
+                    return initialNewReportsState;// TODO: set to all initial state
 
                 default:
                     break;
