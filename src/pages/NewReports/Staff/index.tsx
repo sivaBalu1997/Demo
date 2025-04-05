@@ -16,12 +16,12 @@ interface ReportProps { }
 const StaffReports: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Overview");
   const dispatch = useDispatch();
-  
+
   /*****************************Selectors****************************** */
   const restaurantDetails = useSelector((state: RootState) => state?.auth?.restaurantDetails?.branch);
   const startDate = useSelector((state: RootState) => state?.newReports?.selectedStartDate)
   const endDate = useSelector((state: RootState) => state?.newReports?.selectedEndDate)
-
+  const restaurant = useSelector((state: RootState) => state?.auth?.restaurantDetails);
   /*****************************useEffect****************************** */
   useEffect(() => {
     if (!startDate || !endDate) {
@@ -44,7 +44,8 @@ const StaffReports: React.FC<ReportProps> = () => {
       );
 
       dispatch(storeLocationsList(mappedIdWithBranchName))
-      dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+        const branch =mappedIdWithBranchName?.find((branch: any) => branch.label === restaurant?.branchName);
+        dispatch(changeLocation(branch))
     }
   }, [restaurantDetails]);
 

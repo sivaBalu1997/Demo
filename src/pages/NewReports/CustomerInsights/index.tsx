@@ -20,7 +20,7 @@ import DetailedInsights from "./detailedInsights";
 import "./index.scss";
 
 
-interface ReportProps {}
+interface ReportProps { }
 
 const CheckInReport: React.FC<ReportProps> = () => {
   const [activeTab, setActiveTab] = useState("Summary Insights");
@@ -39,6 +39,7 @@ const CheckInReport: React.FC<ReportProps> = () => {
   const endDate = useSelector(
     (state: RootState) => state?.newReports?.selectedEndDate
   );
+  const restaurant = useSelector((state: RootState) => state?.auth?.restaurantDetails);
 
   useEffect(() => {
     if (selectedLocation?.value
@@ -63,21 +64,23 @@ const CheckInReport: React.FC<ReportProps> = () => {
 
 
   useEffect(() => {
-    let isLocationChanged=true
+    let isLocationChanged = true
     if (restaurantDetails?.length) {
       const mappedIdWithBranchName = restaurantDetails?.map(
         (branchWithId: any) => {
-          if(branchWithId?.id===selectedLocation?.value)isLocationChanged=false
-          return({
-          value: branchWithId?.id,
-          label: branchWithId?.locationName,
+          if (branchWithId?.id === selectedLocation?.value) isLocationChanged = false
+          return ({
+            value: branchWithId?.id,
+            label: branchWithId?.locationName,
+          }
+          )
         }
-      )}
       );
 
       dispatch(storeLocationsList(mappedIdWithBranchName))
-      if(isLocationChanged){
-        dispatch(changeLocation(mappedIdWithBranchName?.[0]))
+      if (isLocationChanged) {
+        const branch = mappedIdWithBranchName?.find((branch: any) => branch.label === restaurant?.branchName);
+        dispatch(changeLocation(branch))
       }
     }
   }, [restaurantDetails, selectedLocation]);
