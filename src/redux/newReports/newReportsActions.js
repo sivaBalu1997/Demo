@@ -178,7 +178,8 @@ import {
     GET_DETAILS_RESTAURANT_FAILURE,
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
-    GET_DOWNLOADABLE_REPORT_FAILURE
+    GET_DOWNLOADABLE_REPORT_FAILURE,
+    LOGOUT
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1346,3 +1347,8 @@ export const getDownloadableReportFailure = (error) => ({
     type: GET_DOWNLOADABLE_REPORT_FAILURE,
     payload: error
 })  
+
+export const clearReportData=()=>({
+    type: LOGOUT,
+    payload:""
+})

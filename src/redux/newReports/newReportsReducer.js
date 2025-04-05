@@ -173,7 +173,8 @@ import {
     GET_DETAILS_RESTAURANT_FAILURE,
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
-    GET_DOWNLOADABLE_REPORT_FAILURE
+    GET_DOWNLOADABLE_REPORT_FAILURE,
+    LOGOUT
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -457,7 +458,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
         switch (action.type) {
             // Sales Summary :
             case SALES_SUMMARY_REQUEST:
-                draft.salesSummarySuccess = [];
+                // draft.salesSummarySuccess = [];
                 draft.SalesSummaryLoading = true;
                 draft.salesSummaryFailure = false;
                 draft.salesSummaryStatus = false;
@@ -1388,6 +1389,9 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.getDetailsRestaurantSuccess = [];
                 draft.getDetailsRestaurantFailure = true;
                 break;
+
+                case LOGOUT:
+                    return initialNewReportsState;// TODO: set to all initial state
 
                 default:
                     break;

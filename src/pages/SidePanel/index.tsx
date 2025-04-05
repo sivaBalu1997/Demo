@@ -25,7 +25,7 @@ import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import { ReactComponent as Tableware } from "../../assets/svg/tableware.svg";
 import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
-import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
+// import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
 import logout from "../../assets/svg/LogoutIcon.svg";
 import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
@@ -34,9 +34,10 @@ import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanelMob from "components/reportComponents/SiePanelMob";
 import { showErrorToast } from "util/toastUtils";
 import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/employee/employeeActions";
-import exp from "constants";
+// import exp from "constants";
 import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.svg";
 import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 const SidePanel = () => {
   const dispatch = useDispatch();
@@ -91,14 +92,14 @@ interface SidePanelInterface {
   };
 }
 const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
-  const credentials = useSelector((state: RootState) => state.auth.credentials);
+  // const credentials = useSelector((state: RootState) => state.auth.credentials);
   const selectedBranch: string =
     localStorage.getItem(SELECTED_BRANCH_DATA) || "";
   const branch =
     selectedBranch && selectedBranch !== "undefined"
       ? JSON.parse(selectedBranch)
       : null;
-  const menuOptions = ["Items", "Product Catalog"];
+  // const menuOptions = ["Items", "Product Catalog"];
 
   const reportInsightsOptions = [
     // {
@@ -143,9 +144,9 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const dispatch = useDispatch();
   const [showOptions, setShowOptions] = useState("employees");
   const [showOfferOptions, setShowOfferOptions] = useState("");
-  const [showReportsOptions, setShowReportsOptions] = useState(false);
-  const [showOfferListNav, setShowOfferListNav] = useState(false);
-  const [routeTo, setRouteTo] = useState({});
+  // const [showReportsOptions, setShowReportsOptions] = useState(false);
+  // const [showOfferListNav, setShowOfferListNav] = useState(false);
+  // const [routeTo, setRouteTo] = useState({});
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
@@ -270,6 +271,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const logoutUser = () => {
     dispatch(clearPermissionsData());
     dispatch(clearMenuData());
+        dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
