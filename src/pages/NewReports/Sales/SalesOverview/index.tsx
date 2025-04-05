@@ -646,12 +646,12 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
-          {salesSummary?.status === "204" && selectedDateFilterType?.value === "Today" ?
+          {(salesSummary?.status === "204" && selectedDateFilterType?.value === "Today") ?
             (
               <div>
                 <ReportNotFound errorType={"salesNotFound"} />
               </div>
-            ) : selectedDateFilterType?.value === "Yesterday" ? (
+            ) : (salesSummary?.status === "204" && selectedDateFilterType?.value === "Yesterday") ? (
               <div><ReportNotFound errorType={"yestedaySalesNotFound"} /></div>
             )
               :
