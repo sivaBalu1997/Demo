@@ -16,7 +16,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
       { title: "Gratuity", key: "totalServiceTax", isMonetary: true },
       { title: "Orders", key: "totalTransactions", isMonetary: false },
       { title: "Discount", key: "totalDiscount", isMonetary: true },
-      // { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
+      { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
   ];
 
   export const cardWithMiniGraphDataForTodaysWithoutGratuity: IcardWithMiniGraphData[] = [
@@ -27,7 +27,7 @@ export const textTwoForTodaysSwitch: string = "Overall";
     { title: "Service Charges", key: "totalServiceTax", isMonetary: true },
     { title: "Orders", key: "totalTransactions", isMonetary: false },
     { title: "Discount", key: "totalDiscount", isMonetary: true },
-    // { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },
+    { title: "Cancelled", key: "totalCancelledOrders", isMonetary: true },  
   ];
 // ============================================================================================
 
