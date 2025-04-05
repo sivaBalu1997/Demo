@@ -564,7 +564,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 <span className="total-elements">
                   {/* {currentPage}-{rowsPerPage} of {totalElements}  */}
                   {/* changed as per prod input */}
-                  {currentPage}-{totalElements} of {totalElements}
+                  {currentPage}-{rowsPerPage && rowsPerPage < totalElements ? rowsPerPage : totalElements} of {totalElements}
                 </span>
               </div>
             )}
