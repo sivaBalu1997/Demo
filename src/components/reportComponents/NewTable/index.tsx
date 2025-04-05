@@ -73,14 +73,15 @@ const NewTable: React.FC<NewTableProps> = ({
   const [visibility, setVisibility] = useState<{ [key: number]: boolean }>({});
   const permissions = useSelector((state: RootState) => state.employee.permissions);
 
+
+  const employeeAccess =useMemo(()=> permissions?.find(
+    (item: any) =>
+      item?.module === "PORTAL" &&
+      item?.funtions?.includes("Employee details")
+  ),[permissions])
   const toggleVisibility = (e: React.MouseEvent<HTMLSpanElement>,rowIndex: number) => {
       e?.preventDefault()
       e?.stopPropagation()
-      const employeeAccess=    permissions?.find(
-        (item: any) =>
-          item?.module === "PORTAL" &&
-          item?.funtions?.includes("Employee details")
-      )
       
       if(employeeAccess){
         setVisibility((prev: any) => ({
@@ -327,6 +328,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 </div>
                 {(tableData||apiEndPoint) && headerData && (
                   <DownloadReport
+                  employeeAccess={employeeAccess}
                     apiParams={{
                       apiEndPoint:apiEndPoint||"",
                       ...queryParams,    
@@ -362,6 +364,8 @@ const NewTable: React.FC<NewTableProps> = ({
               </div>
               {(tableData||apiEndPoint) && headerData && (
                 <DownloadReport
+
+                employeeAccess={employeeAccess  } //TODO : change dynamic
                 apiParams={{
                   apiEndPoint:apiEndPoint||"",
                   ...queryParams,    

@@ -20,7 +20,7 @@ import DownloadShimmer from './DownloadShimmer';
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
-    apiParams?:Record<string,any>;
+    apiParams?: Record<string, any>;
     // {
     //     limit: number;
     //     api:string;
@@ -34,21 +34,22 @@ interface DownloadReportProps {
     headerData?: Array<{ key: string; label: string }>;
     kpiTitle: string;
     downloadRef?: React.RefObject<HTMLDivElement>;
+    employeeAccess?: boolean;
 }
 
-const DownloadReport: React.FC<DownloadReportProps> = ({ tableData=[], headerData=[], kpiTitle, downloadRef, apiParams }) => {
+const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerData = [], kpiTitle, downloadRef, apiParams, employeeAccess=false }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
-    const dataToDownload:any = useSelector((state:RootState)=>state.newReports.downloadableReportSuccess)
-    const dataToDownloadLoading=useSelector((state:RootState)=>state.newReports.downloadableReportLoading)
-    const dataToDownloadError=useSelector((state:RootState)=>state.newReports.downloadableReportFailure)
-const dispatch=useDispatch()
-    useEffect(()=>{
-        if(showDownloadables&&apiParams?.apiEndPoint){            
+    const dataToDownload: any = useSelector((state: RootState) => state.newReports.downloadableReportSuccess)
+    const dataToDownloadLoading = useSelector((state: RootState) => state.newReports.downloadableReportLoading)
+    const dataToDownloadError = useSelector((state: RootState) => state.newReports.downloadableReportFailure)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (showDownloadables && apiParams?.apiEndPoint) {
             dispatch(getDownloadableReportRequest(apiParams))
         }
 
-    },[apiParams,showDownloadables])
+    }, [apiParams, showDownloadables])
 
     const toSentenceCase = (text: string) => {
         return text
@@ -57,14 +58,14 @@ const dispatch=useDispatch()
             .toLowerCase()               // Convert to lowercase
             .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
     };
-    
+
     const transformKeysToSentenceCase = (data: Array<Record<string, any>>) => {
         if (data.length === 0) return [];
-    
+
         // Get original key order from the first object
         const originalKeys = Object.keys(data[0]);
         const transformedKeys = originalKeys.map(toSentenceCase);
-    
+
         return data.map(obj => {
             const newObj: Record<string, any> = {};
             originalKeys.forEach((key, index) => {
@@ -92,13 +93,41 @@ const dispatch=useDispatch()
     const csvDownloadFn = (data: Array<Record<string, any>>) => {
         const fileName = kpiTitle;
         const exportType = exportFromJSON.types.csv;
-        exportFromJSON({ data, fileName, exportType });
+        
+        const transformedData=data?.map((row) => {
+            const newRow: Record<string, any> = {};
+            Object.entries(row).forEach(([key, value]) => {
+                if(key==="customerNumber"||key==="email"){
+                    if(employeeAccess) newRow[key] = `="${value}"`;
+                }else{
+
+                    newRow[key] = `="${value}"`;
+                }
+        });
+        return newRow;
+    })
+        exportFromJSON({
+            data:transformedData, fileName, exportType,
+
+        });
     };
 
     const jsonDownloadFn = (data: Array<Record<string, any>>) => {
         const fileName = kpiTitle;
         const exportType = exportFromJSON.types.json;
-        exportFromJSON({ data, fileName, exportType });
+        const transformedData=data?.map((row) => {
+            const newRow: Record<string, any> = {};
+            Object.entries(row).forEach(([key, value]) => {
+                if(key==="customerNumber"||key==="email"){
+                    if(employeeAccess) newRow[key] = `="${value}"`;
+                }else{
+
+                    newRow[key] = `="${value}"`;
+                }
+        });
+        return newRow;
+    })
+        exportFromJSON({ data:transformedData, fileName, exportType });
     };
 
     const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
@@ -109,17 +138,23 @@ const dispatch=useDispatch()
         const transformedData = transformKeysToSentenceCase(data).map(row => {
             const newRow: Record<string, any> = {};
             Object.entries(row).forEach(([key, value]) => {
+                if(key==="customerNumber"||key==="email"){
+                    if(employeeAccess) newRow[key] = `="${value}"`;
+                }else{
+
+                 
                 // If value is a string containing only numbers and starts with 0, format it as text
                 if (typeof value === 'string' && /^\d+$/.test(value) && value.startsWith('0')) {
                     // Format as text by adding ="value" which Excel will interpret correctly
                     newRow[key] = `="${value}"`;
                 } else {
-                    newRow[key] = value;
+                    newRow[key] = `="${value}"`
                 }
+            }
             });
             return newRow;
         });
-    
+
         exportFromJSON({ data: transformedData, fileName, exportType });
 
     };
@@ -131,8 +166,20 @@ const dispatch=useDispatch()
         doc.text(kpiTitle, 14, 10); // Title at the top
 
         // Prepare the table data
-        const tableColumnHeaders = headers && headers?.map(header => header.label);
-        const tableRows = data && data?.map(row => headers?.map(header => row[header.key] || ""));
+        const tableColumnHeaders = headers && headers?.map((header) =>{ 
+            if(header?.key==="customerNumber"||header?.key==="email"){
+                if(employeeAccess) return header.label;
+            }else{
+             return    header.label
+            }});
+        const tableRows = data && data?.map(row => headers?.map(header =>{
+            if(header?.key==="customerNumber"||header?.key==="email"){
+                if(employeeAccess) return row[header.key] || ""
+            }else{
+         return row[header.key] || ""
+            }
+
+        } ));
 
         // Add the table using autoTable
         (doc as any).autoTable({
@@ -169,15 +216,15 @@ const dispatch=useDispatch()
         //     generatePdfFromRef(); // Invoke if downloadRef is present
         // }else
 
-        
-         if (selectedFormat === "pdf") {
-            pdfDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData, headerData);
+
+        if (selectedFormat === "pdf") {
+            pdfDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData, headerData);
         } else if (selectedFormat === "json") {
-            jsonDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData);
+            jsonDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData);
         } else if (selectedFormat === "csv") {
-            csvDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData);
+            csvDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData);
         } else if (selectedFormat === "xlsx") {
-            xlsxDownloadFn(apiParams?.apiEndPoint?dataToDownload?.content:tableData);
+            xlsxDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData);
         }
         setShowDownloadables(false);
         setSelectedFormat(null);
@@ -195,36 +242,36 @@ const dispatch=useDispatch()
 
             {showDownloadables && (
                 <>
-                          {dataToDownloadLoading?<DownloadShimmer />:<>
-                <div className="table-download-options-pop-over" ref={downloadPopoverRef} data-html2canvas-ignore="true">
-                    <p className="pop-over-title">{kpiTitle || "Downloadables"}</p>
-                    <div className="formats-container">
-                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("pdf"); }}>
-                            {selectedFormat === "pdf" ? <PdfDownloadIconSelected /> : <PdfDownloadIconUnselected />}
-                            <p style={{ color: selectedFormat === "pdf" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "pdf" ? "500" : "400" }}>.PDF</p>
+                    {dataToDownloadLoading ? <DownloadShimmer /> : <>
+                        <div className="table-download-options-pop-over" ref={downloadPopoverRef} data-html2canvas-ignore="true">
+                            <p className="pop-over-title">{kpiTitle || "Downloadables"}</p>
+                            <div className="formats-container">
+                                <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("pdf"); }}>
+                                    {selectedFormat === "pdf" ? <PdfDownloadIconSelected /> : <PdfDownloadIconUnselected />}
+                                    <p style={{ color: selectedFormat === "pdf" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "pdf" ? "500" : "400" }}>.PDF</p>
+                                </div>
+                                <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("json"); }}>
+                                    {selectedFormat === "json" ? <JsonDownloadIconSelected /> : <JsonDownloadIconUnselected />}
+                                    <p style={{ color: selectedFormat === "json" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "json" ? "500" : "400" }}>.JSON</p>
+                                </div>
+                                <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("csv"); }}>
+                                    {selectedFormat === "csv" ? <CsvDownloadIconSelected /> : <CsvDownloadIconUnselected />}
+                                    <p style={{ color: selectedFormat === "csv" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "csv" ? "500" : "400" }}>.CSV</p>
+                                </div>
+                                <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("xlsx"); }}>
+                                    {selectedFormat === "xlsx" ? <XlsxDownloadIconSelected /> : < XlsxDownloadIconUnSelected />}
+                                    <p style={{ color: selectedFormat === "xlsx" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "xlsx" ? "500" : "400" }}>.XLSX</p>
+                                </div>
+                            </div>
+                            <button
+                                className={`download-btn ${!selectedFormat ? "disabled" : ""}`}
+                                onClick={handleDownload}
+                                disabled={!selectedFormat}
+                            >
+                                <DownloadBtn /> Download
+                            </button>
                         </div>
-                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("json"); }}>
-                            {selectedFormat === "json" ? <JsonDownloadIconSelected /> : <JsonDownloadIconUnselected />}
-                            <p style={{ color: selectedFormat === "json" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "json" ? "500" : "400" }}>.JSON</p>
-                        </div>
-                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("csv"); }}>
-                            {selectedFormat === "csv" ? <CsvDownloadIconSelected /> : <CsvDownloadIconUnselected />}
-                            <p style={{ color: selectedFormat === "csv" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "csv" ? "500" : "400" }}>.CSV</p>
-                        </div>
-                        <div className="download-icon-with-title" onClick={(e) => { e.stopPropagation(); setSelectedFormat("xlsx"); }}>
-                            {selectedFormat === "xlsx" ? <XlsxDownloadIconSelected /> : < XlsxDownloadIconUnSelected />}
-                            <p style={{ color: selectedFormat === "xlsx" ? "#595959" : "#6F6F6F", fontWeight: selectedFormat === "xlsx" ? "500" : "400" }}>.XLSX</p>
-                        </div>
-                    </div>
-                    <button
-                        className={`download-btn ${!selectedFormat ? "disabled" : ""}`}
-                        onClick={handleDownload}
-                        disabled={!selectedFormat}
-                    >
-                        <DownloadBtn /> Download
-                    </button>
-                </div>
-                </>}
+                    </>}
                 </>
             )}
         </div>
