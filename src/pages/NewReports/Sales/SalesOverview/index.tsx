@@ -849,8 +849,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     </ErrorHandler>
                   </div>
 
-                  <div className="sales-overview-doughnut-chart-container" style={{ marginTop: "10vh", width: "100%" }} ref={offerRef}>
-                    <div className="doughnut-chart-with-button">
+                  <div className="sales-overview-doughnut-chart-container" style={{ display: "flex", justifyContent: "flex-start",marginTop: "10vh", width: "100%" }} ref={offerRef}>
+                    {/* commented out for release */}
+                    {/* <div className="doughnut-chart-with-button">
                       <div className="doughnut-head-with-download-container">
                         <h2 className="sales-overview-sub-heading ">By Discount</h2>
                         {(!offerSummaryLoading && offerSummaryDataForDownloading && offerSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="By Discount" tableData={offerSummaryDataForDownloading} headerData={offerSummaryDataHeaderForDownloading} />}
@@ -871,7 +872,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                           loader={offerSummaryLoading}
                         />
                       </ErrorHandler>
-                    </div>
+                    </div> */}
                     <div className="doughnut-chart-with-button" >
                       <div className="doughnut-head-with-download-container">
                         <h2 className="sales-overview-sub-heading ">Voided orders</h2>
