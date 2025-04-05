@@ -178,7 +178,7 @@ const NewTable: React.FC<NewTableProps> = ({
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
-      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up") {
+      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up" || rowvalue === "Instore" || rowvalue === "In-store") {
         return <PickUpIcon />;
       } else if (rowvalue === "Grubhub" || rowvalue === "GrubHub") {
         return <GrubhubIcon />;
@@ -558,7 +558,9 @@ const NewTable: React.FC<NewTableProps> = ({
                   </div>
                 </div>
                 <span className="total-elements">
-                  {currentPage}-{rowsPerPage} of {totalElements}
+                  {/* {currentPage}-{rowsPerPage} of {totalElements}  */}
+                  {/* changed as per prod input */}
+                  {currentPage}-{totalElements} of {totalElements}
                 </span>
               </div>
             )}
