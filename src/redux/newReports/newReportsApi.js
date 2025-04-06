@@ -163,14 +163,26 @@ export const getLiveOpenSales = (liveOpenSalesPayload) => {
 
 export const getLiveOrders = (liveOrdersPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
+  
+    const {
+      locationid,
+      tablePageNo,
+      tableRecordLimit,
+      searchQuery,
+      type, // this may or may not exist
+    } = liveOrdersPayload;
+  
+    const baseURL = `${LIVE_ORDERS_ENDPOINT}locationId=${locationid}&page=${tablePageNo}&size=${tableRecordLimit}&search=${searchQuery || ""}`;
+    const typeParam = type ? `&type=${type}` : "";
+  
     return REPORTS_API({
-        method: "get",
-        url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}&search=${liveOrdersPayload?.searchQuery || ""}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
+      method: "get",
+      url: `${baseURL}${typeParam}`,
+      headers: {
+        Authorization: 'bearer ' + token,
+      }
     });
-}
+  };
 
 export const getLiveRefunds = (liveRefundsPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -197,9 +209,18 @@ export const getLiveNetSales = (liveNetSalesPayload) => {
 export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
+    const {
+        locationid,
+        tablePageNo,
+        tableRecordLimit,
+        searchQuery,
+        type, // this may or may not exist
+      } = liveOrderNonDineInPayload;
+      const baseURL = `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${locationid}&page=${tablePageNo}&size=${tableRecordLimit}&search=${searchQuery || ""}`;
+      const typeParam = type ? `&type=${type}` : "";
     return REPORTS_API({
         method: "get",
-        url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&search=${liveOrderNonDineInPayload?.searchQuery || ""}`,
+        url: `${baseURL}${typeParam}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

@@ -246,6 +246,12 @@ const TodaysReport: React.FC = () => {
       alignment: "left",
     },
     {
+      key: "orderStatus",
+      label: "Order Status",
+      isSortable: false,
+      alignment: "left",
+    },
+    {
       key: "tableOccupancyDuration",
       label: "Table occupancy duration",
       isSortable: true,
@@ -267,6 +273,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
+      orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
       orderAmount: toBeMappedData.orderAmount,
     })
@@ -299,6 +306,7 @@ const TodaysReport: React.FC = () => {
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
+          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
   }, [
@@ -307,6 +315,7 @@ const TodaysReport: React.FC = () => {
     liveOrdersPageLimit,
     currentDate,
     liveOrdersSearchQuery,
+    isSwitchActive,
   ]);
 console.log(orderedLiveNonDineInData);
 
@@ -324,6 +333,7 @@ console.log(orderedLiveNonDineInData);
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
+          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
       dispatch(
@@ -353,6 +363,7 @@ console.log(orderedLiveNonDineInData);
     currentDate,
     liveOrderNonDineInPageLimit,
     liveOrderNonDineInSearchQuery,
+    isSwitchActive,
   ]);
 
   useEffect(() => {
@@ -388,71 +399,46 @@ console.log(orderedLiveNonDineInData);
   const handleSearch = (value: string, kpiTitle: string) => {
     let search = value;
     if (search?.[0] === "#") search = search.slice(1);
-    switch (kpiTitle) {
-      case "Live Dine-in orders":
-        setLiveOrdersSearchQuery(value);
-        setCurrentPageLiveOrders(1);
-        dispatch(
-          liveOrdersRequest({
-            locationid: selectedLocation?.value,
-            tablePageNo: 1,
-            tableRecordLimit: liveOrdersPageLimit,
-            startDate: currentDate,
-            endDate: currentDate,
-            searchQuery: search,
-          })
-        );
-        break;
-
-        case "Dine-in orders":
-        setLiveOrdersSearchQuery(value);
-        setCurrentPageLiveOrders(1);
-        dispatch(
-          OverallOrderNonDineInRequest({
-            locationid: selectedLocation?.value,
-            tablePageNo: 1,
-            tableRecordLimit: liveOrdersPageLimit,
-            startDate: currentDate,
-            endDate: currentDate,
-            searchQuery: search,
-          })
-        );
-        break;
-
-      case "Live Off-Premise orders":
-        setLiveOrderNonDineInSearchQuery(value);
-        setCurrentPageLiveOrdersNonDineIn(1);
-        dispatch(
-          liveOrderNonDineInRequest({
-            locationid: selectedLocation?.value,
-            tablePageNo: 1,
-            tableRecordLimit: liveOrderNonDineInPageLimit,
-            startDate: currentDate,
-            endDate: currentDate,
-            searchQuery: search,
-          })
-        );
-        break;
-
-        case "Off-Premise orders":
-          setLiveOrdersSearchQuery(value);
-          setCurrentPageLiveOrders(1);
-        dispatch(
-          orderTrackerRequest({
-            locationid: selectedLocation?.value,
-            tablePageNo: currentPageLiveOrdersNonDineIn,
-            tableRecordLimit: liveOrderNonDineInPageLimit,
-            startDate: currentDate,
-            endDate: currentDate,
-            searchQuery: search,
-          })
-        );
-        break;
-
-      default:
-        console.warn(`Unknown KPI title: ${kpiTitle}`);
+  
+    if (
+      (!isSwitchActive && kpiTitle === "Open Dine-in orders") ||
+      (isSwitchActive && kpiTitle === "Paid Dine-in orders")
+    ) {
+      setLiveOrdersSearchQuery(value);
+      setCurrentPageLiveOrders(1);
+      dispatch(
+        liveOrdersRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: 1,
+          tableRecordLimit: liveOrdersPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+          ...(isSwitchActive && { type: "Paid" }),
+        })
+      );
+    } else if (
+      (!isSwitchActive && kpiTitle === "Open Off-Premise orders") ||
+      (isSwitchActive && kpiTitle === "Paid Off-Premise orders")
+    ) {
+      setLiveOrderNonDineInSearchQuery(value);
+      setCurrentPageLiveOrdersNonDineIn(1);
+      dispatch(
+        liveOrderNonDineInRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: 1,
+          tableRecordLimit: liveOrderNonDineInPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+          ...(isSwitchActive && { type: "Paid" }),
+        })
+      );
+    } else {
+      console.warn(`Unknown KPI title: ${kpiTitle}`);
     }
   };
+  
 
   const handleRefreshClick = () => {
     setLiveOrdersSearchQuery("");
@@ -599,7 +585,7 @@ console.log(orderedLiveNonDineInData);
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Live Dine-in orders"
+          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Dine-in orders`}
           searchQuery={liveOrdersSearchQuery}
           headerData={liveOrdersDineInTableHeaders}
           tableData={
@@ -655,7 +641,7 @@ console.log(orderedLiveNonDineInData);
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Live Off-Premise orders"
+          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Off-Premise orders`}
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={liveOrderNonDineInTableHeaders}
           tableData={
