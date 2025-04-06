@@ -3,8 +3,8 @@
 
 import { ICardConfigItem, IcardWithMiniGraphData } from "interface/newReportsInterface";
 
-export const textOneForTodaysSwitch: string = "Live Orders";
-export const textTwoForTodaysSwitch: string = "Overall";
+export const textOneForTodaysSwitch: string = "Open Orders";
+export const textTwoForTodaysSwitch: string = "Paid Orders";
 
 // ============================================================================================
   //Todays Report Overview

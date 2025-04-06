@@ -227,6 +227,12 @@ const TodaysReport: React.FC = () => {
       alignment: "left",
     },
     {
+      key: "orderStatus",
+      label: "Order Status",
+      isSortable: false,
+      alignment: "left",
+    },
+    {
       key: "tableOccupancyDuration",
       label: "Table occupancy duration",
       isSortable: true,
@@ -248,6 +254,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
+      orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
       orderAmount: toBeMappedData.orderAmount,
     })
@@ -268,6 +275,7 @@ const TodaysReport: React.FC = () => {
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
+          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
   }, [
@@ -276,6 +284,7 @@ const TodaysReport: React.FC = () => {
     liveOrdersPageLimit,
     currentDate,
     liveOrdersSearchQuery,
+    isSwitchActive,
   ]);
 
   useEffect(() => {
@@ -292,6 +301,7 @@ const TodaysReport: React.FC = () => {
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
+          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
   }, [
@@ -300,6 +310,7 @@ const TodaysReport: React.FC = () => {
     currentDate,
     liveOrderNonDineInPageLimit,
     liveOrderNonDineInSearchQuery,
+    isSwitchActive,
   ]);
 
   useEffect(() => {
@@ -336,7 +347,7 @@ const TodaysReport: React.FC = () => {
     let search = value;
     if (search?.[0] === "#") search = search.slice(1);
     switch (kpiTitle) {
-      case "Live Dine-in orders":
+      case "Open Dine-in orders":
         setLiveOrdersSearchQuery(value);
         setCurrentPageLiveOrders(1);
         dispatch(
@@ -347,11 +358,12 @@ const TodaysReport: React.FC = () => {
             startDate: currentDate,
             endDate: currentDate,
             searchQuery: search,
+            ...( isSwitchActive && { type: "Paid" } ),
           })
         );
         break;
 
-      case "Live Off-Premise orders":
+      case "Open Off-Premise orders":
         setLiveOrderNonDineInSearchQuery(value);
         setCurrentPageLiveOrdersNonDineIn(1);
         dispatch(
@@ -362,6 +374,7 @@ const TodaysReport: React.FC = () => {
             startDate: currentDate,
             endDate: currentDate,
             searchQuery: search,
+            ...( isSwitchActive && { type: "Paid" } ),
           })
         );
         break;
@@ -497,7 +510,7 @@ const TodaysReport: React.FC = () => {
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Live Dine-in orders"
+          kpiTitle="Open Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
           headerData={liveOrdersDineInTableHeaders}
           tableData={
@@ -523,7 +536,7 @@ const TodaysReport: React.FC = () => {
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Live Off-Premise orders"
+          kpiTitle="Open Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={liveOrderNonDineInTableHeaders}
           tableData={
