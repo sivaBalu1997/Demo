@@ -346,43 +346,46 @@ const TodaysReport: React.FC = () => {
   const handleSearch = (value: string, kpiTitle: string) => {
     let search = value;
     if (search?.[0] === "#") search = search.slice(1);
-    switch (kpiTitle) {
-      case "Open Dine-in orders":
-        setLiveOrdersSearchQuery(value);
-        setCurrentPageLiveOrders(1);
-        dispatch(
-          liveOrdersRequest({
-            locationid: selectedLocation?.value,
-            tablePageNo: 1,
-            tableRecordLimit: liveOrdersPageLimit,
-            startDate: currentDate,
-            endDate: currentDate,
-            searchQuery: search,
-            ...( isSwitchActive && { type: "Paid" } ),
-          })
-        );
-        break;
-
-      case "Open Off-Premise orders":
-        setLiveOrderNonDineInSearchQuery(value);
-        setCurrentPageLiveOrdersNonDineIn(1);
-        dispatch(
-          liveOrderNonDineInRequest({
-            locationid: selectedLocation?.value,
-            tablePageNo: 1,
-            tableRecordLimit: liveOrderNonDineInPageLimit,
-            startDate: currentDate,
-            endDate: currentDate,
-            searchQuery: search,
-            ...( isSwitchActive && { type: "Paid" } ),
-          })
-        );
-        break;
-
-      default:
-        console.warn(`Unknown KPI title: ${kpiTitle}`);
+  
+    if (
+      (!isSwitchActive && kpiTitle === "Open Dine-in orders") ||
+      (isSwitchActive && kpiTitle === "Paid Dine-in orders")
+    ) {
+      setLiveOrdersSearchQuery(value);
+      setCurrentPageLiveOrders(1);
+      dispatch(
+        liveOrdersRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: 1,
+          tableRecordLimit: liveOrdersPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+          ...(isSwitchActive && { type: "Paid" }),
+        })
+      );
+    } else if (
+      (!isSwitchActive && kpiTitle === "Open Off-Premise orders") ||
+      (isSwitchActive && kpiTitle === "Paid Off-Premise orders")
+    ) {
+      setLiveOrderNonDineInSearchQuery(value);
+      setCurrentPageLiveOrdersNonDineIn(1);
+      dispatch(
+        liveOrderNonDineInRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: 1,
+          tableRecordLimit: liveOrderNonDineInPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+          ...(isSwitchActive && { type: "Paid" }),
+        })
+      );
+    } else {
+      console.warn(`Unknown KPI title: ${kpiTitle}`);
     }
   };
+  
 
   const handleRefreshClick = () => {
     setLiveOrdersSearchQuery("");
@@ -510,7 +513,7 @@ const TodaysReport: React.FC = () => {
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Open Dine-in orders"
+          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Dine-in orders`}
           searchQuery={liveOrdersSearchQuery}
           headerData={liveOrdersDineInTableHeaders}
           tableData={
@@ -536,7 +539,7 @@ const TodaysReport: React.FC = () => {
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Open Off-Premise orders"
+          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Off-Premise orders`}
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={liveOrderNonDineInTableHeaders}
           tableData={
