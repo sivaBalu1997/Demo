@@ -345,6 +345,7 @@ console.log(orderedLiveNonDineInData);
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
+          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
       dispatch(
@@ -355,6 +356,7 @@ console.log(orderedLiveNonDineInData);
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
+          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
 
