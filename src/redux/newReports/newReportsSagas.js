@@ -114,7 +114,9 @@ import {
     getRestaurantFailreFromNewReports,
     getRestaurantSuccessFromNewReports,
     getDownloadableReportSuccess,
-    getDownloadableReportFailure
+    getDownloadableReportFailure,
+    OverallOrderNonDineInSuccess,
+    orderTrackerSuccess,
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -171,7 +173,9 @@ import {
     BILLED_REQUEST,
     UNBILLED_REQUEST,
     GET_DETAILS_RESTAURANT_REQUEST,
-    GET_DOWNLOADABLE_REPORT_REQUEST
+    GET_DOWNLOADABLE_REPORT_REQUEST,
+    OVERALL_ORDER_NON_DINE_IN_REQUEST,
+    ORDER_TRACKER_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -199,6 +203,8 @@ import {
     getLiveNetSales,
     getLiveOpenSales,
     getLiveOrderNonDineIn,
+    getOrderTracker,
+    getOverallOrderNonDineIn,
     getLiveOrders,
     getLiveRefunds,
     getNewCustomerSize,
@@ -432,6 +438,40 @@ export function* liveOrderNonDineInRequestSaga(action) {
         // console.log("response of liveOrderNonDineInRequestSaga ONE", { decryptedData })
         if (response.status === 200) {
             yield put(liveOrderNonDineInSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(liveOrderNonDineInFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(liveOrderNonDineInFailure(error));
+    }
+}
+
+export function* orderTrackerSaga(action) {
+    try {
+        const response = yield call(getOrderTracker, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText);
+        console.log(decryptedData);
+        
+        if (response.status === 200) {
+            yield put(orderTrackerSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(liveOrderNonDineInFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(liveOrderNonDineInFailure(error));
+    }
+}
+
+export function* OverallOrderNonDineInRequestSaga(action) {
+    try {
+        const response = yield call(getOverallOrderNonDineIn, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        if (response.status === 200) {
+            yield put(OverallOrderNonDineInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveOrderNonDineInFailure(decryptedData?.message));
@@ -1241,6 +1281,8 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_REFUNDS_REQUEST, liveRefundsRequestSaga);
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
     yield debounce(1000, LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
+    yield debounce(1000, OVERALL_ORDER_NON_DINE_IN_REQUEST, OverallOrderNonDineInRequestSaga);
+    yield debounce(1000, ORDER_TRACKER_REQUEST, orderTrackerSaga);
     yield debounce(200, DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
     yield debounce(200, CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);

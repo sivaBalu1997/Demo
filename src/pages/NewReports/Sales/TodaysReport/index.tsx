@@ -17,6 +17,8 @@ import {
   liveOrderNonDineInRequest,
   liveOrdersRequest,
   liveRefundsRequest,
+  orderTrackerRequest,
+  OverallOrderNonDineInRequest,
   unBilledRequest,
 } from "redux/newReports/newReportsActions";
 import SwitchableBox from "components/reportComponents/SwitchableBox";
@@ -46,14 +48,29 @@ const TodaysReport: React.FC = () => {
     useState("");
   const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] =
     useState<number>(10);
-
   const liveOrdersAPIRedux = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.content
+  );
+  const overallOrdersAPIRedux = useSelector(
+    (state: any) => state?.newReports?.OverallOrderNonDineInSuccess?.content
   );
   const liveOrdersAPIReduxTotalElements = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.totalElements
   );
+  const ordersTrackerAPIRedux = useSelector(
+    (state: any) => state?.newReports?.orderTrackerSuccess?.content
+  );
+  
+  const overallOrdersAPIReduxTotalElements = useSelector(
+    (state: any) => state?.newReports?.OverallOrderNonDineInSuccess?.totalElements
+  );
+  const OrderTrackerAPIReduxTotalElements = useSelector(
+    (state: any) => state?.newReports?.orderTrackerSuccess?.totalElements
+  );
   const liveOrdersTotalPageNo = useSelector(
+    (state: any) => state?.newReports?.liveOrdersSuccess?.totalPages
+  );
+  const OrderTrackerTotalPageNo = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.totalPages
   );
   const liveOrderNonDineInAPIRedux = useSelector(
@@ -128,6 +145,7 @@ const TodaysReport: React.FC = () => {
 
   const billedAndUnBilledError: boolean = billedDataAPIReduxError && unBilledAPIReduxError
   // console.log("1111",{currencySymbol, countryCode})
+
 
   const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
     {
@@ -254,6 +272,18 @@ const TodaysReport: React.FC = () => {
     })
   );
 
+  const overallOrderedLiveOrdersData = overallOrdersAPIRedux?.map(
+    (toBeMappedData: any) => ({
+      orderNumber: toBeMappedData.orderNumber,
+      tableName: toBeMappedData.tableName,
+      orderDate: toBeMappedData.orderDate,
+      orderTime: toBeMappedData.orderTime,
+      tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
+      orderAmount: toBeMappedData.orderAmount,
+    })
+  );
+
+
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
     setCurrentDate(formattedDate);
@@ -278,6 +308,7 @@ const TodaysReport: React.FC = () => {
     currentDate,
     liveOrdersSearchQuery,
   ]);
+console.log(orderedLiveNonDineInData);
 
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
@@ -295,6 +326,27 @@ const TodaysReport: React.FC = () => {
           searchQuery: search,
         })
       );
+      dispatch(
+        orderTrackerRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: currentPageLiveOrdersNonDineIn,
+          tableRecordLimit: liveOrderNonDineInPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+        })
+      );
+      dispatch(
+        OverallOrderNonDineInRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: currentPageLiveOrdersNonDineIn,
+          tableRecordLimit: liveOrderNonDineInPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+        })
+      );
+
   }, [
     selectedLocation,
     currentPageLiveOrdersNonDineIn,
@@ -352,6 +404,21 @@ const TodaysReport: React.FC = () => {
         );
         break;
 
+        case "Dine-in orders":
+        setLiveOrdersSearchQuery(value);
+        setCurrentPageLiveOrders(1);
+        dispatch(
+          OverallOrderNonDineInRequest({
+            locationid: selectedLocation?.value,
+            tablePageNo: 1,
+            tableRecordLimit: liveOrdersPageLimit,
+            startDate: currentDate,
+            endDate: currentDate,
+            searchQuery: search,
+          })
+        );
+        break;
+
       case "Live Off-Premise orders":
         setLiveOrderNonDineInSearchQuery(value);
         setCurrentPageLiveOrdersNonDineIn(1);
@@ -359,6 +426,21 @@ const TodaysReport: React.FC = () => {
           liveOrderNonDineInRequest({
             locationid: selectedLocation?.value,
             tablePageNo: 1,
+            tableRecordLimit: liveOrderNonDineInPageLimit,
+            startDate: currentDate,
+            endDate: currentDate,
+            searchQuery: search,
+          })
+        );
+        break;
+
+        case "Off-Premise orders":
+          setLiveOrdersSearchQuery(value);
+          setCurrentPageLiveOrders(1);
+        dispatch(
+          orderTrackerRequest({
+            locationid: selectedLocation?.value,
+            tablePageNo: currentPageLiveOrdersNonDineIn,
             tableRecordLimit: liveOrderNonDineInPageLimit,
             startDate: currentDate,
             endDate: currentDate,
@@ -401,6 +483,28 @@ const TodaysReport: React.FC = () => {
         searchQuery: "",
       })
     );
+
+    dispatch(
+      orderTrackerRequest({
+        locationid: selectedLocation?.value,
+        tablePageNo: currentPageLiveOrdersNonDineIn,
+        tableRecordLimit: liveOrderNonDineInPageLimit,
+        startDate: currentDate,
+        endDate: currentDate,
+        searchQuery: "",
+      })
+    );
+    dispatch(
+      OverallOrderNonDineInRequest({
+        locationid: selectedLocation?.value,
+        tablePageNo: 1,
+        tableRecordLimit: 10,
+        startDate: moment().format("YYYY-MM-DD"),
+        endDate: moment().format("YYYY-MM-DD"),
+        searchQuery: "",
+      })
+    );
+
     dispatch(
       billedRequest({
         locationid: selectedLocation?.value,
@@ -487,6 +591,7 @@ const TodaysReport: React.FC = () => {
 
       </div>
       <div className="todays-report-tables-container">
+      { !isSwitchActive ?
         <NewTable
           apiEndPoint="/sales/live/tables"
           queryParams={{
@@ -513,7 +618,37 @@ const TodaysReport: React.FC = () => {
           onSearch={handleSearch}
           totalElements={liveOrdersAPIReduxTotalElements}
         />
-        <NewTable
+        :""}
+   { 
+    isSwitchActive ? 
+     <NewTable
+          apiEndPoint="/sales/live/overall-tables"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+          }}
+          kpiTitle="Dine-in orders"
+          searchQuery={liveOrdersSearchQuery}
+          headerData={liveOrdersDineInTableHeaders}
+          tableData={
+            overallOrderedLiveOrdersData &&
+            overallOrderedLiveOrdersData?.length > 0 &&
+            overallOrderedLiveOrdersData
+          }
+          currentPage={currentPageLiveOrders}
+          totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
+          onPageChange={setCurrentPageLiveOrders}
+          rowsPerPage={liveOrdersPageLimit}
+          setRowsPerPage={setLiveOrdersPageLimit}
+          loader={liveOrdersLoading}
+          count={overallOrdersAPIReduxTotalElements}
+          searchPlaceHolder="Search by order number, table name"
+          onSearch={handleSearch}
+          totalElements={overallOrdersAPIReduxTotalElements}
+        />
+       : null }
+         { !isSwitchActive ? <NewTable
           apiEndPoint="/sales/live/tracking"
           queryParams={{
             locationId: selectedLocation?.value,
@@ -541,6 +676,37 @@ const TodaysReport: React.FC = () => {
           onSearch={handleSearch}
           totalElements={liveOrderNonDineInAPIReduxTotalElements}
         />
+      :""}
+        { isSwitchActive ?
+        <NewTable
+          apiEndPoint="/sales/live/overall-tracking"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+          }}
+          kpiTitle="Off-Premise orders"
+          searchQuery={liveOrderNonDineInSearchQuery}
+          headerData={liveOrderNonDineInTableHeaders}
+          tableData={
+            ordersTrackerAPIRedux &&
+            ordersTrackerAPIRedux?.length > 0 &&
+            ordersTrackerAPIRedux
+          }
+          currentPage={currentPageLiveOrdersNonDineIn}
+          totalPages={
+            OrderTrackerTotalPageNo ? OrderTrackerTotalPageNo : 1
+          }
+          onPageChange={setCurrentPageLiveOrdersNonDineIn}
+          rowsPerPage={liveOrderNonDineInPageLimit}
+          setRowsPerPage={setLiveOrderNonDineInPageLimit}
+          loader={liveOrderNonDineInLoading}
+          count={OrderTrackerAPIReduxTotalElements}
+          searchPlaceHolder="Search by order number, customer name"
+          onSearch={handleSearch}
+          totalElements={OrderTrackerAPIReduxTotalElements}
+        />
+        :"" }
       </div>
     </div>
   );

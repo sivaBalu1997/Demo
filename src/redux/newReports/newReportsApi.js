@@ -13,6 +13,10 @@ const LIVE_NET_SALES_ENDPOINT = `/sales/live/net-sales?`;
 
 const LIVE_ORDER_NON_DINE_IN_ENDPOINT = `/sales/live/tracking?`;
 
+const OVERALL_ORDER_NON_DINE_IN_ENDPOINT = `/sales/live/overall-tables?`;
+
+const TRACKER_ENDPOINT = `/sales/live/overall-tracking?`;
+
 const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = `/sales/employee/staffTipAndGratuity?`;
 
 const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = `/sales/employee/staffDiscount?`;
@@ -202,6 +206,29 @@ export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     });
 }
 
+export const getOrderTracker = (liveOrderNonDineInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
+    return REPORTS_API({
+        method: "get",
+        url: `${TRACKER_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&search=${liveOrderNonDineInPayload?.searchQuery || ""}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getOverallOrderNonDineIn = (liveOrderNonDineInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
+    return REPORTS_API({
+        method: "get",
+        url: `${OVERALL_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}&search=${liveOrderNonDineInPayload?.searchQuery || ""}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
 export const getDiscountSummary = (discountSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(discountSummaryPayload)

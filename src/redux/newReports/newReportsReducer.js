@@ -174,6 +174,8 @@ import {
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
     GET_DOWNLOADABLE_REPORT_FAILURE,
+    OVERALL_ORDER_NON_DINE_IN_SUCCESS,
+    ORDER_TRACKER_SUCCESS,
     LOGOUT
 } from "../newReports/newReportsConstants";
 
@@ -226,6 +228,8 @@ const initialNewReportsState = {
     // live order non dine in
     liveOrderNonDineInLoading: false,
     liveOrderNonDineInSuccess: [],
+    OverallOrderNonDineInSuccess:[],
+    orderTrackerSuccess:[],
     liveOrderNonDineInFailure: false,
     // discount summary
     discountSummaryLoading: false,
@@ -646,6 +650,16 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = false
                 break;
+            case  OVERALL_ORDER_NON_DINE_IN_SUCCESS:
+                    draft.OverallOrderNonDineInSuccess = action.payload;
+                    draft.liveOrderNonDineInLoading = false;
+                    draft.liveOrderNonDineInFailure = false
+                    break;    
+            case  ORDER_TRACKER_SUCCESS:
+                draft.orderTrackerSuccess = action.payload;
+                draft.liveOrderNonDineInLoading = false;
+                draft.liveOrderNonDineInFailure = false
+                break;    
             case LIVE_ORDER_NON_DINE_IN_FAILURE:
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = false;
