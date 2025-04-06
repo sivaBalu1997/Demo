@@ -202,7 +202,9 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-brown-one";
       } else if (rowvalue === "Order Ready") {
         return " bubble bubble-text-green-one";
-      } else if (rowvalue === "In Delivery") {
+      }  else if (rowvalue === "Order Completed") {
+        return " bubble bubble-text-dark-green";
+      }  else if (rowvalue === "In Delivery") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue == "Pre order placed") {
         return " bubble bubble-text-light-green-one";
