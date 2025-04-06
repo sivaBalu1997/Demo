@@ -285,6 +285,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
+      orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
       orderAmount: toBeMappedData.orderAmount,
     })
@@ -585,7 +586,7 @@ console.log(orderedLiveNonDineInData);
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Dine-in orders`}
+          kpiTitle="Open Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
           headerData={liveOrdersDineInTableHeaders}
           tableData={
@@ -614,7 +615,7 @@ console.log(orderedLiveNonDineInData);
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Dine-in orders"
+          kpiTitle="Paid Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
           headerData={liveOrdersDineInTableHeaders}
           tableData={
@@ -641,7 +642,7 @@ console.log(orderedLiveNonDineInData);
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Off-Premise orders`}
+          kpiTitle="Open Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={liveOrderNonDineInTableHeaders}
           tableData={
@@ -671,7 +672,7 @@ console.log(orderedLiveNonDineInData);
             startDate: currentDate,
             endDate: currentDate,
           }}
-          kpiTitle="Off-Premise orders"
+          kpiTitle="Paid Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={liveOrderNonDineInTableHeaders}
           tableData={
