@@ -12,6 +12,11 @@ import { ReactComponent as WalkinIcon } from "../../../assets/svg/r-walk-in-icon
 import { ReactComponent as DeliveryIcon } from "../../../assets/svg/r-delivery-icon.svg";
 import { ReactComponent as PickUpIcon } from "../../../assets/svg/r-pick-up-icon.svg";
 import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-icon.svg";
+import { ReactComponent as UberEatsIcon } from "../../../assets/svg/UberEatsR.svg";
+import { ReactComponent as DoordashIcon } from "../../../assets/svg/DoorDashIconR.svg";
+import { ReactComponent as SwiggyIcon } from "../../../assets/svg/SwiggyIconR.svg";
+import { ReactComponent as ZomatoIcon } from "../../../assets/svg/ZomatoIconR.svg";
+import { ReactComponent as SeamlessIcon } from "../../../assets/svg/SeamlessIconR.svg";
 import { NewTableProps } from "interface/newReportsInterface";
 import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
 import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
@@ -183,6 +188,16 @@ const NewTable: React.FC<NewTableProps> = ({
         return <PickUpIcon />;
       } else if (rowvalue === "Grubhub" || rowvalue === "GrubHub") {
         return <GrubhubIcon />;
+      }  else if (rowvalue === "UberEats" || rowvalue === "Uber Eats" || rowvalue === "Ubereats" || rowvalue === "ubereats" || rowvalue === "uberEats" || rowvalue === "Uber eats") {
+        return <UberEatsIcon />;
+      } else if (rowvalue === "Doordash" || rowvalue === "DoorDash" || rowvalue === "doorDash" || rowvalue === "doordash" || rowvalue === "doordash_pos") {
+        return <DoordashIcon />;
+      } else if (rowvalue === "Swiggy") {
+        return <SwiggyIcon />;
+      } else if (rowvalue === "Zomato") {
+        return <ZomatoIcon />;
+      } else if (rowvalue === "Seamless") {
+        return <SeamlessIcon />;
       }
     }
   };
