@@ -17,6 +17,7 @@ import { ReactComponent as DoordashIcon } from "../../../assets/svg/DoorDashIcon
 import { ReactComponent as SwiggyIcon } from "../../../assets/svg/SwiggyIconR.svg";
 import { ReactComponent as ZomatoIcon } from "../../../assets/svg/ZomatoIconR.svg";
 import { ReactComponent as SeamlessIcon } from "../../../assets/svg/SeamlessIconR.svg";
+import { ReactComponent as GloriaFoodIcon } from "../../../assets/svg/GloriaFoodIconR.svg";
 import { NewTableProps } from "interface/newReportsInterface";
 import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
 import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
@@ -184,13 +185,13 @@ const NewTable: React.FC<NewTableProps> = ({
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
-      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up" || rowvalue === "Instore" || rowvalue === "In-store") {
+      } else if (rowvalue === "Pickup" || rowvalue === "Instore" || rowvalue === "In-store") {
         return <PickUpIcon />;
-      } else if (rowvalue === "Grubhub" || rowvalue === "GrubHub") {
+      } else if (rowvalue === "Grubhub") {
         return <GrubhubIcon />;
       }  else if (rowvalue === "UberEats" || rowvalue === "Uber Eats" || rowvalue === "Ubereats" || rowvalue === "ubereats" || rowvalue === "uberEats" || rowvalue === "Uber eats") {
         return <UberEatsIcon />;
-      } else if (rowvalue === "Doordash" || rowvalue === "DoorDash" || rowvalue === "doorDash" || rowvalue === "doordash" || rowvalue === "doordash_pos") {
+      } else if (rowvalue === "DoorDash" || rowvalue === "doordash_pos") {
         return <DoordashIcon />;
       } else if (rowvalue === "Swiggy") {
         return <SwiggyIcon />;
@@ -198,6 +199,8 @@ const NewTable: React.FC<NewTableProps> = ({
         return <ZomatoIcon />;
       } else if (rowvalue === "Seamless") {
         return <SeamlessIcon />;
+      } else if (rowvalue === "GloriaFood") {
+        return <GloriaFoodIcon />;
       }
     }
   };
