@@ -2314,10 +2314,11 @@ const handleToggleDelivery = () => {
                               value={entry.DineInPrice}
                               disabled={!enableOrNot }
                               style={{
-                                border: enableOrNot
-                                  ? "1px solid rgba(0, 0, 0, 0.3)"
-                                  : "1px solid #5F5F5F",
-                                opacity: enableOrNot? "100%" : "50%",
+                                border:"1px solid #5F5F5F"
+                                // border: enableOrNot
+                                //   ? "1px solid rgba(0, 0, 0, 0.3)"
+                                //   : "1px solid #5F5F5F",
+                                // opacity: enableOrNot? "100%" : "50%",
                               }}
                               className="DineInprice-input-field"
                               // disabled={!entry?.Enabled}
@@ -2339,17 +2340,17 @@ const handleToggleDelivery = () => {
                               }}
                             />
                             <div>
-
+{/* 
                               {
                                 editData?.length >0 &&
                                 <Toggle
                   toggle={entry?.availabilityEnabled}
-                  // setToggle={setShowDineIn}
+                 
                   
                   availabilityEnabled={()=>handleToggleDineIn(index)}
                   Enabled={true}
                 />
-                              }
+                              } */}
 
                             
 
@@ -2513,12 +2514,13 @@ const handleToggleDelivery = () => {
 
                                 disabled={!(pickupDetails?.availabilityEnabled )}
                                 style={{
-                                  border: pickupDetails?.availabilityEnabled 
-                                  ? "1px solid rgba(0, 0, 0, 0.3)"
-                                  : "1px solid #5F5F5F",
-                                  opacity: pickupDetails?.availabilityEnabled 
-                                    ? "100%"
-                                    : "50%",
+                                  border:"1px solid #5F5F5F"
+                                  // border: pickupDetails?.availabilityEnabled 
+                                  // ? "1px solid rgba(0, 0, 0, 0.3)"
+                                  // : "1px solid #5F5F5F",
+                                  // opacity: pickupDetails?.availabilityEnabled 
+                                  //   ? "100%"
+                                  //   : "50%",
                                 }}
                                 className="PriceInput1Normal-input"
                                 value={pickupDetails.price || ""}
@@ -2574,7 +2576,7 @@ const handleToggleDelivery = () => {
                                 }}
                               />
 
-                              
+{/*                               
                               {
                               editData?.length >0 &&
                               <Toggle
@@ -2584,7 +2586,7 @@ const handleToggleDelivery = () => {
                   availabilityEnabled={handleTogglePickup}
                   Enabled={true}
                 />
-                              }
+                              } */}
                         
                                
                               </div>
@@ -2759,12 +2761,14 @@ const handleToggleDelivery = () => {
                                 onWheel={handleWheel}
                                 disabled={!(deliveryDetails?.availabilityEnabled)}
                                 style={{
-                                  border: deliveryDetails?.availabilityEnabled 
-                                  ? "1px solid rgba(0, 0, 0, 0.3)"
-                                  : "1px solid #5F5F5F",
-                                  opacity: deliveryDetails?.availabilityEnabled 
-                                    ? "100%"
-                                    : "50%",
+                                  border:"1px solid #5F5F5F"
+
+                                  // border: deliveryDetails?.availabilityEnabled 
+                                  // ? "1px solid rgba(0, 0, 0, 0.3)"
+                                  // : "1px solid #5F5F5F",
+                                  // opacity: deliveryDetails?.availabilityEnabled 
+                                  //   ? "100%"
+                                  //   : "50%",
                                 }}
                                 value={deliveryDetails?.price || ""}
                                 onInput={(e) => {
@@ -2827,7 +2831,7 @@ const handleToggleDelivery = () => {
                                 }}
                               />
 
-                              {
+                              {/* {
 
                               editData?.length>0 &&
                                <Toggle
@@ -2838,7 +2842,7 @@ const handleToggleDelivery = () => {
                   Enabled={true}
                 />
                               
-                              }
+                              } */}
 
                              
                               </div>
@@ -2995,12 +2999,15 @@ const handleToggleDelivery = () => {
                                     onWheel={handleWheel}
                                     disabled={!(priceInfo[index]?.availabilityEnabled)}
                                 style={{
-                                  border: priceInfo[index]?.availabilityEnabled
-                                  ? " 1px solid rgba(0, 0, 0, 0.3)"
-                                  : "1px solid #5F5F5F",
-                                  opacity: priceInfo[index]?.availabilityEnabled 
-                                    ? "100%"
-                                    : "50%",
+                                  border:"1px solid #5F5F5F",
+                                  
+                                  // border: priceInfo[index]?.availabilityEnabled
+                                  // ? " 1px solid rgba(0, 0, 0, 0.3)"
+                                  // : "1px solid #5F5F5F",
+                                  // opacity: priceInfo[index]?.availabilityEnabled 
+                                  //   ? "100%"
+                                  //   : "50%",
+
                                 }}
                                     // style={{
 
@@ -3042,7 +3049,7 @@ const handleToggleDelivery = () => {
                                     }}
                                   />
 
-                                  {
+                                  {/* {
                                   editData?.length>0 &&
                                   <Toggle
                   toggle={priceInfo[index]?.availabilityEnabled}
@@ -3052,7 +3059,7 @@ const handleToggleDelivery = () => {
                   Enabled={true}
                 />
 
-                                  }
+                                  } */}
                                    
                                   </div>
                                   
