@@ -90,7 +90,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   else{
     days=[...Days]
   }
-    console.log(days)
     if (day === 'All Days') {
       if (checkedItems.length === days.length) {
         setCheckedItems([]);

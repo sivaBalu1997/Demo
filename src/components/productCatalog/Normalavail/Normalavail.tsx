@@ -85,10 +85,9 @@ interface DeliveryDetails {
   availabilities: Availability[];
   inActiveUntil?: any;
   Enabled: boolean;
-  availabilityEnabled?:boolean|undefined,
-  isEnabled?:number,
-  isNotHide?:number,
-  
+  availabilityEnabled?: boolean | undefined;
+  isEnabled?: number;
+  isNotHide?: number;
 }
 export interface NormalavailRef {
   handleValidate: () => boolean;
@@ -109,7 +108,7 @@ interface NormalavailProps {
     React.SetStateAction<DropdownValidationState>
   >;
   ValidationStateerr?: any;
-  isOptionTrue?:boolean;
+  isOptionTrue?: boolean;
   dinein: boolean;
   setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
   setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>;
@@ -124,8 +123,8 @@ interface NormalavailProps {
   getValues: any;
   setValue: any;
   setKitchenError: any;
-  setIsOptionTrue:any;
-  mealType?:any;
+  setIsOptionTrue: any;
+  mealType?: any;
 }
 
 type MealType1 = string;
@@ -151,10 +150,9 @@ interface PriceInfo {
   typeGroup: string;
   availabilities: Availability[];
   inActiveUntil?: any;
-  availabilityEnabled?:boolean|undefined,
-  isEnabled?:number,
-  isNotHide?:number,
-
+  availabilityEnabled?: boolean | undefined;
+  isEnabled?: number;
+  isNotHide?: number;
 }
 
 const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
@@ -179,24 +177,23 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setKitchenError,
       isOptionTrue,
       setIsOptionTrue,
-      mealType
+      mealType,
     } = props;
-    console.log("llll",mealType)
 
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
     const [showDineIn, setShowDineIn] = useState(true);
-    const { setValiadtePriceFields, setStoredFunction } = useContext(Contextpagejs);
+    const { setValiadtePriceFields, setStoredFunction } =
+      useContext(Contextpagejs);
 
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
     const [deliveryEntry, setDeliveryEntry] = useState<string[]>([]);
     const [Normaldays, setNormalDays] = useState<number[]>([]);
-    const [availableDaysnew,setAvailableDaysnew]= useState<number[]>([]);
+    const [availableDaysnew, setAvailableDaysnew] = useState<number[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
-    console.log({availableDaysnew})
     const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
     const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
     const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -213,10 +210,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       []
     );
 
-    const availabilityDay=mealType.length>0 ? mealType[0].availabilities?.map((data:any)=>{return data.weekDay}):[]
-    
+    const availabilityDay =
+      mealType.length > 0
+        ? mealType[0].availabilities?.map((data: any) => {
+            return data.weekDay;
+          })
+        : [];
+
     const [selectedMealType, setSelectedMealType] = useState<string[]>([]);
-    const [selectedValuesmealtype, setSelectedValuesMealType] = React.useState<SelectedValuesMealTypeState>([]);
+    const [selectedValuesmealtype, setSelectedValuesMealType] =
+      React.useState<SelectedValuesMealTypeState>([]);
     const locationid = useSelector((state: any) => state.auth.selectedBranch);
 
     //   {_-------------------Array for Day Check---------------------------------}
@@ -230,7 +233,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [showDay, setShowDay] = useState(false);
     const [showDayPickup, setShowDayPickup] = useState(false);
     const [showDayDelivery, setShowDayDelivery] = useState(false);
-
     const [showDayThird, setShowDayThird] = useState(false);
 
     const prizingDetail = useSelector((state: any) => state.PricingDetailReducer.prizingData);
@@ -253,7 +255,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     // const [Text, setText] = useState(
     //   dineinfields?.map(() => "Set up for Specific Day")
     // );
-    const dataFromRedux = useSelector((state: any) => state?.selectedMockDataReducer?.data);
+    const dataFromRedux = useSelector(
+      (state: any) => state?.selectedMockDataReducer?.data
+    );
 
     const orderTypess = locationid?.orderTypes;
 
@@ -303,9 +307,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       typeId: pickUpId,
       typeName: "PickUp",
       Enabled: true,
-      availabilityEnabled:true,
-      isEnabled:1,
-      isNotHide:1,
+      availabilityEnabled: true,
+      isEnabled: 1,
+      isNotHide: 1,
 
       typeGroup: "P",
       availabilities: [
@@ -329,9 +333,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       Enabled: true,
       typeName: "Delivery",
       typeGroup: "S",
-      availabilityEnabled:true,
-      isEnabled:1,
-      isNotHide:1,
+      availabilityEnabled: true,
+      isEnabled: 1,
+      isNotHide: 1,
       availabilities: [
         {
           availabilityDays: [],
@@ -351,9 +355,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         typeId: DineInId,
         typeName: "DineIn",
         Enabled: true,
-        availabilityEnabled:true,
-        isEnabled:1,
-        isNotHide:1,
+        availabilityEnabled: true,
+        isEnabled: 1,
+        isNotHide: 1,
         price: 0,
         typeGroup: "D",
         availabilities: [
@@ -387,9 +391,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         typeName: "",
         Enabled: true,
         typeGroup: "T",
-        availabilityEnabled:true,
-      isEnabled:1,
-      isNotHide:1,
+        availabilityEnabled: true,
+        isEnabled: 1,
+        isNotHide: 1,
         availabilities: [
           {
             availabilityDays: [],
@@ -413,12 +417,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     useEffect(() => {
       if (!showDineIn) {
-        setDineInFields((prevDineInFields: DineInField[]) => 
-          Array.isArray(prevDineInFields) ? prevDineInFields.map((prev) => ({
-            ...prev,
-            DineInPrice: "",
-            Enabled: true,
-          })) : [] 
+        setDineInFields((prevDineInFields: DineInField[]) =>
+          Array.isArray(prevDineInFields)
+            ? prevDineInFields.map((prev) => ({
+                ...prev,
+                DineInPrice: "",
+                Enabled: true,
+              }))
+            : []
         );
         setSelectedValuesMealType([]);
       }
@@ -427,9 +433,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           typeId: pickUpId,
           typeName: "PickUp",
           typeGroup: "P",
-          availabilityEnabled:true,
-          isEnabled:1,
-          isNotHide:1,
+          availabilityEnabled: true,
+          isEnabled: 1,
+          isNotHide: 1,
           Enabled: true,
           availabilities: [
             {
@@ -440,7 +446,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           price: 0,
           ...(editData?.length && {
             inActiveUntil:
-              prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split(".")[0] || null,
+              prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split(
+                "."
+              )[0] || null,
           }),
         });
         setDayPickup([]);
@@ -453,9 +461,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           price: 0,
           Enabled: true,
           typeName: "Delivery",
-          availabilityEnabled:true,
-          isEnabled:1,
-          isNotHide:1,
+          availabilityEnabled: true,
+          isEnabled: 1,
+          isNotHide: 1,
           typeGroup: "S",
           availabilities: [
             {
@@ -465,21 +473,23 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           ],
           ...(editData?.length && {
             inActiveUntil:
-              prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split(".")[0] || null,
+              prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split(
+                "."
+              )[0] || null,
           }),
         });
         setMealTypes({});
         setSelectedThirdValues([]);
-        let thirdPartyData: any = []
+        let thirdPartyData: any = [];
         optionsselectthird.forEach((name: any) => {
           const data = {
             typeId: "",
             price: 0,
-            typeName: name, 
+            typeName: name,
             Enabled: true,
-            availabilityEnabled:true,
-            isEnabled:1,
-            isNotHide:1,
+            availabilityEnabled: true,
+            isEnabled: 1,
+            isNotHide: 1,
             typeGroup: "T",
             availabilities: [
               {
@@ -489,13 +499,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             ],
             ...(editData?.length && {
               inActiveUntil:
-                prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(".")[0] ||
-                null,
+                prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(
+                  "."
+                )[0] || null,
             }),
-          }
-          thirdPartyData.push(data)
-      }
-    )
+          };
+          thirdPartyData.push(data);
+        });
         setPriceInfo([...thirdPartyData]);
         setDayDelivery([]);
         setShowDayDelivery(false);
@@ -572,27 +582,31 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setPriceInfo(data);
     };
 
+    const [isSeasonalFood, setIsSeasonalFood] = useState(false);
+    const formattedDate = selectedDate
+      ? new Date(selectedDate).toLocaleDateString("en-GB").split("/").join("-")
+      : "";
+    const formattedDate1 = selectedDate1
+      ? new Date(selectedDate1).toLocaleDateString("en-GB").split("/").join("-")
+      : "";
+
     const mainForm = {
       availabilityid: availabilityid,
       formNormal,
       dineinfields,
       Normaldays: Normaldays,
-      MealTypes:selectedMealType,
-      AvaiabilityFromDate:selectedDate,
-      AvaiabilityToDate:selectedDate1,
-      availableDaysnew:availableDaysnew,
+      MealTypes: selectedMealType,
+      AvaiabilityFromDate: selectedDate,
+      AvaiabilityToDate: selectedDate1,
+      availableDaysnew: availableDaysnew,
       DeliveryMealType: selectedValues3,
       PicupMealType: selectedValues2,
       Pickup: DayPickup,
-      isOptionTrue:isOptionTrue,
-      
-
+      isOptionTrue: isOptionTrue,
       DineInServiceArea: [selectedValues],
       Delivery: DayDelivery,
-
       thirdParty: DayThird,
       WeekDays: dineInDates1,
-
       DineIn: dineInDates1,
       Swiggy: selectedValues4,
       Zomato: selectedValues5,
@@ -605,11 +619,25 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       ...(delivery && { deliveryDetails: deliveryDetails }),
 
+      isSeasonalItem: isSeasonalFood,
+      startDate: formattedDate,
+      endDate: formattedDate1,
+      availabilities: [
+        {
+          weekDays: availableDaysnew,
+          sessions: selectedMealType,
+        },
+      ],
+
       // ...(selectedthirdvalues?.length > 0 && {
       //   thirdpartyDetails: priceInfo
       // })
       ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
     };
+
+    // const date = new Date(isoDate);
+    // const formattedDate = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+    // console.log(formattedDate);
 
     const optionsselectthird = orderTypes
       ?.filter(
@@ -618,9 +646,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           (item.isEnabled === true || item.isEnabled === 1)
       )
       .map((item: any) => item.typeName);
-      //  const MealType = useSelector(
-      //     (state: any) => state.productCatalog.cuisineData.data
-      //   );
+    //  const MealType = useSelector(
+    //     (state: any) => state.productCatalog.cuisineData.data
+    //   );
 
     const thirdPartyData = orderTypes
       ?.filter((item: any) => item.typeGroup === "T")
@@ -665,9 +693,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
-        const MealTypes = prizingDetail?.normalForm?.MealTypes;
-        setSelectedMealType([...prizingDetail?.normalForm?.MealTypes])
-        
+        // const MealTypes = prizingDetail?.normalForm?.MealTypes;
+        if (prizingDetail?.normalForm?.availabilities?.length > 0) {
+          setSelectedMealType([
+            ...prizingDetail?.normalForm?.availabilities[0]?.sessions,
+          ]);
+          setAvailableDaysnew([
+            ...prizingDetail?.normalForm?.availabilities[0]?.weekDays,
+          ]);
+        }
 
         setformNormal({
           PickuppriceNormal:
@@ -691,17 +725,17 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
 
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
-        setAvailableDaysnew(prizingDetail.normalForm.availableDaysnew || [])
-        setSelectedDate(prizingDetail.normalForm.AvaiabilityFromDate || [])
-        setSelectedDate1(prizingDetail.normalForm.AvaiabilityToDate || [])
-       
+        // setAvailableDaysnew(prizingDetail.normalForm.availableDaysnew || []);
+        setSelectedDate(prizingDetail.normalForm.AvaiabilityFromDate || []);
+        setSelectedDate1(prizingDetail.normalForm.AvaiabilityToDate || []);
 
-        if(prizingDetail.normalForm.AvaiabilityFromDate  && prizingDetail.normalForm.AvaiabilityToDate )
-        {
+        if (
+          prizingDetail.normalForm.AvaiabilityFromDate &&
+          prizingDetail.normalForm.AvaiabilityToDate
+        ) {
           setIsSeasonalFood(true);
         }
 
-     
         setDayPickup(prizingDetail.normalForm?.Pickup || []);
         setDayDelivery(prizingDetail.normalForm?.Delivery || []);
 
@@ -731,12 +765,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           //     ? true
           //     : false,
           Enabled: true,
-          availabilityEnabled:dineIndetail?.availabilityEnabled,
-          isEnabled:dineIndetail?.isEnabled,
-          isNotHide:dineIndetail?.isNotHide,
-          typeGroup:dineIndetail?.typeGroup,
-          typeId:dineIndetail?.typeId,
-          typeName:dineIndetail?.typeName,
+          availabilityEnabled: dineIndetail?.availabilityEnabled,
+          isEnabled: dineIndetail?.isEnabled,
+          isNotHide: dineIndetail?.isNotHide,
+          typeGroup: dineIndetail?.typeGroup,
+          typeId: dineIndetail?.typeId,
+          typeName: dineIndetail?.typeName,
           DineInMealType:
             dineIndetails?.availabilities &&
             dineIndetails?.availabilities[0]?.sessions,
@@ -747,8 +781,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         setDineInFields([updatedField]);
         if (Number(updatedField.DineInPrice) > 0) {
-
-
           setShowDineIn(true);
           setdineInEnable(true);
         }
@@ -768,9 +800,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           return {
             ...prevData,
             price: updatedField?.DineInPrice,
-            availabilityEnabled:updatedField?.availabilityEnabled,
-          isEnabled:updatedField?.isEnabled,
-          isNotHide:updatedField?.isNotHide,
+            availabilityEnabled: updatedField?.availabilityEnabled,
+            isEnabled: updatedField?.isEnabled,
+            isNotHide: updatedField?.isNotHide,
             // Enabled: updatedField?.Enabled,
             Enabled: true,
             availabilities: updatedAvailabilities,
@@ -794,9 +826,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeGroup: "P",
             // Enabled: pickupDetails?.Enabled === true ? true : false,
             Enabled: true,
-            availabilityEnabled:pickupDetails?.availabilityEnabled,
-            isEnabled:pickupDetails?.isEnabled,
-            isNotHide:pickupDetails?.isNotHide,
+            availabilityEnabled: pickupDetails?.availabilityEnabled,
+            isEnabled: pickupDetails?.isEnabled,
+            isNotHide: pickupDetails?.isNotHide,
             price:
               (pickupDetails?.price !== 0 &&
                 Number(pickupDetails?.price).toFixed(2)) ||
@@ -821,9 +853,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             typeId: deliveryId,
             typeGroup: "S",
             Enabled: true,
-            availabilityEnabled:deliveryDetails?.availabilityEnabled,
-            isEnabled:deliveryDetails?.isEnabled,
-            isNotHide:deliveryDetails?.isNotHide,
+            availabilityEnabled: deliveryDetails?.availabilityEnabled,
+            isEnabled: deliveryDetails?.isEnabled,
+            isNotHide: deliveryDetails?.isNotHide,
             // Enabled: deliveryDetails?.Enabled,
             price:
               (deliveryDetails?.price !== 0 &&
@@ -849,9 +881,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           const updatedDetails = thirdpartyDetails.map((detail: any) => ({
             ...detail,
             price: detail.price !== 0 && Number(detail.price).toFixed(2),
-            availabilityEnabled:detail?.availabilityEnabled,
-            isEnabled:detail?.isEnabled,
-            isNotHide:detail?.isNotHide,
+            availabilityEnabled: detail?.availabilityEnabled,
+            isEnabled: detail?.isEnabled,
+            isNotHide: detail?.isNotHide,
           }));
 
           setPriceInfo(updatedDetails);
@@ -866,7 +898,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         const initialSelectedValues = [updatedField.DineInMealType];
         setSelectedValuesMealType(initialSelectedValues);
-        
 
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
 
@@ -918,6 +949,23 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+        prizingDetail.availabilities?.length > 0 && setIsOptionTrue(false);
+
+        if (prizingDetail?.availabilities?.length > 0) {
+          const allSessions: string[] = prizingDetail?.availabilities &&  prizingDetail?.availabilities?.flatMap(
+            (item: any) => item?.sessions as string[]
+          );
+        
+          const allWeekDays: string[] = prizingDetail?.availabilities &&  prizingDetail?.availabilities?.flatMap(
+            (item: any) => item?.weekDays as string[]
+          );
+        
+          const uniqueSessions: string[] = [...new Set(allSessions)];
+          const uniqueWeekDays: any[] = [...new Set(allWeekDays)];
+          setSelectedMealType(uniqueSessions);
+          setAvailableDaysnew(uniqueWeekDays);
+        }
+        
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
@@ -929,17 +977,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         if (dineIndetail) {
-          if(editData?.length>0)
-          {
-            dineIndetail.price>0 ? setShowDineIn(true):setShowDineIn(false);
+          if (editData?.length > 0) {
+            dineIndetail.price > 0 ? setShowDineIn(true) : setShowDineIn(false);
           }
-         
-      
         }
 
         if (pickupDetails) {
           pickupDetails.price > 0 && setPickup(true);
-          
 
           pickupDetails.price > 0 && setOnline(true);
 
@@ -957,9 +1001,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             //     : false),
             price: Number(pickupDetails?.price).toFixed(2) || 0,
             typeName: pickupDetails?.typeName || "",
-            availabilityEnabled:pickupDetails?.availabilityEnabled,
-            isEnabled:pickupDetails?.isEnabled,
-            isNotHide:pickupDetails?.isNotHide,
+            availabilityEnabled: pickupDetails?.availabilityEnabled,
+            isEnabled: pickupDetails?.isEnabled,
+            isNotHide: pickupDetails?.isNotHide,
 
             availabilities: pickupDetails?.availabilities || [],
             ...(editData?.length && {
@@ -1008,9 +1052,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
             price: Number(deliveryDetails?.price).toFixed(2) || 0,
             typeName: deliveryDetails?.typeName || "",
-            availabilityEnabled:deliveryDetails?.availabilityEnabled,
-            isEnabled:deliveryDetails?.isEnabled,
-            isNotHide:deliveryDetails?.isNotHide,
+            availabilityEnabled: deliveryDetails?.availabilityEnabled,
+            isEnabled: deliveryDetails?.isEnabled,
+            isNotHide: deliveryDetails?.isNotHide,
             availabilities: deliveryDetails?.availabilities || [],
             ...(editData?.length && {
               inActiveUntil:
@@ -1034,9 +1078,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: Number(detail.price).toFixed(2) || 0,
             typeName: detail.typeName || "",
             Enabled: true,
-            availabilityEnabled:detail?.availabilityEnabled,
-            isEnabled:detail?.isEnabled,
-            isNotHide:detail?.isNotHide,
+            availabilityEnabled: detail?.availabilityEnabled,
+            isEnabled: detail?.isEnabled,
+            isNotHide: detail?.isNotHide,
             // Enabled:
             //   (detail?.availabilityEnabled &&
             //   detail?.availabilityEnabled === true
@@ -1083,12 +1127,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const updatedField = {
           DineInPrice: Number(dineIndetail?.price).toFixed(2),
           Enabled: true,
-          availabilityEnabled:dineIndetail?.availabilityEnabled,
-          isEnabled:dineIndetail?.isEnabled,
-          isNotHide:dineIndetail?.isNotHide,
-          typeGroup:dineIndetail?.typeGroup,
-          typeId:dineIndetail?.typeId,
-          typeName:dineIndetail?.typeName,
+          availabilityEnabled: dineIndetail?.availabilityEnabled,
+          isEnabled: dineIndetail?.isEnabled,
+          isNotHide: dineIndetail?.isNotHide,
+          typeGroup: dineIndetail?.typeGroup,
+          typeId: dineIndetail?.typeId,
+          typeName: dineIndetail?.typeName,
           // Enabled:
           //   (dineIndetail?.availabilityEnabled &&
           //   dineIndetail?.availabilityEnabled === true
@@ -1125,9 +1169,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           return {
             ...prevData,
             price: updatedField && updatedField?.DineInPrice,
-            availabilityEnabled:updatedField?.availabilityEnabled,
-          isEnabled:updatedField?.isEnabled,
-          isNotHide:updatedField?.isNotHide,
+            availabilityEnabled: updatedField?.availabilityEnabled,
+            isEnabled: updatedField?.isEnabled,
+            isNotHide: updatedField?.isNotHide,
             // Enabled: updatedField && updatedField?.Enabled,
             Enabled: true,
             availabilities: updatedAvailabilities && updatedAvailabilities,
@@ -1149,13 +1193,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setDayThird(prizingDetail.normalForm.thirdParty || []);
         setShowDayThird(true);
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
-        setAvailableDaysnew(prizingDetail.normalForm.Normaldays || []);
+        // setAvailableDaysnew(prizingDetail?.normalForm?.availabilities || prizingDetail?.availabilities?. || []);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
         // setSelectedThirdValues(["Swiggy", "Zomato"]);
       }
     }, [prizingDetail, dataFromRedux[0]]);
-
-    
 
     const handleChange = (
       index: number,
@@ -1212,8 +1254,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     //   }
     // };
 
-
-
     useEffect(() => {
       if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
         setMainFormState(mainForm);
@@ -1264,8 +1304,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       }));
     }, [DayPickup]);
 
-    
-
     const validateThridPrice = (
       index: number,
       price: number,
@@ -1282,9 +1320,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const [thirdPartiesSelected, setThirdPartiesSelected] = useState(false);
 
-    const  handleMealType= (value: string[]): void => {
+    const handleMealType = (value: string[]): void => {
       setSelectedMealType(value);
-      // validateDropdown(value, "ThirdDeliverySwiggyZomato");     
+      // validateDropdown(value, "ThirdDeliverySwiggyZomato");
     };
 
     const handleSelectThird = (value: string[]): void => {
@@ -1304,13 +1342,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       validateDropdown(value, "ThirdDeliverySwiggyZomato");
 
       setPriceInfo(
-        value.map((item,index) => ({
+        value.map((item, index) => ({
           typeId: "",
           price: dineinfields[0]?.DineInPrice || 0,
           typeName: "",
-          availabilityEnabled:true,
-          isEnabled:1,
-          isNotHide:1,
+          availabilityEnabled: true,
+          isEnabled: 1,
+          isNotHide: 1,
           Enabled: true,
           typeGroup: "T",
           availabilities: [
@@ -1456,6 +1494,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       return Object.keys(validationErrors).length === 0;
     };
+
     const validatepickup = (
       togglestatus: boolean,
       selectedValluesArray: any
@@ -1463,7 +1502,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors: Record<string, string> = { ...errors };
 
       if (togglestatus) {
-        if (togglestatus && selectedValluesArray?.length === 0) {
+        if (
+          togglestatus &&
+          selectedValluesArray?.length === 0
+        ) {
           validationErrors.pickupmealTypeSessions = "Meal type is empty";
         } else {
           delete validationErrors.pickupmealTypeSessions;
@@ -1474,6 +1516,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       return Object.keys(validationErrors).length === 0;
     };
+
     const validatedelivery = (
       togglestatus: boolean,
       selectedValluesArray: any
@@ -1481,7 +1524,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors: Record<string, string> = { ...errors };
 
       if (togglestatus) {
-        if (togglestatus && selectedValluesArray?.length === 0) {
+        if (
+          togglestatus &&
+          selectedValluesArray?.length === 0
+        ) {
           validationErrors.deliverymealTypeSessions = "Meal type is empty";
         } else {
           delete validationErrors.deliverymealTypeSessions;
@@ -1516,57 +1562,46 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     //  }
 
     //   },[online])
-    const ValiadteMealType=()=>{
+
+    const ValiadteMealType = () => {
       const validationErrors: Record<string, string> = {};
-     
-       if (selectedMealType?.length === 0) {
-            validationErrors.MealType = "Meal type is empty";
-          }
 
-          else
-          {
-          
-       
-    delete validationErrors[`MealType`];
-  
- 
-          }
+      if (selectedMealType?.length === 0) {     
+        console.log('1')
+        validationErrors.MealType = "Meal type is empty";
+      } else {
+        delete validationErrors[`MealType`];
+      }
 
-          setErrors(validationErrors);
-    
-
-    }
-    const fromDatevaliadtion=(date:Date|null)=>{
-
+      setErrors(validationErrors);
+    };
+    const fromDatevaliadtion = (date: Date | null) => {
       const validationErrors: Record<string, string> = {};
-     
-       if (!isOptionTrue &&isSeasonalFood && (!date)) {
-            validationErrors.fromDate = "From date required";
-          }
 
-          setErrors(validationErrors);
+      if (!isOptionTrue && isSeasonalFood && !date) {
+        validationErrors.fromDate = "From date required";
+      }
 
-    }
-    const toDatevaliadtion=(date:Date|null)=>{
+      setErrors(validationErrors);
+    };
+    const toDatevaliadtion = (date: Date | null) => {
       const validationErrors: Record<string, string> = {};
-     
-      if (!isOptionTrue && isSeasonalFood && (!date)) {
-           validationErrors.toDate = "To date required";
-         }
 
-         setErrors(validationErrors);
-    }
-    const AvailableDatsvaliadtion=()=>{
+      if (!isOptionTrue && isSeasonalFood && !date) {
+        validationErrors.toDate = "To date required";
+      }
 
+      setErrors(validationErrors);
+    };
+    const AvailableDatsvaliadtion = () => {
       const validationErrors: Record<string, string> = {};
-     
-      if (!isOptionTrue && availableDaysnew.length===0) {
-           validationErrors.Availabledays = "Available Days required";
-         }
 
-         setErrors(validationErrors);
-      
-    }
+      if (!isOptionTrue && availableDaysnew.length === 0) {
+        validationErrors.Availabledays = "Available Days required";
+      }
+
+      setErrors(validationErrors);
+    };
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
@@ -1676,35 +1711,31 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         validationErrors.atleastOneOrderType =
           "Please select at least one order type.";
         showErrorToast("Please select at least one order type.");
-      } else {
+      } 
+      
+      else {
         delete validationErrors.atleastOneOrderType;
       }
-
-
-    
-
-      if (selectedMealType?.length === 0) {
-
+      
+      if ( selectedMealType?.length < 1) {
+        // console.log('2' ,isOptionTrue, selectedMealType?.length > 0, selectedMealType, !isOptionTrue && selectedMealType?.length < 1)
         validationErrors.MealType = "Meal type is empty";
       }
 
-
-
-      if (!isOptionTrue &&isSeasonalFood && !selectedDate) {
+      if (!isOptionTrue && isSeasonalFood && !selectedDate) {
         validationErrors.fromDate = "From date required";
       }
 
       if (!isOptionTrue && isSeasonalFood && !selectedDate1) {
         validationErrors.toDate = "To date required";
       }
-      if (!isOptionTrue && availableDaysnew.length===0) {
+      if (!isOptionTrue && availableDaysnew.length === 0) {
         validationErrors.Availabledays = "Available Days required";
       }
 
       // fromDatevaliadtion();
       // toDatevaliadtion();
       // AvailableDatsvaliadtion();
-
 
       // if (
       //   pickupDetails?.Enabled &&
@@ -1751,17 +1782,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       //   }
       // }
 
-
       setErrors(validationErrors);
 
       setKitchenError(true);
       return Object.keys(validationErrors).length === 0;
     };
 
-    
-
     const handleSubmit = () => {
       let isValid = validateDineinFields();
+      console.log('Inside Submit', isValid)
       if (!showDineIn && !pickup && !delivery) {
         isValid = false;
       }
@@ -1771,8 +1800,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       return true;
     };
 
-  
-      const [disabledDay, setDisableDay] = useState<any[]>([]);
+    const [disabledDay, setDisableDay] = useState<any[]>([]);
 
     useEffect(() => {
       setValidationFunction(() => handleSubmit);
@@ -1797,7 +1825,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       DayDelivery,
       selectedMealType,
       selectedDate,
-      selectedDate1
+      selectedDate1,
     ]);
     const validatePickupPrice = (price: number, Enable: boolean): void => {
       const validationErrors = { ...errors };
@@ -1825,7 +1853,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const preFillDataPickup = () => {
-      
       if (dineinfields.length > 0) {
         setPickUpDetails((prevDetails) => ({
           ...prevDetails,
@@ -1866,359 +1893,345 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
-
-   
-
-
-
     const handleWheel = (event: any) => {
       event.target.blur(); // Removes focus to prevent unintended changes
       event.preventDefault();
     };
 
-      const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
-        fromDatevaliadtion(date);
-      };
-      const handleDateChange1 = (date: Date | null) => {
-        setSelectedDate1(date);
-        toDatevaliadtion(date)
-      };
+    const handleDateChange = (date: Date | null) => {
+      setSelectedDate(date);
+      fromDatevaliadtion(date);
+    };
+
+    const handleDateChange1 = (date: Date | null) => {
+      setSelectedDate1(date);
+      toDatevaliadtion(date);
+    };
+
     const handleImageClick = () => {
       if (datePickerRef.current) {
         datePickerRef.current.setOpen(true);
       }
     };
-  
+
     const handleImageClick2 = () => {
       if (datePickerRef1.current) {
         datePickerRef1.current.setOpen(true);
       }
     };
-      const [isSeasonalFood, setIsSeasonalFood] = useState(false);
-      const handleSeasonalFood = (value: boolean) => {
-        setIsSeasonalFood(value);
-      };
+    const handleSeasonalFood = (value: boolean) => {
+      setIsSeasonalFood(value);
+    };
 
-      const generateDateRange = (startDate: any, endDate: any) => {
-        let currentDate = new Date(startDate);
-        let range = [];
-    
-        while (currentDate <= new Date(endDate)) {
-          range.push(new Date(currentDate));
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-        return range;
-      };
-      function handleSingleDayRange(startDate: any, endDate: any) {
-        if (startDate === endDate) {
-          let dayIndex = new Date(startDate).getDay();
-          let mappedDay: any = dayIndex === 0 ? 7 : dayIndex;
-          setDisableDay(mappedDay);
-          setDayThird(mappedDay);
-        }
+    const generateDateRange = (startDate: any, endDate: any) => {
+      let currentDate = new Date(startDate);
+      let range = [];
+
+      while (currentDate <= new Date(endDate)) {
+        range.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
       }
-      const validateDaysInRange = (startDate: any, endDate: any) => {
-        let dateRange = generateDateRange(startDate, endDate);
-        let availableDays = dateRange.map((date: any) =>
-          date.getDay() === 0 ? 7 : date.getDay()
-        );
-        setDisableDay(availableDays);
-        if (availableDays.length === 1) {
-          setDayThird(availableDays);
-          setValue("AvailableDays", availableDays);
-        }
-      };
-    
- useEffect(() => {
-    if (selectedDate && selectedDate1) {
-      if (selectedDate == selectedDate1) {
-        handleSingleDayRange(selectedDate, selectedDate1);
-      } else {
-        validateDaysInRange(selectedDate, selectedDate1);
+      return range;
+    };
+    function handleSingleDayRange(startDate: any, endDate: any) {
+      if (startDate === endDate) {
+        let dayIndex = new Date(startDate).getDay();
+        let mappedDay: any = dayIndex === 0 ? 7 : dayIndex;
+        setDisableDay(mappedDay);
+        setDayThird(mappedDay);
       }
     }
-  }, [selectedDate, selectedDate1]);
+    const validateDaysInRange = (startDate: any, endDate: any) => {
+      let dateRange = generateDateRange(startDate, endDate);
+      let availableDays = dateRange.map((date: any) =>
+        date.getDay() === 0 ? 7 : date.getDay()
+      );
+      setDisableDay(availableDays);
+      if (availableDays.length === 1) {
+        setDayThird(availableDays);
+        setValue("AvailableDays", availableDays);
+      }
+    };
 
-  const handleToggleDineIn = (index: number) => {
-  setDineInFields((prev: any) => 
-    prev.map((entry:any, i:number) => 
-      i === index ? { ...entry, availabilityEnabled: !entry.availabilityEnabled } : entry
-    )
-  );
-  setFormattedDineInData((prevData: any) => ({
-    ...prevData,
+    useEffect(() => {
+      if (selectedDate && selectedDate1) {
+        if (selectedDate == selectedDate1) {
+          handleSingleDayRange(selectedDate, selectedDate1);
+        } else {
+          validateDaysInRange(selectedDate, selectedDate1);
+        }
+      }
+    }, [selectedDate, selectedDate1]);
 
-    availabilityEnabled: !prevData.availabilityEnabled,
-  }));
-};
+    const handleToggleDineIn = (index: number) => {
+      setDineInFields((prev: any) =>
+        prev.map((entry: any, i: number) =>
+          i === index
+            ? { ...entry, availabilityEnabled: !entry.availabilityEnabled }
+            : entry
+        )
+      );
+      setFormattedDineInData((prevData: any) => ({
+        ...prevData,
 
-const handleToggleThirdParty = (index: number) => {
-  setPriceInfo((prev: any) => 
-    prev.map((entry:any, i:number) => 
-      i === index ? { ...entry, availabilityEnabled: !entry.availabilityEnabled } : entry
-    )
-  );
-};
+        availabilityEnabled: !prevData.availabilityEnabled,
+      }));
+    };
 
-const handleTogglePickup = () => {
-  setPickUpDetails({
-    ...pickupDetails,
-    availabilityEnabled:!pickupDetails.availabilityEnabled ,
-  });
-};
-const handleToggleDelivery = () => {
-  setDeliveryDetails({
-    ...deliveryDetails,
-    availabilityEnabled: !deliveryDetails.availabilityEnabled,
-  });
-};
-  
+    const handleToggleThirdParty = (index: number) => {
+      setPriceInfo((prev: any) =>
+        prev.map((entry: any, i: number) =>
+          i === index
+            ? { ...entry, availabilityEnabled: !entry.availabilityEnabled }
+            : entry
+        )
+      );
+    };
 
-      // Seasonal - isSeasonalFood
-      // Available days- availableDaysnew
-      // MealType - selectedMealType
-      // fromdtae -selectedDate
-      // to date - selectedDate1
-      
+    const handleTogglePickup = () => {
+      setPickUpDetails({
+        ...pickupDetails,
+        availabilityEnabled: !pickupDetails.availabilityEnabled,
+      });
+    };
+    const handleToggleDelivery = () => {
+      setDeliveryDetails({
+        ...deliveryDetails,
+        availabilityEnabled: !deliveryDetails.availabilityEnabled,
+      });
+    };
+
+    // Seasonal - isSeasonalFood
+    // Available days- availableDaysnew
+    // MealType - selectedMealType
+    // fromdtae -selectedDate
+    // to date - selectedDate1
+
     return (
       <div>
-        <div className="AvailDaycheck">
-          {
-            !isOptionTrue &&
-            <div className="Custome-Availability-container">
-            <div className="Custom-Available">
-                          <input
-                            type="checkbox"
-                            className="checkbox1-Custom"
-                            onChange={() => handleSeasonalFood(!isSeasonalFood)}
-                            checked={isSeasonalFood}
+        {!isOptionTrue && (
+          <div className="AvailDaycheck">
+            {!isOptionTrue && (
+              <div className="Custome-Availability-container">
+                <div className="Custom-Available">
+                  <input
+                    type="checkbox"
+                    className="checkbox1-Custom"
+                    onChange={() => handleSeasonalFood(!isSeasonalFood)}
+                    checked={isSeasonalFood}
+                  />
+                  <label
+                    onClick={() => handleSeasonalFood(!isSeasonalFood)}
+                    className="custom-available-seasonal-food"
+                  >
+                    Is this a seasonal food item?
+                  </label>
+                </div>
+
+                <div>
+                  <h3 className="available-days-heading">Available days*</h3>
+                </div>
+
+                <div>
+                  {isSeasonalFood && (
+                    <div className="date-select-v2">
+                      <div className="FromdateWith-Error">
+                        <div className="from-date-v2">
+                          <DatePicker
+                            placeholderText="01/01/2025"
+                            dateFormat="MM/dd/yyyy"
+                            selected={selectedDate instanceof Date && !isNaN(selectedDate.getTime()) ? selectedDate : null}
+                            onChange={handleDateChange}
+                            ref={datePickerRef}
+                            className="datePicker-special-v2"
                           />
-                          <label
-                            onClick={() => handleSeasonalFood(!isSeasonalFood)}
-                            className="custom-available-seasonal-food"
-                          >
-                            Is this a seasonal food item? 
-                          </label>
+                          <img
+                            src={calender}
+                            className="calender-img-v2"
+                            onClick={handleImageClick}
+                          />
                         </div>
-                        <div>
-              <h3 className="available-days-heading">Available days*</h3>
-            </div>
-            <div>
-              {
-                isSeasonalFood &&
-                <div className="date-select-v2">
-                  <div className="FromdateWith-Error">
-                  <div className="from-date-v2">
-                  <DatePicker
-                    placeholderText="01/01/2025"
-                    dateFormat="MM/dd/yyyy"
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    ref={datePickerRef}
-                    className="datePicker-special-v2"
-                  />
-                  <img
-                    src={calender}
-                    className="calender-img-v2"
-                    onClick={handleImageClick}
-                  />
-                  
-                </div>
-                <div className="error-msg-Availabledays">
-                            <div style={{ width: "11.8rem" }}>
-                              <span className="AvailabledaysError">
-                                {errors.fromDate}
-                              </span>
-                            </div>
-                          </div>
-                  </div>
-               
-                <div className="TodateWith-Error">
-                <div className="to-date-v2">
-                  <DatePicker
-                    selected={selectedDate1}
-                    onChange={handleDateChange1}
-                    placeholderText="01/01/2025"
-                    dateFormat="MM/dd/yyyy"
-                    showPopperArrow
-                    ref={datePickerRef1}
-                    className="datePicker-special-v2"
-                  />
-                  <img
-                    src={calender}
-                    className="calender-img-v2"
-                    onClick={handleImageClick2}
-                  ></img>
-                  
-                </div>
-                <div className="error-msg-Availabledays">
-                            <div style={{ width: "11.8rem" }}>
-                              <span className="AvailabledaysError">
-                                {errors.toDate}
-                              </span>
-                            </div>
-                          </div>
-                </div>
-                
-                
-              </div>
-              }
-           
-  
-  
-  {
-    isSeasonalFood && <div>
-    <p className="Note-special-v2">
-                    Note: The item will be available only from start date to end date.
-                  </p>
-      </div>
-  }
-          
-            <div className="dayschecking-v2" style={{marginTop:isSeasonalFood?"2rem":"-1rem"}}>
-                        <DaysCheck
-                          checkedItems={availableDaysnew}
-                          setCheckedItems={setAvailableDaysnew}
-                          id={availabilityid}
-                          setId={setAvailabilityid}
-                          dateShow={isSeasonalFood}
-                          disabledays={disabledDay}
-                          errorarray={errors}
-                          Errorname="Availabledays"
-                          setErrorArray={setErrors} 
-                          availabilityDay={availabilityDay}
-                        />
-                        
+
                         <div className="error-msg-Availabledays">
-                            <div style={{ width: "11.8rem" }}>
-                              <span className="AvailabledaysError">
-                                {errors.Availabledays}
-                              </span>
-                            </div>
+                          <div style={{ width: "11.8rem" }}>
+                            <span className="AvailabledaysError">
+                              {errors.fromDate}
+                            </span>
                           </div>
-                       
+                        </div>
                       </div>
-  
-            </div>
-  
-  
-            </div>
-          }
-      
-         
-          
-        <div className="MealType-v2">
-        <h1 className="Melatype-normal-heading">Meal Type*</h1>
-        <div className="melatype-dropdown-v2">
-             <DropDown
-                              selectedValues={selectedMealType}
-                              // onSelect={handleMealType}
-                              onSelect={(values) =>
-                                handleMealType(values)
-                              }
-                              setSelectedMealType={setSelectedMealType}
-                              
-                              EnabledOrNot={true}
-                              options={mealType}
-                              errorarray={errors}
-                              Errorname="MealType"
-                              setErrorArray={setErrors}
-                              ValiadteMealType={ValiadteMealType}
-                              label=""
-                              // onBlur={() =>
-                              //   validateDropdown(
-                              //     selectedthirdvalues,
-                              //     "SwiggyZomato"
-                              //   )
-                              // }
-                              // validation={validationState.PickupSwiggy}
-                              width="Drop1"
-                              placeHolder="Meal Type*"
-                              zIndex={true}
-                            />
 
-<div className="error-msg-mealtype">
-                            <div style={{ width: "11.8rem" }}>
-                              <span className="deliverypriceerrormsg">
-                                {errors.MealType}
-                              </span>
-                            </div>
-                            {/* <div>
-                              <span className="Errormsg deliverymealtypeerrormsg">
-                                {errors.deliverymealTypeSessions}
-                              </span>
-                            </div> */}
+                      <div className="TodateWith-Error">
+                        <div className="to-date-v2">
+                          <DatePicker
+                            selected={selectedDate1 instanceof Date && !isNaN(selectedDate1.getTime()) ? selectedDate1 : null}
+                            onChange={handleDateChange1}
+                            placeholderText="01/01/2025"
+                            dateFormat="MM/dd/yyyy"
+                            showPopperArrow
+                            ref={datePickerRef1}
+                            className="datePicker-special-v2"
+                          />
+                          <img
+                            src={calender}
+                            className="calender-img-v2"
+                            onClick={handleImageClick2}
+                          />
+                        </div>
+
+                        <div className="error-msg-Availabledays">
+                          <div style={{ width: "11.8rem" }}>
+                            <span className="AvailabledaysError">
+                              {errors.toDate}
+                            </span>
                           </div>
-        </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
-     
-        </div>
-          {/* <button onClick={handleSubmit}>Validate</button> */}
-          {/* <div className="tooltip">
-              <TooltipMsg
-                message="Select the default days this item is available for both on-premise and off-premise services."
-                styles={{
-                  marginLeft: "2rem",
-                  width: "480px",
-                  height: "35px",
-                  backgroundColor: "#67833E",
-                  color: "white",
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "5px",
-                  position: "relative",
-                  top: "-10px",
-                }}
-                Arrowstyle={{
-                  marginTop: "0rem",
-                  rotate: "-90deg",
-                  position: "relative",
-                  left: "-1.0rem",
-                }}
-              >
-                <div className="ToolKitchen">
-                  <img src={info} alt="info icon" width={20} height={20} />
+                  {isSeasonalFood && (
+                    <div>
+                      <p className="Note-special-v2">
+                        Note: The item will be available only from start date to
+                        end date.
+                      </p>
+                    </div>
+                  )}
+
+                  <div
+                    className="dayschecking-v2"
+                    style={{ marginTop: isSeasonalFood ? "2rem" : "-1rem" }}
+                  >
+                    <DaysCheck
+                      checkedItems={availableDaysnew}
+                      setCheckedItems={setAvailableDaysnew}
+                      id={availabilityid}
+                      setId={setAvailabilityid}
+                      dateShow={isSeasonalFood}
+                      disabledays={disabledDay}
+                      errorarray={errors}
+                      Errorname="Availabledays"
+                      setErrorArray={setErrors}
+                      availabilityDay={availabilityDay}
+                    />
+
+                    <div className="error-msg-Availabledays">
+                      <div style={{ width: "11.8rem" }}>
+                        <span className="AvailabledaysError">
+                          {errors.Availabledays}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </TooltipMsg>
+              </div>
+            )}
+
+            <div className="MealType-v2">
+              <h1 className="Melatype-normal-heading">Meal Type*</h1>
+              <div className="melatype-dropdown-v2">
+                <DropDown
+                  selectedValues={selectedMealType}
+                  // onSelect={handleMealType}
+                  onSelect={(values) => handleMealType(values)}
+                  setSelectedMealType={setSelectedMealType}
+                  EnabledOrNot={true}
+                  options={mealType}
+                  errorarray={errors}
+                  Errorname="MealType"
+                  setErrorArray={setErrors}
+                  ValiadteMealType={ValiadteMealType}
+                  label=""
+                  // onBlur={() =>
+                  //   validateDropdown(
+                  //     selectedthirdvalues,
+                  //     "SwiggyZomato"
+                  //   )
+                  // }
+                  // validation={validationState.PickupSwiggy}
+                  width="Drop1"
+                  placeHolder="Meal Type*"
+                  zIndex={true}
+                />
+
+                <div className="error-msg-mealtype">
+                  <div style={{ width: "11.8rem" }}>
+                    <span className="deliverypriceerrormsg">
+                      {errors.MealType}
+                    </span>
+                  </div>
+                  {/* <div>
+                                <span className="Errormsg deliverymealtypeerrormsg">
+                                  {errors.deliverymealTypeSessions}
+                                </span>
+                              </div> */}
+                </div>
+              </div>
+            </div>
+            {/* <button onClick={handleSubmit}>Validate</button> */}
+            {/* <div className="tooltip">
+                <TooltipMsg
+                  message="Select the default days this item is available for both on-premise and off-premise services."
+                  styles={{
+                    marginLeft: "2rem",
+                    width: "480px",
+                    height: "35px",
+                    backgroundColor: "#67833E",
+                    color: "white",
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                    position: "relative",
+                    top: "-10px",
+                  }}
+                  Arrowstyle={{
+                    marginTop: "0rem",
+                    rotate: "-90deg",
+                    position: "relative",
+                    left: "-1.0rem",
+                  }}
+                >
+                  <div className="ToolKitchen">
+                    <img src={info} alt="info icon" width={20} height={20} />
+                  </div>
+                </TooltipMsg>
+              </div> */}
+            {/* <div className="AvailDaycheck-Heading">
+              <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+            
             </div> */}
-          {/* <div className="AvailDaycheck-Heading">
-            <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-           
-          </div> */}
 
-          {/* <div className="dayschecking">
-            <div>
-              <DaysCheck
-                checkedItems={Normaldays}
-                setCheckedItems={setNormalDays}
-                id={availabilityid}
-                setId={setAvailabilityid}
-              />
-            </div>
-            <div>
-              {Normaldays && Normaldays.length === 0 && (
-                <span className="daycheckvalidation">
-                  {errors[`daysCheck`] || ""}
-                </span>
-              )}
-            </div>
+            {/* <div className="dayschecking">
+              <div>
+                <DaysCheck
+                  checkedItems={Normaldays}
+                  setCheckedItems={setNormalDays}
+                  id={availabilityid}
+                  setId={setAvailabilityid}
+                />
+              </div>
+              <div>
+                {Normaldays && Normaldays.length === 0 && (
+                  <span className="daycheckvalidation">
+                    {errors[`daysCheck`] || ""}
+                  </span>
+                )}
+              </div>
 
-            <div>
-              <p className={errors[`daysCheck`] !== "" ? "Note" : "Note-error"}>
-                Note : Changes here will apply to all service types unless
-                specific day options are enabled
-              </p>
-            </div>
-          </div> */}
-        </div>
+              <div>
+                <p className={errors[`daysCheck`] !== "" ? "Note" : "Note-error"}>
+                  Note : Changes here will apply to all service types unless
+                  specific day options are enabled
+                </p>
+              </div>
+            </div> */}
+          </div>
+        )}
         {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
         {/* DineIn Related */}
-
-      
-
-
 
         <div className="pricing-section">
           {DineInServiceEnabled && (
@@ -2232,75 +2245,72 @@ const handleToggleDelivery = () => {
                 }}
                 className="dine-in-toggle"
               >
-
-                 <Toggle
+                <Toggle
                   toggle={showDineIn}
                   setToggle={setShowDineIn}
                   Enabled={dineInEnable === true}
                 />
-                
               </span>
             </div>
           )}
 
           {DineInServiceEnabled && showDineIn ? (
             <>
-             
-              {Array.isArray(dineinfields) && (dineinfields?.map((entry: any, index: any) => {
-                const mealTypeKey = `DineInMealType_${index}`;
-                const priceKey = `DineInPrice_${index}`;
-                const DineInService = `DineInService_${index}`;
-                const enableOrNot = entry.availabilityEnabled;
-                
-                
+              {Array.isArray(dineinfields) &&
+                dineinfields?.map((entry: any, index: any) => {
+                  const mealTypeKey = `DineInMealType_${index}`;
+                  const priceKey = `DineInPrice_${index}`;
+                  const DineInService = `DineInService_${index}`;
+                  const enableOrNot = entry.availabilityEnabled;
 
-                return (
-                  <>
-                    <div className="">
-                      <div
-                        className="dine-In-Container"
-                        style={{ height: entry?.showDay ? "11rem" : "6rem" }}
-                      >
-                        <div className="dine-In-inputprice-and-mealType">
-                          <div className="DineInPrice-input-field-and-errormsg">
-                            <div className="LabelPrice">
-                              <LableComponent lable="Price*" />
-                            </div>
-                            <div className="input-field-availability">
-                            <input
-                              type="number"
-                              name="DineInPrice"
-                              onWheel={handleWheel}
-                              value={entry.DineInPrice}
-                              disabled={!enableOrNot }
-                              style={{
-                                border:"1px solid #5F5F5F"
-                                // border: enableOrNot
-                                //   ? "1px solid rgba(0, 0, 0, 0.3)"
-                                //   : "1px solid #5F5F5F",
-                                // opacity: enableOrNot? "100%" : "50%",
-                              }}
-                              className="DineInprice-input-field"
-                              // disabled={!entry?.Enabled}
-                              onChange={(e) => {
-                                handleChange(index, e, true);
-                              }}
-                              onInput={(e) => {
-                                const inputElement = e.target as HTMLInputElement;
-                                let value = inputElement.value;
-                            
-                                if (value.length === 1 && value === "0") {
-                                  inputElement.value = "";
-                                  return;
-                                }
-                            
-                                if (!/^(\d+(\.\d*)?|\.\d+)?$/.test(value)) {
-                                  inputElement.value = value.slice(0, -1);
-                                }
-                              }}
-                            />
-                            <div>
-{/* 
+                  return (
+                    <>
+                      <div className="">
+                        <div
+                          className="dine-In-Container"
+                          style={{ height: entry?.showDay ? "11rem" : "6rem" }}
+                        >
+                          <div className="dine-In-inputprice-and-mealType">
+                            <div className="DineInPrice-input-field-and-errormsg">
+                              <div className="LabelPrice">
+                                <LableComponent lable="Price*" />
+                              </div>
+                              <div className="input-field-availability">
+                                <input
+                                  type="number"
+                                  name="DineInPrice"
+                                  onWheel={handleWheel}
+                                  value={entry.DineInPrice}
+                                  disabled={!enableOrNot}
+                                  style={{
+                                    border: "1px solid #5F5F5F",
+                                    // border: enableOrNot
+                                    //   ? "1px solid rgba(0, 0, 0, 0.3)"
+                                    //   : "1px solid #5F5F5F",
+                                    // opacity: enableOrNot? "100%" : "50%",
+                                  }}
+                                  className="DineInprice-input-field"
+                                  // disabled={!entry?.Enabled}
+                                  onChange={(e) => {
+                                    handleChange(index, e, true);
+                                  }}
+                                  onInput={(e) => {
+                                    const inputElement =
+                                      e.target as HTMLInputElement;
+                                    let value = inputElement.value;
+
+                                    if (value.length === 1 && value === "0") {
+                                      inputElement.value = "";
+                                      return;
+                                    }
+
+                                    if (!/^(\d+(\.\d*)?|\.\d+)?$/.test(value)) {
+                                      inputElement.value = value.slice(0, -1);
+                                    }
+                                  }}
+                                />
+                                <div>
+                                  {/* 
                               {
                                 editData?.length >0 &&
                                 <Toggle
@@ -2311,15 +2321,11 @@ const handleToggleDelivery = () => {
                   Enabled={true}
                 />
                               } */}
-
-                            
-
+                                </div>
+                              </div>
                             </div>
-                            </div>
-                            
-                          </div>
 
-                          {/* <div className="DineInMealType-input-field">
+                            {/* <div className="DineInMealType-input-field">
                             <DropDown
                               validatedineMealType={validatedineMealType}
                               EnabledOrNot={true}
@@ -2336,21 +2342,21 @@ const handleToggleDelivery = () => {
                               width="Drop1"
                             />
                           </div> */}
-                        </div>
-                        <div className="Error-row-of-dineIn">
-                          <div style={{ width: "11.7rem" }}>
-                            <span className="price-error-for-dineIn">
-                              {errors[`DineInPrice-${index}`]}
-                            </span>
                           </div>
-                          <div>
-                            {/* <span className="mealTypeError">
+                          <div className="Error-row-of-dineIn">
+                            <div style={{ width: "11.7rem" }}>
+                              <span className="price-error-for-dineIn">
+                                {errors[`DineInPrice-${index}`]}
+                              </span>
+                            </div>
+                            <div>
+                              {/* <span className="mealTypeError">
                               {errors[`DineInMealType-${index}`]}
                             </span> */}
+                            </div>
                           </div>
-                        </div>
 
-                        {/* <div className="ChooseDay-DaysCheckbox-Dinein">
+                          {/* <div className="ChooseDay-DaysCheckbox-Dinein">
                           <div className="ChooseDay-container-Dinein">
                             <h3 className="Back-and-default-dineIn">
                               {entry?.showDay
@@ -2398,13 +2404,11 @@ const handleToggleDelivery = () => {
                             </span>
                           </div>
                         </div> */}
+                        </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })
-            )
-              }
+                    </>
+                  );
+                })}
 
               {/* <h1 className="AddentryNormal" onClick={AddDineInEntry}>
             {" "}
@@ -2467,76 +2471,76 @@ const handleToggleDelivery = () => {
                                 <LableComponent lable="Price*" />
                               </div>
                               <div className="input-field-availability">
-                              <input
-                                type="number"
-                                onWheel={handleWheel}
-                                step="any"
+                                <input
+                                  type="number"
+                                  onWheel={handleWheel}
+                                  step="any"
+                                  disabled={!pickupDetails?.availabilityEnabled}
+                                  style={{
+                                    border: "1px solid #5F5F5F",
+                                    // border: pickupDetails?.availabilityEnabled
+                                    // ? "1px solid rgba(0, 0, 0, 0.3)"
+                                    // : "1px solid #5F5F5F",
+                                    // opacity: pickupDetails?.availabilityEnabled
+                                    //   ? "100%"
+                                    //   : "50%",
+                                  }}
+                                  className="PriceInput1Normal-input"
+                                  value={pickupDetails.price || ""}
+                                  onKeyDown={(e) => {
+                                    if (["-", "+", "e", "E"].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                  onInput={(e) => {
+                                    const inputElement =
+                                      e.target as HTMLInputElement;
+                                    const value = inputElement.value;
 
-                                disabled={!(pickupDetails?.availabilityEnabled )}
-                                style={{
-                                  border:"1px solid #5F5F5F"
-                                  // border: pickupDetails?.availabilityEnabled 
-                                  // ? "1px solid rgba(0, 0, 0, 0.3)"
-                                  // : "1px solid #5F5F5F",
-                                  // opacity: pickupDetails?.availabilityEnabled 
-                                  //   ? "100%"
-                                  //   : "50%",
-                                }}
-                                className="PriceInput1Normal-input"
-                                value={pickupDetails.price || ""}
-                                onKeyDown={(e) => {
-                                  if (["-", "+", "e", "E"].includes(e.key)) {
-                                    e.preventDefault();
-                                  }
-                                }}
-                                onInput={(e) => {
-                                  const inputElement =
-                                    e.target as HTMLInputElement;
-                                  const value = inputElement.value;
+                                    if (value === "") {
+                                      inputElement.value = "";
+                                      return;
+                                    }
 
-                                  if (value === "") {
-                                    inputElement.value = "";
-                                    return;
-                                  }
+                                    if (!/^\d*\.?\d{0,2}$/.test(value)) {
+                                      inputElement.value = value.slice(0, -1);
+                                    }
 
-                                  if (!/^\d*\.?\d{0,2}$/.test(value)) {
-                                    inputElement.value = value.slice(0, -1);
-                                  }
+                                    if (/^0\d/.test(value)) {
+                                      inputElement.value = value.slice(1);
+                                    }
+                                  }}
+                                  onChange={(e) => {
+                                    const inputValue = e.target.value;
 
-                                  if (/^0\d/.test(value)) {
-                                    inputElement.value = value.slice(1);
-                                  }
-                                }}
-                                onChange={(e) => {
-                                  const inputValue = e.target.value;
+                                    if (inputValue === "") {
+                                      setPickUpDetails({
+                                        ...pickupDetails,
+                                        price: 0,
+                                      });
+                                      return;
+                                    }
 
-                                  if (inputValue === "") {
-                                    setPickUpDetails({
-                                      ...pickupDetails,
-                                      price: 0,
-                                    });
-                                    return;
-                                  }
+                                    if (
+                                      /^\d{0,4}(\.\d{0,2})?$/.test(inputValue)
+                                    ) {
+                                      const numericValue =
+                                        parseFloat(inputValue);
 
-                                  if (
-                                    /^\d{0,4}(\.\d{0,2})?$/.test(inputValue)
-                                  ) {
-                                    const numericValue = parseFloat(inputValue);
+                                      setPickUpDetails({
+                                        ...pickupDetails,
+                                        price: numericValue,
+                                      });
 
-                                    setPickUpDetails({
-                                      ...pickupDetails,
-                                      price: numericValue,
-                                    });
+                                      validatePickupPrice(
+                                        numericValue,
+                                        pickupDetails?.Enabled
+                                      );
+                                    }
+                                  }}
+                                />
 
-                                    validatePickupPrice(
-                                      numericValue,
-                                      pickupDetails?.Enabled
-                                    );
-                                  }
-                                }}
-                              />
-
-{/*                               
+                                {/*                               
                               {
                               editData?.length >0 &&
                               <Toggle
@@ -2547,10 +2551,7 @@ const handleToggleDelivery = () => {
                   Enabled={true}
                 />
                               } */}
-                        
-                               
                               </div>
-                             
                             </div>
 
                             {/* <div className="PrizeD">
@@ -2715,83 +2716,88 @@ const handleToggleDelivery = () => {
                           <div className="Online-delivery">
                             <div className="delivery-price-errormsg">
                               <div className="input-field-availability">
-                              <input
-                                type="number"
-                                className="DeliveryInput1Normal"
-                                onWheel={handleWheel}
-                                disabled={!(deliveryDetails?.availabilityEnabled)}
-                                style={{
-                                  border:"1px solid #5F5F5F"
-
-                                  // border: deliveryDetails?.availabilityEnabled 
-                                  // ? "1px solid rgba(0, 0, 0, 0.3)"
-                                  // : "1px solid #5F5F5F",
-                                  // opacity: deliveryDetails?.availabilityEnabled 
-                                  //   ? "100%"
-                                  //   : "50%",
-                                }}
-                                value={deliveryDetails?.price || ""}
-                                onInput={(e) => {
-                                  const inputElement =
-                                    e.target as HTMLInputElement;
-                                  const value = inputElement.value;
-
-                                  if (value === "") {
-                                    inputElement.value = "";
-                                    return;
+                                <input
+                                  type="number"
+                                  className="DeliveryInput1Normal"
+                                  onWheel={handleWheel}
+                                  disabled={
+                                    !deliveryDetails?.availabilityEnabled
                                   }
+                                  style={{
+                                    border: "1px solid #5F5F5F",
 
-                                  if (!/^\d*\.?\d{0,2}$/.test(value)) {
-                                    inputElement.value = value.slice(0, -1);
-                                  }
+                                    // border: deliveryDetails?.availabilityEnabled
+                                    // ? "1px solid rgba(0, 0, 0, 0.3)"
+                                    // : "1px solid #5F5F5F",
+                                    // opacity: deliveryDetails?.availabilityEnabled
+                                    //   ? "100%"
+                                    //   : "50%",
+                                  }}
+                                  value={deliveryDetails?.price || ""}
+                                  onInput={(e) => {
+                                    const inputElement =
+                                      e.target as HTMLInputElement;
+                                    const value = inputElement.value;
 
-                                  if (/^0\d/.test(value)) {
-                                    inputElement.value = value.slice(1);
-                                  }
-                                }}
-                                onKeyDown={(e) => {
-                                  if (["-", "+", "e", "E"].includes(e.key)) {
-                                  }
-                                }}
-                                onChange={(e) => {
-                                  e.preventDefault();
-                                  // if (deliveryDetails?.Enabled) {
-                                  const inputValue = e.target.value;
+                                    if (value === "") {
+                                      inputElement.value = "";
+                                      return;
+                                    }
 
-                                  if (inputValue === "") {
-                                    setDeliveryDetails((prevDetails: any) => ({
-                                      ...prevDetails,
-                                      price: "",
-                                    }));
-                                    return;
-                                  }
+                                    if (!/^\d*\.?\d{0,2}$/.test(value)) {
+                                      inputElement.value = value.slice(0, -1);
+                                    }
 
-                                  if (
-                                    /^\d{0,4}(\.\d{0,2})?$/.test(inputValue)
-                                  ) {
-                                    const numericValue = parseFloat(inputValue);
+                                    if (/^0\d/.test(value)) {
+                                      inputElement.value = value.slice(1);
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (["-", "+", "e", "E"].includes(e.key)) {
+                                    }
+                                  }}
+                                  onChange={(e) => {
+                                    e.preventDefault();
+                                    // if (deliveryDetails?.Enabled) {
+                                    const inputValue = e.target.value;
 
-                                    if (
-                                      !isNaN(numericValue) &&
-                                      numericValue !== 0
-                                    ) {
+                                    if (inputValue === "") {
                                       setDeliveryDetails(
                                         (prevDetails: any) => ({
                                           ...prevDetails,
-                                          price: numericValue,
+                                          price: "",
                                         })
                                       );
-                                      validateDeliveryPrice(
-                                        numericValue,
-                                        deliveryDetails?.Enabled
-                                      );
+                                      return;
                                     }
-                                    // }
-                                  }
-                                }}
-                              />
 
-                              {/* {
+                                    if (
+                                      /^\d{0,4}(\.\d{0,2})?$/.test(inputValue)
+                                    ) {
+                                      const numericValue =
+                                        parseFloat(inputValue);
+
+                                      if (
+                                        !isNaN(numericValue) &&
+                                        numericValue !== 0
+                                      ) {
+                                        setDeliveryDetails(
+                                          (prevDetails: any) => ({
+                                            ...prevDetails,
+                                            price: numericValue,
+                                          })
+                                        );
+                                        validateDeliveryPrice(
+                                          numericValue,
+                                          deliveryDetails?.Enabled
+                                        );
+                                      }
+                                      // }
+                                    }
+                                  }}
+                                />
+
+                                {/* {
 
                               editData?.length>0 &&
                                <Toggle
@@ -2803,10 +2809,7 @@ const handleToggleDelivery = () => {
                 />
                               
                               } */}
-
-                             
                               </div>
-                              
                             </div>
 
                             {/* <div className="DeliveryD">
@@ -2953,63 +2956,67 @@ const handleToggleDelivery = () => {
                                     {option} Price
                                   </p>
                                   <div className="input-field-availability">
-                                  <input
-                                    className="swiggyZomato-input"
-                                    type="number"
-                                    onWheel={handleWheel}
-                                    disabled={!(priceInfo[index]?.availabilityEnabled)}
-                                style={{
-                                  border:"1px solid #5F5F5F",
-                                  
-                                  // border: priceInfo[index]?.availabilityEnabled
-                                  // ? " 1px solid rgba(0, 0, 0, 0.3)"
-                                  // : "1px solid #5F5F5F",
-                                  // opacity: priceInfo[index]?.availabilityEnabled 
-                                  //   ? "100%"
-                                  //   : "50%",
-
-                                }}
-                                    // style={{
-
-                                    //   opacity: priceInfo[index]?.Enabled
-                                    //     ? "100%"
-                                    //     : "50%",
-                                    // }}
-                                    // disabled={!priceInfo[index]?.Enabled}
-                                    value={priceInfo[index]?.price || ""}
-                                    onKeyDown={(e) => {
-                                      if (
-                                        ["-", "+", "e", "E"].includes(e.key)
-                                      ) {
-                                        e.preventDefault();
+                                    <input
+                                      className="swiggyZomato-input"
+                                      type="number"
+                                      onWheel={handleWheel}
+                                      disabled={
+                                        !priceInfo[index]?.availabilityEnabled
                                       }
-                                    }}
-                                    onChange={(e) => {
-                                      const inputValue = e.target.value;
+                                      style={{
+                                        border: "1px solid #5F5F5F",
 
-                                      if (
-                                        /^\d{0,4}(\.\d{0,2})?$/.test(inputValue)
-                                      ) {
-                                        const updatedData = [...priceInfo].map(
-                                          (item, idx) =>
+                                        // border: priceInfo[index]?.availabilityEnabled
+                                        // ? " 1px solid rgba(0, 0, 0, 0.3)"
+                                        // : "1px solid #5F5F5F",
+                                        // opacity: priceInfo[index]?.availabilityEnabled
+                                        //   ? "100%"
+                                        //   : "50%",
+                                      }}
+                                      // style={{
+
+                                      //   opacity: priceInfo[index]?.Enabled
+                                      //     ? "100%"
+                                      //     : "50%",
+                                      // }}
+                                      // disabled={!priceInfo[index]?.Enabled}
+                                      value={priceInfo[index]?.price || ""}
+                                      onKeyDown={(e) => {
+                                        if (
+                                          ["-", "+", "e", "E"].includes(e.key)
+                                        ) {
+                                          e.preventDefault();
+                                        }
+                                      }}
+                                      onChange={(e) => {
+                                        const inputValue = e.target.value;
+
+                                        if (
+                                          /^\d{0,4}(\.\d{0,2})?$/.test(
+                                            inputValue
+                                          )
+                                        ) {
+                                          const updatedData = [
+                                            ...priceInfo,
+                                          ].map((item, idx) =>
                                             idx === index
                                               ? {
                                                   ...item,
                                                   price: parseFloat(inputValue),
                                                 }
                                               : item
-                                        );
-                                        validateThridPrice(
-                                          index,
-                                          updatedData[index]?.price,
-                                          priceInfo[index]?.Enabled
-                                        );
-                                        setPriceInfo(updatedData);
-                                      }
-                                    }}
-                                  />
+                                          );
+                                          validateThridPrice(
+                                            index,
+                                            updatedData[index]?.price,
+                                            priceInfo[index]?.Enabled
+                                          );
+                                          setPriceInfo(updatedData);
+                                        }
+                                      }}
+                                    />
 
-                                  {/* {
+                                    {/* {
                                   editData?.length>0 &&
                                   <Toggle
                   toggle={priceInfo[index]?.availabilityEnabled}
@@ -3020,9 +3027,7 @@ const handleToggleDelivery = () => {
                 />
 
                                   } */}
-                                   
                                   </div>
-                                  
 
                                   <span className="Thirdparty-price-error">
                                     {errors[`ThirdPartyPrice-${index}`]}

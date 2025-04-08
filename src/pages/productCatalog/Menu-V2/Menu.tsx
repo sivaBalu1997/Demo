@@ -165,6 +165,8 @@ const Menu = () => {
     }
   },[menudatalist])
 
+  console.log(editData[0]?.availabilities)
+
   useEffect(() => {
     if (Array.isArray(editData) && editData?.length > 0) {
       const primaryPageData = {
@@ -208,6 +210,10 @@ const Menu = () => {
           hours: editData[0]?.preparationTimeInHours || "",
           minutes: editData[0]?.preparationTimeInMinutes || "",
         },
+        isSeasonalItem: editData[0]?.isSeasonalItem,
+        startDate: editData[0]?.startDate,
+        endDate: editData[0]?.endDate,
+        availabilities: editData[0]?.availabilities,
       };
 
       editData[0]?.orderTypes?.forEach((orderType: any) => {

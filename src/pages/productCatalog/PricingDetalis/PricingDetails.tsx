@@ -1151,7 +1151,12 @@ const PricingDetails = () => {
               </div>
             </div>
             <div >
-             <p className="avaiability-texts">{isOptionTrue? <span>Normal Availability : This item will be available every working day.</span>: <span>Custom Availability: Choose specific days and preferred meal type for the item's availability.</span> }</p>
+              <p className="avaiability-texts">
+                {isOptionTrue? 
+                  <span>Normal Availability : This item will be available every working day.</span> : 
+                  <span>Custom Availability: Choose specific days and preferred meal type for the item's availability.</span> 
+                }
+              </p>
             </div>
 
 

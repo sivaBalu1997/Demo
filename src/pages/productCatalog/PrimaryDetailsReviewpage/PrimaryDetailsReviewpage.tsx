@@ -608,9 +608,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ? DineIndays.map(String)
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
-  const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
-  console.log({dineInDetails});
-  
+  const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;  
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
@@ -742,10 +740,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDays: result || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
+    isSeasonalItem: prizingDetail?.normalForm?.isSeasonalItem,
+    startDate: prizingDetail?.normalForm?.startDate,
+    endDate: prizingDetail?.normalForm?.endDate,
+    availabilities: prizingDetail?.normalForm?.availabilities,
+
     ...(itemCustomizationData?.length > 0 && {
       modifiers: hasData ? modifierData : null,
     }),
-
     // isSingleMenu: false,
   };
 
@@ -753,8 +755,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const updateModifierId = useSelector(
     (state: any) => state.productCatalog.updateModifierId
   );
-
-  console.log({menuPayload})
 
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
@@ -797,6 +797,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysToAdd: result || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
+    isSeasonalItem: prizingDetail?.normalForm?.isSeasonalItem,
+    startDate: prizingDetail?.normalForm?.startDate,
+    endDate: prizingDetail?.normalForm?.endDate,
+    availabilities: prizingDetail?.normalForm?.availabilities,
+
     modifiersToAdd: hasData ? modifierData : [],
 
     isCategoryUpdated: categoryIdMatch,
@@ -815,6 +820,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
+  console.log({menuPayload},{editPayload})
 
 
   // const handleDispatch = async () => {
