@@ -23,6 +23,7 @@ interface DaysCheckProps {
   Errorname?: string;
   disabledays?: any;
   dateShow?: any;
+  availabilityDay?:any
 }
 
 // Define the type for the data returned by the API
@@ -60,6 +61,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   Errorname,
   disabledays,
   dateShow,
+  availabilityDay
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -67,21 +69,21 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const tagData = useSelector(
     (state: StateDataTag) => state.productCatalog.availability
   );
-
   const [data, setData] = useState<DataItem[]>([]);
   const Days = [
-    "All days",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+   ...availabilityDay
   ];
 
   const handleCheckboxChange = (day: any) => {
+  if(checkedItems.includes(day))
+  {
+     setCheckedItems((prev:any)=>prev.filter((data:any)=>data!=day))
+  }
+  else{
     setCheckedItems((prev: any) => [...prev, day]);
+  }
+  
+    
   };
 
   // useEffect(() => {

@@ -181,6 +181,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setIsOptionTrue,
       mealType
     } = props;
+    console.log("llll",mealType)
 
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
@@ -212,7 +213,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       []
     );
 
-
+    const availabilityDay=mealType.length>0 ? mealType[0].availabilities?.map((data:any)=>{return data.weekDay}):[]
     
     const [selectedMealType, setSelectedMealType] = useState<string[]>([]);
     const [selectedValuesmealtype, setSelectedValuesMealType] = React.useState<SelectedValuesMealTypeState>([]);
@@ -1931,8 +1932,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     
  useEffect(() => {
     if (selectedDate && selectedDate1) {
-     
-
       if (selectedDate == selectedDate1) {
         handleSingleDayRange(selectedDate, selectedDate1);
       } else {
@@ -2087,6 +2086,7 @@ const handleToggleDelivery = () => {
                           errorarray={errors}
                           Errorname="Availabledays"
                           setErrorArray={setErrors} 
+                          availabilityDay={availabilityDay}
                         />
                         
                         <div className="error-msg-Availabledays">
