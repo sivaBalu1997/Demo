@@ -109,9 +109,10 @@ const AvailabilityChangesUntil = ({
     return daysOfWeek[today.getDay()];
   };
   const [filteredsession, setfilteredsession] = useState([]);
+  
   useEffect(() => {
-    // const todayDay = getTodayDay();
-    const todayDay = "Sunday"; 
+    const todayDay = getTodayDay();
+    // const todayDay = "Sunday"; 
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item) => item.weekday === todayDay || item.weekday === "All"
     );
