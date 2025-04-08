@@ -57,9 +57,7 @@ const DineInDurationChart: React.FC <ReportProps>= ({dataList=[], loader=false})
           title: (tooltipItem: any) => {
             return "";
           },
-          label: (tooltipItem: any) => {
-            // console.log(tooltipItem);
-            
+          label: (tooltipItem: any) => {            
             const dataPoint = tooltipItem.raw;
             return [
               `Party: ${tooltipItem.label}`,

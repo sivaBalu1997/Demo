@@ -72,6 +72,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: false,
+    prefix:"#"
   },
   {
     key: "guestName",
@@ -157,18 +158,40 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   const checkInOverviewHourly = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewHourlySuccess
   );
+
+
+  const checkInOverviewHourlyTableData = useMemo(() => {
+    return checkInOverviewHourly?.map((dataToBeMapped: any)=>({
+      channelName: dataToBeMapped?.channelName,
+      checkinHour: dataToBeMapped?.checkinHour,
+      totalCheckins: dataToBeMapped?.totalCheckins,
+    }))
+  },[checkInOverviewHourly])
+
   const checkInOverviewGuestsHourly = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewGuestsHourlySuccess
   );
+
+  const checkInOverviewGuestsHourlyMapped = useMemo(() => {
+    return checkInOverviewGuestsHourly?.map((dataToBeMapped: any)=>({
+      channelName: dataToBeMapped?.channelName,
+      checkinHour: dataToBeMapped?.checkinHour,
+      totalGuests: dataToBeMapped?.totalGuests,
+    }))
+  },[checkInOverviewGuestsHourly])
+
   const checkInOverviewDailyAndGuest = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewDailyAndGuestSuccess
   );
+
   const checkInOverviewDineInGroup = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewDineInGroupSuccess
   );
+
   const checkInOverviewGuestSize = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewGuestSizeSuccess
   );
+
   const checkInOverviewTableDetails = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewTableDetailsSuccess
   );
@@ -310,6 +333,20 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }));
 
+
+  const checkInOverviewMapped = checkInOverview && [checkInOverview]?.map((dataTobeMapped: any)=>({
+    "totalCheckin": dataTobeMapped?.totalCheckin,
+    "totalGuests": dataTobeMapped?.totalGuests,
+    "totalCencellation": dataTobeMapped?.totalCencellation,
+    "totalCheckinPercentage": dataTobeMapped?.totalCheckinPercentage,
+    "totalGuestsPercentage": dataTobeMapped?.totalGuestsPercentage,
+    "totalCencellationPercentage": dataTobeMapped?.totalCencellationPercentage,
+    "avgWaitTime": dataTobeMapped?.avgWaitTime,
+    "avgWaitTimeChangePercentage": dataTobeMapped?.avgWaitTimeChangePercentage,
+    "avgCheckins": dataTobeMapped?.avgCheckins,
+    "avgGuests": dataTobeMapped?.avgGuests,
+  }))
+
   return (
     <>
 
@@ -341,7 +378,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
               </div>
             </div>
           </div>
-          {(!isCheckInOverviewLoading && checkInOverview && checkInOverviewHeaderForDownloading) && <DownloadReport kpiTitle="Check-in Overview" tableData={checkInOverview} headerData={checkInOverviewHeaderForDownloading} />}
+          {(!isCheckInOverviewLoading && checkInOverview && checkInOverviewHeaderForDownloading) && <DownloadReport kpiTitle="Check-in Overview" tableData={checkInOverviewMapped} headerData={checkInOverviewHeaderForDownloading} />}
         </div>
 
 
@@ -411,13 +448,19 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       </div>
 
       {/* <div className="sales-charts-container">   */}
-      <div>
-        <h2
-          className="sales-overview-sub-heading "
-          style={{ marginTop: "10vh" }}
-        >
-          Hourly Checkin
-        </h2>
+      <div style={{ marginTop: "10vh" }}>
+        <span className="heading-with-download-container-checkin-overview">
+          <h2
+            className="sales-overview-sub-heading"
+          >
+            Hourly Checkin
+          </h2>
+          <DownloadReport 
+            kpiTitle="Hourly Check-in"
+            tableData={checkInOverviewHourlyTableData} 
+            headerData={[{key:"channelName",label:"Channel Name"},{key:"checkinHour",label:"Checkin Hour"},{key:"totalCheckins",label:"Total checkins"}]}
+          />
+        </span>
         <ErrorHandler isError={checkInOverviewHourlyError} data={checkInOverviewHourly}>
           <HourlyCheckinChart
             dataList={checkInOverviewHourly}
@@ -426,13 +469,19 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         </ErrorHandler>
       </div>
 
-      <div>
-        <h2
-          className="sales-overview-sub-heading "
-          style={{ marginTop: "10vh" }}
-        >
-          Hourly Guest
-        </h2>
+      <div style={{ marginTop: "10vh" }}>
+      <span className="heading-with-download-container-checkin-overview">
+          <h2
+            className="sales-overview-sub-heading"
+          >
+            Hourly Guest
+          </h2>
+          <DownloadReport 
+            kpiTitle="Hourly Guest"
+            tableData={checkInOverviewGuestsHourlyMapped} 
+            headerData={[{key:"channelName",label:"Channel Name"},{key:"checkinHour",label:"Checkin Hour"},{key:"totalGuests",label:"Total guests"}]}
+          />
+        </span>
         <ErrorHandler isError={checkInOverviewGuestsHourlyError} data={checkInOverviewGuestsHourly}>
           <HourlyCheckinChartGuest
             dataList={checkInOverviewGuestsHourly}
@@ -441,14 +490,19 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         </ErrorHandler>
       </div>
 
-      <div>
-        <h2
-          className="sales-overview-sub-heading "
-          style={{ marginTop: "10vh" }}
-        >
-          {" "}
-          Daily Check-ins & Guests
-        </h2>
+      <div style={{ marginTop: "10vh" }}>
+      <span className="heading-with-download-container-checkin-overview">
+          <h2
+            className="sales-overview-sub-heading"
+          >
+            Daily Check-ins & Guests
+          </h2>
+          <DownloadReport 
+            kpiTitle="Daily Check-ins & Guests"
+            tableData={checkInOverviewDailyAndGuest} 
+            headerData={[{key:"day",label:"Day"},{key:"totalCheckins",label:"Total checkins"},{key:"totalGuests",label:"Total guests"}]}
+          />
+        </span>
         <ErrorHandler isError={checkInOverviewDailyAndGuestError} data={checkInOverviewDailyAndGuest}>
           <DailyCheckinsChart
             dataList={checkInOverviewDailyAndGuest}
@@ -457,13 +511,25 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         </ErrorHandler>
       </div>
 
-      <div>
-        <h2
-          className="sales-overview-sub-heading "
-          style={{ marginTop: "10vh" }}
-        >
-          Dine-in Duration By Groups
-        </h2>
+      <div style={{ marginTop: "10vh" }}>
+      <span className="heading-with-download-container-checkin-overview">
+          <h2
+            className="sales-overview-sub-heading"
+          >
+            Dine-in Duration By Groups
+          </h2>
+          <DownloadReport 
+            kpiTitle="Dine-in Duration By Groups"
+            tableData={checkInOverviewDineInGroup} 
+            headerData={
+              [
+                {key:"day",label:"Day"},
+                {key:"groupSize",label:"Group size"},
+                {key:"avgDineInDuration",label:"Avg Dine In Duration"},
+              ]
+            }
+          />
+        </span>
         <ErrorHandler isError={checkInOverviewDineInGroupError} data={checkInOverviewDineInGroup}>
           <DineInDurationChart
             dataList={checkInOverviewDineInGroup}
@@ -475,7 +541,16 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       <div>
         <div className="reports-page-sub-header-container">
           <h1 className="reports-page-heading">Group size Distrbution</h1>
-          <DownloadPopOver />
+          <DownloadReport 
+            kpiTitle="Group size Distrbution"
+            tableData={checkInOverviewGuestSize} 
+            headerData={
+              [
+                {key:"groupSize",label:"Group size"},
+                {key:"guestSize",label:"Guest size"},
+              ]
+            }
+          />
         </div>
         <ErrorHandler isError={checkInOverviewGuestSizeError} data={checkInOverviewGuestSize}>
           <CustomBarChart
@@ -531,7 +606,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           loader={isCheckInOverviewTopCustomerLoading}
           // // loader={true}
           // count={liveOrdersAPIRedux?.length}
-          searchPlaceHolder="Search by table number, customer name"
+          searchPlaceHolder="Search by number, customer name"
           onSearch={handleTopSearch}
           // // searchDebounce={()=>searchDebounce()}
           showDateDropDown={true}
@@ -546,12 +621,17 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         </div>
         <ErrorHandler isError={checkInOverviewAvgWaitTimeGroupError} data={checkInOverviewAvgWaitTimeGroup}>
           <StackedBarChart
-            loader={false}
-            dataList={checkInOverviewAvgWaitTimeGroup?.map((data: any) => ({
-              timeRange: data?.waitTime || "",
-              groupName: data?.groupSize || "",
-              count: data?.checkInCount || 0,
-            }))}
+            loader={isCheckInOverviewAvgWaitTimeGroupLoading}
+            dataList={checkInOverviewAvgWaitTimeGroup
+                ?.filter((item: any) => item?.waitTime) // Ensure valid timeRange
+                ?.sort((a: any, b: any) => {
+                  const getStartTime = (str: string) => (str ? parseInt(str.split("-")[0]) || 0 : 0);
+                  return getStartTime(a?.waitTime) - getStartTime(b?.waitTime);
+                })?.map((data: any) => ({
+                  timeRange: data?.waitTime || "",
+                  groupName: data?.groupSize || "",
+                  count: data?.checkInCount || 0,
+              }))}
           />
         </ErrorHandler>
       </div>

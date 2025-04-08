@@ -14,6 +14,11 @@
   padding: 0px;
   // background-color: pink;
 
+  // .heading-with-download-container{
+  //   display: flex;
+  //   justify-content: space-between;
+  // }
+
   & h2 {
     font-family: Poppins;
     font-weight: 500;
@@ -183,6 +188,13 @@
     }
   }
 }
+
+  .heading-with-download-container-checkin-overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 
 .tender-type-head-container{
   // background-color: pink;

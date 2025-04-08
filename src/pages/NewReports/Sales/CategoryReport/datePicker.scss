@@ -1,9 +1,15 @@
 .category-date-picker-container {
   .rmdp-week-day {
     color: #a8a8a8 !important;
-    font-weight: bold;
+    // font-weight: bold;
   }
-
+//   .rmdp-day-picker div:first-child {
+//
+//   }
+.rmdp-day-picker > div:first-child {
+  border-right: 1px solid #e0e0e0;
+  padding-right: 10px;
+}
   .rmdp-calendar {
     &:focus {
       outline-color: #a8a8a8 !important;

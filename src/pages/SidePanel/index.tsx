@@ -38,6 +38,7 @@ import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/emplo
 import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.svg";
 import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
 import { clearReportData } from "redux/newReports/newReportsActions";
+import SidePanelHoverViewForReports from "components/reportComponents/SidePanelHoverViewForReports";
 
 const SidePanel = () => {
   const dispatch = useDispatch();
@@ -150,6 +151,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [SelectSub, setSelectedSub] = useState("");
   const [SelectSubForReport, setSelectSubForReport] = useState("");
+  const [showHoverView, setShowHoverView] = useState(false);
 
   useEffect(() => {
     setIsExpanded(true);
@@ -580,13 +582,25 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                 }}
               >
                 <div
+                  style={{ position: "relative" }}
                   className={
                     showOptions === "reportOptions"
                       ? "activePath"
                       : "not-active"
                   }
                 >
-                  <Stats className="menu-items-icon menu-items-icons-resize" onClick={()=> history.push("/sales-reports")}/>
+                  <Stats 
+                    className="menu-items-icon menu-items-icons-resize" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowHoverView(!showHoverView);
+                    }}
+                  />
+                  {!isExpanded && showHoverView && (
+                    <div className="hover-view-container">
+                      <SidePanelHoverViewForReports onClose={() => setShowHoverView(false)}/>
+                    </div>
+                  )}
                   {isExpanded && (
                     <span className="menu-items-name  menu-items-name-rebranded">
                       Reports & Insights
