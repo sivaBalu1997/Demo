@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import "./Dropdown.scss";
 import UpArrow from "../../../assets/images/dropdown.png";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
 
 interface DropdownProps {
   selectedValues?: string[];
@@ -61,6 +63,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [touched, setTouched] = useState<boolean>(false);
 console.log("options",selectedValues);
+const dispatch=useDispatch();
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -121,6 +124,20 @@ console.log("options",selectedValues);
       onBlur && onBlur();
     }
   };
+ const locationid = useSelector((state: any) => state?.auth?.credentials);
+
+   const payload = {
+      locationId: locationid,
+      type: "MEAL_TYPE",
+      parentId: "",
+    };
+  
+    useEffect(()=>{
+      if(rotateImg)
+  
+      dispatch(fetchDropDownRequest(payload))
+  
+    },[rotateImg])
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
@@ -148,6 +165,8 @@ console.log("options",selectedValues);
             alt="arrow"
           />
         </div>
+
+       
       </div>
 
       {isOpen && (

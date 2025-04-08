@@ -633,6 +633,9 @@ console.log({isOptionTrue});
       .map((item: any) => item.typeName);
 
       const MealType=["Break fast","Lunch","Dinner"]
+      //  const MealType = useSelector(
+      //     (state: any) => state.productCatalog.cuisineData.data
+      //   );
 
     const thirdPartyData = orderTypes
       ?.filter((item: any) => item.typeGroup === "T")

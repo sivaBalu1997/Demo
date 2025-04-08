@@ -164,6 +164,9 @@ import {
   TRIGGERED_FCM,
   SCHEDULE_FCM,
   SCHEDULE_FCM_RESPONSE,
+  MEALTYPE_REQUEST,
+  MEALTYPE_SUCCESS,
+  MEALTYPE_FAILURE,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -628,6 +631,21 @@ export const taxClassSuccess = (response) => ({
 
 export const taxClassFailure = (error) => ({
   type: TAXCLASS_FAILURE,
+  payload: error
+})
+//MealType
+export const MealTypeRequest = (data) => ({
+  type: MEALTYPE_REQUEST,
+  payload: data
+});
+
+export const MealTypeSuccess = (response) => ({
+  type:  MEALTYPE_SUCCESS,
+  payload: response
+})
+
+export const MealTypeFailure = (error) => ({
+  type:  MEALTYPE_FAILURE,
   payload: error
 })
 

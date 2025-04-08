@@ -129,8 +129,12 @@ import {
   SELECTED_COLUMNS,
   TRIGGER_FCM,
   TRIGGERED_FCM,
+  MEALTYPE_REQUEST,
+  MEALTYPE_SUCCESS,
+  MEALTYPE_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
+import { mealType } from "assets/mockData/Moca_data";
 
 const initialProductCatalogState = {
   menuData: [],
@@ -183,6 +187,10 @@ const initialProductCatalogState = {
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
+
+  mealType: [],
+  mealTypeLoading: false,
+  mealTypeSuccess: false,
 
   requestCompleted: false,
 
@@ -561,6 +569,23 @@ case SELECTED_COLUMNS:
         draft.ingredients = [];
         draft.ingredientsLoading = false;
         draft.ingredientsSuccess = false;
+        break;
+
+
+        case MEALTYPE_REQUEST:
+        draft.mealType = [];
+        draft.mealTypeLoading = true;
+        draft.mealTypeSuccess = false;
+        break;
+      case MEALTYPE_SUCCESS:
+        draft.mealType = action.payload;
+        draft.mealTypeLoading = false;
+        draft.mealTypeSuccess = true;
+        break;
+      case MEALTYPE_FAILURE:
+        draft.mealType = [];
+        draft.mealTypeLoading = false;
+        draft.mealTypeSuccess = false;
         break;
 
       case TAXCLASS_REQUEST:

@@ -70,6 +70,7 @@ import {
   deleteimageFailure,
   triggeredFcm,
   scheduleFCMResponse,
+  MealTypeSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -202,6 +203,9 @@ function* fetchDropdownDataSaga(action) {
         case "TAX":
           yield put(taxClassSuccess(response))
           break;
+          case "MEAL_TYPE":
+            yield put(MealTypeSuccess(response))
+            break;
         default:
           throw new Error("Invalid type");
       }

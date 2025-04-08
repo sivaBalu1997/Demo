@@ -819,7 +819,17 @@ const PricingDetails = () => {
   //     fetchDropDownRequest(kitchenpayload)
   //   }
   // },[])
+  const payload = {
+    locationId: locationid,
+    type: "MEAL_TYPE",
+    parentId: "",
+  };
 
+  useEffect(()=>{
+
+    dispatch(fetchDropDownRequest(payload))
+
+  },[])
 
   
   return (
