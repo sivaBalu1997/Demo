@@ -192,7 +192,7 @@ const Menu = () => {
         categoryId: categoryData?.id,
         subCategory: editData[0]?.subCategoryName ?? "",
         subCategoryId: editData[0]?.subCategoryId ?? "",
-        popularItem: editData[0]?.popularItem ?? false,
+        exclusiveItem: editData[0]?.exclusiveItem ?? false,
       };
 
       const pricingPageData = {

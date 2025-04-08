@@ -91,7 +91,7 @@ interface PrimaryData {
   masterCode: string;
   imageUrls: ImageFile[];
   allergens: AllergenImage[];
-  popularItem: boolean;
+  exclusiveItem: boolean;
 }
 interface RootState {
   primarypage: {
@@ -725,7 +725,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // mealType: primarydata?.mealType || null,
     categoryId: matchedCategoryId || null,
     subCategoryId: matchedSubCategoryId || null,
-    isPopularItem: primarydata?.popularItem || null,
+    isExclusiveItem: primarydata?.exclusiveItem || null,
     allergens: primarydata?.allergens || null,
     description: primarydata?.description || null,
     containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
@@ -779,7 +779,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     cuisine: matchedCuisineId || null,
     categoryId: matchedCategoryId || null,
     subCategoryId: matchedSubCategoryId || null,
-    isPopularItem: primarydata?.popularItem || null,
+    isExclusiveItem: primarydata?.exclusiveItem || null,
     allergens: primarydata?.allergens || null,
     description: primarydata?.description || null,
     containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
