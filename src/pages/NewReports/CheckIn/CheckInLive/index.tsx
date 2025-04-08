@@ -179,8 +179,6 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess
   );
 
-  console.log("1111",{liveCheckInSeaterAvailability})
-
   const liveCheckInGuestCount = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
   );
@@ -275,30 +273,39 @@ const CheckInLiveReport = () => {
 
 
   useEffect(() => {
-    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+    if(selectedLocation?.value){
+      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+    }
   }, [selectedLocation,liveCheckInCurrentPage,liveCheckInPageLimit]);
 
 
   useEffect(() => {
+    if(selectedLocation?.value){
     dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+    }
   }, [selectedLocation,todayCheckInCurrentPage,todayCheckInPageLimit]);
 
 
 
   const   handleLiveCheckInSearch = (value: string) => {
+    if(selectedLocation?.value){
     setLiveCheckInSearchQuery(value);
     dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit }));
     setLiveCheckInCurrentPage(1)
+    }
     // setLiveCheckInPageLimit(10)
   };
   const handleTodayCheckInSearch = (value: string) => {
+    if(selectedLocation?.value){
     setTodayCheckInSearchQuery(value);
     dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit }));
     setTodayCheckInCurrentPage(1)
+    }
     // setTodayCheckInPageLimit(10)
   };
 
 const handleRefreshClick=()=>{
+  if(selectedLocation?.value){
   dispatch(liveCheckInOverviewRequest({ locationId: selectedLocation?.value }));
   dispatch(
     liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation?.value })
@@ -311,6 +318,7 @@ const handleRefreshClick=()=>{
   );
   dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
   dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+  }
 }
 
 const filteredLiveCheckInOverviewKeysForDownloadHeader = useMemo<DownloadHeaderItem[]>(() => {
@@ -361,17 +369,12 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
   guestSize: data.guestSize,
 }));
 
-// console.log({liveCheckInTableMapped})
 
-console.log("liveCheckInStatus",liveCheckInStatus)
 
 const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
   status: data.status,
   count: Number(data.count),
 }))
-
-console.log("liveCheckinStatusMapped",liveCheckinStatusMapped)
-
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -466,7 +469,7 @@ console.log("liveCheckinStatusMapped",liveCheckinStatusMapped)
               barColor="#225E96"
               toolTipBorderColor="#225E96"
               xAxisTooltipLabel="Status"
-              yAxisTooltipLabel="Check-in Count:"
+              yAxisTooltipLabel="Check-in Count"
               dataList={liveCheckInStatus?.map((data: any) => ({
                 xAxisValue: data.status,
                 yAxisValue: Number(data.count),

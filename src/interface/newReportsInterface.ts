@@ -76,6 +76,7 @@ export interface NewTableProps {
   tableContainerClassName?: string;
   showIcons?: boolean;
   totalElements?: number;
+  headers?: {key:string;label:string}[];
 }
 
 export interface SortConfig {

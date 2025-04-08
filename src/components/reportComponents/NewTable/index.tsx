@@ -65,6 +65,7 @@ const NewTable: React.FC<NewTableProps> = ({
   showIcons = true,
   tableContainerClassName = "",
   totalElements = 0,
+  headers=[]
 }) => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "",

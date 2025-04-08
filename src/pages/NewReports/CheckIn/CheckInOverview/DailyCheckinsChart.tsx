@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import"./DailyCheckinChart.scss"
+import { weekFullForm, weekShortForm } from 'utils';
 
 ChartJS.register(
   LinearScale,
@@ -31,9 +32,9 @@ interface ReportProps {
   dataList: any[];
   loader: boolean;
 }
-const labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=false}) =>{
+  const labels = Array.from(new Set(dataList.map((item) => weekShortForm(item.day))));
   const data:ChartData<"bar"|"line"> = {
     labels,
     datasets: [
@@ -48,10 +49,12 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
       {
         type: 'bar' as const,
         label: "Guest",
-        backgroundColor: 'rgb(75, 192, 192)',
+        backgroundColor: '#2682D9',
         data: dataList.map((item) => item.totalGuests),
         borderColor: 'white',
         borderWidth: 2,
+        maxBarThickness: 24,
+  
       },
     ],
   };
@@ -76,16 +79,23 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
             label: (tooltipItem: any) => {             
               const dataPoint = tooltipItem.raw;
               return [
-                `Day: ${tooltipItem?.label}`,
+                `Day: ${weekFullForm(tooltipItem?.label)}`,
                 `Channel: ${tooltipItem?.dataset?.label}`,
                 `Count: ${tooltipItem?.formattedValue||0}`,
               ];
             },
           },
+          borderColor: (context) => {
+            const tooltipItem = context.tooltip.dataPoints[0];
+          if (tooltipItem?.dataset?.label === 'Guest') {
+              return '#2682D9'; // border for "Guest" tooltip
+            }
+            return '#F89B29'; // fallback
+          },
           backgroundColor: "rgba(255, 255, 255, 0.9)",
           titleColor: "#333",
           bodyColor: "#333",
-          borderColor: "#e76f51",
+          // borderColor: "#2682D9",
           displayColors: false,
           borderWidth: 1,
           padding: 10, // Padding inside tooltip container

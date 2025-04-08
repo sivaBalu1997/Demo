@@ -72,6 +72,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: false,
+    prefix:"#"
   },
   {
     key: "guestName",
@@ -261,6 +262,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   );
 
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+
 
   useEffect(() => {
     if (selectedLocation && startDate && endDate) {
@@ -605,7 +607,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           loader={isCheckInOverviewTopCustomerLoading}
           // // loader={true}
           // count={liveOrdersAPIRedux?.length}
-          searchPlaceHolder="Search by table number, customer name"
+          searchPlaceHolder="Search by number, customer name"
           onSearch={handleTopSearch}
           // // searchDebounce={()=>searchDebounce()}
           showDateDropDown={true}
@@ -620,12 +622,17 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         </div>
         <ErrorHandler isError={checkInOverviewAvgWaitTimeGroupError} data={checkInOverviewAvgWaitTimeGroup}>
           <StackedBarChart
-            loader={false}
-            dataList={checkInOverviewAvgWaitTimeGroup?.map((data: any) => ({
-              timeRange: data?.waitTime || "",
-              groupName: data?.groupSize || "",
-              count: data?.checkInCount || 0,
-            }))}
+            loader={isCheckInOverviewAvgWaitTimeGroupLoading}
+            dataList={checkInOverviewAvgWaitTimeGroup
+                ?.filter((item: any) => item?.waitTime) // Ensure valid timeRange
+                ?.sort((a: any, b: any) => {
+                  const getStartTime = (str: string) => (str ? parseInt(str.split("-")[0]) || 0 : 0);
+                  return getStartTime(a?.waitTime) - getStartTime(b?.waitTime);
+                })?.map((data: any) => ({
+                  timeRange: data?.waitTime || "",
+                  groupName: data?.groupSize || "",
+                  count: data?.checkInCount || 0,
+              }))}
           />
         </ErrorHandler>
       </div>

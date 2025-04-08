@@ -30,11 +30,11 @@ interface StackedBarChartProps {
 
 // Predefined color list for each group
 const colorList: string[] = [
-  "#0294A5", // e.g. Group of 2
-  "#F99D2B", // e.g. Group of 4
-  "#14C9C9", // e.g. Group of 6
-  "#0FB36A", // e.g. Group of 8
-  "#E3313C", // e.g. Group of 8+
+  "#1F77B4", // e.g. Group of 2
+  "#F89B29", // e.g. Group of 4
+  "#049E16", // e.g. Group of 6
+  "#17BECF", // e.g. Group of 8
+  "#E17100", // e.g. Group of 8+
 ];
 
 // Helper function to transform raw dataList into Chart.js data
@@ -63,6 +63,7 @@ function transformData(dataList: DataListItem[]): ChartData<"bar"> {
     }),
     stack: "combined", // all series stacked together
   }));
+console.log({datasets, labels});
 
   return { labels, datasets };
 }
@@ -71,6 +72,8 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   dataList = [],
   loader,
 }) => {
+  console.log({dataList});
+  
   // Provide default sample data if none is passed
   // if (dataList.length === 0) {
   //   dataList = [
