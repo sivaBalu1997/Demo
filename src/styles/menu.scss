@@ -15,10 +15,10 @@
     box-sizing: border-box;
     position: fixed;
     transition: width 0.6s ease;
-    overflow: hidden;
+    // overflow: hidden;  
     &.menu-rebranded {
       padding: 3.5% 1.5%;
-      overflow-y: scroll;
+      // overflow-y: scroll;
       .offers-nav-list{
         display: block;
       }
@@ -26,6 +26,14 @@
     // @media (max-width: 1397px) {
     //   width: 7vw !important;
     // }
+
+    & .hover-view-container {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      margin-left: 8px;
+      z-index: 1000;
+    }
 
     & .magilhub {
       width: 5vw;

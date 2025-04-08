@@ -139,3 +139,18 @@ export interface IDateRange {
 export interface DateDropdownProps {
   onDateChange: (startDate: string, endDate: string) => void;
 } 
+
+export interface LiveCheckInOverview {
+  [key: string]: any; // Or replace 'any' with a more specific type if available
+  seated?: any;
+  noShow?: any;
+  totalActive?: any;
+  inQueue?: any;
+  assigned?: any;
+  lateShow?: any;
+}
+
+export interface DownloadHeaderItem {
+  key: string;
+  label: string;
+}
