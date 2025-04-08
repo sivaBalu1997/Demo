@@ -176,7 +176,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
             if(header?.key==="customerNumber"||header?.key==="email"){
                 if(employeeAccess) return row[header.key] || ""
             }else{
-         return row[header.key] || ""
+         return row[header.key] ?? ""
             }
 
         } ));
