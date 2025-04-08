@@ -125,6 +125,7 @@ interface NormalavailProps {
   setValue: any;
   setKitchenError: any;
   setIsOptionTrue:any;
+  mealType?:any;
 }
 
 type MealType1 = string;
@@ -177,16 +178,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setValue,
       setKitchenError,
       isOptionTrue,
-      setIsOptionTrue
+      setIsOptionTrue,
+      mealType
     } = props;
 
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
     const [showDineIn, setShowDineIn] = useState(true);
-    const { setValiadtePriceFields, setStoredFunction } =
-      useContext(Contextpagejs);
-console.log({isOptionTrue});
+    const { setValiadtePriceFields, setStoredFunction } = useContext(Contextpagejs);
 
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
@@ -195,6 +195,7 @@ console.log({isOptionTrue});
     const [availableDaysnew,setAvailableDaysnew]= useState<number[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
+    console.log({availableDaysnew})
     const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
     const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
     const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -213,18 +214,8 @@ console.log({isOptionTrue});
 
 
     
-    const [selectedMealType, setSelectedMealType] = useState<string[]>(
-      []
-    );
-
-    console.log({selectedMealType});
-    
-    
-    const [selectedValuesmealtype, setSelectedValuesMealType] =
-      React.useState<SelectedValuesMealTypeState>([]);
-
-   
-
+    const [selectedMealType, setSelectedMealType] = useState<string[]>([]);
+    const [selectedValuesmealtype, setSelectedValuesMealType] = React.useState<SelectedValuesMealTypeState>([]);
     const locationid = useSelector((state: any) => state.auth.selectedBranch);
 
     //   {_-------------------Array for Day Check---------------------------------}
@@ -241,9 +232,7 @@ console.log({isOptionTrue});
 
     const [showDayThird, setShowDayThird] = useState(false);
 
-    const prizingDetail = useSelector(
-      (state: any) => state.PricingDetailReducer.prizingData
-    );
+    const prizingDetail = useSelector((state: any) => state.PricingDetailReducer.prizingData);
 
     const [formNormal, setformNormal] = useState({
       PickuppriceNormal: "",
@@ -263,9 +252,7 @@ console.log({isOptionTrue});
     // const [Text, setText] = useState(
     //   dineinfields?.map(() => "Set up for Specific Day")
     // );
-    const dataFromRedux = useSelector(
-      (state: any) => state?.selectedMockDataReducer?.data
-    );
+    const dataFromRedux = useSelector((state: any) => state?.selectedMockDataReducer?.data);
 
     const orderTypess = locationid?.orderTypes;
 
@@ -274,7 +261,6 @@ console.log({isOptionTrue});
     const datePickerRef1 = useRef<any | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
-  
 
     // const seletedItemOrderTypes=data
 
@@ -631,8 +617,6 @@ console.log({isOptionTrue});
           (item.isEnabled === true || item.isEnabled === 1)
       )
       .map((item: any) => item.typeName);
-
-      const MealType=["Break fast","Lunch","Dinner"]
       //  const MealType = useSelector(
       //     (state: any) => state.productCatalog.cuisineData.data
       //   );
@@ -681,7 +665,6 @@ console.log({isOptionTrue});
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         const MealTypes = prizingDetail?.normalForm?.MealTypes;
-        console.log({MealTypes});
         setSelectedMealType([...prizingDetail?.normalForm?.MealTypes])
         
 
@@ -937,15 +920,6 @@ console.log({isOptionTrue});
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
-
-        console.log({dineIndetail});
-        console.log({pickupDetails});
-        console.log({deliveryDetails});
-
-        
-
-       
-
         setShowDayPickup(
           prizingDetail.normalForm?.Pickup?.length > 0 ? true : false
         );
@@ -1309,17 +1283,9 @@ console.log({isOptionTrue});
 
     const  handleMealType= (value: string[]): void => {
       setSelectedMealType(value);
-    
-     
-
-    
-      // validateDropdown(value, "ThirdDeliverySwiggyZomato");
-
-     
+      // validateDropdown(value, "ThirdDeliverySwiggyZomato");     
     };
 
-
-    console.log({selectedMealType});
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
       setThirdPartiesSelected(true);
@@ -1932,9 +1898,7 @@ console.log({isOptionTrue});
       const handleSeasonalFood = (value: boolean) => {
         setIsSeasonalFood(value);
       };
-      console.log({availableDaysnew});
-      console.log("selectedDate",selectedDate);
-      console.log("selectedDate1",selectedDate1);
+
       const generateDateRange = (startDate: any, endDate: any) => {
         let currentDate = new Date(startDate);
         let range = [];
@@ -2121,12 +2085,10 @@ const handleToggleDelivery = () => {
                           dateShow={isSeasonalFood}
                           disabledays={disabledDay}
                           errorarray={errors}
-                                Errorname="Availabledays"
-                                setErrorArray={setErrors}
-                         
-                        ></DaysCheck>
-
-
+                          Errorname="Availabledays"
+                          setErrorArray={setErrors} 
+                        />
+                        
                         <div className="error-msg-Availabledays">
                             <div style={{ width: "11.8rem" }}>
                               <span className="AvailabledaysError">
@@ -2157,7 +2119,7 @@ const handleToggleDelivery = () => {
                               setSelectedMealType={setSelectedMealType}
                               
                               EnabledOrNot={true}
-                              options={MealType}
+                              options={mealType}
                               errorarray={errors}
                               Errorname="MealType"
                               setErrorArray={setErrors}
@@ -2288,9 +2250,7 @@ const handleToggleDelivery = () => {
                 const mealTypeKey = `DineInMealType_${index}`;
                 const priceKey = `DineInPrice_${index}`;
                 const DineInService = `DineInService_${index}`;
-                console.log("dineinfields ee",dineinfields);
                 const enableOrNot = entry.availabilityEnabled;
-                console.log({enableOrNot});
                 
                 
 

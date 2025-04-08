@@ -204,7 +204,7 @@ function* fetchDropdownDataSaga(action) {
           yield put(taxClassSuccess(response))
           break;
           case "MEAL_TYPE":
-            yield put(MealTypeSuccess(response))
+            yield put(MealTypeSuccess(response.data))
             break;
         default:
           throw new Error("Invalid type");

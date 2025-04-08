@@ -7,7 +7,7 @@ import { fetchDropDownRequest } from "redux/productCatalog/productCatalogActions
 interface DropdownProps {
   selectedValues?: string[];
   onSelect: (values: string[]) => void;
-  options?: string[];
+  options?: any;
   label: string;
   validation?: {
     isValid: boolean;
@@ -30,8 +30,8 @@ interface DropdownProps {
   ValiadteMealType?:any;
   setSelectedMealType?:any;
   errorarray?:any;
-                              Errorname?:any;
-                              setErrorArray?:any
+  Errorname?:any;
+  setErrorArray?:any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -62,8 +62,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [touched, setTouched] = useState<boolean>(false);
-console.log("options",selectedValues);
-const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -79,6 +78,7 @@ const dispatch=useDispatch();
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -101,19 +101,15 @@ const dispatch=useDispatch();
       : [...selectedValues, value];
     onSelect(newSelectedValues);
     setSelectedMealType && setSelectedMealType(newSelectedValues)
-    console.log("value",newSelectedValues);
     
     // ValiadteMealType && ValiadteMealType();
     if(newSelectedValues.length>0)
     {
       const validationErrors = { ...errorarray};
-       
       delete validationErrors[`${Errorname}`];
-    
       setErrorArray?.(validationErrors);
     }
    
-
     // validatedineMealType && validatedineMealType();
     // validatepickupdelivery &&
     //   validatepickupdelivery(toggleOnorOff, newSelectedValues);
@@ -124,20 +120,25 @@ const dispatch=useDispatch();
       onBlur && onBlur();
     }
   };
+
  const locationid = useSelector((state: any) => state?.auth?.credentials);
 
-   const payload = {
-      locationId: locationid,
-      type: "MEAL_TYPE",
-      parentId: "",
-    };
+  // const payload = {
+  //   locationId: locationid,
+  //   type: "MEAL_TYPE",
+  //   parentId: "",
+  // };
   
-    useEffect(()=>{
-      if(rotateImg)
-  
-      dispatch(fetchDropDownRequest(payload))
-  
-    },[rotateImg])
+  // useEffect(()=>{
+  //   if(rotateImg)
+  //   dispatch(fetchDropDownRequest(payload))
+  // },[rotateImg])
+
+  const mealTypes = options.flatMap((option: any) =>
+    option.availabilities.flatMap((a: any) =>
+      a.sessions.map((session: any) => session.mealType)
+    )
+  );
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
@@ -165,26 +166,41 @@ const dispatch=useDispatch();
             alt="arrow"
           />
         </div>
-
-       
       </div>
 
       {isOpen && (
-        <div className={zIndex ? "optionsPricingz" : "optionsPricing"}>
-          {options.length > 0 ? (
-            options.map((option, index) => (
-              <label key={index} style={{display:"flex",justifyContent:"left",alignItems:"center",gap:"10px",cursor:"pointer"}}>
-                <input
-                  type="checkbox"
-                  name={option}
-                  className="checkboxPricing"
-                  value={option}
-                  onBlur={onBlur}
-                  checked={selectedValues.includes(option)}
-                  onChange={handleOptionClick}
-                  style={{marginBottom:streams?"0.3rem":"",}}
-                />
-                <p style={{marginTop:streams?"-0.5rem":"",marginBottom:streams?"0.3rem":""}}>{option}</p>
+        <div className = {zIndex ? "optionsPricingz" : "optionsPricing"}>
+          {mealTypes?.length > 0 ? (
+            mealTypes?.map((option: any, index: any) => (
+              <label key={index} 
+                style={
+                  {
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center",
+                    gap:"10px",
+                    cursor:"pointer"
+                  }
+                }>
+                 <input
+                    type="checkbox"
+                    name={option}
+                    className="checkboxPricing"
+                    value={option}
+                    checked={selectedValues.includes(option)}
+                    onBlur={onBlur}
+                    onChange={handleOptionClick}
+                    style={{ marginBottom: streams ? "0.3rem" : "" }}
+                  />
+
+                <p style={
+                    {
+                      marginTop:streams ? "-0.5rem" : "", 
+                      marginBottom:streams ? "0.3rem" : ""
+                    }
+                  }>
+                    {option}
+                  </p>
               </label>
             ))
           ) : (

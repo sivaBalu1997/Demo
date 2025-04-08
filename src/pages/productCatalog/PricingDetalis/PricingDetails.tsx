@@ -333,6 +333,8 @@ const PricingDetails = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
+  const mealType = useSelector((state: any) => state.productCatalog.mealType)
+
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -819,16 +821,15 @@ const PricingDetails = () => {
   //     fetchDropDownRequest(kitchenpayload)
   //   }
   // },[])
+
   const payload = {
-    locationId: locationid,
+    locationId: locationid?.locationId,
     type: "MEAL_TYPE",
     parentId: "",
   };
 
   useEffect(()=>{
-
     dispatch(fetchDropDownRequest(payload))
-
   },[])
 
   
@@ -1175,6 +1176,7 @@ const PricingDetails = () => {
                 setIsOptionTrue={setIsOptionTrue}
                 setKitchenError={setKitchenError}
                 setValidationFunction={setValidationFunction}
+                mealType={mealType}
               />
 
             {isOptionTrue ? (

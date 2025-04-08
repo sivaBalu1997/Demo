@@ -754,6 +754,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.updateModifierId
   );
 
+  console.log({menuPayload})
+
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
   useEffect(() => {
