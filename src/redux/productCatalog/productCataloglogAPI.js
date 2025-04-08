@@ -259,7 +259,7 @@ export function getPopularItemRequestApi(locationId) {
 
   return API({
     method: "get",
-    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
+    url: `/api/v1/menu-items/count-exclusive-items?locationId=${locationId}`,
     headers: {
       Authorization: "bearer " + token,
     },
