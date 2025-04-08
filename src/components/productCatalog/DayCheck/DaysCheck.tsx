@@ -69,21 +69,42 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const tagData = useSelector(
     (state: StateDataTag) => state.productCatalog.availability
   );
+  const availabilityDays=availabilityDay.length>0 ? availabilityDay?.filter((data:any)=>data!="All") :[]
   const [data, setData] = useState<DataItem[]>([]);
   const Days = [
-   ...availabilityDay
+    "All Days",
+   ...availabilityDays
   ];
 
   const handleCheckboxChange = (day: any) => {
-  if(checkedItems.includes(day))
+    let days:any=[]
+    if(dateShow)
+    {
+      days.push("All Days")
+    Days.forEach((data:any,index:any)=>{
+      if(disabledays.includes(index)){
+         days.push(data)
+      }
+    })
+  }
+  else{
+    days=[...Days]
+  }
+    console.log(days)
+    if (day === 'All Days') {
+      if (checkedItems.length === days.length) {
+        setCheckedItems([]);
+      } else {
+        setCheckedItems([...days]);
+      }
+    }
+  else if(checkedItems.includes(day))
   {
      setCheckedItems((prev:any)=>prev.filter((data:any)=>data!=day))
   }
   else{
     setCheckedItems((prev: any) => [...prev, day]);
   }
-  
-    
   };
 
   // useEffect(() => {
@@ -117,7 +138,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     <div className="DaysCheckContainer1">
       {Days.map((elem, index) => {
         const isChecked = checkedItems?.includes(elem);
-        const isEnabled = dateShow ? disabledays?.includes(index) : true;
+        const isEnabled = dateShow ? index==0?true : disabledays?.includes(index) : true;
         return (
           <div key={index}>
             <input
@@ -126,11 +147,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
               onChange={() => handleCheckboxChange(elem)}
               checked={index == 0 ? isChecked : isChecked && isEnabled}
               disabled={
-                index == 0
-                  ? AlldaysDisabled?.length > 0
-                    ? false
-                    : true
-                  : !isEnabled
+                 !isEnabled
               }
               className="days"
             />
