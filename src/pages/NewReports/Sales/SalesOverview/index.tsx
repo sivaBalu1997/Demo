@@ -529,6 +529,49 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const salesOverViewBoxForDownloading = [salesSummary]
+
+  const salesSummaryHeaderDataForDownloadUS = [
+    {"key": "totalGrossSalesIncludingThirdparty", "label":"Total Sales"},
+    {"key": "totalNetSalesIncludingThirdparty", "label":"Net Sales"},
+    {"key": "totalTaxIncludingThirdparty", "label":"Total Tax"},
+    {"key": "totalMagilTips", "label":"Total Tips"},
+    {"key": "gratuity", "label":"Gratuity"},
+    {"key": "totalOrdersIncludingThirdparty", "label":"Transactions"},
+    {"key": "discounts", "label":"Discounts"},
+    {"key": "cancelledOrders", "label":"Cancelled Orders"},
+  ]
+  const salesOverViewBoxForDownloadingUS = salesOverViewBoxForDownloading?.map((dataToBeMapped:any)=>({
+    totalGrossSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalGrossSalesIncludingThirdparty, countryCode, true),
+    totalNetSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalNetSalesIncludingThirdparty, countryCode, true),
+    totalTaxIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalTaxIncludingThirdparty, countryCode, true),
+    totalMagilTips: formatNumberByCountry(dataToBeMapped?.totalMagilTips, countryCode, true),
+    gratuity: formatNumberByCountry(dataToBeMapped?.gratuity, countryCode, true),
+    totalOrdersIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalOrdersIncludingThirdparty, countryCode, false),
+    discounts: formatNumberByCountry(dataToBeMapped?.discounts, countryCode, true),
+    cancelledOrders: formatNumberByCountry(dataToBeMapped?.cancelledOrders, countryCode, true),
+  }))
+
+  const salesSummaryHeaderDataForDownloadIND = [
+    {"key": "totalGrossSalesIncludingThirdparty", "label":"Total Sales"},
+    {"key": "totalNetSalesIncludingThirdparty", "label":"Net Sales"},
+    {"key": "totalTaxIncludingThirdparty", "label":"Total Tax"},
+    {"key": "totalMagilTips", "label":"Total Tips"},
+    {"key": "gratuity", "label":"Service Charge"},
+    {"key": "totalOrdersIncludingThirdparty", "label":"Transactions"},
+    {"key": "discounts", "label":"Discounts"},
+    {"key": "cancelledOrders", "label":"Cancelled Orders"},
+  ]
+  const salesOverViewBoxForDownloadingIND = salesOverViewBoxForDownloading?.map((dataToBeMapped:any)=>({
+    totalGrossSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalGrossSalesIncludingThirdparty, countryCode, true),
+    totalNetSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalNetSalesIncludingThirdparty, countryCode, true),
+    totalTaxIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalTaxIncludingThirdparty, countryCode, true),
+    totalMagilTips: formatNumberByCountry(dataToBeMapped?.totalMagilTips, countryCode, true),
+    serviceCharge: formatNumberByCountry(dataToBeMapped?.gratuity, countryCode, true),
+    totalOrdersIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalOrdersIncludingThirdparty, countryCode, false),
+    discounts: formatNumberByCountry(dataToBeMapped?.discounts, countryCode, true),
+    cancelledOrders: formatNumberByCountry(dataToBeMapped?.cancelledOrders, countryCode, true),
+  }))
+
   const salesSummaryHeaderForDownloading = salesSummary && Object.keys(salesSummary)?.map((key) => ({
     key,
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
@@ -668,7 +711,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                           </div>
                         </div>
                       </div>
-                      {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading} />}
+                      {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={countryCode === "US" ? salesOverViewBoxForDownloadingUS : salesOverViewBoxForDownloadingIND} headerData={countryCode === "US" ? salesSummaryHeaderDataForDownloadUS : salesSummaryHeaderDataForDownloadIND} />}
                     </div>
 
     <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={salesSummaryLoader}>
