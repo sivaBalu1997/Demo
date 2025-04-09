@@ -229,11 +229,12 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-light-green-one";
       }
     } else if (headerValue === "Order Channel") {
+      
       return " rep-order-channel";
     } else if (headerValue === "Status") {
-      if (rowvalue === "queue") {
+      if (rowvalue === "queue" || rowvalue === "Queue") {
         return " bubble bubble-text-blue-one";
-      } else if (rowvalue === "assigned") {
+      } else if (rowvalue === "assigned"|| rowvalue === "Assigned") {
         return " bubble bubble-text-blue-two";
       } else if (
         rowvalue === "Cancelled" ||
@@ -246,10 +247,10 @@ const NewTable: React.FC<NewTableProps> = ({
       } else if (
         rowvalue === "Completed" ||
         rowvalue === "completed" ||
-        rowvalue === "Available"
+        rowvalue === "Available"        
       ) {
         return " bubble bubble-text-green-one";
-      } else if (rowvalue === "seated") {
+      } else if (rowvalue === "seated" ||rowvalue === "Seated") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
         return " bubble bubble-text-violet-one";
