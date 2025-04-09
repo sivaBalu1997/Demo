@@ -59,6 +59,7 @@ interface ReportProps { }
 const knownTendorIcons: any = {
   "Swipe/Tap/Dip": <PayTapIcon />,
   "Online/Key-In": <PayTapIcon />,
+  "Card Swipe": <PayTapIcon />,
   "Keyed In": <KeyedInIcon />,
   Cash: <CashIcon />,
   "CASH": <CashIcon />,
@@ -75,7 +76,6 @@ const knownTendorIcons: any = {
   "Zomato": <ZomatoIcon />,
   "Seamless": <SeamlessIcon />,
   "GloriaFood": <GloriaFoodIcon />,
-  "Card Swipe": <PayTapIcon />,
 };
 
 const discountTableHeaders: NewTableHeader[] = [
