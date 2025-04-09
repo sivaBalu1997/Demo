@@ -595,8 +595,10 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetailsLoading
   );
 
+  const activeEmployees = employeeLists && employeeLists?.filter(employee => employee?.isActive);
+
   const employeeDropdownOptions =
-    employeeLists?.map((employee) => ({
+    activeEmployees?.map((employee) => ({
       value: employee?.staffId,
       label: employee?.lastName ? `${employee?.firstName} ${employee?.lastName}` : employee?.firstName,
     }));
