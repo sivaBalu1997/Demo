@@ -14,6 +14,7 @@ import BarChartShimmer from "components/reportComponents/Charts/BarChartShimmer"
 
 // Register Chart.js components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+const groupOrder = ["Group of 2", "Group of 4", "Group of 6", "Group of 8", "Group of 8+"];
 
 // Interface describing each data item
 interface DataListItem {
@@ -49,7 +50,9 @@ function transformData(dataList: DataListItem[]): ChartData<"bar"> {
   });
 
   const labels = Array.from(timeRangeSet); // x-axis labels
-  const groups = Array.from(groupSet); // legend groups
+  const groups = groupOrder.filter((group) => groupSet.has(group));
+  console.log({labels, groups});
+  
 
   // Build one dataset per group
   const datasets = groups.map((group, index) => ({
@@ -148,6 +151,13 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
           boxHeight: 12,
           usePointStyle: true,
           pointStyle: "rectRounded",
+          generateLabels: (chart) => {
+            const labels = ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
+            return labels.sort(
+              (a, b) =>
+                groupOrder.indexOf(a.text) - groupOrder.indexOf(b.text)
+            );
+          }
         },
       },
       tooltip: {
@@ -177,7 +187,9 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
             const idx = tooltipItem.dataIndex;          
             const stackValues = chartData.datasets
               ?.filter((data: any) => !!data?.data?.[idx]) // Ensure value exists
-              ?.sort((a: any, b: any) => a?.label?.localeCompare(b?.label, undefined, { sensitivity: 'base' }))
+              ?.sort((a, b) =>
+                groupOrder.indexOf(a?.label || "") - groupOrder.indexOf(b?.label || "")
+              )
               ?.map((dataset) => {
                 const channel = dataset.label;
                 const value = dataset.data[idx];

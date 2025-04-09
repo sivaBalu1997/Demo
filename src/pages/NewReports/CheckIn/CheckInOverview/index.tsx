@@ -263,7 +263,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
-
   useEffect(() => {
     if (selectedLocation && startDate && endDate) {
       const payload = {
