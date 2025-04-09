@@ -179,6 +179,13 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess
   );
 
+  console.log({liveCheckInSeaterAvailability})
+
+  const liveCheckInSeaterAvailabilityMapped = liveCheckInSeaterAvailability?.map((data: any) => ({
+    seaters: `${data.seaters} seaters`,
+    available:formatNumberByCountry(data.available),
+  }))
+
   const liveCheckInGuestCount = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
   );
@@ -419,7 +426,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Seater wise Availability</h1>
               {/* <DownloadPopOver /> */}
-              <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seater",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailability}/>
+              <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
             </div>
             <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
             <MiniCard
