@@ -114,7 +114,7 @@ function LinearBarChart({ barColorCode, dataList, loader,isMobile, bottomTitle="
         },
         ticks: {
            beginAtZero: true,
-           autoSkip: false,
+          //  autoSkip: false, //TODO: enable after BE return the top 20 result data
           display:!isMobile,
           color: "#555",
           font: { size: 14 },
