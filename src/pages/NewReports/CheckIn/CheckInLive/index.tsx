@@ -134,7 +134,7 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "todayCheckIn",
+    key: "todayCheckInStatus",
     label: "Status",
     alignment: "left",
     isSortable: true,
