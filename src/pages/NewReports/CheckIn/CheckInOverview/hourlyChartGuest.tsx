@@ -16,10 +16,10 @@ interface ReportProps {
 }
 
 const HourlyCheckinChartGuest: React.FC<ReportProps> = ({dataList=[], loader=false}) => {
-  const channels = Array.from(new Set(dataList?.map((d) => d?.channelName).filter(Boolean)));
+  const channels = Array.from(new Set(dataList?.map((d) => titleCase(d?.channelName||"")).filter(Boolean)));
   const hours=Array.from({ length: 24 }, (_, i) => i.toString())
 
-  const datasets =  ["MERCHANT","ONLINE" ].map((channel, index) => ({
+  const datasets =  channels.map((channel, index) => ({
     label: channel!,
     data: hours.map((hour) =>
       dataList?.filter((d) => d.checkinHour==hour && d.channelName === channel)

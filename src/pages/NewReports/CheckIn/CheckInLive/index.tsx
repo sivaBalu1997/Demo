@@ -31,6 +31,7 @@ const headerData = [
     label: "Check-in",
     alignment: "left",
     isSortable: true,
+    prefix:"#",
   },
   {
     key: "guestName",
@@ -95,6 +96,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: true,
+    prefix:"#"
   },
   {
     key: "guestName",
@@ -134,7 +136,7 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "todayCheckIn",
+    key: "todayCheckInStatus",
     label: "Status",
     alignment: "left",
     isSortable: true,
@@ -178,6 +180,11 @@ const CheckInLiveReport = () => {
   const liveCheckInSeaterAvailability = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess
   );
+
+  const liveCheckInSeaterAvailabilityMapped = liveCheckInSeaterAvailability?.map((data: any) => ({
+    seaters: `${data.seaters} seaters`,
+    available:formatNumberByCountry(data.available),
+  }))
 
   const liveCheckInGuestCount = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
@@ -274,31 +281,40 @@ const CheckInLiveReport = () => {
 
   useEffect(() => {
     if(selectedLocation?.value){
-      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+      let searchLive = liveCheckInSearchQuery;
+      if (searchLive?.[0] === "#") searchLive = searchLive.slice(1);
+      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: searchLive, page: liveCheckInCurrentPage, size: liveCheckInPageLimit,type:"livecheckin" }));
     }
   }, [selectedLocation,liveCheckInCurrentPage,liveCheckInPageLimit]);
 
 
   useEffect(() => {
     if(selectedLocation?.value){
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+
+      let searchToday = todayCheckInSearchQuery;
+      if (searchToday?.[0] === "#") searchToday = searchToday.slice(1);
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: searchToday, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
     }
   }, [selectedLocation,todayCheckInCurrentPage,todayCheckInPageLimit]);
 
 
 
   const   handleLiveCheckInSearch = (value: string) => {
-    if(selectedLocation?.value){
+    if(selectedLocation?.value ){
+      let search = value;
+      if (search?.[0] === "#") search = search.slice(1);
     setLiveCheckInSearchQuery(value);
-    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit }));
+    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search, page: 1, size: liveCheckInPageLimit ,type:"livecheckin"}));
     setLiveCheckInCurrentPage(1)
     }
     // setLiveCheckInPageLimit(10)
   };
   const handleTodayCheckInSearch = (value: string) => {
     if(selectedLocation?.value){
+      let search = value;
+      if (search?.[0] === "#") search = search.slice(1);
     setTodayCheckInSearchQuery(value);
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit }));
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search, page: 1, size: todayCheckInPageLimit , type:"todaycheckin"}));
     setTodayCheckInCurrentPage(1)
     }
     // setTodayCheckInPageLimit(10)
@@ -316,8 +332,12 @@ const handleRefreshClick=()=>{
   dispatch(
     liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation?.value })
   );
-  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
-  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+  let searchLive = liveCheckInSearchQuery;
+  if (searchLive?.[0] === "#") searchLive = searchLive.slice(1);
+  let searchToday = todayCheckInSearchQuery;
+  if (searchToday?.[0] === "#") searchToday = searchToday.slice(1);
+  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: searchLive, page: liveCheckInCurrentPage, size: liveCheckInPageLimit ,type:"livecheckin"}));
+  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search:searchToday, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
   }
 }
 
@@ -419,7 +439,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Seater wise Availability</h1>
               {/* <DownloadPopOver /> */}
-              <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seater",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailability}/>
+              <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
             </div>
             <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
             <MiniCard

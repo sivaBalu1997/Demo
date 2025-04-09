@@ -221,38 +221,39 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-brown-one";
       } else if (rowvalue === "Order Ready") {
         return " bubble bubble-text-green-one";
-      }  else if (rowvalue === "Order Completed") {
+      } else if (rowvalue === "Order Completed") {
         return " bubble bubble-text-dark-green";
-      }  else if (rowvalue === "In Delivery") {
+      } else if (rowvalue === "In Delivery") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue == "Pre order placed") {
         return " bubble bubble-text-light-green-one";
       }
     } else if (headerValue === "Order Channel") {
+
       return " rep-order-channel";
     } else if (headerValue === "Status") {
-      if (rowvalue === "queue") {
-        return " bubble bubble-text-blue-one";
-      } else if (rowvalue === "assigned") {
+      if (rowvalue === "queue" || rowvalue === "Queue") {
         return " bubble bubble-text-blue-two";
+      } else if (rowvalue === "assigned" || rowvalue === "Assigned") {
+        return " bubble bubble-text-blue-one";
       } else if (
-        rowvalue === "Cancelled" ||
-        rowvalue === "cancelled" ||
         rowvalue === "Unavailable"
       ) {
         return " bubble bubble-text-orange-one";
       } else if (rowvalue === "LateShow" || rowvalue === "lateShow") {
-        return " bubble bubble-text-brown-one";
+        return " bubble bubble-text-orange-one";
       } else if (
-        rowvalue === "Completed" ||
-        rowvalue === "completed" ||
         rowvalue === "Available"
       ) {
         return " bubble bubble-text-green-one";
-      } else if (rowvalue === "seated") {
+      } else if (rowvalue === "seated" || rowvalue === "Seated") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
-        return " bubble bubble-text-violet-one";
+        return " bubble bubble-text-diff-orange-brown";
+      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled"){
+        return "bubble bubble-text-brown-one"
+      } else if (rowvalue === "Completed" || rowvalue === "completed"){
+        return "bubble bubble-text-diff-green"
       }
     }
   };

@@ -203,6 +203,19 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       state?.checkInReports?.checkInOverviewAvgWaitTimeGroupSuccess
   );
 
+  // const download = checkInOverviewAvgWaitTimeGroup
+  //               ?.filter((item: any) => item?.waitTime) // Ensure valid timeRange
+  //               ?.sort((a: any, b: any) => {
+  //                 const getStartTime = (str: string) => (str ? parseInt(str.split("-")[0]) || 0 : 0);
+  //                 return getStartTime(a?.waitTime) - getStartTime(b?.waitTime);
+  //               })?.map((data: any) => ({
+  //                 timeRange: data?.waitTime || "",
+  //                 groupName: data?.groupSize || "",
+  //                 count: data?.checkInCount || 0,
+  //             }))
+
+  console.log({checkInOverviewAvgWaitTimeGroup})
+
   const isCheckInOverviewLoading = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewLoading
   );
@@ -617,7 +630,17 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       <div>
         <div className="reports-page-sub-header-container">
           <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-          <DownloadPopOver />
+          {/* <DownloadPopOver /> */}
+          <DownloadReport kpiTitle="Avg Wait Time by groups" 
+            headerData={
+              [
+                {"key":"groupSize", "label":"Group Size" },
+                {"key":"checkInCount", "label":"CheckIn Count" },
+                {"key":"waitTime", "label":"Wait Time" },
+              ]
+            } 
+            tableData={checkInOverviewAvgWaitTimeGroup}
+          />
         </div>
         <ErrorHandler isError={checkInOverviewAvgWaitTimeGroupError} data={checkInOverviewAvgWaitTimeGroup}>
           <StackedBarChart
