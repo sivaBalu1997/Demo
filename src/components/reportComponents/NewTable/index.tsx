@@ -49,7 +49,7 @@ const NewTable: React.FC<NewTableProps> = ({
   currentPage,
   totalPages,
   onPageChange = () => {},
-  rowsPerPage,
+  rowsPerPage=0,
   setRowsPerPage,
   loader,
   // setLoader,
@@ -588,7 +588,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 <span className="total-elements">
                   {/* {currentPage}-{rowsPerPage} of {totalElements}  */}
                   {/* changed as per prod input */}
-                  {currentPage}-{rowsPerPage && rowsPerPage < totalElements ? rowsPerPage : totalElements} of {totalElements}
+                  {(currentPage-1)*Number(rowsPerPage)+1}-{Number(rowsPerPage)*currentPage>totalElements?totalElements:Number(rowsPerPage)*currentPage} of {totalElements}
                 </span>
               </div>
             )}
