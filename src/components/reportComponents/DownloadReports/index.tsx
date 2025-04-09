@@ -100,7 +100,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
             transformedData = data && data?.map(row => {
                 const newRow: Record<string, any> = {};
                                  headerData?.forEach(header => {
-                    console.log(header?.key,`${prefix}"${row[header?.key]}"`);
+                    // console.log(header?.key,`${prefix}"${row[header?.key]}"`);
                     
                     if (header?.key === "customerNumber" ||  header?.key==="phone"|| header?.key === "email") {
                         if (employeeAccess){

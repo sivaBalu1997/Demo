@@ -179,8 +179,6 @@ const CheckInLiveReport = () => {
     (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess
   );
 
-  console.log({liveCheckInSeaterAvailability})
-
   const liveCheckInSeaterAvailabilityMapped = liveCheckInSeaterAvailability?.map((data: any) => ({
     seaters: `${data.seaters} seaters`,
     available:formatNumberByCountry(data.available),
