@@ -249,7 +249,7 @@ const NewTable: React.FC<NewTableProps> = ({
       } else if (rowvalue === "seated" || rowvalue === "Seated") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
-        return " bubble bubble-text-violet-one";
+        return " bubble bubble-text-diff-orange-brown";
       } else if (rowvalue === "Cancelled" || rowvalue === "cancelled"){
         return "bubble bubble-text-brown-one"
       } else if (rowvalue === "Completed" || rowvalue === "completed"){
