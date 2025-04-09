@@ -93,50 +93,57 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
     };
 
     const generateDataOutput = (data: Array<Record<string, any>>, exportType: ExportType) => {
-        let transformedData
-        const newRow: Record<string, any> = {};
-        const prefix = exportType === exportFromJSON.types.json ? "" : "="
+        let transformedData;
+        const prefix = exportType === exportFromJSON.types.json ? "" : "=";
+    
         if (headerData?.length > 0) {
-            transformedData = data && data?.map(row => {
+            transformedData = data.map(row => {
                 const newRow: Record<string, any> = {};
-                                 headerData?.forEach(header => {
-                    // console.log(header?.key,`${prefix}"${row[header?.key]}"`);
-                    
-                    if (header?.key === "customerNumber" ||  header?.key==="phone"|| header?.key === "email") {
-                        if (employeeAccess){
-                            if(header?.key === "customerNumber" || header?.key === "phone"){     
-                                                           
-                            newRow[header?.label] = `${prefix}"${row[header?.key]}"`
-                        }else{
-                            newRow[header?.label] = row[header?.key];
-                        }
-                        } 
+                headerData.forEach(header => {
+                    const value = row[header?.key];
+    
+                    // Force Excel to treat numeric-looking strings as text
+                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+    
+                    if (
+                        (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
+                    ) {
+                        newRow[header?.label] = `${prefix}"${value}"`;
+                    } else if (shouldWrapInFormula) {
+                        newRow[header?.label] = `${prefix}"${value}"`;
                     } else {
-                        return newRow[header?.label] = row[header?.key]
+                        newRow[header?.label] = value;
                     }
-                })
-                return newRow
+                });
+                return newRow;
             });
         } else {
-
-
-            transformedData = data?.map((row) => {
+            transformedData = data.map(row => {
+                const newRow: Record<string, any> = {};
                 Object.entries(row).forEach(([key, value]) => {
-                    if (key === "customerNumber" || key === "email") {
-                        if (employeeAccess) newRow[key] = `${prefix}"${value}"`;
+                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+    
+                    if (
+                        (key === "customerNumber" || key === "phone") && employeeAccess
+                    ) {
+                        newRow[key] = `${prefix}"${value}"`;
+                    } else if (shouldWrapInFormula) {
+                        newRow[key] = `${prefix}"${value}"`;
                     } else {
-
                         newRow[key] = value;
                     }
                 });
                 return newRow;
-            })
+            });
         }
+    
         exportFromJSON({
-            data: transformedData, fileName: kpiTitle, exportType,
-
+            data: transformedData,
+            fileName: kpiTitle,
+            exportType,
         });
-    }
+    };
+    
     // const csvDownloadFn = (data: Array<Record<string, any>>) => {
     //     const exportType = exportFromJSON.types.csv;
 
