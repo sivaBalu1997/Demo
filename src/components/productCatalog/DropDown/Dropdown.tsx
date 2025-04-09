@@ -103,6 +103,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     setSelectedMealType && setSelectedMealType(newSelectedValues)
     
     // ValiadteMealType && ValiadteMealType();
+    
     if(newSelectedValues.length>0)
     {
       const validationErrors = { ...errorarray};

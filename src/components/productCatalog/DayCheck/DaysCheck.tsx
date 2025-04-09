@@ -24,6 +24,7 @@ interface DaysCheckProps {
   disabledays?: any;
   dateShow?: any;
   availabilityDay?:any
+  AvailableDatsvaliadtion?: any
 }
 
 // Define the type for the data returned by the API
@@ -61,7 +62,8 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   Errorname,
   disabledays,
   dateShow,
-  availabilityDay
+  availabilityDay,
+  AvailableDatsvaliadtion
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -105,6 +107,12 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     setCheckedItems((prev: any) => [...prev, day]);
   }
   };
+
+  useEffect(() => {
+    if(checkedItems?.length > 0){
+      AvailableDatsvaliadtion()
+    }
+  },[checkedItems])
 
   // useEffect(() => {
   //   if (checkedItems && checkedItems.length > 0) {

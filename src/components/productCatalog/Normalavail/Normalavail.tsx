@@ -210,6 +210,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       []
     );
 
+    console.log({isOptionTrue})
+
     const availabilityDay =
       mealType.length > 0
         ? mealType[0].availabilities?.map((data: any) => {
@@ -266,6 +268,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const datePickerRef1 = useRef<any | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
+
+    console.log({selectedDate},{selectedDate1})
 
     // const seletedItemOrderTypes=data
 
@@ -726,8 +730,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
         // setAvailableDaysnew(prizingDetail.normalForm.availableDaysnew || []);
-        setSelectedDate(prizingDetail.normalForm.AvaiabilityFromDate || []);
-        setSelectedDate1(prizingDetail.normalForm.AvaiabilityToDate || []);
+        setSelectedDate(prizingDetail.normalForm.AvaiabilityFromDate || null);
+        setSelectedDate1(prizingDetail.normalForm.AvaiabilityToDate || null);
 
         if (
           prizingDetail.normalForm.AvaiabilityFromDate &&
@@ -966,6 +970,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setAvailableDaysnew(uniqueWeekDays);
         }
         
+        if (
+          prizingDetail?.startDate &&
+          prizingDetail?.endDate
+        ) {
+          setIsSeasonalFood(true);
+        }
+        
+        setSelectedDate(new Date(prizingDetail?.startDate) || null);
+        setSelectedDate1(new Date(prizingDetail?.endDate) || null);
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
@@ -1564,10 +1577,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     //   },[online])
 
     const ValiadteMealType = () => {
-      const validationErrors: Record<string, string> = {};
-
-      if (selectedMealType?.length === 0) {     
-        console.log('1')
+      const validationErrors = { ...errors };
+      
+      if (selectedMealType?.length === 0) { 
         validationErrors.MealType = "Meal type is empty";
       } else {
         delete validationErrors[`MealType`];
@@ -1575,29 +1587,40 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       setErrors(validationErrors);
     };
-    const fromDatevaliadtion = (date: Date | null) => {
-      const validationErrors: Record<string, string> = {};
+
+    const fromDatevaliadtion = (date?: Date | null) => {
+      const validationErrors = { ...errors };
 
       if (!isOptionTrue && isSeasonalFood && !date) {
-        validationErrors.fromDate = "From date required";
+        console.log('11', date)
+        validationErrors.fromDate = "From date required11";
+      }else{
+        delete validationErrors[`fromDate`];
       }
 
       setErrors(validationErrors);
     };
-    const toDatevaliadtion = (date: Date | null) => {
-      const validationErrors: Record<string, string> = {};
+
+    const toDatevaliadtion = (date?: Date | null) => {
+      const validationErrors = { ...errors };
 
       if (!isOptionTrue && isSeasonalFood && !date) {
-        validationErrors.toDate = "To date required";
+        console.log('22')
+        validationErrors.toDate = "To date required22";
+      }else{
+        delete validationErrors[`toDate`];
       }
 
       setErrors(validationErrors);
     };
+
     const AvailableDatsvaliadtion = () => {
-      const validationErrors: Record<string, string> = {};
+      const validationErrors = { ...errors };
 
       if (!isOptionTrue && availableDaysnew.length === 0) {
         validationErrors.Availabledays = "Available Days required";
+      }else{
+        delete validationErrors[`Availabledays`];
       }
 
       setErrors(validationErrors);
@@ -1716,12 +1739,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       else {
         delete validationErrors.atleastOneOrderType;
       }
-      
-      if (!isOptionTrue && selectedMealType?.length < 1) {
-        // console.log('2' ,isOptionTrue, selectedMealType?.length > 0, selectedMealType, !isOptionTrue && selectedMealType?.length < 1)
+
+      if (!isOptionTrue && selectedMealType?.length === 0) {
         validationErrors.MealType = "Meal type is empty";
       }
-
+      console.log('333', isOptionTrue, isSeasonalFood ,selectedDate, selectedDate1)
+      
       if (!isOptionTrue && isSeasonalFood && !selectedDate) {
         validationErrors.fromDate = "From date required";
       }
@@ -1733,9 +1756,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         validationErrors.Availabledays = "Available Days required";
       }
 
-      // fromDatevaliadtion();
-      // toDatevaliadtion();
-      // AvailableDatsvaliadtion();
+      fromDatevaliadtion();
+      toDatevaliadtion();
+      AvailableDatsvaliadtion();
 
       // if (
       //   pickupDetails?.Enabled &&
@@ -1826,7 +1849,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       selectedMealType,
       selectedDate,
       selectedDate1,
+      isOptionTrue,
+      isSeasonalFood
     ]);
+
     const validatePickupPrice = (price: number, Enable: boolean): void => {
       const validationErrors = { ...errors };
       if (pickup) {
@@ -2114,6 +2140,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       Errorname="Availabledays"
                       setErrorArray={setErrors}
                       availabilityDay={availabilityDay}
+                      AvailableDatsvaliadtion = {AvailableDatsvaliadtion}
                     />
 
                     <div className="error-msg-Availabledays">

@@ -508,7 +508,7 @@ const PricingDetails = () => {
 
   useEffect(() => {
     setOptions(data);
-    getApi();
+    // getApi();
   }, [data]);
 
   const getApi = async () => {
