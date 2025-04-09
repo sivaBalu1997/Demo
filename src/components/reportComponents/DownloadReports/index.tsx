@@ -276,13 +276,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
     return (
         <div className="table-download-options-container">
-            <TableDownloadOptionsIcon
+          {tableData?.length ?  <TableDownloadOptionsIcon
                 className="table-download-options"
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowDownloadables((val) => !val);
                 }}
-            />
+            />:null
+}
 
             {showDownloadables && (
                 <>
