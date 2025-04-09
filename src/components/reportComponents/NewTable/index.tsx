@@ -111,23 +111,25 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string) => {    
+  const handleSort = (key: string) => { 
+       
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
       direction = "desc";
     else if (sortConfig?.key === key && sortConfig?.direction === "desc")
-      direction = "asc";
+      direction = "asc";    
     setSortConfig({ key, direction });
   };
 
-  const sortedData = useMemo(() => {
+  const sortedData = useMemo(() => {   
     if (!tableData || tableData?.length === 0) return [];
     if (!sortConfig?.direction || !sortConfig?.key) return tableData;
+    
     return [...tableData]?.sort((a, b) => {
-      const aValue = a[sortConfig?.key];
-      const bValue = b[sortConfig?.key];
+      const aValue = a?.[sortConfig?.key]??"";
+      const bValue = b?.[sortConfig?.key]??"";     
       if (aValue < bValue) return sortConfig?.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
+      else if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
       return 0;
     });
   }, [tableData, sortConfig]);
