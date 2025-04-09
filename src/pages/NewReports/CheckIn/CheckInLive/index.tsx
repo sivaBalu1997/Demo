@@ -31,6 +31,7 @@ const headerData = [
     label: "Check-in",
     alignment: "left",
     isSortable: true,
+    prefix:"#",
   },
   {
     key: "guestName",
@@ -95,6 +96,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: true,
+    prefix:"#"
   },
   {
     key: "guestName",
@@ -279,14 +281,19 @@ const CheckInLiveReport = () => {
 
   useEffect(() => {
     if(selectedLocation?.value){
-      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit,type:"livecheckin" }));
+      let searchLive = liveCheckInSearchQuery;
+      if (searchLive?.[0] === "#") searchLive = searchLive.slice(1);
+      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: searchLive, page: liveCheckInCurrentPage, size: liveCheckInPageLimit,type:"livecheckin" }));
     }
   }, [selectedLocation,liveCheckInCurrentPage,liveCheckInPageLimit]);
 
 
   useEffect(() => {
     if(selectedLocation?.value){
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
+
+      let searchToday = todayCheckInSearchQuery;
+      if (searchToday?.[0] === "#") searchToday = searchToday.slice(1);
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: searchToday, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
     }
   }, [selectedLocation,todayCheckInCurrentPage,todayCheckInPageLimit]);
 
@@ -294,16 +301,20 @@ const CheckInLiveReport = () => {
 
   const   handleLiveCheckInSearch = (value: string) => {
     if(selectedLocation?.value ){
+      let search = value;
+      if (search?.[0] === "#") search = search.slice(1);
     setLiveCheckInSearchQuery(value);
-    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit ,type:"livecheckin"}));
+    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search, page: 1, size: liveCheckInPageLimit ,type:"livecheckin"}));
     setLiveCheckInCurrentPage(1)
     }
     // setLiveCheckInPageLimit(10)
   };
   const handleTodayCheckInSearch = (value: string) => {
     if(selectedLocation?.value){
+      let search = value;
+      if (search?.[0] === "#") search = search.slice(1);
     setTodayCheckInSearchQuery(value);
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit , type:"todaycheckin"}));
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search, page: 1, size: todayCheckInPageLimit , type:"todaycheckin"}));
     setTodayCheckInCurrentPage(1)
     }
     // setTodayCheckInPageLimit(10)
@@ -321,8 +332,12 @@ const handleRefreshClick=()=>{
   dispatch(
     liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation?.value })
   );
-  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit ,type:"livecheckin"}));
-  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
+  let searchLive = liveCheckInSearchQuery;
+  if (searchLive?.[0] === "#") searchLive = searchLive.slice(1);
+  let searchToday = todayCheckInSearchQuery;
+  if (searchToday?.[0] === "#") searchToday = searchToday.slice(1);
+  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: searchLive, page: liveCheckInCurrentPage, size: liveCheckInPageLimit ,type:"livecheckin"}));
+  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search:searchToday, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
   }
 }
 
