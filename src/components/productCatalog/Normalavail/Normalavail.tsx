@@ -944,12 +944,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         // setValue("kitchenstation",prizingDetail?.kitchenstation)
       }
-
       if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-        prizingDetail.isStandardAvailability && setIsOptionTrue(false);
+        setIsOptionTrue(prizingDetail?.isStandardAvailability);
 
         if (prizingDetail?.availabilities?.length > 0) {
           const allSessions: string[] = prizingDetail?.availabilities &&  prizingDetail?.availabilities?.flatMap(
