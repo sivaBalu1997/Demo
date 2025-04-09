@@ -45,6 +45,9 @@ const generateQueryParams = (payload) => {
     if(payload?.offer){
         query+=`&offer=${payload?.offer}`
     }
+    if(payload?.type){
+        query+=`&type=${payload?.type}`
+    }
     return "?"+query?.slice(1)
 }
 
@@ -125,7 +128,7 @@ export const getLiveCheckInTable = (params) => {
     const query = generateQueryParams(params);
     return REPORTS_API({
         method: "get",
-        url: `/live/checkin/liveortoday-checkins${query}&type=livecheckin`,
+        url: `/live/checkin/liveortoday-checkins${query} `,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -137,7 +140,7 @@ export const getLiveCheckInToday = (params) => {
     const query = generateQueryParams(params);
     return REPORTS_API({
         method: "get",
-        url: `/live/checkin/liveortoday-checkins${query}&type=todaycheckin`,
+        url: `/live/checkin/liveortoday-checkins${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

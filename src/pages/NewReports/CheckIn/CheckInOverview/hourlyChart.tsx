@@ -15,12 +15,12 @@ interface ReportProps {
 }
 
 const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) => {
-  const channels = Array.from(new Set(dataList?.map((d) => d?.channelName).filter(Boolean)));
+  const channels = Array.from(new Set(dataList?.map((d) => titleCase(d?.channelName||"")).filter(Boolean)));
   const hours=Array.from({ length: 24 }, (_, i) => i.toString())  
-  const datasets = ["MERCHANT","ONLINE" ].map((channel, index) => ({
+  const datasets = channels.map((channel, index) => ({
     label: channel!,
     data: hours.map((hour) =>
-      dataList?.filter((d) => d.checkinHour==hour && d.channelName === channel)
+      dataList?.filter((d) => d.checkinHour==hour && titleCase( d.channelName||"") === channel)
         .reduce((sum, item) => sum + item.totalCheckins, 0)
     ),
     backgroundColor: [ "#2797FE","#3FE1C0", "#F89B29"][index], // Colors for channels 
@@ -40,6 +40,7 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
         boxHeight: 12, // Set legend box height
         usePointStyle: true,
         pointStyle: "rectRounded", // Rounded rectangle legend symbol
+
       }, },
       tooltip: {
         borderColor: (context) => {
@@ -61,7 +62,6 @@ const HourlyCheckinChart: React.FC<ReportProps> = ({dataList=[], loader=false}) 
         cornerRadius: 4,
         caretSize: 0, // Remove tooltip arrow
         caretPadding: 0,
-        padding: 10, // Padding inside tooltip container
         titleFont: { weight: "normal", size: 14, family: "Poppins" }, // Title font size set to 14px
         bodyFont: { size: 14, family: "Poppins" }, // Body font size set to 14px
         titleMarginBottom: 0,

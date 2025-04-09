@@ -279,23 +279,23 @@ const CheckInLiveReport = () => {
 
   useEffect(() => {
     if(selectedLocation?.value){
-      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit,type:"livecheckin" }));
     }
   }, [selectedLocation,liveCheckInCurrentPage,liveCheckInPageLimit]);
 
 
   useEffect(() => {
     if(selectedLocation?.value){
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
     }
   }, [selectedLocation,todayCheckInCurrentPage,todayCheckInPageLimit]);
 
 
 
   const   handleLiveCheckInSearch = (value: string) => {
-    if(selectedLocation?.value){
+    if(selectedLocation?.value ){
     setLiveCheckInSearchQuery(value);
-    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit }));
+    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit ,type:"livecheckin"}));
     setLiveCheckInCurrentPage(1)
     }
     // setLiveCheckInPageLimit(10)
@@ -303,7 +303,7 @@ const CheckInLiveReport = () => {
   const handleTodayCheckInSearch = (value: string) => {
     if(selectedLocation?.value){
     setTodayCheckInSearchQuery(value);
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit }));
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit , type:"todaycheckin"}));
     setTodayCheckInCurrentPage(1)
     }
     // setTodayCheckInPageLimit(10)
@@ -321,8 +321,8 @@ const handleRefreshClick=()=>{
   dispatch(
     liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation?.value })
   );
-  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
-  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit ,type:"livecheckin"}));
+  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
   }
 }
 

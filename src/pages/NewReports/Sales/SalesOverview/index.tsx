@@ -833,7 +833,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                                       <TenderType
                                         icon={
                                           knownTendorIcons?.[item?.paymentMode] || (
-                                            <KeyedInIcon />
+                                            <DefaultTenderTypeIcon />
                                           )
                                         }
                                         key={index}
