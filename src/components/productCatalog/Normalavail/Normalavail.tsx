@@ -1447,6 +1447,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setSelectedValues4([]);
       setSelectedValues5([]);
       setSelectedValues([]);
+      setSelectedDate(null);
+      setSelectedDate1(null);
+      setSelectedMealType([]);
+      setIsSeasonalFood(false)
+      setIsOptionTrue(true)
       setDineInFields((prevDineInFields: any) =>
         prevDineInFields.map(() => ({
           DineInPrice: "",
