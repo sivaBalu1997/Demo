@@ -726,12 +726,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
         // setAvailableDaysnew(prizingDetail.normalForm.availableDaysnew || []);
-        setSelectedDate(prizingDetail.normalForm.AvaiabilityFromDate || null);
-        setSelectedDate1(prizingDetail.normalForm.AvaiabilityToDate || null);
+        prizingDetail?.normalForm?.isSeasonalItem && setSelectedDate(prizingDetail?.normalForm?.AvaiabilityFromDate || null);
+        prizingDetail?.normalForm?.isSeasonalItem && setSelectedDate1(prizingDetail?.normalForm?.AvaiabilityToDate || null);
 
         if (
-          prizingDetail.normalForm.AvaiabilityFromDate &&
-          prizingDetail.normalForm.AvaiabilityToDate
+          (prizingDetail.normalForm.AvaiabilityFromDate &&
+          prizingDetail.normalForm.AvaiabilityToDate) && (prizingDetail?.normalForm?.isSeasonalItem || prizingDetail?.isSeasonalItem)
+
         ) {
           setIsSeasonalFood(true);
         }
@@ -981,8 +982,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           const [year,month,day] = dateStr?.split('-');
           const parsedDate = new Date(`${year}-${month}-${day}`);
           
-          setSelectedDate(parsedDate1 || null);
-          setSelectedDate1(parsedDate || null);
+          prizingDetail?.isSeasonalItem && setSelectedDate(parsedDate1 || null);
+          prizingDetail?.isSeasonalItem && setSelectedDate1(parsedDate || null);
         }
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
@@ -2148,7 +2149,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     />
 
                     <div className="error-msg-Availabledays">
-                      <div style={{ width: "11.8rem" }}>
+                      <div style={{ width: "11.8rem", marginBottom: '10px' }}>
                         <span className="AvailabledaysError">
                           {errors.Availabledays}
                         </span>

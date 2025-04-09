@@ -116,11 +116,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   useEffect(() => {
     const daysToCompare = dateShow
-      ? ["All Days", ...Days?.filter((_, index) => disabledays?.includes(index))]
-      : Days;
-  
+      ? ["All Days", ...Days?.filter((_, index) => disabledays?.includes(index))]: Days;
+      
     const allOtherDays = daysToCompare?.filter((day) => day !== "All Days");
-  
+
     const areAllDaysChecked = allOtherDays?.every((day) =>
       checkedItems?.includes(day)
     );

@@ -186,6 +186,7 @@ const NormalStep2 = () => {
   //   );
   // const onlineDeliveryFormatted = onlineDelivery?.join(", ");
   // console.log({ onlinePickupFormatted });
+  
 
   return (
     <div>
@@ -196,7 +197,7 @@ const NormalStep2 = () => {
           )
         </h1>
       </div>
-      {!prizingDetail?.normalForm?.isOptionTrue && (
+      {(!prizingDetail?.normalForm?.isOptionTrue && (prizingDetail?.isSeasonalItem || prizingDetail?.normalForm?.isSeasonalItem) && (prizingDetail?.startDate || prizingDetail?.normalForm?.startDate)) && (
         <div>
           <div className="date-range">
             <div>
