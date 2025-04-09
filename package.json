@@ -2,7 +2,7 @@
   "name": "merchant-app",
   "version": "22.0.3",
   "private": true,
-  "proxy": "http://34.23.205.137:8080/magilhub-data-services-reports/",
+  "proxy": "https://apiq.gcp.magilhub.com/magilhub-data-services",
   "dependencies": {
     "@canvasjs/charts": "^3.12.2",
     "@canvasjs/react-charts": "^1.0.2",
