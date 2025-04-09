@@ -212,6 +212,7 @@ const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 // ];
 
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
+  const [loadingState, setLoadingState] = useState(true);
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState<number>(1);
@@ -449,6 +450,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         })
       ),
     ]);
+    setLoadingState(false);
   }, [selectedLocation, startDate, endDate]);
 
 
@@ -719,7 +721,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={countryCode === "US" ? salesOverViewBoxForDownloadingUS : salesOverViewBoxForDownloadingIND} headerData={countryCode === "US" ? salesSummaryHeaderDataForDownloadUS : salesSummaryHeaderDataForDownloadIND} />}
                     </div>
 
-    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={salesSummaryLoader}>
+    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={loadingState||salesSummaryLoader}>
                 <div className="todays-report-sales-overview-box-container">
                   {countryCode === "US" ?
                     (cardConfigForSalesTabOverView?.map((card: any, index: number) => (

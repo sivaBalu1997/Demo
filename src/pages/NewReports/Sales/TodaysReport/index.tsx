@@ -27,7 +27,6 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
 import "./style.scss";
-import { is } from 'immer/dist/internal';
 
 const TodaysReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,7 +34,6 @@ const TodaysReport: React.FC = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
-
   const [currentDate, setCurrentDate] = useState("");
   const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
   const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] =
@@ -435,6 +433,7 @@ const TodaysReport: React.FC = () => {
         type: "notcompleted",
       })
     );
+
   };
 
   return (
@@ -480,7 +479,7 @@ const TodaysReport: React.FC = () => {
         <ErrorHandler
           data={isSwitchActive ? billedDataAPIRedux : unBilledAPIRedux}
           isError={isSwitchActive ? billedDataAPIReduxError : unBilledAPIReduxError}
-          isLoading={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
+          isLoading={ isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
         >
           <div className="todays-report-sales-overview-box-container">
             {(countryCode === "US"

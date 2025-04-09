@@ -24,16 +24,16 @@ const SalesChart = ({dataList, loader,isMobile, bottomTitle=""}) => {
 
   const channelColorMap = {
     "Pickup": "#E17100",
-    "Dinein": "#67833E",
     "Grubhub": "#FF8C00",
-    "Doordash": "#EE2637",
-    "Delivery": "#14A789",
-    "UberEats": "#06C167",
-    "Direct Online": "#C9CC3F",
-    "Instore": "#00FF7F",
-    "GloriaFood": "#735557",
     "Swiggy": "#FF5200",
     "Zomato": "#EF4F5F",
+    "Doordash": "#EE2637",
+    "Uber eats": "#06C167",
+    "GloriaFood": "#735557",
+    "Dinein": "#67833E",
+    "Delivery": "#14A789",
+    "Direct Online": "#C9CC3F",
+    "Instore": "#00FF7F",
   };
 
   function transformData(datalist) {

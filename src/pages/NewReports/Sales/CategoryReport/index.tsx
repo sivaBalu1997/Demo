@@ -303,8 +303,8 @@ const CategoryReport = (props: any) => {
 
 
   const cancelledItemsDownloadHeader = [{
-    key: "itemName",
-    label: "Item Name"
+    key: "voidedReason",
+    label: "Voided Reason"
   },
   {
     key: "voidedQuantity",
