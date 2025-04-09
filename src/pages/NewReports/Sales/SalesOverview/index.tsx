@@ -601,11 +601,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       }))
       : []; // Return an empty array if no data
 
-  const salesByChannelHeader = salesByChannel && Object.keys(salesByChannel)?.map((key) => ({
-    key,
-    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
-  }));
-
   const salesByRevenueClassForDownloading = salesByRevenueClass && salesByRevenueClass?.map((dataToBeMapped: any) => ({
     revenueClass: dataToBeMapped?.revenueClass,
     itemsSold: dataToBeMapped?.itemsSold,
@@ -882,7 +877,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   <div className="sales-charts-parent-container">
                     <div className="sales-chart-download-container">
                       <h2 className="sales-overview-sub-heading ">By Channel</h2>
-                      {(!salesByChannelLoading && salesByChannel && salesByChannelHeader) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={salesByChannelHeader} />}
+                      {(!salesByChannelLoading && salesByChannel) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={[{"key":"channelName", "label":"Channel Name",},{"key":"orders", "label":"Orders",},{"key":"sales", "label":"Sales",}]} />}
                     </div>
                     <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
                       <ChannelSalesChart
