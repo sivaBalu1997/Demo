@@ -27,6 +27,7 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
 import "./style.scss";
+import { is } from 'immer/dist/internal';
 
 const TodaysReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -512,6 +513,7 @@ const TodaysReport: React.FC = () => {
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
+            ...isSwitchActive?{type:"Paid"}:{}
           }}
           kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Dine-in orders`}
           searchQuery={liveOrdersSearchQuery}
