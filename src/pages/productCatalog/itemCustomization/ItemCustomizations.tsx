@@ -2206,6 +2206,7 @@ setModifications((prev: any) => {
                                   label={`Available Service Stream${
                                     atleastOnestream ? "*" : ""
                                   }`}
+                                  itemcustomization = {true}
                                 />
                                 {customizationerrors[modIndex]
                                   ?.errormsgforselectedvalues && (

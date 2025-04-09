@@ -28,13 +28,13 @@ interface DineInField {
 interface NormalFormData {
   normalForm: {
     dineInDetails?: any;
-    AvaiabilityToDate?:any;
-    AvaiabilityFromDate:any;
-    availableDaysnew?:any;
-    MealTypes?:any;
-    isOptionTrue:boolean
+    AvaiabilityToDate?: any;
+    AvaiabilityFromDate: any;
+    availableDaysnew?: any;
+    MealTypes?: any;
+    isOptionTrue: boolean;
     dineinfields: DineInField[];
-    Normaldays:number[];
+    Normaldays: number[];
     DineIn: any;
     Pickup: number[];
     Delivery: number[];
@@ -91,17 +91,16 @@ interface RootState {
 
 const NormalStep2 = () => {
   const prizingDetail = useSelector(
-    (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
-  );  
-console.log({prizingDetail});
-const formatDate = (date:Date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-  const year = d.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+    (state: any) => state?.PricingDetailReducer?.prizingData || {}
+  );
 
+  const formatDate = (date: Date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = d.getFullYear();
+    return `${month}-${day}-${year}`;
+  };
 
   const thirdPartyDetails = useSelector(
     (state: any) =>
@@ -131,26 +130,30 @@ const formatDate = (date:Date) => {
     prizingDetail &&
     prizingDetail.normalForm &&
     prizingDetail?.normalForm.DineIn;
-    const availableDaysnew =
+  const availableDaysnew =
     prizingDetail &&
     prizingDetail.normalForm &&
     prizingDetail?.normalForm.availableDaysnew;
   const [Dinein1, setDinein] = useState<number[]>(Dinein);
-  const [availableDays,setAvailableDays]=useState<number[]>(availableDaysnew);
+  const [availableDays, setAvailableDays] =
+    useState<number[]>(availableDaysnew);
 
   useEffect(() => {
     setDinein(
-      prizingDetail?.normalForm?.DineIn?.map((elem:any, index:number) => {
+      prizingDetail?.normalForm?.DineIn?.map((elem: any, index: number) => {
         return elem;
       })
     );
   }, []);
 
+
   useEffect(() => {
     setAvailableDays(
-      prizingDetail?.normalForm?.availableDaysnew?.map((elem:any, index:number) => {
-        return elem;
-      })
+      prizingDetail?.normalForm?.availableDaysnew?.map(
+        (elem: any, index: number) => {
+          return elem;
+        }
+      )
     );
   }, []);
 
@@ -188,47 +191,67 @@ const formatDate = (date:Date) => {
     <div>
       <div className="Step2Avaliable">
         <h1 className="Step2Avaliable-heading">
-          Available Service Streams({`${prizingDetail?.normalForm?.isOptionTrue?"Standand":"Custom"}`})
+          Available Service Streams(
+          {`${prizingDetail?.normalForm?.isOptionTrue ? "Standand" : "Custom"}`}
+          )
         </h1>
       </div>
-      {
-        !(prizingDetail?.normalForm?.isOptionTrue)&& 
+      {!prizingDetail?.normalForm?.isOptionTrue && (
         <div>
-        <div className="date-range">
-          <div>
-            <label>From</label>
-            <p>{prizingDetail?.normalForm?.AvaiabilityFromDate&&formatDate(prizingDetail?.normalForm?.AvaiabilityFromDate)}</p>
+          <div className="date-range">
+            <div>
+              <label>From</label>
+
+                {!prizingDetail?.normalForm?.AvaiabilityFromDate ? (
+                  <p>{prizingDetail?.startDate && prizingDetail?.startDate}</p>
+                ) : (
+                  <p>
+                    {prizingDetail?.normalForm?.AvaiabilityFromDate &&
+                      formatDate(
+                        prizingDetail?.normalForm?.AvaiabilityFromDate
+                      )}
+                  </p>
+                )}{" "}
+            </div>
+            
+            <div>
+              <label>To</label>
+              {!prizingDetail?.normalForm?.AvaiabilityToDate ? (
+                <p>{prizingDetail?.endDate && prizingDetail?.endDate}</p>
+              ) : (
+                <p>
+                  {prizingDetail?.normalForm?.AvaiabilityToDate &&
+                    formatDate(prizingDetail?.normalForm?.AvaiabilityToDate)}
+                </p>
+              )}
+            </div>
           </div>
-          <div>
-            <label>To</label>
-            <p>{prizingDetail?.normalForm?.AvaiabilityToDate&&formatDate(prizingDetail?.normalForm?.AvaiabilityToDate)}</p>
-          </div>
         </div>
-        </div>
-      }
-     
-      
+      )}
 
-<div>
-  
-
-{ !(prizingDetail?.normalForm?.isOptionTrue) && prizingDetail?.normalForm?.availableDaysnew?.length > 0 && <h1 className="Step2MealType-heading">Available days</h1>}
-<div className="mealTypes-data">
-{
-        !(prizingDetail?.normalForm?.isOptionTrue)&& <div>
-
-          {            prizingDetail?.normalForm?.availableDaysnew?.length > 0 && ( <DaysOfWeek days={availableDays} setDays={setAvailableDays} Marginpresent={true} />)
-        }
-
-        </div>
-      }
-</div>
-</div>
       <div>
-
+        {!prizingDetail?.normalForm?.isOptionTrue &&
+          prizingDetail?.normalForm?.availableDaysnew?.length > 0 && (
+            <h1 className="Step2MealType-heading">Available days</h1>
+          )}
+        <div className="mealTypes-data">
+          {!prizingDetail?.normalForm?.isOptionTrue && (
+            <div>
+              {prizingDetail?.normalForm?.availableDaysnew?.length > 0 && (
+                <DaysOfWeek
+                  days={availableDays}
+                  setDays={setAvailableDays}
+                  Marginpresent={true}
+                />
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+      <div>
         <h1 className="Step2MealType-heading">Meal Type</h1>
         <div className="mealTypes-data">
-       {prizingDetail?.normalForm?.MealTypes?.join(", ")}
+          {prizingDetail?.normalForm?.MealTypes?.join(", ")}
         </div>
       </div>
       <h1 className="Step2Dinein-heading">Dine in</h1>
@@ -241,13 +264,17 @@ const formatDate = (date:Date) => {
             <div>
               <h1 className="Step2DineInPricevalue">
                 {prizingDetail.normalForm.dineInDetails.price
-                  ? `${restaurantDetails?.country === "US" ? "$" : "Rs."} ${parseFloat(
+                  ? `${
+                      restaurantDetails?.country === "US" ? "$" : "Rs."
+                    } ${parseFloat(
                       prizingDetail.normalForm.dineInDetails.price
                     ).toFixed(2)}`
                   : "N/A"}
               </h1>
             </div>
-          ): <p className="Step2DineInPricevalue">N/A</p>}
+          ) : (
+            <p className="Step2DineInPricevalue">N/A</p>
+          )}
         </div>
 
         {/* <div>
@@ -308,9 +335,7 @@ const formatDate = (date:Date) => {
       <div className="Step2Pickup">
         <div className="Step2SellingPrize">
           <div>
-            <h1 className="Step2SellingPrizeheading">
-              Selling Price
-            </h1>
+            <h1 className="Step2SellingPrizeheading">Selling Price</h1>
           </div>
           <div>
             {prizingDetail &&
@@ -373,11 +398,14 @@ const formatDate = (date:Date) => {
       <div className="Step2Delivery">
         <div className="Step2SellingPrize">
           <div>
-            <h1 className="Step2SellingPrizeheading" style={{ marginLeft:"-10px" }}>
+            <h1
+              className="Step2SellingPrizeheading"
+              style={{ marginLeft: "-10px" }}
+            >
               Selling Price
             </h1>
           </div>
-          <div style={{ marginLeft:"-10px" }}>
+          <div style={{ marginLeft: "-10px" }}>
             {prizingDetail &&
             prizingDetail.normalForm &&
             prizingDetail.normalForm.deliveryDetails &&
@@ -426,14 +454,18 @@ const formatDate = (date:Date) => {
       </div> */}
       {thirdPartyDetails?.length > 0 && (
         <>
-          <h1 className="Step2ThirdPartyDeliveryheading" >
+          <h1 className="Step2ThirdPartyDeliveryheading">
             Third Party Delivery
           </h1>
 
           <div className="Step2ThirdPartyDelivery">
             <div className="Step2SellingPrize">
               {thirdPartyDetails.map((detail: any) => (
-                <div key={detail.typeId} className="Step2SellingPrize" style={{ marginLeft:"-10px" }}>
+                <div
+                  key={detail.typeId}
+                  className="Step2SellingPrize"
+                  style={{ marginLeft: "-10px" }}
+                >
                   <div>
                     <h1 className="Step2SellingPrizeheading">
                       {detail.typeName} Price Listed
@@ -441,10 +473,12 @@ const formatDate = (date:Date) => {
                   </div>
                   <div>
                     <h1 className="Step2SellingPrizevalue">
-                    {restaurantDetails?.country === "US" ? "$" : "Rs."}  
-                    {(prizingDetail &&
+                      {restaurantDetails?.country === "US" ? "$" : "Rs."}
+                      {(prizingDetail &&
                         prizingDetail?.normalForm &&
-                        prizingDetail?.normalForm?.thirdpartyDetails && Number(detail?.price)?.toFixed(2)) || "N/A"}
+                        prizingDetail?.normalForm?.thirdpartyDetails &&
+                        Number(detail?.price)?.toFixed(2)) ||
+                        "N/A"}
                       {/* {detail.price || "N/A"} */}
                     </h1>
                   </div>

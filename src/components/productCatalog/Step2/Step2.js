@@ -15,7 +15,6 @@ const Step2 = () => {
   const prizingDetail = useSelector(
     (state) => state?.PricingDetailReducer?.prizingData
   );
-console.log({prizingDetail});
 
   const restaurantDetails = useSelector(
     (state) => state?.auth.restaurantDetails

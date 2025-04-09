@@ -94,7 +94,7 @@
   align-items: center;
   width: fit-content;
   height: 30px;
-  margin-top: 3rem;
+  margin-top: 1rem;
   // border: 1px solid red;
 }
 .dine-in-toggle
@@ -1271,9 +1271,9 @@ text-align: left;
 
 .MealType-v2
 {
-  position: relative;
-  top: 3vh;
-  height: 12vh;
+  // position: relative;
+  // top: 3vh;
+  // height: 12vh;
   // border: 1px solid red;
   display:inline-block;
   padding-left: 0.5vw;
@@ -1294,7 +1294,7 @@ text-align: left;
 
 .dayschecking-v2
 {
-margin-top: 2.2rem;
+// margin-top: 2.2rem;
 }
 .Note-special-v2
 {
@@ -1308,7 +1308,7 @@ line-height: 100%;
 letter-spacing: 0%;
 color: #5F5F5F;
 margin-top: 1rem;
-
+margin-bottom: 20px;
 }
 
 .Custom-Available{
@@ -1419,7 +1419,6 @@ letter-spacing: 0%;
 .Custome-Availability-container
 {
   margin-left: 0.5vw;
-  margin-top: 1.5rem;
  
 }
 

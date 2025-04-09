@@ -1150,7 +1150,7 @@ const PricingDetails = () => {
                 <label className="S1">Custom Availability</label>
               </div>
             </div>
-            <div >
+            <div style={{margin:'0px', padding:'0px'}}>
               <p className="avaiability-texts">
                 {isOptionTrue? 
                   <span>Normal Availability : This item will be available every working day.</span> : 

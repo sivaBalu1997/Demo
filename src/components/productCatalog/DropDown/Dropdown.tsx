@@ -32,6 +32,8 @@ interface DropdownProps {
   errorarray?:any;
   Errorname?:any;
   setErrorArray?:any
+  isOptionTrue?: any
+  itemcustomization?:any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -55,8 +57,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   setSelectedMealType,
   errorarray,
   Errorname,
-  setErrorArray
-
+  setErrorArray,
+  isOptionTrue,
+  itemcustomization
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -135,15 +138,37 @@ const Dropdown: React.FC<DropdownProps> = ({
   //   dispatch(fetchDropDownRequest(payload))
   // },[rotateImg])
 
-  const mealTypes = [
+
+  const allDay: any = []
+
+  const allDayMealType = [
     ...new Set(
       options?.flatMap((option: any) =>
-        option?.availabilities?.flatMap((a: any) =>
-          a?.sessions?.map((session: any) => session?.mealType)
-        )
+        option?.availabilities?.filter((a: any) => {
+          if(a?.weekDay === 'All'){
+            a?.sessions?.map((session: any) => {
+              allDay?.push(session?.mealType)
+            })
+          }
+        })
       )
     ),
   ];
+
+  const mealTypes = itemcustomization
+  ? options
+  : isOptionTrue
+    ? [...new Set(allDay)]
+    : [
+        ...new Set(
+          options?.flatMap((option: any) =>
+            option?.availabilities?.flatMap((a: any) =>
+              a?.sessions?.map((session: any) => session?.mealType)
+            )
+          )
+        ),
+      ];
+
   
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>

@@ -710,6 +710,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       : Array.isArray(primarydata?.tax)
       ? (primarydata.tax as any[])?.join(", ")
       : "";
+ 
+  let parsedDate;
+  let parsedDate1;
+  if(prizingDetail?.normalForm?.startDate){
+    const dateStr = prizingDetail?.normalForm?.startDate 
+    const [day, month, year] = dateStr?.split('-');
+    parsedDate = (`${year}-${month}-${day}`);
+  }
+
+  if(prizingDetail?.normalForm?.endDate){
+    const dateStr = prizingDetail?.normalForm?.endDate 
+    const [day, month, year] = dateStr?.split('-');
+    parsedDate1 = (`${year}-${month}-${day}`);
+  }
 
   const menuPayload = {
     locationId: locationid,
@@ -723,7 +737,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // mealType: primarydata?.mealType || null,
     categoryId: matchedCategoryId || null,
     subCategoryId: matchedSubCategoryId || null,
-    isExclusiveItem: primarydata?.exclusiveItem || null,
+    isExclusiveItem: primarydata?.exclusiveItem,
     allergens: primarydata?.allergens || null,
     description: primarydata?.description || null,
     containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
@@ -741,9 +755,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     isSeasonalItem: prizingDetail?.normalForm?.isSeasonalItem,
-    startDate: prizingDetail?.normalForm?.startDate,
-    endDate: prizingDetail?.normalForm?.endDate,
+    startDate: parsedDate,
+    endDate: parsedDate1,
     availabilities: prizingDetail?.normalForm?.availabilities,
+    isStandardAvailability: prizingDetail?.normalForm?.isOptionTrue ? prizingDetail?.normalForm?.isOptionTrue : false,
 
     ...(itemCustomizationData?.length > 0 && {
       modifiers: hasData ? modifierData : null,
@@ -781,7 +796,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     cuisine: matchedCuisineId || null,
     categoryId: matchedCategoryId || null,
     subCategoryId: matchedSubCategoryId || null,
-    isExclusiveItem: primarydata?.exclusiveItem || null,
+    isExclusiveItem: primarydata?.exclusiveItem,
     allergens: primarydata?.allergens || null,
     description: primarydata?.description || null,
     containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
@@ -796,11 +811,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ignoreMasterKotPrint: prizingDetail?.printKot || false,
     availabilityDaysToAdd: result || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
+    isStandardAvailability: prizingDetail?.normalForm?.isOptionTrue ? prizingDetail?.normalForm?.isOptionTrue : false,
 
     isSeasonalItem: prizingDetail?.normalForm?.isOptionTrue ? false : prizingDetail?.normalForm?.isSeasonalItem,
-    startDate: prizingDetail?.normalForm?.isOptionTrue ? null : prizingDetail?.normalForm?.startDate,
-    endDate:  prizingDetail?.normalForm?.isOptionTrue ? null : prizingDetail?.normalForm?.endDate,
-    availabilities: prizingDetail?.normalForm?.isOptionTrue ? [] : prizingDetail?.normalForm?.availabilities,
+    startDate: prizingDetail?.normalForm?.isOptionTrue ? null : parsedDate,
+    endDate:  prizingDetail?.normalForm?.isOptionTrue ? null : parsedDate1,
+    availabilities: prizingDetail?.normalForm?.availabilities,
 
     modifiersToAdd: hasData ? modifierData : [],
 
@@ -819,8 +835,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
-
-  console.log({menuPayload},{editPayload},{prizingDetail})
 
 
   // const handleDispatch = async () => {

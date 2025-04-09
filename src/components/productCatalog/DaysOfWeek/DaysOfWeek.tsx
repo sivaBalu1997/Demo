@@ -3,26 +3,29 @@ import "./DaysOfWeek.scss";
 
 // Define the types for the props
 interface DaysOfWeekProps {
-  days: number[] | number;
+  days: any | number;
   setDays: React.Dispatch<React.SetStateAction<number[]>>;
   Marginpresent?:boolean
 }
 
 const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays ,Marginpresent}) => {
   const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
+  const fullDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   const daysArray = Array.isArray(days) && days.length > 0 ? days : [];
 
-  const toggleHighlight = (index: number) => {
-    if (daysArray.includes(index)) {
-      setDays((prevState) => prevState.filter((day) => day !== index));
-    } else {
-      setDays((prevState) => [...prevState, index]);
-    }
-  };
+  // const toggleHighlight = (index: number) => {
+  //   if (daysArray.includes(index)) {
+  //     setDays((prevState) => prevState.filter((day) => day !== index));
+  //   } else {
+  //     setDays((prevState) => [...prevState, index]);
+  //   }
+  // };
 
   const adjustedDaysArray = Array.isArray(days)
-    ? days.map((day) => (day === 0 ? 7 : day))
+    ? days
+        .filter((day) => day !== "All Days")
+        .map((day) => fullDays.indexOf(day))
     : [];
 
   return (
@@ -30,11 +33,7 @@ const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays ,Marginprese
       {daysOfWeek.map((day, index) => (
         <li
           key={index}
-          className={`list ${
-            adjustedDaysArray.includes(index === 0 ? 7 : index)
-              ? "included"
-              : ""
-          }`}
+          className={`list ${adjustedDaysArray.includes(index) ? "included" : ""}`}
           // onClick={() => toggleHighlight(index)}
           role="button"
           tabIndex={0}

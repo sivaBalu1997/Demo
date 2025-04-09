@@ -210,8 +210,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       []
     );
 
-    console.log({isOptionTrue})
-
     const availabilityDay =
       mealType.length > 0
         ? mealType[0].availabilities?.map((data: any) => {
@@ -268,8 +266,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const datePickerRef1 = useRef<any | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
-
-    console.log({selectedDate},{selectedDate1})
 
     // const seletedItemOrderTypes=data
 
@@ -628,7 +624,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       endDate: formattedDate1,
       availabilities: [
         {
-          weekDays: availableDaysnew,
+          weekDays: isOptionTrue ? ['All'] : availableDaysnew,
           sessions: selectedMealType,
         },
       ],
@@ -953,7 +949,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-        prizingDetail.availabilities?.length > 0 && setIsOptionTrue(false);
+        prizingDetail.isStandardAvailability && setIsOptionTrue(false);
 
         if (prizingDetail?.availabilities?.length > 0) {
           const allSessions: string[] = prizingDetail?.availabilities &&  prizingDetail?.availabilities?.flatMap(
@@ -976,9 +972,19 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         ) {
           setIsSeasonalFood(true);
         }
-        
-        setSelectedDate(new Date(prizingDetail?.startDate) || null);
-        setSelectedDate1(new Date(prizingDetail?.endDate) || null);
+
+        if(prizingDetail?.endDate && prizingDetail?.startDate){
+          const dateStr1 = prizingDetail?.startDate 
+          const [year1,month1,day1] = dateStr1?.split('-');
+          const parsedDate1 = new Date(`${year1}-${month1}-${day1}`);
+
+          const dateStr = prizingDetail?.endDate 
+          const [year,month,day] = dateStr?.split('-');
+          const parsedDate = new Date(`${year}-${month}-${day}`);
+          
+          setSelectedDate(parsedDate1 || null);
+          setSelectedDate1(parsedDate || null);
+        }
 
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
@@ -1592,7 +1598,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors = { ...errors };
 
       if (!isOptionTrue && isSeasonalFood && !date) {
-        console.log('11', date)
         validationErrors.fromDate = "From date required11";
       }else{
         delete validationErrors[`fromDate`];
@@ -1605,7 +1610,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors = { ...errors };
 
       if (!isOptionTrue && isSeasonalFood && !date) {
-        console.log('22')
         validationErrors.toDate = "To date required22";
       }else{
         delete validationErrors[`toDate`];
@@ -1743,8 +1747,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       if (!isOptionTrue && selectedMealType?.length === 0) {
         validationErrors.MealType = "Meal type is empty";
       }
-      console.log('333', isOptionTrue, isSeasonalFood ,selectedDate, selectedDate1)
-      
+
       if (!isOptionTrue && isSeasonalFood && !selectedDate) {
         validationErrors.fromDate = "From date required";
       }
@@ -1813,7 +1816,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const handleSubmit = () => {
       let isValid = validateDineinFields();
-      console.log('Inside Submit', isValid)
       if (!showDineIn && !pickup && !delivery) {
         isValid = false;
       }
@@ -2034,8 +2036,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     // to date - selectedDate1
 
     return (
-      <div>
-        {!isOptionTrue && (
+      <div style={{margin:' 0px', padding:'0px'}}>
+        {(
           <div className="AvailDaycheck">
             {!isOptionTrue && (
               <div className="Custome-Availability-container">
@@ -2070,6 +2072,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             onChange={handleDateChange}
                             ref={datePickerRef}
                             className="datePicker-special-v2"
+                            minDate={new Date()}
                           />
                           <img
                             src={calender}
@@ -2097,6 +2100,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             showPopperArrow
                             ref={datePickerRef1}
                             className="datePicker-special-v2"
+                            minDate={selectedDate}
+                            disabled={!selectedDate}
                           />
                           <img
                             src={calender}
@@ -2156,7 +2161,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             )}
 
             <div className="MealType-v2">
-              <h1 className="Melatype-normal-heading">Meal Type*</h1>
+              <h1 className="Melatype-normal-heading">Meal Type{!isOptionTrue ? '*' : ""}</h1>
               <div className="melatype-dropdown-v2">
                 <DropDown
                   selectedValues={selectedMealType}
@@ -2180,6 +2185,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                   width="Drop1"
                   placeHolder="Meal Type*"
                   zIndex={true}
+                  isOptionTrue={isOptionTrue}
                 />
 
                 <div className="error-msg-mealtype">
@@ -2308,7 +2314,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   name="DineInPrice"
                                   onWheel={handleWheel}
                                   value={entry.DineInPrice}
-                                  disabled={!enableOrNot}
+                                  // disabled={!enableOrNot}
                                   style={{
                                     border: "1px solid #5F5F5F",
                                     // border: enableOrNot
@@ -2502,7 +2508,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   type="number"
                                   onWheel={handleWheel}
                                   step="any"
-                                  disabled={!pickupDetails?.availabilityEnabled}
+                                  // disabled={!pickupDetails?.availabilityEnabled}
                                   style={{
                                     border: "1px solid #5F5F5F",
                                     // border: pickupDetails?.availabilityEnabled
@@ -2747,9 +2753,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   type="number"
                                   className="DeliveryInput1Normal"
                                   onWheel={handleWheel}
-                                  disabled={
-                                    !deliveryDetails?.availabilityEnabled
-                                  }
+                                  // disabled={
+                                  //   !deliveryDetails?.availabilityEnabled
+                                  // }
                                   style={{
                                     border: "1px solid #5F5F5F",
 
@@ -2987,9 +2993,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                       className="swiggyZomato-input"
                                       type="number"
                                       onWheel={handleWheel}
-                                      disabled={
-                                        !priceInfo[index]?.availabilityEnabled
-                                      }
+                                      // disabled={
+                                      //   !priceInfo[index]?.availabilityEnabled
+                                      // }
                                       style={{
                                         border: "1px solid #5F5F5F",
 

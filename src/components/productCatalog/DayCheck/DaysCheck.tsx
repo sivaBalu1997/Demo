@@ -114,6 +114,29 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     }
   },[checkedItems])
 
+  useEffect(() => {
+    const daysToCompare = dateShow
+      ? ["All Days", ...Days?.filter((_, index) => disabledays?.includes(index))]
+      : Days;
+  
+    const allOtherDays = daysToCompare?.filter((day) => day !== "All Days");
+  
+    const areAllDaysChecked = allOtherDays?.every((day) =>
+      checkedItems?.includes(day)
+    );
+  
+    const isAllDaysAlreadyChecked = checkedItems?.includes("All Days");
+  
+    if (areAllDaysChecked && !isAllDaysAlreadyChecked) {
+      setCheckedItems((prev: any) => [...prev, "All Days"]);
+    }
+  
+    if (!areAllDaysChecked && isAllDaysAlreadyChecked) {
+      setCheckedItems((prev: any) => prev?.filter((item: any) => item !== "All Days"));
+    }
+  }, [checkedItems, Days, dateShow, disabledays]);
+  
+
   // useEffect(() => {
   //   if (checkedItems && checkedItems.length > 0) {
   //     const validationErrors = { ...errorarray };
