@@ -17,6 +17,11 @@ import {
 } from "redux/newReports/newReportsActions";
 import { ReactComponent as PayTapIcon } from "../../../../assets/svg/pay_tap.svg";
 import { ReactComponent as KeyedInIcon } from "../../../../assets/svg/pay-card.svg";
+import { ReactComponent as DefaultTenderTypeIcon } from "../../../../assets/svg/default-tender-type-icon-r.svg";
+import { ReactComponent as SwiggyIcon } from "../../../../assets/svg/swiggy-icon-big-r.svg";
+import { ReactComponent as ZomatoIcon } from "../../../../assets/svg/zomato-icon-big-r.svg";
+import { ReactComponent as SeamlessIcon } from "../../../../assets/svg/seamless-icon-big-r.svg";
+import { ReactComponent as GloriaFoodIcon } from "../../../../assets/svg/gloria-food-icon-big-r.svg";
 import { ReactComponent as CashIcon } from "../../../../assets/svg/pay-cash.svg";
 import { ReactComponent as CouponsIcon } from "../../../../assets/svg/pay-coupon.svg";
 import { ReactComponent as GiftCardIcon } from "../../../../assets/svg/pay-gift-card.svg";
@@ -57,7 +62,7 @@ const knownTendorIcons: any = {
   "Keyed In": <KeyedInIcon />,
   Cash: <CashIcon />,
   "CASH": <CashIcon />,
-  UberEats: <UberEatsIcon />,
+  "Uber eats": <UberEatsIcon />,
   Grubhub: <GrubHubIcon />,
   Doordash: <DoordashIcon />,
   Coupons: <CouponsIcon />,
@@ -66,6 +71,11 @@ const knownTendorIcons: any = {
   "Apple Pay": <ApplePayIcon />,
   "Offline QR": <OfflineQRIcon />,
   "OFFLINE_QR": <OfflineQRIcon />,
+  "Swiggy": <SwiggyIcon />,
+  "Zomato": <ZomatoIcon />,
+  "Seamless": <SeamlessIcon />,
+  "GloriaFood": <GloriaFoodIcon />,
+  "Card Swipe": <PayTapIcon />,
 };
 
 const discountTableHeaders: NewTableHeader[] = [
@@ -786,7 +796,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                                       <TenderType
                                         icon={
                                           knownTendorIcons?.[item?.paymentMode] || (
-                                            <KeyedInIcon />
+                                            // <KeyedInIcon />
+                                            <DefaultTenderTypeIcon />
                                           )
                                         }
                                         key={index}
