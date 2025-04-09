@@ -1717,7 +1717,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         delete validationErrors.atleastOneOrderType;
       }
       
-      if ( selectedMealType?.length < 1) {
+      if (!isOptionTrue && selectedMealType?.length < 1) {
         // console.log('2' ,isOptionTrue, selectedMealType?.length > 0, selectedMealType, !isOptionTrue && selectedMealType?.length < 1)
         validationErrors.MealType = "Meal type is empty";
       }

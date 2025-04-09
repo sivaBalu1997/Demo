@@ -797,10 +797,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysToAdd: result || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    isSeasonalItem: prizingDetail?.normalForm?.isSeasonalItem,
-    startDate: prizingDetail?.normalForm?.startDate,
-    endDate: prizingDetail?.normalForm?.endDate,
-    availabilities: prizingDetail?.normalForm?.availabilities,
+    isSeasonalItem: prizingDetail?.normalForm?.isOptionTrue ? false : prizingDetail?.normalForm?.isSeasonalItem,
+    startDate: prizingDetail?.normalForm?.isOptionTrue ? null : prizingDetail?.normalForm?.startDate,
+    endDate:  prizingDetail?.normalForm?.isOptionTrue ? null : prizingDetail?.normalForm?.endDate,
+    availabilities: prizingDetail?.normalForm?.isOptionTrue ? [] : prizingDetail?.normalForm?.availabilities,
 
     modifiersToAdd: hasData ? modifierData : [],
 
@@ -820,7 +820,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
-  console.log({menuPayload},{editPayload})
+  console.log({menuPayload},{editPayload},{prizingDetail})
 
 
   // const handleDispatch = async () => {
