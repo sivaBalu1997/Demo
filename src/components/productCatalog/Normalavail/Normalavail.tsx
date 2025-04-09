@@ -2979,6 +2979,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               width="Drop1"
                               placeHolder="Third Party"
                               zIndex={true}
+                              thirdParty = {true}
                             />
                           </div>
 

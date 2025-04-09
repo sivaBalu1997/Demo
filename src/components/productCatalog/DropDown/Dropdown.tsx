@@ -33,7 +33,8 @@ interface DropdownProps {
   Errorname?:any;
   setErrorArray?:any
   isOptionTrue?: any
-  itemcustomization?:any
+  itemcustomization?:any;
+  thirdParty?: any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -59,7 +60,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   Errorname,
   setErrorArray,
   isOptionTrue,
-  itemcustomization
+  itemcustomization,
+  thirdParty
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -155,21 +157,20 @@ const Dropdown: React.FC<DropdownProps> = ({
     ),
   ];
 
-  const mealTypes = itemcustomization
+  const mealTypes = (itemcustomization || thirdParty)
   ? options
   : isOptionTrue
     ? [...new Set(allDay)]
     : [
         ...new Set(
           options?.flatMap((option: any) =>
-            option?.availabilities?.flatMap((a: any) =>
-              a?.sessions?.map((session: any) => session?.mealType)
-            )
-          )
+            option?.availabilities?.flatMap((availability: any) =>
+              availability?.sessions?.map((session: any) => session?.mealType) || []
+            ) || []
+          ) || []
         ),
       ];
 
-  
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
       <label className="droplabelPricing" style={{color:color?`${color}`:"#666666"}}>{label}</label>
