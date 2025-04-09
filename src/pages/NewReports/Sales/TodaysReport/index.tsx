@@ -394,7 +394,7 @@ const TodaysReport: React.FC = () => {
     setLiveOrderNonDineInPageLimit(10);
     setCurrentPageLiveOrders(1);
     setCurrentPageLiveOrdersNonDineIn(1);
-    setIsSwitchActive(false);
+    // setIsSwitchActive(false);
 
     dispatch(liveDiscountRequest({ locationid: selectedLocation?.value }));
     dispatch(liveOpenSalesRequest({ locationid: selectedLocation?.value }));
