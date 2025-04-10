@@ -227,8 +227,10 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-dark-green";
       } else if (rowvalue === "In Delivery") {
         return " bubble bubble-text-light-green-one";
-      } else if (rowvalue == "Pre order placed") {
+      } else if (rowvalue === "Pre order placed") {
         return " bubble bubble-text-light-green-one";
+      } else if (rowvalue === "Payment Failed"){
+        return " bubble bubble-text-pink-red";
       }
     } else if (headerValue === "Order Channel") {
 
