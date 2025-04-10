@@ -539,6 +539,7 @@ const TodaysReport: React.FC = () => {
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
+            ...isSwitchActive?{type:"Paid"}:{}
           }}
           kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Off-Premise orders`}
           searchQuery={liveOrderNonDineInSearchQuery}
