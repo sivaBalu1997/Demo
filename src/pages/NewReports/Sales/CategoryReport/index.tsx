@@ -23,6 +23,7 @@ import "./Tabs.css";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import { RootState } from "redux/rootReducer";
 import DoughnutChart from "components/reportComponents/ReusableCharts/ReusableDoughnutChart";
+import ReusableBarChart from "components/reportComponents/ReusableCharts/ReusableBarChart";
 
 const CategoryReport = (props: any) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -484,7 +485,31 @@ const CategoryReport = (props: any) => {
               />
             </ErrorHandler>
           </div>
+          <br/>
           {activeBtn === "categories" ? (
+            
+    //   <ReusableBarChart
+    //   dataList={voidedSummaryData}
+    //   loader={voidedSummaryDataLoading}
+    //   error={voidedSummaryDataFailure }
+    //   title="Categories Voids"
+    //   xKey="categoryName"
+    //   yKey="voidedAmount"
+    //   xLabel='Qty'
+    //   yLabel='Voided amount'
+    //   extraKeys={[{key:"voidedQuantity", label:"Qty"}]}
+    //   barColor="#AA562A"
+    //   tooltipStyles={{
+    //     backgroundColor: "#fff",
+    //     borderColor: "#AA562A",
+    //     titleColor: "#000",
+    //     bodyColor: "#000",
+    //   }}
+    //   kpiTitle='Categories Voids'
+    //   showChartFilter={false}
+    //   showSwitchable={false}
+    //   isYAxisQuantity={false}
+    // />
             <div>
               <div className="categories-graph-header-container">
                 <h1 className="categories-overview-heading">
@@ -495,7 +520,7 @@ const CategoryReport = (props: any) => {
               </div>
               <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure} isLoading={voidedSummaryDataLoading}>
                 <LinearBarChartCategorySales
-                  dataList={voidedSummaryData}
+                  dataList={voidedSummaryData||[]}
                   barColorCode={"#AA562A"}
                   loader={voidedSummaryDataLoading}
                   isMobile={isMobile}

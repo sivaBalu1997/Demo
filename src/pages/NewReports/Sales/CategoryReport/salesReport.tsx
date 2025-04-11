@@ -63,99 +63,66 @@ const SalesChart: React.FC<SalesChartProps> = ({
   )!;
 
   const currencySymbol = useMemo(() => getCurrencySymbol(countryCode), [countryCode]);
-  // const processedData = useMemo(()=>{
-  //   // Step 1: Group data by category to calculate total per category
-  //   const categoryTotals: Record<string, number> = {};
-  //   dataList.forEach(({ categoryName, totalAmount }) => {
-  //     categoryTotals[categoryName] = (categoryTotals[categoryName] || 0) + totalAmount;
-  //   });
-  
-  //   // Step 2: Sort categories by total sales and get top 20
-  //   const sortedCategories = Object.entries(categoryTotals)
-  //     .sort(([, a], [, b]) => b - a)
-  //     .map(([category]) => category);
-  //     console.log({sortedCategories});
-      
-  
-  //   const topCategories = sortedCategories.slice(0, 20);
-  //   const restCategories = new Set(sortedCategories.slice(20));
-  
-  //   // Step 3: Track all channel names
-  //   const channelSet = new Set<string>();
-  //   dataList.forEach(({ channelName }) => channelSet.add(channelName));
-  //   const channels = Array.from(channelSet);
-  
-  //   // Step 4: Prepare dataset per channel
-  //   const datasets = channels.map((channel) => {
-  //     const data: number[] = [];
-  
-  //     // Loop through top categories
-  //     topCategories.forEach((category) => {
-  //       const entry = dataList.find(
-  //         (item) => item.categoryName === category && item.channelName === channel
-  //       );
-  //       data.push(entry ? entry.totalAmount : 0);
-  //     });
-  
-  //     // Aggregate "Others" category
-  //     let othersTotal = 0;
-  //     dataList.forEach((item) => {
-  //       if (restCategories.has(item.categoryName) && item.channelName === channel) {
-  //         othersTotal += item.totalAmount;
-  //       }
-  //     });
-  //     if (restCategories.size > 0) {
-  //       data.push(othersTotal);
-  //     }
-  
-  //     return {
-  //       label: channel,
-  //       backgroundColor: channelColorMap[channel] || "#E87C3D",
-  //       data,
-  //     };
-  //   });
-  
-  //   const labels = [...topCategories];
-  //   if (restCategories.size > 0) {
-  //     labels.push("Others");
-  //   }
-  // console.log({labels, datasets, dataList});
-  
-  //   return {datasets} ;
-  // },[dataList]);
-  
 
-  function transformData(datalist:any[]) {
-    const categorySet = new Set();
-    const channelSet = new Set();
-    
-    datalist?.forEach(({ categoryName, channelName }) => {
-      categorySet.add(categoryName);
-      channelSet.add(channelName);
+  function transformData(datalist: SalesChartProps["dataList"]) {
+    const categoryTotals: Record<string, number> = {};
+  
+    // Step 1: Total sales per category
+    datalist.forEach(({ categoryName, totalAmount }) => {
+      categoryTotals[categoryName] = (categoryTotals[categoryName] || 0) + totalAmount;
     });
-    // console.log(datalist ,"The whole data i")
-
-
-    const labels = Array.from(categorySet);
+  
+    // Step 2: Sort and select top 20 categories
+    const sortedCategories = Object.entries(categoryTotals)
+      .sort(([, a], [, b]) => b - a)
+      .map(([category]) => category);
+  
+    const topCategories = sortedCategories.slice(0, 20);
+    const restCategories = new Set(sortedCategories.slice(20));
+  
+    const labels = [...topCategories];
+    if (restCategories.size > 0) {
+      labels.push("Others");
+    }
+  
+    // Step 3: Get all channels
+    const channelSet = new Set<string>();
+    datalist.forEach(({ channelName }) => channelSet.add(channelName));
     const channels = Array.from(channelSet);
-
-    
-    const datasets = channels.map((channel:any) => {
+  
+    // Step 4: Prepare datasets
+    const datasets = channels.map((channel) => {
+      const data: number[] = [];
+  
+      // Values for top categories
+      topCategories.forEach((category) => {
+        const entry = datalist.find(
+          (item) => item.categoryName === category && item.channelName === channel
+        );
+        data.push(entry ? entry.totalAmount : 0);
+      });
+  
+      // Sum values for rest ("Others")
+      let othersTotal = 0;
+      datalist.forEach((item) => {
+        if (item.channelName === channel && restCategories.has(item.categoryName)) {
+          othersTotal += item.totalAmount;
+        }
+      });
+      if (restCategories.size > 0) {
+        data.push(othersTotal);
+      }
+  
       return {
         label: channel,
         backgroundColor: channelColorMap[channel] || "#E87C3D",
-        data: labels.map((category) => {
-          const entry = datalist.find(
-            (item) => item.categoryName === category &&item.channelName === channel );
-          return entry ? entry?.totalAmount : 0;
-        }),
+        data,
       };
     });
-
-
+  
     return { labels, datasets };
-    
   }
+  
   const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -209,14 +176,32 @@ const SalesChart: React.FC<SalesChartProps> = ({
             return `Category: ${tooltipItems[0].label}`;
           },
           label: (tooltipItem) => {
-            const channel = tooltipItem.dataset.label as string;            
-            // const value = dataList.find(
-            //   (data) => data.categoryName === category && data.channelName === channel
-            // )?.totalAmount;
-            // console.log({tooltipItem, value});
-            const value = dataList?.find(data=>data.categoryName==tooltipItem.label&&data.channelName==tooltipItem.dataset.label)?.totalAmount
-            return [`Channel: ${channel}`, `Sales: ${currencySymbol}${value?.toFixed(2)}`];
+            const channel = tooltipItem.dataset.label as string;
+            const category = tooltipItem.label;
+          
+            let value = 0;
+            if (category === "Others") {
+              value = dataList
+                .filter(
+                  (data) =>
+                    !dataList
+                      .map((d) => d.categoryName)
+                      .slice(0, 20)
+                      .includes(data.categoryName) &&
+                    data.channelName === channel
+                )
+                .reduce((acc, curr) => acc + curr.totalAmount, 0);
+            } else {
+              value =
+                dataList.find(
+                  (data) =>
+                    data.categoryName === category && data.channelName === channel
+                )?.totalAmount || 0;
+            }
+          
+            return [`Channel: ${channel}`, `Sales: ${currencySymbol}${value.toFixed(2)}`];
           },
+          
         },
       },
       datalabels: {

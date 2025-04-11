@@ -16,18 +16,60 @@ import { getCurrencySymbol } from "utils";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+interface ExtraKey {
+  key: string;
+  label: string;
+}
 
-function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile , bottomTitle=""}) {
-  const countryCode = useSelector((state) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+interface DataItem {
+  [key: string]: any; // You can replace this with specific keys if your data is strongly typed
+}
+
+interface LinearBarChartCategorySalesProps {
+  barColorCode?: string;
+  dataList: DataItem[];
+  loader?: boolean;
+  isMobile?: boolean;
+  bottomTitle?: string;
+}
+
+function LinearBarChartCategorySales({ barColorCode, dataList = [], loader, isMobile, bottomTitle = "" }: LinearBarChartCategorySalesProps) {
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   // console.log(dataList);
+  const processedData: any = useMemo(() => {
+    const sorted = [...dataList].sort((a: any, b: any) => Number(b.voidedAmount || 0) - Number(a.voidedAmount || 0));
+
+    const top20 = sorted.slice(0, 20);
+    const rest = sorted.slice(20);
+
+    const formattedData = [
+      ...top20.map((item: any) => ({
+        x: item.categoryName,
+        y: Number(item.voidedAmount || 0),
+        voidedQuantity: item.voidedQuantity,
+      })),
+
+    ];
+    if (rest.length) {
+      const otherTotal = rest.reduce((acc: number, item: any) => acc + Number(item.voidedAmount || 0), 0);
+      const otherTotalQuantity = rest.reduce((acc: number, item: any) => acc + Number(item.voidedQuantity || 0), 0);
+      formattedData.push({
+        x: "Others",
+        y: otherTotal,
+        voidedQuantity: otherTotalQuantity
+      })
+    }
+
+    return formattedData
+  }, [dataList]);
   // Prepare the Chart.js data object
   const data = {
-    labels: dataList?.map((cat) => cat?.categoryName)||[],
+    labels: processedData?.map((cat: any) => cat?.x),
     datasets: [
       {
         label: "Sales",
-        data: dataList?.map((cat) => Number(cat?.voidedAmount||0))||[],
+        data: processedData,
         backgroundColor: barColorCode,
         barPercentage: 0.4,    // Thinner bars
         categoryPercentage: 0.6,
@@ -36,7 +78,7 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
   };
 
   // Chart.js configuration
-  const options = {
+  const options: any = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -59,29 +101,29 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
       tooltip: {
         // Customize tooltip styling
         backgroundColor: "#fff",
-        borderColor: barColorCode??"#6F6F6F",
+        borderColor: barColorCode ?? "#6F6F6F",
         borderWidth: 1,
         titleColor: "#000",
         bodyColor: "#000",
-        bodyFont: { size: isMobile?10:14, family: "sans-serif" }, // Body font size set to 14px
-        titleFont: { weight: "normal", size: isMobile?10:14, family: "sans-serif" }, // Title font size set to 14px
+        bodyFont: { size: isMobile ? 10 : 14, family: "sans-serif" }, // Body font size set to 14px
+        titleFont: { weight: "normal", size: isMobile ? 10 : 14, family: "sans-serif" }, // Title font size set to 14px
 
-        cornerRadius: 4,      
+        cornerRadius: 4,
         padding: 10, // Padding inside tooltip container
         displayColors: false, // Hide color box in tooltip
         caretSize: 0, // Remove the caret
         callbacks: {
           // Show the x-axis label in the tooltip title
-          title: (tooltipItems) => {
-            if (!tooltipItems.length ||!isMobile) return "";
+          title: (tooltipItems: any) => {
+            if (!tooltipItems.length || !isMobile) return "";
             const { dataIndex } = tooltipItems[0];
-            return dataList?.[dataIndex].categoryName;
+            return processedData?.[dataIndex].categoryName;
           },
           // Multi-line body: Qty and Sales
-          label: (tooltipItem) => {
+          label: (tooltipItem: any) => {
             const idx = tooltipItem.dataIndex;
-            const cat = dataList?.[idx];
-            return [`Qty: ${cat?.voidedQuantity}`, `Voided amount: ${currencySymbol}${Number(cat?.voidedAmount||0).toFixed(2)}`];
+            const cat = processedData?.[idx];
+            return [`Qty: ${cat?.voidedQuantity}`, `Voided amount: ${currencySymbol}${Number(cat?.y || 0).toFixed(2)}`];
           },
         },
 
@@ -93,26 +135,26 @@ function LinearBarChartCategorySales({ barColorCode, dataList, loader ,isMobile 
     scales: {
       x: {
         ticks: {
-          display:!isMobile,
+          display: !isMobile,
           color: "#555",
-          font: { size: 14},
+          font: { size: 14 },
           minRotation: 45,
           maxRotation: 45,
         },
-         grid: { display: false } 
+        grid: { display: false }
       },
       y: {
         beginAtZero: true,
         ticks: {
           color: "#777",
           font: { size: 12 },
-          callback: (value) => `${currencySymbol}${value}`,
+          callback: (value: any) => `${currencySymbol}${value}`,
         },
       },
     },
   };
 
-  if(loader) return <BarChartShimmer />
+  if (loader) return <BarChartShimmer />
 
   return dataList?.length === 0 ? (
     <ErrorState pageTitle="Category report" isDataNotAvailable={true} />

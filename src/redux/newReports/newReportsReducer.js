@@ -350,7 +350,7 @@ const initialNewReportsState = {
 
     // category sales
     categorySalesLoading: false,
-    categorySalesData: null,
+    categorySalesData: [],
     categorySalesError: false,
 
     // category sales summary
