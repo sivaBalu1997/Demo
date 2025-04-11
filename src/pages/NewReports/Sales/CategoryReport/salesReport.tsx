@@ -47,6 +47,7 @@ const channelColorMap: Record<string, string> = {
   GloriaFood: "#735557",
   Dinein: "#67833E",
   Delivery: "#14A789",
+  "delivery": "#14A789",
   "Direct Online": "#C9CC3F",
   Instore: "#00FF7F",
 };

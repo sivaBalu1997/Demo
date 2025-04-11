@@ -462,7 +462,7 @@ const TodaysReport: React.FC = () => {
             !unBilledAPIReduxLoading &&
             unBilledAPIReduxArrayForDownloading && (
               <DownloadReport
-                kpiTitle="Sales Overview"
+                kpiTitle="Today's Sales Overview"
                 tableData={
                   isSwitchActive
                     ? billedDataArrayForDownloading
