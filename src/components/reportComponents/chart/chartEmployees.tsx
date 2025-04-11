@@ -41,16 +41,38 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
     (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
   );
   const currencySymbol = getCurrencySymbol(countryCode, false);
+  const processedData = useMemo(() => {
+    const sorted = [...dataList].sort((a: any, b: any) => Number(b.total || 0) - Number(a.total || 0));
+  
+    const top20 = sorted.slice(0, 20);
+    const rest = sorted.slice(20);
+  
+    const formattedData = [
+      ...top20.map((item: any) => ({
+        x: item.fullName,
+        y: Number(item.total || 0),
+        orders: item.orders,
+      })),
+
+    ];
+    if(rest.length) {
+    const otherTotal = rest.reduce((acc: number, item: any) => acc + Number(item.total || 0), 0);
+    const otherOrders = rest.reduce((acc: number, item: any) => acc + Number(item.orders || 0), 0); 
+    formattedData.push({
+      x: "Others",
+      y: otherTotal,
+      orders: otherOrders
+    })
+  }
+  
+    return formattedData
+  }, [dataList]);
   const data = {
-    labels: Array.from(new Set(dataList?.map((item: any) => item?.fullName))),
+    labels: processedData?.map((item: any) => item?.x),
     datasets: [
       {
         label: `Sales (${currencySymbol})`,
-        data: dataList?.map((item: any) => ({
-          x: item.fullName, // X-axis label
-          y: Number(item.total || 0), // Y-axis sales value
-          orders: item.orders, // Store orders for tooltips
-        })),
+        data: processedData,
         backgroundColor: "#1F77B4", // Blue color
         barPercentage: 0.6, // Thinner bars
         categoryPercentage: 0.6,
@@ -94,14 +116,14 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
       },
     },
     scales: {
-      x: { grid: { display: false } },
+      x: { grid: { display: false }, ticks: { autoSkip: false } },
       y: { beginAtZero: true },
     },
   };
 
   if (loader) return <BarChartShimmer />;
 
-  return dataList?.length === 0 ? (
+  return processedData?.length === 0 ? (
     <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
   ) : (
     <div style={{ width: "100%", height: "500px" }}>

@@ -9,6 +9,20 @@ const countryCurrency:Record<string,string>={
   //Add possible branch countruies here
 } 
 
+const daysOfWeek = {
+  Sun:"Sunday",
+  Mon:"Monday",
+  Tue:"Tuesday",
+  Wed:"Wednesday",
+  Thu:"Thursday",
+  Fri:"Friday",
+  Sat:"Saturday"
+}
+
+const reverseDaysOfWeek = Object.fromEntries(
+  Object.entries(daysOfWeek).map(([key, value]) => [value, key])
+);
+
 function getRandomColor() {
   return '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 }
@@ -159,7 +173,25 @@ const generateTooltipContent = (dataset: any, dataIndex: number) => {
   return detailsHTML;
 };
 
+// convert the case of a string to title case
+function titleCase(str: string): string {
+  return str?.replace(   /\w\S*/g,    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()  )
+}
 
+function weekFullForm(day: keyof typeof daysOfWeek): string {
+  return daysOfWeek[day] || "";
+}
+
+function weekShortForm(day: keyof typeof daysOfWeek): string {
+  return reverseDaysOfWeek[day] || "";
+}
+
+
+// check if the number in Railway format is AM Or PM
+function amPmFormat(data: number): string {
+  if(data==24)return "AM"
+  return data>11?"PM":"AM"
+}
 // export all functions 
 export{
   getRandomColor,
@@ -172,4 +204,8 @@ export{
   formatNumberByK,
   getCurrencySymbol,
   generateTooltipContent,
+  titleCase,
+  weekFullForm,
+  weekShortForm,
+  amPmFormat
 }

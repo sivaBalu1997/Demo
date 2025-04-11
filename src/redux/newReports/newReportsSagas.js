@@ -1164,7 +1164,6 @@ export function* employeeSalesOverViewSaga(action) {
         if (response.status === 200) {
             // console.log("response of employeeSalesOverViewSaga", { decryptedData });
             yield put(employeeSalesOverviewSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(employeeSalesOverviewFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);

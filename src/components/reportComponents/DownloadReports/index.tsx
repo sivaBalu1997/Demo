@@ -9,7 +9,7 @@ import { ReactComponent as CsvDownloadIconSelected } from "../../../assets/svg/r
 import { ReactComponent as XlsxDownloadIconUnSelected } from "../../../assets/svg/r-xls-unselected.svg";
 import { ReactComponent as XlsxDownloadIconSelected } from "../../../assets/svg/r-xls-selected.svg";
 import { ReactComponent as DownloadBtn } from "../../../assets/svg/r-download-button-icon.svg";
-import exportFromJSON from 'export-from-json';
+import exportFromJSON, { ExportType } from 'export-from-json';
 import html2canvas from "html2canvas";
 import jsPDF from 'jspdf';
 import "./style.scss";
@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadableReportRequest } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
 import DownloadShimmer from './DownloadShimmer';
+import { NewTableHeader } from 'interface/newReportsInterface';
+import { he } from 'date-fns/locale';
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
@@ -37,7 +39,7 @@ interface DownloadReportProps {
     employeeAccess?: boolean;
 }
 
-const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerData = [], kpiTitle, downloadRef, apiParams, employeeAccess=false }) => {
+const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerData = [], kpiTitle, downloadRef, apiParams, employeeAccess = false }) => {
     const [showDownloadables, setShowDownloadables] = useState<boolean>(false)
     const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
     const dataToDownload: any = useSelector((state: RootState) => state.newReports.downloadableReportSuccess)
@@ -90,74 +92,116 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
         }
     };
 
-    const csvDownloadFn = (data: Array<Record<string, any>>) => {
-        const fileName = kpiTitle;
-        const exportType = exportFromJSON.types.csv;
-        
-        const transformedData=data?.map((row) => {
-            const newRow: Record<string, any> = {};
-            Object.entries(row).forEach(([key, value]) => {
-                if(key==="customerNumber"||key==="email"){
-                    if(employeeAccess) newRow[key] = `="${value}"`;
-                }else{
-
-                    newRow[key] = `="${value}"`;
-                }
-        });
-        return newRow;
-    })
-        exportFromJSON({
-            data:transformedData, fileName, exportType,
-
-        });
-    };
-
-    const jsonDownloadFn = (data: Array<Record<string, any>>) => {
-        const fileName = kpiTitle;
-        const exportType = exportFromJSON.types.json;
-        const transformedData=data?.map((row) => {
-            const newRow: Record<string, any> = {};
-            Object.entries(row).forEach(([key, value]) => {
-                if(key==="customerNumber"||key==="email"){
-                    if(employeeAccess) newRow[key] = `="${value}"`;
-                }else{
-
-                    newRow[key] = `="${value}"`;
-                }
-        });
-        return newRow;
-    })
-        exportFromJSON({ data:transformedData, fileName, exportType });
-    };
-
-    const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
-        const fileName = kpiTitle;
-        const exportType = exportFromJSON.types.xls;
-
-        // First transform the data to sentence case
-        const transformedData = transformKeysToSentenceCase(data).map(row => {
-            const newRow: Record<string, any> = {};
-            Object.entries(row).forEach(([key, value]) => {
-                if(key==="customerNumber"||key==="email"){
-                    if(employeeAccess) newRow[key] = `="${value}"`;
-                }else{
-
-                 
-                // If value is a string containing only numbers and starts with 0, format it as text
-                if (typeof value === 'string' && /^\d+$/.test(value) && value.startsWith('0')) {
-                    // Format as text by adding ="value" which Excel will interpret correctly
-                    newRow[key] = `="${value}"`;
-                } else {
-                    newRow[key] = `="${value}"`
-                }
-            }
+    const generateDataOutput = (data: Array<Record<string, any>>, exportType: ExportType) => {
+        let transformedData;
+        const prefix = exportType === exportFromJSON.types.json ? "" : "=";
+    
+        if (headerData?.length > 0) {
+            transformedData = data.map(row => {
+                const newRow: Record<string, any> = {};
+                headerData.forEach(header => {
+                    const value = row[header?.key];
+    
+                    // Force Excel to treat numeric-looking strings as text
+                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+    
+                    if (
+                        (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
+                    ) {
+                        newRow[header?.label] = `${prefix}"${value}"`;
+                    } else if (shouldWrapInFormula) {
+                        newRow[header?.label] = `${prefix}"${value}"`;
+                    } else {
+                        newRow[header?.label] = value;
+                    }
+                });
+                return newRow;
             });
-            return newRow;
+        } else {
+            transformedData = data.map(row => {
+                const newRow: Record<string, any> = {};
+                Object.entries(row).forEach(([key, value]) => {
+                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+    
+                    if (
+                        (key === "customerNumber" || key === "phone") && employeeAccess
+                    ) {
+                        newRow[key] = `${prefix}"${value}"`;
+                    } else if (shouldWrapInFormula) {
+                        newRow[key] = `${prefix}"${value}"`;
+                    } else {
+                        newRow[key] = value;
+                    }
+                });
+                return newRow;
+            });
+        }
+    
+        exportFromJSON({
+            data: transformedData,
+            fileName: kpiTitle,
+            exportType,
         });
-
-        exportFromJSON({ data: transformedData, fileName, exportType });
-
     };
+    
+    // const csvDownloadFn = (data: Array<Record<string, any>>) => {
+    //     const exportType = exportFromJSON.types.csv;
+
+    //     const transformedData=data?.map((row) => {
+    //         const newRow: Record<string, any> = {};
+    //         Object.entries(row).forEach(([key, value]) => {
+    //             if(key==="customerNumber"||key==="email"){
+    //                 if(employeeAccess) newRow[key] = `="${value}"`;
+    //             }else{
+
+    //                 newRow[key] = `="${value}"`;
+    //             }
+    //     });
+    //     return newRow;
+    // })
+
+    // };
+
+    // const jsonDownloadFn = (data: Array<Record<string, any>>, headers:NewTableHeader[]) => {
+    //     const fileName = kpiTitle;
+    //     const exportType = exportFromJSON.types.json;
+    //     if(headers?.length>0){
+    //         return newRow;
+    //     }else{
+
+
+    // })
+    //     exportFromJSON({ data:transformedData, fileName, exportType });
+    // };
+
+    // const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
+    //     const fileName = kpiTitle;
+    //     const exportType = exportFromJSON.types.xls;
+
+    //     // First transform the data to sentence case
+    //     const transformedData = transformKeysToSentenceCase(data).map(row => {
+    //         const newRow: Record<string, any> = {};
+    //         Object.entries(row).forEach(([key, value]) => {
+    //             if(key==="customerNumber"||key==="email"){
+    //                 if(employeeAccess) newRow[key] = `="${value}"`;
+    //             }else{
+
+
+    //             // If value is a string containing only numbers and starts with 0, format it as text
+    //             if (typeof value === 'string' && /^\d+$/.test(value) && value.startsWith('0')) {
+    //                 // Format as text by adding ="value" which Excel will interpret correctly
+    //                 newRow[key] = `="${value}"`;
+    //             } else {
+    //                 newRow[key] = `="${value}"`
+    //             }
+    //         }
+    //         });
+    //         return newRow;
+    //     });
+
+    //     exportFromJSON({ data: transformedData, fileName, exportType });
+
+    // };
 
     const pdfDownloadFn = (data: Array<Record<string, any>>, headers?: Array<{ key: string; label: string }>) => {
 
@@ -176,10 +220,10 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
             if(header?.key==="customerNumber"||header?.key==="email"){
                 if(employeeAccess) return row[header.key] || ""
             }else{
-         return row[header.key] || ""
+         return row[header.key] ?? ""
             }
 
-        } ));
+        }));
 
         // Add the table using autoTable
         (doc as any).autoTable({
@@ -220,11 +264,11 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
         if (selectedFormat === "pdf") {
             pdfDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData, headerData);
         } else if (selectedFormat === "json") {
-            jsonDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData);
+            generateDataOutput(apiParams?.apiEndPoint ? dataToDownload?.content : tableData, exportFromJSON.types.json);
         } else if (selectedFormat === "csv") {
-            csvDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData);
+            generateDataOutput(apiParams?.apiEndPoint ? dataToDownload?.content : tableData, exportFromJSON.types.csv);
         } else if (selectedFormat === "xlsx") {
-            xlsxDownloadFn(apiParams?.apiEndPoint ? dataToDownload?.content : tableData);
+            generateDataOutput(apiParams?.apiEndPoint ? dataToDownload?.content : tableData, exportFromJSON.types.xls);
         }
         setShowDownloadables(false);
         setSelectedFormat(null);
@@ -232,13 +276,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
     return (
         <div className="table-download-options-container">
-            <TableDownloadOptionsIcon
+          {tableData?.length ?  <TableDownloadOptionsIcon
                 className="table-download-options"
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowDownloadables((val) => !val);
                 }}
-            />
+            />:null
+}
 
             {showDownloadables && (
                 <>

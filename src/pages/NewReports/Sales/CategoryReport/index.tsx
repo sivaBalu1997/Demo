@@ -23,6 +23,7 @@ import "./Tabs.css";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import { RootState } from "redux/rootReducer";
 import DoughnutChart from "components/reportComponents/ReusableCharts/ReusableDoughnutChart";
+import ReusableBarChart from "components/reportComponents/ReusableCharts/ReusableBarChart";
 
 const CategoryReport = (props: any) => {
   const [selectedCategories, setSelectedCategories] = useState([{ label: "All", value: "" }]);
@@ -303,8 +304,8 @@ const CategoryReport = (props: any) => {
 
 
   const cancelledItemsDownloadHeader = [{
-    key: "itemName",
-    label: "Item Name"
+    key: "voidedReason",
+    label: "Voided Reason"
   },
   {
     key: "voidedQuantity",
@@ -456,7 +457,7 @@ const CategoryReport = (props: any) => {
               </h1>
               {(!categorySalesDataLoading && categorySalesData && categorySalesDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Sales" : activeBtn === "items" ? "Items Sales" : ""} tableData={categorySalesData} headerData={categorySalesDataHeaderForDownloading} />}
             </div>
-            <ErrorHandler data={categorySalesData} isError={categorySalesDataFailure}>
+            <ErrorHandler data={categorySalesData} isError={categorySalesDataFailure} isLoading={categorySalesDataLoading}>
               <LinearBarChart
                 dataList={categorySalesData || []}
                 barColorCode={activeBtn === "categories" ? "#02B04C" : "#14A789"}
@@ -475,7 +476,7 @@ const CategoryReport = (props: any) => {
               </h1>
               {<DownloadReport kpiTitle={activeBtn === "categories" ? "By Channels - Categories" : activeBtn === "items" ? "By Channels - Items" : ""} tableData={categoryChannelSummaryData} headerData={categoryChannelSummaryDataHeaderForDownloading} />}
             </div>
-            <ErrorHandler data={categoryChannelSummaryData} isError={categoryChannelSummaryDataFailure}>
+            <ErrorHandler data={categoryChannelSummaryData} isError={categoryChannelSummaryDataFailure} isLoading={categoryChannelSummaryDataLoading}>
               <SalesChart
                 dataList={categoryChannelSummaryData}
                 loader={categoryChannelSummaryDataLoading}
@@ -484,7 +485,31 @@ const CategoryReport = (props: any) => {
               />
             </ErrorHandler>
           </div>
+          <br/>
           {activeBtn === "categories" ? (
+            
+    //   <ReusableBarChart
+    //   dataList={voidedSummaryData}
+    //   loader={voidedSummaryDataLoading}
+    //   error={voidedSummaryDataFailure }
+    //   title="Categories Voids"
+    //   xKey="categoryName"
+    //   yKey="voidedAmount"
+    //   xLabel='Qty'
+    //   yLabel='Voided amount'
+    //   extraKeys={[{key:"voidedQuantity", label:"Qty"}]}
+    //   barColor="#AA562A"
+    //   tooltipStyles={{
+    //     backgroundColor: "#fff",
+    //     borderColor: "#AA562A",
+    //     titleColor: "#000",
+    //     bodyColor: "#000",
+    //   }}
+    //   kpiTitle='Categories Voids'
+    //   showChartFilter={false}
+    //   showSwitchable={false}
+    //   isYAxisQuantity={false}
+    // />
             <div>
               <div className="categories-graph-header-container">
                 <h1 className="categories-overview-heading">
@@ -493,9 +518,9 @@ const CategoryReport = (props: any) => {
                 {<DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Voids" : activeBtn === "items" ? "Cancellation" : ""}
                   tableData={voidedSummaryData || []} headerData={voidedCategoriesDownloadHeader} />}
               </div>
-              <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
+              <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure} isLoading={voidedSummaryDataLoading}>
                 <LinearBarChartCategorySales
-                  dataList={voidedSummaryData}
+                  dataList={voidedSummaryData||[]}
                   barColorCode={"#AA562A"}
                   loader={voidedSummaryDataLoading}
                   isMobile={isMobile}
@@ -503,9 +528,7 @@ const CategoryReport = (props: any) => {
                 />
               </ErrorHandler>
             </div>
-          ) : (
-            ""
-          )}
+          ) : ""}
           {activeBtn === "items" ? (
             <div>
               <div className="categories-graph-header-container">
@@ -513,11 +536,12 @@ const CategoryReport = (props: any) => {
                 {<DownloadReport kpiTitle="Cancellation"
                   tableData={voidedSummaryData || []} headerData={cancelledItemsDownloadHeader} />}
               </div>
-              <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure}>
+              <ErrorHandler data={voidedSummaryData} isError={voidedSummaryDataFailure} isLoading={voidedSummaryDataLoading}>
                 
                 <DoughnutChart
                   xKey="voidedReason"
-                  yKey="voidedQuantity"
+                  yKey="voidedAmount"
+                  // yKey="voidedQuantity"
                   labelKeys={[{ key: "Total item", value: "voidedQuantity" }, { key: "Amount", value: "voidedAmount", isAmount: true }]}
                   isAmount={true}
                   dataList={(voidedSummaryData || [])}

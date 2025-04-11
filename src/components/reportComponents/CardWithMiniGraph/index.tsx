@@ -30,6 +30,13 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
 
     const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
 
+    // Check if cardValue is zero (including string and number formats)
+    const isZeroValue = useMemo(() => {
+        if (cardValue === null || cardValue === undefined || cardValue === "") return true;
+        const numValue = typeof cardValue === 'string' ? parseFloat(cardValue) : cardValue;
+        return numValue === 0;
+    }, [cardValue]);
+
     if (loader) return <ShimmerCardMiniGraph />
     return (
         <div className="card-mini-graph-container">
@@ -42,7 +49,7 @@ const CardWithMiniGraph: React.FC<ICardWithMiniGraphProps> = ({
             </div>
 
 
-            {showMiniGraph && incrementOrDecrement && (
+            {showMiniGraph && incrementOrDecrement && !isZeroValue && (
                 <div className="mini-graph-container">
                     <div className="increment-decrement-value">
                         {incrementOrDecrement === "increment" ? (

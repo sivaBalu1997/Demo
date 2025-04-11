@@ -34,19 +34,39 @@ interface ChartData {
 const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader: boolean }) => {
   const countryCode = useSelector((state : any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode,false)), [countryCode]);
+  const processedData = useMemo(() => {
+    const sorted = [...dataList].sort((a: any, b: any) => Number(b.sales || 0) - Number(a.sales || 0));
+  
+    const top20 = sorted.slice(0, 20);
+    const rest = sorted.slice(20);
+  
+    const formattedData = [
+      ...top20.map((item: any) => ({
+        x: item.channelName,
+        y: Number(item.sales || 0),
+        orders: item.orders,
+      })),
+
+    ];
+    if(rest.length) {
+    const otherTotal = rest.reduce((acc: number, item: any) => acc + Number(item.sales || 0), 0);
+    const otherOrders = rest.reduce((acc: number, item: any) => acc + Number(item.orders || 0), 0); 
+    formattedData.push({
+      x: "Others",
+      y: otherTotal,
+      orders: otherOrders
+    })
+  }
+  
+    return formattedData
+  }, [dataList]);
 
   const data = {
-    labels: Array.from(
-      new Set(dataList?.map((item: any) => item?.channelName))
-    ),
+    labels: processedData?.map((item: any) => item?.x),
     datasets: [
       {
         label: `Sales (${currencySymbol})`,
-        data: dataList?.map((item: any) => ({
-          x: item.channelName, // X-axis label
-          y: Number(item.sales || 0), // Y-axis sales value
-          orders: item.orders, // Store orders for tooltips
-        })),
+        data: processedData,
         backgroundColor: [
           "#E52333",
           "#67833E",
@@ -97,7 +117,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
       },
     },
     scales: {
-      x: { grid: { display: false } },
+      x: { grid: { display: false },ticks: { autoSkip: false } },
       y: {
         beginAtZero: true,
         ticks: {
@@ -115,7 +135,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
 
   if (loader) return <BarChartShimmer />;
 
-  return dataList?.length === 0 ? (
+  return processedData?.length === 0 ? (
     <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
   ) : (
     <div style={{ width: "100%", height: "500px" }}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -40,18 +40,39 @@ interface RevenueChartProps {
 }
 
 const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader }) => {
+    const processedData = useMemo(() => {
+      const sorted = Array.isArray(dataList) ? [...dataList].sort((a: any, b: any) => Number(b.totalSales || 0) - Number(a.totalSales || 0)) : [];
+    
+      const top20 = sorted.slice(0, 20);
+      const rest = sorted.slice(20);
+    
+      const formattedData = [
+        ...top20.map((item: any) => ({
+          x: item.revenueClass,
+          y: Number(item.totalSales || 0),
+          itemsSold: item.itemsSold,
+        })),
+  
+      ];
+      if(rest.length) {
+      const otherTotal = rest.reduce((acc: number, item: any) => acc + Number(item.totalSales || 0), 0);
+      const otherOrders = rest.reduce((acc: number, item: any) => acc + Number(item.itemsSold || 0), 0); 
+      formattedData.push({
+        x: "Others",
+        y: otherTotal,
+        itemsSold: otherOrders
+      })
+    }
+    
+      return formattedData
+    }, [dataList]);
+  
   const data = {
-    labels: Array.from(
-      new Set(dataList?.map((item: any) => item?.revenueClass))
-    ),
+    labels:processedData?.map((item: any) => item?.x),
     datasets: [
       {
         label: "Sales",
-        data: dataList?.map((item: any) => ({
-          x: item.revenueClass, // X-axis label
-          y: Number(item.totalSales || 0), // Y-axis sales value
-          itemsSold: item.itemsSold, // Store orders for tooltips
-        })),
+        data: processedData,
         backgroundColor: "#CE9E0F",
         borderRadius: 5,
         barPercentage: 0.7,
@@ -96,14 +117,14 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader 
       },
     },
     scales: {
-      x: { grid: { display: false } },
+      x: { grid: { display: false },ticks: { autoSkip: false } },
       y: { beginAtZero: true },
     },
   };
 
   if (loader) return <BarChartShimmer />
 
-  return dataList?.length === 0 ? (
+  return processedData?.length === 0 ? (
     <ErrorState pageTitle="Sales report" isDataNotAvailable={true} />
   ) : (
     <div style={{ width: "100%", height: "500px" }}>

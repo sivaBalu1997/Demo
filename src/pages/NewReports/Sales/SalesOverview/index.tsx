@@ -17,6 +17,11 @@ import {
 } from "redux/newReports/newReportsActions";
 import { ReactComponent as PayTapIcon } from "../../../../assets/svg/pay_tap.svg";
 import { ReactComponent as KeyedInIcon } from "../../../../assets/svg/pay-card.svg";
+import { ReactComponent as DefaultTenderTypeIcon } from "../../../../assets/svg/default-tender-type-icon-r.svg";
+import { ReactComponent as SwiggyIcon } from "../../../../assets/svg/swiggy-icon-big-r.svg";
+import { ReactComponent as ZomatoIcon } from "../../../../assets/svg/zomato-icon-big-r.svg";
+import { ReactComponent as SeamlessIcon } from "../../../../assets/svg/seamless-icon-big-r.svg";
+import { ReactComponent as GloriaFoodIcon } from "../../../../assets/svg/gloria-food-icon-big-r.svg";
 import { ReactComponent as CashIcon } from "../../../../assets/svg/pay-cash.svg";
 import { ReactComponent as CouponsIcon } from "../../../../assets/svg/pay-coupon.svg";
 import { ReactComponent as GiftCardIcon } from "../../../../assets/svg/pay-gift-card.svg";
@@ -54,10 +59,11 @@ interface ReportProps { }
 const knownTendorIcons: any = {
   "Swipe/Tap/Dip": <PayTapIcon />,
   "Online/Key-In": <PayTapIcon />,
+  "Card Swipe": <PayTapIcon />,
   "Keyed In": <KeyedInIcon />,
   Cash: <CashIcon />,
   "CASH": <CashIcon />,
-  UberEats: <UberEatsIcon />,
+  "Uber eats": <UberEatsIcon />,
   Grubhub: <GrubHubIcon />,
   Doordash: <DoordashIcon />,
   Coupons: <CouponsIcon />,
@@ -66,6 +72,10 @@ const knownTendorIcons: any = {
   "Apple Pay": <ApplePayIcon />,
   "Offline QR": <OfflineQRIcon />,
   "OFFLINE_QR": <OfflineQRIcon />,
+  "Swiggy": <SwiggyIcon />,
+  "Zomato": <ZomatoIcon />,
+  "Seamless": <SeamlessIcon />,
+  "GloriaFood": <GloriaFoodIcon />,
 };
 
 const discountTableHeaders: NewTableHeader[] = [
@@ -202,6 +212,7 @@ const rightGroup = ["Credit card", "Coupons", "Digital payments", "Others"]
 // ];
 
 const SalesOverview: React.FC<ReportProps> = ({ }) => {
+  const [loadingState, setLoadingState] = useState(true);
   const [viewType, setViewType] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState<number>(1);
@@ -439,6 +450,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         })
       ),
     ]);
+    setLoadingState(false);
   }, [selectedLocation, startDate, endDate]);
 
 
@@ -529,6 +541,49 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const salesOverViewBoxForDownloading = [salesSummary]
+
+  const salesSummaryHeaderDataForDownloadUS = [
+    {"key": "totalGrossSalesIncludingThirdparty", "label":"Total Sales"},
+    {"key": "totalNetSalesIncludingThirdparty", "label":"Net Sales"},
+    {"key": "totalTaxIncludingThirdparty", "label":"Total Tax"},
+    {"key": "totalMagilTips", "label":"Total Tips"},
+    {"key": "gratuity", "label":"Gratuity"},
+    {"key": "totalOrdersIncludingThirdparty", "label":"Transactions"},
+    {"key": "discounts", "label":"Discounts"},
+    {"key": "cancelledOrders", "label":"Cancelled Orders"},
+  ]
+  const salesOverViewBoxForDownloadingUS = salesOverViewBoxForDownloading?.map((dataToBeMapped:any)=>({
+    totalGrossSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalGrossSalesIncludingThirdparty, countryCode, true),
+    totalNetSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalNetSalesIncludingThirdparty, countryCode, true),
+    totalTaxIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalTaxIncludingThirdparty, countryCode, true),
+    totalMagilTips: formatNumberByCountry(dataToBeMapped?.totalMagilTips, countryCode, true),
+    gratuity: formatNumberByCountry(dataToBeMapped?.gratuity, countryCode, true),
+    totalOrdersIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalOrdersIncludingThirdparty, countryCode, false),
+    discounts: formatNumberByCountry(dataToBeMapped?.discounts, countryCode, true),
+    cancelledOrders: formatNumberByCountry(dataToBeMapped?.cancelledOrders, countryCode, true),
+  }))
+
+  const salesSummaryHeaderDataForDownloadIND = [
+    {"key": "totalGrossSalesIncludingThirdparty", "label":"Total Sales"},
+    {"key": "totalNetSalesIncludingThirdparty", "label":"Net Sales"},
+    {"key": "totalTaxIncludingThirdparty", "label":"Total Tax"},
+    {"key": "totalMagilTips", "label":"Total Tips"},
+    {"key": "gratuity", "label":"Service Charge"},
+    {"key": "totalOrdersIncludingThirdparty", "label":"Transactions"},
+    {"key": "discounts", "label":"Discounts"},
+    {"key": "cancelledOrders", "label":"Cancelled Orders"},
+  ]
+  const salesOverViewBoxForDownloadingIND = salesOverViewBoxForDownloading?.map((dataToBeMapped:any)=>({
+    totalGrossSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalGrossSalesIncludingThirdparty, countryCode, true),
+    totalNetSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalNetSalesIncludingThirdparty, countryCode, true),
+    totalTaxIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalTaxIncludingThirdparty, countryCode, true),
+    totalMagilTips: formatNumberByCountry(dataToBeMapped?.totalMagilTips, countryCode, true),
+    serviceCharge: formatNumberByCountry(dataToBeMapped?.gratuity, countryCode, true),
+    totalOrdersIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalOrdersIncludingThirdparty, countryCode, false),
+    discounts: formatNumberByCountry(dataToBeMapped?.discounts, countryCode, true),
+    cancelledOrders: formatNumberByCountry(dataToBeMapped?.cancelledOrders, countryCode, true),
+  }))
+
   const salesSummaryHeaderForDownloading = salesSummary && Object.keys(salesSummary)?.map((key) => ({
     key,
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
@@ -557,11 +612,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim(),
       }))
       : []; // Return an empty array if no data
-
-  const salesByChannelHeader = salesByChannel && Object.keys(salesByChannel)?.map((key) => ({
-    key,
-    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
-  }));
 
   const salesByRevenueClassForDownloading = salesByRevenueClass && salesByRevenueClass?.map((dataToBeMapped: any) => ({
     revenueClass: dataToBeMapped?.revenueClass,
@@ -668,10 +718,10 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                           </div>
                         </div>
                       </div>
-                      {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={salesOverViewBoxForDownloading} headerData={salesSummaryHeaderForDownloading} />}
+                      {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={countryCode === "US" ? salesOverViewBoxForDownloadingUS : salesOverViewBoxForDownloadingIND} headerData={countryCode === "US" ? salesSummaryHeaderDataForDownloadUS : salesSummaryHeaderDataForDownloadIND} />}
                     </div>
 
-    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={salesSummaryLoader}>
+    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={loadingState||salesSummaryLoader}>
                 <div className="todays-report-sales-overview-box-container">
                   {countryCode === "US" ?
                     (cardConfigForSalesTabOverView?.map((card: any, index: number) => (
@@ -748,7 +798,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                                       <TenderType
                                         icon={
                                           knownTendorIcons?.[item?.paymentMode] || (
-                                            <KeyedInIcon />
+                                            // <KeyedInIcon />
+                                            <DefaultTenderTypeIcon />
                                           )
                                         }
                                         key={index}
@@ -784,7 +835,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                                       <TenderType
                                         icon={
                                           knownTendorIcons?.[item?.paymentMode] || (
-                                            <KeyedInIcon />
+                                            <DefaultTenderTypeIcon />
                                           )
                                         }
                                         key={index}
@@ -839,7 +890,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   <div className="sales-charts-parent-container">
                     <div className="sales-chart-download-container">
                       <h2 className="sales-overview-sub-heading ">By Channel</h2>
-                      {(!salesByChannelLoading && salesByChannel && salesByChannelHeader) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={salesByChannelHeader} />}
+                      {(!salesByChannelLoading && salesByChannel) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={[{"key":"channelName", "label":"Channel Name",},{"key":"orders", "label":"Orders",},{"key":"sales", "label":"Sales",}]} />}
                     </div>
                     <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
                       <ChannelSalesChart

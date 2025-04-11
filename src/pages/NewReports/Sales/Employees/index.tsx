@@ -594,8 +594,10 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetailsLoading
   );
 
+  const activeEmployees = employeeLists && employeeLists?.filter(employee => employee?.isActive);
+
   const employeeDropdownOptions =
-    employeeLists?.map((employee) => ({
+    activeEmployees?.map((employee) => ({
       value: employee?.staffId,
       label: employee?.lastName ? `${employee?.firstName} ${employee?.lastName}` : employee?.firstName,
     }));
@@ -692,10 +694,18 @@ const Employees: React.FC = () => {
   ]);
 
   const employeeSalesOverViewFromAPIReduxArrayForDownloading = [employeeSalesOverViewFromAPIRedux]
-  const employeeSalesOverViewFromAPIReduxHeaderForDownloading = Object.keys(employeeSalesOverViewFromAPIRedux).map((key) => ({
-    key,
-    label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
-  }));
+
+
+  // console.log("countryCode",countryCode)
+
+  const employeeSalesOverViewHeaderForDownloadingUS = [{"key": "totalMagilNetSales", "label": "Net Sales"},{"key": "totalMagilTips", "label": "Total Tips"},{"key": "gratuity", "label":"Gratuity"}]
+  const employeeSalesOverviewTableDataToDownload = employeeSalesOverViewFromAPIReduxArrayForDownloading?.map((dataToBeMapped:any)=>({
+    totalMagilNetSales: formatNumberByCountry(dataToBeMapped?.totalMagilNetSales, countryCode, true),
+    totalMagilTips: formatNumberByCountry(dataToBeMapped?.totalMagilTips, countryCode, true),
+    gratuity: formatNumberByCountry(dataToBeMapped?.gratuity, countryCode, true)
+  }))
+  const employeeSalesOverViewHeaderForDownloadingIND = [{"key": "totalMagilNetSales", "label": "Net Sales"},{"key": "totalMagilTips", "label": "Total Tips"},{"key": "gratuity", "label":"Service Charge"}]
+
 
   return (
     <div className="report-sales-employee-container">
@@ -757,7 +767,7 @@ const Employees: React.FC = () => {
           <div className="employee-report-sales-overview-box-container-parent">
             <div className="employee-sales-overview-head-with-download">
               <h2>Sales Overview</h2>
-              {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading && employeeSalesOverViewFromAPIReduxHeaderForDownloading) && <DownloadReport kpiTitle="Sales Overview" tableData={employeeSalesOverViewFromAPIReduxArrayForDownloading} headerData={employeeSalesOverViewFromAPIReduxHeaderForDownloading} />}
+              {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading) && <DownloadReport kpiTitle="Employee Sales Overview" tableData={employeeSalesOverviewTableDataToDownload} headerData={countryCode === "US" ? employeeSalesOverViewHeaderForDownloadingUS : employeeSalesOverViewHeaderForDownloadingIND} />}
             </div>
             <div className="select-employee-container">
               <p>Select employee</p>

@@ -36,7 +36,6 @@ const TodaysReport: React.FC = () => {
   const selectedLocation = useSelector(
     (state: any) => state?.newReports?.selectedLocation
   );
-
   const [currentDate, setCurrentDate] = useState("");
   const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
   const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] =
@@ -368,7 +367,6 @@ console.log(orderedLiveNonDineInData);
     liveOrderNonDineInSearchQuery,
     isSwitchActive,
   ]);
-
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
     setCurrentDate(formattedDate);
@@ -450,7 +448,7 @@ console.log(orderedLiveNonDineInData);
     setLiveOrderNonDineInPageLimit(10);
     setCurrentPageLiveOrders(1);
     setCurrentPageLiveOrdersNonDineIn(1);
-    setIsSwitchActive(false);
+    // setIsSwitchActive(false);
 
     dispatch(
       liveOrdersRequest({
@@ -460,6 +458,7 @@ console.log(orderedLiveNonDineInData);
         startDate: moment().format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
         searchQuery: "",
+        ...( isSwitchActive && { type: "Paid" } ),
       })
     );
     dispatch(
@@ -470,6 +469,7 @@ console.log(orderedLiveNonDineInData);
         startDate: moment().format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
         searchQuery: "",
+        ...( isSwitchActive && { type: "Paid" } ),
       })
     );
 
@@ -508,6 +508,7 @@ console.log(orderedLiveNonDineInData);
         type: "notcompleted",
       })
     );
+
   };
 
   return (
@@ -535,7 +536,7 @@ console.log(orderedLiveNonDineInData);
             !unBilledAPIReduxLoading &&
             unBilledAPIReduxArrayForDownloading && (
               <DownloadReport
-                kpiTitle="Sales Overview"
+                kpiTitle="Today's Sales Overview"
                 tableData={
                   isSwitchActive
                     ? billedDataArrayForDownloading
@@ -553,7 +554,7 @@ console.log(orderedLiveNonDineInData);
         <ErrorHandler
           data={isSwitchActive ? billedDataAPIRedux : unBilledAPIRedux}
           isError={isSwitchActive ? billedDataAPIReduxError : unBilledAPIReduxError}
-          isLoading={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
+          isLoading={ isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
         >
           <div className="todays-report-sales-overview-box-container">
             {(countryCode === "US"
@@ -587,6 +588,7 @@ console.log(orderedLiveNonDineInData);
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
+            ...isSwitchActive?{type:"Paid"}:{}
           }}
           kpiTitle="Open Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
@@ -643,6 +645,7 @@ console.log(orderedLiveNonDineInData);
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
+            ...isSwitchActive?{type:"Paid"}:{}
           }}
           kpiTitle="Open Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}

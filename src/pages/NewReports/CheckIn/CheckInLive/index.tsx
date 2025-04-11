@@ -21,6 +21,8 @@ import useDateFilter from "hooks/useDateFilter";
 import { formatNumberByCountry, getCurrencySymbol } from "utils";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import SwitchableBox from "components/reportComponents/SwitchableBox";
+import DownloadReport from "components/reportComponents/DownloadReports";
+import { DownloadHeaderItem } from "../../../../interface/newReportsInterface"
 
 
 const headerData = [
@@ -29,6 +31,7 @@ const headerData = [
     label: "Check-in",
     alignment: "left",
     isSortable: true,
+    prefix:"#",
   },
   {
     key: "guestName",
@@ -74,7 +77,7 @@ const headerData = [
     isSortable: true,
   },
   {
-    key: "avgTime",
+    key: "waitTime",
     label: "Wait time",
     alignment: "left",
     isSortable: true,
@@ -93,6 +96,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: true,
+    prefix:"#"
   },
   {
     key: "guestName",
@@ -132,13 +136,13 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "todayCheckIn",
+    key: "todayCheckInStatus",
     label: "Status",
     alignment: "left",
     isSortable: true,
   },
   {
-    key: "avgTime",
+    key: "waitTime",
     label: "Wait time",
     alignment: "left",
     isSortable: true,
@@ -172,9 +176,16 @@ const CheckInLiveReport = () => {
   const liveCheckInOverview = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInOverviewSuccess
   );
+
   const liveCheckInSeaterAvailability = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInSeaterAvailabilitySuccess
   );
+
+  const liveCheckInSeaterAvailabilityMapped = liveCheckInSeaterAvailability?.map((data: any) => ({
+    seaters: `${data.seaters} seaters`,
+    available:formatNumberByCountry(data.available),
+  }))
+
   const liveCheckInGuestCount = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInGuestCountSuccess
   );
@@ -269,30 +280,48 @@ const CheckInLiveReport = () => {
 
 
   useEffect(() => {
-    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
+    if(selectedLocation?.value){
+      let searchLive = liveCheckInSearchQuery;
+      if (searchLive?.[0] === "#") searchLive = searchLive.slice(1);
+      dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: searchLive, page: liveCheckInCurrentPage, size: liveCheckInPageLimit,type:"livecheckin" }));
+    }
   }, [selectedLocation,liveCheckInCurrentPage,liveCheckInPageLimit]);
 
 
   useEffect(() => {
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+    if(selectedLocation?.value){
+
+      let searchToday = todayCheckInSearchQuery;
+      if (searchToday?.[0] === "#") searchToday = searchToday.slice(1);
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: searchToday, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
+    }
   }, [selectedLocation,todayCheckInCurrentPage,todayCheckInPageLimit]);
 
 
 
   const   handleLiveCheckInSearch = (value: string) => {
+    if(selectedLocation?.value ){
+      let search = value;
+      if (search?.[0] === "#") search = search.slice(1);
     setLiveCheckInSearchQuery(value);
-    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: liveCheckInPageLimit }));
+    dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search, page: 1, size: liveCheckInPageLimit ,type:"livecheckin"}));
     setLiveCheckInCurrentPage(1)
+    }
     // setLiveCheckInPageLimit(10)
   };
   const handleTodayCheckInSearch = (value: string) => {
+    if(selectedLocation?.value){
+      let search = value;
+      if (search?.[0] === "#") search = search.slice(1);
     setTodayCheckInSearchQuery(value);
-    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: value, page: 1, size: todayCheckInPageLimit }));
+    dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search, page: 1, size: todayCheckInPageLimit , type:"todaycheckin"}));
     setTodayCheckInCurrentPage(1)
+    }
     // setTodayCheckInPageLimit(10)
   };
 
 const handleRefreshClick=()=>{
+  if(selectedLocation?.value){
   dispatch(liveCheckInOverviewRequest({ locationId: selectedLocation?.value }));
   dispatch(
     liveCheckInSeaterAvailabilityRequest({ locationId: selectedLocation?.value })
@@ -303,9 +332,49 @@ const handleRefreshClick=()=>{
   dispatch(
     liveCheckInGroupAvgWaitTimeRequest({ locationId: selectedLocation?.value })
   );
-  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: liveCheckInSearchQuery, page: liveCheckInCurrentPage, size: liveCheckInPageLimit }));
-  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search: todayCheckInSearchQuery, page: todayCheckInCurrentPage, size: todayCheckInPageLimit }));
+  let searchLive = liveCheckInSearchQuery;
+  if (searchLive?.[0] === "#") searchLive = searchLive.slice(1);
+  let searchToday = todayCheckInSearchQuery;
+  if (searchToday?.[0] === "#") searchToday = searchToday.slice(1);
+  dispatch(liveCheckInTableRequest({ locationId: selectedLocation?.value, search: searchLive, page: liveCheckInCurrentPage, size: liveCheckInPageLimit ,type:"livecheckin"}));
+  dispatch(liveCheckInTodayRequest({ locationId: selectedLocation?.value, search:searchToday, page: todayCheckInCurrentPage, size: todayCheckInPageLimit , type:"todaycheckin"}));
+  }
 }
+
+const filteredLiveCheckInOverviewKeysForDownloadHeader = useMemo<DownloadHeaderItem[]>(() => {
+  const statusOrderMap: Record<string, string> = {
+    totalActive: 'TOTAL ACTIVE',
+    inQueue: 'IN-QUEUE',
+    assigned: 'ASSIGNED',
+    lateShow: 'LATE SHOW'
+  };
+
+  return Object.keys(liveCheckInOverview || {})
+    .filter((status): status is keyof typeof statusOrderMap =>
+      !["seated", "noShow"].includes(status) && status in statusOrderMap
+    )
+    .sort(
+      (a, b) =>
+        Object.keys(statusOrderMap).indexOf(a) -
+        Object.keys(statusOrderMap).indexOf(b)
+    )
+    .map((status) => ({
+      key: status,
+      label: statusOrderMap[status],
+    }));
+}, [liveCheckInOverview]);
+
+
+const liveCheckInOverviewTableDataMapped = useMemo(() => {
+  return liveCheckInOverview && [liveCheckInOverview]?.map((dataToBeMapped: any) => ({
+    totalActive: formatNumberByCountry(dataToBeMapped.totalActive),
+    inQueue: formatNumberByCountry(dataToBeMapped.inQueue),
+    assigned: formatNumberByCountry(dataToBeMapped.assigned),
+    lateShow: formatNumberByCountry(dataToBeMapped.lateShow),
+  }));
+}, [liveCheckInOverview]);
+
+
 
 const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
   checkInNumber: data.checkInNumber,
@@ -316,12 +385,16 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
   checkInTime: data.checkInTime,
   assignedTime: data.assignedTime,
   liveCheckInStatus: data.liveCheckInStatus,
-  avgTime: data.avgTime,
+  waitTime: data.waitTime,
   guestSize: data.guestSize,
 }));
 
 
 
+const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
+  status: data.status,
+  count: Number(data.count),
+}))
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -338,7 +411,8 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Check-in Overview</h1>
-              <DownloadPopOver />
+              {/* <DownloadPopOver /> */}
+              <DownloadReport kpiTitle="Check-in Overview" headerData={filteredLiveCheckInOverviewKeysForDownloadHeader} tableData={liveCheckInOverviewTableDataMapped}/>
             </div>
             <MiniCard
               data={[
@@ -364,7 +438,8 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Seater wise Availability</h1>
-              <DownloadPopOver />
+              {/* <DownloadPopOver /> */}
+              <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
             </div>
             <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
             <MiniCard
@@ -380,7 +455,8 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
               <h1 className="reports-page-heading">
                 {"By Guest Count (In-queue)"}
               </h1>
-              <DownloadPopOver />
+              {/* <DownloadPopOver /> */}
+              <DownloadReport kpiTitle="By Guest Count (In-queue)" headerData={[{key:"groupSize",label:"Group Size"},{key:"guestCount",label:"Guest Count"}]} tableData={liveCheckInGuestCount}/>
             </div>
             <ErrorHandler isError={liveCheckInGuestCountError} data={liveCheckInGuestCount}  errorType="checkinNotFound">              
               <CustomBarChart
@@ -401,14 +477,18 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">By Status- Check-in</h1>
-              <DownloadPopOver />
+              {/* <DownloadPopOver /> */}
+              <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.map((data: any) => ({
+                status: data.status,
+                checkInCount: Number(data.count),
+              }))}/>
             </div>
             <ErrorHandler isError={liveCheckInStatusError} data={liveCheckInStatus}  errorType="checkinNotFound">   
             <CustomBarChart
               barColor="#225E96"
               toolTipBorderColor="#225E96"
               xAxisTooltipLabel="Status"
-              yAxisTooltipLabel="Check-in Count:"
+              yAxisTooltipLabel="Check-in Count"
               dataList={liveCheckInStatus?.map((data: any) => ({
                 xAxisValue: data.status,
                 yAxisValue: Number(data.count),
@@ -421,7 +501,8 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg wait time</h1>
-              <DownloadPopOver />
+              {/* <DownloadPopOver /> */}
+              <DownloadReport kpiTitle="Avg wait time" headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} tableData={liveCheckInAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}  errorType="checkinNotFound">   
             <CustomBarChart
@@ -442,7 +523,8 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-              <DownloadPopOver />
+              {/* <DownloadPopOver /> */}
+              <DownloadReport kpiTitle="Avg Wait Time by groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   
             <StackedBarChart

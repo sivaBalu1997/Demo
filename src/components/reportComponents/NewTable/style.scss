@@ -451,8 +451,8 @@ $text-secondary: #6b7280;
 
       }
       .bubble-text-blue-one{
-        background-color: #F0FDFA;
-        color: #009689;
+        background-color: #ECFDF5;
+        color: #009966;
       }
       .bubble-text-blue-two{
         background-color: #F0F9FF;
@@ -471,7 +471,7 @@ $text-secondary: #6b7280;
         color: #009966;
       }
       .bubble-text-light-green-one{
-        background-color: #E3F4C6;
+        background-color: #EFFFD3;
         color: #67823D;
       }
 
@@ -483,6 +483,21 @@ $text-secondary: #6b7280;
       .bubble-text-dark-green{
         background-color: #B2C9AD;
         color: #4B5945;
+      }
+
+      .bubble-text-diff-green{
+        background-color: #DEFFE4;
+        color: #049E16;
+      }
+
+      .bubble-text-diff-orange-brown{
+        background-color: #FFF7ED;
+        color: #DE8211;
+      }
+
+      .bubble-text-pink-red{
+        background-color: #FFE8EA;
+        color: #E52333
       }
     }
     .no-results-container {

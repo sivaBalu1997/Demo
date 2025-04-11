@@ -12,6 +12,12 @@ import { ReactComponent as WalkinIcon } from "../../../assets/svg/r-walk-in-icon
 import { ReactComponent as DeliveryIcon } from "../../../assets/svg/r-delivery-icon.svg";
 import { ReactComponent as PickUpIcon } from "../../../assets/svg/r-pick-up-icon.svg";
 import { ReactComponent as GrubhubIcon } from "../../../assets/svg/r-grubhub-icon.svg";
+import { ReactComponent as UberEatsIcon } from "../../../assets/svg/UberEatsR.svg";
+import { ReactComponent as DoordashIcon } from "../../../assets/svg/DoorDashIconR.svg";
+import { ReactComponent as SwiggyIcon } from "../../../assets/svg/SwiggyIconR.svg";
+import { ReactComponent as ZomatoIcon } from "../../../assets/svg/ZomatoIconR.svg";
+import { ReactComponent as SeamlessIcon } from "../../../assets/svg/SeamlessIconR.svg";
+import { ReactComponent as GloriaFoodIcon } from "../../../assets/svg/GloriaFoodIconR.svg";
 import { NewTableProps } from "interface/newReportsInterface";
 import { ReactComponent as OpenEyeIcon } from "../../../assets/svg/eye-on.svg";
 import { ReactComponent as CloseEyeIcon } from "../../../assets/svg/eye-off.svg";
@@ -43,7 +49,7 @@ const NewTable: React.FC<NewTableProps> = ({
   currentPage,
   totalPages,
   onPageChange = () => {},
-  rowsPerPage,
+  rowsPerPage=0,
   setRowsPerPage,
   loader,
   // setLoader,
@@ -59,6 +65,7 @@ const NewTable: React.FC<NewTableProps> = ({
   showIcons = true,
   tableContainerClassName = "",
   totalElements = 0,
+  headers=[]
 }) => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "",
@@ -104,23 +111,25 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string) => {    
+  const handleSort = (key: string) => { 
+       
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
       direction = "desc";
     else if (sortConfig?.key === key && sortConfig?.direction === "desc")
-      direction = "asc";
+      direction = "asc";    
     setSortConfig({ key, direction });
   };
 
-  const sortedData = useMemo(() => {
+  const sortedData = useMemo(() => {   
     if (!tableData || tableData?.length === 0) return [];
     if (!sortConfig?.direction || !sortConfig?.key) return tableData;
+    
     return [...tableData]?.sort((a, b) => {
-      const aValue = a[sortConfig?.key];
-      const bValue = b[sortConfig?.key];
+      const aValue = a?.[sortConfig?.key]??"";
+      const bValue = b?.[sortConfig?.key]??"";     
       if (aValue < bValue) return sortConfig?.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
+      else if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
       return 0;
     });
   }, [tableData, sortConfig]);
@@ -174,15 +183,29 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   const getOrderChannelIcons = (rowvalue: string, headerKey?: string) => {
-    if (headerKey != "orderType") {
+    if (headerKey === "orderChannel" ) {
       if (rowvalue === "Walkin" ) {//|| rowvalue === "Instore"
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
-      } else if (rowvalue === "Pick-up" || rowvalue === "Pickup" || rowvalue === "Pick Up" || rowvalue === "Instore" || rowvalue === "In-store") {
+      } else if (rowvalue === "Pickup" || rowvalue === "Instore" || rowvalue === "In-store") {
         return <PickUpIcon />;
-      } else if (rowvalue === "Grubhub" || rowvalue === "GrubHub") {
+      } else if (rowvalue === "Grubhub") {
         return <GrubhubIcon />;
+      }  else if (rowvalue === "UberEats" || rowvalue === "Uber Eats" || rowvalue === "Ubereats" || rowvalue === "ubereats" || rowvalue === "uberEats" || rowvalue === "Uber eats") {
+        return <UberEatsIcon />;
+      } else if (rowvalue === "DoorDash" || rowvalue === "doordash_pos") {
+        return <DoordashIcon />;
+      } else if (rowvalue === "Swiggy") {
+        return <SwiggyIcon />;
+      } else if (rowvalue === "Zomato") {
+        return <ZomatoIcon />;
+      } else if (rowvalue === "Seamless") {
+        return <SeamlessIcon />;
+      } else if (rowvalue === "GloriaFood") {
+        return <GloriaFoodIcon />;
+      }else{
+        return <DeliveryIcon />;
       }
     }
   };
@@ -200,40 +223,56 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-orange-one";
       } else if (rowvalue === "KOT Ready" || rowvalue === "Order in prep") {
         return " bubble bubble-text-brown-one";
-      } else if (rowvalue === "Order Ready") {
+      } else if (rowvalue === "Order Ready" || rowvalue === "Order Created") {
         return " bubble bubble-text-green-one";
-      }  else if (rowvalue === "Order Completed") {
+      } else if (rowvalue === "Order Completed") {
         return " bubble bubble-text-dark-green";
-      }  else if (rowvalue === "In Delivery") {
+      } else if (rowvalue === "In Delivery") {
         return " bubble bubble-text-light-green-one";
-      } else if (rowvalue == "Pre order placed") {
+      } else if (rowvalue === "Pre order placed" ||rowvalue === "Order Printed") {
         return " bubble bubble-text-light-green-one";
+      } else if (rowvalue === "Payment Failed"){
+        return " bubble bubble-text-pink-red";
+      }else if (rowvalue === "Order Cancelled"){
+        return " bubble bubble-text-pink-red";
+      }else if (rowvalue === "Order Served"){
+        return " bubble-text-diff-green";
+      }else{
+        return " bubble bubble-text-brown-one";
       }
+      
     } else if (headerValue === "Order Channel") {
+
       return " rep-order-channel";
     } else if (headerValue === "Status") {
-      if (rowvalue === "queue") {
-        return " bubble bubble-text-blue-one";
-      } else if (rowvalue === "assigned") {
+      if (rowvalue === "queue" || rowvalue === "Queue") {
         return " bubble bubble-text-blue-two";
+      } else if (rowvalue === "assigned" || rowvalue === "Assigned") {
+        return " bubble bubble-text-blue-one";
       } else if (
-        rowvalue === "Cancelled" ||
-        rowvalue === "cancelled" ||
         rowvalue === "Unavailable"
       ) {
         return " bubble bubble-text-orange-one";
       } else if (rowvalue === "LateShow" || rowvalue === "lateShow") {
-        return " bubble bubble-text-brown-one";
+        return " bubble bubble-text-orange-one";
       } else if (
-        rowvalue === "Completed" ||
-        rowvalue === "completed" ||
         rowvalue === "Available"
       ) {
         return " bubble bubble-text-green-one";
-      } else if (rowvalue === "seated") {
+      } else if (rowvalue === "seated" || rowvalue === "Seated" || rowvalue === "Order Printed"  ) {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
-        return " bubble bubble-text-violet-one";
+        return " bubble bubble-text-diff-orange-brown";
+      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled"){
+        return "bubble bubble-text-brown-one"
+      } else if (rowvalue === "Completed" || rowvalue === "completed"){
+        return "bubble bubble-text-diff-green"
+      }else if (rowvalue === "Order Cancelled"){
+        return " bubble bubble-text-pink-red";
+      }else if (rowvalue === "Order Served"){
+        return " bubble-text-diff-green";
+      }else{
+        return " bubble bubble-text-brown-one";
       }
     }
   };
@@ -566,7 +605,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 <span className="total-elements">
                   {/* {currentPage}-{rowsPerPage} of {totalElements}  */}
                   {/* changed as per prod input */}
-                  {currentPage}-{rowsPerPage && rowsPerPage < totalElements ? rowsPerPage : totalElements} of {totalElements}
+                  {(currentPage-1)*Number(rowsPerPage)+1}-{Number(rowsPerPage)*currentPage>totalElements?totalElements:Number(rowsPerPage)*currentPage} of {totalElements}
                 </span>
               </div>
             )}

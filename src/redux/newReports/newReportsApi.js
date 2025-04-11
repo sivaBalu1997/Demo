@@ -74,6 +74,10 @@ const generateQueryParams = (payload) => {
     if(payload?.chartSliceName){
          query+=`&chartSliceName=${payload?.chartSliceName}`
     }
+    
+    if(payload?.type){
+        query+=`&type=${payload?.type}`
+   }
     return "?"+query?.slice(1)
 }
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
