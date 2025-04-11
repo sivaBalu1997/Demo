@@ -335,7 +335,7 @@ const initialNewReportsState = {
 
     // voided summary
     voidedSummaryLoading: false,
-    voidedSummaryData: null,
+    voidedSummaryData: [],
     voidedSummaryError: false,
 
     // dropdown details

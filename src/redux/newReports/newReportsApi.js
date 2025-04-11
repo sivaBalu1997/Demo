@@ -70,7 +70,6 @@ const generateQueryParams = (payload) => {
     if(payload?.chartSliceName){
          query+=`&chartSliceName=${payload?.chartSliceName}`
     }
-    console.log({payload});
     
     if(payload?.type){
         query+=`&type=${payload?.type}`

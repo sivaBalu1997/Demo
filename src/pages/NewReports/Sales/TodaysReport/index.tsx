@@ -311,7 +311,6 @@ const TodaysReport: React.FC = () => {
     liveOrderNonDineInSearchQuery,
     isSwitchActive,
   ]);
-
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
     setCurrentDate(formattedDate);
@@ -407,6 +406,7 @@ const TodaysReport: React.FC = () => {
         startDate: moment().format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
         searchQuery: "",
+        ...( isSwitchActive && { type: "Paid" } ),
       })
     );
     dispatch(
@@ -417,6 +417,7 @@ const TodaysReport: React.FC = () => {
         startDate: moment().format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
         searchQuery: "",
+        ...( isSwitchActive && { type: "Paid" } ),
       })
     );
     dispatch(

@@ -503,9 +503,7 @@ const CategoryReport = (props: any) => {
                 />
               </ErrorHandler>
             </div>
-          ) : (
-            ""
-          )}
+          ) : ""}
           {activeBtn === "items" ? (
             <div>
               <div className="categories-graph-header-container">
