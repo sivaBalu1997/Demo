@@ -183,7 +183,7 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   const getOrderChannelIcons = (rowvalue: string, headerKey?: string) => {
-    if (headerKey != "orderType") {
+    if (headerKey === "orderChannel" ) {
       if (rowvalue === "Walkin" ) {//|| rowvalue === "Instore"
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
@@ -231,7 +231,12 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "Payment Failed"){
         return " bubble bubble-text-pink-red";
+      }else if (rowvalue === "Order Cancelled"){
+        return " bubble bubble-text-pink-red";
+      }else if (rowvalue === "Order Served"){
+        return "bubble-text-diff-green";
       }
+      
     } else if (headerValue === "Order Channel") {
 
       return " rep-order-channel";
@@ -258,6 +263,10 @@ const NewTable: React.FC<NewTableProps> = ({
         return "bubble bubble-text-brown-one"
       } else if (rowvalue === "Completed" || rowvalue === "completed"){
         return "bubble bubble-text-diff-green"
+      }else if (rowvalue === "Order Cancelled"){
+        return " bubble bubble-text-pink-red";
+      }else if (rowvalue === "Order Served"){
+        return "bubble-text-diff-green";
       }
     }
   };

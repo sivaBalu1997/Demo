@@ -35,8 +35,8 @@ import SidePanelMob from "components/reportComponents/SiePanelMob";
 import { showErrorToast } from "util/toastUtils";
 import { clearPermissionsData, getEmployeePermissionsRequest } from "redux/employee/employeeActions";
 // import exp from "constants";
-import {ReactComponent as NewMaghilLogo} from "../../assets/svg/maghil-logo-new.svg";
-import {ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
+import { ReactComponent as NewMaghilLogo } from "../../assets/svg/maghil-logo-new.svg";
+import { ReactComponent as MaghilText } from "../../assets/svg/maghil-text-new.svg"
 import { clearReportData } from "redux/newReports/newReportsActions";
 import SidePanelHoverViewForReports from "components/reportComponents/SidePanelHoverViewForReports";
 
@@ -61,7 +61,7 @@ const SidePanel = () => {
     if (!permissions?.length) {
       const staff: any = localStorage?.getItem("CREDENTIALS");
       const staffId = JSON.parse(staff)?.id;
-     dispatch(getEmployeePermissionsRequest({ staffId: staffId }));
+      dispatch(getEmployeePermissionsRequest({ staffId: staffId }));
     }
   }, [permissions?.length]);
 
@@ -246,7 +246,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (!selectedBranchDispatch &&restaurantDetails) {
+      if (!selectedBranchDispatch && restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
@@ -264,7 +264,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
         }
       }
     }
-  }, [restaurantDetails,selectedBranchDispatch]);
+  }, [restaurantDetails, selectedBranchDispatch]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -273,7 +273,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   const logoutUser = () => {
     dispatch(clearPermissionsData());
     dispatch(clearMenuData());
-        dispatch(clearReportData())
+    dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
@@ -286,9 +286,8 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
   return (
     <>
       <div
-        className={`menu menu-rebranded is-sticky ${
-          isExpanded ? "expanded" : ""
-        }`}
+        className={`menu menu-rebranded is-sticky ${isExpanded ? "expanded" : ""
+          }`}
       >
         <div className="logo-container logo-container-rebranded">
           <div>
@@ -338,8 +337,9 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                     restaurantDetails.branch.map((u, i) => {
                       return (
                         <option
+                          key={i}
                           value={`${JSON.stringify(u)}`}
-                          //selected={userBranchName}
+                        //selected={userBranchName}
                         >
                           {u.locationName.split(",")[1]}
                         </option>
@@ -380,7 +380,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
           <div
             className={
               showOptions === "employees" &&
-              location.pathname.includes("employees")
+                location.pathname.includes("employees")
                 ? "activePath"
                 : "not-active  menu-items-name-rebranded"
             }
@@ -536,7 +536,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
             style={{
               marginTop:
                 showOfferOptions === "MenuOptions" &&
-                offerMenuOptions.length > 0
+                  offerMenuOptions.length > 0
                   ? "-1.2rem"
                   : "0",
             }}
@@ -589,8 +589,8 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                       : "not-active"
                   }
                 >
-                  <Stats 
-                    className="menu-items-icon menu-items-icons-resize" 
+                  <Stats
+                    className="menu-items-icon menu-items-icons-resize"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowHoverView(!showHoverView);
@@ -598,7 +598,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                   />
                   {!isExpanded && showHoverView && (
                     <div className="hover-view-container">
-                      <SidePanelHoverViewForReports onClose={() => setShowHoverView(false)}/>
+                      <SidePanelHoverViewForReports onClose={() => setShowHoverView(false)} />
                     </div>
                   )}
                   {isExpanded && (
@@ -613,9 +613,9 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                     (showOptions === "reportOptions" ? (
                       <Uparrow
                         className="arrow-dimensions"
-                        // className="dropdown-arrow"
-                        // style={{ marginLeft: "15px" }}
-                        // style={{color: showOptions === "reportOptions" ? "orange" : "pink"}}
+                      // className="dropdown-arrow"
+                      // style={{ marginLeft: "15px" }}
+                      // style={{color: showOptions === "reportOptions" ? "orange" : "pink"}}
                       />
                     ) : (
                       <Downarrow
@@ -655,24 +655,24 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
                   >
                     {isExpanded && showOptions === "reportOptions"
                       ? reportInsightsOptions.map((option) => (
-                          <li
-                            key={option?.path}
-                            className="menuList-offers-sub-category"
-                            style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        <li
+                          key={option?.path}
+                          className="menuList-offers-sub-category"
+                          style={{ width: !isExpanded ? "4rem" : "100%" }}
+                        >
+                          <div
+                            style={{
+                              color:
+                                SelectSubForReport == option?.name
+                                  ? "#E52333"
+                                  : "#000000",
+                            }}
+                            onClick={() => handlePathChange(option?.path)}
                           >
-                            <div
-                              style={{
-                                color:
-                                  SelectSubForReport == option?.name
-                                    ? "#E52333"
-                                    : "#000000",
-                              }}
-                              onClick={() => handlePathChange(option?.path)}
-                            >
-                              {option?.name}
-                            </div>
-                          </li>
-                        ))
+                            {option?.name}
+                          </div>
+                        </li>
+                      ))
                       : null}
                   </ul>
                 )}
@@ -689,7 +689,7 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
             //     ? "activePath"
             //     : "not-active"
             // }
-            onClick={() => {}}
+            onClick={() => { }}
           >
             {
               <>
@@ -1090,8 +1090,8 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
             <div className="magilhub-bottom-logo">
               <span className="powered-text1">Powered by</span>
               {/* <span className="magilhub-logo1">Maghil</span>  */}
-              <NewMaghilLogo className="new-maghil-logo"/>
-              <MaghilText className="new-maghil-text"/>
+              <NewMaghilLogo className="new-maghil-logo" />
+              <MaghilText className="new-maghil-text" />
               {/* insert the logo here */}
             </div>
           )}

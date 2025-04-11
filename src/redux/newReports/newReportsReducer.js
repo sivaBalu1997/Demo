@@ -335,7 +335,7 @@ const initialNewReportsState = {
 
     // voided summary
     voidedSummaryLoading: false,
-    voidedSummaryData: null,
+    voidedSummaryData: [],
     voidedSummaryError: false,
 
     // dropdown details
@@ -350,7 +350,7 @@ const initialNewReportsState = {
 
     // category sales
     categorySalesLoading: false,
-    categorySalesData: null,
+    categorySalesData: [],
     categorySalesError: false,
 
     // category sales summary
