@@ -68,7 +68,7 @@ const EmployeeSalesChart: React.FC<EmployeeSalesChartProps> = ({
     return formattedData
   }, [dataList]);
   const data = {
-    labels: Array.from(new Set(processedData?.map((item: any) => item?.fullName))),
+    labels: processedData?.map((item: any) => item?.x),
     datasets: [
       {
         label: `Sales (${currencySymbol})`,
