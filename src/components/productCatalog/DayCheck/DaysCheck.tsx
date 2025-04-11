@@ -71,7 +71,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const tagData = useSelector(
     (state: StateDataTag) => state.productCatalog.availability
   );
-  const availabilityDays=availabilityDay.length>0 ? availabilityDay?.filter((data:any)=>data!="All") :[]
+  const availabilityDays = availabilityDay?.length>0 ? availabilityDay?.filter((data:any)=>data!="All") :[]
   const [data, setData] = useState<DataItem[]>([]);
   const Days = [
     "All Days",
@@ -82,10 +82,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     let days:any=[]
     if(dateShow)
     {
-      days.push("All Days")
-    Days.forEach((data:any,index:any)=>{
-      if(disabledays.includes(index)){
-         days.push(data)
+      days?.push("All Days")
+    Days?.forEach((data:any,index:any)=>{
+      if(disabledays?.includes(index)){
+         days?.push(data)
       }
     })
   }
@@ -93,7 +93,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     days=[...Days]
   }
     if (day === 'All Days') {
-      if (checkedItems.length === days.length) {
+      if (checkedItems?.length === days?.length) {
         setCheckedItems([]);
       } else {
         setCheckedItems([...days]);
@@ -101,7 +101,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     }
   else if(checkedItems.includes(day))
   {
-     setCheckedItems((prev:any)=>prev.filter((data:any)=>data!=day))
+     setCheckedItems((prev:any)=>prev?.filter((data:any)=>data!=day))
   }
   else{
     setCheckedItems((prev: any) => [...prev, day]);
@@ -160,7 +160,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   // }, [disabledays]);
 
   const AlldaysDisabled = Days.filter((item, index) =>
-    disabledays.includes(index)
+    disabledays?.includes(index)
   );
 
   return (
