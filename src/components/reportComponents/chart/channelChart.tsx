@@ -62,9 +62,7 @@ const ChannelSalesChart = ({ dataList = [], loader }: { dataList: any[], loader:
   }, [dataList]);
 
   const data = {
-    labels: Array.from(
-      new Set(processedData?.map((item: any) => item?.channelName))
-    ),
+    labels: processedData?.map((item: any) => item?.x),
     datasets: [
       {
         label: `Sales (${currencySymbol})`,

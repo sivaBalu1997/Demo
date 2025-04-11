@@ -168,7 +168,7 @@ export const textTwoForTodaysSwitch: string = "Paid Orders";
     //   percentage: "totalSalesPercentage"
     // },
     {
-      title: "Net Sales",
+      title: "Employee Net Sales",
       value: "totalMagilNetSales",
       percentage: "netSalesPercentage"
     },

@@ -204,6 +204,8 @@ const NewTable: React.FC<NewTableProps> = ({
         return <SeamlessIcon />;
       } else if (rowvalue === "GloriaFood") {
         return <GloriaFoodIcon />;
+      }else{
+        return <DeliveryIcon />;
       }
     }
   };
@@ -221,20 +223,22 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-orange-one";
       } else if (rowvalue === "KOT Ready" || rowvalue === "Order in prep") {
         return " bubble bubble-text-brown-one";
-      } else if (rowvalue === "Order Ready") {
+      } else if (rowvalue === "Order Ready" || rowvalue === "Order Created") {
         return " bubble bubble-text-green-one";
       } else if (rowvalue === "Order Completed") {
         return " bubble bubble-text-dark-green";
       } else if (rowvalue === "In Delivery") {
         return " bubble bubble-text-light-green-one";
-      } else if (rowvalue === "Pre order placed") {
+      } else if (rowvalue === "Pre order placed" ||rowvalue === "Order Printed") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "Payment Failed"){
         return " bubble bubble-text-pink-red";
       }else if (rowvalue === "Order Cancelled"){
         return " bubble bubble-text-pink-red";
       }else if (rowvalue === "Order Served"){
-        return "bubble-text-diff-green";
+        return " bubble-text-diff-green";
+      }else{
+        return " bubble bubble-text-brown-one";
       }
       
     } else if (headerValue === "Order Channel") {
@@ -255,7 +259,7 @@ const NewTable: React.FC<NewTableProps> = ({
         rowvalue === "Available"
       ) {
         return " bubble bubble-text-green-one";
-      } else if (rowvalue === "seated" || rowvalue === "Seated") {
+      } else if (rowvalue === "seated" || rowvalue === "Seated" || rowvalue === "Order Printed"  ) {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
         return " bubble bubble-text-diff-orange-brown";
@@ -266,7 +270,9 @@ const NewTable: React.FC<NewTableProps> = ({
       }else if (rowvalue === "Order Cancelled"){
         return " bubble bubble-text-pink-red";
       }else if (rowvalue === "Order Served"){
-        return "bubble-text-diff-green";
+        return " bubble-text-diff-green";
+      }else{
+        return " bubble bubble-text-brown-one";
       }
     }
   };

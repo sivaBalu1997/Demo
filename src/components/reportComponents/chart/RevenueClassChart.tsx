@@ -68,9 +68,7 @@ const RevenueClassChart: React.FC<RevenueChartProps> = ({ dataList = [], loader 
     }, [dataList]);
   
   const data = {
-    labels: Array.from(
-      new Set(processedData?.map((item: any) => item?.revenueClass))
-    ),
+    labels:processedData?.map((item: any) => item?.x),
     datasets: [
       {
         label: "Sales",
