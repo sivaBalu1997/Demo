@@ -879,12 +879,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             setSelectedThirdValues(data);
           }
-          const updatedDetails = thirdpartyDetails.map((detail: any) => ({
+          const updatedDetails = thirdpartyDetails.map((detail: any,index:any) => ({
             ...detail,
             price: detail.price !== 0 && Number(detail.price).toFixed(2),
             availabilityEnabled: detail?.availabilityEnabled,
             isEnabled: detail?.isEnabled,
             isNotHide: detail?.isNotHide,
+            inActiveUntil:detail[index]?.inActiveUntil?.split(
+              "."
+            )[0] || null,
           }));
 
           setPriceInfo(updatedDetails);
@@ -1091,8 +1094,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             setSelectedThirdValues(data);
           }
           // setPriceInfo([...thirdpartyDetails]);
-
-          const mappedPriceInfo = thirdpartyDetails.map((detail: any) => ({
+          const mappedPriceInfo = thirdpartyDetails.map((detail: any,index:any) => ({
             typeId: detail.typeId || "",
             price: Number(detail.price).toFixed(2) || 0,
             typeName: detail.typeName || "",
@@ -1113,9 +1115,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 sessions: [],
               },
             ],
+          
             ...(editData?.length && {
               inActiveUntil:
-                prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(
+                prizingDetail?.normalForm?.thirdpartyDetails[index]?.inActiveUntil?.split(
                   "."
                 )[0] || null,
             }),

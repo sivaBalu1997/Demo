@@ -148,6 +148,8 @@ const NormalStep2 = () => {
 
 
   useEffect(() => {
+    if(prizingDetail?.normalForm?.availableDaysnew?.length > 0)
+    {
     setAvailableDays(
       prizingDetail?.normalForm?.availableDaysnew?.map(
         (elem: any, index: number) => {
@@ -155,6 +157,7 @@ const NormalStep2 = () => {
         }
       )
     );
+  }
   }, []);
 
   const restaurantDetails = useSelector(
