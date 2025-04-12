@@ -319,7 +319,7 @@ const ItemCustomizations: React.FC<any> = () => {
   }, [itemCustomizationData,listOfStreams]);
 
   const addModifier = () => {
-    const lastSelectedValue = modifications.length > 0 ? modifications[modifications.length - 1].selectedValue : ""; // Get last selectedValue
+    const lastSelectedValue = modifications.length > 0 ? modifications[0].selectedValue : ""; // Get last selectedValue
   
     setModifications([
       ...modifications,
