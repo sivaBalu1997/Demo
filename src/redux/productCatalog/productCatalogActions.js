@@ -167,6 +167,7 @@ import {
   MEALTYPE_REQUEST,
   MEALTYPE_SUCCESS,
   MEALTYPE_FAILURE,
+  SELECTED_SUBCATEGORY_DATA_REQUEST,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -534,6 +535,10 @@ export const selectedCategory = (data) => ({
   payload: data,
 });
 
+export const selectedSubCategory = (data) => ({
+  type: SELECTED_SUBCATEGORY_DATA_REQUEST,
+  payload: data,
+});
 
 
 //bestPair

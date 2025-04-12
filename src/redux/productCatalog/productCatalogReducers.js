@@ -132,6 +132,7 @@ import {
   MEALTYPE_REQUEST,
   MEALTYPE_SUCCESS,
   MEALTYPE_FAILURE,
+  SELECTED_SUBCATEGORY_DATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 import { mealType } from "assets/mockData/Moca_data";
@@ -262,6 +263,8 @@ const initialProductCatalogState = {
   updateMenuAttributeSuccess: "",
   updateMenuAttributeFailed: false,
   selectedCategory: {},
+  selectedSubCategory: {},
+
   updateModifierId: [],
   //partialUpdate
   partialDataSendingLoading: false,
@@ -481,6 +484,8 @@ case SELECTED_COLUMNS:
         break;
       case SELECTED_CATEGORY_DATA_REQUEST:
         draft.selectedCategory = action.payload;
+        case SELECTED_SUBCATEGORY_DATA_REQUEST:
+        draft.selectedSubCategory = action.payload;
 
       //kitchenStation
       case KITCHEN_DATA_REQUEST:
