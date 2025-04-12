@@ -3,7 +3,7 @@
 
 import { ICardConfigItem, IcardWithMiniGraphData } from "interface/newReportsInterface";
 
-export const textOneForTodaysSwitch: string = "Open Orders";
+export const textOneForTodaysSwitch: string = "Unpaid Orders";
 export const textTwoForTodaysSwitch: string = "Paid Orders";
 
 // ============================================================================================
@@ -154,7 +154,7 @@ export const textTwoForTodaysSwitch: string = "Paid Orders";
 // ============================================================================================
 
 
-  export const tabsForSales = ["Today's report", "Sales Overview","Categories", "Employees"]; //"Trends" 
+  export const tabsForSales = ["Today's report", "Sales Overview","Categories"]; //"Trends"  //"Employees"
   export const tabsForProduct = ["Insights", "Availability"]; 
   export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
   export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"

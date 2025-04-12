@@ -590,7 +590,7 @@ console.log(orderedLiveNonDineInData);
             endDate: currentDate,
             ...isSwitchActive?{type:"Paid"}:{}
           }}
-          kpiTitle="Open Dine-in orders"
+          kpiTitle="Unpaid Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
           headerData={liveOrdersDineInTableHeaders}
           tableData={
@@ -647,7 +647,7 @@ console.log(orderedLiveNonDineInData);
             endDate: currentDate,
             ...isSwitchActive?{type:"Paid"}:{}
           }}
-          kpiTitle="Open Off-Premise orders"
+          kpiTitle="Unpaid Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={liveOrderNonDineInTableHeaders}
           tableData={
