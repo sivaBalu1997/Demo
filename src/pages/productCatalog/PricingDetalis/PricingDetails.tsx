@@ -827,9 +827,15 @@ const PricingDetails = () => {
     type: "MEAL_TYPE",
     parentId: "",
   };
+  const payload_kitchen = {
+    locationId: locationid?.locationId,
+    type: "KITCHEN_STATION",
+    parentId: "",
+  };
 
   useEffect(()=>{
     dispatch(fetchDropDownRequest(payload))
+    dispatch(fetchDropDownRequest(payload_kitchen))
   },[])
 
   
