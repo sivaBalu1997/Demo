@@ -617,13 +617,16 @@ const ItemCustomizations: React.FC<any> = () => {
     field: keyof Modification,
     EnableOrnot: boolean
   ) => {
+   
+  
     const newModifier = JSON.parse(JSON.stringify(modifications));
+    
 
-    if (newModifier[index] && EnableOrnot && newModifier[index][field] > 0) {
+    if (newModifier[index] && EnableOrnot && newModifier[index][field] > 1) {
       const currentValue =
-        parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
+        parseInt(newModifier[index][field]?.toString() || "0", 10) || 1;
 
-      if (currentValue > 0) {
+      if (currentValue > 1) {
         newModifier[index][field] = currentValue - 1;
       }
     }
