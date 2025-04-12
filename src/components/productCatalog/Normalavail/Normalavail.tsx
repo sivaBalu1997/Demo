@@ -1603,7 +1603,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors = { ...errors };
 
       if (!isOptionTrue && isSeasonalFood && !date) {
-        validationErrors.fromDate = "From date required11";
+        validationErrors.fromDate = "From date required";
       }else{
         delete validationErrors[`fromDate`];
       }
@@ -1615,7 +1615,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors = { ...errors };
 
       if (!isOptionTrue && isSeasonalFood && !date) {
-        validationErrors.toDate = "To date required22";
+        validationErrors.toDate = "To date required";
       }else{
         delete validationErrors[`toDate`];
       }
