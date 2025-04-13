@@ -1270,7 +1270,7 @@ setModifications((prev: any) => {
                 </a>
               )}
             </div>
-            {/* {showModifiers && (
+            {showModifiers && (
               <div className="searchbox">
                 <input
                   placeholder="Search"
@@ -1371,7 +1371,7 @@ setModifications((prev: any) => {
                   </ul>
                 )}
               </div>
-            )} */}
+            )}
 
             <div className="modifiersitem">
               <div className="modifiers">

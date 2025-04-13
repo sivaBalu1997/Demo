@@ -16,7 +16,8 @@ import {
   removeDataRequest,
   selectedCategory,
   selectedMockDataRequest,
-  selectedSubCategory
+  selectedSubCategory,
+  getModifierRequest
 } from "redux/productCatalog/productCatalogActions";
 import Slider from "components/productCatalog/Slider/SliderUpdated";
 import ToolTips from "components/toolTips/toolTips";
@@ -86,6 +87,7 @@ const Menu = () => {
       dispatch(itemCustomizationPost([]));
     }
     dispatch(removeDataRequest());
+    dispatch(getModifierRequest({ name: '', locationId:locationid }));
     dispatch(selectedMockDataRequest(SideBarData));
   }, [selectedBranch?.id]);
 
