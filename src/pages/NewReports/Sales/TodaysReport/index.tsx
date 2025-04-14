@@ -382,7 +382,7 @@ const TodaysReport: React.FC = () => {
     dispatch(
       orderTrackerRequest({
         locationid: selectedLocation?.value,
-        tablePageNo: currentPageLiveOrdersNonDineIn,
+        tablePageNo: currentPagePaidOffPremise,
         tableRecordLimit: orderTrackerPageLimit,
         startDate: currentDate,
         endDate: currentDate,
@@ -392,10 +392,10 @@ const TodaysReport: React.FC = () => {
     );
   },[
     selectedLocation,
-    currentPageLiveOrdersNonDineIn,
+    currentPagePaidOffPremise,
     currentDate,
-    liveOrderNonDineInPageLimit,
-    liveOrderNonDineInSearchQuery,
+    orderTrackerPageLimit,
+    paidOffPremiseSearchQuery,
     isSwitchActive,
   ])
 
