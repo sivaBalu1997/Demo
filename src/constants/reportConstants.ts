@@ -14,7 +14,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
 // ============================================================================================
   //Todays Report Overview
 
-  export const textOneForTodaysSwitch: string = "Open Orders";
+  export const textOneForTodaysSwitch: string = "Unpaid Orders";
   export const textTwoForTodaysSwitch: string = "Paid Orders";
 
   export const cardWithMiniGraphDataForTodays: IcardWithMiniGraphData[] = [
