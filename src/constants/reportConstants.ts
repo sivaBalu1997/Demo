@@ -8,6 +8,7 @@ export const textTwoForTodaysSwitch: string = "Paid Orders";
 
 // ============================================================================================
   //Todays Report Overview
+
   export const cardWithMiniGraphDataForTodays: IcardWithMiniGraphData[] = [
       { title: "Total Sales", key: "totalSales", isMonetary: true },
       { title: "Net Sales", key: "totalNetSales", isMonetary: true },
