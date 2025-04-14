@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberByCountry, getCurrencySymbol } from 'utils';
-import { useWindowSize } from 'hooks/useWindowSize';
 import {
   cardWithMiniGraphDataForTodays,
   cardWithMiniGraphDataForTodaysWithoutGratuity,
@@ -48,11 +47,6 @@ const TodaysReport: React.FC = () => {
     useState("");
   const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] =
     useState<number>(10);
-  
-  const { width } = useWindowSize();
-
-  const isMobile = width <= 600;
-
   const liveOrdersAPIRedux = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.content
   );
@@ -148,6 +142,8 @@ const TodaysReport: React.FC = () => {
     [countryCode]
   );
 
+  const billedAndUnBilledError: boolean = billedDataAPIReduxError && unBilledAPIReduxError
+  // console.log("1111",{currencySymbol, countryCode})
 
 
   const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
@@ -293,130 +289,6 @@ const TodaysReport: React.FC = () => {
       orderAmount: toBeMappedData.orderAmount,
     })
   );
-
-  const overallOrderedLiveOrdersDataMobile = overallOrdersAPIRedux?.map(
-    (toBeMappedData: any) => ({
-      tableName: toBeMappedData.tableName,
-      orderAmount: toBeMappedData.orderAmount,
-      tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderTime: toBeMappedData.orderTime,
-    })
-  );
-
-  const liveOrdersDineInTableHeadersMobile: NewTableHeader[] = [
-    {
-    key: "tableName",
-    label: "Table name",
-    isSortable: true,
-    alignment: "left",
-  },
-    {
-    key: "orderAmount",
-    label: `Order amount`,
-    isSortable: true,
-    alignment: "right",
-    isMonetary: true,
-    prefix: currencySymbol,
-  },
-    {
-    key: "tableOccupancyDuration",
-    label: "Table occupancy duration",
-    isSortable: true,
-    alignment: "left",
-  },
-    {
-    key: "orderTime",
-    label: "Order time",
-    isSortable: true,
-    alignment: "left",
-  },
-];
-
-const orderedLiveOrdersDataMobile = liveOrdersAPIRedux?.map(
-  (toBeMappedData: any) => ({
-    tableName: toBeMappedData.tableName,
-    orderAmount: toBeMappedData.orderAmount,
-    tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-    orderTime: toBeMappedData.orderTime,
-  })
-);
-
-const liveOrderNonDineInTableHeadersMobile : NewTableHeader[] = [
-  {
-    key: "orderNumber",
-    label: "Order Number",
-    isSortable: true,
-    alignment: "left",
-    prefix: "#",
-  },
-  {
-    key: "orderChannel",
-    label: "Order Channel",
-    isSortable: false,
-    alignment: "left",
-  },
-  {
-    key: "orderStatus",
-    label: "Order Status",
-    isSortable: false,
-    alignment: "left",
-  },
-  {
-    key: "customerName",
-    label: "Customer Name",
-    isSortable: true,
-    alignment: "left",
-  },
-  {
-    key: "customerNumber",
-    label: "Customer Number",
-    isSortable: true,
-    isPrivate: true,
-    alignment: "left",
-  },
-  {
-    key: "orderTotal",
-    label: `Order Total`,
-    isSortable: true,
-    alignment: "right",
-    isMonetary: true,
-    prefix: currencySymbol,
-  },
-];
-
-const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
-  (toBeMappedData: any) => ({
-    orderNumber: toBeMappedData.orderNumber,
-    orderChannel: toBeMappedData.orderChannel,
-    orderStatus: toBeMappedData.orderStatus,
-    customerName: toBeMappedData.customerName,
-    customerNumber: toBeMappedData.customerNumber,
-    orderTotal: toBeMappedData.orderTotal,
-  })
-);
-
-
-const ordersTrackerAPIReduxMapped = ordersTrackerAPIRedux?.map(
-  (toBeMappedData: any) => ({
-    orderNumber: toBeMappedData.orderNumber,
-    orderChannel: toBeMappedData.orderChannel,
-    orderType: toBeMappedData.orderType,
-    timeElapsed: toBeMappedData.timeElapsed,
-    orderStatus: toBeMappedData.orderStatus,
-    customerName: toBeMappedData.customerName,
-    customerNumber: toBeMappedData.customerNumber,
-    orderTotal: toBeMappedData.orderTotal,
-  }))
-
-  const ordersTrackerAPIReduxMappedMobile = ordersTrackerAPIRedux?.map(
-    (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData.orderNumber,
-      orderChannel: toBeMappedData.orderChannel,
-      orderStatus: toBeMappedData.orderStatus,
-      customerName: toBeMappedData.customerName,
-      customerNumber: toBeMappedData.customerNumber,
-      orderTotal: toBeMappedData.orderTotal,
-    }))  
 
 
   useEffect(() => {
@@ -720,8 +592,12 @@ console.log(orderedLiveNonDineInData);
           }}
           kpiTitle="Unpaid Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
-          headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
-          tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
+          headerData={liveOrdersDineInTableHeaders}
+          tableData={
+            orderedLiveOrdersData &&
+            orderedLiveOrdersData?.length > 0 &&
+            orderedLiveOrdersData
+          }
           currentPage={currentPageLiveOrders}
           totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
           onPageChange={setCurrentPageLiveOrders}
@@ -745,8 +621,12 @@ console.log(orderedLiveNonDineInData);
           }}
           kpiTitle="Paid Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
-          headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
-          tableData={isMobile ? overallOrderedLiveOrdersDataMobile : overallOrderedLiveOrdersData}
+          headerData={liveOrdersDineInTableHeaders}
+          tableData={
+            overallOrderedLiveOrdersData &&
+            overallOrderedLiveOrdersData?.length > 0 &&
+            overallOrderedLiveOrdersData
+          }
           currentPage={currentPageLiveOrders}
           totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
           onPageChange={setCurrentPageLiveOrders}
@@ -769,8 +649,12 @@ console.log(orderedLiveNonDineInData);
           }}
           kpiTitle="Unpaid Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
-          headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
-          tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
+          headerData={liveOrderNonDineInTableHeaders}
+          tableData={
+            orderedLiveNonDineInData &&
+            orderedLiveNonDineInData?.length > 0 &&
+            orderedLiveNonDineInData
+          }
           currentPage={currentPageLiveOrdersNonDineIn}
           totalPages={
             liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1
@@ -795,8 +679,12 @@ console.log(orderedLiveNonDineInData);
           }}
           kpiTitle="Paid Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
-          headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
-          tableData={isMobile ? ordersTrackerAPIReduxMappedMobile : ordersTrackerAPIReduxMapped}
+          headerData={liveOrderNonDineInTableHeaders}
+          tableData={
+            ordersTrackerAPIRedux &&
+            ordersTrackerAPIRedux?.length > 0 &&
+            ordersTrackerAPIRedux
+          }
           currentPage={currentPageLiveOrdersNonDineIn}
           totalPages={
             OrderTrackerTotalPageNo ? OrderTrackerTotalPageNo : 1
