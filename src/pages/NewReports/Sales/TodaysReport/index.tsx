@@ -29,6 +29,7 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
 import "./style.scss";
+import { useWindowSize } from 'hooks/useWindowSize';
 
 const TodaysReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,10 @@ const TodaysReport: React.FC = () => {
   const liveOrdersAPIRedux = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.content
   );
+
+  const { width } = useWindowSize();
+ 
+  const isMobile = width <= 600;
 
   const overallOrdersAPIReduxL = useSelector(
     (state: any) => state?.newReports?.OverallOrderNonDineInLoading
@@ -318,6 +323,117 @@ const TodaysReport: React.FC = () => {
       orderAmount: toBeMappedData.orderAmount,
     })
   );
+
+  const liveOrdersDineInTableHeadersMobile: NewTableHeader[] = [
+    {
+    key: "tableName",
+    label: "Table name",
+    isSortable: true,
+    alignment: "left",
+  },
+    {
+    key: "orderAmount",
+    label: `Order amount`,
+    isSortable: true,
+    alignment: "right",
+    isMonetary: true,
+    prefix: currencySymbol,
+  },
+    {
+    key: "tableOccupancyDuration",
+    label: "Table occupancy duration",
+    isSortable: true,
+    alignment: "left",
+  },
+    {
+    key: "orderTime",
+    label: "Order time",
+    isSortable: true,
+    alignment: "left",
+  },
+];
+
+const orderedLiveOrdersDataMobile = liveOrdersAPIRedux?.map(
+  (toBeMappedData: any) => ({
+    tableName: toBeMappedData.tableName,
+    orderAmount: toBeMappedData.orderAmount,
+    tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
+    orderTime: toBeMappedData.orderTime,
+  })
+);
+
+const liveOrderNonDineInTableHeadersMobile : NewTableHeader[] = [
+  {
+    key: "orderNumber",
+    label: "Order Number",
+    isSortable: true,
+    alignment: "left",
+    prefix: "#",
+  },
+  {
+    key: "orderChannel",
+    label: "Order Channel",
+    isSortable: false,
+    alignment: "left",
+  },
+  {
+    key: "orderStatus",
+    label: "Order Status",
+    isSortable: false,
+    alignment: "left",
+  },
+  {
+    key: "customerName",
+    label: "Customer Name",
+    isSortable: true,
+    alignment: "left",
+  },
+  {
+    key: "customerNumber",
+    label: "Customer Number",
+    isSortable: true,
+    isPrivate: true,
+    alignment: "left",
+  },
+  {
+    key: "orderTotal",
+    label: `Order Total`,
+    isSortable: true,
+    alignment: "right",
+    isMonetary: true,
+    prefix: currencySymbol,
+  },
+];
+
+const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
+  (toBeMappedData: any) => ({
+    orderNumber: toBeMappedData.orderNumber,
+    orderChannel: toBeMappedData.orderChannel,
+    orderStatus: toBeMappedData.orderStatus,
+    customerName: toBeMappedData.customerName,
+    customerNumber: toBeMappedData.customerNumber,
+    orderTotal: toBeMappedData.orderTotal,
+  })
+);
+
+const paidOffPremiseMappedDataMobile = ordersTrackerAPIRedux?.map((dataToBeMapped:any)=>({
+  orderNumber: dataToBeMapped.orderNumber,
+  orderChannel: dataToBeMapped.orderChannel,
+  orderStatus: dataToBeMapped.orderStatus,
+  customerName: dataToBeMapped.customerName,
+  customerNumber: dataToBeMapped.customerNumber,
+  orderTotal: dataToBeMapped.orderTotal,
+}))
+
+const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((dataToBeMapped:any)=>({
+  orderNumber: dataToBeMapped.orderNumber,
+  tableName: dataToBeMapped.tableName,
+  orderDate: dataToBeMapped.orderDate,
+  orderTime: dataToBeMapped.orderTime,
+  orderStatus: dataToBeMapped.orderStatus,
+  tableOccupancyDuration: dataToBeMapped.tableOccupancyDuration,
+  orderAmount: dataToBeMapped.orderAmount,
+}))
 
 
   useEffect(() => {
@@ -679,12 +795,8 @@ const TodaysReport: React.FC = () => {
           }}
           kpiTitle="Unpaid Dine-in orders"
           searchQuery={liveOrdersSearchQuery}
-          headerData={liveOrdersDineInTableHeaders}
-          tableData={
-            orderedLiveOrdersData &&
-            orderedLiveOrdersData?.length > 0 &&
-            orderedLiveOrdersData
-          }
+          headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
+          tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
           currentPage={currentPageLiveOrders}
           totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
           onPageChange={setCurrentPageLiveOrders}
@@ -708,12 +820,8 @@ const TodaysReport: React.FC = () => {
           }}
           kpiTitle="Paid Dine-in orders"
           searchQuery={paidDineInSearchQuery}
-          headerData={liveOrdersDineInTableHeaders}
-          tableData={
-            overallOrderedLiveOrdersData &&
-            overallOrderedLiveOrdersData?.length > 0 &&
-            overallOrderedLiveOrdersData
-          }
+          headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
+          tableData={isMobile ? overallOrderedLiveOrdersDataMobile : overallOrderedLiveOrdersData}
           currentPage={currentPagePaidDineIn}
           onPageChange={setCurrentPagePaidDineIn}
           totalPages={overAllOrdersAPIReduxGlobal?.totalPages ? overAllOrdersAPIReduxGlobal?.totalPages : 1}
@@ -736,12 +844,8 @@ const TodaysReport: React.FC = () => {
           }}
           kpiTitle="Unpaid Off-Premise orders"
           searchQuery={liveOrderNonDineInSearchQuery}
-          headerData={liveOrderNonDineInTableHeaders}
-          tableData={
-            orderedLiveNonDineInData &&
-            orderedLiveNonDineInData?.length > 0 &&
-            orderedLiveNonDineInData
-          }
+          headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
+          tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
           currentPage={currentPageLiveOrdersNonDineIn}
           totalPages={
             liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1
@@ -766,11 +870,9 @@ const TodaysReport: React.FC = () => {
           }}
           kpiTitle="Paid Off-Premise orders"
           searchQuery={paidOffPremiseSearchQuery}
-          headerData={liveOrderNonDineInTableHeaders}
+          headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
           tableData={
-            ordersTrackerAPIRedux &&
-            ordersTrackerAPIRedux?.length > 0 &&
-            ordersTrackerAPIRedux
+            isMobile ? paidOffPremiseMappedDataMobile : ordersTrackerAPIRedux
           }
           currentPage={currentPagePaidOffPremise}
           onPageChange={setCurrentPagePaidOffPremise}
