@@ -3,11 +3,20 @@
 
 import { ICardConfigItem, IcardWithMiniGraphData } from "interface/newReportsInterface";
 
-export const textOneForTodaysSwitch: string = "Open Orders";
-export const textTwoForTodaysSwitch: string = "Paid Orders";
+// ============================================================================================
+  // Report Tabs config :
+export const tabsForSales = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
+export const tabsForProduct = ["Insights", "Availability"]; 
+export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
+export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
+// ============================================================================================
 
 // ============================================================================================
   //Todays Report Overview
+
+  export const textOneForTodaysSwitch: string = "Open Orders";
+  export const textTwoForTodaysSwitch: string = "Paid Orders";
+
   export const cardWithMiniGraphDataForTodays: IcardWithMiniGraphData[] = [
       { title: "Total Sales", key: "totalSales", isMonetary: true },
       { title: "Net Sales", key: "totalNetSales", isMonetary: true },
@@ -153,11 +162,6 @@ export const textTwoForTodaysSwitch: string = "Paid Orders";
   ];
 // ============================================================================================
 
-
-  export const tabsForSales = ["Today's report", "Sales Overview", "Categories", "Employees"]; //"Trends"
-  export const tabsForProduct = ["Insights", "Availability"]; 
-  export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
-  export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
 
 // ============================================================================================
   //Employees
