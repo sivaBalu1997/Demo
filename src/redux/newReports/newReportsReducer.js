@@ -176,7 +176,11 @@ import {
     GET_DOWNLOADABLE_REPORT_FAILURE,
     OVERALL_ORDER_NON_DINE_IN_SUCCESS,
     ORDER_TRACKER_SUCCESS,
-    LOGOUT
+    LOGOUT,
+    ORDER_TRACKER_REQUEST,
+    ORDER_TRACKER_FAILURE,
+    OVERALL_ORDER_NON_DINE_IN_REQUEST,
+    OVERALL_ORDER_NON_DINE_IN_FAILURE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -228,8 +232,12 @@ const initialNewReportsState = {
     // live order non dine in
     liveOrderNonDineInLoading: false,
     liveOrderNonDineInSuccess: [],
+    OverallOrderNonDineInLoading: false,
     OverallOrderNonDineInSuccess:[],
+    OverallOrderNonDineInFailure: false,
+    orderTrackerLoading: false,
     orderTrackerSuccess:[],
+    orderTrackerFailure: false,
     liveOrderNonDineInFailure: false,
     // discount summary
     discountSummaryLoading: false,
@@ -650,16 +658,36 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = false
                 break;
+            case  OVERALL_ORDER_NON_DINE_IN_REQUEST:
+                draft.OverallOrderNonDineInLoading = true;
+                draft.OverallOrderNonDineInSuccess = [];
+                draft.OverallOrderNonDineInFailure = false
+                break;
             case  OVERALL_ORDER_NON_DINE_IN_SUCCESS:
-                    draft.OverallOrderNonDineInSuccess = action.payload;
-                    draft.liveOrderNonDineInLoading = false;
-                    draft.liveOrderNonDineInFailure = false
-                    break;    
+                draft.OverallOrderNonDineInLoading = false;
+                draft.OverallOrderNonDineInSuccess = action.payload;
+                draft.OverallOrderNonDineInFailure = false
+                break;
+            case  OVERALL_ORDER_NON_DINE_IN_FAILURE:
+                draft.OverallOrderNonDineInLoading = false;
+                draft.OverallOrderNonDineInSuccess = [];
+                draft.OverallOrderNonDineInFailure = true
+                break;
+            case ORDER_TRACKER_REQUEST:
+                draft.orderTrackerLoading = true;
+                draft.orderTrackerSuccess = [];
+                draft.orderTrackerFailure = false;
+                break;  
             case  ORDER_TRACKER_SUCCESS:
+                draft.orderTrackerLoading = false;
                 draft.orderTrackerSuccess = action.payload;
-                draft.liveOrderNonDineInLoading = false;
-                draft.liveOrderNonDineInFailure = false
-                break;    
+                draft.orderTrackerFailure = false;
+                break; 
+            case  ORDER_TRACKER_FAILURE:
+                draft.orderTrackerLoading = false;
+                draft.orderTrackerSuccess = [];
+                draft.orderTrackerFailure = true;
+                break;   
             case LIVE_ORDER_NON_DINE_IN_FAILURE:
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = false;

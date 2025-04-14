@@ -183,7 +183,9 @@ import {
     OVERALL_ORDER_NON_DINE_IN_SUCCESS,
     LOGOUT,
     ORDER_TRACKER_SUCCESS,
-    ORDER_TRACKER_REQUEST
+    ORDER_TRACKER_REQUEST,
+    ORDER_TRACKER_FAILURE,
+    OVERALL_ORDER_NON_DINE_IN_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -445,16 +447,16 @@ export const liveOrderNonDineInRequest = (data) => {
     }
 }
 
-export const OverallOrderNonDineInRequest = (data) => {
+export const liveOrderNonDineInSuccess = (data) => {
     return {
-        type: OVERALL_ORDER_NON_DINE_IN_REQUEST,
+        type: LIVE_ORDER_NON_DINE_IN_SUCCESS,
         payload: data
     }
 }
 
-export const liveOrderNonDineInSuccess = (data) => {
+export const orderTrackerFailure = (data) => {
     return {
-        type: LIVE_ORDER_NON_DINE_IN_SUCCESS,
+        type: ORDER_TRACKER_FAILURE,
         payload: data
     }
 }
@@ -474,10 +476,24 @@ export const orderTrackerRequest = (data) => {
     }
 }
 
+export const OverallOrderNonDineInRequest = (data) => {
+    return {
+        type: OVERALL_ORDER_NON_DINE_IN_REQUEST,
+        payload: data
+    }
+}
+
 export const OverallOrderNonDineInSuccess = (data) => {
     return {
         type: OVERALL_ORDER_NON_DINE_IN_SUCCESS,
         payload: data
+    }
+}
+
+export const OverallOrderNonDineInFailure = (error) => {
+    return {
+        type: OVERALL_ORDER_NON_DINE_IN_FAILURE,
+        payload: error
     }
 }
 

@@ -117,6 +117,8 @@ import {
     getDownloadableReportFailure,
     OverallOrderNonDineInSuccess,
     orderTrackerSuccess,
+    orderTrackerFailure,
+    OverallOrderNonDineInFailure,
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -458,11 +460,11 @@ export function* orderTrackerSaga(action) {
             yield put(orderTrackerSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(liveOrderNonDineInFailure(decryptedData?.message));
+            yield put(orderTrackerFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(liveOrderNonDineInFailure(error));
+        yield put(orderTrackerFailure(error));
     }
 }
 
@@ -474,11 +476,11 @@ export function* OverallOrderNonDineInRequestSaga(action) {
             yield put(OverallOrderNonDineInSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(liveOrderNonDineInFailure(decryptedData?.message));
+            yield put(OverallOrderNonDineInFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(liveOrderNonDineInFailure(error));
+        yield put(OverallOrderNonDineInFailure(error));
     }
 }
 
