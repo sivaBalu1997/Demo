@@ -443,7 +443,7 @@ const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
     if (search?.[0] === "#") search = search.slice(1);
   
     if (
-      (!isSwitchActive && kpiTitle === "Open Dine-in orders") ||
+      (!isSwitchActive && kpiTitle === "Unpaid Dine-in orders") ||
       (isSwitchActive && kpiTitle === "Paid Dine-in orders")
     ) {
       setLiveOrdersSearchQuery(value);
@@ -460,7 +460,7 @@ const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
         })
       );
     } else if (
-      (!isSwitchActive && kpiTitle === "Open Off-Premise orders") ||
+      (!isSwitchActive && kpiTitle === "Unpaid Off-Premise orders") ||
       (isSwitchActive && kpiTitle === "Paid Off-Premise orders")
     ) {
       setLiveOrderNonDineInSearchQuery(value);
@@ -608,7 +608,7 @@ const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
             endDate: currentDate,
             ...isSwitchActive?{type:"Paid"}:{}
           }}
-          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Dine-in orders`}
+          kpiTitle={`${!isSwitchActive ? "Unpaid" : "Paid"} Dine-in orders`}
           searchQuery={liveOrdersSearchQuery}
           headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
           tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
@@ -631,7 +631,7 @@ const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
             endDate: currentDate,
             ...isSwitchActive?{type:"Paid"}:{}
           }}
-          kpiTitle={`${!isSwitchActive ? "Open" : "Paid"} Off-Premise orders`}
+          kpiTitle={`${!isSwitchActive ? "Unpaid" : "Paid"} Off-Premise orders`}
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
           tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
