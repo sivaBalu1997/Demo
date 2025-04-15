@@ -191,7 +191,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
     const [deliveryEntry, setDeliveryEntry] = useState<string[]>([]);
     const [Normaldays, setNormalDays] = useState<number[]>([]);
-    const [availableDaysnew, setAvailableDaysnew] = useState<number[]>([]);
+    const [availableDaysnew, setAvailableDaysnew] = useState<any[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
     const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -624,7 +624,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       endDate: formattedDate1,
       availabilities: [
         {
-          weekDays: isOptionTrue ? ['All'] : availableDaysnew,
+          weekDays: isOptionTrue ? ['All'] : availableDaysnew.map((data)=>data=="All Days"?"All":data),
           sessions: selectedMealType,
         },
       ],
