@@ -179,7 +179,13 @@ import {
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
     GET_DOWNLOADABLE_REPORT_FAILURE,
-    LOGOUT
+    LOGOUT,
+    PAID_OFF_PREMISE_ORDERS_REQUEST,
+    PAID_OFF_PREMISE_ORDERS_SUCCESS,
+    PAID_OFF_PREMISE_ORDERS_FAILURE,
+    PAID_DINE_IN_ORDERS_REQUEST,
+    PAID_DINE_IN_ORDERS_SUCCESS,
+    PAID_DINE_IN_ORDERS_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -392,6 +398,27 @@ export const liveOrdersFailure = (error) => {
     }
 }
 
+export const paidDineInOrdersRequest = (data) => {
+    return {
+        type: PAID_DINE_IN_ORDERS_REQUEST,
+        payload: data
+    }
+}
+
+export const paidDineInOrdersSuccess = (data) => {
+    return {
+        type: PAID_DINE_IN_ORDERS_SUCCESS,
+        payload: data
+    }
+}
+
+export const paidDineInOrdersFailure = (error) => {
+    return {
+        type: PAID_DINE_IN_ORDERS_FAILURE,
+        payload: error
+    }
+}
+
 export const liveRefundsRequest = (data) => {
     return {
         type: LIVE_REFUNDS_REQUEST,
@@ -451,6 +478,27 @@ export const liveOrderNonDineInSuccess = (data) => {
 export const liveOrderNonDineInFailure = (error) => {
     return {
         type: LIVE_ORDER_NON_DINE_IN_FAILURE,
+        payload: error
+    }
+}
+
+export const paidOffPremiseOrdersRequest = (data) => {
+    return {
+        type: PAID_OFF_PREMISE_ORDERS_REQUEST,
+        payload: data
+    }
+}
+
+export const paidOffPremiseOrdersSuccess = (data) => {
+    return {
+        type: PAID_OFF_PREMISE_ORDERS_SUCCESS,
+        payload: data
+    }
+}
+
+export const paidOffPremiseOrdersFailure = (error) => {
+    return {
+        type: PAID_OFF_PREMISE_ORDERS_FAILURE,
         payload: error
     }
 }
