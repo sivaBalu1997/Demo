@@ -196,7 +196,7 @@ const NormalStep2 = () => {
       <div className="Step2Avaliable">
         <h1 className="Step2Avaliable-heading">
           Available Service Streams(
-          {`${prizingDetail?.normalForm?.isOptionTrue ? "Standand" : "Custom"}`}
+          {`${prizingDetail?.normalForm?.isOptionTrue ? "Standard" : "Custom"}`}
           )
         </h1>
       </div>
