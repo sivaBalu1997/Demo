@@ -667,10 +667,11 @@ const ItemCustomizations: React.FC<any> = () => {
       return mod;
     });
 
+
     const deletedOptionId =
       modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId;
       setUpdatedModifierIds((prevIds) => {
-        const updatedModifierId = newModifications[index].modifierId;
+        const updatedModifierId = newModifications[modIndex].modifierId;
         if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
           return [...prevIds, updatedModifierId].filter((id) => id !== "");
         }
