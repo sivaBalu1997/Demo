@@ -2,15 +2,38 @@
   .rmdp-week-day {
     color: #a8a8a8 !important;
     // font-weight: bold;
+    text-transform: uppercase;
+    font-weight: 500;
+    // font-size: 14px;
+    // line-height: 18px;
+    // letter-spacing: -0.08px;
   }
-//   .rmdp-day-picker div:first-child {
-//
-//   }
-.rmdp-day-picker > div:first-child {
-  border-right: 1px solid #e0e0e0;
-  padding-right: 10px;
+  .rmdp-header{
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 450;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 0.7px;
+      background-color: #e0e0e0;
+      transform: translateX(-50%);
+    }
+  }
+.rmdp-day-picker {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  > div:first-child {
+    border-right: 1px solid #e0e0e0;
+    padding-right: 10px;
+  }
 }
   .rmdp-calendar {
+    padding: 4px 4px 0px 4px;
     &:focus {
       outline-color: #a8a8a8 !important;
     }
