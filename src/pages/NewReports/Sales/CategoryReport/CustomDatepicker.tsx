@@ -20,6 +20,7 @@ export interface CustomDatePickerProps {
   selectedDates?: any;
   maxDate?: Date;
 }
+const shortMonths = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
 // forwardRef will allow an optional ref to be passed. If none is provided, ref is undefined.
 const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
@@ -60,6 +61,7 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
           monthYearSeparator={monthYearSeparator}
           numberOfMonths={2} // Display two months side by side
           className={`${themeColor} ${className}`}
+          months={shortMonths}
         >
           <div className="datepicker-footer">
             <button
