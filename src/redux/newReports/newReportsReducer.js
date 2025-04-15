@@ -27,15 +27,21 @@ import {
     LIVE_ORDERS_REQUEST,
     LIVE_ORDERS_SUCCESS,
     LIVE_ORDERS_FAILURE,
+    PAID_DINE_IN_ORDERS_REQUEST,
+    PAID_DINE_IN_ORDERS_SUCCESS,
+    PAID_DINE_IN_ORDERS_FAILURE,
+    LIVE_ORDER_NON_DINE_IN_REQUEST,
+    LIVE_ORDER_NON_DINE_IN_SUCCESS,
+    LIVE_ORDER_NON_DINE_IN_FAILURE,
+    PAID_OFF_PREMISE_ORDERS_REQUEST,
+    PAID_OFF_PREMISE_ORDERS_SUCCESS,
+    PAID_OFF_PREMISE_ORDERS_FAILURE,
     LIVE_REFUNDS_REQUEST,
     LIVE_REFUNDS_SUCCESS,
     LIVE_REFUNDS_FAILURE,
     LIVE_NET_SALES_REQUEST,
     LIVE_NET_SALES_SUCCESS,
     LIVE_NET_SALES_FAILURE,
-    LIVE_ORDER_NON_DINE_IN_REQUEST,
-    LIVE_ORDER_NON_DINE_IN_SUCCESS,
-    LIVE_ORDER_NON_DINE_IN_FAILURE,
     DISCOUNT_SUMMARY_REQUEST,
     DISCOUNT_SUMMARY_SUCCESS,
     DISCOUNT_SUMMARY_FAILURE,
@@ -211,10 +217,22 @@ const initialNewReportsState = {
     liveOpenSalesLoading: false,
     liveOpenSalesSuccess: [],
     liveOpenSalesFailure: false,
-    // live orders 
+    // live orders : Unpaid Dine-in orders
     liveOrdersLoading: false,
     liveOrdersSuccess: [],
     liveOrdersFailure: false,
+    // paid dine in orders
+    paidDineInOrdersLoading: false,
+    paidDineInOrdersSuccess: [],
+    paidDineInOrdersFailure: false,
+    // live order non dine in : Unpaid Off-Premise orders
+    liveOrderNonDineInLoading: false,
+    liveOrderNonDineInSuccess: [],
+    liveOrderNonDineInFailure: false,
+    // paid off premise orders
+    paidOffPremiseOrdersLoading: false,
+    paidOffPremiseOrdersSuccess: [],
+    paidOffPremiseOrdersFailure: false,
     // live refunds
     liveRefundsLoading: false,
     liveRefundsSuccess: [],
@@ -223,10 +241,6 @@ const initialNewReportsState = {
     liveNetSalesLoading: false,
     liveNetSalesSuccess: [],
     liveNetSalesFailure: false,
-    // live order non dine in
-    liveOrderNonDineInLoading: false,
-    liveOrderNonDineInSuccess: [],
-    liveOrderNonDineInFailure: false,
     // discount summary
     discountSummaryLoading: false,
     discountSummarySuccess: [],
@@ -587,7 +601,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOpenSalesLoading = false;
                 draft.liveOpenSalesFailure = true;
                 break;
-            // live orders table
+            // live orders table : Unpaid Dine-in orders 
             case LIVE_ORDERS_REQUEST:
                 draft.liveOrdersSuccess = [];
                 draft.liveOrdersLoading = true;
@@ -602,6 +616,22 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrdersSuccess = [];
                 draft.liveOrdersLoading = false;
                 draft.liveOrdersFailure = true;
+                break;
+            // Paid Dine-in orders
+            case PAID_DINE_IN_ORDERS_REQUEST:
+                draft.paidDineInOrdersLoading = true;
+                draft.paidDineInOrdersSuccess = [];
+                draft.paidDineInOrdersFailure = false;
+                break;
+            case PAID_DINE_IN_ORDERS_SUCCESS:
+                draft.paidDineInOrdersLoading = false;
+                draft.paidDineInOrdersSuccess = action.payload;
+                draft.paidDineInOrdersFailure = false
+                break;
+            case PAID_DINE_IN_ORDERS_FAILURE:
+                draft.paidDineInOrdersLoading = false;
+                draft.paidDineInOrdersSuccess = [];
+                draft.paidDineInOrdersFailure = true;
                 break;
             // refunds
             case LIVE_REFUNDS_REQUEST:
@@ -635,7 +665,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveNetSalesLoading = false;
                 draft.liveNetSalesFailure = true;
                 break;
-            // live order non dine in
+            // live order non dine in : Unpaid Off-Premise orders
             case LIVE_ORDER_NON_DINE_IN_REQUEST:
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = true;
@@ -650,6 +680,22 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = true;
+                break;
+            // paid off premise orders
+            case PAID_OFF_PREMISE_ORDERS_REQUEST:
+                draft.paidOffPremiseOrdersSuccess = [];
+                draft.paidOffPremiseOrdersLoading = true;
+                draft.paidOffPremiseOrdersFailure = false;
+                break;
+            case PAID_OFF_PREMISE_ORDERS_SUCCESS:
+                draft.paidOffPremiseOrdersSuccess = action.payload;
+                draft.paidOffPremiseOrdersLoading = false;
+                draft.paidOffPremiseOrdersFailure = false
+                break;
+            case PAID_OFF_PREMISE_ORDERS_FAILURE:
+                draft.paidOffPremiseOrdersSuccess = [];
+                draft.paidOffPremiseOrdersLoading = false;
+                draft.paidOffPremiseOrdersFailure = true;
                 break;
             // discount summary 
             case DISCOUNT_SUMMARY_REQUEST:

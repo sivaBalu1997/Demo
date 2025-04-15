@@ -114,7 +114,11 @@ import {
     getRestaurantFailreFromNewReports,
     getRestaurantSuccessFromNewReports,
     getDownloadableReportSuccess,
-    getDownloadableReportFailure
+    getDownloadableReportFailure,
+    paidDineInOrdersSuccess,
+    paidDineInOrdersFailure,
+    paidOffPremiseOrdersSuccess,
+    paidOffPremiseOrdersFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -171,7 +175,9 @@ import {
     BILLED_REQUEST,
     UNBILLED_REQUEST,
     GET_DETAILS_RESTAURANT_REQUEST,
-    GET_DOWNLOADABLE_REPORT_REQUEST
+    GET_DOWNLOADABLE_REPORT_REQUEST,
+    PAID_DINE_IN_ORDERS_REQUEST,
+    PAID_OFF_PREMISE_ORDERS_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -369,7 +375,7 @@ export function* liveOpenSalesRequestSaga(action) {
     }
 }
 
-//liveOrdersRequestSaga
+//liveOrdersRequestSaga : Unpaid Dine-in orders
 export function* liveOrdersRequestSaga(action) {
     try {
         const response = yield call(getLiveOrders, action.payload);
@@ -387,6 +393,25 @@ export function* liveOrdersRequestSaga(action) {
         yield put(liveOrdersFailure(error));
     }
 }
+
+// paidDineInRequestSaga : Paid Dine-in orders
+export function* paidDineInRequestSaga(action) {
+    try {
+        const response = yield call(getLiveOrders, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of paidDineInRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(paidDineInOrdersSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(paidDineInOrdersFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+     } catch (error) {
+            yield put(paidDineInOrdersFailure(error));
+        }
+    }
+
 
 //liveRefundsRequestSaga
 export function* liveRefundsRequestSaga(action) {
@@ -424,7 +449,7 @@ export function* liveNetSalesRequestSaga(action) {
     }
 }
 
-//liveOrderNonDineInRequestSaga
+//liveOrderNonDineInRequestSaga : Unpaid Off-premise orders
 export function* liveOrderNonDineInRequestSaga(action) {
     try {
         const response = yield call(getLiveOrderNonDineIn, action.payload);
@@ -439,6 +464,24 @@ export function* liveOrderNonDineInRequestSaga(action) {
         }
     } catch (error) {
         yield put(liveOrderNonDineInFailure(error));
+    }
+}
+
+// paidOffPremiseRequestSaga : Paid Off-premise orders
+export function* paidOffPremiseRequestSaga(action) {
+    try {
+        const response = yield call(getLiveOrderNonDineIn, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of paidOffPremiseRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(paidOffPremiseOrdersSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(paidOffPremiseOrdersFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(paidOffPremiseOrdersFailure(error));
     }
 }
 
@@ -1237,9 +1280,11 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_DISCOUNT_REQUEST, liveDiscountRequestSaga);
     yield takeLatest(LIVE_OPEN_SALES_REQUEST, liveOpenSalesRequestSaga);
     yield debounce(1000, LIVE_ORDERS_REQUEST, liveOrdersRequestSaga);
+    yield debounce(1000, PAID_DINE_IN_ORDERS_REQUEST, paidDineInRequestSaga);
     yield takeLatest(LIVE_REFUNDS_REQUEST, liveRefundsRequestSaga);
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
     yield debounce(1000, LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
+    yield debounce(1000, PAID_OFF_PREMISE_ORDERS_REQUEST, paidOffPremiseRequestSaga);
     yield debounce(200, DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
     yield debounce(200, CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);
