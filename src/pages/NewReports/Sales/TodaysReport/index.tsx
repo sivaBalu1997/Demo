@@ -278,12 +278,12 @@ const TodaysReport: React.FC = () => {
       isSortable: true,
       alignment: "left",
     },
-    {
-      key: "orderStatus",
-      label: "Order Status",
-      isSortable: false,
-      alignment: "left",
-    },
+    // {
+    //   key: "orderStatus",
+    //   label: "Order Status",
+    //   isSortable: false,
+    //   alignment: "left",
+    // },
     {
       key: "tableOccupancyDuration",
       label: "Table occupancy duration",
@@ -306,7 +306,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
-      orderStatus: toBeMappedData.orderStatus,
+      // orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
       orderAmount: toBeMappedData.orderAmount,
     })
