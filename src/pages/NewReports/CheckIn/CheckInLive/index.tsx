@@ -452,7 +452,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
               barColor="#009689"
               toolTipBorderColor="#009689"
               xAxisTooltipLabel="Queue"
-              yAxisTooltipLabel="Count"
+              yAxisTooltipLabel="Total guests"
               dataList={liveCheckInGuestCount?.map((data: any) => ({
                 xAxisValue: `Group of ${data.groupSize || 0}`,
                 yAxisValue: Number(data.guestCount),
