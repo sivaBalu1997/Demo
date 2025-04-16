@@ -209,7 +209,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>(
       []
     );
-
     const availabilityDay =
       mealType.length > 0
         ? mealType[0].availabilities?.map((data: any) => {
@@ -964,7 +963,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           );
         
           const uniqueSessions: string[] = [...new Set(allSessions)];
-          const uniqueWeekDays: any[] = [...new Set(allWeekDays)];
+          const uniqueWeekDays: any[] = [...new Set(allWeekDays)].map((data)=>data==="All"?"All Days":data);
           setSelectedMealType(uniqueSessions);
           setAvailableDaysnew(uniqueWeekDays);
         }
@@ -1584,6 +1583,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         if(isOptionTrue){
           ValiadteMealType()
         }
+
       },[isOptionTrue])
 
     const ValiadteMealType = () => {

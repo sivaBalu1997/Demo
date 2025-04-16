@@ -110,6 +110,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   useEffect(() => {
     if(checkedItems?.length > 0){
+      if(checkedItems.length==1 && checkedItems[0]=="All Days")
+      {
+        setCheckedItems([...Days])
+      }
       AvailableDatsvaliadtion()
     }
   },[checkedItems])
