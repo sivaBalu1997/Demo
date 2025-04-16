@@ -147,7 +147,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
-    suffix: "mins",
+    suffix: "Mins",
   },
   {
     key: "guestSize",
@@ -377,9 +377,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
 }, [liveCheckInOverview]);
 
 
-
-// console.log({liveCheckInTableMapped})
-console.log("liveCheckInTable content",liveCheckInTable)
 
 
 
