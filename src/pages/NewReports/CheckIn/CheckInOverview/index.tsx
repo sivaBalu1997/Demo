@@ -590,7 +590,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           searchQuery={checkInSearchQuery}
           // onSearchChange={setcheckInSearchQuery}
           headerData={headerData1 as any}
-          tableData={checkInOverviewTableDetails?.content || [] as any}
+          tableData={checkInOverviewTableDetails?.content?.filter((data:any)=>data?.status)||[] as any}
           currentPage={checkInCurrentPage}
           totalPages={checkInOverviewTableDetails?.totalPages || 0}
           onPageChange={setcheckInCurrentPage}
