@@ -690,7 +690,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const dineIndetail = prizingDetail?.normalForm?.dineinfields;
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
-        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails &&prizingDetail?.normalForm?.thirdpartyDetails?.length>0 && prizingDetail?.normalForm?.thirdpartyDetails?.filter((data:any)=>Number(data.price)>0);
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         // const MealTypes = prizingDetail?.normalForm?.MealTypes;
         if (prizingDetail?.normalForm?.availabilities?.length > 0) {
@@ -950,7 +950,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
-        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails&& prizingDetail?.normalForm?.thirdpartyDetails?.length>0 && prizingDetail?.normalForm?.thirdpartyDetails?.filter((data:any)=>Number(data.price)>0);
         setIsOptionTrue(prizingDetail?.isStandardAvailability);
 
         if (prizingDetail?.availabilities?.length > 0) {
