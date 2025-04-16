@@ -81,6 +81,7 @@ const headerData = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
+    suffix: "Mins",
   },
   {
     key: "guestSize",
@@ -146,6 +147,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
+    suffix: "Mins",
   },
   {
     key: "guestSize",
@@ -376,19 +378,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
 
 
 
-const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
-  checkInNumber: data.checkInNumber,
-  guestName: data.guestName,
-  phone: data.phone,
-  channel: data.channel,
-  tableName: data.tableName,
-  checkInTime: data.checkInTime,
-  assignedTime: data.assignedTime,
-  liveCheckInStatus: data.liveCheckInStatus,
-  waitTime: data.waitTime,
-  guestSize: data.guestSize,
-}));
-
 
 
 const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
@@ -557,7 +546,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTableMapped||[] as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}

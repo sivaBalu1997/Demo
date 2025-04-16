@@ -122,6 +122,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "center",
     isSortable: false,
+    suffix:"Mins"
   },
   {
     key: "guestSize",

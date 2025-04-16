@@ -80,7 +80,7 @@ const StoreFilter = ({
 
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
-  const datePickerHandleOnChange: any = (dates: any): void => {
+  const datePickerHandleOnChange: any = (dates: any): void => {    
     setSelectedDates(dates);
   };
 
@@ -91,10 +91,10 @@ const StoreFilter = ({
   const closeBtnOnclick = () => {
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();
-    setSelectedDate(dateOptions[1]);
   };
   const applyBtnOnclick = () => {
     if (selectedDates.length === 2) {
+      setSelectedDate(dateOptions[5]);
       setIsDateSelected(true);
       // If the dates are not already DateObject instances, wrap them:
       const startDate =
@@ -142,24 +142,27 @@ const StoreFilter = ({
     } else if (option.value == "This year") {
       from = new Date(today.getFullYear(), 0, 1); // 1st Jan of this year
       to = today;
+    }else if (option.value == "Custom Date") {
+      from =startDate||today;
+      to = endDate||today;
     } else {
       from = to = today;
-    }
-
-    const formattedFromDate = formatDateToYYYYMMDD(from);
-    const formattedToDate = formatDateToYYYYMMDD(to);
-
+    }    
+      const formattedFromDate = formatDateToYYYYMMDD(from instanceof Date ? from : new Date(from));
+    const formattedToDate = formatDateToYYYYMMDD(to instanceof Date ? to : new Date(to));  
     if (dateDropdownFunction) {
       dateDropdownFunction(formattedFromDate, formattedToDate);
-      // console.log("formattedFromDate 1111", formattedFromDate);
-      // console.log("formattedToDate 1111", formattedToDate);
     }
     if (option.value == "Custom Date") {
+      if (dateDropdownFunction) {
+        dateDropdownFunction(formattedFromDate, formattedToDate);
+      }
       calendarRef.current?.openCalendar();
     } else {
       setIsDateSelected(false);
+      setSelectedDate(option);
+
     }
-    setSelectedDate(option);
   };
   return (
     <div className="reports-filters-section">
@@ -191,6 +194,7 @@ const StoreFilter = ({
             <CustomDatePicker
               containerClassName={"category-date-picker-container"}
               handleOnChange={datePickerHandleOnChange}
+              selectedDates={selectedDates}
               datePickerContainerClassName="category-custom-datepicker-container"
               ref={calendarRef}
               applyBtnOnclick={applyBtnOnclick}
