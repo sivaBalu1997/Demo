@@ -378,21 +378,8 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
 
 
 
-const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
-  checkInNumber: data.checkInNumber,
-  guestName: data.guestName,
-  phone: data.phone,
-  channel: data.channel,
-  tableName: data.tableName,
-  checkInTime: data.checkInTime,
-  assignedTime: data.assignedTime,
-  liveCheckInStatus: data.liveCheckInStatus,
-  waitTime: data.waitTime,
-  guestSize: data.guestSize,
-}));
-
 // console.log({liveCheckInTableMapped})
-console.log("liveCheckInTable content",liveCheckInTable?.content)
+console.log("liveCheckInTable content",liveCheckInTable)
 
 
 
@@ -562,7 +549,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTableMapped||[] as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}
