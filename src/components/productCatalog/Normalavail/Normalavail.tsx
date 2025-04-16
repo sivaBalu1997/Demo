@@ -125,6 +125,8 @@ interface NormalavailProps {
   setKitchenError: any;
   setIsOptionTrue: any;
   mealType?: any;
+  selectedMealType:any
+  setSelectedMealType:any
 }
 
 type MealType1 = string;
@@ -178,6 +180,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       isOptionTrue,
       setIsOptionTrue,
       mealType,
+      selectedMealType,
+      setSelectedMealType
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -215,8 +219,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             return data.weekDay;
           })
         : [];
-
-    const [selectedMealType, setSelectedMealType] = useState<string[]>([]);
     const [selectedValuesmealtype, setSelectedValuesMealType] =
       React.useState<SelectedValuesMealTypeState>([]);
     const locationid = useSelector((state: any) => state.auth.selectedBranch);

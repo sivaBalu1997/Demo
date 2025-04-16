@@ -208,6 +208,7 @@ const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
   const normalFormRef = useRef<(() => void) | null>(null);
   const specialFormRef = useRef<(() => void) | null>(null);
+  const [selectedMealType, setSelectedMealType] = useState<string[]>([]);
 
   const [mainFormState, setMainFormState] = useState<MainFormType>({
     availabilityid: [],
@@ -814,7 +815,18 @@ const PricingDetails = () => {
     } else {
     }
   };
+const avialFuction = (data:any)=>{
+  if(data=="Standard" && !isOptionTrue)
+  {
+    setIsOptionTrue(true)
+    setSelectedMealType([])
+  }
+  if(data == "Custom" && isOptionTrue){
+    setIsOptionTrue(false)
+    setSelectedMealType([])
+  }
 
+}
   // useEffect(() => {
   //   if(editData.length > 0){
   //     console.log('kkkkkkk')
@@ -1140,7 +1152,7 @@ const PricingDetails = () => {
                   type="radio"
                   value="true"
                   checked={isOptionTrue === true}
-                  onChange={() => setIsOptionTrue(true)}
+                  onChange={() => avialFuction("Standard")}
                   className="N1radio"
                 />
                 <label className="N1">Standard Availability</label>
@@ -1150,7 +1162,7 @@ const PricingDetails = () => {
                   type="radio"
                   value="false"
                   checked={isOptionTrue === false}
-                  onChange={() => setIsOptionTrue(false)}
+                  onChange={() => avialFuction("Custom")}
                   className="S1radio"
                 />
                 <label className="S1">Custom Availability</label>
@@ -1188,6 +1200,8 @@ const PricingDetails = () => {
                 setKitchenError={setKitchenError}
                 setValidationFunction={setValidationFunction}
                 mealType={mealType}
+                selectedMealType={selectedMealType}
+                setSelectedMealType={setSelectedMealType}
               />
 
             {isOptionTrue ? (
