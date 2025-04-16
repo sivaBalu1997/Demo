@@ -1580,20 +1580,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
-    //   useEffect(()=>{
-
-    //  if(!online)
-    //  {
-    //   setPickup(false);
-    //   setDelivery(false);
-    //  }
-
-    //   },[online])
+      useEffect(()=>{
+        if(isOptionTrue){
+          ValiadteMealType()
+        }
+      },[isOptionTrue])
 
     const ValiadteMealType = () => {
       const validationErrors = { ...errors };
       
-      if (selectedMealType?.length === 0) { 
+      if (selectedMealType?.length === 0 && !isOptionTrue) { 
         validationErrors.MealType = "Meal type is empty";
       } else {
         delete validationErrors[`MealType`];
