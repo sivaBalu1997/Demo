@@ -187,7 +187,7 @@ const TodaysReport: React.FC = () => {
       key: "orderStatus",
       label: "Order Status",
       isSortable: false,
-      alignment: "left",
+      alignment: "center",
     },
     {
       key: "customerName",
@@ -845,6 +845,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={liveOrderNonDineInAPIReduxTotalElements}
+          rowNoWrap={true}
         />}
         {isSwitchActive && <NewTable
           apiEndPoint="/sales/live/tracking"
@@ -868,6 +869,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
+          rowNoWrap={true}
         />}
       </div>
     </div>
