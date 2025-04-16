@@ -561,6 +561,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                     ? formatMonetaryValue(row[header?.key])
                                     : row[header?.key]
                                 }
+                                {row[header?.key] ? header?.suffix || "" : ""}
                               </div>
                             </td>
                           );

@@ -81,6 +81,7 @@ const headerData = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
+    suffix: "Mins",
   },
   {
     key: "guestSize",
@@ -146,6 +147,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
+    suffix: "mins",
   },
   {
     key: "guestSize",
@@ -388,6 +390,9 @@ const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
   waitTime: data.waitTime,
   guestSize: data.guestSize,
 }));
+
+// console.log({liveCheckInTableMapped})
+console.log("liveCheckInTable content",liveCheckInTable?.content)
 
 
 
