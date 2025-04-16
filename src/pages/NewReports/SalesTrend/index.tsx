@@ -113,7 +113,6 @@ const SalesTrend:React.FC = () => {
         selectedStore={selectedLocation}
         setSelectedDate={(data) => handleDateChange(data?.value)}
         datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
-        dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
         showComparableDateDropdown={true}
         onFilterChangeForCompare={handleFilterChange}

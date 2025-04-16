@@ -53,6 +53,7 @@ const CustomDatePicker = forwardRef<HTMLDivElement, CustomDatePickerProps>(
           onChange={handleOnChange}
           maxDate={maxDate}
           range
+          rangeHover
           sort
           inputMode={inputMode}
           offsetY={offsetY}

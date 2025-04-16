@@ -158,9 +158,6 @@ const ProductInsights = () => {
           datepickerApply
             ("Custom Date", date1, date2)
         }
-        dateDropdownFunction={(date1: any, date2: any) =>
-          datepickerApply("Custom Date", date1, date2)
-        }
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
 

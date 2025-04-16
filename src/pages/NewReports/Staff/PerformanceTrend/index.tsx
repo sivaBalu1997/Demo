@@ -160,7 +160,6 @@ const removeItem = (value: string) => {
             setSelectedDate={(data) => handleDateChange(data?.value)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
             datePickerApplyFunction={datepickerApply}
-            dateDropdownFunction={datepickerApply}
       />
       <div className="employee-pt-section">
         <div className="select-employee-container">

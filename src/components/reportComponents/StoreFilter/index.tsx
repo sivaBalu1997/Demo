@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import {  useSelector } from "react-redux";
 import { DateObject } from "react-multi-date-picker";
 import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";
 import moment from "moment";
@@ -17,7 +16,6 @@ interface StoreFilterProps {
   selectedStore?: StoreOption;
   setSelectedStore?: (store: StoreOption) => void;
   datePickerApplyFunction?: any;
-  dateDropdownFunction?: any;
   showDate?: boolean;
   showStore?: boolean;
   showRefresh?: boolean;
@@ -49,7 +47,6 @@ const StoreFilter = ({
   selectedStore,
   setSelectedStore = () => {},
   datePickerApplyFunction,
-  dateDropdownFunction,
   handleRefreshClick = () => {},
   showDate = true,
   showStore = true,
@@ -105,7 +102,6 @@ const StoreFilter = ({
         selectedDates[1] instanceof DateObject
           ? selectedDates[1]
           : new DateObject(selectedDates[1]);
-
       if (datePickerApplyFunction != null && datePickerApplyFunction) {
         datePickerApplyFunction(
           startDate.format("YYYY-MM-DD"),
@@ -150,15 +146,16 @@ const StoreFilter = ({
     }    
       const formattedFromDate = formatDateToYYYYMMDD(from instanceof Date ? from : new Date(from));
     const formattedToDate = formatDateToYYYYMMDD(to instanceof Date ? to : new Date(to));  
-    if (dateDropdownFunction) {
-      dateDropdownFunction(formattedFromDate, formattedToDate);
-    }
+
     if (option.value == "Custom Date") {
-      if (dateDropdownFunction) {
-        dateDropdownFunction(formattedFromDate, formattedToDate);
+      if (datePickerApplyFunction && !isDateSelected) {
+        datePickerApplyFunction(formattedFromDate, formattedToDate);
       }
       calendarRef.current?.openCalendar();
     } else {
+      if (datePickerApplyFunction) {
+        datePickerApplyFunction(formattedFromDate, formattedToDate);
+      }
       setIsDateSelected(false);
       setSelectedDate(option);
 
