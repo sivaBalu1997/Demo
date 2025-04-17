@@ -238,19 +238,19 @@ const TodaysReport: React.FC = () => {
     {
       key: "orderChannel",
       label: "Order Channel",
-      isSortable: false,
+      isSortable: true,
       alignment: "left",
     },
     {
       key: "orderType",
       label: "Order Type",
-      isSortable: false,
+      isSortable: true,
       alignment: "left",
     },
     {
       key: "orderTime",
       label: "Order time",
-      isSortable: false,
+      isSortable: true,
       alignment: "left",
     },
     {
@@ -262,7 +262,7 @@ const TodaysReport: React.FC = () => {
     {
       key: "customerNumber",
       label: "Customer Number",
-      isSortable: true,
+      isSortable: false,
       isPrivate: true,
       alignment: "left",
     },
@@ -633,10 +633,12 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
       dispatch(
         paidCancelledOrdersRequest({
           locationid: selectedLocation?.value,
+          tablePageNo: currentPagePaidCancelledOrders,
+          tableRecordLimit: paidCancelledOrdersPageLimit,
           search: search,
         })
       );
-  },[paidCancelledOrdersSearchQuery, selectedLocation]);
+  },[paidCancelledOrdersSearchQuery, selectedLocation, currentPagePaidCancelledOrders, paidCancelledOrdersPageLimit]);
 
   const handleSearch = (value: string, kpiTitle: string) => {
     let search = value;
@@ -711,6 +713,8 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
         dispatch(
           paidCancelledOrdersRequest({
             locationid: selectedLocation?.value,
+            tablePageNo: currentPagePaidCancelledOrders,
+            tableRecordLimit: paidCancelledOrdersPageLimit,
             search: search,
           })
         );
@@ -756,8 +760,8 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
     dispatch(
       paidDineInOrdersRequest({
         locationid: selectedLocation?.value,
-        tablePageNo: currentPagePaidDineInOrders,
-        tableRecordLimit: paidDineInOrdersPageLimit,
+        tablePageNo: 1,
+        tableRecordLimit: 10,
         startDate: currentDate,
         endDate: currentDate,
         searchQuery: "",
@@ -777,8 +781,8 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
     dispatch(
       paidOffPremiseOrdersRequest({
         locationid: selectedLocation?.value,
-        tablePageNo: currentPagePaidOffPremiseOrders,
-        tableRecordLimit: paidOffPremisePageLimit,
+        tablePageNo: 1,
+        tableRecordLimit: 10,
         startDate: currentDate,
         endDate: currentDate,
         searchQuery: "",
@@ -803,6 +807,8 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
     dispatch(
       paidCancelledOrdersRequest({
         locationid: selectedLocation?.value,
+        tablePageNo: 1,
+        tableRecordLimit: 10,
         search: "",
       })
     );
