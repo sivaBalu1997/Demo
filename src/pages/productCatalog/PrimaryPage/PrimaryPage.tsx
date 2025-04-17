@@ -1302,7 +1302,7 @@ console.log({ItemsPrimaryDetails});
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
-                        disabled={popularItem >= popularItemlimit}
+                        disabled={isChecked?false:popularItem >= popularItemlimit}
                       />
                     )}
                   />
