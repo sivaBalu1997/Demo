@@ -184,7 +184,7 @@ const NewTable: React.FC<NewTableProps> = ({
 
   const getOrderChannelIcons = (rowvalue: string, headerKey?: string) => {
     if (headerKey === "orderChannel" ) {
-      if (rowvalue === "Walkin" ) {//|| rowvalue === "Instore"
+      if (rowvalue === "Walkin" || rowvalue === "DineIn" ) {
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;

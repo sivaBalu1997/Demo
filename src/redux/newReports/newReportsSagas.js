@@ -118,7 +118,9 @@ import {
     paidDineInOrdersSuccess,
     paidDineInOrdersFailure,
     paidOffPremiseOrdersSuccess,
-    paidOffPremiseOrdersFailure
+    paidOffPremiseOrdersFailure,
+    paidCancelledOrdersSuccess,
+    paidCancelledOrdersFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -177,7 +179,8 @@ import {
     GET_DETAILS_RESTAURANT_REQUEST,
     GET_DOWNLOADABLE_REPORT_REQUEST,
     PAID_DINE_IN_ORDERS_REQUEST,
-    PAID_OFF_PREMISE_ORDERS_REQUEST
+    PAID_OFF_PREMISE_ORDERS_REQUEST,
+    PAID_CANCELLED_ORDERS_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -233,6 +236,7 @@ import {
     getUnbilled,
     getBilled,
     getDownloadableReport,
+    getPaidCancelledOrders,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -482,6 +486,24 @@ export function* paidOffPremiseRequestSaga(action) {
         }
     } catch (error) {
         yield put(paidOffPremiseOrdersFailure(error));
+    }
+}
+
+// paidCancelledOrdersRequestSaga
+export function* paidCancelledOrdersRequestSaga(action) {
+    try {
+        const response = yield call(getPaidCancelledOrders, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of paidCancelledOrdersRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(paidCancelledOrdersSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(paidCancelledOrdersFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(paidCancelledOrdersFailure(error));
     }
 }
 
@@ -1285,6 +1307,7 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
     yield debounce(1000, LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
     yield debounce(1000, PAID_OFF_PREMISE_ORDERS_REQUEST, paidOffPremiseRequestSaga);
+    yield debounce(1000, PAID_CANCELLED_ORDERS_REQUEST, paidCancelledOrdersRequestSaga);
     yield debounce(200, DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
     yield debounce(200, CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);
