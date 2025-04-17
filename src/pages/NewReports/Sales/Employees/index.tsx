@@ -763,7 +763,6 @@ const Employees: React.FC = () => {
             setSelectedDate={(data) => handleDateChange(data?.value)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
             datePickerApplyFunction={datepickerApply}
-            dateDropdownFunction={datepickerApply}
           />
           <div className="employee-report-sales-overview-box-container-parent">
             <div className="employee-sales-overview-head-with-download">

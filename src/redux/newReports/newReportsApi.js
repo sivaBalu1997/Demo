@@ -76,6 +76,19 @@ const generateQueryParams = (payload) => {
    }
     return "?"+query?.slice(1)
 }
+
+export const getPaidCancelledOrders = (paidCancelledOrdersPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=generateQueryParams(paidCancelledOrdersPayload)
+    return REPORTS_API({
+        method: "get",
+        url: `/sales/live/canceledOrders${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+};
+
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(getSalesLocationStartEndDate)

@@ -18,6 +18,7 @@ import {
   liveOrderNonDineInRequest,
   liveOrdersRequest,
   liveRefundsRequest,
+  paidCancelledOrdersRequest,
   paidDineInOrdersRequest,
   paidOffPremiseOrdersRequest,
   unBilledRequest,
@@ -56,6 +57,10 @@ const TodaysReport: React.FC = () => {
   const [currentPagePaidOffPremiseOrders, setCurrentPagePaidOffPremiseOrders] = useState<number>(1)
   const [paidOffPremiseOrdersSearchQuery, setPaidOffPremiseOrdersSearchQuery] = useState("")
   const [paidOffPremisePageLimit, setPaidOffPremisePageLimit] = useState<number>(10)
+  // paid cancelled orders states :
+  const [currentPagePaidCancelledOrders, setCurrentPagePaidCancelledOrders] = useState<number>(1)
+  const [paidCancelledOrdersSearchQuery, setPaidCancelledOrdersSearchQuery] = useState("")
+  const [paidCancelledOrdersPageLimit, setPaidCancelledOrdersPageLimit] = useState<number>(10)
 
   const { width } = useWindowSize();
 
@@ -128,6 +133,14 @@ const TodaysReport: React.FC = () => {
   const unBilledAPIReduxError = useSelector(
     (state: any) => state?.newReports?.unBilledFailure
   );
+
+  const paidCancelledOrdersAPIRedux = useSelector(
+    (state: any) => state?.newReports?.paidCancelledOrdersSuccess
+  )
+
+  const paidCancelledOrdersAPIReduxLoading = useSelector(
+    (state: any) => state?.newReports?.paidCancelledOrdersLoading
+  )
 
   const billedDataArrayForDownloading = [billedDataAPIRedux];
   const billedDataAPIReduxHeaderForDownloading =
@@ -212,6 +225,63 @@ const TodaysReport: React.FC = () => {
     },
     // { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
     // { key: 'requestedEta', label: 'Requested ETA', isSortable: true, alignment: 'left' },
+  ];
+
+  const paidCancelledOrdersHeaders: NewTableHeader[] = [
+    {
+      key: "orderNumber",
+      label: "Order Number",
+      isSortable: true,
+      alignment: "left",
+      prefix: "#",
+    },
+    {
+      key: "orderChannel",
+      label: "Order Channel",
+      isSortable: false,
+      alignment: "left",
+    },
+    {
+      key: "orderType",
+      label: "Order Type",
+      isSortable: false,
+      alignment: "left",
+    },
+    {
+      key: "orderTime",
+      label: "Order time",
+      isSortable: false,
+      alignment: "left",
+    },
+    {
+      key: "customerName",
+      label: "Customer Name",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "customerNumber",
+      label: "Customer Number",
+      isSortable: true,
+      isPrivate: true,
+      alignment: "left",
+    },
+    {
+      key: "orderTotal",
+      label: "Order total",
+      isSortable: true,
+      alignment: "left",
+      isMonetary: true,
+      prefix: currencySymbol,
+    },
+    {
+      key: "canceledAmount",
+      label: `Cancelled Amount`,
+      isSortable: true,
+      alignment: "right",
+      isMonetary: true,
+      prefix: currencySymbol,
+    }
   ];
 
   const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map(
@@ -558,6 +628,16 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
     setIsSwitchActive((prev) => !prev);
   };
 
+  useEffect(() => {
+    let search = paidCancelledOrdersSearchQuery;
+      dispatch(
+        paidCancelledOrdersRequest({
+          locationid: selectedLocation?.value,
+          search: search,
+        })
+      );
+  },[paidCancelledOrdersSearchQuery, selectedLocation]);
+
   const handleSearch = (value: string, kpiTitle: string) => {
     let search = value;
     if (search?.[0] === "#") search = search.slice(1);
@@ -624,6 +704,17 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           })
         );
         break;
+      
+      case "Paid cancelled orders":
+        setPaidCancelledOrdersSearchQuery(value);
+        setCurrentPagePaidCancelledOrders(1);
+        dispatch(
+          paidCancelledOrdersRequest({
+            locationid: selectedLocation?.value,
+            search: search,
+          })
+        );
+        break;
   
       default:
         console.warn(`Unknown KPI title: ${kpiTitle}`);
@@ -647,6 +738,10 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
     setPaidOffPremiseOrdersSearchQuery("");
     setPaidOffPremisePageLimit(10);
     setCurrentPagePaidOffPremiseOrders(1);
+
+    setPaidCancelledOrdersSearchQuery("");
+    setPaidCancelledOrdersPageLimit(10);
+    setCurrentPagePaidCancelledOrders(1);
 
     dispatch(
       liveOrdersRequest({
@@ -702,6 +797,13 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
         locationid: selectedLocation?.value,
         startDate: currentDate,
         type: "notcompleted",
+      })
+    );
+
+    dispatch(
+      paidCancelledOrdersRequest({
+        locationid: selectedLocation?.value,
+        search: "",
       })
     );
 
@@ -869,6 +971,30 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
+          rowNoWrap={true}
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/canceledOrders"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+            type:"Paid",
+          }}
+          kpiTitle={`Paid cancelled orders`}
+          searchQuery={paidCancelledOrdersSearchQuery}
+          headerData={isMobile ? paidCancelledOrdersHeaders : paidCancelledOrdersHeaders}
+          tableData={isMobile ? paidCancelledOrdersAPIRedux?.content : paidCancelledOrdersAPIRedux?.content}
+          currentPage={currentPagePaidCancelledOrders}
+          onPageChange={setCurrentPagePaidCancelledOrders}
+          totalPages={paidCancelledOrdersAPIRedux?.totalPages ? paidCancelledOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidCancelledOrdersPageLimit}
+          setRowsPerPage={setPaidCancelledOrdersPageLimit}
+          loader={paidCancelledOrdersAPIReduxLoading}
+          count={paidCancelledOrdersAPIRedux?.content?.length}
+          searchPlaceHolder="Search by order number, Phone number"
+          onSearch={handleSearch}
+          totalElements={paidCancelledOrdersAPIRedux?.totalElements}
           rowNoWrap={true}
         />}
       </div>

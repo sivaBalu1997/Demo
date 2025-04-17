@@ -180,7 +180,10 @@ import {
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
     GET_DOWNLOADABLE_REPORT_FAILURE,
-    LOGOUT
+    LOGOUT,
+    PAID_CANCELLED_ORDERS_REQUEST,
+    PAID_CANCELLED_ORDERS_SUCCESS,
+    PAID_CANCELLED_ORDERS_FAILURE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -233,6 +236,9 @@ const initialNewReportsState = {
     paidOffPremiseOrdersLoading: false,
     paidOffPremiseOrdersSuccess: [],
     paidOffPremiseOrdersFailure: false,
+    paidCancelledOrdersLoading : false,
+    paidCancelledOrdersSuccess : [],
+    paidCancelledOrdersFailure : false,
     // live refunds
     liveRefundsLoading: false,
     liveRefundsSuccess: [],
@@ -696,6 +702,22 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.paidOffPremiseOrdersSuccess = [];
                 draft.paidOffPremiseOrdersLoading = false;
                 draft.paidOffPremiseOrdersFailure = true;
+                break;
+            // paid cancelled orders :
+            case PAID_CANCELLED_ORDERS_REQUEST:
+                draft.paidCancelledOrdersSuccess = [];
+                draft.paidCancelledOrdersLoading = true;
+                draft.paidCancelledOrdersFailure = false;
+                break;
+            case PAID_CANCELLED_ORDERS_SUCCESS:
+                draft.paidCancelledOrdersSuccess = action.payload;
+                draft.paidCancelledOrdersLoading = false;
+                draft.paidCancelledOrdersFailure = false
+                break;
+            case PAID_CANCELLED_ORDERS_FAILURE:
+                draft.paidCancelledOrdersSuccess = [];
+                draft.paidCancelledOrdersLoading = false;
+                draft.paidCancelledOrdersFailure = true;
                 break;
             // discount summary 
             case DISCOUNT_SUMMARY_REQUEST:

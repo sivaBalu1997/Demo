@@ -185,7 +185,10 @@ import {
     PAID_OFF_PREMISE_ORDERS_FAILURE,
     PAID_DINE_IN_ORDERS_REQUEST,
     PAID_DINE_IN_ORDERS_SUCCESS,
-    PAID_DINE_IN_ORDERS_FAILURE
+    PAID_DINE_IN_ORDERS_FAILURE,
+    PAID_CANCELLED_ORDERS_REQUEST,
+    PAID_CANCELLED_ORDERS_SUCCESS,
+    PAID_CANCELLED_ORDERS_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -499,6 +502,26 @@ export const paidOffPremiseOrdersSuccess = (data) => {
 export const paidOffPremiseOrdersFailure = (error) => {
     return {
         type: PAID_OFF_PREMISE_ORDERS_FAILURE,
+        payload: error
+    }
+}
+
+export const paidCancelledOrdersRequest = (data) => {
+    return {
+        type: PAID_CANCELLED_ORDERS_REQUEST,
+        payload: data
+    }
+}
+
+export const paidCancelledOrdersSuccess = (data) => {
+    return {
+        type: PAID_CANCELLED_ORDERS_SUCCESS,
+        payload: data
+    }
+}
+export const paidCancelledOrdersFailure = (error) => {
+    return {
+        type: PAID_CANCELLED_ORDERS_FAILURE,
         payload: error
     }
 }

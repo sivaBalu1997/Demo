@@ -107,6 +107,7 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 break;
 
             case STAFF_TREND_SALES_PERFORMANCE_REQUEST:
+                console.log("inside reducer");
                 draft.staffTrendSalesPerformanceLoading = true;
                 draft.staffTrendSalesPerformanceSuccess = [];
                 draft.staffTrendSalesPerformanceFailure = false;

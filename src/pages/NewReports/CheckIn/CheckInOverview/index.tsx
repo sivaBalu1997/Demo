@@ -323,9 +323,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
   }, [selectedLocation, topTableDate, todayCheckInCurrentPage, todayCheckInPageLimit])
 
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
 
   const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
     const temp = { from, to, kpiTitle }
@@ -373,10 +370,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         selectedStore={selectedLocation}
         setSelectedDate={(data) => handleDateChange(data?.value)}
         datePickerApplyFunction={(date1: any, date2: any) =>
-          datepickerApply("Custom Date", date1, date2)
-        }
-        dateDropdownFunction={(date1: any, date2: any) =>
-          datepickerApply("Custom Date", date1, date2)
+          handleDateChange("Custom Date", date1, date2)
         }
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />

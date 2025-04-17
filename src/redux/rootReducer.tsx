@@ -25,6 +25,7 @@ import newReportsReducer from "./newReports/newReportsReducer";
 import checkInReportsReducer from "./checkInReports/checkInReportsReducer";
 import productReportsReducer from "./productReports/productReportsReducer";
 import customerInsightsReducer from "./customerInsights/customerInsightsReducer";
+import staffReportsReducer from "./staffReports/staffReportsReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
   checkInReports: checkInReportsReducer,
   productReports: productReportsReducer,
   customerInsights: customerInsightsReducer,
+  staffReports: staffReportsReducer,
 });
 
 export { rootReducer };
