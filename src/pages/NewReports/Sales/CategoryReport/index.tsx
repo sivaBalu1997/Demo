@@ -331,7 +331,6 @@ const CategoryReport = (props: any) => {
             setSelectedDate={(data) => handleDateChange(data?.value)}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
             datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
-            dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
           />
           <div className="category-btn-switch">
             <button
