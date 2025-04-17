@@ -979,11 +979,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         if(prizingDetail?.endDate && prizingDetail?.startDate){
           const dateStr1 = prizingDetail?.startDate 
-          const [year1,month1,day1] = dateStr1?.split('-');
+          const [year1,month1,day1] = dateStr1?.split('-')?.map(Number);
           const parsedDate1 = new Date(`${year1}-${month1}-${day1}`);
 
           const dateStr = prizingDetail?.endDate 
-          const [year,month,day] = dateStr?.split('-');
+          const [year, month, day] = dateStr.split('-')?.map(Number);
           const parsedDate = new Date(`${year}-${month}-${day}`);
           
           prizingDetail?.isSeasonalItem && setSelectedDate(parsedDate1 || null);
