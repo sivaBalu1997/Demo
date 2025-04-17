@@ -87,7 +87,7 @@ const Menu = () => {
       dispatch(itemCustomizationPost([]));
     }
     dispatch(removeDataRequest());
-    dispatch(getModifierRequest({ name: '', locationId:locationid }));
+    // dispatch(getModifierRequest({ name: '', locationId:locationid }));
     dispatch(selectedMockDataRequest(SideBarData));
   }, [selectedBranch?.id]);
 
