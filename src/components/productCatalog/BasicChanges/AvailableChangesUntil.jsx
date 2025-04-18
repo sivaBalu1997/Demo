@@ -117,12 +117,8 @@ const AvailabilityChangesUntil = ({
       (item) => item.weekday === todayDay || item.weekday === "All"
     );
    
-    
     setfilteredsession(todayWorkinghours);
   }, [restaurantDetails]);
-
-
- 
 
   const getFormattedDate = () => {
     const today = new Date();

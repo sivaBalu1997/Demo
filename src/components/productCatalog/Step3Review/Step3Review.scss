@@ -67,7 +67,8 @@
   text-decoration: none;
   position: absolute;
   left: 36vw;
-  top: 1vh;
+
+  top: -0.3rem;
 
 
 
@@ -100,13 +101,26 @@
 .step3-Review-modifier-section {
   width: 600px;
   height: auto;
-  margin-top: 50px;
+  padding: 0;
+  margin: 0;
+  margin-top: 30px;
+  // border: 1px solid red;
+ 
 }
-
-.item-customization:nth-child(n + 3) {
-  margin-top: -160px; // Apply specific style to the second element
+.item-customization
+{
+  display: flex;
+  flex-direction: column;
+  // border: 1px solid green;
+  padding-bottom: 50px;
+  
 }
-
+.min-max-container
+{
+display: flex;
+gap: 70px;
+margin-bottom: 15px;
+}
 .step3-Review-modifier-section-heading {
   font-family: Poppins;
   font-weight: 500;
@@ -121,6 +135,7 @@
   width: 588px;
   // border: 2px solid yellow;
   height: auto;
+ 
   display: flex;
   justify-content: flex-start;
   gap: 3px;
@@ -140,13 +155,18 @@
 
 .Step-3-Modifier-Section-Menu-container {
   width: fit-content;
-  height: 200px;
+  height: fit-content;
+  // border: 1px solid blue;
   display: flex;
+
   justify-content: space-around;
-  gap: 20px;
+  gap: 50px;
   margin-top: 0px;
   margin-left: 1.5rem;
   // background-color: lightskyblue;
+}
+.Step-3-Modifier-Section-Menu-container-one {
+  height: fit-content;
 }
 .Step-3-Modifier-Section-Each-Menu-container-item
 {
@@ -224,11 +244,11 @@ padding-left: 0;
   // width: 200px;
   width: fit-content;
   height: 60px;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: -142px;
-  left: 24px;
+ 
+  
   // background-color: lightsalmon;
 }
 
@@ -266,4 +286,20 @@ padding-left: 0;
 
 .Nodata {
   margin-top: 5%;
+}
+.ModifierOptions-price-heading
+{
+  display: flex;
+  gap: 137px;
+}
+.ModifierOptions-price-data
+{
+  display: flex;
+  gap: 10px;
+  .Step-3-Modifier-Section-Menu-details-items
+  {
+    width: 150px;
+   
+    // border: 1px solid red;
+  }
 }

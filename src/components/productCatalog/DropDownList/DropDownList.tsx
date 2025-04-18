@@ -130,9 +130,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.primarypage.data
   );
 
-  const getdatafrosaga = () => {
-    dispatch(fetchDropDownRequest(payload));
-  };
 
   const clearSelection = () => {
     setSelectedOptions([]);
@@ -185,12 +182,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         setShowselectedOption(true);
       }
 
-      // if (
-      //   dropDownType === "CATEGORY" &&
-      //   subcategorydataforApi.parentId !== ""
-      // ) {
-      //   dispatch(fetchDropDownRequest(subcategorydataforApi));
-      // }
+     
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {

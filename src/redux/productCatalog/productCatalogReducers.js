@@ -129,8 +129,13 @@ import {
   SELECTED_COLUMNS,
   TRIGGER_FCM,
   TRIGGERED_FCM,
+  MEALTYPE_REQUEST,
+  MEALTYPE_SUCCESS,
+  MEALTYPE_FAILURE,
+  SELECTED_SUBCATEGORY_DATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
+import { mealType } from "assets/mockData/Moca_data";
 
 const initialProductCatalogState = {
   menuData: [],
@@ -183,6 +188,10 @@ const initialProductCatalogState = {
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
+
+  mealType: [],
+  mealTypeLoading: false,
+  mealTypeSuccess: false,
 
   requestCompleted: false,
 
@@ -254,6 +263,8 @@ const initialProductCatalogState = {
   updateMenuAttributeSuccess: "",
   updateMenuAttributeFailed: false,
   selectedCategory: {},
+  selectedSubCategory: {},
+
   updateModifierId: [],
   //partialUpdate
   partialDataSendingLoading: false,
@@ -473,6 +484,8 @@ case SELECTED_COLUMNS:
         break;
       case SELECTED_CATEGORY_DATA_REQUEST:
         draft.selectedCategory = action.payload;
+        case SELECTED_SUBCATEGORY_DATA_REQUEST:
+        draft.selectedSubCategory = action.payload;
 
       //kitchenStation
       case KITCHEN_DATA_REQUEST:
@@ -561,6 +574,23 @@ case SELECTED_COLUMNS:
         draft.ingredients = [];
         draft.ingredientsLoading = false;
         draft.ingredientsSuccess = false;
+        break;
+
+
+        case MEALTYPE_REQUEST:
+        draft.mealType = [];
+        draft.mealTypeLoading = true;
+        draft.mealTypeSuccess = false;
+        break;
+      case MEALTYPE_SUCCESS:
+        draft.mealType = action.payload;
+        draft.mealTypeLoading = false;
+        draft.mealTypeSuccess = true;
+        break;
+      case MEALTYPE_FAILURE:
+        draft.mealType = [];
+        draft.mealTypeLoading = false;
+        draft.mealTypeSuccess = false;
         break;
 
       case TAXCLASS_REQUEST:
@@ -823,15 +853,18 @@ case SELECTED_COLUMNS:
         draft.deleteMenuItemFailed = false;
         draft.deleteMenuItemSuccess = true;
         draft.deleteMenuItemFailureMessage = "";
-        draft.menuData = draft.menuData.map((category) => {
-          if (!category.itemResponseList) return category;
-          return {
-            ...category,
-            itemResponseList: category.itemResponseList.filter(
-              (item) => item.itemId !== action.payload.itemId
-            ),
-          };
-        });
+
+        // draft.menuData = draft.menuData.map((category) => {
+        //   if (!category.itemResponseList) return category;
+        //   return {
+        //     ...category,
+        //     itemResponseList: category.itemResponseList.filter(
+        //       (item) => item.itemId !== action.payload.itemId
+        //     ),
+        //   };
+        // });
+        
+
         draft.deleteMenuItemSuccessMessage = action.payload;
         break;
       case DELETE_MENU_ITEM_FAILED:

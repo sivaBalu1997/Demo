@@ -80,7 +80,7 @@ interface FormData {
   selectedPortion: string;
   tax: string;
   masterCode: string;
-  popularItem: boolean;
+  exclusiveItem: boolean;
   itemId: string;
 }
 interface Category {
@@ -260,7 +260,7 @@ const PrimaryPage = () => {
     (state: ListingData) => state.addMockDataReducer.data
   );
   const popularItemLimit = useSelector(
-    (state: any) => state.auth?.restaurantDetails?.popularItemCount
+    (state: any) => state.auth?.restaurantDetails?.exclusiveItemCount
   );
 
   const Mockdata = useSelector(
@@ -268,7 +268,7 @@ const PrimaryPage = () => {
   );
   const PopularItemFormApi = useSelector(
     (state: any) =>
-      state?.getPopularItemReducer?.popularItems?.data?.popularItemCount
+      state?.getPopularItemReducer?.popularItems?.data?.exclusiveItemCount
   );
 
   const mergedMockData = [...Mockdata, ...addedData];
@@ -312,6 +312,7 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
+console.log({ItemsPrimaryDetails});
 
   const [images, setImages] = useState<ImageFile[]>([]);
 
@@ -683,13 +684,13 @@ const PrimaryPage = () => {
   }, [message, messageLoader]);
 
   const [isChecked, setIsChecked] = useState<boolean>(
-    ItemsPrimaryDetails?.popularItem || false
+    ItemsPrimaryDetails?.exclusiveItem || false
   );
 
   useEffect(() => {
-    setValue("popularItem", ItemsPrimaryDetails?.popularItem || false);
-    setIsChecked(ItemsPrimaryDetails?.popularItem || false);
-  }, [ItemsPrimaryDetails?.popularItem]);
+    setValue("exclusiveItem", ItemsPrimaryDetails?.exclusiveItem || false);
+    setIsChecked(ItemsPrimaryDetails?.exclusiveItem || false);
+  }, [ItemsPrimaryDetails?.exclusiveItem]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isCheckedValue = e.target.checked;
@@ -698,10 +699,10 @@ const PrimaryPage = () => {
 
     if (isCheckedValue) {
       setPopularItem((prevCount: number) => prevCount + 1);
-      setValue("popularItem", true);
+      setValue("exclusiveItem", true);
     } else {
       setPopularItem((prevCount: number) => Math.max(prevCount - 1, 0));
-      setValue("popularItem", false);
+      setValue("exclusiveItem", false);
     }
   };
 
@@ -1288,7 +1289,7 @@ const PrimaryPage = () => {
 
                 <div className="Primary-page-InputFields PopularItem">
                   <Controller
-                    name="popularItem"
+                    name="exclusiveItem"
                     control={control}
                     defaultValue={false}
                     render={({ field }: any) => (
@@ -1301,12 +1302,12 @@ const PrimaryPage = () => {
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
-                        disabled={popularItem >= popularItemlimit}
+                        disabled={isChecked?false:popularItem >= popularItemlimit}
                       />
                     )}
                   />
                   <span>
-                    Popular item ( {popularItemlimit > 0 ? popularItem : 0}/
+                  Exclusive item( {popularItemlimit > 0 ? popularItem : 0}/
                     {popularItemlimit} )
                   </span>
                 </div>

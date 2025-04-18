@@ -204,6 +204,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
   const handlePen = () => {
     history.push("/productCatalog/PrimaryDetails", { id: editData?.id });
     setPen(!pen);
+    
   };
 
   const scrollToComponent = (componentName: string) => {

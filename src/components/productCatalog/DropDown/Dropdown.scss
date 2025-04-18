@@ -54,6 +54,7 @@
   z-index: 25;
   max-height: 125px;
   overflow-y: auto;
+
   // display: flex;
 
   
@@ -88,13 +89,29 @@
   border-radius: 4px;
   background: #fff;
   box-shadow: 1px 1px 10px 0px #00000040;
-  // z-index: 25;
+  z-index: 25;
   max-height: 150px;
   overflow-y: auto;
   // display: flex;
   
 &::-webkit-scrollbar {
-  display: none;
+  width: 12px;
+  border-radius: 10px;
+}
+
+&::-webkit-scrollbar-track {
+  background: #b3b3b3;
+}
+
+&::-webkit-scrollbar-thumb {
+  background: #5f5f5f;
+  border-radius: 10px;
+  height: 40px;
+  
+}
+
+&::-webkit-scrollbar-thumb:hover {
+  background: #5f5f5f;
 }
 }
 
