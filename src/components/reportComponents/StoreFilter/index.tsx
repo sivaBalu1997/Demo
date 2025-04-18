@@ -7,15 +7,15 @@ import ReportsRefreshButton from "../ReportsRefreshButton";
 import DateRangeCompareDropdown from "../DateRangeCompareDropdown";
 import CustomDatePicker from "pages/NewReports/Sales/CategoryReport/CustomDatepicker";
 import "./StoreFilter.scss";
+import { set } from "date-fns";
 
 interface StoreFilterProps {
   startDate?: string;
   endDate?: string;
   selectedDate?: StoreOption;
-  setSelectedDate?: (date: StoreOption) => void;
+  setSelectedDate?: (type: string,date1?:string, date2?:string ) => void;
   selectedStore?: StoreOption;
   setSelectedStore?: (store: StoreOption) => void;
-  datePickerApplyFunction?: any;
   showDate?: boolean;
   showStore?: boolean;
   showRefresh?: boolean;
@@ -46,7 +46,6 @@ const StoreFilter = ({
   setSelectedDate = () => {},
   selectedStore,
   setSelectedStore = () => {},
-  datePickerApplyFunction,
   handleRefreshClick = () => {},
   showDate = true,
   showStore = true,
@@ -77,21 +76,19 @@ const StoreFilter = ({
 
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [isDateSelected, setIsDateSelected] = useState(false);
-  const datePickerHandleOnChange: any = (dates: any): void => {    
-    setSelectedDates(dates);
-  };
 
   useEffect(() => {
     onFilterChangeForCompare(firstDateRange, secondDateRange);
   }, [firstDateRange, secondDateRange, onFilterChangeForCompare]);
 
   const closeBtnOnclick = () => {
+    setSelectedDates([new DateObject(startDate||new Date()), new DateObject(endDate||new Date())]);
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();
   };
+
   const applyBtnOnclick = () => {
     if (selectedDates.length === 2) {
-      setSelectedDate(dateOptions[5]);
       setIsDateSelected(true);
       // If the dates are not already DateObject instances, wrap them:
       const startDate =
@@ -102,8 +99,9 @@ const StoreFilter = ({
         selectedDates[1] instanceof DateObject
           ? selectedDates[1]
           : new DateObject(selectedDates[1]);
-      if (datePickerApplyFunction != null && datePickerApplyFunction) {
-        datePickerApplyFunction(
+      if (setSelectedDate != null && setSelectedDate != undefined) {
+        setSelectedDate(
+          dateOptions[5]?.value,
           startDate.format("YYYY-MM-DD"),
           endDate.format("YYYY-MM-DD")
         );
@@ -120,44 +118,20 @@ const StoreFilter = ({
 
     return `${year}-${month}-${day}`;
   }
-  const handleDateDropdownOnSelect = (option: StoreOption) => {
-    const today = new Date();
-    let from, to;
-    if (option.value == "Yesterday") {
-      from = to = new Date(today);
-      from.setDate(today.getDate() - 1);
-    } else if (option.value == "Today") {
-      from = to = new Date(today);
-    } else if (option.value == "This week") {
-      from = new Date(today);
-      from.setDate(today.getDate() - today.getDay()); // Start of the week (Sunday)
-      to = today;
-    } else if (option.value == "This month") {
-      from = new Date(today.getFullYear(), today.getMonth(), 1); // 1st of this month
-      to = today;
-    } else if (option.value == "This year") {
-      from = new Date(today.getFullYear(), 0, 1); // 1st Jan of this year
-      to = today;
-    }else if (option.value == "Custom Date") {
-      from =startDate||today;
-      to = endDate||today;
-    } else {
-      from = to = today;
-    }    
-      const formattedFromDate = formatDateToYYYYMMDD(from instanceof Date ? from : new Date(from));
-    const formattedToDate = formatDateToYYYYMMDD(to instanceof Date ? to : new Date(to));  
-
+  useEffect(() => {
+    setSelectedDates([
+      new DateObject(startDate||new Date()),
+      new DateObject(endDate||new Date())  ]);
+  }, [startDate, endDate]);
+  const handleDateDropdownOnSelect = (option: StoreOption) => {  
     if (option.value == "Custom Date") {
-      if (datePickerApplyFunction && !isDateSelected) {
-        datePickerApplyFunction(formattedFromDate, formattedToDate);
-      }
+      const formattedFromDate = formatDateToYYYYMMDD(new Date(startDate|| ""));
+    const formattedToDate = formatDateToYYYYMMDD(new Date(endDate|| ""));  
+    setSelectedDate(option?.value,  formattedFromDate,   formattedToDate);
       calendarRef.current?.openCalendar();
     } else {
-      if (datePickerApplyFunction) {
-        datePickerApplyFunction(formattedFromDate, formattedToDate);
-      }
       setIsDateSelected(false);
-      setSelectedDate(option);
+      setSelectedDate(option?.value);
 
     }
   };
@@ -190,7 +164,7 @@ const StoreFilter = ({
             />
             <CustomDatePicker
               containerClassName={"category-date-picker-container"}
-              handleOnChange={datePickerHandleOnChange}
+              handleOnChange={setSelectedDates}
               selectedDates={selectedDates}
               datePickerContainerClassName="category-custom-datepicker-container"
               ref={calendarRef}

@@ -380,10 +380,10 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
 
 
 
-const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
-  status: data.status,
-  count: Number(data.count),
-}))
+// const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
+//   status: data.status,
+//   count: Number(data.count),
+// }))
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -546,7 +546,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTable?.content?.filter((data:any)=>data?.liveCheckInStatus)||[] as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}
@@ -567,7 +567,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
                 searchQuery={todayCheckInSearchQuery}
                 // onSearchChange={setTodayCheckInSearchQuery}
                 headerData={headerData1 as any}
-                tableData={liveCheckInTable?.content?.filter((data:any)=>data?.todayCheckInStatus)||[] as any}
+                tableData={liveCheckInToday?.content||[] as any}
                 currentPage={todayCheckInCurrentPage}
                 totalPages={liveCheckInToday?.totalPages||0}
                 count={liveCheckInToday?.totalElements||0}

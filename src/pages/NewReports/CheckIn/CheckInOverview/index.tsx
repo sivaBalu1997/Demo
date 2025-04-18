@@ -368,10 +368,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
-        setSelectedDate={(data) => handleDateChange(data?.value)}
-        datePickerApplyFunction={(date1: any, date2: any) =>
-          handleDateChange("Custom Date", date1, date2)
-        }
+        setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
 
@@ -584,7 +581,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           searchQuery={checkInSearchQuery}
           // onSearchChange={setcheckInSearchQuery}
           headerData={headerData1 as any}
-          tableData={checkInOverviewTableDetails?.content?.filter((data:any)=>data?.status)||[] as any}
+          tableData={checkInOverviewTableDetails?.content||[] as any}
           currentPage={checkInCurrentPage}
           totalPages={checkInOverviewTableDetails?.totalPages || 0}
           onPageChange={setcheckInCurrentPage}

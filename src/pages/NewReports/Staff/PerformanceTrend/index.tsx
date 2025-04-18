@@ -84,10 +84,6 @@ const PerformanceTrend = () => {
     }
   };
 
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-
   const employeeDropdownOptions =
     employeeLists?.map((employee) => ({
       value: employee?.staffId,
@@ -313,9 +309,7 @@ const PerformanceTrend = () => {
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
-        setSelectedDate={(data) => handleDateChange(data?.value)}
-        datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
-        // dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
+        setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
       <div className="employee-pt-section">

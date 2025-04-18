@@ -1,4 +1,4 @@
-import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
+import { put, call, takeLatest} from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
 
 
@@ -11,7 +11,6 @@ import {
     STAFF_TREND_SALES_PERFORMANCE_REQUEST,
     STAFF_TREND_REVENUE_IMPACT_PERFORMANCE_REQUEST,
     STAFF_TREND_ERROR_PERFORMANCE_REQUEST, 
-
 } from './staffReportsConstants';
 
 import {

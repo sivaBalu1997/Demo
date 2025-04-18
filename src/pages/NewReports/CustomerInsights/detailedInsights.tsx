@@ -483,10 +483,6 @@ const headers4 = [
   //   detailedInsightsCustomersTopFavItemsData
   // ])
  
-
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
   const handleDropDownOnChange: any = (e: any) => {
     setSelectedCustomerPhoneNumber(e.value);
   };
@@ -540,10 +536,7 @@ const headers4 = [
             selectedStore={selectedLocation}
             showRefresh={false}
             showDate={true}
-            setSelectedDate={(data) => handleDateChange(data?.value)}
-            datePickerApplyFunction={(date1: any, date2: any) =>
-              datepickerApply("Custom Date", date1, date2)
-            }
+            setSelectedDate={handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
 
