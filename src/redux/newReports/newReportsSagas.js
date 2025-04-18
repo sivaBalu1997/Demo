@@ -1,4 +1,4 @@
-import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
+import { put, call, takeLatest, debounce } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
 import {
     salesSummarySuccess,
