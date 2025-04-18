@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeLocation } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
 import { EmployeeType } from 'interface/employeeInterface';
-import { transformChartData } from 'utils';
-import { staffTrendSalesPerformanceRequest } from 'redux/staffReports/staffReportsActions';
+import { transformChartDataDynamic } from 'utils';
+import { staffTrendErrorPerformanceRequest, staffTrendSalesPerformanceRequest } from 'redux/staffReports/staffReportsActions';
 import MultiLineChart from 'components/reportComponents/ReusableCharts/MultiLineChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss";
+import { deletedFilterOptionsErrorPerformance, orderFilterOptionsPerformance, refundsFilterOptionsRevenueImpact } from 'constants/reportConstants';
 
 
 const PerformanceTrend = () => {
+
+  const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("")
+
   const dispatch = useDispatch();
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
@@ -38,26 +42,6 @@ const PerformanceTrend = () => {
     { value: "Lunch", label: "Lunch" },
     { value: "Dinner", label: "Dinner" },
   ];
-  const orderFilterOptions = [
-    { value: "Orders", label: "Orders" },
-    { value: "Sales", label: "Sales" },
-    { value: "Tips", label: "Tips" },
-    { value: "Gratuities", label: "Gratuities" },
-  ]
-  const refundsFilterOptions = [
-    { value: "Refunds", label: "Refunds" },
-    { value: "Complementary", label: "Complementary" },
-    { value: "Taxes", label: "Taxes" },
-    { value: "Tips", label: "Tips" },
-    { value: "Discounts", label: "Discounts" },
-    { value: "Gratuities", label: "Gratuities" },
-  ]
-  const deletedFilterOptions = [
-    { value: "Deleted", label: "Deleted" },
-    { value: "Voids", label: "Voids" },
-    { value: "Re-fires", label: "Re-fires" },
-  ]
-
 
   const locations = useSelector(
     (state: any) => state?.newReports?.storeLocationsList
@@ -74,12 +58,30 @@ const PerformanceTrend = () => {
     (state: any) => state?.staffReports?.staffTrendSalesPerformanceSuccess
   )
 
+  const errorPerformanceAPIRedux = useSelector(
+    (state: any) => state?.staffReports?.staffTrendErrorPerformanceSuccess
+  )
+
     const countryCode = useSelector(
       (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
     );
 
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
     console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
+    switch (kpiTitle) {
+      case "Sales Performance":
+        // Handle Sales Performance filter change
+        break;
+      case "Revenue Impact":
+        // Handle Revenue Impact filter change
+        break;
+      case "Error Performance":
+        // Handle Error Performance filter change
+        setSelectedErrorTypeErrorPerformance(selectedValue)
+        break;
+      default:
+        break;
+    }
   };
 
   const datepickerApply = (type: string, data1?: any, data2?: any) => {
@@ -111,7 +113,7 @@ const PerformanceTrend = () => {
     if (selectedOption) {
       setSelectedLabel(selectedOption.label);
 
-      const isDuplicate = employeeLabelPill.some(
+      const isDuplicate = employeeLabelPill?.some(
         (item) => item.value === selectedOption.value
       );
 
@@ -266,8 +268,7 @@ const PerformanceTrend = () => {
     }
   ]
 
-  const salesPerformanceTrendChartData = transformChartData(salesPerformanceAPIRedux, countryCode === "US" ? "US" : "IN");
-  // console.log("PPP", salesPerformanceTrendChartData)
+ const staffParam = employeeLabelPill?.filter((item)=>item?.value !== "All")?.map((item) => item?.value).join(",")
 
   // Function to remove an item from the employeeLabelPill array
   const removeItem = (value: string) => {
@@ -284,9 +285,19 @@ const PerformanceTrend = () => {
       locationid: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate,
-      staffIds: employeeLabelPill?.map((item) => item?.value).join(","),
+      staffIds: staffParam ? staffParam : "",
     }))
   }, [selectedLocation, startDate, endDate, employeeLabelPill])
+
+  useEffect(()=>{
+    dispatch(staffTrendErrorPerformanceRequest({
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      staffIds: staffParam ? staffParam : "",
+      errorType: selectedErrorTypeErrorPerformance,
+    }))
+  },[selectedLocation, startDate, endDate, employeeLabelPill, selectedErrorTypeErrorPerformance])
 
 
   const handleClearAllForPill = () => {
@@ -346,10 +357,14 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={false}
           kpiTitle='Sales Performance'
-          data={salesPerformanceTrendChartData}
+          data={transformChartDataDynamic(salesPerformanceAPIRedux, {
+            labelKey: 'fullName',
+            xAxisKey: 'date',
+            metrics: ['total', 'orders', 'tip', 'serviceFee'],
+          })}
           showDownloadReport={true}
           showChartFilter={true}
-          chartFilterOptions={orderFilterOptions}
+          chartFilterOptions={orderFilterOptionsPerformance}
           handleChartFilter={handleChartFilter}
         />
       </div>
@@ -360,7 +375,7 @@ const PerformanceTrend = () => {
           data={chartData}
           showDownloadReport={true}
           showChartFilter={true}
-          chartFilterOptions={refundsFilterOptions}
+          chartFilterOptions={refundsFilterOptionsRevenueImpact}
           handleChartFilter={handleChartFilter}
         />
       </div>
@@ -368,10 +383,14 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={false}
           kpiTitle='Error Performance'
-          data={chartData}
+          data={transformChartDataDynamic(errorPerformanceAPIRedux, {
+            labelKey: 'employeeName',
+            xAxisKey: 'day',
+            metrics: ['employeeName', 'totalQuantity'],
+          })}
           showDownloadReport={true}
           showChartFilter={true}
-          chartFilterOptions={deletedFilterOptions}
+          chartFilterOptions={deletedFilterOptionsErrorPerformance}
           handleChartFilter={handleChartFilter}
         />
       </div>

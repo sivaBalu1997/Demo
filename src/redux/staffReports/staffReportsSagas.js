@@ -88,7 +88,7 @@ function* staffOverviewEmployeePerformanceTableSaga(action) {
 }
 
 function* staffTrendSalesPerformanceSaga(action) {
-    console.log("Inside Saga above try")
+    console.log("inisde saga")
     try {
         const response = yield call(getStaffTrendSalesPerformance, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)

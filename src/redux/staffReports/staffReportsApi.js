@@ -50,6 +50,10 @@ const generateQueryParams = (payload) => {
         query+=`&staffIds=${payload?.staffIds}`
     }
 
+    if(payload?.errorType){
+        query+=`&errorType=${payload?.errorType}`
+    }
+
     return "?"+query?.slice(1)
 }
 
@@ -120,7 +124,7 @@ export const getStaffTrendErrorPerformance = (params) => {
     const query = generateQueryParams(params);
     return REPORTS_API({
         method: "get",
-        url: `/staff/trend/error-performance${query}`,
+        url: `/staff/overview/error-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

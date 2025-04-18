@@ -250,3 +250,30 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
     { value: "This week", label: "This week" },
     { value: "7 days", label: "Last 7 Days" }
   ]
+
+  export const chartFilterOptions: { value: string, label: string }[] = [
+    { value: "Overall", label: "Overall" },
+    { value: "Weekdays", label: "Weekdays" },
+    { value: "Weekends", label: "Weekends" },
+    { value: "Lunch", label: "Lunch" },
+    { value: "Dinner", label: "Dinner" },
+  ];
+  export const orderFilterOptionsPerformance = [
+    { value: "Orders", label: "Orders" },
+    { value: "Sales", label: "Sales" },
+    { value: "Tips", label: "Tips" },
+    { value: "Gratuities", label: "Gratuities" },
+  ]
+  export const refundsFilterOptionsRevenueImpact = [
+    { value: "Refunds", label: "Refunds" },
+    { value: "Complementary", label: "Complementary" },
+    { value: "Taxes", label: "Taxes" },
+    { value: "Tips", label: "Tips" },
+    { value: "Discounts", label: "Discounts" },
+    { value: "Gratuities", label: "Gratuities" },
+  ]
+  export const deletedFilterOptionsErrorPerformance = [
+    { value: "Deleted", label: "Deleted" },
+    { value: "Voids", label: "Voids" },
+    { value: "Re-fires", label: "Re-fires" },
+  ]
