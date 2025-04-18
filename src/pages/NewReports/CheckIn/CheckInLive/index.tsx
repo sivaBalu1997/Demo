@@ -567,7 +567,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
                 searchQuery={todayCheckInSearchQuery}
                 // onSearchChange={setTodayCheckInSearchQuery}
                 headerData={headerData1 as any}
-                tableData={liveCheckInTable?.content||[] as any}
+                tableData={liveCheckInToday?.content||[] as any}
                 currentPage={todayCheckInCurrentPage}
                 totalPages={liveCheckInToday?.totalPages||0}
                 count={liveCheckInToday?.totalElements||0}

@@ -18,7 +18,6 @@ import { getDownloadableReportRequest } from 'redux/newReports/newReportsActions
 import { RootState } from 'redux/rootReducer';
 import DownloadShimmer from './DownloadShimmer';
 import { NewTableHeader } from 'interface/newReportsInterface';
-import { he } from 'date-fns/locale';
 
 interface DownloadReportProps {
     tableData: Array<Record<string, any>>;
