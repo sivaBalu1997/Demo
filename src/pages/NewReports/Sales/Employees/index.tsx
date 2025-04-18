@@ -590,7 +590,6 @@ const Employees: React.FC = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
-  console.log("employeeLists", employeeLists);
 
   const employeeLoader = useSelector(
     (state: RootState) => state.employee.employeeDetailsLoading
@@ -598,8 +597,8 @@ const Employees: React.FC = () => {
 
   const activeEmployees = employeeLists && employeeLists?.filter(employee => employee?.isActive);
 
-  console.log({employeeLists})
-  console.log({activeEmployees})
+  // console.log({employeeLists})
+  // console.log({activeEmployees})
 
   const employeeDropdownOptions =
     activeEmployees?.map((employee) => ({
