@@ -15,6 +15,7 @@ import {
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import { getCurrencySymbol } from "utils";
+import { predefinedColors } from "constants/reportConstants";
 
 const SummaryInsights = () => {
   const locations = useSelector(
@@ -152,20 +153,12 @@ console.log({summaryInsightsCustomerByTotalSpendData})
             >
               <StackedBarChart
                 loader={summaryInsightsCustomerByTenureDataLoading}
-                dataList={
-                  summaryInsightsCustomerByTenureData?.map((data: any) => ({
-                    xAxisData: `${data?.timeline}`,
-                    stackName: `${data?.customerState}`,
-                    stackValue: Number(
-                      data?.customerCount < 0
-                        ? data?.customerCount * -1
-                        : data?.customerCount
-                    ),
-                  }))
-                  // stackedDataList
-                }
-                colorList={["#1F77B4", "#17BECF"]}
-                toolTipBorderColor="#17BECF"
+                dataList={summaryInsightsCustomerByTenureData}
+                xKey="tenure"
+                stackNameKey="groupSize"
+                valueKey="count"
+                colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
+                toolTipBorderColor="#F89B29"
               />
             </ErrorHandler>
           </div>
@@ -181,16 +174,11 @@ console.log({summaryInsightsCustomerByTotalSpendData})
             >
               <StackedBarChart
                 loader={summaryInsightsCustomerByTotalSpendDataLoading}
-                dataList={
-                  summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
-                    xAxisData: `${data?.spendCategory?.replaceAll("$", currencySymbol)}`,
-                    stackName: `${data?.orderCategory}`,
-                    stackValue: Number(data?.customerCount),
-                  }))
-
-                  // stackedDataList
-                }
-                colorList={["#AA562A", "#F89B29"]}
+                dataList={summaryInsightsCustomerByTotalSpendData}
+                xKey="spendRange"
+                stackNameKey="groupSize"
+                valueKey="count"
+                colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29"]}
                 toolTipBorderColor="#F89B29"
               />
             </ErrorHandler>
