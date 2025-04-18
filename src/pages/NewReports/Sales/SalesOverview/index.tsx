@@ -456,7 +456,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
   useEffect(() => {
     if (viewType === "discountOffer") {
-
       const params: any = {
         locationid: selectedLocation?.value,
         startDate: startDate,
@@ -543,16 +542,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const salesOverViewBoxForDownloading = [salesSummary]
 
   const salesSummaryHeaderDataForDownloadUS = [
-    {"key": "totalGrossSalesIncludingThirdparty", "label":"Total Sales"},
-    {"key": "totalNetSalesIncludingThirdparty", "label":"Net Sales"},
-    {"key": "totalTaxIncludingThirdparty", "label":"Total Tax"},
-    {"key": "totalMagilTips", "label":"Total Tips"},
-    {"key": "gratuity", "label":"Gratuity"},
-    {"key": "totalOrdersIncludingThirdparty", "label":"Transactions"},
-    {"key": "discounts", "label":"Discounts"},
-    {"key": "cancelledOrders", "label":"Cancelled Orders"},
+    { "key": "totalGrossSalesIncludingThirdparty", "label": "Total Sales" },
+    { "key": "totalNetSalesIncludingThirdparty", "label": "Net Sales" },
+    { "key": "totalTaxIncludingThirdparty", "label": "Total Tax" },
+    { "key": "totalMagilTips", "label": "Total Tips" },
+    { "key": "gratuity", "label": "Gratuity" },
+    { "key": "totalOrdersIncludingThirdparty", "label": "Transactions" },
+    { "key": "discounts", "label": "Discounts" },
+    { "key": "cancelledOrders", "label": "Cancelled Orders" },
   ]
-  const salesOverViewBoxForDownloadingUS = salesOverViewBoxForDownloading?.map((dataToBeMapped:any)=>({
+  const salesOverViewBoxForDownloadingUS = salesOverViewBoxForDownloading?.map((dataToBeMapped: any) => ({
     totalGrossSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalGrossSalesIncludingThirdparty, countryCode, true),
     totalNetSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalNetSalesIncludingThirdparty, countryCode, true),
     totalTaxIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalTaxIncludingThirdparty, countryCode, true),
@@ -564,16 +563,16 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   }))
 
   const salesSummaryHeaderDataForDownloadIND = [
-    {"key": "totalGrossSalesIncludingThirdparty", "label":"Total Sales"},
-    {"key": "totalNetSalesIncludingThirdparty", "label":"Net Sales"},
-    {"key": "totalTaxIncludingThirdparty", "label":"Total Tax"},
-    {"key": "totalMagilTips", "label":"Total Tips"},
-    {"key": "gratuity", "label":"Service Charge"},
-    {"key": "totalOrdersIncludingThirdparty", "label":"Transactions"},
-    {"key": "discounts", "label":"Discounts"},
-    {"key": "cancelledOrders", "label":"Cancelled Orders"},
+    { "key": "totalGrossSalesIncludingThirdparty", "label": "Total Sales" },
+    { "key": "totalNetSalesIncludingThirdparty", "label": "Net Sales" },
+    { "key": "totalTaxIncludingThirdparty", "label": "Total Tax" },
+    { "key": "totalMagilTips", "label": "Total Tips" },
+    { "key": "gratuity", "label": "Service Charge" },
+    { "key": "totalOrdersIncludingThirdparty", "label": "Transactions" },
+    { "key": "discounts", "label": "Discounts" },
+    { "key": "cancelledOrders", "label": "Cancelled Orders" },
   ]
-  const salesOverViewBoxForDownloadingIND = salesOverViewBoxForDownloading?.map((dataToBeMapped:any)=>({
+  const salesOverViewBoxForDownloadingIND = salesOverViewBoxForDownloading?.map((dataToBeMapped: any) => ({
     totalGrossSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalGrossSalesIncludingThirdparty, countryCode, true),
     totalNetSalesIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalNetSalesIncludingThirdparty, countryCode, true),
     totalTaxIncludingThirdparty: formatNumberByCountry(dataToBeMapped?.totalTaxIncludingThirdparty, countryCode, true),
@@ -661,9 +660,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     label: key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).trim()
   }))
 
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
   const resetPagination = () => {
     setPage(1)
     setRows(10)
@@ -691,8 +687,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={(data) => handleDateChange(data?.value)}
-            datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
+            setSelectedDate={ handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
           {(salesSummary?.status === "204" && selectedDateFilterType?.value === "Today") ?
@@ -720,61 +715,61 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={countryCode === "US" ? salesOverViewBoxForDownloadingUS : salesOverViewBoxForDownloadingIND} headerData={countryCode === "US" ? salesSummaryHeaderDataForDownloadUS : salesSummaryHeaderDataForDownloadIND} />}
                     </div>
 
-    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={loadingState||salesSummaryLoader}>
-                <div className="todays-report-sales-overview-box-container">
-                  {countryCode === "US" ?
-                    (cardConfigForSalesTabOverView?.map((card: any, index: number) => (
-                      <CardWithMiniGraph
-                        key={index}
-                        cardTitle={card.title}
-                        cardValue={formatNumberByCountry(
-                          salesSummary?.[card.value],
-                          countryCode,
-                          card.isMonetary
-                        )}
-                        incrementDecrementValue={salesSummary?.[card.percentage]}
-                        isMonetary={card.isMonetary}
-                        loader={salesSummaryLoader}
-                        showMiniGraph={
-                          typeof card.showMiniGraph === 'function'
-                            ? card.showMiniGraph(salesSummary?.[card.percentage])
-                            : card.showMiniGraph
+                    <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={loadingState || salesSummaryLoader}>
+                      <div className="todays-report-sales-overview-box-container">
+                        {countryCode === "US" ?
+                          (cardConfigForSalesTabOverView?.map((card: any, index: number) => (
+                            <CardWithMiniGraph
+                              key={index}
+                              cardTitle={card.title}
+                              cardValue={formatNumberByCountry(
+                                salesSummary?.[card.value],
+                                countryCode,
+                                card.isMonetary
+                              )}
+                              incrementDecrementValue={salesSummary?.[card.percentage]}
+                              isMonetary={card.isMonetary}
+                              loader={salesSummaryLoader}
+                              showMiniGraph={
+                                typeof card.showMiniGraph === 'function'
+                                  ? card.showMiniGraph(salesSummary?.[card.percentage])
+                                  : card.showMiniGraph
+                              }
+                              incrementOrDecrement={transformSalesData(
+                                salesSummary?.[card.percentage]
+                              )}
+                              graphType="arrow"
+                              isPercent={true}
+                            />
+                          ))
+                          ) : (
+                            cardConfigForSalesTabOverViewWithoutGratuity?.map((card: any, index: number) => (
+                              <CardWithMiniGraph
+                                key={index}
+                                cardTitle={card.title}
+                                cardValue={formatNumberByCountry(
+                                  salesSummary?.[card.value],
+                                  countryCode,
+                                  card.isMonetary
+                                )}
+                                incrementDecrementValue={salesSummary?.[card.percentage]}
+                                isMonetary={card.isMonetary}
+                                loader={salesSummaryLoader}
+                                showMiniGraph={
+                                  typeof card.showMiniGraph === 'function'
+                                    ? card.showMiniGraph(salesSummary?.[card.percentage])
+                                    : card.showMiniGraph
+                                }
+                                incrementOrDecrement={transformSalesData(
+                                  salesSummary?.[card.percentage]
+                                )}
+                                graphType="arrow"
+                                isPercent={true}
+                              />
+                            )))
                         }
-                        incrementOrDecrement={transformSalesData(
-                          salesSummary?.[card.percentage]
-                        )}
-                        graphType="arrow"
-                        isPercent={true}
-                      />
-                    ))
-                    ) : (
-                      cardConfigForSalesTabOverViewWithoutGratuity?.map((card: any, index: number) => (
-                        <CardWithMiniGraph
-                          key={index}
-                          cardTitle={card.title}
-                          cardValue={formatNumberByCountry(
-                            salesSummary?.[card.value],
-                            countryCode,
-                            card.isMonetary
-                          )}
-                          incrementDecrementValue={salesSummary?.[card.percentage]}
-                          isMonetary={card.isMonetary}
-                          loader={salesSummaryLoader}
-                          showMiniGraph={
-                            typeof card.showMiniGraph === 'function'
-                              ? card.showMiniGraph(salesSummary?.[card.percentage])
-                              : card.showMiniGraph
-                          }
-                          incrementOrDecrement={transformSalesData(
-                            salesSummary?.[card.percentage]
-                          )}
-                          graphType="arrow"
-                          isPercent={true}
-                        />
-                      )))
-                  }
-                </div>
-              </ErrorHandler> 
+                      </div>
+                    </ErrorHandler>
                   </div>
 
 
@@ -889,7 +884,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   <div className="sales-charts-parent-container">
                     <div className="sales-chart-download-container">
                       <h2 className="sales-overview-sub-heading ">By Channel</h2>
-                      {(!salesByChannelLoading && salesByChannel) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={[{"key":"channelName", "label":"Channel Name",},{"key":"orders", "label":"Orders",},{"key":"sales", "label":"Sales",}]} />}
+                      {(!salesByChannelLoading && salesByChannel) && <DownloadReport kpiTitle="By Channel" tableData={salesByChannel} headerData={[{ "key": "channelName", "label": "Channel Name", }, { "key": "orders", "label": "Orders", }, { "key": "sales", "label": "Sales", }]} />}
                     </div>
                     <ErrorHandler data={salesByChannel} isError={salesByChannelError}>
                       <ChannelSalesChart
@@ -899,7 +894,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     </ErrorHandler>
                   </div>
 
-                  <div className="sales-overview-doughnut-chart-container" style={{ display: "flex", justifyContent: "flex-start",marginTop: "10vh", width: "100%" }} ref={offerRef}>
+                  <div className="sales-overview-doughnut-chart-container" style={{ display: "flex", justifyContent: "flex-start", marginTop: "10vh", width: "100%" }} ref={offerRef}>
                     {/* commented out for release */}
                     {/* <div className="doughnut-chart-with-button">
                       <div className="doughnut-head-with-download-container">
