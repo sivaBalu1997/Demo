@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import "./Dropdown.scss";
 import UpArrow from "../../../assets/images/dropdown.png";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
 
 interface DropdownProps {
   selectedValues?: string[];
   onSelect: (values: string[]) => void;
-  options?: string[];
+  options?: any;
   label: string;
   validation?: {
     isValid: boolean;
@@ -24,7 +26,15 @@ interface DropdownProps {
   validatepickupdelivery?: any;
   color?:string;
   streams?:boolean;
-  zIndex?:boolean
+  zIndex?:boolean;
+  ValiadteMealType?:any;
+  setSelectedMealType?:any;
+  errorarray?:any;
+  Errorname?:any;
+  setErrorArray?:any
+  isOptionTrue?: any
+  itemcustomization?:any;
+  thirdParty?: any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -43,12 +53,21 @@ const Dropdown: React.FC<DropdownProps> = ({
   validatedineMealType,
   toggleOnorOff,
   validatepickupdelivery,
-  zIndex
+  zIndex,
+  ValiadteMealType,
+  setSelectedMealType,
+  errorarray,
+  Errorname,
+  setErrorArray,
+  isOptionTrue,
+  itemcustomization,
+  thirdParty
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [touched, setTouched] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -64,6 +83,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -80,14 +100,25 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+ 
     const newSelectedValues = selectedValues.includes(value)
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     onSelect(newSelectedValues);
-
-    validatedineMealType && validatedineMealType();
-    validatepickupdelivery &&
-      validatepickupdelivery(toggleOnorOff, newSelectedValues);
+    setSelectedMealType && setSelectedMealType(newSelectedValues)
+    
+    // ValiadteMealType && ValiadteMealType();
+    
+    if(newSelectedValues.length>0)
+    {
+      const validationErrors = { ...errorarray};
+      delete validationErrors[`${Errorname}`];
+      setErrorArray?.(validationErrors);
+    }
+   
+    // validatedineMealType && validatedineMealType();
+    // validatepickupdelivery &&
+    //   validatepickupdelivery(toggleOnorOff, newSelectedValues);
   };
 
   const validateDropdown = (values: string[]) => {
@@ -95,6 +126,50 @@ const Dropdown: React.FC<DropdownProps> = ({
       onBlur && onBlur();
     }
   };
+
+ const locationid = useSelector((state: any) => state?.auth?.credentials);
+
+  // const payload = {
+  //   locationId: locationid,
+  //   type: "MEAL_TYPE",
+  //   parentId: "",
+  // };
+  
+  // useEffect(()=>{
+  //   if(rotateImg)
+  //   dispatch(fetchDropDownRequest(payload))
+  // },[rotateImg])
+
+
+  const allDay: any = []
+
+  const allDayMealType = [
+    ...new Set(
+      options?.flatMap((option: any) =>
+        option?.availabilities?.filter((a: any) => {
+          if(a?.weekDay === 'All'){
+            a?.sessions?.map((session: any) => {
+              allDay?.push(session?.mealType)
+            })
+          }
+        })
+      )
+    ),
+  ];
+
+  const mealTypes = (itemcustomization || thirdParty)
+  ? options
+  : isOptionTrue
+    ? [...new Set(allDay)]
+    : [
+        ...new Set(
+          options?.flatMap((option: any) =>
+            option?.availabilities?.flatMap((availability: any) =>
+              availability?.sessions?.map((session: any) => session?.mealType) || []
+            ) || []
+          ) || []
+        ),
+      ];
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
@@ -125,21 +200,38 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
 
       {isOpen && (
-        <div className={zIndex ? "optionsPricingz" : "optionsPricing"}>
-          {options.length > 0 ? (
-            options.map((option, index) => (
-              <label key={index} style={{display:"flex",justifyContent:"left",alignItems:"center",gap:"10px",cursor:"pointer"}}>
-                <input
-                  type="checkbox"
-                  name={option}
-                  className="checkboxPricing"
-                  value={option}
-                  onBlur={onBlur}
-                  checked={selectedValues.includes(option)}
-                  onChange={handleOptionClick}
-                  style={{marginBottom:streams?"0.3rem":"",}}
-                />
-                <p style={{marginTop:streams?"-0.5rem":"",marginBottom:streams?"0.3rem":""}}>{option}</p>
+        <div className = {zIndex ? "optionsPricingz" : "optionsPricing"}>
+          {mealTypes?.length > 0 ? (
+            mealTypes?.map((option: any, index: any) => (
+              <label key={index} 
+                style={
+                  {
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center",
+                    gap:"10px",
+                    cursor:"pointer"
+                  }
+                }>
+                 <input
+                    type="checkbox"
+                    name={option}
+                    className="checkboxPricing"
+                    value={option}
+                    checked={selectedValues.includes(option)}
+                    onBlur={onBlur}
+                    onChange={handleOptionClick}
+                    style={{ marginBottom: streams ? "0.3rem" : "" }}
+                  />
+
+                <p style={
+                    {
+                      marginTop:streams ? "-0.5rem" : "", 
+                      marginBottom:streams ? "0.3rem" : ""
+                    }
+                  }>
+                    {option}
+                  </p>
               </label>
             ))
           ) : (

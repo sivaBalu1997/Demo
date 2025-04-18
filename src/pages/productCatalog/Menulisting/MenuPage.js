@@ -439,6 +439,7 @@ export const MenuPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
+    alert("hi")
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -476,6 +477,10 @@ export const MenuPage = () => {
     //     }
     //     return null; // Return null if the ID is not found
     // }
+    console.log({filteredItem});
+    console.log({filtesubItems});
+    
+    
 
     if (filteredItem) {
       setCategoryData({

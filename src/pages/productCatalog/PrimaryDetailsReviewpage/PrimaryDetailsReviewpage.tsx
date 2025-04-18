@@ -91,7 +91,7 @@ interface PrimaryData {
   masterCode: string;
   imageUrls: ImageFile[];
   allergens: AllergenImage[];
-  popularItem: boolean;
+  exclusiveItem: boolean;
 }
 interface RootState {
   primarypage: {
@@ -466,6 +466,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const selectedCategory = useSelector((state:any) => state.productCatalog.selectedCategory)
+  const selectedSubCategory = useSelector((state:any) => state.productCatalog.selectedSubCategory)
+
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -529,10 +531,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.subCategoryData.data
   );
 
+
+
   const matchedSubCategory = subCategoryData?.find(
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
-
+  console.log({matchedSubCategory});
   const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
@@ -605,21 +609,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ? DineIndays.map(String)
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
-  const Dineinresult = stringDineInDays.includes("0")
-    ? ["0"]
-    : stringDineInDays;
+  const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;  
 
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
-      isEnabled:
-        dineInDetails?.Enabled === true || dineInDetails?.Enabled === 1 ? 1 : 0,
-      isNotHide:
-        dineInDetails &&
-        dineInDetails?.price &&
-        parseFloat(dineInDetails?.price) > 0.0
-          ? 1
-          : 0,
+      isEnabled: dineInDetails?.Enabled===true||dineInDetails?.Enabled===1?1:0, 
+      isNotHide:dineInDetails && dineInDetails?.price && parseFloat(dineInDetails?.price) > 0.00 ? 1 : 0,
+      availabilityEnabled:dineInDetails && dineInDetails?.availabilityEnabled===true,
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'D' )?.isNotHide || null,
 
       inActiveUntil: dineInDetails?.inActiveUntil
@@ -640,14 +637,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
     pickupDetails && {
       ...pickupDetails,
-      isEnabled:
-        pickupDetails.Enabled === true || pickupDetails.Enabled === 1 ? 1 : 0,
-      isNotHide:
-        pickupDetails &&
-        pickupDetails?.price &&
-        parseFloat(pickupDetails?.price) > 0.0
-          ? 1
-          : 0,
+      isEnabled: pickupDetails.Enabled ===true || pickupDetails.Enabled ===1?1:0, 
+      isNotHide: pickupDetails && pickupDetails?.price && parseFloat(pickupDetails?.price) > 0.00 ? 1 : 0,
+      availabilityEnabled:pickupDetails && pickupDetails?.availabilityEnabled===true,
+
       // isNotHide: editData[0]?.orderTypes?.find((o: any) => o.typeGroup ===  'P' )?.isNotHide || null,
       inActiveUntil: pickupDetails?.inActiveUntil
         ? pickupDetails.inActiveUntil.split(".")[0]
@@ -666,13 +659,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
     deliveryDetails && {
       ...deliveryDetails,
-      isEnabled:
-        deliveryDetails.Enabled === true || deliveryDetails.Enabled === 1
-          ? 1
-          : 0,
-      inActiveUntil: deliveryDetails?.inActiveUntil
-        ? deliveryDetails.inActiveUntil.split(".")[0]
-        : null,
+      isEnabled: deliveryDetails.Enabled ===true ||deliveryDetails.Enabled===1?1:0, 
+      inActiveUntil: deliveryDetails?.inActiveUntil ? deliveryDetails.inActiveUntil.split(".")[0] : null,
+      availabilityEnabled:deliveryDetails && deliveryDetails?.availabilityEnabled===true,
+
 
       isNotHide:
         deliveryDetails &&
@@ -695,13 +685,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(Array.isArray(thirdPartyDetails)
       ? thirdPartyDetails?.map((detail) => ({
           ...detail,
-          isEnabled:
-            detail.Enabled === true || deliveryDetails.Enabled === 1 ? 1 : 0,
-          isNotHide:
-            detail && detail?.price && parseFloat(detail?.price) > 0.0 ? 1 : 0,
-          inActiveUntil: detail?.inActiveUntil
-            ? detail.inActiveUntil.split(".")[0]
-            : null,
+          isEnabled: detail.Enabled ===true||deliveryDetails.Enabled===1?1:0, 
+          isNotHide:detail && detail?.price && parseFloat(detail?.price) > 0.00 ? 1 : 0,
+          inActiveUntil: detail?.inActiveUntil ? detail.inActiveUntil.split(".")[0] : null,
+          availabilityEnabled: detail?.availabilityEnabled && detail?.availabilityEnabled===true,
+
 
           availabilities: detail.availabilities?.map((availability: any) => ({
             ...availability,
@@ -737,6 +725,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       : Array.isArray(primarydata?.tax)
       ? (primarydata.tax as any[])?.join(", ")
       : "";
+ 
+  let parsedDate;
+  let parsedDate1;
+  if(prizingDetail?.normalForm?.startDate){
+    const dateStr = prizingDetail?.normalForm?.startDate 
+    const [day, month, year] = dateStr?.split('-');
+    parsedDate = (`${year}-${month}-${day}`);
+  }
+
+  if(prizingDetail?.normalForm?.endDate){
+    const dateStr = prizingDetail?.normalForm?.endDate 
+    const [day, month, year] = dateStr?.split('-');
+    parsedDate1 = (`${year}-${month}-${day}`);
+  }
 
   const menuPayload = {
     locationId: locationid,
@@ -751,7 +753,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // mealType: primarydata?.mealType || null,
     categoryId: matchedCategoryId || null,
     subCategoryId: matchedSubCategoryId || null,
-    isPopularItem: primarydata?.popularItem || null,
+    isExclusiveItem: primarydata?.exclusiveItem,
     allergens: primarydata?.allergens || null,
     description: primarydata?.description || null,
     containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
@@ -768,10 +770,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDays: result || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
+    isSeasonalItem: prizingDetail?.normalForm?.isSeasonalItem,
+    startDate: parsedDate,
+    endDate: parsedDate1,
+    availabilities: prizingDetail?.normalForm?.availabilities,
+    isStandardAvailability: prizingDetail?.normalForm?.isOptionTrue ? prizingDetail?.normalForm?.isOptionTrue : false,
+
     ...(itemCustomizationData?.length > 0 && {
       modifiers: hasData ? modifierData : null,
     }),
-
     // isSingleMenu: false,
   };
 
@@ -792,7 +799,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.updatedPayload
   );
 
-  const categoryIdMatch = selectedCategory.id !==  matchedCategoryId
+  const categoryIdMatch = selectedCategory.id !==  matchedCategoryId||(matchedSubCategoryId ?(matchedSubCategoryId!==selectedSubCategory.id):false)
+  console.log({selectedSubCategory});
+  console.log({selectedCategory});
+  console.log({matchedCategoryId});
+  
+  
+  
 
   const editPayload = {
     itemId: editData[0]?.itemId,
@@ -805,7 +818,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     cuisine: matchedCuisineId || null,
     categoryId: matchedCategoryId || null,
     subCategoryId: matchedSubCategoryId || null,
-    isPopularItem: primarydata?.popularItem || null,
+    isExclusiveItem: primarydata?.exclusiveItem,
     allergens: primarydata?.allergens || null,
     description: primarydata?.description || null,
     containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
@@ -820,6 +833,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ignoreMasterKotPrint: prizingDetail?.printKot || false,
     availabilityDaysToAdd: result || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
+    isStandardAvailability: prizingDetail?.normalForm?.isOptionTrue ? prizingDetail?.normalForm?.isOptionTrue : false,
+
+    isSeasonalItem: prizingDetail?.normalForm?.isOptionTrue ? false : prizingDetail?.normalForm?.isSeasonalItem,
+    startDate: prizingDetail?.normalForm?.isOptionTrue ? null : parsedDate,
+    endDate:  prizingDetail?.normalForm?.isOptionTrue ? null : parsedDate1,
+    availabilities: prizingDetail?.normalForm?.availabilities,
 
     modifiersToAdd: hasData ? modifierData : [],
 
