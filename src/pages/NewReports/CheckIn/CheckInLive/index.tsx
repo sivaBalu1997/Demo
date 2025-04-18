@@ -546,7 +546,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTable?.content?.filter((data:any)=>data?.liveCheckInStatus)||[] as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}
@@ -567,7 +567,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
                 searchQuery={todayCheckInSearchQuery}
                 // onSearchChange={setTodayCheckInSearchQuery}
                 headerData={headerData1 as any}
-                tableData={liveCheckInTable?.content?.filter((data:any)=>data?.todayCheckInStatus)||[] as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={todayCheckInCurrentPage}
                 totalPages={liveCheckInToday?.totalPages||0}
                 count={liveCheckInToday?.totalElements||0}
