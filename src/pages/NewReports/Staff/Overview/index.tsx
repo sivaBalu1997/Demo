@@ -437,10 +437,6 @@ const Overview: React.FC = () => {
     employeeVoidRecordLimit,
   ]);
 
-  const datepickerApply = (data1: any, data2: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-
   const newTableHeaders: NewTableHeader[] = [
     { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
     {
@@ -716,9 +712,8 @@ const Overview: React.FC = () => {
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={(data) => handleDateChange(data?.value)}
+            setSelectedDate={handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
-            datePickerApplyFunction={datepickerApply}
           />
           <div className="staff-sales-overview-box-container-parent">
             <h2>Sales Overview</h2>

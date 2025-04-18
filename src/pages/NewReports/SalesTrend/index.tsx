@@ -96,12 +96,6 @@ const SalesTrend:React.FC = () => {
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    console.log("Dates",data1, data2)
-    handleDateChange("Custom Date", data1, data2);
-  };
-
-
   return (
     <div className='report-sales-trend'>
       <StoreFilter
@@ -111,8 +105,7 @@ const SalesTrend:React.FC = () => {
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
-        setSelectedDate={(data) => handleDateChange(data?.value)}
-        datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
+        setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
         showComparableDateDropdown={true}
         onFilterChangeForCompare={handleFilterChange}
