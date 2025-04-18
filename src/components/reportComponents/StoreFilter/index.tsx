@@ -82,6 +82,7 @@ const StoreFilter = ({
   }, [firstDateRange, secondDateRange, onFilterChangeForCompare]);
 
   const closeBtnOnclick = () => {
+    setSelectedDates([new DateObject(startDate||new Date()), new DateObject(endDate||new Date())]);
     setIsDateSelected(false);
     calendarRef.current?.closeCalendar();
   };
