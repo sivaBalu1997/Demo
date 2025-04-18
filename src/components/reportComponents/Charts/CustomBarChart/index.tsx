@@ -35,6 +35,7 @@ interface RevenueChartProps {
   yAxisTooltipAppendInBack?: string;
   label?:string
   showLabel?:boolean
+  isAmount?:boolean
 }
 
 const CustomBarChart: React.FC<RevenueChartProps> = ({
@@ -47,7 +48,8 @@ const CustomBarChart: React.FC<RevenueChartProps> = ({
   yAxisTooltipAppendInFront = "",
   yAxisTooltipAppendInBack = "",
   label="",
-  showLabel=false
+  showLabel=false,
+  isAmount=false
 }) => {
   //   {
   //     "revenueClass": "Beverages",
@@ -95,9 +97,9 @@ const CustomBarChart: React.FC<RevenueChartProps> = ({
             const dataPoint = tooltipItem.raw;
             let toolTipData = [
               `${xAxisTooltipLabel}: ${dataPoint.x}`,
-              `${yAxisTooltipLabel}: ${yAxisTooltipAppendInFront}${dataPoint.y.toFixed(
-                0
-              )}${yAxisTooltipAppendInBack}`,
+              `${yAxisTooltipLabel}: ${yAxisTooltipAppendInFront}${isAmount?dataPoint.y.toFixed(
+                2
+              ):dataPoint.y}${yAxisTooltipAppendInBack}`,
             ];
             if (
               xAxisTooltipLabel?.length > 0 &&
