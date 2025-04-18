@@ -380,10 +380,10 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
 
 
 
-const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
-  status: data.status,
-  count: Number(data.count),
-}))
+// const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
+//   status: data.status,
+//   count: Number(data.count),
+// }))
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">

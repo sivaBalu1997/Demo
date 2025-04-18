@@ -250,3 +250,28 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
     { value: "This week", label: "This week" },
     { value: "7 days", label: "Last 7 Days" }
   ]
+  export const predefinedColors = [
+    "#E17100", // Orange
+    "#E60076", // Pink  
+    "#009689", // Teal
+    "#F54900", // Redish orange
+    "#049E16", // Green
+    "#CE9E0F", // Yellow
+    "#AF4B7E", // Purple
+    "#17BECF", // Light blue
+    "#1F77B4", // Blue
+  
+    "#ff0000", // Red
+    "#0000ff", // Blue
+    "#008000", // Green
+    "#ffA500", // Orange
+    "#800080", // Purple
+    "#a52a2a", // Brown
+    "#808080", // Gray
+    "#ffc0cb", // Pink
+    "#1F77B4",
+    "#3FE1C0",
+    "#E17100",
+    "#049E16",
+    "#F89B29"
+  ];

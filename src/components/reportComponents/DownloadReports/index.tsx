@@ -208,15 +208,22 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
         const doc = new jsPDF();
         doc.text(kpiTitle, 14, 10); // Title at the top
+        let headerData=headers;
+        if(!headerData?.length && data?.length>0){
+            headerData = Object.keys(data[0]).map(key => ({
+                key,
+                label: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim()
+            }));
+        }
 
         // Prepare the table data
-        const tableColumnHeaders = headers && headers?.map((header) =>{ 
+        const tableColumnHeaders = headerData && headerData?.map((header) =>{ 
             if(header?.key==="customerNumber"||header?.key==="email"){
                 if(employeeAccess) return header.label;
             }else{
              return    header.label
             }});
-        const tableRows = data && data?.map(row => headers?.map(header =>{
+        const tableRows = data && data?.map(row => headerData?.map(header =>{
             if(header?.key==="customerNumber"||header?.key==="email"){
                 if(employeeAccess) return row[header.key] || ""
             }else{
