@@ -120,9 +120,6 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     const reusableBarChartRef = useRef<HTMLDivElement>(null)
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
 
-
-
-
     const data = {
         labels: dataList?.length ? Array.from(
             new Set(dataList?.map((item) => `${xPrefix}${item[xKey]}${xSuffix}`))

@@ -24,44 +24,92 @@ interface DataListItem {
 
 // Props for the StackedBarChart component
 interface StackedBarChartProps {
-  dataList?: DataListItem[]; // optional array of items
-  loader?: boolean; // shows/hides shimmer if true
-  colorList?: string[]; // optional array of colors for each group
+  dataList?: any[];
+  loader?: boolean;
+  colorList?: string[];
   maxBarThickness?: number;
   toolTipBorderColor?: string;
+  xKey: string;
+  stackNameKey: string;
+  valueKey: string;
 }
 
 // Helper function to transform raw dataList into Chart.js data
 function transformData(
-  dataList: DataListItem[],
-  colorList: string[]
+  dataList: any[],
+  colorList: string[],
+  xKey: string,
+  stackNameKey: string,
+  valueKey: string
 ): ChartData<"bar"> {
-  const xAxisDataSet = new Set<string>();
-  const stackNameSet = new Set<string>();
-
-  dataList.forEach(({ xAxisData, stackName }) => {
-    xAxisDataSet.add(xAxisData);
-    stackNameSet.add(stackName);
+  // Calculate totals for sorting
+  const itemTotals: Record<string, number> = {};
+  dataList.forEach((item) => {
+    const xValue = item[xKey];
+    const value = Number(item[valueKey]) || 0;
+    itemTotals[xValue] = (itemTotals[xValue] || 0) + value;
   });
 
-  const labels = Array.from(xAxisDataSet); // x-axis labels
-  const stacksNames = Array.from(stackNameSet); // legend groups
+  // Sort and get top 20 items
+  const sortedItems = Object.entries(itemTotals)
+    .sort(([, a], [, b]) => b - a)
+    .map(([item]) => item);
 
-  // Build one dataset per group
-  const datasets = stacksNames.map((stacksName, index) => ({
-    label: stacksName,
-    backgroundColor: colorList[index] || "#AAA", // fallback color
-    data: labels.map((xAxisLabel) => {
+  const topItems = sortedItems.slice(0, 20);
+  const restItems = new Set(sortedItems.slice(20));
+
+  // Get unique stack names
+  const stackNameSet = new Set<string>();
+  dataList.forEach((item) => stackNameSet.add(item[stackNameKey]));
+  const stackNames = Array.from(stackNameSet);
+
+  // Prepare labels including "Others" if needed
+  const labels = [...topItems];
+  if (restItems.size > 0) {
+    labels.push("Others");
+  }
+
+  // Build datasets
+  const datasets = stackNames.map((stackName, index) => {
+    const data: number[] = [];
+
+    // Values for top items
+    topItems.forEach((item) => {
       const entry = dataList.find(
-        (item) => item.xAxisData === xAxisLabel && item.stackName === stacksName
+        (dataItem) => dataItem[xKey] === item && dataItem[stackNameKey] === stackName
       );
-      return entry ? entry.stackValue : 0;
-    }),
-    stack: "combined", // all series stacked together
-  }));
+      data.push(entry ? Number(entry[valueKey]) || 0 : 0);
+    });
+
+    // Sum values for "Others"
+    if (restItems.size > 0) {
+      const othersTotal = dataList.reduce((sum, item) => {
+        if (item[stackNameKey] === stackName && restItems.has(item[xKey])) {
+          return sum + (Number(item[valueKey]) || 0);
+        }
+        return sum;
+      }, 0);
+      data.push(othersTotal);
+    }
+
+    return {
+      label: stackName,
+      backgroundColor: colorList[index] || defaultColorList[index] || "#AAA",
+      data,
+      stack: "combined",
+    };
+  });
 
   return { labels, datasets };
 }
+
+const defaultColorList: string[] = [
+  "#0294A5", // e.g. Group of 2
+  "#F99D2B", // e.g. Group of 4
+  "#14C9C9", // e.g. Group of 6
+  "#0FB36A", // e.g. Group of 8
+  "#E3313C", // e.g. Group of 8+
+];
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
   dataList = [],
@@ -69,23 +117,24 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   colorList = [],
   maxBarThickness,
   toolTipBorderColor,
+  xKey,
+  stackNameKey,
+  valueKey
 }) => {
   // Show shimmer if loader is true
   if (loader) {
     return <BarChartShimmer />;
   }
+
   // Predefined color list for each group
-  const defaultColorList: string[] = [
-    "#0294A5", // e.g. Group of 2
-    "#F99D2B", // e.g. Group of 4
-    "#14C9C9", // e.g. Group of 6
-    "#0FB36A", // e.g. Group of 8
-    "#E3313C", // e.g. Group of 8+
-  ];
+
   // Transform data into Chart.js format
   const chartData = transformData(
     dataList,
-    colorList.length > 0 ? colorList : defaultColorList
+    colorList.length > 0 ? colorList : defaultColorList,
+    xKey,
+    stackNameKey,
+    valueKey
   );
 
   // Chart configuration with types
