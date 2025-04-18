@@ -216,7 +216,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   //                 count: data?.checkInCount || 0,
   //             }))
 
-  console.log({checkInOverviewAvgWaitTimeGroup})
+  // console.log({checkInOverviewAvgWaitTimeGroup})
 
   const isCheckInOverviewLoading = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewLoading

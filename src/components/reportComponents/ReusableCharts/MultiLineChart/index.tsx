@@ -5,6 +5,8 @@ import 'chartjs-plugin-datalabels';
 import DownloadReport from "components/reportComponents/DownloadReports";
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss"
+import BarChartShimmer from 'components/reportComponents/Charts/BarChartShimmer';
+import ErrorHandler from 'components/reportComponents/ErrorHandler';
 
 interface Dataset {
     label: string;
@@ -21,6 +23,7 @@ interface MultiLineChartProps {
     showChartFilter?: boolean;
     showDownloadReport?: boolean;
     kpiLoaderState: boolean;
+    onFailureState?: boolean;
     data: {
         labels: string[];
         datasets: Dataset[];
@@ -38,7 +41,7 @@ interface CustomDashedGridLinesPlugin {
     beforeDraw: (chart: Chart) => void; // Function to execute before drawing the chart
   }
 
-const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFilterOptions,handleChartFilter, showChartFilter,showDownloadReport,kpiLoaderState }) => {
+const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFilterOptions,handleChartFilter, showChartFilter,showDownloadReport,kpiLoaderState, onFailureState }) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart | null>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
@@ -246,12 +249,14 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
         }
       };
 
+    if (kpiLoaderState) return <BarChartShimmer />
+
     return (
         <div className='multi-line-chart'>
             <div className="multi-line-chart-filter-download-container">
                 <h1>{kpiTitle}</h1>
                 <div className="multi-line-chart-filter-download">
-                    {showChartFilter && (
+                    {showChartFilter && data?.datasets && (
                         <CustomDropdown
                             value={chartFilterOptions?.[0]?.value || "option"}
                             options={chartFilterOptions || [{ value: "option", label: "option" }]}
@@ -261,31 +266,33 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                             disabled={false}
                         />
                     )}
-                    {showDownloadReport && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
+                    {showDownloadReport && data?.datasets && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
                 </div>
             </div>
-            <div style={{ position: 'relative',  width: '100%', height: '100%'  }}>
-                <canvas ref={chartRef} />
-                <div
-                    ref={tooltipRef}
-                    style={{
-                        position: 'fixed', // Use fixed positioning for accurate placement
-                        opacity: 0,
-                        pointerEvents: 'none',
-                        backgroundColor: '#fff',
-                        border: '1px solid #2682D9',
-                        borderRadius: '4px',
-                        padding: '8px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        transition: 'opacity 0.3s',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        transform: 'translate(-50%, -100%)', // Center tooltip above the point
-                    }}
-                />
-            </div>
+            <ErrorHandler data={data} isError={onFailureState} isLoading={kpiLoaderState}>
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <canvas ref={chartRef} />
+                    <div
+                        ref={tooltipRef}
+                        style={{
+                            position: 'fixed', // Use fixed positioning for accurate placement
+                            opacity: 0,
+                            pointerEvents: 'none',
+                            backgroundColor: '#fff',
+                            border: '1px solid #2682D9',
+                            borderRadius: '4px',
+                            padding: '8px',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                            transition: 'opacity 0.3s',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center',
+                            transform: 'translate(-50%, -100%)', // Center tooltip above the point
+                        }}
+                    />
+                </div>
+            </ErrorHandler>
         </div>
     );
 };

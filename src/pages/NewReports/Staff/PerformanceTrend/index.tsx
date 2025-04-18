@@ -5,19 +5,17 @@ import { RootState } from 'redux/rootReducer';
 import { EmployeeType } from 'interface/employeeInterface';
 import { transformChartDataDynamic } from 'utils';
 import { staffTrendErrorPerformanceRequest, staffTrendSalesPerformanceRequest } from 'redux/staffReports/staffReportsActions';
+import { deletedFilterOptionsErrorPerformance, orderFilterOptionsPerformance, refundsFilterOptionsRevenueImpact } from 'constants/reportConstants';
 import MultiLineChart from 'components/reportComponents/ReusableCharts/MultiLineChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss";
-import { deletedFilterOptionsErrorPerformance, orderFilterOptionsPerformance, refundsFilterOptionsRevenueImpact } from 'constants/reportConstants';
 
 
 const PerformanceTrend = () => {
 
-  const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("Deleted")
-  console.log("selectedErrorTypeErrorPerformance", selectedErrorTypeErrorPerformance);
-  
+  const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("Deleted")  
 
   const dispatch = useDispatch();
 
@@ -60,8 +58,24 @@ const PerformanceTrend = () => {
     (state: any) => state?.staffReports?.staffTrendSalesPerformanceSuccess
   )
 
+  const salesPerformanceAPIReduxLoader = useSelector(
+    (state: any) => state?.staffReports?.staffTrendSalesPerformanceLoading
+  )
+
+  const salesPerformanceAPIReduxError = useSelector(
+    (state: any) => state?.staffReports?.staffTrendErrorPerformanceFailure
+  )
+
   const errorPerformanceAPIRedux = useSelector(
     (state: any) => state?.staffReports?.staffTrendErrorPerformanceSuccess
+  )
+
+  const errorPerformanceAPIReduxLoader = useSelector(
+    (state: any) => state?.staffReports?.staffTrendErrorPerformanceLoading
+  )
+
+  const errorPerformanceAPIReduxError = useSelector(
+    (state: any) => state?.staffReports?.staffTrendErrorPerformanceFailure
   )
 
     const countryCode = useSelector(
@@ -349,9 +363,10 @@ const PerformanceTrend = () => {
           ))}
         </div>
       </div>
-      <div>
+      <div className='perf-trend-chart-container'>
+      {/* <div> */}
         <MultiLineChart
-          kpiLoaderState={false}
+          kpiLoaderState={salesPerformanceAPIReduxLoader}
           kpiTitle='Sales Performance'
           data={transformChartDataDynamic(salesPerformanceAPIRedux, {
             labelKey: 'fullName',
@@ -362,9 +377,10 @@ const PerformanceTrend = () => {
           showChartFilter={true}
           chartFilterOptions={orderFilterOptionsPerformance}
           handleChartFilter={handleChartFilter}
+          onFailureState={salesPerformanceAPIReduxError}
         />
-      </div>
-      <div>
+      {/* </div> */}
+      {/* <div> */}
         <MultiLineChart
           kpiLoaderState={false}
           kpiTitle='Revenue Impact'
@@ -374,10 +390,10 @@ const PerformanceTrend = () => {
           chartFilterOptions={refundsFilterOptionsRevenueImpact}
           handleChartFilter={handleChartFilter}
         />
-      </div>
-      <div>
+      {/* </div> */}
+      {/* <div> */}
         <MultiLineChart
-          kpiLoaderState={false}
+          kpiLoaderState={errorPerformanceAPIReduxLoader}
           kpiTitle='Error Performance'
           data={transformChartDataDynamic(errorPerformanceAPIRedux, {
             labelKey: 'employeeName',
@@ -388,7 +404,9 @@ const PerformanceTrend = () => {
           showChartFilter={true}
           chartFilterOptions={deletedFilterOptionsErrorPerformance}
           handleChartFilter={handleChartFilter}
+          onFailureState={errorPerformanceAPIReduxError}
         />
+      {/* </div> */}
       </div>
     </div>
   )
