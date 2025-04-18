@@ -15,7 +15,9 @@ import { deletedFilterOptionsErrorPerformance, orderFilterOptionsPerformance, re
 
 const PerformanceTrend = () => {
 
-  const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("")
+  const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("Deleted")
+  console.log("selectedErrorTypeErrorPerformance", selectedErrorTypeErrorPerformance);
+  
 
   const dispatch = useDispatch();
 
