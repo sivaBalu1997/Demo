@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "../../NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";  
 import {
@@ -16,6 +15,7 @@ import {
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import { getCurrencySymbol } from "utils";
 import { predefinedColors } from "constants/reportConstants";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 const SummaryInsights = () => {
   const locations = useSelector(
@@ -118,7 +118,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">{"Customer Volume"}</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customer Volume" tableData={summaryInsightsCustomerVolumeData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerVolumeData}
@@ -144,7 +144,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Tenure</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Tenure" tableData={summaryInsightsCustomerByTenureData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByTenureData}
@@ -165,7 +165,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Total Spend</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Total Spend" tableData={summaryInsightsCustomerByTotalSpendData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByTotalSpendData}
@@ -188,7 +188,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
               <h1 className="reports-page-heading">
                 Customers By Avg Cover Size
               </h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Avg Cover Size" tableData={summaryInsightsCustomerByAvgCoverSizeData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByAvgCoverSizeData}
@@ -218,7 +218,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
               <h1 className="reports-page-heading">
                 Customers By Loyalty Levels
               </h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Loyalty Levels" tableData={summaryInsightsCustomerByLoyaltyData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByLoyaltyData}

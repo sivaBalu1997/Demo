@@ -30,7 +30,6 @@ import HourlyCheckinChartGuest from "./hourlyChartGuest";
 
 import DailyCheckinsChart from "./DailyCheckinsChart";
 import DineInDurationChart from "./DineInDurationChart";
-import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
@@ -623,7 +622,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       <div>
         <div className="reports-page-sub-header-container">
           <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-          {/* <DownloadPopOver /> */}
           <DownloadReport kpiTitle="Avg Wait Time by groups" 
             headerData={
               [
