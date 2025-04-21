@@ -111,30 +111,30 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
       name: "Sales",
       path: "/sales-reports",
     },
-    // {
-    //   name: "Product",
-    //   path: "/product-reports",
-    // },
-    // {
-    //   name:"Staff",
-    //   path:""
-    // },
+    {
+      name: "Product",
+      path: "/product-reports",
+    },
+    {
+      name:"Staff",
+      path:""
+    },
     {
       name: "Check-in",
       path: "/check-in-reports",
     },
     {
-      name: "Reports & Insights",
-      path: "/old-reports",
+      name: "Customer",
+      path: "/customer-reports",
     },
-    // {
-    //   name: "Customer",
-    //   path: "/customer-reports",
-    // },
     // {
     //   name:"Event",
     //   path:""
-    // }
+    // },
+    {
+      name: "Reports & Insights",
+      path: "/old-reports",
+    }
   ];
   const offerMenuOptions = ["Special Price"];
   const selectedBranchDispatch = useSelector((state: RootState) => state.auth.selectedBranch);
