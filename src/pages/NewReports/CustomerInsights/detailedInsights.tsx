@@ -502,8 +502,8 @@ const DetailedInsights = () => {
 
 
   const loadOptions = async (type: string) => {
-    console.log("Loading", type);
-    console.log(detailedInsightsCustomerDetailsData);
+    // console.log("Loading", type);
+    // console.log(detailedInsightsCustomerDetailsData);
     const page = detailedInsightsCustomerDetailsData?.number + 1
     let pageNumber = page
     if (type === "prev" && page > 1) {
