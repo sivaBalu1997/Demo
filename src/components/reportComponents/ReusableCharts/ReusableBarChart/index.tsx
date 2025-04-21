@@ -119,7 +119,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
 
     const reusableBarChartRef = useRef<HTMLDivElement>(null)
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
-    const [selectedFilter, setSelectedFilter] = useState<{ value: string; label: string; icon?: React.ReactNode } | undefined>(chartFilterOptions[0]);
+    const [selectedFilter, setSelectedFilter] = useState<{ value: string; label: string; icon?: React.ReactNode } | undefined>(chartFilterOptions?.[0]);
 
     const data = {
         labels: dataList?.length ? Array.from(

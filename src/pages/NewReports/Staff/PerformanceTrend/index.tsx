@@ -15,6 +15,7 @@ import "./style.scss";
 
 const PerformanceTrend = () => {
 
+  const [selectedTypeForPerformance, setSelectedTypeForPerformance] = useState<string>("Orders")
   const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("Deleted")  
 
   const dispatch = useDispatch();
@@ -87,13 +88,14 @@ const PerformanceTrend = () => {
     switch (kpiTitle) {
       case "Sales Performance":
         // Handle Sales Performance filter change
+        setSelectedTypeForPerformance(selectedValue);
         break;
       case "Revenue Impact":
         // Handle Revenue Impact filter change
         break;
       case "Error Performance":
         // Handle Error Performance filter change
-        setSelectedErrorTypeErrorPerformance(selectedValue)
+        setSelectedErrorTypeErrorPerformance(selectedValue);
         break;
       default:
         break;
@@ -280,7 +282,7 @@ const PerformanceTrend = () => {
     }
   ]
 
- const staffParam = employeeLabelPill?.filter((item)=>item?.value !== "All")?.map((item) => item?.value).join(",")
+ let staffParam = employeeLabelPill?.filter((item)=>item?.value !== "All")?.map((item) => item?.value).join(",")
 
   // Function to remove an item from the employeeLabelPill array
   const removeItem = (value: string) => {
@@ -298,8 +300,17 @@ const PerformanceTrend = () => {
       startDate: startDate,
       endDate: endDate,
       staffIds: staffParam ? staffParam : "",
+      // type: selectedTypeForPerformance,
     }))
-  }, [selectedLocation, startDate, endDate, employeeLabelPill])
+  }, 
+  [
+    selectedLocation, 
+    startDate, 
+    endDate, 
+    employeeLabelPill, 
+    staffParam,
+    // selectedTypeForPerformance
+  ])
 
   useEffect(()=>{
     dispatch(staffTrendErrorPerformanceRequest({
@@ -309,7 +320,15 @@ const PerformanceTrend = () => {
       staffIds: staffParam ? staffParam : "",
       errorType: selectedErrorTypeErrorPerformance,
     }))
-  },[selectedLocation, startDate, endDate, employeeLabelPill, selectedErrorTypeErrorPerformance])
+  },
+  [
+    selectedLocation, 
+    startDate, 
+    endDate, 
+    employeeLabelPill, 
+    selectedErrorTypeErrorPerformance, 
+    staffParam
+  ])
 
 
   const handleClearAllForPill = () => {
