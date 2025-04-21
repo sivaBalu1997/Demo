@@ -110,17 +110,24 @@ const ProductInsights = () => {
       startDate: startDate,
       endDate: endDate
     }
+    const paramsWithChartFilter = {
+      locationId: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      filter: "Overall",
+    }
+
     if (selectedLocation?.value) {
 
       dispatch((productInsightsTopRevenueRequest(params)));
-      dispatch(productInsightsTopPopularRequest(params))
-      dispatch(productInsightsTopLeastPopularRequest(params))
+      dispatch(productInsightsTopPopularRequest(paramsWithChartFilter))
+      dispatch(productInsightsTopLeastPopularRequest(paramsWithChartFilter))
       dispatch(productInsightsTopRevenueStreamsRequest(params))
       dispatch(productInsightsCancelledItemsRequest(params))
       dispatch(productInsightsCancelledReasonsRequest(params))
       dispatch(productInsightsItemsCancelledReasonsRequest(params))
-      dispatch(productInsightsTopPopularRevenueRequest(params))
-      dispatch(productInsightsTopLeastPopularRevenueRequest(params))
+      dispatch(productInsightsTopPopularRevenueRequest(paramsWithChartFilter))
+      dispatch(productInsightsTopLeastPopularRevenueRequest(paramsWithChartFilter))
       dispatch(salesByRevenueClassRequest(params))
     }
   }, [selectedLocation, startDate, endDate])
@@ -134,11 +141,43 @@ const ProductInsights = () => {
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
     // please dont remove this console log
     // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
+    switch(kpiTitle) {
+      case "Top 20 popular":
+        dispatch(productInsightsTopPopularRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        dispatch(productInsightsTopLeastPopularRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        break;
+      case "Top 20 popular revenue making":
+        dispatch(productInsightsTopPopularRevenueRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        dispatch(productInsightsTopLeastPopularRevenueRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        break;
+      default:
+        break;
+    }
   };
 
   const getToggledValueInParentPage = (activeTextForChart: string, kpiTitle: string) => {
     // please dont remove this console log
-    // console.log(`active text of ${kpiTitle} is ${activeTextForChart}`)
+    // console.log(`active text of "${kpiTitle}" is "${activeTextForChart}"`)
   }
 
   const handleViewDetails = (value: string) => {
