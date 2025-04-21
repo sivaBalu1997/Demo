@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { generateTooltipContent } from 'utils';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
@@ -45,6 +45,8 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart | null>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
+    const [selectedFilter, setSelectedFilter] = useState<{ value: string; label: string; icon?: React.ReactNode } | undefined>(chartFilterOptions?.[0]);
+    
 
     useEffect(() => {
         if (chartRef.current) {
@@ -244,6 +246,7 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
     }, [data]);
 
     const handleChartFilterParent = (selectedValue: { label: string, value: string }) => {
+        setSelectedFilter(selectedValue)
         if (handleChartFilter) {
           handleChartFilter(selectedValue?.value, kpiTitle);
         }
@@ -258,7 +261,7 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                 <div className="multi-line-chart-filter-download">
                     {showChartFilter && data?.datasets && (
                         <CustomDropdown
-                            value={chartFilterOptions?.[0]?.value || "option"}
+                            value={selectedFilter || "option"}
                             options={chartFilterOptions || [{ value: "option", label: "option" }]}
                             onSelect={handleChartFilterParent}
                             placeholder="Select Date"
@@ -269,8 +272,8 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                     {showDownloadReport && data?.datasets && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
                 </div>
             </div>
-            <ErrorHandler data={data} isError={onFailureState} isLoading={kpiLoaderState}>
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <ErrorHandler data={data} isError={onFailureState} isLoading={kpiLoaderState}>
                     <canvas ref={chartRef} />
                     <div
                         ref={tooltipRef}
@@ -291,8 +294,8 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                             transform: 'translate(-50%, -100%)', // Center tooltip above the point
                         }}
                     />
-                </div>
             </ErrorHandler>
+                </div>
         </div>
     );
 };

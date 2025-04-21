@@ -408,10 +408,10 @@ export function transformChartDataDynamic(
   });
 
   const sortedLabels = rawLabels
-    .map(label => ({ full: label, index: labelIndexMap[label] }))
-    .filter(item => item.index !== undefined)
-    .sort((a, b) => a.index - b.index)
-    .map(item => shortLabels[item.index]);
+    ?.map(label => ({ full: label, index: labelIndexMap[label] }))
+    ?.filter(item => item.index !== undefined)
+    ?.sort((a, b) => a.index - b.index)
+    ?.map(item => shortLabels[item.index]);
 
   const colorOptions = [
     { borderColor: 'blue', backgroundColor: 'rgba(0, 0, 255, 0.1)' },
@@ -449,7 +449,7 @@ export function transformChartDataDynamic(
       const color = colorOptions[colorIndex % colorOptions.length];
       colorIndex++;
 
-      datasets.push({
+      datasets?.push({
         label: `${label} - ${metric}`,
         data: dataArray,
         borderColor: color.borderColor,

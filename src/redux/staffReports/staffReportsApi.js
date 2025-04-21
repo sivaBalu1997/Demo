@@ -46,8 +46,10 @@ const generateQueryParams = (payload) => {
         query+=`&offer=${payload?.offer}`
     }
 
-    if(payload?.staffIds){
-        query+=`&staffIds=${payload?.staffIds}`
+    if (Array.isArray(payload?.staffIds) && payload.staffIds.length > 0) {
+        query += `&staffIds=${payload.staffIds.join(",")}`;
+    } else if (typeof payload?.staffIds === "string" || payload?.staffIds === "") {
+        query += `&staffIds=${payload?.staffIds}`;
     }
 
     if(payload?.errorType){
