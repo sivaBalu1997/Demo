@@ -101,7 +101,6 @@ const SummaryInsights = () => {
     }
   }, [selectedLocation]);
 
-console.log({summaryInsightsCustomerByTotalSpendData})
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
