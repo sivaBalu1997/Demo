@@ -44,6 +44,10 @@ const generateQueryParams = (payload) => {
         query+=`&categoryId=${payload?.categoryId}`
     }
 
+    if(payload?.filter){
+        query+=`&filter=${payload?.filter}`
+    }
+
     return "?"+query?.slice(1)
 }
 
