@@ -4,6 +4,7 @@ import { changeLocation } from 'redux/newReports/newReportsActions';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
 import MultiLineChart from 'components/reportComponents/ReusableCharts/MultiLineChart';
+import SwitchableBox from 'components/reportComponents/SwitchableBox';
 
 // const chartData = {
 //   labels: ['12', '1', '2', '3', '4', '5', '6', '7', '8', '8', '10', '11', '12', '13', '14', '15', '16' , '17', '18', '19', '20', '21', '22', "23"],
@@ -67,7 +68,7 @@ const chartData = {
 };
 
 const SalesTrend:React.FC = () => {
-
+  const [isSwitchActive, setIsSwitchActive] = useState<boolean>(false);
   const [selectedFilters, setSelectedFilters] = useState({
     firstDate: { startDate: "", endDate: "" },
     secondDate: { startDate: "", endDate: "" },
@@ -95,23 +96,32 @@ const SalesTrend:React.FC = () => {
 
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
-
+  
+  const handleToggleSwitch = () => {
+    setIsSwitchActive((prev) => !prev);
+  };
   return (
     <div className='report-sales-trend'>
       <StoreFilter
         startDate={startDate}
         endDate={endDate}
-        showDate={false}
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
         setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
-        showComparableDateDropdown={true}
-        onFilterChangeForCompare={handleFilterChange}
+        // showComparableDateDropdown={true}
+        // onFilterChangeForCompare={handleFilterChange}
       />
       {/* <p>First Date Range: {selectedFilters?.firstDate?.startDate} to {selectedFilters?.firstDate?.endDate}</p>
           <p>Second Date Range: {selectedFilters?.secondDate?.startDate} to {selectedFilters?.secondDate?.endDate}</p> */}
+
+<SwitchableBox
+        textOne="Hourly"
+        textTwo="Daily"
+        isActive={isSwitchActive}
+        toggleSwitch={handleToggleSwitch}
+      />
       <MultiLineChart
         kpiLoaderState={false}
         kpiTitle='Sales Performance'

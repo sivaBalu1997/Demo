@@ -12,7 +12,6 @@ import {
   liveCheckInTodayRequest,
 } from "../../../../redux/checkInReports/checkInReportsActions";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
@@ -400,7 +399,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Check-in Overview</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Check-in Overview" headerData={filteredLiveCheckInOverviewKeysForDownloadHeader} tableData={liveCheckInOverviewTableDataMapped}/>
             </div>
             <MiniCard
@@ -427,7 +425,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Seater wise Availability</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
             </div>
             <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
@@ -444,7 +441,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
               <h1 className="reports-page-heading">
                 {"By Guest Count (In-queue)"}
               </h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="By Guest Count (In-queue)" headerData={[{key:"groupSize",label:"Group Size"},{key:"guestCount",label:"Guest Count"}]} tableData={liveCheckInGuestCount}/>
             </div>
             <ErrorHandler isError={liveCheckInGuestCountError} data={liveCheckInGuestCount}  errorType="checkinNotFound">              
@@ -466,7 +462,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">By Status- Check-in</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.map((data: any) => ({
                 status: data.status,
                 checkInCount: Number(data.count),
@@ -490,7 +485,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg wait time</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Avg wait time" headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} tableData={liveCheckInAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}  errorType="checkinNotFound">   
@@ -512,7 +506,6 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Avg Wait Time by groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   

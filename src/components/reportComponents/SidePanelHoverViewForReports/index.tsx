@@ -15,7 +15,9 @@ const SidePanelHoverViewForReports: React.FC<{ onClose: () => void }> = ({ onClo
 
   const navItems: NavigationItem[] = [
     { id: 'sales', label: 'Sales', path: '/sales-reports' },
+    { id: 'product', label: 'Product', path: '/product-reports' },
     { id: 'check-in', label: 'Check-in', path: '/check-in-reports' },
+    { id: 'customer', label: 'Customer', path: '/customer-reports' },
     { id: 'reports-and-insights', label: 'Reports & Insights', path: '/old-reports' },
   ];
 
