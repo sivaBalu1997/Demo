@@ -3,6 +3,7 @@ import Select, { components } from 'react-select';
 // import { FixedSizeList as List } from "react-window";
 // Import your custom icon (for example, an SVG as a React component)
 import { ReactComponent as CustomIcon } from '../../../assets/svg/search.svg';
+import CustomerDropdownShimmer from "components/Shimmer/CustomerDropdownShimmer";
 
 const DropdownIndicator = (props) => {
   return (
@@ -60,7 +61,7 @@ const ReusableDropdown = ({
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
         // components={{ MenuList }}
-        components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: LoadingIndicator, }:null}
+        components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: () => null,LoadingMessage: () => <CustomerDropdownShimmer /> }:null}
         onInputChange={onInputChange}
     isLoading={isLoading}
     loadingMessage={() => loadingMessage}
