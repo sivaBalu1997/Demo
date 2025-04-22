@@ -178,6 +178,9 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
     } else if (location?.pathname?.includes("/product-reports")) {
       setSelectSubForReport("Product");
       setShowOptions("reportOptions");
+    } else if (location?.pathname?.includes("/customer-reports")) {
+      setSelectSubForReport("Customer");
+      setShowOptions("reportOptions");
     } else if (
       location?.pathname?.includes("Offers/active") ||
       location?.pathname?.includes("offer/special") ||
