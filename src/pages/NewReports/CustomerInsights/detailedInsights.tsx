@@ -638,7 +638,7 @@ const DetailedInsights = () => {
               <h1 className="reports-page-heading">Customers Order History</h1>
               <DownloadReport kpiTitle="Customers Order History" tableData={detailedInsightsCustomersOrderData?.content || []} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsCustomersOrderFailure} data={detailedInsightsCustomersOrderData}>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsCustomersOrderFailure} data={detailedInsightsCustomersOrderData} isLoading={detailedInsightsCustomersOrderLoading}>
               <NewTable
                 kpiTitle=""
                 searchQuery={""}
@@ -648,7 +648,7 @@ const DetailedInsights = () => {
                 showIcons={false}
                 tableData={detailedInsightsCustomersOrderData?.content || []}
                 totalPages={detailedInsightsCustomersOrderData?.totalPages || 0}
-                // count={10}
+                count={detailedInsightsCustomersOrderData?.content?.length || 0}
                 showTableHeader={false}
                 onPageChange={setCustomerOrderCurrentPage}
                 tableContainerClassName="full-width"
@@ -659,6 +659,7 @@ const DetailedInsights = () => {
                 setRowsPerPage={setCustomerOrderPageLimit}
                 // loader={isCheckInOverviewTableDetailsLoading}
                 rowNoWrap={true}
+                totalElements={detailedInsightsCustomersOrderData?.totalElements || 0}
               />
             </ErrorHandler>
           </div>
@@ -667,9 +668,9 @@ const DetailedInsights = () => {
               <h1 className="reports-page-heading">Latest Order Info</h1>
               <DownloadReport kpiTitle="Latest Order Info" tableData={detailedInsightsLatestOrderData} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsLatestOrderFailure} data={detailedInsightsLatestOrderData}>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsLatestOrderFailure} data={detailedInsightsLatestOrderData} isLoading={detailedInsightsLatestOrderLoading}>
               <NewTable
-                kpiTitle=""
+                kpiTitle="Latest Order Info"
                 searchQuery={""}
                 // onSearchChange={() => {}}
                 headerData={latestOrderTableHeader as any}
@@ -697,7 +698,7 @@ const DetailedInsights = () => {
               <DownloadReport kpiTitle="Customers Top 10 Favorite Items" tableData={detailedInsightsCustomersTopFavItemsData} />
             </div>
 
-            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsCustomersTopFavItemsFailure} data={detailedInsightsCustomersTopFavItemsData}>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsCustomersTopFavItemsFailure} data={detailedInsightsCustomersTopFavItemsData} isLoading={detailedInsightsCustomersTopFavItemsLoading}>
               <NewTable
                 kpiTitle=""
                 searchQuery={""}
