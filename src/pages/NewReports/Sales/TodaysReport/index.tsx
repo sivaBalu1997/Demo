@@ -268,7 +268,7 @@ const TodaysReport: React.FC = () => {
     },
     {
       key: "orderTotal",
-      label: "Order total",
+      label: "Updated order total",
       isSortable: true,
       alignment: "left",
       isMonetary: true,
