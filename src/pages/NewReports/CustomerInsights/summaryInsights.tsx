@@ -153,11 +153,14 @@ const SummaryInsights = () => {
               <StackedBarChart
                 loader={summaryInsightsCustomerByTenureDataLoading}
                 dataList={summaryInsightsCustomerByTenureData}
-                xKey="tenure"
-                stackNameKey="groupSize"
-                valueKey="count"
-                colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
-                toolTipBorderColor="#F89B29"
+                // xKey="tenure"
+                // stackNameKey="groupSize"
+                // valueKey="count"
+                xKey="timeline"
+                stackNameKey="customerState"
+                valueKey="customerCount"
+                colorList={["#1F77B4","#17BECF","#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
+                toolTipBorderColor="#17BECF"
               />
             </ErrorHandler>
           </div>
@@ -174,10 +177,13 @@ const SummaryInsights = () => {
               <StackedBarChart
                 loader={summaryInsightsCustomerByTotalSpendDataLoading}
                 dataList={summaryInsightsCustomerByTotalSpendData}
-                xKey="spendRange"
-                stackNameKey="groupSize"
-                valueKey="count"
-                colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29"]}
+                // xKey="spendRange"
+                // stackNameKey="groupSize"
+                // valueKey="count"
+                xKey="spendCategory"
+                stackNameKey="orderCategory"
+                valueKey="customerCount"
+                colorList={["#AA562A","#F89B29","#1F77B4", "#3FE1C0", "#E17100", "#049E16"]}
                 toolTipBorderColor="#F89B29"
               />
             </ErrorHandler>
