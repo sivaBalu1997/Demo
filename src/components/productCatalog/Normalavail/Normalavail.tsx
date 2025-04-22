@@ -2459,7 +2459,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           )}
 
           {/* OnlineRelated */}
-          {(pickUpIdServiceEnabled || DeliveryServiceEnabled) && (
           {(pickUpIdServiceEnabled === 1 || DeliveryServiceEnabled === 1) && (
             <div className="OnlineRelatedNormal">
               <h1 className="OnlineRelatedHeadingNormal">Online</h1>
