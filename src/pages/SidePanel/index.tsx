@@ -111,10 +111,10 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
       name: "Sales",
       path: "/sales-reports",
     },
-    {
-      name: "Product",
-      path: "/product-reports",
-    },
+    // {
+    //   name: "Product",
+    //   path: "/product-reports",
+    // },
     // {
     //   name:"Staff",
     //   path:""
@@ -123,10 +123,10 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
     //   name: "Check-in",
     //   path: "/check-in-reports",
     // },
-    {
-      name: "Customer",
-      path: "/customer-reports",
-    },
+    // {
+    //   name: "Customer",
+    //   path: "/customer-reports",
+    // },
     // {
     //   name:"Event",
     //   path:""
@@ -172,16 +172,20 @@ const SidePanelDeskTop = ({ roles }: SidePanelInterface) => {
     else if (location?.pathname?.includes("/sales-reports")) {
       setSelectSubForReport("Sales");
       setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/check-in-reports")) {
-      setSelectSubForReport("Check-in");
-      setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/product-reports")) {
-      setSelectSubForReport("Product");
-      setShowOptions("reportOptions");
-    } else if (location?.pathname?.includes("/customer-reports")) {
-      setSelectSubForReport("Customer");
-      setShowOptions("reportOptions");
-    } else if (
+    } 
+    // else if (location?.pathname?.includes("/check-in-reports")) {
+    //   setSelectSubForReport("Check-in");
+    //   setShowOptions("reportOptions");
+    // } 
+    // else if (location?.pathname?.includes("/product-reports")) {
+    //   setSelectSubForReport("Product");
+    //   setShowOptions("reportOptions");
+    // } 
+    // else if (location?.pathname?.includes("/customer-reports")) {
+    //   setSelectSubForReport("Customer");
+    //   setShowOptions("reportOptions");
+    // }
+     else if (
       location?.pathname?.includes("Offers/active") ||
       location?.pathname?.includes("offer/special") ||
       location?.pathname?.includes("Offers/completed")
