@@ -18,7 +18,7 @@ interface BasiChangesProps {
 
 const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const locationid = useSelector(
-    (state: any) => state.auth.credentials?.locationId
+    (state: any) => state.auth.selectedBranch?.id || null
   );
 
   const [showModal, setShowModal] = useState(false);

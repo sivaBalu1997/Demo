@@ -190,7 +190,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [showDineIn, setShowDineIn] = useState(true);
     const { setValiadtePriceFields, setStoredFunction } =
       useContext(Contextpagejs);
-
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
     const [deliveryEntry, setDeliveryEntry] = useState<string[]>([]);
@@ -288,6 +287,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const pickUpIdServiceEnabled = orderTypess?.find(
       (item: any) => item.typeGroup === "P"
     )?.isEnabled;
+
     const DeliveryServiceEnabled = orderTypess?.find(
       (item: any) => item.typeGroup === "S"
     )?.isEnabled;
@@ -2459,7 +2459,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           )}
 
           {/* OnlineRelated */}
-          {(pickUpIdServiceEnabled || DeliveryServiceEnabled) && (
+          {(pickUpIdServiceEnabled === 1 || DeliveryServiceEnabled === 1) && (
             <div className="OnlineRelatedNormal">
               <h1 className="OnlineRelatedHeadingNormal">Online</h1>
               <div className="toggleIII">
@@ -2473,7 +2473,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               <div className="onlineselected">
                 {/* PickupRelated */}
 
-                {pickUpIdServiceEnabled && (
+                {pickUpIdServiceEnabled === 1 && (
                   <>
                     {" "}
                     <div className="PickupRelatedNormal">
@@ -2716,7 +2716,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                   </>
                 )}
 
-                {DeliveryServiceEnabled && (
+                {DeliveryServiceEnabled === 1 && (
                   <>
                     <div
                       className={`${
