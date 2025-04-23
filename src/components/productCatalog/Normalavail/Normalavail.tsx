@@ -2273,7 +2273,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         {/* DineIn Related */}
 
         <div className="pricing-section">
-          {DineInServiceEnabled && (
+          {DineInServiceEnabled === 1 && (
             <div className="DineInRelated">
               <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
               <span
