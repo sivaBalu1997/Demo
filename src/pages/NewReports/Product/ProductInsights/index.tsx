@@ -12,6 +12,7 @@ import { productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRe
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import DoughnutChart from 'components/reportComponents/ReusableCharts/ReusableDoughnutChart';
 import { getCurrencySymbol } from 'utils';
+import { predefinedColors } from 'constants/reportConstants';
 
 
 interface dataList {
@@ -109,17 +110,24 @@ const ProductInsights = () => {
       startDate: startDate,
       endDate: endDate
     }
+    const paramsWithChartFilter = {
+      locationId: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      filter: "Overall",
+    }
+
     if (selectedLocation?.value) {
 
       dispatch((productInsightsTopRevenueRequest(params)));
-      dispatch(productInsightsTopPopularRequest(params))
-      dispatch(productInsightsTopLeastPopularRequest(params))
+      dispatch(productInsightsTopPopularRequest(paramsWithChartFilter))
+      dispatch(productInsightsTopLeastPopularRequest(paramsWithChartFilter))
       dispatch(productInsightsTopRevenueStreamsRequest(params))
       dispatch(productInsightsCancelledItemsRequest(params))
       dispatch(productInsightsCancelledReasonsRequest(params))
       dispatch(productInsightsItemsCancelledReasonsRequest(params))
-      dispatch(productInsightsTopPopularRevenueRequest(params))
-      dispatch(productInsightsTopLeastPopularRevenueRequest(params))
+      dispatch(productInsightsTopPopularRevenueRequest(paramsWithChartFilter))
+      dispatch(productInsightsTopLeastPopularRevenueRequest(paramsWithChartFilter))
       dispatch(salesByRevenueClassRequest(params))
     }
   }, [selectedLocation, startDate, endDate])
@@ -133,11 +141,43 @@ const ProductInsights = () => {
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
     // please dont remove this console log
     // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
+    switch(kpiTitle) {
+      case "Top 20 popular":
+        dispatch(productInsightsTopPopularRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        dispatch(productInsightsTopLeastPopularRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        break;
+      case "Top 20 popular revenue making":
+        dispatch(productInsightsTopPopularRevenueRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        dispatch(productInsightsTopLeastPopularRevenueRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: selectedValue,
+        }));
+        break;
+      default:
+        break;
+    }
   };
 
   const getToggledValueInParentPage = (activeTextForChart: string, kpiTitle: string) => {
     // please dont remove this console log
-    // console.log(`active text of ${kpiTitle} is ${activeTextForChart}`)
+    // console.log(`active text of "${kpiTitle}" is "${activeTextForChart}"`)
   }
 
   const handleViewDetails = (value: string) => {
@@ -153,14 +193,7 @@ const ProductInsights = () => {
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
-        setSelectedDate={(data) => handleDateChange(data?.value)}
-        datePickerApplyFunction={(date1: any, date2: any) =>
-          datepickerApply
-            ("Custom Date", date1, date2)
-        }
-        dateDropdownFunction={(date1: any, date2: any) =>
-          datepickerApply("Custom Date", date1, date2)
-        }
+        setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
 
@@ -250,10 +283,12 @@ const ProductInsights = () => {
         setIsSwitchActive={() => setIsLeastPopularRevenueSelected((prev) => !prev)}
       />
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
-        <div className="doughnut-chart-with-button">
+          <div className="doughnut-chart-with-button" >
+                      <div className="doughnut-head-with-download-container">
           <h2 className="sales-overview-sub-heading ">Top Revenue Streams</h2>
+                        {!salesByRevenueClassLoading && <DownloadReport kpiTitle="Top Revenue Streams" tableData={salesByRevenueClassAPIRedux}  />}
+                      </div>
           <ErrorHandler data={salesByRevenueClassAPIRedux} isError={salesByRevenueClassError}>
-
             <DoughnutChart
               xKey="revenueClass"
               yKey="totalSales"
@@ -262,14 +297,16 @@ const ProductInsights = () => {
               dataList={salesByRevenueClassAPIRedux}
               otherKeys={["totalSales", "revenueClass"]}
               countryCode={countryCode}
-
               loader={salesByRevenueClassLoading}
               clickable={false}
             />
           </ErrorHandler>
         </div>
         <div className="doughnut-chart-with-button" >
+        <div className="doughnut-head-with-download-container">
           <h2 className="sales-overview-sub-heading ">Cancelled Items</h2>
+                        {!cancelledItemsLoading && <DownloadReport kpiTitle="Cancelled Items" tableData={cancelledItemsData}  />}
+                      </div>
           <ErrorHandler data={cancelledItemsData} isError={cancelledItemsError} >
             <DoughnutChart
               labelKeys={[{ key: "Name", value: "itemName" }, { key: "Items", value: "itemCount" }]}
@@ -289,7 +326,10 @@ const ProductInsights = () => {
       </div>
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
         <div className="doughnut-chart-with-button">
+        <div className="doughnut-head-with-download-container">
           <h2 className="sales-overview-sub-heading ">Cancelled Reasons</h2>
+                        {!cancelledReasonsLoading && <DownloadReport kpiTitle="Cancelled Reasons" tableData={cancelledReasonsData}  />}
+                      </div>
           <ErrorHandler data={cancelledReasonsData} isError={cancelledReasonsError}>
             <DoughnutChart
               labelKeys={[{ key: "Reason", value: "voidedReason" }, { key: "Items", value: "voidedItems" }]}
@@ -316,8 +356,11 @@ const ProductInsights = () => {
         <ErrorHandler data={itemsCancelledReasonsData} isError={itemsCancelledReasonsError}>
           <StackedBarChart
             loader={itemsCancelledReasonsLoading}
-            dataList={itemsCancelledReasonsData?.map((data: any) => ({ xAxisData: data?.itemName, stackName: data?.voidedReason, stackValue: data?.voidedReasonCount }))}
-            colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29"]}
+            dataList={itemsCancelledReasonsData}
+            xKey="itemName"
+            stackNameKey="voidedReason"
+            valueKey="voidedReasonCount"
+            colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29", ...predefinedColors]}
             toolTipBorderColor="#F89B29"
           />
         </ErrorHandler>

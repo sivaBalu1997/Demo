@@ -10,6 +10,7 @@ import newReportsSagas from "./newReports/newReportsSagas";
 import checkInReportsSaga from "./checkInReports/checkInReportsSagas";
 import productReportsSaga from "./productReports/productReportsSagas";
 import customerInsightsSaga from "./customerInsights/customerInsightsSagas";
+import staffReportsSagas from "./staffReports/staffReportsSagas";
 
 // Redux Saga: Root Saga
 export default function* rootSaga() {
@@ -25,5 +26,6 @@ export default function* rootSaga() {
     fork(checkInReportsSaga),
     fork(productReportsSaga),
     fork(customerInsightsSaga),
+    fork(staffReportsSagas)
   ]);
 }

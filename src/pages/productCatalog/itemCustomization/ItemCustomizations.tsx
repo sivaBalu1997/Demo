@@ -143,16 +143,16 @@ const ItemCustomizations: React.FC<any> = () => {
     }
 
     if (ordertypesdetails?.normalForm?.thirdpartyDetails?.length) {
-      const noPriceDetails =
-        ordertypesdetails.normalForm.thirdpartyDetails.filter(
-          (detail: any) => detail.price || parseFloat(detail.price) > 0
-        );
-
+      const noPriceDetails = ordertypesdetails.normalForm.thirdpartyDetails.filter(
+        (detail:any) => detail.price || parseFloat(detail.price) > 0
+      );
+      
       if (noPriceDetails.length > 0) {
-        streams.push(noPriceDetails[0].typeName);
+        noPriceDetails?.map((data: any) => {
+          streams.push(data?.typeName);
+        })
       }
-    }
-
+    }    
     setListOfStreams(streams);
 
     if (streams.length > 0) {
@@ -318,6 +318,8 @@ const ItemCustomizations: React.FC<any> = () => {
   }, [itemCustomizationData, listOfStreams]);
 
   const addModifier = () => {
+    const lastSelectedValue = modifications.length > 0 ? modifications[0].selectedValue : ""; // Get last selectedValue
+  
     setModifications([
       ...modifications,
       {
@@ -336,11 +338,12 @@ const ItemCustomizations: React.FC<any> = () => {
         minSelection: 0,
         maxSelection: 0,
         freeCustomization: 0,
-        selectedValue: selectedValue,
+        selectedValue: lastSelectedValue,
         selectionType: "Mandatory",
       },
     ]);
   };
+  
 
   const getFormData = (): FormData => {
     const formData = new FormData();
@@ -626,13 +629,16 @@ const ItemCustomizations: React.FC<any> = () => {
     field: keyof Modification,
     EnableOrnot: boolean
   ) => {
+   
+  
     const newModifier = JSON.parse(JSON.stringify(modifications));
+    
 
-    if (newModifier[index] && EnableOrnot && newModifier[index][field] > 0) {
+    if (newModifier[index] && EnableOrnot && newModifier[index][field] > 1) {
       const currentValue =
-        parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
+        parseInt(newModifier[index][field]?.toString() || "0", 10) || 1;
 
-      if (currentValue > 0) {
+      if (currentValue > 1) {
         newModifier[index][field] = currentValue - 1;
       }
     }
@@ -673,16 +679,17 @@ const ItemCustomizations: React.FC<any> = () => {
       return mod;
     });
 
+
     const deletedOptionId =
       modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId;
-    setUpdatedModifierIds((prevIds) => {
-      const updatedModifierId = newModifications[index].modifierId;
-      if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
-        return [...prevIds, updatedModifierId].filter((id) => id !== "");
-      }
-
-      return prevIds.filter((id) => id !== "");
-    });
+      setUpdatedModifierIds((prevIds) => {
+        const updatedModifierId = newModifications[modIndex].modifierId;
+        if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId].filter((id) => id !== "");
+        }
+  
+        return prevIds.filter((id) => id !== "");
+      });
     setModifications(newModifications);
 
     // if (deletedOptionId) {
@@ -1300,8 +1307,8 @@ const ItemCustomizations: React.FC<any> = () => {
                   />
                 )}
               </div>
-            )}
-            {searchQuery && (
+            )} */}
+            {/* {searchQuery && (
               <div
                 className={
                   isExpanded
@@ -2244,6 +2251,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   label={`Available Service Stream${
                                     atleastOnestream ? "*" : ""
                                   }`}
+                                  itemcustomization = {true}
                                 />
                                 {customizationerrors[modIndex]
                                   ?.errormsgforselectedvalues && (

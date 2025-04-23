@@ -69,7 +69,7 @@ const SalesChart: React.FC<SalesChartProps> = ({
     const categoryTotals: Record<string, number> = {};
   
     // Step 1: Total sales per category
-    datalist.forEach(({ categoryName, totalAmount }) => {
+    datalist?.forEach(({ categoryName, totalAmount }) => {
       categoryTotals[categoryName] = (categoryTotals[categoryName] || 0) + totalAmount;
     });
   
@@ -88,7 +88,7 @@ const SalesChart: React.FC<SalesChartProps> = ({
   
     // Step 3: Get all channels
     const channelSet = new Set<string>();
-    datalist.forEach(({ channelName }) => channelSet.add(channelName));
+    datalist?.forEach(({ channelName }) => channelSet.add(channelName));
     const channels = Array.from(channelSet);
   
     // Step 4: Prepare datasets
@@ -96,7 +96,7 @@ const SalesChart: React.FC<SalesChartProps> = ({
       const data: number[] = [];
   
       // Values for top categories
-      topCategories.forEach((category) => {
+      topCategories?.forEach((category) => {
         const entry = datalist.find(
           (item) => item.categoryName === category && item.channelName === channel
         );
@@ -105,7 +105,7 @@ const SalesChart: React.FC<SalesChartProps> = ({
   
       // Sum values for rest ("Others")
       let othersTotal = 0;
-      datalist.forEach((item) => {
+      datalist?.forEach((item) => {
         if (item.channelName === channel && restCategories.has(item.categoryName)) {
           othersTotal += item.totalAmount;
         }

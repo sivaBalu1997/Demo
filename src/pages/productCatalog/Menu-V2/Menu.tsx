@@ -16,6 +16,8 @@ import {
   removeDataRequest,
   selectedCategory,
   selectedMockDataRequest,
+  selectedSubCategory,
+  getModifierRequest
 } from "redux/productCatalog/productCatalogActions";
 import Slider from "components/productCatalog/Slider/SliderUpdated";
 import ToolTips from "components/toolTips/toolTips";
@@ -85,6 +87,7 @@ const Menu = () => {
       dispatch(itemCustomizationPost([]));
     }
     dispatch(removeDataRequest());
+    // dispatch(getModifierRequest({ name: '', locationId:locationid }));
     dispatch(selectedMockDataRequest(SideBarData));
   }, [selectedBranch?.id]);
 
@@ -192,7 +195,7 @@ const Menu = () => {
         categoryId: categoryData?.id,
         subCategory: editData[0]?.subCategoryName ?? "",
         subCategoryId: editData[0]?.subCategoryId ?? "",
-        popularItem: editData[0]?.popularItem ?? false,
+        exclusiveItem: editData[0]?.exclusiveItem ?? false,
       };
 
       const pricingPageData = {
@@ -203,11 +206,17 @@ const Menu = () => {
           dineInDetails: null,
           pickupDetails: null,
           thirdpartyDetails: [] as any[],
+          availableDaysnew : editData[0]?.availabilities?.length > 0 && editData[0]?.availabilities[0]?.weekDays,
         },
         Preparationtime: {
           hours: editData[0]?.preparationTimeInHours || "",
           minutes: editData[0]?.preparationTimeInMinutes || "",
         },
+        isSeasonalItem: editData[0]?.isSeasonalItem,
+        startDate: editData[0]?.startDate,
+        endDate: editData[0]?.endDate,
+        availabilities: editData[0]?.availabilities,
+        isStandardAvailability: editData[0]?.isStandardAvailability
       };
 
       editData[0]?.orderTypes?.forEach((orderType: any) => {
@@ -306,16 +315,24 @@ const Menu = () => {
         (response: any) => response?.itemId === value
       )
     );
+    
 
     if (filteredItem) {
       setCategoryData({
         name: filteredItem?.categoryName,
         id: filteredItem?.categoryId,
       });
+      const subcategorySeleted={
+        name:"",
+        id:""
+      }
+      dispatch(selectedSubCategory(subcategorySeleted))
 
       const specificResponse = filteredItem.itemResponseList?.filter(
         (response: any) => response?.itemId === value
       );
+     
+    // console.log({filtesubItems});
 
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
@@ -323,6 +340,12 @@ const Menu = () => {
           selectedCategory({
             name: filteredItem?.categoryName,
             id: filteredItem?.categoryId,
+          })
+        );
+        dispatch(
+          selectedSubCategory({
+            name: "",
+            id: "",
           })
         );
         dispatch(selectedMockDataRequest(specificResponse));
@@ -333,6 +356,14 @@ const Menu = () => {
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
       });
+      const subcategorySelected={
+        name:filtesubItems?.subCategoryName,
+        id:filtesubItems?.subCategoryId
+      }
+     
+      console.log({filtesubItems});
+
+
 
       const specificResponse = filtesubItems?.itemResponseList
         ?.filter((response: any) => response?.itemId === value)
@@ -346,10 +377,14 @@ const Menu = () => {
         setSideBar(specificResponse);
         dispatch(
           selectedCategory({
-            name: filteredItem?.categoryName,
-            id: filteredItem?.categoryId,
+            name: filtesubItems?.categoryName,
+            id: filtesubItems?.categoryId,
           })
         );
+        dispatch(selectedSubCategory({
+          name: filtesubItems?.subCategoryName,
+            id: filtesubItems?.subCategoryId,
+        }))
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }

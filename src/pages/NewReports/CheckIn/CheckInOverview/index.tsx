@@ -30,7 +30,6 @@ import HourlyCheckinChartGuest from "./hourlyChartGuest";
 
 import DailyCheckinsChart from "./DailyCheckinsChart";
 import DineInDurationChart from "./DineInDurationChart";
-import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
@@ -122,6 +121,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "center",
     isSortable: false,
+    suffix:"Mins"
   },
   {
     key: "guestSize",
@@ -172,6 +172,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     (state: any) => state?.checkInReports?.checkInOverviewGuestsHourlySuccess
   );
 
+
   const checkInOverviewGuestsHourlyMapped = useMemo(() => {
     return checkInOverviewGuestsHourly?.map((dataToBeMapped: any)=>({
       channelName: dataToBeMapped?.channelName,
@@ -214,7 +215,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   //                 count: data?.checkInCount || 0,
   //             }))
 
-  console.log({checkInOverviewAvgWaitTimeGroup})
+  // console.log({checkInOverviewAvgWaitTimeGroup})
 
   const isCheckInOverviewLoading = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewLoading
@@ -321,9 +322,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
   }, [selectedLocation, topTableDate, todayCheckInCurrentPage, todayCheckInPageLimit])
 
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
 
   const handleDateSelectForTable = (from: string | null, to: string | null, kpiTitle: string) => {
     const temp = { from, to, kpiTitle }
@@ -369,13 +367,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
-        setSelectedDate={(data) => handleDateChange(data?.value)}
-        datePickerApplyFunction={(date1: any, date2: any) =>
-          datepickerApply("Custom Date", date1, date2)
-        }
-        dateDropdownFunction={(date1: any, date2: any) =>
-          datepickerApply("Custom Date", date1, date2)
-        }
+        setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
 
@@ -588,7 +580,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           searchQuery={checkInSearchQuery}
           // onSearchChange={setcheckInSearchQuery}
           headerData={headerData1 as any}
-          tableData={checkInOverviewTableDetails?.content || [] as any}
+          tableData={checkInOverviewTableDetails?.content||[] as any}
           currentPage={checkInCurrentPage}
           totalPages={checkInOverviewTableDetails?.totalPages || 0}
           onPageChange={setcheckInCurrentPage}
@@ -630,7 +622,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
       <div>
         <div className="reports-page-sub-header-container">
           <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-          {/* <DownloadPopOver /> */}
           <DownloadReport kpiTitle="Avg Wait Time by groups" 
             headerData={
               [

@@ -15,7 +15,7 @@ font-weight: 500;
     margin-top: 15px;
     font-size: 14px;
     font-weight: 400;
-    margin-left: -1px;
+    margin-left: 4px;
 }
 .Step2DineIn{
     display: flex;
@@ -26,6 +26,7 @@ font-weight: 500;
     margin-top: 12px;
    
     margin-bottom: 15px;
+    margin-left: 5px;
 }
 .Step2DineInPrice{
     width:200px;
@@ -112,7 +113,7 @@ margin-left: -20px;
     margin-top: 20px;
     font-size: 14px;
     font-weight: 400;
-    margin-left: 2px;
+    margin-left: 5px;
     margin-bottom: 15px
 
 }
@@ -261,3 +262,54 @@ gap: 150px;
         margin-left: -20px;
     }
 }
+
+.Step2MealType-heading
+{
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 4px;
+}
+.mealTypes-data
+{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    margin-left: 5px;
+  
+  
+}
+
+
+
+.date-range {
+    display: flex;
+   
+    margin-top: 20px;
+    margin-bottom: 25px;
+   
+    gap: 60px;
+    font-family: "Poppins",sans-serif;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+margin-left: 5px;
+
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 400;
+      color: #979797;
+    }
+    p{
+        margin: 0;
+        padding: 0;
+        padding-top: 10px;
+    }
+  }

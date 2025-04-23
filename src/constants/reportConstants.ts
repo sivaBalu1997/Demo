@@ -3,11 +3,20 @@
 
 import { ICardConfigItem, IcardWithMiniGraphData } from "interface/newReportsInterface";
 
-export const textOneForTodaysSwitch: string = "Unpaid Orders";
-export const textTwoForTodaysSwitch: string = "Paid Orders";
+// ============================================================================================
+  // Report Tabs config :
+export const tabsForSales = ["Today's report", "Sales Overview", "Categories", "Employees"];//"Trends" 
+export const tabsForProduct = ["Insights", "Availability"]; 
+export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
+export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
+// ============================================================================================
 
 // ============================================================================================
   //Todays Report Overview
+
+  export const textOneForTodaysSwitch: string = "Unpaid Orders";
+  export const textTwoForTodaysSwitch: string = "Paid Orders";
+
   export const cardWithMiniGraphDataForTodays: IcardWithMiniGraphData[] = [
       { title: "Total Sales", key: "totalSales", isMonetary: true },
       { title: "Net Sales", key: "totalNetSales", isMonetary: true },
@@ -154,11 +163,6 @@ export const textTwoForTodaysSwitch: string = "Paid Orders";
 // ============================================================================================
 
 
-  export const tabsForSales = ["Today's report", "Sales Overview","Categories"]; //"Trends"  //"Employees"
-  export const tabsForProduct = ["Insights", "Availability"]; 
-  export const tabsForCustomer = ["Summary Insights", "Detailed Insights"];
-  export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; //"Inception"
-
 // ============================================================================================
   //Employees
   export const cardDataForEmployees = [
@@ -246,3 +250,55 @@ export const textTwoForTodaysSwitch: string = "Paid Orders";
     { value: "This week", label: "This week" },
     { value: "7 days", label: "Last 7 Days" }
   ]
+
+  export const chartFilterOptions: { value: string, label: string }[] = [
+    { value: "Overall", label: "Overall" },
+    { value: "Weekdays", label: "Weekdays" },
+    { value: "Weekends", label: "Weekends" },
+    { value: "Lunch", label: "Lunch" },
+    { value: "Dinner", label: "Dinner" },
+  ];
+  export const orderFilterOptionsPerformance = [
+    { value: "Orders", label: "Orders" },
+    { value: "Sales", label: "Sales" },
+    { value: "Tips", label: "Tips" },
+    { value: "Gratuities", label: "Gratuities" },
+  ]
+  export const refundsFilterOptionsRevenueImpact = [
+    { value: "Refunds", label: "Refunds" },
+    { value: "Complementary", label: "Complementary" },
+    { value: "Taxes", label: "Taxes" },
+    { value: "Tips", label: "Tips" },
+    { value: "Discounts", label: "Discounts" },
+    { value: "Gratuities", label: "Gratuities" },
+  ]
+  export const deletedFilterOptionsErrorPerformance = [
+    { value: "Deleted", label: "Deleted" },
+    { value: "Voids", label: "Voids" },
+    { value: "Re-fires", label: "Re-fires" },
+  ]
+  export const predefinedColors = [
+    "#E17100", // Orange
+    "#E60076", // Pink  
+    "#009689", // Teal
+    "#F54900", // Redish orange
+    "#049E16", // Green
+    "#CE9E0F", // Yellow
+    "#AF4B7E", // Purple
+    "#17BECF", // Light blue
+    "#1F77B4", // Blue
+  
+    "#ff0000", // Red
+    "#0000ff", // Blue
+    "#008000", // Green
+    "#ffA500", // Orange
+    "#800080", // Purple
+    "#a52a2a", // Brown
+    "#808080", // Gray
+    "#ffc0cb", // Pink
+    "#1F77B4",
+    "#3FE1C0",
+    "#E17100",
+    "#049E16",
+    "#F89B29"
+  ];

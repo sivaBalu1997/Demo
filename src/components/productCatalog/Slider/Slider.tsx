@@ -217,8 +217,8 @@ const Slider: React.FC<SliderProps> = ({
     dispatch(resetSuccessMessage());
   }, [dispatch]);
   const locationid = useSelector(
-      (state: any) => state.auth.credentials?.locationId
-    );
+    (state: any) => state.auth.selectedBranch?.id || null
+  );
   
     const [showModal, setShowModal] = useState(false);
     const { patchedData, setPatchedData, partialData, setPartialData } =

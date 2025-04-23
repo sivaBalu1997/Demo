@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "../../NewReports/Sales/CategoryReport/downloadOption";
 
 import useDateFilter from "hooks/useDateFilter";
 import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdown";
@@ -19,6 +18,7 @@ import {
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import { getCurrencySymbol } from "utils";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 const latestOrderTableHeader = [
   {
@@ -186,190 +186,190 @@ const DetailedInsights = () => {
 
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
 
-const offPremTableHeader = [
-  {
-    key: "firstOrder",
-    label: "First order",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "lastOrder",
-    label: "Last order",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "totalOrders",
-    label: "Total orders",
-    alignment: "right",
-    isSortable: false,
-  },
-  {
-    key: "totalItems",
-    label: "Total items",
-    alignment: "right",
-    isSortable: true,
-  },
-  {
-    key: "maxOrderAmount",
-    label: "Max order amount",
-    alignment: "right",
-    prefix:currencySymbol,
-    isMonetary:true,
-    isSortable: true,
-  },
-  {
-    key: "totalSpent",
-    label: "Total spent",
-    alignment: "right",
-    isMonetary:true,
-    prefix:currencySymbol,
-    isSortable: true,
-  },
-  {
-    key: "avgCoverSize",
-    label: "Avg cov size",
-    alignment: "right",
-    isSortable: true,
-  },
-];
+  const offPremTableHeader = [
+    {
+      key: "firstOrder",
+      label: "First order",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "lastOrder",
+      label: "Last order",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "totalOrders",
+      label: "Total orders",
+      alignment: "right",
+      isSortable: false,
+    },
+    {
+      key: "totalItems",
+      label: "Total items",
+      alignment: "right",
+      isSortable: true,
+    },
+    {
+      key: "maxOrderAmount",
+      label: "Max order amount",
+      alignment: "right",
+      prefix: currencySymbol,
+      isMonetary: true,
+      isSortable: true,
+    },
+    {
+      key: "totalSpent",
+      label: "Total spent",
+      alignment: "right",
+      isMonetary: true,
+      prefix: currencySymbol,
+      isSortable: true,
+    },
+    {
+      key: "avgCoverSize",
+      label: "Avg cov size",
+      alignment: "right",
+      isSortable: true,
+    },
+  ];
 
 
-const summaryTableHeader = [
-  {
-    key: "fullName",
-    label: "Customer name",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "phoneNumber",
-    label: "Contact",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "email",
-    label: "Email address",
-    alignment: "left",
-    isSortable: false,
-  },
-  {
-    key: "address",
-    label: "Address",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "loyaltyTyp",
-    label: "Loyalty level",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "highNetworthCustomer",
-    label: "High Networth Customer",
-    alignment: "left",
-    isSortable: true,
-  },
-  // {
-  //   key: "preOrderIndicator",
-  //   label: "Pre-order Indicator",
-  //   alignment: "left",
-  //   isSortable: true,
-  // },
-  // {
-  //   key: "qualityComplaints",
-  //   label: "Quality complaints",
-  //   alignment: "left",
-  //   isSortable: true,
-  // },
-  {
-    key: "tenureMonths",
-    label: "Tenure in months",
-    alignment: "right",
-    isSortable: true,
-  },
-  {
-    key: "totalVisits",
-    label: "Total visits",
-    alignment: "right",
-    isSortable: true,
-  },
-  {
-    key: "totalSpend",
-    label: "Total spent",
-    alignment: "right",
-    isMonetary:true,
-    prefix: currencySymbol,
-    isSortable: true,
-  },
-  {
-    key: "canceledOrdersCount",
-    label: "Cancelled Orders",
-    alignment: "right",
-    isSortable: true,
-  },
-  {
-    key: "canceledItems",
-    label: "Cancelled Items",
-    alignment: "right",
-    isSortable: true,
-  },
-  // {
-  //   key: "missingItems",
-  //   label: "Missing Items",
-  //   alignment: "right",
-  //   isSortable: true,
-  // },
-  // {
-  //   key: "chargebacks",
-  //   label: "Charge backs",
-  //   alignment: "right",
-  //   isSortable: true,
-  // },
-];
-const headers4 = [
-  {
-    key: "orderDate",
-    label: "Order date",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "orderNo",
-    label: "Order number",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "orderType",
-    label: "Order type",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "itemDetails",
-    label: "Item details",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "orderTotal",
-    label: "Order total",
-    alignment: "right",
-    isMonetary:true,
-    prefix: currencySymbol,
-    isSortable: true,
-  },
-  {
-    key: "totalItems",
-    label: "Total items",
-    alignment: "right",
-    isSortable: true,
-  }
-];
+  const summaryTableHeader = [
+    {
+      key: "fullName",
+      label: "Customer name",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "phoneNumber",
+      label: "Contact",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "email",
+      label: "Email address",
+      alignment: "left",
+      isSortable: false,
+    },
+    {
+      key: "address",
+      label: "Address",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "loyaltyTyp",
+      label: "Loyalty level",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "highNetworthCustomer",
+      label: "High Networth Customer",
+      alignment: "left",
+      isSortable: true,
+    },
+    // {
+    //   key: "preOrderIndicator",
+    //   label: "Pre-order Indicator",
+    //   alignment: "left",
+    //   isSortable: true,
+    // },
+    // {
+    //   key: "qualityComplaints",
+    //   label: "Quality complaints",
+    //   alignment: "left",
+    //   isSortable: true,
+    // },
+    {
+      key: "tenureMonths",
+      label: "Tenure in months",
+      alignment: "right",
+      isSortable: true,
+    },
+    {
+      key: "totalVisits",
+      label: "Total visits",
+      alignment: "right",
+      isSortable: true,
+    },
+    {
+      key: "totalSpend",
+      label: "Total spent",
+      alignment: "right",
+      isMonetary: true,
+      prefix: currencySymbol,
+      isSortable: true,
+    },
+    {
+      key: "canceledOrdersCount",
+      label: "Cancelled Orders",
+      alignment: "right",
+      isSortable: true,
+    },
+    {
+      key: "canceledItems",
+      label: "Cancelled Items",
+      alignment: "right",
+      isSortable: true,
+    },
+    // {
+    //   key: "missingItems",
+    //   label: "Missing Items",
+    //   alignment: "right",
+    //   isSortable: true,
+    // },
+    // {
+    //   key: "chargebacks",
+    //   label: "Charge backs",
+    //   alignment: "right",
+    //   isSortable: true,
+    // },
+  ];
+  const headers4 = [
+    {
+      key: "orderDate",
+      label: "Order date",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "orderNo",
+      label: "Order number",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "orderType",
+      label: "Order type",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "itemDetails",
+      label: "Item details",
+      alignment: "left",
+      isSortable: true,
+    },
+    {
+      key: "orderTotal",
+      label: "Order total",
+      alignment: "right",
+      isMonetary: true,
+      prefix: currencySymbol,
+      isSortable: true,
+    },
+    {
+      key: "totalItems",
+      label: "Total items",
+      alignment: "right",
+      isSortable: true,
+    }
+  ];
 
 
   useEffect(() => {
@@ -379,8 +379,8 @@ const headers4 = [
         startDate: startDate,
         endDate: endDate,
         search: searchCustomer,
-        page:1,
-        size:20
+        page: 1,
+        size: 20
       })
     );
   }, [searchCustomer, selectedLocation, startDate, endDate]);
@@ -482,11 +482,7 @@ const headers4 = [
   //   detailedInsightsLatestOrderData,
   //   detailedInsightsCustomersTopFavItemsData
   // ])
- 
 
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
   const handleDropDownOnChange: any = (e: any) => {
     setSelectedCustomerPhoneNumber(e.value);
   };
@@ -497,7 +493,7 @@ const headers4 = [
 
   const options = useMemo(
     () =>
-      (detailedInsightsCustomerDetailsData?.content||[])?.map((customerData: any) => ({
+      (detailedInsightsCustomerDetailsData?.content || [])?.map((customerData: any) => ({
         label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
         value: `${customerData?.phoneNumber}`,
       })) || [],
@@ -505,24 +501,24 @@ const headers4 = [
   )
 
 
-  const loadOptions = async (type:string) => {    
-    console.log("Loading", type);
-    console.log(detailedInsightsCustomerDetailsData);
-    const page=detailedInsightsCustomerDetailsData?.number+1
-    let pageNumber=page
-    if(type==="prev"&&page>1){
-      pageNumber-=1
-    }else if(type==="next"&&page<detailedInsightsCustomerDetailsData?.totalPages-1){
-      pageNumber+=1
+  const loadOptions = async (type: string) => {
+    // console.log("Loading", type);
+    // console.log(detailedInsightsCustomerDetailsData);
+    const page = detailedInsightsCustomerDetailsData?.number + 1
+    let pageNumber = page
+    if (type === "prev" && page > 1) {
+      pageNumber -= 1
+    } else if (type === "next" && page < detailedInsightsCustomerDetailsData?.totalPages - 1) {
+      pageNumber += 1
     }
-  
-    dispatch(      detailedInsightsCustomerDetailsRequest({
+
+    dispatch(detailedInsightsCustomerDetailsRequest({
       locationId: selectedLocation?.value,
       startDate: startDate,
       endDate: endDate,
       search: searchCustomer,
-      page:pageNumber,
-      size:20
+      page: pageNumber,
+      size: 20
     }))
   }
 
@@ -540,13 +536,7 @@ const headers4 = [
             selectedStore={selectedLocation}
             showRefresh={false}
             showDate={true}
-            setSelectedDate={(data) => handleDateChange(data?.value)}
-            datePickerApplyFunction={(date1: any, date2: any) =>
-              datepickerApply("Custom Date", date1, date2)
-            }
-            dateDropdownFunction={(date1: any, date2: any) =>
-              datepickerApply("Custom Date", date1, date2)
-            }
+            setSelectedDate={handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
 
@@ -555,8 +545,8 @@ const headers4 = [
           {/* </div> */}
           <div className="searchable-dropdown">
             <ReusableDropdown
-            onLoadPrev={()=>loadOptions("prev")}
-              onLoadMore={()=>loadOptions("next")}            
+              onLoadPrev={() => loadOptions("prev")}
+              onLoadMore={() => loadOptions("next")}
               isLoading={detailedInsightsCustomerDetailsLoading}
               options={options}
               placeholder="Search by customer name, contact number"
@@ -571,163 +561,164 @@ const headers4 = [
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Summary</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Summary" tableData={detailedInsightsSummaryData} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsSummaryFailure}  data={detailedInsightsSummaryData}>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsSummaryFailure} data={detailedInsightsSummaryData}>
 
-            <NewTable
-              kpiTitle=""
-              searchQuery={""}
-              headerData={summaryTableHeader as any}
-              onSearch={() => {}}
-              tableData={detailedInsightsSummaryData}
-              showTableHeader={false}
-              showPagination={false}
-              loader={detailedInsightsSummaryLoading}
-              searchPlaceHolder="Search by table number, customer name"
-              rowNoWrap={true}
-              tableContainerClassName="full-width"
-            />{" "}
+              <NewTable
+                kpiTitle=""
+                searchQuery={""}
+                headerData={summaryTableHeader as any}
+                onSearch={() => { }}
+                tableData={detailedInsightsSummaryData}
+                showTableHeader={false}
+                showPagination={false}
+                loader={detailedInsightsSummaryLoading}
+                searchPlaceHolder="Search by table number, customer name"
+                rowNoWrap={true}
+                tableContainerClassName="full-width"
+              />{" "}
             </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Dine-in Insights</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Dine-in Insights" tableData={detailedInsightsDineInData} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsDineInFailure}  data={detailedInsightsDineInData}>
-            <NewTable
-              kpiTitle=""
-              searchQuery={""}
-              // onSearchChange={() => {}}
-              headerData={dineInTableHeader as any}
-              onSearch={() => {}}
-              tableData={detailedInsightsDineInData}
-              currentPage={1}
-              totalPages={1}
-              // count={10}
-              showTableHeader={false}
-              showPagination={false}
-              rowsPerPage={10}
-              loader={detailedInsightsDineInLoading}
-              // onSearch={handleTodayCheckInSearch}
-              rowNoWrap={true}
-              tableContainerClassName="full-width"
-            />
-             </ErrorHandler>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsDineInFailure} data={detailedInsightsDineInData}>
+              <NewTable
+                kpiTitle=""
+                searchQuery={""}
+                // onSearchChange={() => {}}
+                headerData={dineInTableHeader as any}
+                onSearch={() => { }}
+                tableData={detailedInsightsDineInData}
+                currentPage={1}
+                totalPages={1}
+                // count={10}
+                showTableHeader={false}
+                showPagination={false}
+                rowsPerPage={10}
+                loader={detailedInsightsDineInLoading}
+                // onSearch={handleTodayCheckInSearch}
+                rowNoWrap={true}
+                tableContainerClassName="full-width"
+              />
+            </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Off-prem Insights</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Off-prem Insights" tableData={detailedInsightsOffPremData} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsOffPremFailure}  data={detailedInsightsOffPremData}>
-            <NewTable
-              kpiTitle=""
-              searchQuery={""}
-              // onSearchChange={() => {}}
-              headerData={offPremTableHeader as any}
-              onSearch={() => {}}
-              tableData={detailedInsightsOffPremData}
-              currentPage={1}
-              totalPages={1}
-              // count={10}
-              showTableHeader={false}
-              showPagination={false}
-              rowsPerPage={10}
-              loader={detailedInsightsOffPremLoading}
-              searchPlaceHolder="Search by table number, customer name"
-              // onSearch={handleTodayCheckInSearch}
-              rowNoWrap={true}
-              tableContainerClassName="full-width"
-            />
-                   </ErrorHandler>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsOffPremFailure} data={detailedInsightsOffPremData}>
+              <NewTable
+                kpiTitle=""
+                searchQuery={""}
+                // onSearchChange={() => {}}
+                headerData={offPremTableHeader as any}
+                onSearch={() => { }}
+                tableData={detailedInsightsOffPremData}
+                currentPage={1}
+                totalPages={1}
+                // count={10}
+                showTableHeader={false}
+                showPagination={false}
+                rowsPerPage={10}
+                loader={detailedInsightsOffPremLoading}
+                searchPlaceHolder="Search by table number, customer name"
+                // onSearch={handleTodayCheckInSearch}
+                rowNoWrap={true}
+                tableContainerClassName="full-width"
+              />
+            </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers Order History</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers Order History" tableData={detailedInsightsCustomersOrderData?.content || []} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsCustomersOrderFailure}  data={detailedInsightsCustomersOrderData}>
-            <NewTable
-              kpiTitle=""
-              searchQuery={""}
-              // onSearchChange={() => {}}
-              headerData={headers4 as any}
-              onSearch={() => {}}
-              showIcons={false}
-              tableData={detailedInsightsCustomersOrderData?.content||[]}
-              totalPages={detailedInsightsCustomersOrderData?.totalPages||0}
-              // count={10}
-              showTableHeader={false}
-              onPageChange={setCustomerOrderCurrentPage}
-              tableContainerClassName="full-width"
-              currentPage={customerOrderCurrentPage}
-              loader={detailedInsightsCustomersOrderLoading}
-              // totalPages={checkInOverviewTableDetails?.totalPages||0}
-              rowsPerPage={customerOrderPageLimit}
-              setRowsPerPage={setCustomerOrderPageLimit}
-              // loader={isCheckInOverviewTableDetailsLoading}
-              rowNoWrap={true}
-            />
-                   </ErrorHandler>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsCustomersOrderFailure} data={detailedInsightsCustomersOrderData} isLoading={detailedInsightsCustomersOrderLoading}>
+              <NewTable
+                kpiTitle=""
+                searchQuery={""}
+                // onSearchChange={() => {}}
+                headerData={headers4 as any}
+                onSearch={() => { }}
+                showIcons={false}
+                tableData={detailedInsightsCustomersOrderData?.content || []}
+                totalPages={detailedInsightsCustomersOrderData?.totalPages || 0}
+                count={detailedInsightsCustomersOrderData?.content?.length || 0}
+                showTableHeader={false}
+                onPageChange={setCustomerOrderCurrentPage}
+                tableContainerClassName="full-width"
+                currentPage={customerOrderCurrentPage}
+                loader={detailedInsightsCustomersOrderLoading}
+                // totalPages={checkInOverviewTableDetails?.totalPages||0}
+                rowsPerPage={customerOrderPageLimit}
+                setRowsPerPage={setCustomerOrderPageLimit}
+                // loader={isCheckInOverviewTableDetailsLoading}
+                rowNoWrap={true}
+                totalElements={detailedInsightsCustomersOrderData?.totalElements || 0}
+              />
+            </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Latest Order Info</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Latest Order Info" tableData={detailedInsightsLatestOrderData} />
             </div>
-            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsLatestOrderFailure}  data={detailedInsightsLatestOrderData}>
-            <NewTable
-              kpiTitle=""
-              searchQuery={""}
-              // onSearchChange={() => {}}
-              headerData={latestOrderTableHeader as any}
-              onSearch={() => {}}
-              tableData={detailedInsightsLatestOrderData}
-              currentPage={1}
-              totalPages={1}
-              // count={10}
-              showPagination={false}
-              showTableHeader={false}
-              rowsPerPage={10}
-              loader={detailedInsightsLatestOrderLoading}
-              searchPlaceHolder="Search by table number, customer name"
-              // onSearch={handleTodayCheckInSearch}
-              rowNoWrap={true}
-              tableContainerClassName="full-width"
-            />
-                   </ErrorHandler>
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsLatestOrderFailure} data={detailedInsightsLatestOrderData} isLoading={detailedInsightsLatestOrderLoading}>
+              <NewTable
+                kpiTitle="Latest Order Info"
+                searchQuery={""}
+                // onSearchChange={() => {}}
+                headerData={latestOrderTableHeader as any}
+                onSearch={() => { }}
+                tableData={detailedInsightsLatestOrderData}
+                currentPage={1}
+                totalPages={1}
+                // count={10}
+                showPagination={false}
+                showTableHeader={false}
+                rowsPerPage={10}
+                loader={detailedInsightsLatestOrderLoading}
+                searchPlaceHolder="Search by table number, customer name"
+                // onSearch={handleTodayCheckInSearch}
+                rowNoWrap={true}
+                tableContainerClassName="full-width"
+              />
+            </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">
-                Customers Top 10 Favorite Items{" "}
+                Customers Top 10 Favorite Items
               </h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers Top 10 Favorite Items" tableData={detailedInsightsCustomersTopFavItemsData} />
             </div>
-            
-            <ErrorHandler errorType={selectedCustomerPhoneNumber?"reportNotFound":"customerNotFound"} isError={detailedInsightsCustomersTopFavItemsFailure}  data={detailedInsightsCustomersTopFavItemsData}>
-            <NewTable
-              kpiTitle=""
-              searchQuery={""}
-              // onSearchChange={() => {}}
-              headerData={topFavItemTableHeader as any}
-              onSearch={() => {}}
-              tableData={detailedInsightsCustomersTopFavItemsData}
-              currentPage={1}
-              totalPages={1}
-              // count={10}
-              showTableHeader={false}
-              showPagination={false}
-              rowsPerPage={10}
-              loader={detailedInsightsCustomersTopFavItemsLoading}
-              searchPlaceHolder="Search by table number, customer name"
-              // onSearch={handleTodayCheckInSearch}
-              rowNoWrap={true}
-              tableContainerClassName="full-width"
-            />
-                   </ErrorHandler>
+
+            <ErrorHandler errorType={selectedCustomerPhoneNumber ? "reportNotFound" : "customerNotFound"} isError={detailedInsightsCustomersTopFavItemsFailure} data={detailedInsightsCustomersTopFavItemsData} isLoading={detailedInsightsCustomersTopFavItemsLoading}>
+              <NewTable
+                kpiTitle=""
+                searchQuery={""}
+                // onSearchChange={() => {}}
+                headerData={topFavItemTableHeader as any}
+                onSearch={() => { }}
+                tableData={detailedInsightsCustomersTopFavItemsData}
+                currentPage={1}
+                totalPages={1}
+                // count={10}
+                showTableHeader={false}
+                showPagination={false}
+                rowsPerPage={10}
+                loader={detailedInsightsCustomersTopFavItemsLoading}
+                searchPlaceHolder="Search by table number, customer name"
+                // onSearch={handleTodayCheckInSearch}
+                rowNoWrap={true}
+                tableContainerClassName="full-width"
+              />
+            </ErrorHandler>
           </div>
         </div>
       </div>

@@ -93,7 +93,15 @@ type MainFormTypespecial = {
 type DineInField = {
   DineInId?: string;
   DineInPrice: string | string[];
-  Enabled: boolean;
+  Enabled:boolean;
+  availabilityEnabled?:boolean,
+  isEnabled?:number,
+  isNotHide?:number,
+  typeGroup?:string,
+  typeId?:string,
+  typeName?:string;
+
+
   // DineInMealType: string | string[];
 };
 
@@ -198,6 +206,7 @@ const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
   const normalFormRef = useRef<(() => void) | null>(null);
   const specialFormRef = useRef<(() => void) | null>(null);
+  const [selectedMealType, setSelectedMealType] = useState<string[]>([]);
 
   const [mainFormState, setMainFormState] = useState<MainFormType>({
     availabilityid: [],
@@ -295,7 +304,7 @@ const PricingDetails = () => {
         minutes: "mmm",
       },
       normalForm: mainFormState,
-      specialForm: mainFormStateSpecial,
+      specialForm: mainFormState,
     },
   });
 
@@ -321,6 +330,8 @@ const PricingDetails = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
+
+  const mealType = useSelector((state: any) => state.productCatalog.mealType)
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
@@ -450,7 +461,7 @@ const PricingDetails = () => {
     },
 
     KitchenStationId: "",
-    normalForm: isOptionTrue ? mainFormState : undefined,
+    normalForm:mainFormState,
 
     specialForm: isOptionTrue ? undefined : mainFormSpecial,
     resetInventory: resetInventory,
@@ -495,7 +506,7 @@ const PricingDetails = () => {
 
   useEffect(() => {
     setOptions(data);
-    getApi();
+    // getApi();
   }, [data]);
 
   const getApi = async () => {
@@ -518,7 +529,13 @@ const PricingDetails = () => {
     {
       DineInId: DineInId,
       DineInPrice: "",
-      Enabled: true,
+      Enabled:true,
+      availabilityEnabled:true,
+      isEnabled:1,
+      isNotHide:1,
+      typeGroup:"",
+      typeId:"",
+      typeName:""
       // DineInMealType: [],
     },
   ]);
@@ -533,11 +550,11 @@ const PricingDetails = () => {
     ]
   );
 
-  const dineInMapped = dineinfields?.map((field: any) => ({
-    typeId: field.DineInId,
-    typeName: field.DineInMealType,
-    price: parseFloat(field?.DineInPrice),
-  }));
+  // const dineInMapped = dineinfields?.map((field: any) => ({
+  //   typeId: field.DineInId,
+  //   typeName: field.DineInMealType,
+  //   price: parseFloat(field?.DineInPrice),
+  // }));
 
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
@@ -795,7 +812,18 @@ const PricingDetails = () => {
     } else {
     }
   };
+const avialFuction = (data:any)=>{
+  if(data=="Standard" && !isOptionTrue)
+  {
+    setIsOptionTrue(true)
+    setSelectedMealType([])
+  }
+  if(data == "Custom" && isOptionTrue){
+    setIsOptionTrue(false)
+    setSelectedMealType([])
+  }
 
+}
   // useEffect(() => {
   //   if(editData.length > 0){
   //     console.log('kkkkkkk')
@@ -803,6 +831,23 @@ const PricingDetails = () => {
   //   }
   // },[])
 
+  const payload = {
+    locationId: locationid?.locationId,
+    type: "MEAL_TYPE",
+    parentId: "",
+  };
+  const payload_kitchen = {
+    locationId: locationid?.locationId,
+    type: "KITCHEN_STATION",
+    parentId: "",
+  };
+
+  useEffect(()=>{
+    dispatch(fetchDropDownRequest(payload))
+    dispatch(fetchDropDownRequest(payload_kitchen))
+  },[])
+
+  
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
@@ -1099,30 +1144,38 @@ const PricingDetails = () => {
             </div>
 
             <div className="NormalSpecial">
-              {/* <div className="Normal">
+              <div className="Normal">
                 <input
                   type="radio"
                   value="true"
                   checked={isOptionTrue === true}
-                  onChange={() => setIsOptionTrue(true)}
+                  onChange={() => avialFuction("Standard")}
                   className="N1radio"
                 />
-                <label className="N1">Normal Availability</label>
-              </div> */}
-              {/* <div className="Special">
+                <label className="N1">Standard Availability</label>
+              </div>
+              <div className="Special">
                 <input
                   type="radio"
                   value="false"
                   checked={isOptionTrue === false}
-                  onChange={() => setIsOptionTrue(false)}
+                  onChange={() => avialFuction("Custom")}
                   className="S1radio"
                 />
-                <label className="S1">Special Availability</label>
-              </div> */}
+                <label className="S1">Custom Availability</label>
+              </div>
+            </div>
+            <div style={{margin:'0px', padding:'0px'}}>
+              <p className="avaiability-texts">
+                {isOptionTrue? 
+                  <span>Normal Availability : This item will be available every working day.</span> : 
+                  <span>Custom Availability: Choose specific days and preferred meal type for the item's availability.</span> 
+                }
+              </p>
             </div>
 
-            {isOptionTrue ? (
-              <Normalavail
+
+            <Normalavail
                 validateDropdown={validateDropdown}
                 dinein={dinein}
                 setDineIn={setDineIn}
@@ -1139,9 +1192,38 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
                 getValues={getValues}
                 setValue={setValue}
+                isOptionTrue={isOptionTrue}
+                setIsOptionTrue={setIsOptionTrue}
                 setKitchenError={setKitchenError}
                 setValidationFunction={setValidationFunction}
+                mealType={mealType}
+                selectedMealType={selectedMealType}
+                setSelectedMealType={setSelectedMealType}
               />
+
+            {isOptionTrue ? (
+              <></>
+              // <Normalavail
+              //   validateDropdown={validateDropdown}
+              //   dinein={dinein}
+              //   setDineIn={setDineIn}
+              //   validationState={validationState}
+              //   setMainFormState={setMainFormState}
+              //   mainFormState={mainFormState}
+              //   selectedValues2={selectedValues2}
+              //   setSelectedValues2={setSelectedValues2}
+              //   dineinfields={dineinfields}
+              //   handleValidate={handleValidate}
+              //   setDineInFields={setDineInFields}
+              //   setValidationStateerr={setValidationStateerr}
+              //   ValidationStateerr={validationStateerr}
+              //   resetSelection={normalFormRef}
+              //   getValues={getValues}
+              //   setValue={setValue}
+              //   isOptionTrue={isOptionTrue}
+              //   setKitchenError={setKitchenError}
+              //   setValidationFunction={setValidationFunction}
+              // />
             ) : (
               <>
                 {/* <Specialavail

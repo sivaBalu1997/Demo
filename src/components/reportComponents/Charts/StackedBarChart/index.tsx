@@ -51,7 +51,7 @@ function transformData(dataList: DataListItem[]): ChartData<"bar"> {
 
   const labels = Array.from(timeRangeSet); // x-axis labels
   const groups = groupOrder.filter((group) => groupSet.has(group));
-  console.log({labels, groups});
+  // console.log({labels, groups});
   
 
   // Build one dataset per group
@@ -66,7 +66,7 @@ function transformData(dataList: DataListItem[]): ChartData<"bar"> {
     }),
     stack: "combined", // all series stacked together
   }));
-console.log({datasets, labels});
+// console.log({datasets, labels});
 
   return { labels, datasets };
 }
@@ -75,7 +75,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   dataList = [],
   loader,
 }) => {
-  console.log({dataList});
+  // console.log({dataList});
   
   // Provide default sample data if none is passed
   // if (dataList.length === 0) {

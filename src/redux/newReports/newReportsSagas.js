@@ -1,4 +1,4 @@
-import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
+import { put, call, takeLatest, debounce } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
 import {
     salesSummarySuccess,
@@ -115,10 +115,12 @@ import {
     getRestaurantSuccessFromNewReports,
     getDownloadableReportSuccess,
     getDownloadableReportFailure,
-    OverallOrderNonDineInSuccess,
-    orderTrackerSuccess,
-    orderTrackerFailure,
-    OverallOrderNonDineInFailure,
+    paidDineInOrdersSuccess,
+    paidDineInOrdersFailure,
+    paidOffPremiseOrdersSuccess,
+    paidOffPremiseOrdersFailure,
+    paidCancelledOrdersSuccess,
+    paidCancelledOrdersFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -176,8 +178,9 @@ import {
     UNBILLED_REQUEST,
     GET_DETAILS_RESTAURANT_REQUEST,
     GET_DOWNLOADABLE_REPORT_REQUEST,
-    OVERALL_ORDER_NON_DINE_IN_REQUEST,
-    ORDER_TRACKER_REQUEST
+    PAID_DINE_IN_ORDERS_REQUEST,
+    PAID_OFF_PREMISE_ORDERS_REQUEST,
+    PAID_CANCELLED_ORDERS_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -235,6 +238,7 @@ import {
     getUnbilled,
     getBilled,
     getDownloadableReport,
+    getPaidCancelledOrders,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -377,7 +381,7 @@ export function* liveOpenSalesRequestSaga(action) {
     }
 }
 
-//liveOrdersRequestSaga
+//liveOrdersRequestSaga : Unpaid Dine-in orders
 export function* liveOrdersRequestSaga(action) {
     try {
         const response = yield call(getLiveOrders, action.payload);
@@ -395,6 +399,25 @@ export function* liveOrdersRequestSaga(action) {
         yield put(liveOrdersFailure(error));
     }
 }
+
+// paidDineInRequestSaga : Paid Dine-in orders
+export function* paidDineInRequestSaga(action) {
+    try {
+        const response = yield call(getLiveOrders, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of paidDineInRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(paidDineInOrdersSuccess(decryptedData));
+            showSuccessToast(decryptedData?.message);
+        } else {
+            yield put(paidDineInOrdersFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+     } catch (error) {
+            yield put(paidDineInOrdersFailure(error));
+        }
+    }
+
 
 //liveRefundsRequestSaga
 export function* liveRefundsRequestSaga(action) {
@@ -432,7 +455,7 @@ export function* liveNetSalesRequestSaga(action) {
     }
 }
 
-//liveOrderNonDineInRequestSaga
+//liveOrderNonDineInRequestSaga : Unpaid Off-premise orders
 export function* liveOrderNonDineInRequestSaga(action) {
     try {
         const response = yield call(getLiveOrderNonDineIn, action.payload);
@@ -450,37 +473,39 @@ export function* liveOrderNonDineInRequestSaga(action) {
     }
 }
 
-export function* orderTrackerSaga(action) {
+// paidOffPremiseRequestSaga : Paid Off-premise orders
+export function* paidOffPremiseRequestSaga(action) {
     try {
-        const response = yield call(getOrderTracker, action.payload);
-        const decryptedData = decryptJson(response?.data?.encryptedText);
-        console.log(decryptedData);
-        
+        const response = yield call(getLiveOrderNonDineIn, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of paidOffPremiseRequestSaga", { decryptedData })
         if (response.status === 200) {
-            yield put(orderTrackerSuccess(decryptedData));
+            yield put(paidOffPremiseOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(orderTrackerFailure(decryptedData?.message));
+            yield put(paidOffPremiseOrdersFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(orderTrackerFailure(error));
+        yield put(paidOffPremiseOrdersFailure(error));
     }
 }
 
-export function* OverallOrderNonDineInRequestSaga(action) {
+// paidCancelledOrdersRequestSaga
+export function* paidCancelledOrdersRequestSaga(action) {
     try {
-        const response = yield call(getOverallOrderNonDineIn, action.payload);
+        const response = yield call(getPaidCancelledOrders, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of paidCancelledOrdersRequestSaga", { decryptedData })
         if (response.status === 200) {
-            yield put(OverallOrderNonDineInSuccess(decryptedData));
+            yield put(paidCancelledOrdersSuccess(decryptedData));
             showSuccessToast(decryptedData?.message);
         } else {
-            yield put(OverallOrderNonDineInFailure(decryptedData?.message));
+            yield put(paidCancelledOrdersFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
     } catch (error) {
-        yield put(OverallOrderNonDineInFailure(error));
+        yield put(paidCancelledOrdersFailure(error));
     }
 }
 
@@ -1279,11 +1304,12 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_DISCOUNT_REQUEST, liveDiscountRequestSaga);
     yield takeLatest(LIVE_OPEN_SALES_REQUEST, liveOpenSalesRequestSaga);
     yield debounce(1000, LIVE_ORDERS_REQUEST, liveOrdersRequestSaga);
+    yield debounce(1000, PAID_DINE_IN_ORDERS_REQUEST, paidDineInRequestSaga);
     yield takeLatest(LIVE_REFUNDS_REQUEST, liveRefundsRequestSaga);
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
     yield debounce(1000, LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
-    yield debounce(1000, OVERALL_ORDER_NON_DINE_IN_REQUEST, OverallOrderNonDineInRequestSaga);
-    yield debounce(1000, ORDER_TRACKER_REQUEST, orderTrackerSaga);
+    yield debounce(1000, PAID_OFF_PREMISE_ORDERS_REQUEST, paidOffPremiseRequestSaga);
+    yield debounce(1000, PAID_CANCELLED_ORDERS_REQUEST, paidCancelledOrdersRequestSaga);
     yield debounce(200, DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
     yield debounce(200, CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
     yield takeLatest(EMPLOYEE_STAFF_TIP_GRATUITY_REQUEST, employeeStaffTipGratuityRequestSaga);

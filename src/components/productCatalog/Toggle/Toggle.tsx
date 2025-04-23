@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import "./Toggle.css";
 
 interface ToggleProps {
-  toggle: boolean;
+  toggle: boolean|undefined;
   setToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   togglevalue?: number;
   width?: number;
   height?: number;
   Enabled?: boolean;
   toggleOffCheck?: any;
-  hidden?:any
+  hidden?:any;
+  availabilityEnabled?:any
 }
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -20,7 +21,8 @@ const Toggle: React.FC<ToggleProps> = ({
   width,
   height,
   toggleOffCheck,
-  hidden
+  hidden,
+  availabilityEnabled
 }) => {
   return (
     <div>
@@ -33,7 +35,13 @@ const Toggle: React.FC<ToggleProps> = ({
         onClick={() => {
           if (Enabled) {
             if (setToggle) {
+            
               setToggle((prev) => !prev);
+            }
+
+            else{
+            
+              availabilityEnabled();
             }
           }
         }}

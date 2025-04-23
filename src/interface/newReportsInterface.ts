@@ -33,6 +33,7 @@ export interface NewTableHeader {
   isMonetary?:boolean;
   alignment?: "left" | "center" | "right";
   prefix?: string;
+  suffix?: string;
 }
 
 export interface NewTableData {

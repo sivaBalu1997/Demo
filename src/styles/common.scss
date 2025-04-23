@@ -659,7 +659,7 @@ input:checked + .slider:before {
   .react-datepicker__month {
     padding: 1rem 0;
   }
-
+  // #67833e
   .react-datepicker__month-text {
     display: inline-block;
     width: 5rem;
@@ -667,7 +667,7 @@ input:checked + .slider:before {
     font-size: 1rem;
     padding: 0.2rem;
     &:hover {
-      background-color: #67833e !important;
+      background-color: #E52333 !important;
     }
   }
   .react-datepicker__day--selected,

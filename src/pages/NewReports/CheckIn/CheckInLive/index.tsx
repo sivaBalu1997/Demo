@@ -12,7 +12,6 @@ import {
   liveCheckInTodayRequest,
 } from "../../../../redux/checkInReports/checkInReportsActions";
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "pages/NewReports/Sales/CategoryReport/downloadOption";
 import MiniCard from "components/common/MiniCard/MiniCard";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/StackedBarChart";
@@ -81,6 +80,7 @@ const headerData = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
+    suffix: "Mins",
   },
   {
     key: "guestSize",
@@ -146,6 +146,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "left",
     isSortable: true,
+    suffix: "Mins",
   },
   {
     key: "guestSize",
@@ -376,25 +377,12 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
 
 
 
-const liveCheckInTableMapped = liveCheckInTable?.content?.map((data: any) => ({
-  checkInNumber: data.checkInNumber,
-  guestName: data.guestName,
-  phone: data.phone,
-  channel: data.channel,
-  tableName: data.tableName,
-  checkInTime: data.checkInTime,
-  assignedTime: data.assignedTime,
-  liveCheckInStatus: data.liveCheckInStatus,
-  waitTime: data.waitTime,
-  guestSize: data.guestSize,
-}));
 
 
-
-const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
-  status: data.status,
-  count: Number(data.count),
-}))
+// const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
+//   status: data.status,
+//   count: Number(data.count),
+// }))
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -411,7 +399,6 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Check-in Overview</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Check-in Overview" headerData={filteredLiveCheckInOverviewKeysForDownloadHeader} tableData={liveCheckInOverviewTableDataMapped}/>
             </div>
             <MiniCard
@@ -438,7 +425,6 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Seater wise Availability</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
             </div>
             <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
@@ -455,7 +441,6 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
               <h1 className="reports-page-heading">
                 {"By Guest Count (In-queue)"}
               </h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="By Guest Count (In-queue)" headerData={[{key:"groupSize",label:"Group Size"},{key:"guestCount",label:"Guest Count"}]} tableData={liveCheckInGuestCount}/>
             </div>
             <ErrorHandler isError={liveCheckInGuestCountError} data={liveCheckInGuestCount}  errorType="checkinNotFound">              
@@ -463,7 +448,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
               barColor="#009689"
               toolTipBorderColor="#009689"
               xAxisTooltipLabel="Queue"
-              yAxisTooltipLabel="Count"
+              yAxisTooltipLabel="Total guests"
               dataList={liveCheckInGuestCount?.map((data: any) => ({
                 xAxisValue: `Group of ${data.groupSize || 0}`,
                 yAxisValue: Number(data.guestCount),
@@ -477,7 +462,6 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">By Status- Check-in</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.map((data: any) => ({
                 status: data.status,
                 checkInCount: Number(data.count),
@@ -501,7 +485,6 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg wait time</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Avg wait time" headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} tableData={liveCheckInAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}  errorType="checkinNotFound">   
@@ -523,7 +506,6 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-              {/* <DownloadPopOver /> */}
               <DownloadReport kpiTitle="Avg Wait Time by groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   
@@ -557,7 +539,7 @@ const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
                 kpiTitle="Live Check-ins"
                 searchQuery={liveCheckInSearchQuery}
                 headerData={headerData as any}
-                tableData={liveCheckInTableMapped||[] as any}
+                tableData={liveCheckInTable?.content||[] as any}
                 currentPage={liveCheckInCurrentPage}
                 totalPages={liveCheckInTable?.totalPages||0}
                 onPageChange={setLiveCheckInCurrentPage}

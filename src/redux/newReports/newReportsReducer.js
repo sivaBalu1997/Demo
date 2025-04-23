@@ -27,15 +27,21 @@ import {
     LIVE_ORDERS_REQUEST,
     LIVE_ORDERS_SUCCESS,
     LIVE_ORDERS_FAILURE,
+    PAID_DINE_IN_ORDERS_REQUEST,
+    PAID_DINE_IN_ORDERS_SUCCESS,
+    PAID_DINE_IN_ORDERS_FAILURE,
+    LIVE_ORDER_NON_DINE_IN_REQUEST,
+    LIVE_ORDER_NON_DINE_IN_SUCCESS,
+    LIVE_ORDER_NON_DINE_IN_FAILURE,
+    PAID_OFF_PREMISE_ORDERS_REQUEST,
+    PAID_OFF_PREMISE_ORDERS_SUCCESS,
+    PAID_OFF_PREMISE_ORDERS_FAILURE,
     LIVE_REFUNDS_REQUEST,
     LIVE_REFUNDS_SUCCESS,
     LIVE_REFUNDS_FAILURE,
     LIVE_NET_SALES_REQUEST,
     LIVE_NET_SALES_SUCCESS,
     LIVE_NET_SALES_FAILURE,
-    LIVE_ORDER_NON_DINE_IN_REQUEST,
-    LIVE_ORDER_NON_DINE_IN_SUCCESS,
-    LIVE_ORDER_NON_DINE_IN_FAILURE,
     DISCOUNT_SUMMARY_REQUEST,
     DISCOUNT_SUMMARY_SUCCESS,
     DISCOUNT_SUMMARY_FAILURE,
@@ -174,13 +180,10 @@ import {
     GET_DOWNLOADABLE_REPORT_REQUEST,
     GET_DOWNLOADABLE_REPORT_SUCCESS,
     GET_DOWNLOADABLE_REPORT_FAILURE,
-    OVERALL_ORDER_NON_DINE_IN_SUCCESS,
-    ORDER_TRACKER_SUCCESS,
     LOGOUT,
-    ORDER_TRACKER_REQUEST,
-    ORDER_TRACKER_FAILURE,
-    OVERALL_ORDER_NON_DINE_IN_REQUEST,
-    OVERALL_ORDER_NON_DINE_IN_FAILURE
+    PAID_CANCELLED_ORDERS_REQUEST,
+    PAID_CANCELLED_ORDERS_SUCCESS,
+    PAID_CANCELLED_ORDERS_FAILURE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -217,10 +220,25 @@ const initialNewReportsState = {
     liveOpenSalesLoading: false,
     liveOpenSalesSuccess: [],
     liveOpenSalesFailure: false,
-    // live orders 
+    // live orders : Unpaid Dine-in orders
     liveOrdersLoading: false,
     liveOrdersSuccess: [],
     liveOrdersFailure: false,
+    // paid dine in orders
+    paidDineInOrdersLoading: false,
+    paidDineInOrdersSuccess: [],
+    paidDineInOrdersFailure: false,
+    // live order non dine in : Unpaid Off-Premise orders
+    liveOrderNonDineInLoading: false,
+    liveOrderNonDineInSuccess: [],
+    liveOrderNonDineInFailure: false,
+    // paid off premise orders
+    paidOffPremiseOrdersLoading: false,
+    paidOffPremiseOrdersSuccess: [],
+    paidOffPremiseOrdersFailure: false,
+    paidCancelledOrdersLoading : false,
+    paidCancelledOrdersSuccess : [],
+    paidCancelledOrdersFailure : false,
     // live refunds
     liveRefundsLoading: false,
     liveRefundsSuccess: [],
@@ -229,16 +247,6 @@ const initialNewReportsState = {
     liveNetSalesLoading: false,
     liveNetSalesSuccess: [],
     liveNetSalesFailure: false,
-    // live order non dine in
-    liveOrderNonDineInLoading: false,
-    liveOrderNonDineInSuccess: [],
-    OverallOrderNonDineInLoading: false,
-    OverallOrderNonDineInSuccess:[],
-    OverallOrderNonDineInFailure: false,
-    orderTrackerLoading: false,
-    orderTrackerSuccess:[],
-    orderTrackerFailure: false,
-    liveOrderNonDineInFailure: false,
     // discount summary
     discountSummaryLoading: false,
     discountSummarySuccess: [],
@@ -599,7 +607,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOpenSalesLoading = false;
                 draft.liveOpenSalesFailure = true;
                 break;
-            // live orders table
+            // live orders table : Unpaid Dine-in orders 
             case LIVE_ORDERS_REQUEST:
                 draft.liveOrdersSuccess = [];
                 draft.liveOrdersLoading = true;
@@ -614,6 +622,22 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrdersSuccess = [];
                 draft.liveOrdersLoading = false;
                 draft.liveOrdersFailure = true;
+                break;
+            // Paid Dine-in orders
+            case PAID_DINE_IN_ORDERS_REQUEST:
+                draft.paidDineInOrdersLoading = true;
+                draft.paidDineInOrdersSuccess = [];
+                draft.paidDineInOrdersFailure = false;
+                break;
+            case PAID_DINE_IN_ORDERS_SUCCESS:
+                draft.paidDineInOrdersLoading = false;
+                draft.paidDineInOrdersSuccess = action.payload;
+                draft.paidDineInOrdersFailure = false
+                break;
+            case PAID_DINE_IN_ORDERS_FAILURE:
+                draft.paidDineInOrdersLoading = false;
+                draft.paidDineInOrdersSuccess = [];
+                draft.paidDineInOrdersFailure = true;
                 break;
             // refunds
             case LIVE_REFUNDS_REQUEST:
@@ -647,7 +671,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveNetSalesLoading = false;
                 draft.liveNetSalesFailure = true;
                 break;
-            // live order non dine in
+            // live order non dine in : Unpaid Off-Premise orders
             case LIVE_ORDER_NON_DINE_IN_REQUEST:
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = true;
@@ -657,41 +681,43 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrderNonDineInSuccess = action.payload;
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = false
-                break;
-            case  OVERALL_ORDER_NON_DINE_IN_REQUEST:
-                draft.OverallOrderNonDineInLoading = true;
-                draft.OverallOrderNonDineInSuccess = [];
-                draft.OverallOrderNonDineInFailure = false
-                break;
-            case  OVERALL_ORDER_NON_DINE_IN_SUCCESS:
-                draft.OverallOrderNonDineInLoading = false;
-                draft.OverallOrderNonDineInSuccess = action.payload;
-                draft.OverallOrderNonDineInFailure = false
-                break;
-            case  OVERALL_ORDER_NON_DINE_IN_FAILURE:
-                draft.OverallOrderNonDineInLoading = false;
-                draft.OverallOrderNonDineInSuccess = [];
-                draft.OverallOrderNonDineInFailure = true
-                break;
-            case ORDER_TRACKER_REQUEST:
-                draft.orderTrackerLoading = true;
-                draft.orderTrackerSuccess = [];
-                draft.orderTrackerFailure = false;
                 break;  
-            case  ORDER_TRACKER_SUCCESS:
-                draft.orderTrackerLoading = false;
-                draft.orderTrackerSuccess = action.payload;
-                draft.orderTrackerFailure = false;
-                break; 
-            case  ORDER_TRACKER_FAILURE:
-                draft.orderTrackerLoading = false;
-                draft.orderTrackerSuccess = [];
-                draft.orderTrackerFailure = true;
-                break;   
             case LIVE_ORDER_NON_DINE_IN_FAILURE:
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = true;
+                break;
+            // paid off premise orders
+            case PAID_OFF_PREMISE_ORDERS_REQUEST:
+                draft.paidOffPremiseOrdersSuccess = [];
+                draft.paidOffPremiseOrdersLoading = true;
+                draft.paidOffPremiseOrdersFailure = false;
+                break;
+            case PAID_OFF_PREMISE_ORDERS_SUCCESS:
+                draft.paidOffPremiseOrdersSuccess = action.payload;
+                draft.paidOffPremiseOrdersLoading = false;
+                draft.paidOffPremiseOrdersFailure = false
+                break;
+            case PAID_OFF_PREMISE_ORDERS_FAILURE:
+                draft.paidOffPremiseOrdersSuccess = [];
+                draft.paidOffPremiseOrdersLoading = false;
+                draft.paidOffPremiseOrdersFailure = true;
+                break;
+            // paid cancelled orders :
+            case PAID_CANCELLED_ORDERS_REQUEST:
+                draft.paidCancelledOrdersSuccess = [];
+                draft.paidCancelledOrdersLoading = true;
+                draft.paidCancelledOrdersFailure = false;
+                break;
+            case PAID_CANCELLED_ORDERS_SUCCESS:
+                draft.paidCancelledOrdersSuccess = action.payload;
+                draft.paidCancelledOrdersLoading = false;
+                draft.paidCancelledOrdersFailure = false
+                break;
+            case PAID_CANCELLED_ORDERS_FAILURE:
+                draft.paidCancelledOrdersSuccess = [];
+                draft.paidCancelledOrdersLoading = false;
+                draft.paidCancelledOrdersFailure = true;
                 break;
             // discount summary 
             case DISCOUNT_SUMMARY_REQUEST:

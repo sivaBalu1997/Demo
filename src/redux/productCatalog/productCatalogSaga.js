@@ -70,6 +70,8 @@ import {
   deleteimageFailure,
   triggeredFcm,
   scheduleFCMResponse,
+  MealTypeSuccess,
+  getMenuRequest,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -202,6 +204,9 @@ function* fetchDropdownDataSaga(action) {
         case "TAX":
           yield put(taxClassSuccess(response))
           break;
+          case "MEAL_TYPE":
+            yield put(MealTypeSuccess(response.data))
+            break;
         default:
           throw new Error("Invalid type");
       }
@@ -354,11 +359,13 @@ function* getAvailabilitySaga(action) {
 
 function* addMenuItemSaga(action) {
   try {
+    const locationId = action.payload.locationid
     const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
     if (addApi.status === 200) {
       showSuccessToast("Item added successfully");
       yield put(addMenuItemSuccess(addApiresponse));
+      yield put(getMenuRequest(locationId))
     } else {
       showErrorToast(addApiresponse.message);
       yield put(addMenuItemFailed({ message: "Please Try Again" }));
@@ -485,12 +492,14 @@ function* retryImage(action) {
 }
 
 function* updateMenuItemSaga(action) {
+  const locationId = action.payload.locationId
   try {
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
       showSuccessToast("Menu updated successfully");
       yield put(updateMenuItemSuccess(response.data));
       yield put(removeDataRequest());
+      yield put(getMenuRequest(locationId))
     } else {
       showErrorToast(response.data.message);
       yield put(updateMenuItemFailed({ message: "please Try Again" }));
@@ -526,6 +535,9 @@ function* deleteMenuItemSaga(action) {
         })
       );
       yield put(removeDataRequest());
+
+      yield put({ type: STORE_MENU_REQUEST, payload: action.payload.locationid });
+
     } else {
       yield put(deleteMenuItemFailed({ message: "please Try Again" }));
     }

@@ -111,7 +111,7 @@
     background: #e52333;
     color: #393939;
   }
-
+ .rmdp-range-hover, 
   .rmdp-range {
     background-color: #f4f4f4 !important;
     border-radius: 50%;
@@ -157,7 +157,6 @@
   }
 
 
-
   .rmdp-day.rmdp-selected span:not(.highlight) {
     background-color: #f4f4f4;
     color: #393939;
@@ -170,6 +169,7 @@
     gap: 10px;
     padding: 10px 15px;
     background-color: #ffff;
+    border-radius: 0 0 10px 10px;
     border-top: 1px solid #e0e0e0;
 
     .datepicker-btn {

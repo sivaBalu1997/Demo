@@ -596,6 +596,9 @@ const Employees: React.FC = () => {
 
   const activeEmployees = employeeLists && employeeLists?.filter(employee => employee?.isActive);
 
+  // console.log({employeeLists})
+  // console.log({activeEmployees})
+
   const employeeDropdownOptions =
     activeEmployees?.map((employee) => ({
       value: employee?.staffId,
@@ -759,10 +762,8 @@ const Employees: React.FC = () => {
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={(data) => handleDateChange(data?.value)}
+            setSelectedDate={handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
-            datePickerApplyFunction={datepickerApply}
-            dateDropdownFunction={datepickerApply}
           />
           <div className="employee-report-sales-overview-box-container-parent">
             <div className="employee-sales-overview-head-with-download">

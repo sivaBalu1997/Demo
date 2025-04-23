@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCategoryList, addItemList, changeDateFilterType, changeEndDate, changeLocation, changeStartDate, dropdownDetailsRequest, getRestaurantRequestFromNewReports, selectCategories, storeLocationsList } from "redux/newReports/newReportsActions";
 import { RootState } from "redux/rootReducer";
 import { tabsForSales } from "constants/reportConstants";
-import SalesTrend from "../SalesTrend";
+import SalesTrend from "./SalesTrend";
 // import { getRestaurantRequest } from "redux/auth/authActions";
 
 interface ReportProps { }

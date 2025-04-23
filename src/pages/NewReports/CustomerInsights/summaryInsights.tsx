@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLocation } from "../../../redux/newReports/newReportsActions";
 
 import StoreFilter from "components/reportComponents/StoreFilter";
-import DownloadPopOver from "../../NewReports/Sales/CategoryReport/downloadOption";
 import CustomBarChart from "components/reportComponents/Charts/CustomBarChart";
 import StackedBarChart from "components/reportComponents/Charts/CustomStackedChart";  
 import {
@@ -15,6 +14,8 @@ import {
 } from "../../../redux/customerInsights/customerInsightsActions";
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import { getCurrencySymbol } from "utils";
+import { predefinedColors } from "constants/reportConstants";
+import DownloadReport from "components/reportComponents/DownloadReports";
 
 const SummaryInsights = () => {
   const locations = useSelector(
@@ -100,7 +101,6 @@ const SummaryInsights = () => {
     }
   }, [selectedLocation]);
 
-console.log({summaryInsightsCustomerByTotalSpendData})
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -117,7 +117,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">{"Customer Volume"}</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customer Volume" tableData={summaryInsightsCustomerVolumeData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerVolumeData}
@@ -143,7 +143,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Tenure</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Tenure" tableData={summaryInsightsCustomerByTenureData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByTenureData}
@@ -152,19 +152,14 @@ console.log({summaryInsightsCustomerByTotalSpendData})
             >
               <StackedBarChart
                 loader={summaryInsightsCustomerByTenureDataLoading}
-                dataList={
-                  summaryInsightsCustomerByTenureData?.map((data: any) => ({
-                    xAxisData: `${data?.timeline}`,
-                    stackName: `${data?.customerState}`,
-                    stackValue: Number(
-                      data?.customerCount < 0
-                        ? data?.customerCount * -1
-                        : data?.customerCount
-                    ),
-                  }))
-                  // stackedDataList
-                }
-                colorList={["#1F77B4", "#17BECF"]}
+                dataList={summaryInsightsCustomerByTenureData}
+                // xKey="tenure"
+                // stackNameKey="groupSize"
+                // valueKey="count"
+                xKey="timeline"
+                stackNameKey="customerState"
+                valueKey="customerCount"
+                colorList={["#1F77B4","#17BECF","#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
                 toolTipBorderColor="#17BECF"
               />
             </ErrorHandler>
@@ -172,7 +167,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Total Spend</h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Total Spend" tableData={summaryInsightsCustomerByTotalSpendData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByTotalSpendData}
@@ -181,16 +176,14 @@ console.log({summaryInsightsCustomerByTotalSpendData})
             >
               <StackedBarChart
                 loader={summaryInsightsCustomerByTotalSpendDataLoading}
-                dataList={
-                  summaryInsightsCustomerByTotalSpendData?.map((data: any) => ({
-                    xAxisData: `${data?.spendCategory?.replaceAll("$", currencySymbol)}`,
-                    stackName: `${data?.orderCategory}`,
-                    stackValue: Number(data?.customerCount),
-                  }))
-
-                  // stackedDataList
-                }
-                colorList={["#AA562A", "#F89B29"]}
+                dataList={summaryInsightsCustomerByTotalSpendData}
+                // xKey="spendRange"
+                // stackNameKey="groupSize"
+                // valueKey="count"
+                xKey="spendCategory"
+                stackNameKey="orderCategory"
+                valueKey="customerCount"
+                colorList={["#AA562A","#F89B29","#1F77B4", "#3FE1C0", "#E17100", "#049E16"]}
                 toolTipBorderColor="#F89B29"
               />
             </ErrorHandler>
@@ -200,7 +193,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
               <h1 className="reports-page-heading">
                 Customers By Avg Cover Size
               </h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Avg Cover Size" tableData={summaryInsightsCustomerByAvgCoverSizeData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByAvgCoverSizeData}
@@ -230,7 +223,7 @@ console.log({summaryInsightsCustomerByTotalSpendData})
               <h1 className="reports-page-heading">
                 Customers By Loyalty Levels
               </h1>
-              <DownloadPopOver />
+              <DownloadReport kpiTitle="Customers By Loyalty Levels" tableData={summaryInsightsCustomerByLoyaltyData}/>
             </div>
             <ErrorHandler
               data={summaryInsightsCustomerByLoyaltyData}

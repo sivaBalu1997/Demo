@@ -204,6 +204,7 @@ const SliderUpdated: React.FC<SliderProps> = ({
   const handlePen = () => {
     history.push("/productCatalog/PrimaryDetails", { id: editData?.id });
     setPen(!pen);
+    
   };
 
   const scrollToComponent = (componentName: string) => {
@@ -219,8 +220,8 @@ const SliderUpdated: React.FC<SliderProps> = ({
     dispatch(resetSuccessMessage());
   }, [dispatch]);
   const locationid = useSelector(
-      (state: any) => state.auth.credentials?.locationId
-    );
+    (state: any) => state.auth.selectedBranch?.id || null
+  );
   
     const [showModal, setShowModal] = useState(false);
     const { patchedData, setPatchedData, partialData, setPartialData } =

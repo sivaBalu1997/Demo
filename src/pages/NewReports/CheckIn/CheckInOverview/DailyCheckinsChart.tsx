@@ -45,6 +45,10 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
         borderWidth: 2,
         fill: false,
         data:dataList.map((item) => item.totalCheckins),
+        pointBackgroundColor: '#F89B29',
+        pointBorderColor: '#FFFFFF',
+        // pointRadius: 4,
+        // pointHoverRadius: 6
       },
       {
         type: 'bar' as const,

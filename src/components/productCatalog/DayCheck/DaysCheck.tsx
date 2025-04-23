@@ -7,7 +7,7 @@ import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActio
 
 // Define the types for the component's props
 interface DaysCheckProps {
-  checkedItems: number[]; // Use number[] for checked items
+  checkedItems: any; // Use number[] for checked items
   setCheckedItems: any;
   index?: number;
   id?: string[];
@@ -18,9 +18,13 @@ interface DaysCheckProps {
   register?: any;
   normalDays?: any;
   defaultDays?: boolean;
-  errorarray?:any
-  setErrorArray?:any
-  Errorname?:string
+  errorarray?: any;
+  setErrorArray?: any;
+  Errorname?: string;
+  disabledays?: any;
+  dateShow?: any;
+  availabilityDay?:any
+  AvailableDatsvaliadtion?: any
 }
 
 // Define the type for the data returned by the API
@@ -55,7 +59,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   defaultDays,
   errorarray,
   setErrorArray,
-  Errorname
+  Errorname,
+  disabledays,
+  dateShow,
+  availabilityDay,
+  AvailableDatsvaliadtion
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -63,105 +71,125 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const tagData = useSelector(
     (state: StateDataTag) => state.productCatalog.availability
   );
-
+  const availabilityDays = availabilityDay?.length>0 ? availabilityDay?.filter((data:any)=>data!="All") :[]
   const [data, setData] = useState<DataItem[]>([]);
-  const dispatch = useDispatch();
   const Days = [
-    "All days",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    "All Days",
+   ...availabilityDays
   ];
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    const dayIndex = parseInt(name, 10);
-
-    setCheckedItems((prevCheckedItems: any) => {
-      let updatedCheckedItems: number[];
-
-      if (dayIndex === 0) {
-        updatedCheckedItems = checked ? Days?.map((_, i) => i) : [];
-        setId(checked ? data?.map((item) => item?.id) : []);
+  const handleCheckboxChange = (day: any) => {
+    let days:any=[]
+    if(dateShow)
+    {
+      days?.push("All Days")
+    Days?.forEach((data:any,index:any)=>{
+      if(disabledays?.includes(index)){
+         days?.push(data)
+      }
+    })
+  }
+  else{
+    days=[...Days]
+  }
+    if (day === 'All Days') {
+      if (checkedItems?.length === days?.length) {
+        setCheckedItems([]);
       } else {
-        if (checked) {
-          updatedCheckedItems = [...prevCheckedItems, dayIndex];
-          setId((prevId) => [...prevId, data[dayIndex]?.id]);
-        } else {
-          updatedCheckedItems = prevCheckedItems?.filter(
-            (item: any) => item !== dayIndex
-          );
-          setId((prevId) =>
-            prevId.filter((itemId) => itemId !== data[dayIndex]?.id)
-          );
-        }
-
-        const allDaysSelected = Days.slice(1)?.every((_, i) =>
-          updatedCheckedItems?.includes(i + 1)
-        );
-
-        if (allDaysSelected) {
-          updatedCheckedItems = [
-            0,
-            ...updatedCheckedItems?.filter((item) => item !== 0),
-          ];
-        } else {
-          updatedCheckedItems = updatedCheckedItems?.filter(
-            (item) => item !== 0
-          );
-        }
+        setCheckedItems([...days]);
       }
-      if (valueName) {
-        setValue(valueName, updatedCheckedItems);
-      }
-
-      return updatedCheckedItems;
-    });
+    }
+  else if(checkedItems.includes(day))
+  {
+     setCheckedItems((prev:any)=>prev?.filter((data:any)=>data!=day))
+  }
+  else{
+    setCheckedItems((prev: any) => [...prev, day]);
+  }
   };
 
+  useEffect(() => {
+    if(checkedItems?.length > 0){
+      if(checkedItems.length==1 && checkedItems[0]=="All Days")
+      {
+        setCheckedItems([...Days])
+      }
+      AvailableDatsvaliadtion()
+    }
+  },[checkedItems])
 
-   useEffect(() => {
-        if (checkedItems && checkedItems.length > 0) {
-          console.log("checkedItemsForIndex is not empty:", checkedItems);
-          const validationErrors = { ...errorarray};
-       
-          delete validationErrors[`${Errorname}`];
-        
-          setErrorArray?.(validationErrors);
-        } else {
-          // const validationErrors = { ...errorarray};
-       
-          //  validationErrors[`${Errorname}`]="Please enter available days";
-        
-          //  setErrorArray?.(validationErrors);
-        }
-      }, [checkedItems]);
+  useEffect(() => {
+    const daysToCompare = dateShow
+      ? ["All Days", ...Days?.filter((_, index) => disabledays?.includes(index))]: Days;
+      
+    const allOtherDays = daysToCompare?.filter((day) => day !== "All Days");
+
+    const areAllDaysChecked = allOtherDays?.every((day) =>
+      checkedItems?.includes(day)
+    );
+  
+    const isAllDaysAlreadyChecked = checkedItems?.includes("All Days");
+  
+    if (areAllDaysChecked && !isAllDaysAlreadyChecked) {
+      setCheckedItems((prev: any) => [...prev, "All Days"]);
+    }
+  
+    if (!areAllDaysChecked && isAllDaysAlreadyChecked) {
+      setCheckedItems((prev: any) => prev?.filter((item: any) => item !== "All Days"));
+    }
+  }, [checkedItems, Days, dateShow, disabledays]);
+  
+
+  // useEffect(() => {
+  //   if (checkedItems && checkedItems.length > 0) {
+  //     const validationErrors = { ...errorarray };
+
+  //     delete validationErrors[`${Errorname}`];
+
+  //     setErrorArray?.(validationErrors);
+  //   } else {
+  //     // const validationErrors = { ...errorarray};
+  //     //  validationErrors[`${Errorname}`]="Please enter available days";
+  //     //  setErrorArray?.(validationErrors);
+  //   }
+  // }, [checkedItems]);
+
+  // useEffect(() => {
+  //   if (disabledays.length > 0 && checkedItems.length > 0) {
+  //     const data = checkedItems.filter((item: any) =>
+  //       disabledays.includes(item)
+  //     );
+  //     setCheckedItems(data);
+  //   }
+  // }, [disabledays]);
+
+  const AlldaysDisabled = Days.filter((item, index) =>
+    disabledays?.includes(index)
+  );
 
   return (
-   
-      <div className="DaysCheckContainer1">
-        {Days.map((elem, index) => {
-          const isChecked = checkedItems?.includes(index);
-          return (
-            <div key={index}>
-              <input
-                type="checkbox"
-                name={index?.toString()}
-                onChange={handleCheckboxChange}
-                // {...register(valueName)}
-                checked={isChecked}
-                className="days"
-              />
-              <label>{elem}</label>
-            </div>
-          );
-        })}
-      </div>
-    
+    <div className="DaysCheckContainer1">
+      {Days.map((elem, index) => {
+        const isChecked = checkedItems?.includes(elem);
+        const isEnabled = dateShow ? index==0?true : disabledays?.includes(index) : true;
+        return (
+          <div key={index}>
+            <input
+              type="checkbox"
+              name={index?.toString()}
+              onChange={() => handleCheckboxChange(elem)}
+              checked={index == 0 ? isChecked : isChecked && isEnabled}
+              disabled={
+                 !isEnabled
+              }
+              className="days"
+            />
+
+            <label>{elem}</label>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

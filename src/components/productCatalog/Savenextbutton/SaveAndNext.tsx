@@ -237,12 +237,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       const isValid = handleValidate();
       const valid=setValiadtePriceFields
 
-      let PricingDetails:any = { ...mainForm };
+      let PricingDetails:any = { ...mainForm };      
 
       const formData = getFormData();
-
-      
-     
       // const isinValid = await triggerValidation(formData);
        
 

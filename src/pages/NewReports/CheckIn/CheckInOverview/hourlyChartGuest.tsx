@@ -16,17 +16,36 @@ interface ReportProps {
 }
 
 const HourlyCheckinChartGuest: React.FC<ReportProps> = ({dataList=[], loader=false}) => {
+
   const channels = Array.from(new Set(dataList?.map((d) => titleCase(d?.channelName||"")).filter(Boolean)));
   const hours=Array.from({ length: 24 }, (_, i) => i.toString())
 
-  const datasets =  channels.map((channel, index) => ({
-    label: channel!,
-    data: hours.map((hour) =>
-      dataList?.filter((d) => d.checkinHour==hour && d.channelName === channel)
-        .reduce((sum, item) => sum + item.totalGuests, 0)
-    ),
-    backgroundColor: [ "#2797FE","#3FE1C0", "#F89B29"][index] // Colors for channels
-  }));
+  const colorMap: Record<string, string> = {
+    Merchant: "#3FE1C0",
+    Online: "#2797FE",
+    Kiosk: "#F89B29",
+  };
+  const fallbackColors = [
+    "#9B59B6", // Purple
+    "#1ABC9C", // Aqua
+    "#F39C12", // Amber
+    "#E74C3C", // Red
+    "#2ECC71", // Green
+  ];
+  let fallbackIndex = 0;
+  const datasets =  channels.map((channel, index) => {
+    const color = colorMap[channel!] || fallbackColors[fallbackIndex++ % fallbackColors.length]; // rotate through fallback colors
+    return {
+      label: channel!,
+      data: hours?.map((hour) =>
+        dataList?.filter((d) => d.checkinHour == hour && titleCase(d.channelName || "") === channel)
+          .reduce((sum, item) => sum + item.totalGuests, 0)
+      ),
+      backgroundColor: color // Colors for channels
+    }
+  });
+
+
   const data = {
     labels:hours ,
     datasets: datasets

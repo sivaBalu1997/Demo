@@ -248,10 +248,6 @@ const CategoryReport = (props: any) => {
   }
 
 
-  const datepickerApply = (type: string, data1: any, data2: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-
   const categorySalesSummaryDataArrayForDownloading = [categorySalesSummaryData]
   const categorySalesSummaryDataHeaderForDownloading = categorySalesSummaryData && Object.keys(categorySalesSummaryData)?.map((key) => ({
     key,
@@ -328,10 +324,8 @@ const CategoryReport = (props: any) => {
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={(data) => handleDateChange(data?.value)}
+            setSelectedDate={handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
-            datePickerApplyFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
-            dateDropdownFunction={(date1: any, date2: any) => datepickerApply("Custom Date", date1, date2)}
           />
           <div className="category-btn-switch">
             <button

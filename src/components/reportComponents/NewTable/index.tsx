@@ -48,8 +48,8 @@ const NewTable: React.FC<NewTableProps> = ({
   tableData,
   currentPage,
   totalPages,
-  onPageChange = () => {},
-  rowsPerPage=0,
+  onPageChange = () => { },
+  rowsPerPage = 0,
   setRowsPerPage,
   loader,
   // setLoader,
@@ -58,14 +58,14 @@ const NewTable: React.FC<NewTableProps> = ({
   onSearch,
   showDateDropDown = false,
   selectedDate,
-  onDateSelect = () => {},
+  onDateSelect = () => { },
   showTableHeader = true,
   showPagination = true,
   rowNoWrap = false,
   showIcons = true,
   tableContainerClassName = "",
   totalElements = 0,
-  headers=[]
+  headers = []
 }) => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "",
@@ -81,21 +81,21 @@ const NewTable: React.FC<NewTableProps> = ({
   const permissions = useSelector((state: RootState) => state.employee.permissions);
 
 
-  const employeeAccess =useMemo(()=> permissions?.find(
+  const employeeAccess = useMemo(() => permissions?.find(
     (item: any) =>
       item?.module === "PORTAL" &&
       item?.funtions?.includes("Employee details")
-  ),[permissions])
-  const toggleVisibility = (e: React.MouseEvent<HTMLSpanElement>,rowIndex: number) => {
-      e?.preventDefault()
-      e?.stopPropagation()
-      
-      if(employeeAccess){
-        setVisibility((prev: any) => ({
-          ...prev,
-          [rowIndex]: !prev[rowIndex],
-        }));
-      }
+  ), [permissions])
+  const toggleVisibility = (e: React.MouseEvent<HTMLSpanElement>, rowIndex: number) => {
+    e?.preventDefault()
+    e?.stopPropagation()
+
+    if (employeeAccess) {
+      setVisibility((prev: any) => ({
+        ...prev,
+        [rowIndex]: !prev[rowIndex],
+      }));
+    }
   };
 
   useEffect(() => {
@@ -111,23 +111,23 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string) => { 
-       
+  const handleSort = (key: string) => {
+
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
       direction = "desc";
     else if (sortConfig?.key === key && sortConfig?.direction === "desc")
-      direction = "asc";    
+      direction = "asc";
     setSortConfig({ key, direction });
   };
 
-  const sortedData = useMemo(() => {   
+  const sortedData = useMemo(() => {
     if (!tableData || tableData?.length === 0) return [];
     if (!sortConfig?.direction || !sortConfig?.key) return tableData;
-    
+
     return [...tableData]?.sort((a, b) => {
-      const aValue = a?.[sortConfig?.key]??"";
-      const bValue = b?.[sortConfig?.key]??"";     
+      const aValue = a?.[sortConfig?.key] ?? "";
+      const bValue = b?.[sortConfig?.key] ?? "";
       if (aValue < bValue) return sortConfig?.direction === "asc" ? -1 : 1;
       else if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
       return 0;
@@ -183,8 +183,8 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   const getOrderChannelIcons = (rowvalue: string, headerKey?: string) => {
-    if (headerKey === "orderChannel" ) {
-      if (rowvalue === "Walkin" ) {//|| rowvalue === "Instore"
+    if (headerKey === "orderChannel") {
+      if (rowvalue === "Walkin" || rowvalue === "DineIn") {
         return <WalkinIcon />;
       } else if (rowvalue === "Delivery") {
         return <DeliveryIcon />;
@@ -192,7 +192,7 @@ const NewTable: React.FC<NewTableProps> = ({
         return <PickUpIcon />;
       } else if (rowvalue === "Grubhub") {
         return <GrubhubIcon />;
-      }  else if (rowvalue === "UberEats" || rowvalue === "Uber Eats" || rowvalue === "Ubereats" || rowvalue === "ubereats" || rowvalue === "uberEats" || rowvalue === "Uber eats") {
+      } else if (rowvalue === "UberEats" || rowvalue === "Uber Eats" || rowvalue === "Ubereats" || rowvalue === "ubereats" || rowvalue === "uberEats" || rowvalue === "Uber eats") {
         return <UberEatsIcon />;
       } else if (rowvalue === "DoorDash" || rowvalue === "doordash_pos") {
         return <DoordashIcon />;
@@ -204,7 +204,7 @@ const NewTable: React.FC<NewTableProps> = ({
         return <SeamlessIcon />;
       } else if (rowvalue === "GloriaFood") {
         return <GloriaFoodIcon />;
-      }else{
+      } else {
         return <DeliveryIcon />;
       }
     }
@@ -229,18 +229,18 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-dark-green";
       } else if (rowvalue === "In Delivery") {
         return " bubble bubble-text-light-green-one";
-      } else if (rowvalue === "Pre order placed" ||rowvalue === "Order Printed") {
+      } else if (rowvalue === "Pre order placed" || rowvalue === "Order Printed") {
         return " bubble bubble-text-light-green-one";
-      } else if (rowvalue === "Payment Failed"){
+      } else if (rowvalue === "Payment Failed") {
         return " bubble bubble-text-pink-red";
-      }else if (rowvalue === "Order Cancelled"){
+      } else if (rowvalue === "Order Cancelled") {
         return " bubble bubble-text-pink-red";
-      }else if (rowvalue === "Order Served"){
+      } else if (rowvalue === "Order Served") {
         return " bubble-text-diff-green";
-      }else{
+      } else {
         return " bubble bubble-text-brown-one";
       }
-      
+
     } else if (headerValue === "Order Channel") {
 
       return " rep-order-channel";
@@ -259,19 +259,19 @@ const NewTable: React.FC<NewTableProps> = ({
         rowvalue === "Available"
       ) {
         return " bubble bubble-text-green-one";
-      } else if (rowvalue === "seated" || rowvalue === "Seated" || rowvalue === "Order Printed"  ) {
+      } else if (rowvalue === "seated" || rowvalue === "Seated" || rowvalue === "Order Printed") {
         return " bubble bubble-text-light-green-one";
       } else if (rowvalue === "noshow") {
         return " bubble bubble-text-diff-orange-brown";
-      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled"){
+      } else if (rowvalue === "Cancelled" || rowvalue === "cancelled") {
         return "bubble bubble-text-brown-one"
-      } else if (rowvalue === "Completed" || rowvalue === "completed"){
+      } else if (rowvalue === "Completed" || rowvalue === "completed") {
         return "bubble bubble-text-diff-green"
-      }else if (rowvalue === "Order Cancelled"){
+      } else if (rowvalue === "Order Cancelled") {
         return " bubble bubble-text-pink-red";
-      }else if (rowvalue === "Order Served"){
+      } else if (rowvalue === "Order Served") {
         return " bubble-text-diff-green";
-      }else{
+      } else {
         return " bubble bubble-text-brown-one";
       }
     }
@@ -284,25 +284,25 @@ const NewTable: React.FC<NewTableProps> = ({
     onDateSelect(from, to, kpiTitleForCustomDateDropdown);
     setSearchFlag(true);
   };
-  
+
   const formatMonetaryValue = (value: any): string => {
     // Return dash for any empty/invalid/special values
-    if (value === '' || 
-        value === '-' || 
-        value === null || 
-        value === undefined) {
+    if (value === '' ||
+      value === '-' ||
+      value === null ||
+      value === undefined) {
       return '-';
     }
-    
+
     // Handle numeric values
     const numValue = typeof value === 'number' ? value : Number(value);
-    
+
     // Return dash if NaN, otherwise format the number
     return isNaN(numValue) ? '-' : numValue.toFixed(2);
   };
 
   const handleRecordPerPageLimitChange = (num: number) => {
-    if(setRowsPerPage) {
+    if (setRowsPerPage) {
       setRowsPerPage(num)
     }
     onPageChange(1);
@@ -331,7 +331,7 @@ const NewTable: React.FC<NewTableProps> = ({
                       placeholder="Select Option"
                       className="table-date-dropdown"
                       disabled={false}
-                      // controlClassName="dropdown-control"
+                    // controlClassName="dropdown-control"
                     />
                   ) : (
                     <TableDateDropdown
@@ -367,15 +367,15 @@ const NewTable: React.FC<NewTableProps> = ({
                     />
                   )}
                 </div>
-                {(tableData||apiEndPoint) && headerData && (
+                {(tableData || apiEndPoint) && headerData && (
                   <DownloadReport
-                  employeeAccess={employeeAccess}
+                    employeeAccess={employeeAccess}
                     apiParams={{
-                      apiEndPoint:apiEndPoint||"",
-                      ...queryParams,    
-                      page:1,
-                      size:totalElements,
-                      search:searchQuery,
+                      apiEndPoint: apiEndPoint || "",
+                      ...queryParams,
+                      page: 1,
+                      size: totalElements,
+                      search: searchQuery,
                     }}
                     tableData={tableData}
                     headerData={headerData}
@@ -403,17 +403,17 @@ const NewTable: React.FC<NewTableProps> = ({
                   </div>
                 )}
               </div>
-              {(tableData||apiEndPoint) && headerData && (
+              {(tableData || apiEndPoint) && headerData && (
                 <DownloadReport
 
-                employeeAccess={employeeAccess  } //TODO : change dynamic
-                apiParams={{
-                  apiEndPoint:apiEndPoint||"",
-                  ...queryParams,    
-                  page:1,
-                  size:totalElements,
-                  search:searchQuery,
-                }}
+                  employeeAccess={employeeAccess} //TODO : change dynamic
+                  apiParams={{
+                    apiEndPoint: apiEndPoint || "",
+                    ...queryParams,
+                    page: 1,
+                    size: totalElements,
+                    search: searchQuery,
+                  }}
                   tableData={tableData}
                   headerData={headerData}
                   kpiTitle={kpiTitle}
@@ -443,9 +443,9 @@ const NewTable: React.FC<NewTableProps> = ({
       )}
       <div className="table-wrapper">
         {!tableLoader &&
-        !initialLoader &&
-        searchQuery &&
-        (!tableData || tableData?.length === 0) ? (
+          !initialLoader &&
+          searchQuery &&
+          (!tableData || tableData?.length === 0) ? (
           <div className="no-results-container">
             <NoResultsFoundStampIcon />
             <p className="no-results-text">
@@ -484,15 +484,14 @@ const NewTable: React.FC<NewTableProps> = ({
                       <span className="re-table-header-label">{header?.label}</span>
                       {header?.isSortable && (
                         <SortIcon
-                          className={`sort-icon ${
-                            sortConfig?.key === header?.key
+                          className={`sort-icon ${sortConfig?.key === header?.key
                               ? sortConfig?.direction
                               : ""
-                          }`}
+                            }`}
                         />
                       )}
                       {header?.isPrivate && (
-                        <span onClick={(e: React.MouseEvent<HTMLSpanElement>) => {toggleVisibility(e,header.key)}}>
+                        <span onClick={(e: React.MouseEvent<HTMLSpanElement>) => { toggleVisibility(e, header.key) }}>
                           {visibility[header.key] ? (
                             <OpenEyeIcon
                               className={`sort-icon`}
@@ -514,60 +513,61 @@ const NewTable: React.FC<NewTableProps> = ({
             <tbody>
               {tableLoader
                 ? // Shimmer Effect for Table Rows (only when search, pagination, row-limit changes)
-                  [...Array(rowsPerPage)].map((_, index) => (
-                    <tr key={index} className="skeleton-row">
-                      {headerData.map((header: any, i: any) => (
-                        <td key={i}>
-                          <div className="skeleton-box"></div>
-                        </td>
-                      ))}
-                    </tr>
-                  ))
+                [...Array(rowsPerPage)].map((_, index) => (
+                  <tr key={index} className="skeleton-row">
+                    {headerData.map((header: any, i: any) => (
+                      <td key={i}>
+                        <div className="skeleton-box"></div>
+                      </td>
+                    ))}
+                  </tr>
+                ))
                 : // Actual Data Rendering
-                  paginatedData?.map((row, index) => {
-                    const rowStyle: any = {};
-                    if (rowNoWrap) {
-                      rowStyle.textWrap = "nowrap";
-                    }
-                    return (
-                      <tr key={index} style={rowStyle}>
-                        {headerData?.map((header: any) => {
-                          const styles: any = {
-                            textAlign: header?.alignment || "left",
-                          };
-                          if (row?.color) {
-                            styles.color = row?.color;
-                          }
-                          return (
-                            <td key={header?.key} style={styles}>
-                              <div
-                                className={getDynamicClassNames(
+                paginatedData?.map((row, index) => {
+                  const rowStyle: any = {};
+                  if (rowNoWrap) {
+                    rowStyle.textWrap = "nowrap";
+                  }
+                  return (
+                    <tr key={index} style={rowStyle}>
+                      {headerData?.map((header: any) => {
+                        const styles: any = {
+                          textAlign: header?.alignment || "left",
+                        };
+                        if (row?.color) {
+                          styles.color = row?.color;
+                        }
+                        return (
+                          <td key={header?.key} style={styles}>
+                            <div
+                              className={getDynamicClassNames(
+                                row[header?.key],
+                                header?.label
+                              )}
+                            >
+                              {showIcons
+                                ? getOrderChannelIcons(
                                   row[header?.key],
-                                  header?.label
-                                )}
-                              >
-                                {showIcons
-                                  ? getOrderChannelIcons(
-                                      row[header?.key],
-                                      header?.key
-                                    )
-                                  : ""}
-                                {row[header?.key] ? header?.prefix : ""}
-                                {header?.isPrivate
-                                  ? visibility[header.key]
-                                    ? row[header?.key]
-                                    : maskPhone(row[header?.key])
-                                  : header?.isMonetary 
-                                    ? formatMonetaryValue(row[header?.key])
-                                    : row[header?.key]
-                                }
-                              </div>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })}
+                                  header?.key
+                                )
+                                : ""}
+                              {row[header?.key] ? header?.prefix : ""}
+                              {header?.isPrivate
+                                ? visibility[header.key]
+                                  ? row[header?.key]
+                                  : maskPhone(row[header?.key])
+                                : header?.isMonetary
+                                  ? formatMonetaryValue(row[header?.key])
+                                  : row[header?.key]
+                              }
+                              {header?.suffix ? `${(row[header?.key] || row[header?.key] === 0) ? ` ${header?.suffix}` : ""}` : ""}
+                            </div>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         )}
@@ -592,9 +592,8 @@ const NewTable: React.FC<NewTableProps> = ({
                     {[10, 20, 30]?.map((num) => (
                       <button
                         key={num}
-                        className={`option ${
-                          rowsPerPage === num ? "selected" : ""
-                        }`}
+                        className={`option ${rowsPerPage === num ? "selected" : ""
+                          }`}
                         onClick={() => handleRecordPerPageLimitChange(num)}
                       >
                         {num}
@@ -605,7 +604,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 <span className="total-elements">
                   {/* {currentPage}-{rowsPerPage} of {totalElements}  */}
                   {/* changed as per prod input */}
-                  {(currentPage-1)*Number(rowsPerPage)+1}-{Number(rowsPerPage)*currentPage>totalElements?totalElements:Number(rowsPerPage)*currentPage} of {totalElements}
+                  {(currentPage - 1) * Number(rowsPerPage) + 1}-{Number(rowsPerPage) * currentPage > totalElements ? totalElements : Number(rowsPerPage) * currentPage} of {totalElements}
                 </span>
               </div>
             )}
@@ -618,9 +617,8 @@ const NewTable: React.FC<NewTableProps> = ({
               }
               pageLabelBuilder={(page: number) => (
                 <button
-                  className={`${
-                    page == currentPage ? "active" : ""
-                  } pagination-number-button`}
+                  className={`${page == currentPage ? "active" : ""
+                    } pagination-number-button`}
                 >
                   {page}
                 </button>

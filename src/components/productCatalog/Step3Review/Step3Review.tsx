@@ -116,6 +116,9 @@ const Step3Review: React.FC = () => {
               </div>
 
               <div className="Step-3-Modifier-Section-Menu-container">
+                
+              <div className="Step-3-Modifier-Section-Menu-container-one">
+                <div className="min-max-container">
                 <div className="Step-3-Modifier-Section-Each-Menu-container">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">
                     Min Selection
@@ -132,36 +135,9 @@ const Step3Review: React.FC = () => {
                     {elem?.maxSelection && elem?.maxSelection}{!maxSelectionArray?.length && "N/A"}
                   </h3>
                 </div>
-                <div className="Step-3-Modifier-Section-Each-Menu-container-item">
-                  <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
-                  {elem.modifierOptions &&
-                    elem.modifierOptions.map((subItem: any, subIndex: any) => (
-                      <h2
-                        key={subIndex}
-                        className="Step-3-Modifier-Section-Menu-details-items"
-                      >
-                        {subItem.modifierOptionName}
-                      </h2>
-                    ))}
                 </div>
-                <div className="Step-3-Modifier-Section-Each-Menu-container-price">
-                  <h3 className="Step-3-Modifier-Section-Menu-heading">
-                    Price
-                  </h3>
-                  {elem.modifierOptions &&
-                    elem.modifierOptions.map((price: any, priceIndex: any) => (
-                      <h2
-                        key={priceIndex}
-                        className="Step-3-Modifier-Section-Menu-details-price"
-                      >
-                        {restaurantDetails?.country === "US" ? "$" : "Rs."}{Number(price.cost).toFixed(2)}
-                        {/* {(typeof price.cost === "number" ? price.cost : 0).toFixed(2)} */}
-                      </h2>
-                    ))}
-                </div>
-              </div>
-
-              <div className="Free-Modification-Section">
+             
+                <div className="Free-Modification-Section">
                 <h3 className="Step-3-Modifier-Section-Menu-heading">
                   Free modification
                 </h3>
@@ -193,6 +169,77 @@ const Step3Review: React.FC = () => {
                     ))}
                 </div>
               </div>
+              </div>
+
+
+
+
+
+                <div className="ModifierOptions-price">
+                  <div className="ModifierOptions-price-heading">
+                  <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
+                  <h3 className="Step-3-Modifier-Section-Menu-heading">
+                    Price
+                  </h3>
+
+                  </div>
+                  <div className="ModifierOptions-price-data-container">
+                  {elem.modifierOptions &&
+                    elem.modifierOptions.map((subItem: any, subIndex: any) => (
+
+                      <div key={subIndex} className="ModifierOptions-price-data">
+                      <h2
+                        
+                        className="Step-3-Modifier-Section-Menu-details-items"
+                      >
+                        {subItem.modifierOptionName}
+                      </h2>
+                      <h2
+                        
+                        className="Step-3-Modifier-Section-Menu-details-price"
+                      >
+                        {restaurantDetails?.country === "US" ? "$" : "Rs."}{Number(subItem.cost).toFixed(2)}
+                        {/* {(typeof price.cost === "number" ? price.cost : 0).toFixed(2)} */}
+                      </h2>
+                      </div>
+                      
+                    ))}
+
+                  </div>
+
+                </div>
+                {/* <div className="Step-3-Modifier-Section-Each-Menu-container-item">
+                  <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
+                  {elem.modifierOptions &&
+                    elem.modifierOptions.map((subItem: any, subIndex: any) => (
+                      <h2
+                        key={subIndex}
+                        className="Step-3-Modifier-Section-Menu-details-items"
+                      >
+                        {subItem.modifierOptionName}
+                      </h2>
+                    ))}
+                </div>
+                <div className="Step-3-Modifier-Section-Each-Menu-container-price">
+                  <h3 className="Step-3-Modifier-Section-Menu-heading">
+                    Price
+                  </h3>
+                  {elem.modifierOptions &&
+                    elem.modifierOptions.map((price: any, priceIndex: any) => (
+                      <h2
+                        key={priceIndex}
+                        className="Step-3-Modifier-Section-Menu-details-price"
+                      >
+                        {restaurantDetails?.country === "US" ? "$" : "Rs."}{Number(price.cost).toFixed(2)}
+                      </h2>
+                    ))}
+                </div> */}
+
+
+
+              </div>
+
+             
             </div>
           ))
       ) : (

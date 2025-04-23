@@ -45,9 +45,21 @@ const generateQueryParams = (payload) => {
     if(payload?.offer){
         query+=`&offer=${payload?.offer}`
     }
+
+    if (Array.isArray(payload?.staffIds) && payload.staffIds.length > 0) {
+        query += `&staffIds=${payload.staffIds.join(",")}`;
+    } else if (typeof payload?.staffIds === "string" || payload?.staffIds === "") {
+        query += `&staffIds=${payload?.staffIds}`;
+    }
+
+    if(payload?.errorType){
+        query+=`&errorType=${payload?.errorType}`
+    }
+
     return "?"+query?.slice(1)
 }
 
+// Overview APIs under Staff Reports :
 export const getStaffOverviewEmployeePerformance = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
@@ -72,6 +84,7 @@ export const getStaffOverviewActivities = (params) => {
     });
 };
 
+// Performance Trend APIs under Staff reports :
 export const getStaffOverviewEmployeePerformanceTable = (params) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(params);
@@ -89,7 +102,7 @@ export const getStaffTrendSalesPerformance = (params) => {
     const query = generateQueryParams(params);
     return REPORTS_API({
         method: "get",
-        url: `/staff/trend/sales-performance${query}`,
+        url: `/staff/overview/sales-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
@@ -113,7 +126,7 @@ export const getStaffTrendErrorPerformance = (params) => {
     const query = generateQueryParams(params);
     return REPORTS_API({
         method: "get",
-        url: `/staff/trend/error-performance${query}`,
+        url: `/staff/overview/error-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberByCountry, getCurrencySymbol } from 'utils';
+import { useWindowSize } from 'hooks/useWindowSize';
 import {
   cardWithMiniGraphDataForTodays,
   cardWithMiniGraphDataForTodaysWithoutGratuity,
@@ -11,14 +12,11 @@ import { NewTableHeader } from "interface/newReportsInterface";
 import {
   billedRequest,
   changeLocation,
-  liveDiscountRequest,
-  liveNetSalesRequest,
-  liveOpenSalesRequest,
   liveOrderNonDineInRequest,
   liveOrdersRequest,
-  liveRefundsRequest,
-  orderTrackerRequest,
-  OverallOrderNonDineInRequest,
+  paidCancelledOrdersRequest,
+  paidDineInOrdersRequest,
+  paidOffPremiseOrdersRequest,
   unBilledRequest,
 } from "redux/newReports/newReportsActions";
 import SwitchableBox from "components/reportComponents/SwitchableBox";
@@ -29,7 +27,6 @@ import StoreFilter from "components/reportComponents/StoreFilter";
 import DownloadReport from "components/reportComponents/DownloadReports";
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
 import "./style.scss";
-import { useWindowSize } from 'hooks/useWindowSize';
 
 const TodaysReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,62 +45,46 @@ const TodaysReport: React.FC = () => {
     useState("");
   const [liveOrderNonDineInPageLimit, setLiveOrderNonDineInPageLimit] =
     useState<number>(10);
+  // paid dine-in orders states :
+  const [currentPagePaidDineInOrders, setCurrentPagePaidDineInOrders] = useState<number>(1)
+  const [paidDineInOrdersSearchQuery, setPaidDineInOrdersSearchQuery] = useState("")
+  const [paidDineInOrdersPageLimit, setPaidDineInOrdersPageLimit] = useState<number>(10)
+  // paid off-premise orders states :
+  const [currentPagePaidOffPremiseOrders, setCurrentPagePaidOffPremiseOrders] = useState<number>(1)
+  const [paidOffPremiseOrdersSearchQuery, setPaidOffPremiseOrdersSearchQuery] = useState("")
+  const [paidOffPremisePageLimit, setPaidOffPremisePageLimit] = useState<number>(10)
+  // paid cancelled orders states :
+  const [currentPagePaidCancelledOrders, setCurrentPagePaidCancelledOrders] = useState<number>(1)
+  const [paidCancelledOrdersSearchQuery, setPaidCancelledOrdersSearchQuery] = useState("")
+  const [paidCancelledOrdersPageLimit, setPaidCancelledOrdersPageLimit] = useState<number>(10)
 
-  const [paidDineInSearchQuery, setPaidDineInSearchQuery] = useState("");
-  const [paidOffPremiseSearchQuery, setPaidOffPremiseSearchQuery] = useState("");
-  const [currentPagePaidDineIn, setCurrentPagePaidDineIn] = useState<number>(1);
-  const [currentPagePaidOffPremise, setCurrentPagePaidOffPremise] =
-    useState<number>(1);
-  const [unpaidOffPremiseTableRecordLimit, setUnpaidOffPremiseTableRecordLimit] = useState<number>(10);
-  const [paidOffPremiseTableRecordLimit, setPaidOffPremiseTableRecordLimit] = useState<number>(10);
-  const [orderTrackerPageLimit,  setOrderTrackerPageLimit] = useState<number>(10);
+  const { width } = useWindowSize();
+
+  const isMobile = width <= 600;
+
+  const paidDineInOrdersAPIRedux = useSelector(
+    (state: any) => state?.newReports?.paidDineInOrdersSuccess
+  )
+
+  const paidDineInOrdersLoading = useSelector(
+    (state: any) => state?.newReports?.paidDineInOrdersLoading
+  )
+
+  const paidOffPremiseOrdersAPIRedux = useSelector(
+    (state: any) => state?.newReports?.paidOffPremiseOrdersSuccess
+  )
+
+  const paidOffPremiseOrdersAPIReduxLoading = useSelector(
+    (state: any) => state?.newReports?.paidOffPremiseOrdersLoading
+  )
 
   const liveOrdersAPIRedux = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.content
   );
-
-  const { width } = useWindowSize();
- 
-  const isMobile = width <= 600;
-
-  const overallOrdersAPIReduxL = useSelector(
-    (state: any) => state?.newReports?.OverallOrderNonDineInLoading
-  );
-
-  const overAllOrdersAPIReduxGlobal = useSelector(
-    (state: any) => state?.newReports?.OverallOrderNonDineInSuccess
-  ) 
-
-  const overallOrdersAPIRedux = useSelector(
-    (state: any) => state?.newReports?.OverallOrderNonDineInSuccess?.content
-  );
-
   const liveOrdersAPIReduxTotalElements = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.totalElements
   );
-
-  const ordersTrackerAPIReduxGlobal = useSelector(
-    (state: any) => state?.newReports?.orderTrackerSuccess
-  )
-
-  const ordersTrackerAPIReduxL = useSelector(
-    (state: any) => state?.newReports?.orderTrackerLoading
-  );
-
-  const ordersTrackerAPIRedux = useSelector(
-    (state: any) => state?.newReports?.orderTrackerSuccess?.content
-  );
-
-  const overallOrdersAPIReduxTotalElements = useSelector(
-    (state: any) => state?.newReports?.OverallOrderNonDineInSuccess?.totalElements
-  );
-  const OrderTrackerAPIReduxTotalElements = useSelector(
-    (state: any) => state?.newReports?.orderTrackerSuccess?.totalElements
-  );
   const liveOrdersTotalPageNo = useSelector(
-    (state: any) => state?.newReports?.liveOrdersSuccess?.totalPages
-  );
-  const OrderTrackerTotalPageNo = useSelector(
     (state: any) => state?.newReports?.liveOrdersSuccess?.totalPages
   );
   const liveOrderNonDineInAPIRedux = useSelector(
@@ -130,24 +111,32 @@ const TodaysReport: React.FC = () => {
   const billedDataAPIRedux = useSelector(
     (state: any) => state?.newReports?.billedSuccess
   );
-  const billedDataAPIReduxError = useSelector(
-    (state: any) => state?.newReports?.billedFailure
-  );
   const billedDataAPIReduxLoading = useSelector(
     (state: any) => state?.newReports?.billedLoading
   );
 
+  const billedDataAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.billedFailure
+  );
 
   const unBilledAPIRedux = useSelector(
     (state: any) => state?.newReports?.unBilledSuccess
-  );
-  const unBilledAPIReduxError = useSelector(
-    (state: any) => state?.newReports?.unBilledFailure
   );
   const unBilledAPIReduxLoading = useSelector(
     (state: any) => state?.newReports?.unBilledLoading
   );
 
+  const unBilledAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.unBilledFailure
+  );
+
+  const paidCancelledOrdersAPIRedux = useSelector(
+    (state: any) => state?.newReports?.paidCancelledOrdersSuccess
+  )
+
+  const paidCancelledOrdersAPIReduxLoading = useSelector(
+    (state: any) => state?.newReports?.paidCancelledOrdersLoading
+  )
 
   const billedDataArrayForDownloading = [billedDataAPIRedux];
   const billedDataAPIReduxHeaderForDownloading =
@@ -175,9 +164,6 @@ const TodaysReport: React.FC = () => {
     () => getCurrencySymbol(countryCode, true),
     [countryCode]
   );
-
-  const billedAndUnBilledError: boolean = billedDataAPIReduxError && unBilledAPIReduxError
-  // console.log("1111",{currencySymbol, countryCode})
 
 
   const liveOrderNonDineInTableHeaders: NewTableHeader[] = [
@@ -210,7 +196,7 @@ const TodaysReport: React.FC = () => {
       key: "orderStatus",
       label: "Order Status",
       isSortable: false,
-      alignment: "left",
+      alignment: "center",
     },
     {
       key: "customerName",
@@ -235,6 +221,63 @@ const TodaysReport: React.FC = () => {
     },
     // { key: 'orderDate', label: 'Order Date', isSortable: true, alignment: 'left' },
     // { key: 'requestedEta', label: 'Requested ETA', isSortable: true, alignment: 'left' },
+  ];
+
+  const paidCancelledOrdersHeaders: NewTableHeader[] = [
+    {
+      key: "orderNumber",
+      label: "Order Number",
+      isSortable: true,
+      alignment: "left",
+      prefix: "#",
+    },
+    {
+      key: "orderChannel",
+      label: "Order Channel",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "orderType",
+      label: "Order Type",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "orderTime",
+      label: "Order time",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "customerName",
+      label: "Customer Name",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "customerNumber",
+      label: "Customer Number",
+      isSortable: false,
+      isPrivate: true,
+      alignment: "left",
+    },
+    {
+      key: "orderTotal",
+      label: "Updated order total",
+      isSortable: true,
+      alignment: "left",
+      isMonetary: true,
+      prefix: currencySymbol,
+    },
+    {
+      key: "canceledAmount",
+      label: `Cancelled Amount`,
+      isSortable: true,
+      alignment: "right",
+      isMonetary: true,
+      prefix: currencySymbol,
+    }
   ];
 
   const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map(
@@ -278,12 +321,12 @@ const TodaysReport: React.FC = () => {
       isSortable: true,
       alignment: "left",
     },
-    // {
-    //   key: "orderStatus",
-    //   label: "Order Status",
-    //   isSortable: false,
-    //   alignment: "left",
-    // },
+    {
+      key: "orderStatus",
+      label: "Order Status",
+      isSortable: false,
+      alignment: "left",
+    },
     {
       key: "tableOccupancyDuration",
       label: "Table occupancy duration",
@@ -301,18 +344,6 @@ const TodaysReport: React.FC = () => {
   ];
 
   const orderedLiveOrdersData = liveOrdersAPIRedux?.map(
-    (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData.orderNumber,
-      tableName: toBeMappedData.tableName,
-      orderDate: toBeMappedData.orderDate,
-      orderTime: toBeMappedData.orderTime,
-      // orderStatus: toBeMappedData.orderStatus,
-      tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderAmount: toBeMappedData.orderAmount,
-    })
-  );
-
-  const overallOrderedLiveOrdersData = overallOrdersAPIRedux?.map(
     (toBeMappedData: any) => ({
       orderNumber: toBeMappedData.orderNumber,
       tableName: toBeMappedData.tableName,
@@ -416,26 +447,50 @@ const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
   })
 );
 
-const paidOffPremiseMappedDataMobile = ordersTrackerAPIRedux?.map((dataToBeMapped:any)=>({
-  orderNumber: dataToBeMapped.orderNumber,
-  orderChannel: dataToBeMapped.orderChannel,
-  orderStatus: dataToBeMapped.orderStatus,
-  customerName: dataToBeMapped.customerName,
-  customerNumber: dataToBeMapped.customerNumber,
-  orderTotal: dataToBeMapped.orderTotal,
+const paidDineInOrdersAPIReduxMapped =  paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any)=>({
+  orderNumber: dataToBeMapped?.orderNumber,
+  tableName: dataToBeMapped?.tableName,
+  orderDate: dataToBeMapped?.orderDate,
+  orderTime: dataToBeMapped?.orderTime,
+  orderStatus: dataToBeMapped?.orderStatus,
+  tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
+  orderAmount: dataToBeMapped?.orderAmount,
 }))
 
-const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((dataToBeMapped:any)=>({
-  orderNumber: dataToBeMapped.orderNumber,
-  tableName: dataToBeMapped.tableName,
-  orderDate: dataToBeMapped.orderDate,
-  orderTime: dataToBeMapped.orderTime,
-  orderStatus: dataToBeMapped.orderStatus,
-  tableOccupancyDuration: dataToBeMapped.tableOccupancyDuration,
-  orderAmount: dataToBeMapped.orderAmount,
+const paidDineInOrdersAPIReduxMappedMobile = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any)=>({
+  tableName: dataToBeMapped?.tableName,
+  orderAmount: dataToBeMapped?.orderAmount,
+  tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
+  orderTime: dataToBeMapped?.orderTime,
 }))
 
+const paidOffPremiseOrdersAPIReduxMapped = paidOffPremiseOrdersAPIRedux?.content?.map(
+  (toBeMappedData: any) => ({
+    orderNumber: toBeMappedData?.orderNumber,
+    orderChannel: toBeMappedData?.orderChannel,
+    orderType: toBeMappedData?.orderType,
+    timeElapsed: toBeMappedData?.timeElapsed,
+    orderStatus: toBeMappedData?.orderStatus,
+    customerName: toBeMappedData?.customerName,
+    customerNumber: toBeMappedData?.customerNumber,
+    orderTotal: toBeMappedData?.orderTotal,
+    // orderDate: toBeMappedData?.orderDate,
+    // requestedEta: toBeMappedData?.requestedEta,
+  })
+);
 
+const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.content?.map(
+  (toBeMappedData: any) => ({
+    orderNumber: toBeMappedData?.orderNumber,
+    orderChannel: toBeMappedData?.orderChannel,
+    orderStatus: toBeMappedData?.orderStatus,
+    customerName: toBeMappedData?.customerName,
+    customerNumber: toBeMappedData?.customerNumber,
+    orderTotal: toBeMappedData?.orderTotal,
+  })
+);
+
+  // Unpaid Dine-in orders
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
     setCurrentDate(formattedDate);
@@ -451,7 +506,6 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
-          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
   }, [
@@ -460,9 +514,36 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
     liveOrdersPageLimit,
     currentDate,
     liveOrdersSearchQuery,
-    isSwitchActive,
   ]);
 
+  // Paid Dine-in orders 
+  useEffect(() => {
+    const formattedDate = moment().format("YYYY-MM-DD");
+    setCurrentDate(formattedDate);
+    let search = paidDineInOrdersSearchQuery;
+    if (search?.[0] === "#") search = search.slice(1);
+
+    currentDate &&
+      dispatch(
+        paidDineInOrdersRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: currentPagePaidDineInOrders,
+          tableRecordLimit: paidDineInOrdersPageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+          type: "Paid",
+        })
+      );
+  }, [
+    selectedLocation,
+    currentPagePaidDineInOrders,
+    paidDineInOrdersPageLimit,
+    currentDate,
+    paidDineInOrdersSearchQuery,
+  ]);
+
+  // Unpaid Off-Premise orders
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
     setCurrentDate(formattedDate);
@@ -477,7 +558,6 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
           startDate: currentDate,
           endDate: currentDate,
           searchQuery: search,
-          ...( isSwitchActive && { type: "Paid" } ),
         })
       );
   }, [
@@ -486,61 +566,33 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
     currentDate,
     liveOrderNonDineInPageLimit,
     liveOrderNonDineInSearchQuery,
-    isSwitchActive,
   ]);
 
   // Paid Off-Premise orders
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
     setCurrentDate(formattedDate);
-    let search = paidOffPremiseSearchQuery;
-    if (search?.[0] === "#") search = search.slice(1);
-    dispatch(
-      orderTrackerRequest({
-        locationid: selectedLocation?.value,
-        tablePageNo: currentPagePaidOffPremise,
-        tableRecordLimit: orderTrackerPageLimit,
-        startDate: currentDate,
-        endDate: currentDate,
-        searchQuery: search,
-        ...( isSwitchActive && { type: "Paid" } ),
-      })
-    );
-  },[
+    let search = paidOffPremiseOrdersSearchQuery;
+    if (search[0] === "#") search = search.slice(1);
+    currentDate &&
+      dispatch(
+        paidOffPremiseOrdersRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: currentPagePaidOffPremiseOrders,
+          tableRecordLimit: paidOffPremisePageLimit,
+          startDate: currentDate,
+          endDate: currentDate,
+          searchQuery: search,
+          type: "Paid",
+        })
+      );
+  }, [
     selectedLocation,
-    currentPagePaidOffPremise,
+    currentPagePaidOffPremiseOrders,
     currentDate,
-    orderTrackerPageLimit,
-    paidOffPremiseSearchQuery,
-    isSwitchActive,
-  ])
-
-  // Paid Dine-in orders
-  useEffect(() => {
-    const formattedDate = moment().format("YYYY-MM-DD");
-    setCurrentDate(formattedDate);
-    let search = paidDineInSearchQuery
-    if (search?.[0] === "#") search = search.slice(1);
-    dispatch(
-      OverallOrderNonDineInRequest({
-        locationid: selectedLocation?.value,
-        tablePageNo: currentPagePaidDineIn,
-        tableRecordLimit: paidOffPremiseTableRecordLimit,
-        startDate: currentDate,
-        endDate: currentDate,
-        searchQuery: search,
-        ...( isSwitchActive && { type: "Paid" } ),
-      })
-    );
-  },[
-    selectedLocation,
-    currentPagePaidDineIn,
-    currentDate,
-    paidOffPremiseTableRecordLimit,
-    paidDineInSearchQuery,
-    isSwitchActive,
-  ])
-
+    paidOffPremisePageLimit,
+    paidOffPremiseOrdersSearchQuery,
+  ]);
 
   useEffect(() => {
     const formattedDate = moment().format("YYYY-MM-DD");
@@ -572,7 +624,18 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
     setIsSwitchActive((prev) => !prev);
   };
 
-  
+  useEffect(() => {
+    let search = paidCancelledOrdersSearchQuery;
+      dispatch(
+        paidCancelledOrdersRequest({
+          locationid: selectedLocation?.value,
+          tablePageNo: currentPagePaidCancelledOrders,
+          tableRecordLimit: paidCancelledOrdersPageLimit,
+          search: search,
+        })
+      );
+  },[paidCancelledOrdersSearchQuery, selectedLocation, currentPagePaidCancelledOrders, paidCancelledOrdersPageLimit]);
+
   const handleSearch = (value: string, kpiTitle: string) => {
     let search = value;
     if (search?.[0] === "#") search = search.slice(1);
@@ -585,25 +648,25 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
           liveOrdersRequest({
             locationid: selectedLocation?.value,
             tablePageNo: 1,
+            tableRecordLimit: liveOrdersPageLimit,
             startDate: currentDate,
             endDate: currentDate,
             searchQuery: search,
-            tableRecordLimit: liveOrdersPageLimit,
           })
         );
         break;
   
       case "Paid Dine-in orders":
-        setPaidDineInSearchQuery(value);
-        setCurrentPagePaidDineIn(1);
+        setPaidDineInOrdersSearchQuery(value);
+        setCurrentPagePaidDineInOrders(1);
         dispatch(
-          OverallOrderNonDineInRequest({
+          paidDineInOrdersRequest({
             locationid: selectedLocation?.value,
-            tablePageNo: 1,
+            tablePageNo: currentPagePaidDineInOrders,
+            tableRecordLimit: paidDineInOrdersPageLimit,
             startDate: currentDate,
             endDate: currentDate,
             searchQuery: search,
-            tableRecordLimit: liveOrdersPageLimit,
             type: "Paid",
           })
         );
@@ -616,25 +679,39 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
           liveOrderNonDineInRequest({
             locationid: selectedLocation?.value,
             tablePageNo: 1,
+            tableRecordLimit: liveOrderNonDineInPageLimit,
             startDate: currentDate,
             endDate: currentDate,
             searchQuery: search,
-            tableRecordLimit: unpaidOffPremiseTableRecordLimit,
           })
         );
         break;
   
       case "Paid Off-Premise orders":
-        setPaidOffPremiseSearchQuery(value);
-        setCurrentPageLiveOrdersNonDineIn(1);
+        setPaidOffPremiseOrdersSearchQuery(value);
+        setCurrentPagePaidOffPremiseOrders(1);
         dispatch(
-          orderTrackerRequest({
+          paidOffPremiseOrdersRequest({
             locationid: selectedLocation?.value,
-            tablePageNo: 1,
+            tablePageNo: currentPagePaidOffPremiseOrders,
+            tableRecordLimit: paidOffPremisePageLimit,
             startDate: currentDate,
             endDate: currentDate,
             searchQuery: search,
-            tableRecordLimit: paidOffPremiseTableRecordLimit,
+            type: "Paid",
+          })
+        );
+        break;
+      
+      case "Paid cancelled orders":
+        setPaidCancelledOrdersSearchQuery(value);
+        setCurrentPagePaidCancelledOrders(1);
+        dispatch(
+          paidCancelledOrdersRequest({
+            locationid: selectedLocation?.value,
+            tablePageNo: currentPagePaidCancelledOrders,
+            tableRecordLimit: paidCancelledOrdersPageLimit,
+            search: search,
           })
         );
         break;
@@ -643,15 +720,28 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
         console.warn(`Unknown KPI title: ${kpiTitle}`);
     }
   };
+  
 
   const handleRefreshClick = () => {
     setLiveOrdersSearchQuery("");
     setLiveOrdersPageLimit(10);
+    setCurrentPageLiveOrders(1);
+    
+    setPaidDineInOrdersSearchQuery("")
+    setPaidDineInOrdersPageLimit(10);
+    setCurrentPagePaidDineInOrders(1);
+
     setLiveOrderNonDineInSearchQuery("");
     setLiveOrderNonDineInPageLimit(10);
-    setCurrentPageLiveOrders(1);
     setCurrentPageLiveOrdersNonDineIn(1);
-    // setIsSwitchActive(false);
+
+    setPaidOffPremiseOrdersSearchQuery("");
+    setPaidOffPremisePageLimit(10);
+    setCurrentPagePaidOffPremiseOrders(1);
+
+    setPaidCancelledOrdersSearchQuery("");
+    setPaidCancelledOrdersPageLimit(10);
+    setCurrentPagePaidCancelledOrders(1);
 
     dispatch(
       liveOrdersRequest({
@@ -661,7 +751,17 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
         startDate: moment().format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
         searchQuery: "",
-        ...( isSwitchActive && { type: "Paid" } ),
+      })
+    );
+    dispatch(
+      paidDineInOrdersRequest({
+        locationid: selectedLocation?.value,
+        tablePageNo: 1,
+        tableRecordLimit: 10,
+        startDate: currentDate,
+        endDate: currentDate,
+        searchQuery: "",
+        type: "Paid",
       })
     );
     dispatch(
@@ -672,31 +772,19 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
         startDate: moment().format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
         searchQuery: "",
-        ...( isSwitchActive && { type: "Paid" } ),
-      })
-    );
-
-    dispatch(
-      orderTrackerRequest({
-        locationid: selectedLocation?.value,
-        tablePageNo: currentPageLiveOrdersNonDineIn,
-        tableRecordLimit: liveOrderNonDineInPageLimit,
-        startDate: currentDate,
-        endDate: currentDate,
-        searchQuery: "",
       })
     );
     dispatch(
-      OverallOrderNonDineInRequest({
+      paidOffPremiseOrdersRequest({
         locationid: selectedLocation?.value,
         tablePageNo: 1,
         tableRecordLimit: 10,
-        startDate: moment().format("YYYY-MM-DD"),
-        endDate: moment().format("YYYY-MM-DD"),
+        startDate: currentDate,
+        endDate: currentDate,
         searchQuery: "",
+        type: "Paid",
       })
     );
-
     dispatch(
       billedRequest({
         locationid: selectedLocation?.value,
@@ -709,6 +797,15 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
         locationid: selectedLocation?.value,
         startDate: currentDate,
         type: "notcompleted",
+      })
+    );
+
+    dispatch(
+      paidCancelledOrdersRequest({
+        locationid: selectedLocation?.value,
+        tablePageNo: 1,
+        tableRecordLimit: 10,
+        search: "",
       })
     );
 
@@ -784,16 +881,14 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
 
       </div>
       <div className="todays-report-tables-container">
-      { !isSwitchActive ?
-        <NewTable
+        {!isSwitchActive && <NewTable
           apiEndPoint="/sales/live/tables"
           queryParams={{
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
-            ...isSwitchActive?{type:"Paid"}:{}
           }}
-          kpiTitle="Unpaid Dine-in orders"
+          kpiTitle={`Unpaid Dine-in orders`}
           searchQuery={liveOrdersSearchQuery}
           headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
           tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
@@ -807,42 +902,38 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={liveOrdersAPIReduxTotalElements}
-        />
-        :""}
-   { 
-    isSwitchActive ? 
-     <NewTable
-          apiEndPoint="/sales/live/overall-tables"
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/tables"
           queryParams={{
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
+            type:"Paid",
           }}
-          kpiTitle="Paid Dine-in orders"
-          searchQuery={paidDineInSearchQuery}
+          kpiTitle={`Paid Dine-in orders`}
+          searchQuery={paidDineInOrdersSearchQuery}
           headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
-          tableData={isMobile ? overallOrderedLiveOrdersDataMobile : overallOrderedLiveOrdersData}
-          currentPage={currentPagePaidDineIn}
-          onPageChange={setCurrentPagePaidDineIn}
-          totalPages={overAllOrdersAPIReduxGlobal?.totalPages ? overAllOrdersAPIReduxGlobal?.totalPages : 1}
-          rowsPerPage={paidOffPremiseTableRecordLimit}
-          setRowsPerPage={setPaidOffPremiseTableRecordLimit}
-          loader={overallOrdersAPIReduxL}
-          count={overallOrdersAPIReduxTotalElements}
+          tableData={isMobile ? paidDineInOrdersAPIReduxMappedMobile : paidDineInOrdersAPIReduxMapped}
+          currentPage={currentPagePaidDineInOrders}
+          onPageChange={setCurrentPagePaidDineInOrders}
+          totalPages={paidDineInOrdersAPIRedux?.totalPages ? paidDineInOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidDineInOrdersPageLimit}
+          setRowsPerPage={setPaidDineInOrdersPageLimit}
+          loader={paidDineInOrdersLoading}
+          count={paidDineInOrdersAPIRedux?.content?.length}
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
-          totalElements={overallOrdersAPIReduxTotalElements}
-        />
-       : null }
-         { !isSwitchActive ? <NewTable
+          totalElements={paidDineInOrdersAPIRedux?.totalElements}
+        />}
+        {!isSwitchActive && <NewTable
           apiEndPoint="/sales/live/tracking"
           queryParams={{
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
-            ...isSwitchActive?{type:"Paid"}:{}
           }}
-          kpiTitle="Unpaid Off-Premise orders"
+          kpiTitle={`Unpaid Off-Premise orders`}
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
           tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
@@ -851,41 +942,63 @@ const overallOrderedLiveOrdersDataMobile = overallOrderedLiveOrdersData?.map((da
             liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1
           }
           onPageChange={setCurrentPageLiveOrdersNonDineIn}
-          rowsPerPage={unpaidOffPremiseTableRecordLimit}
-          setRowsPerPage={setUnpaidOffPremiseTableRecordLimit}
+          rowsPerPage={liveOrderNonDineInPageLimit}
+          setRowsPerPage={setLiveOrderNonDineInPageLimit}
           loader={liveOrderNonDineInLoading}
           count={liveOrderNonDineInAPIRedux?.length}
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={liveOrderNonDineInAPIReduxTotalElements}
-        />
-      :""}
-        { isSwitchActive ?
-        <NewTable
-          apiEndPoint="/sales/live/overall-tracking"
+          rowNoWrap={true}
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/tracking"
           queryParams={{
             locationId: selectedLocation?.value,
             startDate: currentDate,
             endDate: currentDate,
+            type:"Paid",
           }}
-          kpiTitle="Paid Off-Premise orders"
-          searchQuery={paidOffPremiseSearchQuery}
+          kpiTitle={`Paid Off-Premise orders`}
+          searchQuery={paidOffPremiseOrdersSearchQuery}
           headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
-          tableData={
-            isMobile ? paidOffPremiseMappedDataMobile : ordersTrackerAPIRedux
-          }
-          currentPage={currentPagePaidOffPremise}
-          onPageChange={setCurrentPagePaidOffPremise}
-          totalPages={ordersTrackerAPIReduxGlobal?.totalPages ? ordersTrackerAPIReduxGlobal?.totalPages : 1}
-          rowsPerPage={orderTrackerPageLimit}
-          setRowsPerPage={setOrderTrackerPageLimit}
-          loader={ordersTrackerAPIReduxL}
-          count={OrderTrackerAPIReduxTotalElements}
+          tableData={isMobile ? paidOffPremiseOrdersAPIReduxMappedMobile : paidOffPremiseOrdersAPIReduxMapped}
+          currentPage={currentPagePaidOffPremiseOrders}
+          onPageChange={setCurrentPagePaidOffPremiseOrders}
+          totalPages={paidOffPremiseOrdersAPIRedux?.totalPages ? paidOffPremiseOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidOffPremisePageLimit}
+          setRowsPerPage={setPaidOffPremisePageLimit}
+          loader={paidOffPremiseOrdersAPIReduxLoading}
+          count={paidOffPremiseOrdersAPIRedux?.content?.length}
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
-          totalElements={OrderTrackerAPIReduxTotalElements}
-        />
-        :"" }
+          totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
+          rowNoWrap={true}
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/canceledOrders"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+            type:"Paid",
+          }}
+          kpiTitle={`Paid cancelled orders`}
+          searchQuery={paidCancelledOrdersSearchQuery}
+          headerData={isMobile ? paidCancelledOrdersHeaders : paidCancelledOrdersHeaders}
+          tableData={isMobile ? paidCancelledOrdersAPIRedux?.content : paidCancelledOrdersAPIRedux?.content}
+          currentPage={currentPagePaidCancelledOrders}
+          onPageChange={setCurrentPagePaidCancelledOrders}
+          totalPages={paidCancelledOrdersAPIRedux?.totalPages ? paidCancelledOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidCancelledOrdersPageLimit}
+          setRowsPerPage={setPaidCancelledOrdersPageLimit}
+          loader={paidCancelledOrdersAPIReduxLoading}
+          count={paidCancelledOrdersAPIRedux?.content?.length}
+          searchPlaceHolder="Search by order number, Phone number"
+          onSearch={handleSearch}
+          totalElements={paidCancelledOrdersAPIRedux?.totalElements}
+          rowNoWrap={true}
+        />}
       </div>
     </div>
   );

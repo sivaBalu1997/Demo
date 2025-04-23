@@ -73,8 +73,8 @@ const chartFilterOptions: { value: string, label: string }[] = [
     { value: "Overall", label: "Overall" },
     { value: "Weekdays", label: "Weekdays" },
     { value: "Weekends", label: "Weekends" },
-    { value: "Lunch", label: "Lunch" },
-    { value: "Dinner", label: "Dinner" },
+    // { value: "Lunch", label: "Lunch" },
+    // { value: "Dinner", label: "Dinner" },
 ];
 
 const ReusableBarChart: React.FC<BarChartProps> = ({
@@ -119,9 +119,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
 
     const reusableBarChartRef = useRef<HTMLDivElement>(null)
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
-
-
-
+    const [selectedFilter, setSelectedFilter] = useState<{ value: string; label: string; icon?: React.ReactNode } | undefined>(chartFilterOptions?.[0]);
 
     const data = {
         labels: dataList?.length ? Array.from(
@@ -189,6 +187,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     };
 
     const handleChartFilterParent = (selectedValue: { label: string, value: string }) => {
+        setSelectedFilter(selectedValue)
         if (handleChartFilter) {
             handleChartFilter(selectedValue?.value, kpiTitle);
         }
@@ -227,7 +226,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                     {showChartFilter &&
                         <div className="chart-filter-container">
                             <CustomDropdown
-                                value={chartFilterOptions[0]?.value}
+                                value={selectedFilter}
                                 options={chartFilterOptions}
                                 onSelect={handleChartFilterParent}
                                 placeholder="Select Date"
@@ -247,7 +246,7 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
                     {showChartFilter &&
                         <div className="sm-chart-filter-container">
                             <CustomDropdown
-                                value={chartFilterOptions[0]?.value}
+                                value={selectedFilter}
                                 options={chartFilterOptions}
                                 onSelect={handleChartFilterParent}
                                 placeholder="Select Date"
