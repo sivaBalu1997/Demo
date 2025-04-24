@@ -195,7 +195,7 @@ const ProductAvailability = () => {
           searchPlaceHolder="Search By Category/Item"
           onSearch={handleSearch}
           showDateDropDown={true}
-          totalElements={availabilityByChannelsDataTotalElements || 0}
+          totalElements={availabilityByChannelsDetailsData?.totalElements || 0}
         />
       </div>
       ) : (
