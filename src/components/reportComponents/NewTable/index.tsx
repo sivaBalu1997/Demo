@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
 import { ReactComponent as SearchIcon } from "../../../assets/svg/r-search-icon.svg";
@@ -150,26 +150,6 @@ const NewTable: React.FC<NewTableProps> = ({
     return sortedData;
   }, [sortedData, currentPage, rowsPerPage]);
 
-  const [showDownloadables, setShowDownloadables] = useState<boolean>(false);
-
-  const downloadPopoverRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      // Ensure that the click is not inside the popover or the button that toggles it
-      if (
-        downloadPopoverRef.current &&
-        !downloadPopoverRef.current.contains(event.target as Node) &&
-        !(event.target as HTMLElement).closest(".table-download-options")
-      ) {
-        setShowDownloadables(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
-
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -301,12 +281,14 @@ const NewTable: React.FC<NewTableProps> = ({
     return isNaN(numValue) ? '-' : numValue.toFixed(2);
   };
 
-  const handleRecordPerPageLimitChange = (num: number) => {
+  const handleRecordPerPageLimitChange = (e: React.MouseEvent<HTMLButtonElement>, num: number): void => {
+    e.preventDefault();
+    e.stopPropagation();
     if (setRowsPerPage) {
-      setRowsPerPage(num)
+      setRowsPerPage(num);
     }
     onPageChange(1);
-  }
+  };
 
   return initialLoader ? (
     <TableShimmer />
@@ -594,7 +576,7 @@ const NewTable: React.FC<NewTableProps> = ({
                         key={num}
                         className={`option ${rowsPerPage === num ? "selected" : ""
                           }`}
-                        onClick={() => handleRecordPerPageLimitChange(num)}
+                        onClick={(e) => handleRecordPerPageLimitChange(e,num)}
                       >
                         {num}
                       </button>
