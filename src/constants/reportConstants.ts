@@ -266,7 +266,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
   ]
   export const refundsFilterOptionsRevenueImpact = [
     { value: "Refunds", label: "Refunds" },
-    { value: "Complementary", label: "Complementary" },
+    // { value: "Complementary", label: "Complementary" },
     { value: "Taxes", label: "Taxes" },
     { value: "Tips", label: "Tips" },
     { value: "Discounts", label: "Discounts" },
@@ -275,7 +275,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
   export const deletedFilterOptionsErrorPerformance = [
     { value: "Deleted", label: "Deleted" },
     { value: "Voids", label: "Voids" },
-    { value: "Re-fires", label: "Re-fires" },
+    // { value: "Re-fires", label: "Re-fires" },
   ]
   export const predefinedColors = [
     "#E17100", // Orange

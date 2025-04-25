@@ -362,6 +362,7 @@ const PerformanceTrend = () => {
     setEmployeeLabelPill([employeeTempArray[0]])
   }
 
+  // TODO: use this function when Backend give dynamic data for x-axis labels
   const getDefaultLablesArray = (selectedDateFilterType: string) => {
     switch (selectedDateFilterType) {
       case "Today":
@@ -379,35 +380,130 @@ const PerformanceTrend = () => {
       }
   }
 
-  const salesPerformance = transformToChartAcceptables({
+  const salesPerformanceSales = transformToChartAcceptables({
     kpiTitle: "Sales Performance",
     dataFromApi: salesPerformanceAPIRedux,
-    xAxisKey: "day",
-    yAxisKey: "sales",
-    labelKey: "employeeName",
-    remainingKeys: ["orders", "tips", "gratuities"],
-    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
-  })
-
-  const revenueRefunds = transformToChartAcceptables({
-    kpiTitle: "Revenue Impact",
-    dataFromApi: revenueImpactAPIRedux,
     xAxisKey: "date",
     yAxisKey: "total",
     labelKey: "fullName",
     remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
-    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+    defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   })
-  
-  const revenueImpact = transformToChartAcceptables({
+
+  console.log({salesPerformanceSales})
+
+  const salesPerformanceOrders = transformToChartAcceptables({
+    kpiTitle: "Sales Performance",
+    dataFromApi: salesPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "orders",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  })
+
+  const salesPerformanceTips = transformToChartAcceptables({
+    kpiTitle: "Sales Performance",
+    dataFromApi: salesPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "tips",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  })
+
+  const salesPerformanceGratuities = transformToChartAcceptables({
+    kpiTitle: "Sales Performance",
+    dataFromApi: salesPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "gratuities",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  })
+
+  const getSalesPerformanceData = (selectedChartFilterForSalesPerformance: string) => {
+    switch (selectedChartFilterForSalesPerformance) {
+      case "Sales":
+        return salesPerformanceSales;
+      case "Orders":
+        return salesPerformanceOrders;
+      case "Tips":
+        return salesPerformanceTips;
+      case "Gratuities":
+        return salesPerformanceGratuities;
+      default:
+        return salesPerformanceSales;
+    }}
+
+  const revenueImpactRefunds = transformToChartAcceptables({
     kpiTitle: "Revenue Impact",
     dataFromApi: revenueImpactAPIRedux,
     xAxisKey: "date",
     yAxisKey: "voidedAmount",
     labelKey: "steward",
     remainingKeys: ["voidedItems", "voidedAmount", "voidedReasons"],
-    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+    defaultLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   })
+
+  const revenueImpactTaxes = transformToChartAcceptables({
+    kpiTitle: "Revenue Impact",
+    dataFromApi: revenueImpactAPIRedux,
+    xAxisKey: "date",
+    yAxisKey: "tax",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  })
+
+  const revenueImpactTips = transformToChartAcceptables({
+    kpiTitle: "Revenue Impact",
+    dataFromApi: revenueImpactAPIRedux,
+    xAxisKey: "date",
+    yAxisKey: "tip",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  })
+
+  const revenueImpactDiscounts = transformToChartAcceptables({
+    kpiTitle: "Revenue Impact",
+    dataFromApi: revenueImpactAPIRedux,
+    xAxisKey: "date",
+    yAxisKey: "discount",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  })
+
+  const revenueImpactGratuities = transformToChartAcceptables({
+    kpiTitle: "Revenue Impact",
+    dataFromApi: revenueImpactAPIRedux,
+    xAxisKey: "date",
+    yAxisKey: "serviceFee",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  })
+
+  const getRevenueImpactData = (selectedChartFilterForRevenueImpact: string) => {
+    switch (selectedChartFilterForRevenueImpact) {
+      case "Refunds":
+        return revenueImpactRefunds;
+      case "Taxes":
+        return revenueImpactTaxes;
+      case "Tips":
+        return revenueImpactTips;
+      case "Discounts":
+        return revenueImpactDiscounts;
+      case "Gratuities":
+        return revenueImpactGratuities;
+      default:
+        return revenueImpactRefunds;
+    }
+  }
+
+  
 
   const errorPerformanceData = transformToChartAcceptables({
     kpiTitle: "Error Performance",
@@ -416,7 +512,7 @@ const PerformanceTrend = () => {
     yAxisKey: "totalQuantity",
     labelKey: "employeeName",
     remainingKeys: ["totalQuantity"],
-    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+    defaultLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     })
 
 
@@ -471,11 +567,8 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={salesPerformanceAPIReduxLoader}
           kpiTitle='Sales Performance'
-          data={chartData}
-          // data=
-          // {
-          //   formatApiResponseForStaffTrendCharts(salesPerformanceAPIRedux, 'day', 'sales')
-          // }
+          // data={chartData}
+          data={getSalesPerformanceData(selectedTypeForPerformance)}
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={orderFilterOptionsPerformance}
@@ -487,8 +580,8 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={false}
           kpiTitle='Revenue Impact'
-          data={chartData}
-          // data={formatApiResponseForStaffTrendCharts(revenueImpactAPIRedux, 'date', 'fullName')}
+          // data={chartData}
+          data={getRevenueImpactData(selectedTypeForRevenueImpact)}
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={refundsFilterOptionsRevenueImpact}
@@ -499,8 +592,8 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={errorPerformanceAPIReduxLoader}
           kpiTitle='Error Performance'
-          data={chartData}
-          // data={formatApiResponseForStaffTrendCharts(errorPerformanceAPIRedux, 'day', 'totalQuantity')}
+          // data={chartData}
+          data={errorPerformanceData}
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={deletedFilterOptionsErrorPerformance}
