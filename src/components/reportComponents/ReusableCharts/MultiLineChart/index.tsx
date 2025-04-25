@@ -8,7 +8,7 @@ import "./style.scss"
 import BarChartShimmer from 'components/reportComponents/Charts/BarChartShimmer';
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
 
-interface Dataset {
+export interface Dataset {
     label: string;
     data: number[];
     borderColor: string;
@@ -191,6 +191,7 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                         },
                         scales: {
                             x: {
+                                offset: true,
                                 display: true,
                                 // title: {
                                 //     display: true,
@@ -269,11 +270,11 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                             disabled={false}
                         />
                     )}
-                    {showDownloadReport && data?.datasets && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
+                    {showDownloadReport && data?.datasets?.length > 0 && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
                 </div>
             </div>
-                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <ErrorHandler data={data} isError={onFailureState} isLoading={kpiLoaderState}>
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                <ErrorHandler data={data} isError={onFailureState} isLoading={kpiLoaderState}>
                     <canvas ref={chartRef} />
                     <div
                         ref={tooltipRef}
@@ -294,8 +295,8 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                             transform: 'translate(-50%, -100%)', // Center tooltip above the point
                         }}
                     />
-            </ErrorHandler>
-                </div>
+                </ErrorHandler>
+            </div>
         </div>
     );
 };
