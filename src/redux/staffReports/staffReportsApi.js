@@ -56,6 +56,10 @@ const generateQueryParams = (payload) => {
         query+=`&errorType=${payload?.errorType}`
     }
 
+    if(payload?.revenue){
+        query+=`&revenue=${payload?.revenue}`
+    }
+
     return "?"+query?.slice(1)
 }
 
@@ -114,7 +118,7 @@ export const getStaffTrendRevenueImpactPerformance = (params) => {
     const query = generateQueryParams(params);
     return REPORTS_API({
         method: "get",
-        url: `/staff/trend/revenue-impact-performance${query}`,
+        url: `/staff/overview/revenue-performance${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }

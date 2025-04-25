@@ -1,5 +1,6 @@
 // using module name util as folder name is ok in case of react but is not recommended
 //TODO: move contents of util to utils
+import { Dataset } from "components/reportComponents/ReusableCharts/MultiLineChart";
 import { IncrementOrDecrementTypeEnum } from "interface/newReportsInterface";
 import React from "react"
 
@@ -193,191 +194,17 @@ function amPmFormat(data: number): string {
   return data>11?"PM":"AM"
 }
 
-// type ApiEntry = {
-//   date: string;
-//   fullName: string;
-//   tip: string;
-//   serviceFee: string;
-//   total: string;
-//   orders: number;
-// };
 
-// type ChartDataset = {
+type ChartInput = Record<string, any>;
+
+// type Dataset = {
 //   label: string;
 //   data: number[];
 //   borderColor: string;
 //   backgroundColor: string;
-//   orders: number[];
-//   sales: number[];
-//   tips: number[];
-//   gratuities?: number[];
-//   serviceFee?: number[];
 // };
 
-// export const transformChartData = (apiData: ApiEntry[], country: string) => {
-//   const dayMap: Record<string, number> = {
-//     Sunday: 0,
-//     Monday: 1,
-//     Tuesday: 2,
-//     Wednesday: 3,
-//     Thursday: 4,
-//     Friday: 5,
-//     Saturday: 6,
-//   };
-
-//   const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-//   const colorOptions = [
-//     { borderColor: 'blue', backgroundColor: 'rgba(0, 0, 255, 0.1)' },
-//     { borderColor: 'green', backgroundColor: 'rgba(0, 255, 0, 0.1)' },
-//     { borderColor: 'orange', backgroundColor: 'rgba(255, 165, 0, 0.1)' },
-//     { borderColor: 'purple', backgroundColor: 'rgba(128, 0, 128, 0.1)' },
-//   ];
-
-//   const peopleMap: Record<string, ChartDataset> = {};
-//   let colorIndex = 0;
-
-//   for (const entry of apiData) {
-//     const name = entry.fullName.trim();
-//     const dayIndex = dayMap[entry.date];
-
-//     if (!peopleMap[name]) {
-//       const { borderColor, backgroundColor } = colorOptions[colorIndex % colorOptions.length];
-//       colorIndex++;
-
-//       peopleMap[name] = {
-//         label: name,
-//         data: new Array(7).fill(0),
-//         orders: new Array(7).fill(0),
-//         sales: new Array(7).fill(0),
-//         tips: new Array(7).fill(0),
-//         ...(country === 'US'
-//           ? { gratuities: new Array(7).fill(0) }
-//           : { serviceFee: new Array(7).fill(0) }),
-//         borderColor,
-//         backgroundColor,
-//       };
-//     }
-
-//     const dataset = peopleMap[name];
-//     dataset.data[dayIndex] = parseFloat(entry.total);
-//     dataset.sales[dayIndex] = parseFloat(entry.total);
-//     dataset.orders[dayIndex] = entry.orders;
-//     dataset.tips[dayIndex] = parseFloat(entry.tip);
-
-//     if (country === 'US') {
-//       dataset.gratuities![dayIndex] = parseFloat(entry.serviceFee);
-//     } else {
-//       dataset.serviceFee![dayIndex] = parseFloat(entry.serviceFee);
-//     }
-//   }
-
-//   return {
-//     labels,
-//     datasets: Object.values(peopleMap),
-//   };
-// };
-
-
-// export const transformChartData = (apiData: ApiEntry[], country: string) => {
-//   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-//   const months = [
-//     'January', 'February', 'March', 'April', 'May', 'June',
-//     'July', 'August', 'September', 'October', 'November', 'December'
-//   ];
-
-//   const shortWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-//   const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-//   const firstDate = apiData[0]?.date || '';
-//   const isMonth = months.includes(firstDate);
-
-//   const labels = isMonth ? shortMonths : shortWeekdays;
-
-//   const dayMap: Record<string, number> = (isMonth ? months : weekdays)
-//     .reduce((acc, name, index) => {
-//       acc[name] = index;
-//       return acc;
-//     }, {} as Record<string, number>);
-
-//   const colorOptions = [
-//     { borderColor: 'blue', backgroundColor: 'rgba(0, 0, 255, 0.1)' },
-//     { borderColor: 'green', backgroundColor: 'rgba(0, 255, 0, 0.1)' },
-//     { borderColor: 'orange', backgroundColor: 'rgba(255, 165, 0, 0.1)' },
-//     { borderColor: 'purple', backgroundColor: 'rgba(128, 0, 128, 0.1)' },
-//   ];
-
-//   const peopleMap: Record<string, ChartDataset> = {};
-//   let colorIndex = 0;
-
-//   for (const entry of apiData) {
-//     const name = entry.fullName.trim();
-//     const dayIndex = dayMap[entry.date];
-
-//     if (!peopleMap[name]) {
-//       const { borderColor, backgroundColor } = colorOptions[colorIndex % colorOptions.length];
-//       colorIndex++;
-
-//       peopleMap[name] = {
-//         label: name,
-//         data: new Array(12).fill(0), // default to 12 for months
-//         orders: new Array(12).fill(0),
-//         sales: new Array(12).fill(0),
-//         tips: new Array(12).fill(0),
-//         ...(country === 'US'
-//           ? { gratuities: new Array(12).fill(0) }
-//           : { serviceFee: new Array(12).fill(0) }),
-//         borderColor,
-//         backgroundColor,
-//       };
-//     }
-
-//     const dataset = peopleMap[name];
-
-//     dataset.data[dayIndex] = parseFloat(entry.total);
-//     dataset.sales[dayIndex] = parseFloat(entry.total);
-//     dataset.orders[dayIndex] = entry.orders;
-//     dataset.tips[dayIndex] = parseFloat(entry.tip);
-
-//     if (country === 'US') {
-//       dataset.gratuities![dayIndex] = parseFloat(entry.serviceFee);
-//     } else {
-//       dataset.serviceFee![dayIndex] = parseFloat(entry.serviceFee);
-//     }
-//   }
-
-//   return {
-//     labels: labels.slice(0, isMonth ? 12 : 7),
-//     datasets: Object.values(peopleMap).map((ds) => {
-//       // Trim arrays to 7 for weekdays
-//       if (!isMonth) {
-//         ds.data = ds.data.slice(0, 7);
-//         ds.orders = ds.orders.slice(0, 7);
-//         ds.sales = ds.sales.slice(0, 7);
-//         ds.tips = ds.tips.slice(0, 7);
-//         if (country === 'US') {
-//           ds.gratuities = ds.gratuities?.slice(0, 7);
-//         } else {
-//           ds.serviceFee = ds.serviceFee?.slice(0, 7);
-//         }
-//       }
-//       return ds;
-//     }),
-//   };
-// };
-
-
-
-type ChartInput = Record<string, any>;
-
-type Dataset = {
-  label: string;
-  data: number[];
-  borderColor: string;
-  backgroundColor: string;
-};
-
-export function transformChartDataDynamic(
+export function transformChartDataDynamicZ(
   apiData: ChartInput[],
   config: {
     labelKey: string;
@@ -450,7 +277,7 @@ export function transformChartDataDynamic(
       colorIndex++;
 
       datasets?.push({
-        label: `${label} - ${metric}`,
+        label: `${label}`,
         data: dataArray,
         borderColor: color.borderColor,
         backgroundColor: color.backgroundColor,
@@ -464,9 +291,357 @@ export function transformChartDataDynamic(
   };
 }
 
+type KPIResponse = Record<string, any>;
 
+interface TransformOptions {
+  labelKey: string;
+  xAxisKey: string; // like "day" or "date"
+  metrics: string[];
+}
 
+const weekLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const dayMap: Record<string, string> = {
+  sunday: 'Sun', monday: 'Mon', tuesday: 'Tue',
+  wednesday: 'Wed', thursday: 'Thu', friday: 'Fri', saturday: 'Sat',
+};
 
+const getLabelIndex = (label: string): number => {
+  const normalized = label.trim().toLowerCase();
+  return weekLabels.findIndex(day => day.toLowerCase() === normalized || dayMap[normalized] === day);
+};
+
+export function transformChartDataDynamic(
+  data: KPIResponse[],
+  kpiTitle: string
+) {
+  const chartData: any = {
+    labels: weekLabels,
+    datasets: [],
+  };
+
+  if (!Array.isArray(data) || data.length === 0) return chartData;
+
+  const groupedData: Record<string, any[]> = {};
+
+  if (kpiTitle === 'Sales Performance') {
+    data.forEach(item => {
+      const name = item.employeeName;
+      if (!groupedData[name]) groupedData[name] = [];
+
+      groupedData[name].push(item);
+    });
+
+    Object.entries(groupedData).forEach(([label, entries]) => {
+      const dataset: any = {
+        label,
+        data: Array(7).fill(0),
+        orders: Array(7).fill(0),
+        sales: Array(7).fill(0),
+        tips: Array(7).fill(0),
+        gratuities: Array(7).fill(0),
+        borderColor: label === 'James Bond' ? 'blue' : label === 'Alan Fox' ? 'green' : 'orange',
+        backgroundColor:
+          label === 'James Bond'
+            ? 'rgba(0, 0, 255, 0.1)'
+            : label === 'Alan Fox'
+            ? 'rgba(0, 255, 0, 0.1)'
+            : 'rgba(255, 165, 0, 0.1)',
+      };
+
+      entries.forEach(entry => {
+        const index = getLabelIndex(entry.day);
+        if (index !== -1) {
+          dataset.data[index] = entry.data ?? 0;
+          dataset.orders[index] = entry.orders ?? 0;
+          dataset.sales[index] = entry.sales ?? 0;
+          dataset.tips[index] = entry.tips ?? 0;
+          dataset.gratuities[index] = entry.gratuities ?? 0;
+        }
+      });
+
+      chartData.datasets.push(dataset);
+    });
+  }
+
+  else if (kpiTitle === 'Revenue Impact') {
+    data.forEach(entry => {
+      const label = entry.fullName || entry.steward || 'Unknown';
+      if (!groupedData[label]) {
+        groupedData[label] = Array(7).fill(null).map(() => ({}));
+      }
+  
+      const index = getLabelIndex(entry.date);
+      if (index !== -1) {
+        const values: any = {};
+  
+        // Flexible parsing based on the available keys
+        if ('tip' in entry || 'total' in entry) {
+          values.tip = Number(entry.tip ?? 0);
+          values.serviceFee = Number(entry.serviceFee ?? 0);
+          values.discount = Number(entry.discount ?? 0);
+          values.tax = Number(entry.tax ?? 0);
+          values.total = Number(entry.total ?? 0);
+          values.orders = Number(entry.orders ?? 0);
+        } else if ('voidedAmount' in entry) {
+          values.voidedAmount = Number(entry.voidedAmount ?? 0);
+          values.voidedItems = Number(entry.voidedItems ?? 0);
+          values.voidedReasons = entry.voidedReasons ?? '';
+          values.orderCount = Number(entry.orderCount ?? 0);
+        }
+  
+        groupedData[label][index] = values;
+      }
+    });
+  
+    Object.entries(groupedData).forEach(([label, weekData]) => {
+      const sample = weekData.find(d => d && Object.keys(d).length > 0) || {};
+      const dataset: any = { label };
+  
+      for (const key in sample) {
+        dataset[key] = weekData.map(d => d?.[key] ?? (typeof sample[key] === 'number' ? 0 : ''));
+      }
+  
+      chartData.datasets.push(dataset);
+    });
+  }
+
+  else if (kpiTitle === 'Error Performance') {
+    data.forEach(item => {
+      const name = item.employeeName;
+      if (!groupedData[name]) groupedData[name] = Array(7).fill(0);
+
+      const index = getLabelIndex(item.day);
+      if (index !== -1) {
+        groupedData[name][index] = Number(item.totalQuantity ?? 0);
+      }
+    });
+
+    Object.entries(groupedData).forEach(([label, quantities]) => {
+      const dataset = {
+        label,
+        data: quantities,
+        totalQuantity: quantities.map(q => parseFloat(Number(q).toFixed(2))),
+      };
+      chartData.datasets.push(dataset);
+    });
+  }
+
+  return chartData;
+}
+
+export function transformChartDataDynamicTwo(
+  data: KPIResponse[],
+  kpiTitle: string,
+  xAxisKey: string,   // e.g., "day" or "date"
+  yAxisKeys: string[] // e.g., ["sales", "orders"]
+) {
+  const chartData: any = {
+    labels: weekLabels,
+    datasets: [],
+  };
+
+  if (!Array.isArray(data) || data.length === 0) return chartData;
+
+  const groupedData: Record<string, any[]> = {};
+
+  data.forEach(entry => {
+    const label = entry.employeeName || entry.fullName || entry.steward || 'Unknown';
+    if (!groupedData[label]) {
+      groupedData[label] = Array(7).fill(null).map(() => ({}));
+    }
+
+    const index = getLabelIndex(entry[xAxisKey]);
+    if (index !== -1) {
+      const values: any = {};
+      yAxisKeys.forEach(key => {
+        values[key] = typeof entry[key] === 'number' ? entry[key] : Number(entry[key] ?? 0);
+      });
+      groupedData[label][index] = values;
+    }
+  });
+
+  Object.entries(groupedData).forEach(([label, weekData]) => {
+    const dataset: any = { label };
+    yAxisKeys.forEach(key => {
+      dataset[key] = weekData.map(d => d?.[key] ?? 0);
+    });
+    chartData.datasets.push(dataset);
+  });
+
+  return chartData;
+}
+
+export const grouping = (data: any, labelKey: string, groupingKey : string, yAxisData : string) => {
+  const labelSet = new Set()
+  data?.forEach((d:any) => labelSet.add(d[labelKey]))
+
+  
+  const grpObject: any = {}
+  data.forEach((curr : any) => {
+      const currKey = curr[groupingKey];
+      if(!grpObject[currKey])   grpObject[currKey] = [];
+      
+      const item = { ...curr };
+      delete item[labelKey];
+      delete item[groupingKey];
+      
+      grpObject[currKey]?.push(item);
+  });
+  
+
+  const datasets: any = [];
+
+  for (const [key, value] of Object.entries(grpObject)) {
+      const obj: any = {};
+      obj["label"] = key as any;
+      obj['data'] = [] as any[]
+      const listOfKeysSet: any = new Set();
+      for (const [key, _] of Object.entries((value as Record<string, any>[])[0])) {
+          listOfKeysSet.add(key)
+      }
+
+      Array.from(listOfKeysSet).forEach((l:any) => obj[l] = []);
+      (value as Record<string, any>[])?.forEach((list : any) => {
+          for (const [key1, value1] of Object.entries(list)) {
+              if(key1 === yAxisData)
+                  obj['data'].push(value1)
+              obj[key1].push(value1)
+          }
+      })
+      datasets.push(obj);
+  }
+  return {
+      labels: Array.from(labelSet),
+      datasets: datasets
+  }
+}
+
+// ===========================================
+interface ChartDataItem {
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+interface ChartDataset {
+  label: string;
+  data: number[];
+  borderColor: string;
+  backgroundColor: string;
+  [key: string]: any | number[] | string[];
+}
+
+interface TransformedChartData {
+  labels: string[];
+  datasets: ChartDataset[];
+}
+
+interface TransformToChartOptions {
+  kpiTitle: string;
+  dataFromApi: ChartDataItem[];
+  xAxisKey: string;
+  yAxisKey: string;
+  labelKey?: string;
+  remainingKeys?: string[];
+  defaultLabels?: string[];
+}
+
+// Color palette with 20+ distinct colors
+const CHART_COLORS = [
+  '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+  '#FF9F40', '#8AC24A', '#EA5F89', '#00BBD3', '#F06292',
+  '#E040FB', '#00ACC1', '#7E57C2', '#26A69A', '#D4E157',
+  '#5C6BC0', '#EC407A', '#42A5F5', '#66BB6A', '#FFA726',
+  '#78909C', '#AB47BC', '#26C6DA', '#9CCC65', '#FF7043',
+  '#8D6E63', '#7E57C2', '#42A5F5', '#66BB6A', '#FFA726'
+];
+
+function isNumericValue(value: any): boolean {
+  if (typeof value === 'number') return true;
+  if (typeof value !== 'string') return false;
+  return /^-?\d*\.?\d+$/.test(value.trim());
+}
+
+function convertValue(value: any): any {
+  if (value === null || value === undefined) return '';
+  if (isNumericValue(value)) {
+    return parseFloat(String(value));
+  }
+  return String(value);
+}
+
+function matchDate(label: string, date: string): boolean {
+  return label.toLowerCase().startsWith(date.toLowerCase().substring(0, 3));
+}
+
+export function transformToChartAcceptables(options: TransformToChartOptions): TransformedChartData {
+  const {
+    dataFromApi,
+    xAxisKey,
+    yAxisKey,
+    labelKey = 'steward',
+    remainingKeys = [],
+    defaultLabels,
+  } = options;
+
+  const uniqueLabels = defaultLabels || Array.from(new Set(dataFromApi.map(item => String(item[xAxisKey]))));
+  const groupedData: Record<string, ChartDataItem[]> = {};
+  
+  dataFromApi.forEach(item => {
+    const label = String(item[labelKey] || 'Unlabeled');
+    if (!groupedData[label]) {
+      groupedData[label] = [];
+    }
+    groupedData[label].push(item);
+  });
+
+  const datasets: ChartDataset[] = Object.entries(groupedData).map(([label, items], index) => {
+    // Get color from palette (cycles through colors if more than available)
+    const colorIndex = index % CHART_COLORS.length;
+    const borderColor = CHART_COLORS[colorIndex];
+    const backgroundColor = `${borderColor}80`; // Add alpha for fill
+
+    const dataset: ChartDataset = {
+      label,
+      data: Array(uniqueLabels.length).fill(0),
+      borderColor,
+      backgroundColor,
+    };
+
+    remainingKeys.forEach(key => {
+      const sampleValue = items[0]?.[key];
+      dataset[key] = Array(uniqueLabels.length).fill(
+        isNumericValue(sampleValue) ? 0 : ''
+      );
+    });
+
+    items.forEach(item => {
+      const date = String(item[xAxisKey]);
+      const index = uniqueLabels.findIndex(label => matchDate(label, date));
+      
+      if (index !== -1) {
+        const currentValue = Number(convertValue(item[yAxisKey])) || 0;
+        dataset.data[index] += currentValue;
+        
+        remainingKeys.forEach(key => {
+          const val = convertValue(item[key]);
+          if (isNumericValue(val)) {
+            dataset[key][index] += Number(val);
+          } else if (val) {
+            dataset[key][index] = dataset[key][index] 
+              ? `${dataset[key][index]}, ${val}` 
+              : val;
+          }
+        });
+      }
+    });
+
+    return dataset;
+  });
+
+  return {
+    labels: uniqueLabels,
+    datasets,
+  };
+}
 
 // export all functions 
 export{
