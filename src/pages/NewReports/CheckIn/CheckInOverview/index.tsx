@@ -120,7 +120,7 @@ const headerData1 = [
     key: "waitTime",
     label: "Wait time",
     alignment: "center",
-    isSortable: false,
+    isSortable: true,
     suffix:"Mins"
   },
   {
@@ -545,7 +545,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
       <div>
         <div className="reports-page-sub-header-container">
-          <h1 className="reports-page-heading">Group size Distrbution</h1>
+          <h1 className="reports-page-heading">Group size Distribution</h1>
           <DownloadReport 
             kpiTitle="Group size Distrbution"
             tableData={checkInOverviewGuestSize} 
@@ -562,7 +562,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             barColor="#67833E"
             toolTipBorderColor="#67833E"
             xAxisTooltipLabel="Party"
-            yAxisTooltipLabel="Count"
+            yAxisTooltipLabel="Guest count"
             yAxisTooltipAppendInBack=""
             dataList={checkInOverviewGuestSize?.map((data: any) => ({
               xAxisValue: data.groupSize === 10 ? `Group of 8+` : `Group of ${data.groupSize}`,
