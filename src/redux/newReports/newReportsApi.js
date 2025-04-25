@@ -136,15 +136,15 @@ const generateQueryParamsForDownload = (payload) => {
 }
 
 export const getPaidCancelledOrders = (paidCancelledOrdersPayload) => {
-    const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query=generateQueryParams(paidCancelledOrdersPayload)
-    return REPORTS_API({
-        method: "get",
-        url: `/sales/live/canceledOrders${query}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    // const query=generateQueryParams(paidCancelledOrdersPayload)
+    // return REPORTS_API({
+    //     method: "get",
+    //     url: `/sales/live/canceledOrders${query}`,
+    //     headers: {
+    //         Authorization: 'bearer ' + token,
+    //     }
+    // });
 };
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
