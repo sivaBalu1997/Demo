@@ -5,13 +5,7 @@ import { RootState } from 'redux/rootReducer';
 import { EmployeeType } from 'interface/employeeInterface';
 import { staffTrendErrorPerformanceRequest, staffTrendRevenueImpactPerformanceRequest, staffTrendSalesPerformanceRequest } from 'redux/staffReports/staffReportsActions';
 import { deletedFilterOptionsErrorPerformance, orderFilterOptionsPerformance, refundsFilterOptionsRevenueImpact } from 'constants/reportConstants';
-import { 
-  grouping,
-  transformChartDataDynamicZ,
-  transformToChartAcceptables, 
-  // transformChartDataDynamic, 
-  // transformChartDataDynamicTwo 
-} from 'utils';
+import { transformToChartAcceptables } from 'utils';
 import MultiLineChart from 'components/reportComponents/ReusableCharts/MultiLineChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
@@ -28,7 +22,6 @@ const PerformanceTrend = () => {
   const dispatch = useDispatch();
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
-
 
   const multiLineColors = [
     "#049E16",
@@ -99,7 +92,7 @@ const PerformanceTrend = () => {
     );
 
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
-    console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
+    // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
     switch (kpiTitle) {
       case "Sales Performance":
         // Handle Sales Performance filter change
@@ -364,70 +357,68 @@ const PerformanceTrend = () => {
     staffParam
   ])
 
-
   const handleClearAllForPill = () => {
     setEmployeeTempArray([{ label: "All", value: "All" }, ...employeeDropdownOptions])
     setEmployeeLabelPill([employeeTempArray[0]])
   }
 
-  // const error = transformChartDataDynamic(errorPerformanceAPIRedux, {
-  //   labelKey: 'employeeName',
-  //   xAxisKey: 'day',
-  //   metrics: ['employeeName', 'totalQuantity'],
-  // })
+  const getDefaultLablesArray = (selectedDateFilterType: string) => {
+    switch (selectedDateFilterType) {
+      case "Today":
+        return ["1", "2","3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
+      case "Yesterday":
+        return ["1", "2","3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
+      case "This Week":
+        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      case "This Month":
+        return ["week1", "week2", "week3", "week4"];
+      case "This Year":
+        return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      default:
+        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      }
+  }
 
-  const revenueRefunds = transformChartDataDynamicZ(revenueImpactAPIRedux, {
-    labelKey: 'steward',
-    xAxisKey: 'day',
-    metrics: ['steward', 'voidedAmount'],
+  const salesPerformance = transformToChartAcceptables({
+    kpiTitle: "Sales Performance",
+    dataFromApi: salesPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "sales",
+    labelKey: "employeeName",
+    remainingKeys: ["orders", "tips", "gratuities"],
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
   })
 
-  console.log("QQQQ",{revenueRefunds},{revenueImpactAPIRedux})
-
-  const revenueRefundsCA = transformToChartAcceptables({
+  const revenueRefunds = transformToChartAcceptables({
     kpiTitle: "Revenue Impact",
     dataFromApi: revenueImpactAPIRedux,
     xAxisKey: "date",
     yAxisKey: "total",
     labelKey: "fullName",
     remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
-    defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
   })
-  console.log("KKKK",{revenueRefundsCA},{revenueImpactAPIRedux})
   
-  const revenueRefundsCB = transformToChartAcceptables({
+  const revenueImpact = transformToChartAcceptables({
     kpiTitle: "Revenue Impact",
     dataFromApi: revenueImpactAPIRedux,
     xAxisKey: "date",
     yAxisKey: "voidedAmount",
     labelKey: "steward",
     remainingKeys: ["voidedItems", "voidedAmount", "voidedReasons"],
-    defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
   })
-  console.log("LLLL",{revenueRefundsCB},{revenueImpactAPIRedux})
 
+  const errorPerformanceData = transformToChartAcceptables({
+    kpiTitle: "Error Performance",
+    dataFromApi: errorPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "totalQuantity",
+    labelKey: "employeeName",
+    remainingKeys: ["totalQuantity"],
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+    })
 
-
-  // console.log("1111",{error})
-
-  // const one = transformChartDataDynamic(salesPerformanceAPIRedux, 'Sales Performance')
-  // console.log("1111",{one},{salesPerformanceAPIRedux})
-
-  // const two = transformChartDataDynamic(errorPerformanceAPIRedux, "Error Performance")
-  // console.log("2222",{two},{errorPerformanceAPIRedux})
-
-  // const three = transformChartDataDynamic(revenueImpactAPIRedux, "Revenue Impact")
-  // console.log("3333",{three},{revenueImpactAPIRedux})
-
-  // const output = transformChartDataDynamicTwo(revenueImpactAPIRedux, 'Revenue Impact', 'date', ['total', 'tip', 'orders']);
-  // console.log("4444",{output},{revenueImpactAPIRedux})
-
-  // =======================================================================================================
-  // const revenueImpactAPIReduxRefunds = grouping(revenueImpactAPIRedux, "date", 'steward', 'voidedAmount')
-  // console.log({revenueImpactAPIReduxRefunds},{revenueImpactAPIRedux})
-  // =======================================================================================================
-
-  console.log({errorPerformanceAPIRedux})
 
   return (
     <div className='performance-trend-page-container'>
