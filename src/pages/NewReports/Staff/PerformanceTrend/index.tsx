@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeLocation } from 'redux/newReports/newReportsActions';
 import { RootState } from 'redux/rootReducer';
 import { EmployeeType } from 'interface/employeeInterface';
-import { transformChartDataDynamic } from 'utils';
-import { staffTrendErrorPerformanceRequest, staffTrendSalesPerformanceRequest } from 'redux/staffReports/staffReportsActions';
+import { staffTrendErrorPerformanceRequest, staffTrendRevenueImpactPerformanceRequest, staffTrendSalesPerformanceRequest } from 'redux/staffReports/staffReportsActions';
 import { deletedFilterOptionsErrorPerformance, orderFilterOptionsPerformance, refundsFilterOptionsRevenueImpact } from 'constants/reportConstants';
+import { transformToChartAcceptables } from 'utils';
 import MultiLineChart from 'components/reportComponents/ReusableCharts/MultiLineChart';
 import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
@@ -16,12 +16,12 @@ import "./style.scss";
 const PerformanceTrend = () => {
 
   const [selectedTypeForPerformance, setSelectedTypeForPerformance] = useState<string>("Orders")
+  const [selectedTypeForRevenueImpact, setSelectedTypeForRevenueImpact] = useState<string>("Refunds")
   const [selectedErrorTypeErrorPerformance, setSelectedErrorTypeErrorPerformance] = useState<string>("Deleted")  
 
   const dispatch = useDispatch();
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
-
 
   const multiLineColors = [
     "#049E16",
@@ -79,12 +79,20 @@ const PerformanceTrend = () => {
     (state: any) => state?.staffReports?.staffTrendErrorPerformanceFailure
   )
 
+  const revenueImpactAPIRedux = useSelector(
+    (state: any) => state?.staffReports?.staffTrendRevenueImpactPerformanceSuccess
+  )
+
+  const revenueImpactAPIReduxLoader = useSelector(
+    (state: any) => state?.staffReports?.staffTrendRevenueImpactPerformanceLoading
+  )
+
     const countryCode = useSelector(
       (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
     );
 
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
-    console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
+    // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
     switch (kpiTitle) {
       case "Sales Performance":
         // Handle Sales Performance filter change
@@ -92,6 +100,7 @@ const PerformanceTrend = () => {
         break;
       case "Revenue Impact":
         // Handle Revenue Impact filter change
+        setSelectedTypeForRevenueImpact(selectedValue);
         break;
       case "Error Performance":
         // Handle Error Performance filter change
@@ -331,10 +340,85 @@ const PerformanceTrend = () => {
   ])
 
 
+  useEffect(() => {
+    dispatch(staffTrendRevenueImpactPerformanceRequest({
+      locationid: selectedLocation?.value,
+      startDate: startDate,
+      endDate: endDate,
+      staffIds: staffParam ? staffParam : "",
+      revenue: selectedTypeForRevenueImpact,
+    }))
+  }, [
+    selectedLocation, 
+    startDate, 
+    endDate, 
+    employeeLabelPill, 
+    selectedTypeForRevenueImpact, 
+    staffParam
+  ])
+
   const handleClearAllForPill = () => {
     setEmployeeTempArray([{ label: "All", value: "All" }, ...employeeDropdownOptions])
     setEmployeeLabelPill([employeeTempArray[0]])
   }
+
+  const getDefaultLablesArray = (selectedDateFilterType: string) => {
+    switch (selectedDateFilterType) {
+      case "Today":
+        return ["1", "2","3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
+      case "Yesterday":
+        return ["1", "2","3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
+      case "This Week":
+        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      case "This Month":
+        return ["week1", "week2", "week3", "week4"];
+      case "This Year":
+        return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      default:
+        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      }
+  }
+
+  const salesPerformance = transformToChartAcceptables({
+    kpiTitle: "Sales Performance",
+    dataFromApi: salesPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "sales",
+    labelKey: "employeeName",
+    remainingKeys: ["orders", "tips", "gratuities"],
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+  })
+
+  const revenueRefunds = transformToChartAcceptables({
+    kpiTitle: "Revenue Impact",
+    dataFromApi: revenueImpactAPIRedux,
+    xAxisKey: "date",
+    yAxisKey: "total",
+    labelKey: "fullName",
+    remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+  })
+  
+  const revenueImpact = transformToChartAcceptables({
+    kpiTitle: "Revenue Impact",
+    dataFromApi: revenueImpactAPIRedux,
+    xAxisKey: "date",
+    yAxisKey: "voidedAmount",
+    labelKey: "steward",
+    remainingKeys: ["voidedItems", "voidedAmount", "voidedReasons"],
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+  })
+
+  const errorPerformanceData = transformToChartAcceptables({
+    kpiTitle: "Error Performance",
+    dataFromApi: errorPerformanceAPIRedux,
+    xAxisKey: "day",
+    yAxisKey: "totalQuantity",
+    labelKey: "employeeName",
+    remainingKeys: ["totalQuantity"],
+    defaultLabels: getDefaultLablesArray(selectedDateFilterType),
+    })
+
 
   return (
     <div className='performance-trend-page-container'>
@@ -387,11 +471,11 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={salesPerformanceAPIReduxLoader}
           kpiTitle='Sales Performance'
-          data={transformChartDataDynamic(salesPerformanceAPIRedux, {
-            labelKey: 'fullName',
-            xAxisKey: 'date',
-            metrics: ['total', 'orders', 'tip', 'serviceFee'],
-          })}
+          data={chartData}
+          // data=
+          // {
+          //   formatApiResponseForStaffTrendCharts(salesPerformanceAPIRedux, 'day', 'sales')
+          // }
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={orderFilterOptionsPerformance}
@@ -404,6 +488,7 @@ const PerformanceTrend = () => {
           kpiLoaderState={false}
           kpiTitle='Revenue Impact'
           data={chartData}
+          // data={formatApiResponseForStaffTrendCharts(revenueImpactAPIRedux, 'date', 'fullName')}
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={refundsFilterOptionsRevenueImpact}
@@ -414,11 +499,8 @@ const PerformanceTrend = () => {
         <MultiLineChart
           kpiLoaderState={errorPerformanceAPIReduxLoader}
           kpiTitle='Error Performance'
-          data={transformChartDataDynamic(errorPerformanceAPIRedux, {
-            labelKey: 'employeeName',
-            xAxisKey: 'day',
-            metrics: ['employeeName', 'totalQuantity'],
-          })}
+          data={chartData}
+          // data={formatApiResponseForStaffTrendCharts(errorPerformanceAPIRedux, 'day', 'totalQuantity')}
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={deletedFilterOptionsErrorPerformance}
