@@ -809,6 +809,7 @@ const Employees: React.FC = () => {
                           employeeSalesOverViewFromAPIRedux?.[card.percentage]
                         )}
                         showMiniGraph={true}
+                        isPercent={true}
                       />
                     ))
                     :
