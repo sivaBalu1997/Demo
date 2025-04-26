@@ -321,12 +321,12 @@ const TodaysReport: React.FC = () => {
       isSortable: true,
       alignment: "left",
     },
-    {
-      key: "orderStatus",
-      label: "Order Status",
-      isSortable: false,
-      alignment: "left",
-    },
+    // {
+    //   key: "orderStatus",
+    //   label: "Order Status",
+    //   isSortable: false,
+    //   alignment: "left",
+    // },
     {
       key: "tableOccupancyDuration",
       label: "Table occupancy duration",
@@ -800,14 +800,14 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
       })
     );
 
-    dispatch(
-      paidCancelledOrdersRequest({
-        locationid: selectedLocation?.value,
-        tablePageNo: 1,
-        tableRecordLimit: 10,
-        search: "",
-      })
-    );
+    // dispatch(
+    //   paidCancelledOrdersRequest({
+    //     locationid: selectedLocation?.value,
+    //     tablePageNo: 1,
+    //     tableRecordLimit: 10,
+    //     search: "",
+    //   })
+    // );
 
   };
 
@@ -898,7 +898,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={liveOrdersPageLimit}
           setRowsPerPage={setLiveOrdersPageLimit}
           loader={liveOrdersLoading}
-          count={liveOrdersAPIRedux?.length}
+          count={liveOrdersAPIReduxTotalElements}
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={liveOrdersAPIReduxTotalElements}
@@ -921,7 +921,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={paidDineInOrdersPageLimit}
           setRowsPerPage={setPaidDineInOrdersPageLimit}
           loader={paidDineInOrdersLoading}
-          count={paidDineInOrdersAPIRedux?.content?.length}
+          count={paidDineInOrdersAPIRedux?.totalElements}
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={paidDineInOrdersAPIRedux?.totalElements}
@@ -945,7 +945,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={liveOrderNonDineInPageLimit}
           setRowsPerPage={setLiveOrderNonDineInPageLimit}
           loader={liveOrderNonDineInLoading}
-          count={liveOrderNonDineInAPIRedux?.length}
+          count={liveOrderNonDineInAPIReduxTotalElements}
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={liveOrderNonDineInAPIReduxTotalElements}
@@ -969,7 +969,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={paidOffPremisePageLimit}
           setRowsPerPage={setPaidOffPremisePageLimit}
           loader={paidOffPremiseOrdersAPIReduxLoading}
-          count={paidOffPremiseOrdersAPIRedux?.content?.length}
+          count={paidOffPremiseOrdersAPIRedux?.totalElements}
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
