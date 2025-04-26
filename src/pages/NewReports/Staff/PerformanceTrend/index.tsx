@@ -64,9 +64,9 @@ const PerformanceTrend = () => {
   )
 
   const salesPerformanceAPIReduxError = useSelector(
-    (state: any) => state?.staffReports?.staffTrendErrorPerformanceFailure
+    (state: any) => state?.staffReports?.staffTrendSalesPerformanceFailure
   )
-
+  
   const errorPerformanceAPIRedux = useSelector(
     (state: any) => state?.staffReports?.staffTrendErrorPerformanceSuccess
   )
@@ -87,6 +87,10 @@ const PerformanceTrend = () => {
     (state: any) => state?.staffReports?.staffTrendRevenueImpactPerformanceLoading
   )
 
+  const revenueImpactAPIReduxError = useSelector(
+    (state: any) => state?.staffReports?.staffTrendRevenueImpactPerformanceFailure
+  )
+
     const countryCode = useSelector(
       (state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country
     );
@@ -95,15 +99,12 @@ const PerformanceTrend = () => {
     // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
     switch (kpiTitle) {
       case "Sales Performance":
-        // Handle Sales Performance filter change
         setSelectedTypeForPerformance(selectedValue);
         break;
       case "Revenue Impact":
-        // Handle Revenue Impact filter change
         setSelectedTypeForRevenueImpact(selectedValue);
         break;
       case "Error Performance":
-        // Handle Error Performance filter change
         setSelectedErrorTypeErrorPerformance(selectedValue);
         break;
       default:
@@ -156,141 +157,6 @@ const PerformanceTrend = () => {
     }
   };
 
-  const chartData = {
-    labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    datasets: [
-      {
-        label: 'James Bond',
-        data: [100, 120, 130, 140, 150, 160, 170],
-        borderColor: 'blue',
-        backgroundColor: 'rgba(0, 0, 255, 0.1)',
-        orders: [30, 35, 40, 45, 50, 55, 60],
-        sales: [100.00, 120.00, 130.00, 140.00, 150.00, 160.00, 170.00],
-        tips: [20.00, 25.00, 30.00, 35.00, 40.00, 45.00, 50.00],
-        // gratuities: [10.00, 15.00, 20.00, 25.00, 30.00, 35.00, 40.00],
-      },
-      {
-        label: 'Alan Fox',
-        data: [110, 115, 125, 135, 145, 155, 165],
-        borderColor: 'green',
-        backgroundColor: 'rgba(0, 255, 0, 0.1)',
-        orders: [42, 44, 46, 48, 50, 52, 54],
-        sales: [135.50, 140.00, 145.00, 150.00, 155.00, 160.00, 165.00],
-        tips: [38.50, 40.00, 42.00, 44.00, 46.00, 48.00, 50.00],
-        // gratuities: [40.50, 42.00, 44.00, 46.00, 48.00, 50.00, 52.00],
-      },
-      {
-        label: 'Ajith Kumar',
-        data: [105, 110, 120, 130, 140, 150, 160],
-        borderColor: 'orange',
-        backgroundColor: 'rgba(255, 165, 0, 0.1)',
-        orders: [25, 30, 35, 40, 45, 50, 55],
-        sales: [105.00, 110.00, 120.00, 130.00, 140.00, 150.00, 160.00],
-        tips: [15.00, 20.00, 25.00, 30.00, 35.00, 40.00, 45.00],
-        // gratuities: [20.00, 25.00, 30.00, 35.00, 40.00, 45.00, 50.00],
-      },
-    ],
-  };
-
-  const chartDataFromAPI = [
-    {
-      "date": "Sunday",
-      "fullName": "Jisoo ",
-      "tip": "0.00",
-      "serviceFee": "28.79",
-      "total": "359.00",
-      "orders": 2
-    },
-    {
-      "date": "Monday",
-      "fullName": "Jisoo ",
-      "tip": "11.98",
-      "serviceFee": "610.97",
-      "total": "4908.38",
-      "orders": 8
-    },
-    {
-      "date": "Monday",
-      "fullName": "stg two",
-      "tip": "0.00",
-      "serviceFee": "255.28",
-      "total": "1848.51",
-      "orders": 17
-    },
-    {
-      "date": "Tuesday",
-      "fullName": "Jisoo ",
-      "tip": "0.00",
-      "serviceFee": "252.20",
-      "total": "2692.57",
-      "orders": 10
-    },
-    {
-      "date": "Tuesday",
-      "fullName": "stg two",
-      "tip": "61.93",
-      "serviceFee": "411.93",
-      "total": "3676.55",
-      "orders": 39
-    },
-    {
-      "date": "Wednesday",
-      "fullName": "Jisoo ",
-      "tip": "37.79",
-      "serviceFee": "36.35",
-      "total": "2942.66",
-      "orders": 11
-    },
-    {
-      "date": "Wednesday",
-      "fullName": "stg two",
-      "tip": "0.00",
-      "serviceFee": "59.46",
-      "total": "586.58",
-      "orders": 5
-    },
-    {
-      "date": "Thursday",
-      "fullName": "Jisoo ",
-      "tip": "0.00",
-      "serviceFee": "436.80",
-      "total": "5792.10",
-      "orders": 14
-    },
-    {
-      "date": "Thursday",
-      "fullName": "stg two",
-      "tip": "0.00",
-      "serviceFee": "807.16",
-      "total": "7597.56",
-      "orders": 33
-    },
-    {
-      "date": "Friday",
-      "fullName": "Jisoo ",
-      "tip": "6.19",
-      "serviceFee": "180.47",
-      "total": "1243.90",
-      "orders": 7
-    },
-    {
-      "date": "Friday",
-      "fullName": "stg two",
-      "tip": "0.00",
-      "serviceFee": "375.35",
-      "total": "6730.82",
-      "orders": 41
-    },
-    {
-      "date": "Saturday",
-      "fullName": "stg two",
-      "tip": "0.00",
-      "serviceFee": "1.94",
-      "total": "13.45",
-      "orders": 1
-    }
-  ]
-
  let staffParam = employeeLabelPill?.filter((item)=>item?.value !== "All")?.map((item) => item?.value).join(",")
 
   // Function to remove an item from the employeeLabelPill array
@@ -309,7 +175,7 @@ const PerformanceTrend = () => {
       startDate: startDate,
       endDate: endDate,
       staffIds: staffParam ? staffParam : "",
-      // type: selectedTypeForPerformance,
+      // type: selectedTypeForPerformance, incase if backend fixes the issue of not getting data for selectedTypeForPerformance
     }))
   }, 
   [
@@ -318,7 +184,7 @@ const PerformanceTrend = () => {
     endDate, 
     employeeLabelPill, 
     staffParam,
-    // selectedTypeForPerformance
+    // selectedTypeForPerformance, incase if backend fixes the issue of not getting data for selectedTypeForPerformance
   ])
 
   useEffect(()=>{
@@ -357,12 +223,13 @@ const PerformanceTrend = () => {
     staffParam
   ])
 
+
   const handleClearAllForPill = () => {
     setEmployeeTempArray([{ label: "All", value: "All" }, ...employeeDropdownOptions])
     setEmployeeLabelPill([employeeTempArray[0]])
   }
 
-  // TODO: use this function when Backend give dynamic data for x-axis labels
+  // TODO: use this function when Backend gives dynamic data for x-axis labels
   const getDefaultLablesArray = (selectedDateFilterType: string) => {
     switch (selectedDateFilterType) {
       case "Today":
@@ -390,12 +257,10 @@ const PerformanceTrend = () => {
     defaultLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   })
 
-  console.log({salesPerformanceSales})
-
   const salesPerformanceOrders = transformToChartAcceptables({
     kpiTitle: "Sales Performance",
     dataFromApi: salesPerformanceAPIRedux,
-    xAxisKey: "day",
+    xAxisKey: "date",
     yAxisKey: "orders",
     labelKey: "fullName",
     remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
@@ -405,7 +270,7 @@ const PerformanceTrend = () => {
   const salesPerformanceTips = transformToChartAcceptables({
     kpiTitle: "Sales Performance",
     dataFromApi: salesPerformanceAPIRedux,
-    xAxisKey: "day",
+    xAxisKey: "date",
     yAxisKey: "tips",
     labelKey: "fullName",
     remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
@@ -415,7 +280,7 @@ const PerformanceTrend = () => {
   const salesPerformanceGratuities = transformToChartAcceptables({
     kpiTitle: "Sales Performance",
     dataFromApi: salesPerformanceAPIRedux,
-    xAxisKey: "day",
+    xAxisKey: "date",
     yAxisKey: "gratuities",
     labelKey: "fullName",
     remainingKeys: ["tip", "serviceFee", "discount", "tax", "total", "orders"],
@@ -435,6 +300,7 @@ const PerformanceTrend = () => {
       default:
         return salesPerformanceSales;
     }}
+
 
   const revenueImpactRefunds = transformToChartAcceptables({
     kpiTitle: "Revenue Impact",
@@ -563,11 +429,9 @@ const PerformanceTrend = () => {
         </div>
       </div>
       <div className='perf-trend-chart-container'>
-      {/* <div> */}
         <MultiLineChart
           kpiLoaderState={salesPerformanceAPIReduxLoader}
           kpiTitle='Sales Performance'
-          // data={chartData}
           data={getSalesPerformanceData(selectedTypeForPerformance)}
           showDownloadReport={true}
           showChartFilter={true}
@@ -575,24 +439,19 @@ const PerformanceTrend = () => {
           handleChartFilter={handleChartFilter}
           onFailureState={salesPerformanceAPIReduxError}
         />
-      {/* </div> */}
-      {/* <div> */}
         <MultiLineChart
-          kpiLoaderState={false}
+          kpiLoaderState={revenueImpactAPIReduxLoader}
           kpiTitle='Revenue Impact'
-          // data={chartData}
           data={getRevenueImpactData(selectedTypeForRevenueImpact)}
           showDownloadReport={true}
           showChartFilter={true}
           chartFilterOptions={refundsFilterOptionsRevenueImpact}
           handleChartFilter={handleChartFilter}
+          onFailureState={revenueImpactAPIReduxError}
         />
-      {/* </div> */}
-      {/* <div> */}
         <MultiLineChart
           kpiLoaderState={errorPerformanceAPIReduxLoader}
           kpiTitle='Error Performance'
-          // data={chartData}
           data={errorPerformanceData}
           showDownloadReport={true}
           showChartFilter={true}
@@ -600,7 +459,6 @@ const PerformanceTrend = () => {
           handleChartFilter={handleChartFilter}
           onFailureState={errorPerformanceAPIReduxError}
         />
-      {/* </div> */}
       </div>
     </div>
   )
