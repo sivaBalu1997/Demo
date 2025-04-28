@@ -1,10 +1,15 @@
-import React from "react";
-import "./style.scss";
 
-const TableShimmer: React.FC = () => {
-    const rowLength=10
+import "./style.scss";
+import React, { ForwardedRef } from "react";
+
+type TableShimmerProps = {
+    ref?: ForwardedRef<HTMLDivElement>;
+};
+
+const rowLength = 10;
+const TableShimmer: React.FC<TableShimmerProps> = ({ ref }) => {
     return (
-        <div className="new-table-container shimmer-container">
+        <div className="new-table-container shimmer-container" ref={ref}>
             <div className="table-header">
                 <div className="shimmer skeleton-box" style={{ width: "150px", height: "20px" }}></div>
                 <div className="search-container">

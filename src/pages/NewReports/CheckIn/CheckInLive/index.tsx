@@ -485,7 +485,15 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Avg wait time</h1>
-              <DownloadReport kpiTitle="Avg wait time" headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} tableData={liveCheckInAvgWaitTime}/>
+              <DownloadReport 
+                kpiTitle="Avg wait time" 
+                headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} 
+                tableData={
+                  liveCheckInAvgWaitTime?.map((dataToBeMapped: any)=> ({
+                  channel: dataToBeMapped?.channel,
+                  waitTime: Math.round(Number(dataToBeMapped?.waitTime)),
+                }))
+            }/>
             </div>
             <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}  errorType="checkinNotFound">   
             <CustomBarChart
@@ -496,7 +504,8 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
               yAxisTooltipAppendInBack=" mins"
               dataList={liveCheckInAvgWaitTime?.map((data: any) => ({
                 xAxisValue: data.channel,
-                yAxisValue: Number(data.waitTime),
+                // yAxisValue: Number(data.waitTime),
+                yAxisValue: Math.round(Number(data.waitTime)),
               }))}
               loader={isLiveCheckInAvgWaitTimeLoading}
               showLabel={false}

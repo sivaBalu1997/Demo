@@ -12,12 +12,15 @@ import {
     STAFF_TREND_SALES_PERFORMANCE_REQUEST,
     STAFF_TREND_SALES_PERFORMANCE_SUCCESS,
     STAFF_TREND_SALES_PERFORMANCE_FAILURE,
+    // STAFF_TREND_SALES_PERFORMANCE_ORDERS_REQUEST,
+    // STAFF_TREND_SALES_PERFORMANCE_ORDERS_SUCCESS,
+    // STAFF_TREND_SALES_PERFORMANCE_ORDERS_FAILURE,
     STAFF_TREND_REVENUE_IMPACT_PERFORMANCE_REQUEST,
     STAFF_TREND_REVENUE_IMPACT_PERFORMANCE_SUCCESS,
     STAFF_TREND_REVENUE_IMPACT_PERFORMANCE_FAILURE,
     STAFF_TREND_ERROR_PERFORMANCE_REQUEST,
     STAFF_TREND_ERROR_PERFORMANCE_SUCCESS,
-    STAFF_TREND_ERROR_PERFORMANCE_FAILURE   
+    STAFF_TREND_ERROR_PERFORMANCE_FAILURE,
 } from "./staffReportsConstants";
    
 
@@ -41,6 +44,11 @@ const initialNewReportsState = {
     staffTrendSalesPerformanceLoading: false,
     staffTrendSalesPerformanceSuccess: [],
     staffTrendSalesPerformanceFailure: false,
+
+    // Staff Trend Sales Performance Orders
+    // staffTrendSalesPerformanceOrdersLoading: false,
+    // staffTrendSalesPerformanceOrdersSuccess: [],
+    // staffTrendSalesPerformanceOrdersFailure: false,
 
     // Staff Trend Revenue Impact Performance
     staffTrendRevenueImpactPerformanceLoading: false,
@@ -121,6 +129,22 @@ export default function checkInReportsReducer(state = initialNewReportsState, ac
                 draft.staffTrendSalesPerformanceLoading = false;
                 draft.staffTrendSalesPerformanceFailure = true;
                 break;
+
+            // case STAFF_TREND_SALES_PERFORMANCE_ORDERS_REQUEST:
+            //     draft.staffTrendSalesPerformanceOrdersLoading = true;
+            //     draft.staffTrendSalesPerformanceOrdersSuccess = [];
+            //     draft.staffTrendSalesPerformanceOrdersFailure = false;
+            //     break;
+            // case STAFF_TREND_SALES_PERFORMANCE_ORDERS_SUCCESS:
+            //     draft.staffTrendSalesPerformanceOrdersLoading = false;
+            //     draft.staffTrendSalesPerformanceOrdersSuccess = action.payload;
+            //     draft.staffTrendSalesPerformanceOrdersFailure = false;
+            //     break;
+            // case STAFF_TREND_SALES_PERFORMANCE_ORDERS_FAILURE:
+            //     draft.staffTrendSalesPerformanceOrdersLoading = false;
+            //     draft.staffTrendSalesPerformanceOrdersSuccess = [];
+            //     draft.staffTrendSalesPerformanceOrdersFailure = true;
+            //     break;
 
             case STAFF_TREND_REVENUE_IMPACT_PERFORMANCE_REQUEST:
                 draft.staffTrendRevenueImpactPerformanceLoading = true;

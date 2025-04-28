@@ -133,6 +133,10 @@ const headerData1 = [
 
 
 const CheckInOverview: React.FC<ReportProps> = ({ }) => {
+
+  const checkinDetailsTableRef = useRef<HTMLDivElement>(null);
+  const topRepeatCustomersTableRef = useRef<HTMLDivElement>(null);
+
   const [checkInSearchQuery, setcheckInSearchQuery] = useState("");
   const [checkInCurrentPage, setcheckInCurrentPage] = useState(1);
   const [checkInPageLimit, setcheckInPageLimit] = useState(10);
@@ -357,6 +361,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     "avgCheckins": dataTobeMapped?.avgCheckins,
     "avgGuests": dataTobeMapped?.avgGuests,
   }))
+
 
   return (
     <>
@@ -594,9 +599,11 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           onSearch={handleCheckInSearch}
           totalElements={checkInOverviewTableDetails?.totalElements || 0}
         // // searchDebounce={()=>searchDebounce()}
+          tableRef={checkinDetailsTableRef}
         />
+      </div>
 
-
+      <div className="todays-report-tables-container">
         <NewTable
           kpiTitle={`Top Repeat Customers (${checkInOverviewTopCustomer?.totalElements || 0})`}
           searchQuery={todayCheckInSearchQuery}
@@ -617,6 +624,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           showDateDropDown={true}
           onDateSelect={handleDateSelectForTable}
           totalElements={checkInOverviewTopCustomer?.totalElements || 0}
+          tableRef={topRepeatCustomersTableRef}
         />
       </div>
       <div>

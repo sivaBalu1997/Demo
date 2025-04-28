@@ -4,9 +4,9 @@ import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
 import DownloadReport from "components/reportComponents/DownloadReports";
 import CustomDropdown from "components/common/customDropdown";
-import "./style.scss"
 import BarChartShimmer from 'components/reportComponents/Charts/BarChartShimmer';
 import ErrorHandler from 'components/reportComponents/ErrorHandler';
+import "./style.scss"
 
 export interface Dataset {
     label: string;
