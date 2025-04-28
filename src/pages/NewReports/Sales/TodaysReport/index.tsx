@@ -331,14 +331,14 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber:Number(toBeMappedData.orderNumber||0),
+      orderNumber: Number(toBeMappedData.orderNumber || 0),
       orderChannel: toBeMappedData.orderChannel,
       orderType: toBeMappedData.orderType,
       timeElapsed: toBeMappedData.timeElapsed,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
       customerNumber: toBeMappedData.customerNumber,
-      orderTotal: Number(toBeMappedData.orderTotal||0),
+      orderTotal: Number(toBeMappedData.orderTotal || 0),
       // orderDate: toBeMappedData.orderDate,
       // requestedEta: toBeMappedData.requestedEta,
     })
@@ -394,13 +394,13 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveOrdersData = liveOrdersAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData.orderNumber||0),
+      orderNumber: Number(toBeMappedData.orderNumber || 0),
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
       orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderAmount: Number(toBeMappedData.orderAmount||0),
+      orderAmount: Number(toBeMappedData.orderAmount || 0),
     })
   );
 
@@ -438,7 +438,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderAmount: toBeMappedData.orderAmount,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderTime: Number(toBeMappedData.orderTime||0),
+      orderTime: Number(toBeMappedData.orderTime || 0),
     })
   );
 
@@ -487,42 +487,42 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber:Number(toBeMappedData.orderNumber||0),
+      orderNumber: Number(toBeMappedData.orderNumber || 0),
       orderChannel: toBeMappedData.orderChannel,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
       customerNumber: toBeMappedData.customerNumber,
-      orderTotal: Number(toBeMappedData.orderTotal||0),
+      orderTotal: Number(toBeMappedData.orderTotal || 0),
     })
   );
 
   const paidDineInOrdersAPIReduxMapped = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
-    orderNumber: Number(dataToBeMapped?.orderNumber||0),
+    orderNumber: Number(dataToBeMapped?.orderNumber || 0),
     tableName: dataToBeMapped?.tableName,
     orderDate: dataToBeMapped?.orderDate,
     orderTime: dataToBeMapped?.orderTime,
     orderStatus: dataToBeMapped?.orderStatus,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderAmount: Number(dataToBeMapped?.orderAmount||0),
+    orderAmount: Number(dataToBeMapped?.orderAmount || 0),
   }))
 
   const paidDineInOrdersAPIReduxMappedMobile = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
     tableName: dataToBeMapped?.tableName,
     orderAmount: dataToBeMapped?.orderAmount,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderTime: Number(dataToBeMapped?.orderTime||0),
+    orderTime: Number(dataToBeMapped?.orderTime || 0),
   }))
 
   const paidOffPremiseOrdersAPIReduxMapped = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData?.orderNumber||0),
+      orderNumber: Number(toBeMappedData?.orderNumber || 0),
       orderChannel: toBeMappedData?.orderChannel,
       orderType: toBeMappedData?.orderType,
       timeElapsed: toBeMappedData?.timeElapsed,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
       customerNumber: toBeMappedData?.customerNumber,
-      orderTotal: Number(toBeMappedData?.orderTotal||0),
+      orderTotal: Number(toBeMappedData?.orderTotal || 0),
       // orderDate: toBeMappedData?.orderDate,
       // requestedEta: toBeMappedData?.requestedEta,
     })
@@ -530,7 +530,7 @@ const TodaysReport: React.FC = () => {
 
   const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData?.orderNumber||0),
+      orderNumber: Number(toBeMappedData?.orderNumber || 0),
       orderChannel: toBeMappedData?.orderChannel,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
@@ -670,11 +670,13 @@ const TodaysReport: React.FC = () => {
   }, [currentDate, selectedLocation]);
 
 
-  useEffect(()=>{
-dispatch(getTenderTypeRequest({
-  locationId: selectedLocation?.value
-}))
-  },[])
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(getTenderTypeRequest({
+        locationid: selectedLocation?.value
+      }))
+    }
+  }, [selectedLocation])
 
   const handleToggleSwitch = () => {
     setIsSwitchActive((prev) => !prev);
@@ -798,7 +800,7 @@ dispatch(getTenderTypeRequest({
     setPaidCancelledOrdersSearchQuery("");
     setPaidCancelledOrdersPageLimit(10);
     setCurrentPagePaidCancelledOrders(1);
-    dispatch(getTenderTypeRequest({          locationId: selectedLocation?.value}))
+    if (selectedLocation?.value) dispatch(getTenderTypeRequest({ locationid: selectedLocation?.value }))
     dispatch(
       liveOrdersRequest({
         locationid: selectedLocation?.value,
@@ -1017,9 +1019,9 @@ dispatch(getTenderTypeRequest({
               ? cardWithMiniGraphDataForTodays
               : cardWithMiniGraphDataForTodaysWithoutGratuity
             )
-            .filter(({ key }) => !isSwitchActive ? key !== "totalCancelledOrders" : true)
-            .map(({ title, key, isMonetary }) => (
-              <CardWithMiniGraph
+              .filter(({ key }) => !isSwitchActive ? key !== "totalCancelledOrders" : true)
+              .map(({ title, key, isMonetary }) => (
+                <CardWithMiniGraph
                   key={key}
                   cardTitle={title}
                   cardValue={formatNumberByCountry(
@@ -1029,216 +1031,216 @@ dispatch(getTenderTypeRequest({
                   )}
                   isMonetary={isMonetary}
                   loader={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
-                  />
-                ))}
+                />
+              ))}
           </div>
         </ErrorHandler>
-                </div>
-
-      {isSwitchActive ?  <><div className="tender-type-head-container">
-                    <h2 className="sales-overview-sub-heading ">Tender Type</h2>
-                    {(!tenderTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading} />}
-                  </div>
-          <ErrorHandler data={tenderTypes} isError={tenderTypesError}>
-            <div className="reports-tendor-container">
-              <div className="left-section">
-                {leftGroup?.map((key) => (
-                  <>
-                    {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
-                      <>
-                        <h3 className="tender-type-sub-heading">{key}</h3>
-                        <div className="tender-type-container">
-                          {Array.isArray(groupedData[key]) &&
-                            groupedData[key].map((item: any, index: number) => (
-                              <TenderType
-                                icon={
-                                  knownTendorIcons?.[item?.paymentMode] || (
-                                    // <KeyedInIcon />
-                                    <DefaultTenderTypeIcon />
-                                  )
-                                }
-                                key={index}
-                                tendorTitle={item?.paymentMode}
-                                expandable={item?.isExpandable}
-                                amount={item?.totalSales || 0}
-                                orders={item?.totalOrders || 0}
-                                percentage={Number(item?.salesPercentage || 0)}
-                                onPremOrders={item?.onPremiseOrders || 0}
-                                onPremSales={item?.onPremiseSales || 0}
-                                offPremOrders={item?.offPremiseOrders || 0}
-                                offPremSales={item?.offPremiseSales || 0}
-                                loader={tenderTypesLoader}
-                              />
-                            ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                ))}
-              </div>
-
-              <div className="right-section">
-                {rightGroup?.map((key) => (
-
-                  <>
-                    {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
-                      <>
-                        <h3 className="tender-type-sub-heading">{key}</h3>
-                        <div className="tender-type-container">
-                          {Array.isArray(groupedData[key]) &&
-                            groupedData[key].map((item: any, index: number) => (
-                              <TenderType
-                                icon={
-                                  knownTendorIcons?.[item?.paymentMode] || (
-                                    <DefaultTenderTypeIcon />
-                                  )
-                                }
-                                key={index}
-                                tendorTitle={item?.paymentMode}
-                                expandable={item?.isExpandable}
-                                amount={item?.totalSales || 0}
-                                orders={item?.totalOrders || 0}
-                                percentage={Number(item?.salesPercentage || 0)}
-                                onPremOrders={item?.onPremiseOrders || 0}
-                                onPremSales={item?.onPremiseSales || 0}
-                                offPremOrders={item?.offPremiseOrders || 0}
-                                offPremSales={item?.offPremiseSales || 0}
-                                loader={tenderTypesLoader}
-                              />
-                            ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                ))}
-              </div>
-            </div>
-          </ErrorHandler>
-
-</>
-          :null}
-        <div className="todays-report-tables-container">
-          {!isSwitchActive && <NewTable
-            apiEndPoint="/sales/live/tables"
-            queryParams={{
-              locationId: selectedLocation?.value,
-              startDate: currentDate,
-              endDate: currentDate,
-            }}
-            kpiTitle={`Unpaid Dine-in orders`}
-            searchQuery={liveOrdersSearchQuery}
-            headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
-            tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
-            currentPage={currentPageLiveOrders}
-            totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
-            onPageChange={setCurrentPageLiveOrders}
-            rowsPerPage={liveOrdersPageLimit}
-            setRowsPerPage={setLiveOrdersPageLimit}
-            loader={liveOrdersLoading}
-            count={liveOrdersAPIRedux?.length}
-            searchPlaceHolder="Search by order number, table name"
-            onSearch={handleSearch}
-            totalElements={liveOrdersAPIReduxTotalElements}
-          />}
-          {isSwitchActive && <NewTable
-            apiEndPoint="/sales/live/tables"
-            queryParams={{
-              locationId: selectedLocation?.value,
-              startDate: currentDate,
-              endDate: currentDate,
-              type: "Paid",
-            }}
-            kpiTitle={`Paid Dine-in orders`}
-            searchQuery={paidDineInOrdersSearchQuery}
-            headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
-            tableData={isMobile ? paidDineInOrdersAPIReduxMappedMobile : paidDineInOrdersAPIReduxMapped}
-            currentPage={currentPagePaidDineInOrders}
-            onPageChange={setCurrentPagePaidDineInOrders}
-            totalPages={paidDineInOrdersAPIRedux?.totalPages ? paidDineInOrdersAPIRedux?.totalPages : 1}
-            rowsPerPage={paidDineInOrdersPageLimit}
-            setRowsPerPage={setPaidDineInOrdersPageLimit}
-            loader={paidDineInOrdersLoading}
-            count={paidDineInOrdersAPIRedux?.content?.length}
-            searchPlaceHolder="Search by order number, table name"
-            onSearch={handleSearch}
-            totalElements={paidDineInOrdersAPIRedux?.totalElements}
-          />}
-          {!isSwitchActive && <NewTable
-            apiEndPoint="/sales/live/tracking"
-            queryParams={{
-              locationId: selectedLocation?.value,
-              startDate: currentDate,
-              endDate: currentDate,
-            }}
-            kpiTitle={`Unpaid Off-Premise orders`}
-            searchQuery={liveOrderNonDineInSearchQuery}
-            headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
-            tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
-            currentPage={currentPageLiveOrdersNonDineIn}
-            totalPages={
-              liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1
-            }
-            onPageChange={setCurrentPageLiveOrdersNonDineIn}
-            rowsPerPage={liveOrderNonDineInPageLimit}
-            setRowsPerPage={setLiveOrderNonDineInPageLimit}
-            loader={liveOrderNonDineInLoading}
-            count={liveOrderNonDineInAPIRedux?.length}
-            searchPlaceHolder="Search by order number, customer name"
-            onSearch={handleSearch}
-            totalElements={liveOrderNonDineInAPIReduxTotalElements}
-            rowNoWrap={true}
-          />}
-          {isSwitchActive && <NewTable
-            apiEndPoint="/sales/live/tracking"
-            queryParams={{
-              locationId: selectedLocation?.value,
-              startDate: currentDate,
-              endDate: currentDate,
-              type: "Paid",
-            }}
-            kpiTitle={`Paid Off-Premise orders`}
-            searchQuery={paidOffPremiseOrdersSearchQuery}
-            headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
-            tableData={isMobile ? paidOffPremiseOrdersAPIReduxMappedMobile : paidOffPremiseOrdersAPIReduxMapped}
-            currentPage={currentPagePaidOffPremiseOrders}
-            onPageChange={setCurrentPagePaidOffPremiseOrders}
-            totalPages={paidOffPremiseOrdersAPIRedux?.totalPages ? paidOffPremiseOrdersAPIRedux?.totalPages : 1}
-            rowsPerPage={paidOffPremisePageLimit}
-            setRowsPerPage={setPaidOffPremisePageLimit}
-            loader={paidOffPremiseOrdersAPIReduxLoading}
-            count={paidOffPremiseOrdersAPIRedux?.content?.length}
-            searchPlaceHolder="Search by order number, customer name"
-            onSearch={handleSearch}
-            totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
-            rowNoWrap={true}
-          />}
-          {isSwitchActive && <NewTable
-            apiEndPoint="/sales/live/canceledOrders"
-            queryParams={{
-              locationId: selectedLocation?.value,
-              startDate: currentDate,
-              endDate: currentDate,
-              type: "Paid",
-            }}
-            kpiTitle={`Paid cancelled orders`}
-            searchQuery={paidCancelledOrdersSearchQuery}
-            headerData={isMobile ? paidCancelledOrdersHeaders : paidCancelledOrdersHeaders}
-            tableData={isMobile ? paidCancelledOrdersAPIRedux?.content : paidCancelledOrdersAPIRedux?.content}
-            currentPage={currentPagePaidCancelledOrders}
-            onPageChange={setCurrentPagePaidCancelledOrders}
-            totalPages={paidCancelledOrdersAPIRedux?.totalPages ? paidCancelledOrdersAPIRedux?.totalPages : 1}
-            rowsPerPage={paidCancelledOrdersPageLimit}
-            setRowsPerPage={setPaidCancelledOrdersPageLimit}
-            loader={paidCancelledOrdersAPIReduxLoading}
-            count={paidCancelledOrdersAPIRedux?.content?.length}
-            searchPlaceHolder="Search by order number, Phone number"
-            onSearch={handleSearch}
-            totalElements={paidCancelledOrdersAPIRedux?.totalElements}
-            rowNoWrap={true}
-          />}
-        </div>
       </div>
-      );
+
+      {isSwitchActive ? <><div className="tender-type-head-container">
+        <h2 className="sales-overview-sub-heading ">Tender Type</h2>
+        {(!tenderTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading} />}
+      </div>
+        <ErrorHandler data={tenderTypes} isError={tenderTypesError}>
+          <div className="reports-tendor-container">
+            <div className="left-section">
+              {leftGroup?.map((key) => (
+                <>
+                  {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                    <>
+                      <h3 className="tender-type-sub-heading">{key}</h3>
+                      <div className="tender-type-container">
+                        {Array.isArray(groupedData[key]) &&
+                          groupedData[key].map((item: any, index: number) => (
+                            <TenderType
+                              icon={
+                                knownTendorIcons?.[item?.paymentMode] || (
+                                  // <KeyedInIcon />
+                                  <DefaultTenderTypeIcon />
+                                )
+                              }
+                              key={index}
+                              tendorTitle={item?.paymentMode}
+                              expandable={item?.isExpandable}
+                              amount={item?.totalSales || 0}
+                              orders={item?.totalOrders || 0}
+                              percentage={Number(item?.salesPercentage || 0)}
+                              onPremOrders={item?.onPremiseOrders || 0}
+                              onPremSales={item?.onPremiseSales || 0}
+                              offPremOrders={item?.offPremiseOrders || 0}
+                              offPremSales={item?.offPremiseSales || 0}
+                              loader={tenderTypesLoader}
+                            />
+                          ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              ))}
+            </div>
+
+            <div className="right-section">
+              {rightGroup?.map((key) => (
+
+                <>
+                  {!Array.isArray(groupedData[key]) || !groupedData[key]?.length ? null : (
+                    <>
+                      <h3 className="tender-type-sub-heading">{key}</h3>
+                      <div className="tender-type-container">
+                        {Array.isArray(groupedData[key]) &&
+                          groupedData[key].map((item: any, index: number) => (
+                            <TenderType
+                              icon={
+                                knownTendorIcons?.[item?.paymentMode] || (
+                                  <DefaultTenderTypeIcon />
+                                )
+                              }
+                              key={index}
+                              tendorTitle={item?.paymentMode}
+                              expandable={item?.isExpandable}
+                              amount={item?.totalSales || 0}
+                              orders={item?.totalOrders || 0}
+                              percentage={Number(item?.salesPercentage || 0)}
+                              onPremOrders={item?.onPremiseOrders || 0}
+                              onPremSales={item?.onPremiseSales || 0}
+                              offPremOrders={item?.offPremiseOrders || 0}
+                              offPremSales={item?.offPremiseSales || 0}
+                              loader={tenderTypesLoader}
+                            />
+                          ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              ))}
+            </div>
+          </div>
+        </ErrorHandler>
+
+      </>
+        : null}
+      <div className="todays-report-tables-container">
+        {!isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/tables"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+          }}
+          kpiTitle={`Unpaid Dine-in orders`}
+          searchQuery={liveOrdersSearchQuery}
+          headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
+          tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
+          currentPage={currentPageLiveOrders}
+          totalPages={liveOrdersTotalPageNo ? liveOrdersTotalPageNo : 1}
+          onPageChange={setCurrentPageLiveOrders}
+          rowsPerPage={liveOrdersPageLimit}
+          setRowsPerPage={setLiveOrdersPageLimit}
+          loader={liveOrdersLoading}
+          count={liveOrdersAPIRedux?.length}
+          searchPlaceHolder="Search by order number, table name"
+          onSearch={handleSearch}
+          totalElements={liveOrdersAPIReduxTotalElements}
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/tables"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+            type: "Paid",
+          }}
+          kpiTitle={`Paid Dine-in orders`}
+          searchQuery={paidDineInOrdersSearchQuery}
+          headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
+          tableData={isMobile ? paidDineInOrdersAPIReduxMappedMobile : paidDineInOrdersAPIReduxMapped}
+          currentPage={currentPagePaidDineInOrders}
+          onPageChange={setCurrentPagePaidDineInOrders}
+          totalPages={paidDineInOrdersAPIRedux?.totalPages ? paidDineInOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidDineInOrdersPageLimit}
+          setRowsPerPage={setPaidDineInOrdersPageLimit}
+          loader={paidDineInOrdersLoading}
+          count={paidDineInOrdersAPIRedux?.content?.length}
+          searchPlaceHolder="Search by order number, table name"
+          onSearch={handleSearch}
+          totalElements={paidDineInOrdersAPIRedux?.totalElements}
+        />}
+        {!isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/tracking"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+          }}
+          kpiTitle={`Unpaid Off-Premise orders`}
+          searchQuery={liveOrderNonDineInSearchQuery}
+          headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
+          tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
+          currentPage={currentPageLiveOrdersNonDineIn}
+          totalPages={
+            liveOrderNonDineInTotalPageNo ? liveOrderNonDineInTotalPageNo : 1
+          }
+          onPageChange={setCurrentPageLiveOrdersNonDineIn}
+          rowsPerPage={liveOrderNonDineInPageLimit}
+          setRowsPerPage={setLiveOrderNonDineInPageLimit}
+          loader={liveOrderNonDineInLoading}
+          count={liveOrderNonDineInAPIRedux?.length}
+          searchPlaceHolder="Search by order number, customer name"
+          onSearch={handleSearch}
+          totalElements={liveOrderNonDineInAPIReduxTotalElements}
+          rowNoWrap={true}
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/tracking"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+            type: "Paid",
+          }}
+          kpiTitle={`Paid Off-Premise orders`}
+          searchQuery={paidOffPremiseOrdersSearchQuery}
+          headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
+          tableData={isMobile ? paidOffPremiseOrdersAPIReduxMappedMobile : paidOffPremiseOrdersAPIReduxMapped}
+          currentPage={currentPagePaidOffPremiseOrders}
+          onPageChange={setCurrentPagePaidOffPremiseOrders}
+          totalPages={paidOffPremiseOrdersAPIRedux?.totalPages ? paidOffPremiseOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidOffPremisePageLimit}
+          setRowsPerPage={setPaidOffPremisePageLimit}
+          loader={paidOffPremiseOrdersAPIReduxLoading}
+          count={paidOffPremiseOrdersAPIRedux?.content?.length}
+          searchPlaceHolder="Search by order number, customer name"
+          onSearch={handleSearch}
+          totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
+          rowNoWrap={true}
+        />}
+        {isSwitchActive && <NewTable
+          apiEndPoint="/sales/live/canceledOrders"
+          queryParams={{
+            locationId: selectedLocation?.value,
+            startDate: currentDate,
+            endDate: currentDate,
+            type: "Paid",
+          }}
+          kpiTitle={`Paid cancelled orders`}
+          searchQuery={paidCancelledOrdersSearchQuery}
+          headerData={isMobile ? paidCancelledOrdersHeaders : paidCancelledOrdersHeaders}
+          tableData={isMobile ? paidCancelledOrdersAPIRedux?.content : paidCancelledOrdersAPIRedux?.content}
+          currentPage={currentPagePaidCancelledOrders}
+          onPageChange={setCurrentPagePaidCancelledOrders}
+          totalPages={paidCancelledOrdersAPIRedux?.totalPages ? paidCancelledOrdersAPIRedux?.totalPages : 1}
+          rowsPerPage={paidCancelledOrdersPageLimit}
+          setRowsPerPage={setPaidCancelledOrdersPageLimit}
+          loader={paidCancelledOrdersAPIReduxLoading}
+          count={paidCancelledOrdersAPIRedux?.content?.length}
+          searchPlaceHolder="Search by order number, Phone number"
+          onSearch={handleSearch}
+          totalElements={paidCancelledOrdersAPIRedux?.totalElements}
+          rowNoWrap={true}
+        />}
+      </div>
+    </div>
+  );
 };
 
-      export default TodaysReport;
+export default TodaysReport;
