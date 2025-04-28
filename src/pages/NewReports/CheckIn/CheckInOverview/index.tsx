@@ -600,8 +600,9 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
         // // searchDebounce={()=>searchDebounce()}
           tableRef={checkinDetailsTableRef}
         />
+      </div>
 
-
+      <div className="todays-report-tables-container">
         <NewTable
           kpiTitle={`Top Repeat Customers (${checkInOverviewTopCustomer?.totalElements || 0})`}
           searchQuery={todayCheckInSearchQuery}
@@ -647,7 +648,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                   const getStartTime = (str: string) => (str ? parseInt(str.split("-")[0]) || 0 : 0);
                   return getStartTime(a?.waitTime) - getStartTime(b?.waitTime);
                 })?.map((data: any) => ({
-                  timeRange: Math.round(data?.waitTime) || "",
+                  timeRange: data?.waitTime || "",
                   groupName: data?.groupSize || "",
                   count: data?.checkInCount || 0,
               }))}
