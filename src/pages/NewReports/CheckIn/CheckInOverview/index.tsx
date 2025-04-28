@@ -358,6 +358,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     "avgGuests": dataTobeMapped?.avgGuests,
   }))
 
+
   return (
     <>
 
@@ -642,7 +643,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                   const getStartTime = (str: string) => (str ? parseInt(str.split("-")[0]) || 0 : 0);
                   return getStartTime(a?.waitTime) - getStartTime(b?.waitTime);
                 })?.map((data: any) => ({
-                  timeRange: data?.waitTime || "",
+                  timeRange: Math.round(data?.waitTime) || "",
                   groupName: data?.groupSize || "",
                   count: data?.checkInCount || 0,
               }))}
