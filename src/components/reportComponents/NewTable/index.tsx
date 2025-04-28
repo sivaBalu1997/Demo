@@ -325,7 +325,7 @@ const NewTable: React.FC<NewTableProps> = ({
           <div className="table-header" ref={getToTableHeaderRef}>
             <div className="table-title-with-count-container">
               <h2 className="table-title">{kpiTitle}</h2>
-              {showRoundedStyleCount && <p className="table-title-count">{totalElements}</p>}
+              {showRoundedStyleCount && tableData?.length > 0 && <p className="table-title-count">{totalElements}</p>}
             </div>
             <div className="table-header-position">
               {showDateDropDown && (
@@ -396,7 +396,7 @@ const NewTable: React.FC<NewTableProps> = ({
             <div className="table-name-with-download-container">
               <div className="table-title-with-count-container-small-screen">
                 <h2 className="table-title-small-screen">{kpiTitle}</h2>
-                {showRoundedStyleCount && (
+                {showRoundedStyleCount && tableData?.length > 0 && (
                   <p className="table-title-count-small-screen">{totalElements}</p>
                 )}
                 {showDateDropDown && (
