@@ -559,6 +559,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
                  onSearch={handleLiveCheckInSearch}
                 searchPlaceHolder="Search by table number, customer name"
                 totalElements={liveCheckInTable?.totalElements || 0}
+                showRoundedStyleCount={true}
               />
                 //  </ErrorHandler>
             )}
@@ -580,6 +581,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
                 searchPlaceHolder="Search by table number, customer name"
                 onSearch={handleTodayCheckInSearch}
                 totalElements={liveCheckInToday?.totalElements || 0}
+                showRoundedStyleCount={true}
               />
                 //  </ErrorHandler>
             )}

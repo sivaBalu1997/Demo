@@ -79,6 +79,7 @@ export interface NewTableProps {
   totalElements?: number;
   headers?: {key:string;label:string}[];
   tableRef?: React.RefObject<HTMLDivElement>;
+  showRoundedStyleCount?: boolean
 }
 
 export interface SortConfig {

@@ -991,6 +991,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               onSearch={handleSearch}
               totalElements={discountSummaryTotalElements || 0}
             // rowNoWrap={true}
+            showRoundedStyleCount={true}
             />
             {/* </ErrorHandler> */}
           </div>
@@ -1025,6 +1026,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             searchPlaceHolder="Search By order number, staff name"
             onSearch={handleSearch}
             totalElements={cancellationSummaryTotalElements || 0}
+            showRoundedStyleCount={true}
           />
           {/* </ErrorHandler> */}
         </div>
