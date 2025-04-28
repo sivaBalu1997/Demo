@@ -606,8 +606,7 @@ const NewTable: React.FC<NewTableProps> = ({
             )}
             <ReactPaginate
               nextLabel={
-                <button className="pagination-button prev-button" >
-                  onClick={()=>scrollToTableHeader()}
+                <button className="pagination-button prev-button" onClick={()=>scrollToTableHeader()}>
                   {width > 600 && <span>Next</span>}
                   <ArrowRight className="arrow-icon" />
                 </button>
