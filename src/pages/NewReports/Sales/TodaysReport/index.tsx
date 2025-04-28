@@ -12,12 +12,8 @@ import { NewTableHeader } from "interface/newReportsInterface";
 import {
   billedRequest,
   changeLocation,
-  liveDiscountRequest,
-  liveNetSalesRequest,
-  liveOpenSalesRequest,
   liveOrderNonDineInRequest,
   liveOrdersRequest,
-  liveRefundsRequest,
   paidCancelledOrdersRequest,
   paidDineInOrdersRequest,
   paidOffPremiseOrdersRequest,
@@ -902,7 +898,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={liveOrdersPageLimit}
           setRowsPerPage={setLiveOrdersPageLimit}
           loader={liveOrdersLoading}
-          count={liveOrdersAPIRedux?.length}
+          count={liveOrdersAPIReduxTotalElements}
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={liveOrdersAPIReduxTotalElements}
@@ -925,7 +921,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={paidDineInOrdersPageLimit}
           setRowsPerPage={setPaidDineInOrdersPageLimit}
           loader={paidDineInOrdersLoading}
-          count={paidDineInOrdersAPIRedux?.content?.length}
+          count={paidDineInOrdersAPIRedux?.totalElements}
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={paidDineInOrdersAPIRedux?.totalElements}
@@ -949,7 +945,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={liveOrderNonDineInPageLimit}
           setRowsPerPage={setLiveOrderNonDineInPageLimit}
           loader={liveOrderNonDineInLoading}
-          count={liveOrderNonDineInAPIRedux?.length}
+          count={liveOrderNonDineInAPIReduxTotalElements}
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={liveOrderNonDineInAPIReduxTotalElements}
@@ -973,7 +969,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={paidOffPremisePageLimit}
           setRowsPerPage={setPaidOffPremisePageLimit}
           loader={paidOffPremiseOrdersAPIReduxLoading}
-          count={paidOffPremiseOrdersAPIRedux?.content?.length}
+          count={paidOffPremiseOrdersAPIRedux?.totalElements}
           searchPlaceHolder="Search by order number, customer name"
           onSearch={handleSearch}
           totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
@@ -997,7 +993,7 @@ const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.c
           rowsPerPage={paidCancelledOrdersPageLimit}
           setRowsPerPage={setPaidCancelledOrdersPageLimit}
           loader={paidCancelledOrdersAPIReduxLoading}
-          count={paidCancelledOrdersAPIRedux?.content?.length}
+          count={paidCancelledOrdersAPIRedux?.totalElements}
           searchPlaceHolder="Search by order number, Phone number"
           onSearch={handleSearch}
           totalElements={paidCancelledOrdersAPIRedux?.totalElements}
