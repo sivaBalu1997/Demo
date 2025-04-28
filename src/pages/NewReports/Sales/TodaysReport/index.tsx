@@ -1135,7 +1135,6 @@ dispatch(getTenderTypeRequest({
             rowsPerPage={liveOrdersPageLimit}
             setRowsPerPage={setLiveOrdersPageLimit}
             loader={liveOrdersLoading}
-            count={liveOrdersAPIRedux?.length}
             searchPlaceHolder="Search by order number, table name"
             onSearch={handleSearch}
             totalElements={liveOrdersAPIReduxTotalElements}
@@ -1158,7 +1157,6 @@ dispatch(getTenderTypeRequest({
             rowsPerPage={paidDineInOrdersPageLimit}
             setRowsPerPage={setPaidDineInOrdersPageLimit}
             loader={paidDineInOrdersLoading}
-            count={paidDineInOrdersAPIRedux?.content?.length}
             searchPlaceHolder="Search by order number, table name"
             onSearch={handleSearch}
             totalElements={paidDineInOrdersAPIRedux?.totalElements}
@@ -1182,7 +1180,6 @@ dispatch(getTenderTypeRequest({
             rowsPerPage={liveOrderNonDineInPageLimit}
             setRowsPerPage={setLiveOrderNonDineInPageLimit}
             loader={liveOrderNonDineInLoading}
-            count={liveOrderNonDineInAPIRedux?.length}
             searchPlaceHolder="Search by order number, customer name"
             onSearch={handleSearch}
             totalElements={liveOrderNonDineInAPIReduxTotalElements}
@@ -1206,7 +1203,6 @@ dispatch(getTenderTypeRequest({
             rowsPerPage={paidOffPremisePageLimit}
             setRowsPerPage={setPaidOffPremisePageLimit}
             loader={paidOffPremiseOrdersAPIReduxLoading}
-            count={paidOffPremiseOrdersAPIRedux?.content?.length}
             searchPlaceHolder="Search by order number, customer name"
             onSearch={handleSearch}
             totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
@@ -1230,7 +1226,6 @@ dispatch(getTenderTypeRequest({
             rowsPerPage={paidCancelledOrdersPageLimit}
             setRowsPerPage={setPaidCancelledOrdersPageLimit}
             loader={paidCancelledOrdersAPIReduxLoading}
-            count={paidCancelledOrdersAPIRedux?.content?.length}
             searchPlaceHolder="Search by order number, Phone number"
             onSearch={handleSearch}
             totalElements={paidCancelledOrdersAPIRedux?.totalElements}
