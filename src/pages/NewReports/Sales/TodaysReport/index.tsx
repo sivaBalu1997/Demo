@@ -438,9 +438,10 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderAmount: toBeMappedData.orderAmount,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderTime: Number(toBeMappedData.orderTime || 0),
+      orderTime: toBeMappedData.orderTime,
     })
   );
+
 
   const liveOrderNonDineInTableHeadersMobile: NewTableHeader[] = [
     {
@@ -510,7 +511,7 @@ const TodaysReport: React.FC = () => {
     tableName: dataToBeMapped?.tableName,
     orderAmount: dataToBeMapped?.orderAmount,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderTime: Number(dataToBeMapped?.orderTime || 0),
+    orderTime: dataToBeMapped?.orderTime,
   }))
 
   const paidOffPremiseOrdersAPIReduxMapped = paidOffPremiseOrdersAPIRedux?.content?.map(
