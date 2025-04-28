@@ -1470,7 +1470,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 // Get Tender Type
                 case GET_TENDER_TYPE_REQUEST:
                     draft.tenderTypeLoading = true;
-                    draft.tenderTypeSuccess = [];
+                    // draft.tenderTypeSuccess = [];
                     draft.tenderTypeFailure = false;
                     break;
                 case GET_TENDER_TYPE_SUCCESS:
