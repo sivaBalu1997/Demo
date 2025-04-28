@@ -133,6 +133,9 @@ const headerData1 = [
 
 
 const CheckInOverview: React.FC<ReportProps> = ({ }) => {
+
+  const checkinDetailsTableRef = useRef<HTMLDivElement>(null);
+
   const [checkInSearchQuery, setcheckInSearchQuery] = useState("");
   const [checkInCurrentPage, setcheckInCurrentPage] = useState(1);
   const [checkInPageLimit, setcheckInPageLimit] = useState(10);
@@ -595,6 +598,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
           onSearch={handleCheckInSearch}
           totalElements={checkInOverviewTableDetails?.totalElements || 0}
         // // searchDebounce={()=>searchDebounce()}
+          tableRef={checkinDetailsTableRef}
         />
 
 

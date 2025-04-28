@@ -65,10 +65,11 @@ const NewTable: React.FC<NewTableProps> = ({
   showIcons = true,
   tableContainerClassName = "",
   totalElements = 0,
-  headers = []
+  headers = [],
+  tableRef=null,
 }) => {
 
-  const getToTableHeaderRef = useRef<HTMLDivElement>(null)
+  // const getToTableHeaderRef = useRef<HTMLDivElement>(null)
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "",
@@ -285,12 +286,13 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   const scrollToTableHeader = () => {
-    if (getToTableHeaderRef.current) {
-      getToTableHeaderRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
+    if (tableRef?.current) {
+      tableRef.current.scrollTop = 0
+      // ({
+      //   behavior: "smooth",
+      //   // block: "start",
+      //   // inline: "nearest",
+      // });
     }
   }
 
@@ -309,7 +311,7 @@ const NewTable: React.FC<NewTableProps> = ({
       {showTableHeader && (
         <>
           {" "}
-          <div className="table-header" ref={getToTableHeaderRef}>
+          <div className="table-header" ref={tableRef}>
             <div className="table-title-with-count-container">
               <h2 className="table-title">{kpiTitle}</h2>
               {!!count && <p className="table-title-count">{totalElements}</p>}
