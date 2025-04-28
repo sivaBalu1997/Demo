@@ -331,14 +331,14 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData.orderNumber,
+      orderNumber:Number(toBeMappedData.orderNumber||0),
       orderChannel: toBeMappedData.orderChannel,
       orderType: toBeMappedData.orderType,
       timeElapsed: toBeMappedData.timeElapsed,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
       customerNumber: toBeMappedData.customerNumber,
-      orderTotal: toBeMappedData.orderTotal,
+      orderTotal: Number(toBeMappedData.orderTotal||0),
       // orderDate: toBeMappedData.orderDate,
       // requestedEta: toBeMappedData.requestedEta,
     })
@@ -394,13 +394,13 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveOrdersData = liveOrdersAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData.orderNumber,
+      orderNumber: Number(toBeMappedData.orderNumber||0),
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
       orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderAmount: toBeMappedData.orderAmount,
+      orderAmount: Number(toBeMappedData.orderAmount||0),
     })
   );
 
@@ -438,7 +438,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderAmount: toBeMappedData.orderAmount,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderTime: toBeMappedData.orderTime,
+      orderTime: Number(toBeMappedData.orderTime||0),
     })
   );
 
@@ -487,42 +487,42 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData.orderNumber,
+      orderNumber:Number(toBeMappedData.orderNumber||0),
       orderChannel: toBeMappedData.orderChannel,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
       customerNumber: toBeMappedData.customerNumber,
-      orderTotal: toBeMappedData.orderTotal,
+      orderTotal: Number(toBeMappedData.orderTotal||0),
     })
   );
 
   const paidDineInOrdersAPIReduxMapped = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
-    orderNumber: dataToBeMapped?.orderNumber,
+    orderNumber: Number(dataToBeMapped?.orderNumber||0),
     tableName: dataToBeMapped?.tableName,
     orderDate: dataToBeMapped?.orderDate,
     orderTime: dataToBeMapped?.orderTime,
     orderStatus: dataToBeMapped?.orderStatus,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderAmount: dataToBeMapped?.orderAmount,
+    orderAmount: Number(dataToBeMapped?.orderAmount||0),
   }))
 
   const paidDineInOrdersAPIReduxMappedMobile = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
     tableName: dataToBeMapped?.tableName,
     orderAmount: dataToBeMapped?.orderAmount,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderTime: dataToBeMapped?.orderTime,
+    orderTime: Number(dataToBeMapped?.orderTime||0),
   }))
 
   const paidOffPremiseOrdersAPIReduxMapped = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData?.orderNumber,
+      orderNumber: Number(toBeMappedData?.orderNumber||0),
       orderChannel: toBeMappedData?.orderChannel,
       orderType: toBeMappedData?.orderType,
       timeElapsed: toBeMappedData?.timeElapsed,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
       customerNumber: toBeMappedData?.customerNumber,
-      orderTotal: toBeMappedData?.orderTotal,
+      orderTotal: Number(toBeMappedData?.orderTotal||0),
       // orderDate: toBeMappedData?.orderDate,
       // requestedEta: toBeMappedData?.requestedEta,
     })
@@ -530,12 +530,12 @@ const TodaysReport: React.FC = () => {
 
   const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: toBeMappedData?.orderNumber,
+      orderNumber: Number(toBeMappedData?.orderNumber||0),
       orderChannel: toBeMappedData?.orderChannel,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
       customerNumber: toBeMappedData?.customerNumber,
-      orderTotal: toBeMappedData?.orderTotal,
+      orderTotal: Number(toBeMappedData?.orderTotal),
     })
   );
 
@@ -1035,7 +1035,7 @@ dispatch(getTenderTypeRequest({
         </ErrorHandler>
                 </div>
 
-      {!isSwitchActive ?  <><div className="tender-type-head-container">
+      {isSwitchActive ?  <><div className="tender-type-head-container">
                     <h2 className="sales-overview-sub-heading ">Tender Type</h2>
                     {(!tenderTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading} />}
                   </div>

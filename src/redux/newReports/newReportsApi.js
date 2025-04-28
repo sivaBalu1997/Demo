@@ -193,7 +193,7 @@ export const getActualSales = (actualSalesPayload) => {
 
 export const getTenderTypes = (actualSalesPayload) => { 
     const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query=generateQueryParams(actualSalesPayload)
+    const query=generateQueryParams(actualSalesPayload,)
     return REPORTS_API({
         method: "get",
         url: `/sales/live/payment${query}`,
