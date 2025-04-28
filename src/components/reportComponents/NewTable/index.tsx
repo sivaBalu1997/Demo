@@ -115,7 +115,7 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string) => {
+  const handleSort = (key: string, isNum=false) => {
 
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
@@ -123,17 +123,27 @@ const NewTable: React.FC<NewTableProps> = ({
     else if (sortConfig?.key === key && sortConfig?.direction === "desc")
       direction = "asc";
     setSortConfig({ key, direction });
+
   };
 
   const sortedData = useMemo(() => {
     if (!tableData || tableData?.length === 0) return [];
     if (!sortConfig?.direction || !sortConfig?.key) return tableData;
 
-    return [...tableData]?.sort((a, b) => {
+    return [...tableData].sort((a, b) => {
       const aValue = a?.[sortConfig?.key] ?? "";
       const bValue = b?.[sortConfig?.key] ?? "";
-      if (aValue < bValue) return sortConfig?.direction === "asc" ? -1 : 1;
-      else if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
+    
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return sortConfig?.direction === "asc" ? aValue - bValue : bValue - aValue;
+      }
+    
+      // If not numbers, compare as strings
+      const aString = String(aValue).toLowerCase();
+      const bString = String(bValue).toLowerCase();
+    
+      if (aString < bString) return sortConfig?.direction === "asc" ? -1 : 1;
+      if (aString > bString) return sortConfig?.direction === "asc" ? 1 : -1;
       return 0;
     });
   }, [tableData, sortConfig]);
@@ -467,7 +477,7 @@ const NewTable: React.FC<NewTableProps> = ({
                     style={{ textAlign: header?.alignment || "left" }}
                     className={`${header?.isSortable ? "sortable" : ""}`}
                     onClick={() =>
-                      header?.isSortable && handleSort(header?.key)
+                      header?.isSortable && handleSort(header?.key, header?.isNum)
                     }
                   >
                     <div

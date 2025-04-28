@@ -196,7 +196,7 @@ export const getTenderTypes = (actualSalesPayload) => {
     const query=generateQueryParams(actualSalesPayload)
     return REPORTS_API({
         method: "get",
-        url: `/sales/payment${query}`,
+        url: `/sales/live/payment${query}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
