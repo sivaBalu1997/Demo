@@ -285,19 +285,20 @@ const NewTable: React.FC<NewTableProps> = ({
     return isNaN(numValue) ? '-' : numValue.toFixed(2);
   };
 
-  const scrollToTableHeader = () => {
+  const scrollToTableHeader = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    // e.stopPropagation()
     if (tableRef?.current) {
-      tableRef.current.scrollTop = 0
-      // ({
-      //   behavior: "smooth",
-      //   // block: "start",
-      //   // inline: "nearest",
-      // });
+      tableRef.current.scrollIntoView({
+        behavior: "smooth",
+        // block: "start",
+        // inline: "nearest",
+      });
     }
   }
 
   const handleRecordPerPageLimitChange = (e: React.MouseEvent<HTMLButtonElement>, num: number): void => {
-    scrollToTableHeader()
+    scrollToTableHeader(e)
     if (setRowsPerPage) {
       setRowsPerPage(num);
     }
@@ -305,13 +306,13 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   return initialLoader ? (
-    <TableShimmer />
+    <TableShimmer  ref={tableRef} />
   ) : (
-    <div className={`new-table-container ${tableContainerClassName}`}>
+    <div className={`new-table-container ${tableContainerClassName}`}  ref={tableRef}>
       {showTableHeader && (
         <>
           {" "}
-          <div className="table-header" ref={tableRef}>
+          <div className="table-header">
             <div className="table-title-with-count-container">
               <h2 className="table-title">{kpiTitle}</h2>
               {!!count && <p className="table-title-count">{totalElements}</p>}
@@ -606,14 +607,15 @@ const NewTable: React.FC<NewTableProps> = ({
             )}
             <ReactPaginate
               nextLabel={
-                <button className="pagination-button prev-button" onClick={()=>scrollToTableHeader()}>
+                <button className="pagination-button prev-button" >
+                  onClick={scrollToTableHeader}
                   {width > 600 && <span>Next</span>}
                   <ArrowRight className="arrow-icon" />
                 </button>
               }
               pageLabelBuilder={(page: number) => (
                 <button
-                  onClick={()=>scrollToTableHeader()}
+                  onClick={scrollToTableHeader}
                   className={`${page == currentPage ? "active" : ""
                     } pagination-number-button`}
                 >
@@ -625,7 +627,9 @@ const NewTable: React.FC<NewTableProps> = ({
               }}
               pageCount={totalPages}
               previousLabel={
-                <button className="pagination-button prev-button" onClick={()=>scrollToTableHeader()}>
+                <button className="pagination-button prev-button" 
+                onClick={scrollToTableHeader}
+                >
                   <ArrowLeft className="arrow-icon" />
                   {width > 600 && <span>Prev</span>}
                 </button>

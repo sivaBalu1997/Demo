@@ -671,7 +671,9 @@ const TodaysReport: React.FC = () => {
 
 
   useEffect(()=>{
-dispatch(getTenderTypeRequest())
+dispatch(getTenderTypeRequest({
+  locationId: selectedLocation?.value
+}))
   },[])
 
   const handleToggleSwitch = () => {
@@ -796,7 +798,7 @@ dispatch(getTenderTypeRequest())
     setPaidCancelledOrdersSearchQuery("");
     setPaidCancelledOrdersPageLimit(10);
     setCurrentPagePaidCancelledOrders(1);
-    dispatch(getTenderTypeRequest())
+    dispatch(getTenderTypeRequest({          locationId: selectedLocation?.value}))
     dispatch(
       liveOrdersRequest({
         locationid: selectedLocation?.value,
