@@ -753,6 +753,7 @@ const Employees: React.FC = () => {
             searchPlaceHolder="Search By Steward, Voided reasons"
             onSearch={handleSearch}
             totalElements={getEmployeeChartSliceTableDataFromAPIReduxTotalElements || 0}
+            showRoundedStyleCount={true}
           />
         </div>
       ) : (

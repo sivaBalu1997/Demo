@@ -1141,6 +1141,7 @@ const TodaysReport: React.FC = () => {
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={liveOrdersAPIReduxTotalElements}
+          showRoundedStyleCount={true}
         />}
         {isSwitchActive && <NewTable
           apiEndPoint="/sales/live/tables"
@@ -1164,6 +1165,7 @@ const TodaysReport: React.FC = () => {
           searchPlaceHolder="Search by order number, table name"
           onSearch={handleSearch}
           totalElements={paidDineInOrdersAPIRedux?.totalElements}
+          showRoundedStyleCount={true}
         />}
         {!isSwitchActive && <NewTable
           apiEndPoint="/sales/live/tracking"
@@ -1189,6 +1191,7 @@ const TodaysReport: React.FC = () => {
           onSearch={handleSearch}
           totalElements={liveOrderNonDineInAPIReduxTotalElements}
           rowNoWrap={true}
+          showRoundedStyleCount={true}
         />}
         {isSwitchActive && <NewTable
           apiEndPoint="/sales/live/tracking"
@@ -1213,6 +1216,7 @@ const TodaysReport: React.FC = () => {
           onSearch={handleSearch}
           totalElements={paidOffPremiseOrdersAPIRedux?.totalElements}
           rowNoWrap={true}
+          showRoundedStyleCount={true}
         />}
         {isSwitchActive && <NewTable
           apiEndPoint="/sales/live/canceledOrders"
@@ -1237,6 +1241,7 @@ const TodaysReport: React.FC = () => {
           onSearch={handleSearch}
           totalElements={paidCancelledOrdersAPIRedux?.totalElements}
           rowNoWrap={true}
+          showRoundedStyleCount={true}
         />}
       </div>
     </div>
