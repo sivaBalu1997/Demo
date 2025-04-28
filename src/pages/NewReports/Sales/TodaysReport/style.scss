@@ -102,3 +102,63 @@
 ::-webkit-tap-highlight-color{
     background: transparent;
 }
+
+.tender-type-head-container{
+    // background-color: pink;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sales-overview-sub-heading {
+    font-family: Poppins;
+    color: #262626;
+    margin: 20px 0px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.2px;
+    .total-sales-heading{
+        margin-top: 35px;
+    }
+  }
+
+  .reports-tendor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    // display: flex;
+    // flex-direction: row;
+    gap: 24px;
+
+    h2 {
+      font-family: Poppins;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: -0.2px;
+      color: #262626;
+    }
+
+    .left-section,
+    .right-section {
+      // flex: 1;
+      display: flex;
+            flex-direction: column;
+            gap: 10px;
+      box-shadow: none;
+      border: none;
+      .tender-type-sub-heading {
+          font-weight: 500;
+          font-size: 20px;
+          line-height: 30px;
+          letter-spacing: -0.2px;
+          color: #8D8D8D;
+        }
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+    }
+  }

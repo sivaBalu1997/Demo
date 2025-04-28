@@ -191,6 +191,19 @@ export const getActualSales = (actualSalesPayload) => {
     });
 }
 
+export const getTenderTypes = (actualSalesPayload) => { 
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=generateQueryParams(actualSalesPayload)
+    return REPORTS_API({
+        method: "get",
+        url: `/sales/payment${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
 export const getHourlySalesChart = (hourlySalesPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query=generateQueryParams(hourlySalesPayload)
@@ -808,6 +821,8 @@ export const getEmployeeChartSliceTable = (employeeChartSliceTablePayload) => {
         }
     });
 }
+
+
 
 export const getDownloadableReport = (payload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
