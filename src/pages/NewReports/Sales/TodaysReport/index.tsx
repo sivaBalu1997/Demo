@@ -331,14 +331,14 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber:Number(toBeMappedData.orderNumber||0),
+      orderNumber: Number(toBeMappedData.orderNumber || 0),
       orderChannel: toBeMappedData.orderChannel,
       orderType: toBeMappedData.orderType,
       timeElapsed: toBeMappedData.timeElapsed,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
       customerNumber: toBeMappedData.customerNumber,
-      orderTotal: Number(toBeMappedData.orderTotal||0),
+      orderTotal: Number(toBeMappedData.orderTotal || 0),
       // orderDate: toBeMappedData.orderDate,
       // requestedEta: toBeMappedData.requestedEta,
     })
@@ -394,13 +394,13 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveOrdersData = liveOrdersAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData.orderNumber||0),
+      orderNumber: Number(toBeMappedData.orderNumber || 0),
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
       orderStatus: toBeMappedData.orderStatus,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderAmount: Number(toBeMappedData.orderAmount||0),
+      orderAmount: Number(toBeMappedData.orderAmount || 0),
     })
   );
 
@@ -438,7 +438,7 @@ const TodaysReport: React.FC = () => {
       tableName: toBeMappedData.tableName,
       orderAmount: toBeMappedData.orderAmount,
       tableOccupancyDuration: toBeMappedData.tableOccupancyDuration,
-      orderTime: Number(toBeMappedData.orderTime||0),
+      orderTime: Number(toBeMappedData.orderTime || 0),
     })
   );
 
@@ -487,42 +487,42 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber:Number(toBeMappedData.orderNumber||0),
+      orderNumber: Number(toBeMappedData.orderNumber || 0),
       orderChannel: toBeMappedData.orderChannel,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
       customerNumber: toBeMappedData.customerNumber,
-      orderTotal: Number(toBeMappedData.orderTotal||0),
+      orderTotal: Number(toBeMappedData.orderTotal || 0),
     })
   );
 
   const paidDineInOrdersAPIReduxMapped = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
-    orderNumber: Number(dataToBeMapped?.orderNumber||0),
+    orderNumber: Number(dataToBeMapped?.orderNumber || 0),
     tableName: dataToBeMapped?.tableName,
     orderDate: dataToBeMapped?.orderDate,
     orderTime: dataToBeMapped?.orderTime,
     orderStatus: dataToBeMapped?.orderStatus,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderAmount: Number(dataToBeMapped?.orderAmount||0),
+    orderAmount: Number(dataToBeMapped?.orderAmount || 0),
   }))
 
   const paidDineInOrdersAPIReduxMappedMobile = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
     tableName: dataToBeMapped?.tableName,
     orderAmount: dataToBeMapped?.orderAmount,
     tableOccupancyDuration: dataToBeMapped?.tableOccupancyDuration,
-    orderTime: Number(dataToBeMapped?.orderTime||0),
+    orderTime: Number(dataToBeMapped?.orderTime || 0),
   }))
 
   const paidOffPremiseOrdersAPIReduxMapped = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData?.orderNumber||0),
+      orderNumber: Number(toBeMappedData?.orderNumber || 0),
       orderChannel: toBeMappedData?.orderChannel,
       orderType: toBeMappedData?.orderType,
       timeElapsed: toBeMappedData?.timeElapsed,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
       customerNumber: toBeMappedData?.customerNumber,
-      orderTotal: Number(toBeMappedData?.orderTotal||0),
+      orderTotal: Number(toBeMappedData?.orderTotal || 0),
       // orderDate: toBeMappedData?.orderDate,
       // requestedEta: toBeMappedData?.requestedEta,
     })
@@ -530,7 +530,7 @@ const TodaysReport: React.FC = () => {
 
   const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData?.orderNumber||0),
+      orderNumber: Number(toBeMappedData?.orderNumber || 0),
       orderChannel: toBeMappedData?.orderChannel,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
@@ -670,11 +670,13 @@ const TodaysReport: React.FC = () => {
   }, [currentDate, selectedLocation]);
 
 
-  useEffect(()=>{
-dispatch(getTenderTypeRequest({
-  locationId: selectedLocation?.value
-}))
-  },[])
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(getTenderTypeRequest({
+        locationid: selectedLocation?.value
+      }))
+    }
+  }, [selectedLocation])
 
   const handleToggleSwitch = () => {
     setIsSwitchActive((prev) => !prev);
@@ -798,7 +800,7 @@ dispatch(getTenderTypeRequest({
     setPaidCancelledOrdersSearchQuery("");
     setPaidCancelledOrdersPageLimit(10);
     setCurrentPagePaidCancelledOrders(1);
-    dispatch(getTenderTypeRequest({          locationId: selectedLocation?.value}))
+    if (selectedLocation?.value) dispatch(getTenderTypeRequest({ locationid: selectedLocation?.value }))
     dispatch(
       liveOrdersRequest({
         locationid: selectedLocation?.value,
@@ -1017,9 +1019,9 @@ dispatch(getTenderTypeRequest({
               ? cardWithMiniGraphDataForTodays
               : cardWithMiniGraphDataForTodaysWithoutGratuity
             )
-            .filter(({ key }) => !isSwitchActive ? key !== "totalCancelledOrders" : true)
-            .map(({ title, key, isMonetary }) => (
-              <CardWithMiniGraph
+              .filter(({ key }) => !isSwitchActive ? key !== "totalCancelledOrders" : true)
+              .map(({ title, key, isMonetary }) => (
+                <CardWithMiniGraph
                   key={key}
                   cardTitle={title}
                   cardValue={formatNumberByCountry(
@@ -1029,13 +1031,14 @@ dispatch(getTenderTypeRequest({
                   )}
                   isMonetary={isMonetary}
                   loader={isSwitchActive ? billedDataAPIReduxLoading : unBilledAPIReduxLoading}
-                  />
-                ))}
+                />
+              ))}
           </div>
         </ErrorHandler>
                 </div>
 
-      {isSwitchActive ?  <><div className="tender-type-head-container">
+      {isSwitchActive ?  
+        <><div className="tender-type-head-container">
                     <h2 className="sales-overview-sub-heading ">Tender Type</h2>
                     {(!tenderTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading} />}
                   </div>
@@ -1115,7 +1118,7 @@ dispatch(getTenderTypeRequest({
             </div>
           </ErrorHandler>
 
-</>
+          </>
           :null}
         <div className="todays-report-tables-container">
           {!isSwitchActive && <NewTable
@@ -1233,7 +1236,7 @@ dispatch(getTenderTypeRequest({
           />}
         </div>
       </div>
-      );
+  );
 };
 
-      export default TodaysReport;
+export default TodaysReport;
