@@ -120,7 +120,10 @@ import {
     paidOffPremiseOrdersSuccess,
     paidOffPremiseOrdersFailure,
     paidCancelledOrdersSuccess,
-    paidCancelledOrdersFailure
+    paidCancelledOrdersFailure,
+    getTenderTypeRequest,
+    getTenderTypeSuccess,
+    getTenderTypeFailure
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -180,7 +183,8 @@ import {
     GET_DOWNLOADABLE_REPORT_REQUEST,
     PAID_DINE_IN_ORDERS_REQUEST,
     PAID_OFF_PREMISE_ORDERS_REQUEST,
-    PAID_CANCELLED_ORDERS_REQUEST
+    PAID_CANCELLED_ORDERS_REQUEST,
+    GET_TENDER_TYPE_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -237,6 +241,7 @@ import {
     getBilled,
     getDownloadableReport,
     getPaidCancelledOrders,
+    getTenderTypes,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -1291,6 +1296,22 @@ export function* getDownloadableReportRequestSaga(action) {
     }
 }
 
+export function* getTenderTypeRequestSaga(action) {
+    try {
+        const response = yield call(getTenderTypes, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of getDownloadableReportRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(getTenderTypeSuccess(decryptedData));
+        } else {
+            yield put(getTenderTypeFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(getTenderTypeFailure(error));
+        showErrorToast(error.message);
+    }
+}
 
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
@@ -1352,4 +1373,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_EMPLOYEE_CHART_SLICE_TABLE_REQUEST, getEmployeeChartSliceTableRequestSaga);
     yield takeLatest(GET_DETAILS_RESTAURANT_REQUEST, getDetailsRestaurantRequestSaga);
     yield takeLatest(GET_DOWNLOADABLE_REPORT_REQUEST, getDownloadableReportRequestSaga);
+    yield takeLatest(GET_TENDER_TYPE_REQUEST, getTenderTypeRequestSaga);
 }

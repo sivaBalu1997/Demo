@@ -377,7 +377,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
     return tendorGroups;
   }, [tendorTypes]);
-
+  
   useEffect(() => {
     Promise.all([
       dispatch(salesSummaryRequest({

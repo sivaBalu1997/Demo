@@ -188,7 +188,10 @@ import {
     PAID_DINE_IN_ORDERS_FAILURE,
     PAID_CANCELLED_ORDERS_REQUEST,
     PAID_CANCELLED_ORDERS_SUCCESS,
-    PAID_CANCELLED_ORDERS_FAILURE
+    PAID_CANCELLED_ORDERS_FAILURE,
+    GET_TENDER_TYPE_REQUEST,
+    GET_TENDER_TYPE_SUCCESS,
+    GET_TENDER_TYPE_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1423,3 +1426,18 @@ export const clearReportData=()=>({
     type: LOGOUT,
     payload:""
 })
+
+export const getTenderTypeRequest = (data) => ({
+    type: GET_TENDER_TYPE_REQUEST,
+    payload: data
+});
+
+export const getTenderTypeSuccess = (data) => ({
+    type: GET_TENDER_TYPE_SUCCESS,
+    payload: data
+});
+
+export const getTenderTypeFailure = (error) => ({
+    type: GET_TENDER_TYPE_FAILURE,
+    payload: error
+});

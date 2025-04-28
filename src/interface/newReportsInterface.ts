@@ -78,6 +78,7 @@ export interface NewTableProps {
   showIcons?: boolean;
   totalElements?: number;
   headers?: {key:string;label:string}[];
+  tableRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface SortConfig {

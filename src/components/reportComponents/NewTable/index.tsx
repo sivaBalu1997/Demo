@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
 import { ReactComponent as SearchIcon } from "../../../assets/svg/r-search-icon.svg";
@@ -65,8 +65,12 @@ const NewTable: React.FC<NewTableProps> = ({
   showIcons = true,
   tableContainerClassName = "",
   totalElements = 0,
-  headers = []
+  headers = [],
+  tableRef=null,
 }) => {
+
+  const getToTableHeaderRef = useRef<HTMLDivElement>(null)
+
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "",
     direction: null,
@@ -111,7 +115,7 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string) => {
+  const handleSort = (key: string, isNum=false) => {
 
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
@@ -119,17 +123,27 @@ const NewTable: React.FC<NewTableProps> = ({
     else if (sortConfig?.key === key && sortConfig?.direction === "desc")
       direction = "asc";
     setSortConfig({ key, direction });
+
   };
 
   const sortedData = useMemo(() => {
     if (!tableData || tableData?.length === 0) return [];
     if (!sortConfig?.direction || !sortConfig?.key) return tableData;
 
-    return [...tableData]?.sort((a, b) => {
+    return [...tableData].sort((a, b) => {
       const aValue = a?.[sortConfig?.key] ?? "";
       const bValue = b?.[sortConfig?.key] ?? "";
-      if (aValue < bValue) return sortConfig?.direction === "asc" ? -1 : 1;
-      else if (aValue > bValue) return sortConfig?.direction === "asc" ? 1 : -1;
+    
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return sortConfig?.direction === "asc" ? aValue - bValue : bValue - aValue;
+      }
+    
+      // If not numbers, compare as strings
+      const aString = String(aValue).toLowerCase();
+      const bString = String(bValue).toLowerCase();
+    
+      if (aString < bString) return sortConfig?.direction === "asc" ? -1 : 1;
+      if (aString > bString) return sortConfig?.direction === "asc" ? 1 : -1;
       return 0;
     });
   }, [tableData, sortConfig]);
@@ -281,9 +295,19 @@ const NewTable: React.FC<NewTableProps> = ({
     return isNaN(numValue) ? '-' : numValue.toFixed(2);
   };
 
+  const scrollToTableHeader = () => {
+    if (getToTableHeaderRef?.current) {
+      getToTableHeaderRef?.current?.scrollIntoView
+      ({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
+  }
+
   const handleRecordPerPageLimitChange = (e: React.MouseEvent<HTMLButtonElement>, num: number): void => {
-    e.preventDefault();
-    e.stopPropagation();
+    scrollToTableHeader()
     if (setRowsPerPage) {
       setRowsPerPage(num);
     }
@@ -291,13 +315,13 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   return initialLoader ? (
-    <TableShimmer />
+    <TableShimmer  ref={tableRef} />
   ) : (
     <div className={`new-table-container ${tableContainerClassName}`}>
       {showTableHeader && (
         <>
           {" "}
-          <div className="table-header">
+          <div className="table-header" ref={getToTableHeaderRef}>
             <div className="table-title-with-count-container">
               <h2 className="table-title">{kpiTitle}</h2>
               {!!count && <p className="table-title-count">{totalElements}</p>}
@@ -453,7 +477,7 @@ const NewTable: React.FC<NewTableProps> = ({
                     style={{ textAlign: header?.alignment || "left" }}
                     className={`${header?.isSortable ? "sortable" : ""}`}
                     onClick={() =>
-                      header?.isSortable && handleSort(header?.key)
+                      header?.isSortable && handleSort(header?.key, header?.isNum)
                     }
                   >
                     <div
@@ -592,13 +616,14 @@ const NewTable: React.FC<NewTableProps> = ({
             )}
             <ReactPaginate
               nextLabel={
-                <button className="pagination-button prev-button">
+                <button className="pagination-button prev-button" onClick={()=>scrollToTableHeader()}>
                   {width > 600 && <span>Next</span>}
                   <ArrowRight className="arrow-icon" />
                 </button>
               }
               pageLabelBuilder={(page: number) => (
                 <button
+                  onClick={()=>scrollToTableHeader()}
                   className={`${page == currentPage ? "active" : ""
                     } pagination-number-button`}
                 >
@@ -610,7 +635,9 @@ const NewTable: React.FC<NewTableProps> = ({
               }}
               pageCount={totalPages}
               previousLabel={
-                <button className="pagination-button prev-button">
+                <button className="pagination-button prev-button" 
+                onClick={()=>scrollToTableHeader()}
+                >
                   <ArrowLeft className="arrow-icon" />
                   {width > 600 && <span>Prev</span>}
                 </button>
