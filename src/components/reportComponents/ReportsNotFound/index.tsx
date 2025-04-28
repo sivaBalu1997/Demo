@@ -7,7 +7,7 @@ import { ReactComponent as PageErrorIcon } from "../../../assets/svg/page-error-
 import { ReactComponent as NoOrdersFoundStampIcon } from "../../../assets/svg/r-no-orders-found-today-bag.svg";
 
 interface SalesReportProps {
-  errorType: "checkinNotFound" | "error"| "salesNotFound"|"noContent"|"reportNotFound" |"customerNotFound" | "yestedaySalesNotFound"
+  errorType: "checkinNotFound" | "error"| "salesNotFound"|"noContent"|"reportNotFound" |"customerNotFound" | "yestedaySalesNotFound" | "checkinOverviewNotFound" | "yesterdayCheckinOverViewNotFound" 
 }
 
 
@@ -28,9 +28,19 @@ const statusBasedMsg:  {
     description:"Sales data for today will be available after business hours when the day is closed. Please check back later or view previous days' reports.",
     icon:<ReportsNotAvailableIcon  className="icon"/>
   },
+  checkinOverviewNotFound:{
+    title:"Check-in Overview Not Available",
+    description:"Check-in overview data for today will be available after business hours when the day is closed. Please check back later.",
+    icon:<ReportsNotAvailableIcon  className="icon"/>
+  },
   yestedaySalesNotFound:{
     title:"Sales Report Not Available",
     description:"Sales data for the mentioned day will be available after business hours when the day is closed. Please check back later.",
+    icon:<ReportsNotAvailableIcon  className="icon"/>
+  },
+  yesterdayCheckinOverViewNotFound:{
+    title:"Check-in Overview Not Available",
+    description:"Check-in overview data for the mentioned day will be available after business hours when the day is closed. Please check back later.",
     icon:<ReportsNotAvailableIcon  className="icon"/>
   },
   checkinNotFound:{
