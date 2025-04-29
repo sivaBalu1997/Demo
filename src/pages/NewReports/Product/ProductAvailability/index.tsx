@@ -48,7 +48,7 @@ const ProductAvailability = () => {
   const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
   const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
   const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
-  const [selectedCategory, setSelectedCategory] = useState<any>({ label: "All", value: "All" })
+  const [selectedCategory, setSelectedCategory] = useState<any>({ label: "All", value: "" })
   
   const dispatch = useDispatch();
 
@@ -136,7 +136,7 @@ const ProductAvailability = () => {
     setCurrentPageGenericTable(1)
     setGenericTableRecordLimit(10)
     setSearchQueryForGenericTable("")
-    setSelectedCategory({ name: "All", value: "All" })
+    setSelectedCategory({ name: "All", value: "" })
   }
   const handleGoBackToChart = () => {
     setShowAllActivityTable(false);
@@ -172,7 +172,7 @@ const ProductAvailability = () => {
           </button>
         </div>
         <NewTable
-          optionList={(availabilityDropdownData && availabilityDropdownData?.map((opt: any) => ({ label: opt.categoryName, value: opt.categoryId })) || [{ label: "All", value: "All" }]) || [{ label: "All", value: "All" }]}
+          optionList={(availabilityDropdownData && [{ label: "All", value: "" },...availabilityDropdownData?.map((opt: any) => ({ label: opt.categoryName, value: opt.categoryId }))] )}
           optionListLoader={availabilityDropdownLoading}
           selectedOption={selectedCategory?.value}
           setOptions={setSelectedCategory}

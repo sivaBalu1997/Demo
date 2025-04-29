@@ -331,7 +331,7 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInData = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData.orderNumber || 0),
+      orderNumber: toBeMappedData.orderNumber,
       orderChannel: toBeMappedData.orderChannel,
       orderType: toBeMappedData.orderType,
       timeElapsed: toBeMappedData.timeElapsed,
@@ -394,7 +394,7 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveOrdersData = liveOrdersAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData.orderNumber || 0),
+      orderNumber:toBeMappedData.orderNumber,
       tableName: toBeMappedData.tableName,
       orderDate: toBeMappedData.orderDate,
       orderTime: toBeMappedData.orderTime,
@@ -488,7 +488,7 @@ const TodaysReport: React.FC = () => {
 
   const orderedLiveNonDineInDataMobile = liveOrderNonDineInAPIRedux?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData.orderNumber || 0),
+      orderNumber: toBeMappedData.orderNumber ,
       orderChannel: toBeMappedData.orderChannel,
       orderStatus: toBeMappedData.orderStatus,
       customerName: toBeMappedData.customerName,
@@ -498,7 +498,7 @@ const TodaysReport: React.FC = () => {
   );
 
   const paidDineInOrdersAPIReduxMapped = paidDineInOrdersAPIRedux?.content?.map((dataToBeMapped: any) => ({
-    orderNumber: Number(dataToBeMapped?.orderNumber || 0),
+    orderNumber:dataToBeMapped?.orderNumber ,
     tableName: dataToBeMapped?.tableName,
     orderDate: dataToBeMapped?.orderDate,
     orderTime: dataToBeMapped?.orderTime,
@@ -516,7 +516,7 @@ const TodaysReport: React.FC = () => {
 
   const paidOffPremiseOrdersAPIReduxMapped = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData?.orderNumber || 0),
+      orderNumber: toBeMappedData?.orderNumber ,
       orderChannel: toBeMappedData?.orderChannel,
       orderType: toBeMappedData?.orderType,
       timeElapsed: toBeMappedData?.timeElapsed,
@@ -531,7 +531,7 @@ const TodaysReport: React.FC = () => {
 
   const paidOffPremiseOrdersAPIReduxMappedMobile = paidOffPremiseOrdersAPIRedux?.content?.map(
     (toBeMappedData: any) => ({
-      orderNumber: Number(toBeMappedData?.orderNumber || 0),
+      orderNumber: toBeMappedData?.orderNumber ,
       orderChannel: toBeMappedData?.orderChannel,
       orderStatus: toBeMappedData?.orderStatus,
       customerName: toBeMappedData?.customerName,
