@@ -920,7 +920,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     </div> */}
                     <div className="doughnut-chart-with-button" >
                       <div className="doughnut-head-with-download-container">
-                        <h2 className="sales-overview-sub-heading ">Voided orders</h2>
+                        <h2 className="sales-overview-sub-heading ">Refunded orders</h2>
                         {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Voided orders" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading} />}
                       </div>
                       <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
@@ -1009,7 +1009,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             apiEndPoint="/sales/cancelSummary"
             queryParams={{ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, reason: voidedReason }}
 
-            kpiTitle={`Voided orders - ${voidedReason}`}
+            kpiTitle={`Refunded orders - ${voidedReason}`}
             searchQuery={searchQuery}
             headerData={voidedTableHeaders}
             tableData={

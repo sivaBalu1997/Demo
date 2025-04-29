@@ -15,7 +15,7 @@ import { tabsForProduct } from 'constants/reportConstants';
 interface ReportProps { }
 
 const ProductReports: React.FC<ReportProps> = () => {
-  const [activeTab, setActiveTab] = useState("Insights");
+  const [activeTab, setActiveTab] = useState("Availability");
 
   const dispatch = useDispatch();
   /*********************************************************** */
@@ -80,8 +80,8 @@ const ProductReports: React.FC<ReportProps> = () => {
           {/* Tab Navigation */}
           <TabNavigation tabs={tabsForProduct} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-          {activeTab === "Insights" ? <ProductInsights /> : null}
           {activeTab === "Availability" ? <ProductAvailability /> : null}
+          {activeTab === "Insights" ? <ProductInsights /> : null}
         </div>
       </div>
     </>
