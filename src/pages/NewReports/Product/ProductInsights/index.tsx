@@ -195,6 +195,8 @@ const ProductInsights = () => {
   return (
     <div className="report-product-availability">
       <StoreFilter
+        startDate={startDate}
+        endDate={endDate}
         storeOptions={locations}
         selectedDate={selectedDateFilterType}
         selectedStore={selectedLocation}
