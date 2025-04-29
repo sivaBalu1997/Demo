@@ -115,6 +115,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip
+                                cursor={{fill: 'transparent'}}
                                     content={
                                         <CustomTooltip
                                             customTooltip={customTooltip}
@@ -126,6 +127,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                             barColor={barColor}
                                         />
                                     }
+                
                                     wrapperStyle={{ pointerEvents: "auto" }} // Allows interaction inside tooltip
                                     position={{ y: 200 }}
                                 />
@@ -158,6 +160,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                     stroke={(data: any, index: number) => getBarColor(index)}
                                     fill={(data: any, index: number) => getBarColor(index)}
                                 /> */}
+
 
                                 <Bar 
                                     dataKey="value"
