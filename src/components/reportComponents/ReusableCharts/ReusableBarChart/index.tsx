@@ -67,15 +67,16 @@ interface BarChartProps {
     isYAxisQuantity?: boolean;
     isSwitchActive?: boolean;
     setIsSwitchActive?: () => void;
+    chartFilterOptions?: { value: string, label: string }[]
 }
 
-const chartFilterOptions: { value: string, label: string }[] = [
-    { value: "Overall", label: "Overall" },
-    { value: "Weekdays", label: "Weekdays" },
-    { value: "Weekends", label: "Weekends" },
-    // { value: "Lunch", label: "Lunch" },
-    // { value: "Dinner", label: "Dinner" },
-];
+// const chartFilterOptions: { value: string, label: string }[] = [
+//     { value: "Overall", label: "Overall" },
+//     { value: "Weekdays", label: "Weekdays" },
+//     { value: "Weekends", label: "Weekends" },
+//     // { value: "Lunch", label: "Lunch" },
+//     // { value: "Dinner", label: "Dinner" },
+// ];
 
 const ReusableBarChart: React.FC<BarChartProps> = ({
     kpiTitle,
@@ -113,9 +114,8 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     isYAxisQuantity = "false",
     isSwitchActive = false,
     setIsSwitchActive = () => { },
+    chartFilterOptions = [],
 }) => {
-
-
 
     const reusableBarChartRef = useRef<HTMLDivElement>(null)
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);

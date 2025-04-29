@@ -12,7 +12,7 @@ import { productInsightsCancelledItemsRequest, productInsightsCancelledReasonsRe
 import ErrorHandler from "components/reportComponents/ErrorHandler";
 import DoughnutChart from 'components/reportComponents/ReusableCharts/ReusableDoughnutChart';
 import { getCurrencySymbol } from 'utils';
-import { predefinedColors } from 'constants/reportConstants';
+import { chartFilterOptionsForProductReportsCharts, chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends, predefinedColors } from 'constants/reportConstants';
 import { ca } from 'date-fns/locale';
 
 
@@ -258,6 +258,10 @@ const ProductInsights = () => {
         isYAxisQuantity={true}
         isSwitchActive={isLeastPopularSelected}
         setIsSwitchActive={() => setIsLeastPopularSelected((prev) => !prev)}
+        chartFilterOptions={
+          selectedDateFilterType?.value === "Yesterday" || selectedDateFilterType?.value === "Today"
+            ? chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends
+            : chartFilterOptionsForProductReportsCharts}
       />
 
       <ReusableBarChart
@@ -288,6 +292,10 @@ const ProductInsights = () => {
         isYAxisQuantity={false}
         isSwitchActive={isLeastPopularRevenueSelected}
         setIsSwitchActive={() => setIsLeastPopularRevenueSelected((prev) => !prev)}
+        chartFilterOptions={
+          selectedDateFilterType?.value === "Yesterday" || selectedDateFilterType?.value === "Today"
+            ? chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends
+            : chartFilterOptionsForProductReportsCharts}
       />
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
           <div className="doughnut-chart-with-button" >
