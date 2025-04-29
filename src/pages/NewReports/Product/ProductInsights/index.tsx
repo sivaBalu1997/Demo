@@ -360,7 +360,7 @@ const ProductInsights = () => {
             xKey="itemName"
             stackNameKey="voidedReason"
             valueKey="voidedReasonCount"
-            colorList={["#1F77B4", "#3FE1C0", "#E17100", "#049E16", "#F89B29", ...predefinedColors]}
+            colorList={[...predefinedColors]}
             toolTipBorderColor="#F89B29"
           />
         </ErrorHandler>
