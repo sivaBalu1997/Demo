@@ -42,6 +42,7 @@ export interface NewTableData {
 
 export interface NewTableProps {
   optionList?: { label: string; value: string }[];
+  optionListLoader?: boolean;
   selectedOption?: { label: string; value: string };
   setOptions?: React.Dispatch<React.SetStateAction<any>>;
   isCustomOption?: boolean;

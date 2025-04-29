@@ -68,6 +68,7 @@ const NewTable: React.FC<NewTableProps> = ({
   headers = [],
   tableRef=null,
   showRoundedStyleCount = false,
+  optionListLoader = false,
 }) => {
 
   const getToTableHeaderRef = useRef<HTMLDivElement>(null)
@@ -332,13 +333,16 @@ const NewTable: React.FC<NewTableProps> = ({
                 <div className="table-date-dropdown-container">
                   {isCustomOption ? (
                     <CustomDropdown
+                      // value={optionList?.[0]?.value}
                       value={selectedOption}
+                      // value={"All"}
                       options={optionList || []}
                       onSelect={setOptions}
                       placeholder="Select Option"
                       className="table-date-dropdown"
                       disabled={false}
                     // controlClassName="dropdown-control"
+                    loader={optionListLoader}
                     />
                   ) : (
                     <TableDateDropdown
