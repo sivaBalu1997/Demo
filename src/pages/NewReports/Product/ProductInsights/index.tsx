@@ -13,6 +13,7 @@ import ErrorHandler from "components/reportComponents/ErrorHandler";
 import DoughnutChart from 'components/reportComponents/ReusableCharts/ReusableDoughnutChart';
 import { getCurrencySymbol } from 'utils';
 import { predefinedColors } from 'constants/reportConstants';
+import { ca } from 'date-fns/locale';
 
 
 interface dataList {
@@ -185,6 +186,10 @@ const ProductInsights = () => {
     // console.log(`View details for: ${value}`);
   };
 
+  const cancelledItemsDataForDownload = cancelledItemsData?.map((cancelledItems:any)=>({
+    itemCount: cancelledItems?.itemCount,
+    itemName: cancelledItems?.itemName,
+  }))
 
 
   return (
@@ -305,7 +310,7 @@ const ProductInsights = () => {
         <div className="doughnut-chart-with-button" >
         <div className="doughnut-head-with-download-container">
           <h2 className="sales-overview-sub-heading ">Cancelled Items</h2>
-                        {!cancelledItemsLoading && <DownloadReport kpiTitle="Cancelled Items" tableData={cancelledItemsData}  />}
+                        {!cancelledItemsLoading && <DownloadReport kpiTitle="Cancelled Items" headerData={[{key: "itemCount",label:"Item Count"},{key: "itemName",label:"Item Name"}]}tableData={cancelledItemsDataForDownload}  />}
                       </div>
           <ErrorHandler data={cancelledItemsData} isError={cancelledItemsError} >
             <DoughnutChart
