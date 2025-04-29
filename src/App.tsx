@@ -10,7 +10,21 @@ import Routers from "../src/Routers";
 import { Contextpage } from "pages/productCatalog/contextpage";
 import MainPage from "pages/productCatalog/MainPage/MainPage";
 import { clearReportData } from "redux/newReports/newReportsActions";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+} from 'chart.js';
 
+ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
+
+// Set the font globally for all charts
+ChartJS.defaults.font.family = "'Poppins', sans-serif";
 interface Credentials {
   accessToken: string;
   address: string;

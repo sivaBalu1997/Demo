@@ -174,7 +174,9 @@ const NewTable: React.FC<NewTableProps> = ({
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(event.target.value, kpiTitle);
+    const value = event.target.value;
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9\s,'".\-]/g, "");// allow a-z, A-Z space, 0-9, .,'"-
+    onSearch( sanitizedValue, kpiTitle);
     setSearchFlag(true);
   };
 
@@ -563,13 +565,13 @@ const NewTable: React.FC<NewTableProps> = ({
                                 )
                                 : ""}
                               {row[header?.key] ? header?.prefix : ""}
-                              {header?.isPrivate
+                              {(header?.isPrivate
                                 ? visibility[header.key]
                                   ? row[header?.key]
                                   : maskPhone(row[header?.key])
                                 : header?.isMonetary
                                   ? formatMonetaryValue(row[header?.key])
-                                  : row[header?.key]
+                                  : row[header?.key])||"-"
                               }
                               {header?.suffix ? `${(row[header?.key] || row[header?.key] === 0) ? ` ${header?.suffix}` : ""}` : ""}
                             </div>
