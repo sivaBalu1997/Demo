@@ -771,9 +771,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       </div>
                     </ErrorHandler>
                   </div>
-
-
-
                   <div className="tender-type-head-container">
                     <h2 className="sales-overview-sub-heading ">Tender Type</h2>
                     {(!tendorTypesLoader && tenderTypeflatMappedData && tenderTypeHeaderForDownloading) && <DownloadReport kpiTitle="Tender Type" tableData={tenderTypeflatMappedData} headerData={tenderTypeHeaderForDownloading} />}
