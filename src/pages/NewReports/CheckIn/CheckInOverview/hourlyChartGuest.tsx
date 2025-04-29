@@ -99,7 +99,7 @@ const HourlyCheckinChartGuest: React.FC<ReportProps> = ({dataList=[], loader=fal
               return [
                 `Reservation Time: ${tooltipItem.label}-${Number(tooltipItem.label)+1} ${amPmFormat(Number(tooltipItem.label)+1)} `,
                 `Channel: ${titleCase(tooltipItem?.dataset?.label)}`,
-                `Count: ${tooltipItem?.formattedValue||0}`,
+                `Guest Count: ${tooltipItem?.formattedValue||0}`,
                 
               ];
             },          
