@@ -251,13 +251,18 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
     { value: "7 days", label: "Last 7 Days" }
   ]
 
-  export const chartFilterOptions: { value: string, label: string }[] = [
+  export const chartFilterOptionsForProductReportsCharts: { value: string, label: string }[] = [
     { value: "Overall", label: "Overall" },
     { value: "Weekdays", label: "Weekdays" },
     { value: "Weekends", label: "Weekends" },
-    { value: "Lunch", label: "Lunch" },
-    { value: "Dinner", label: "Dinner" },
+    // { value: "Lunch", label: "Lunch" },
+    // { value: "Dinner", label: "Dinner" },
   ];
+
+  export const chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends: { value: string, label: string }[] = [
+    { value: "Overall", label: "Overall" },
+  ];
+
   export const orderFilterOptionsPerformance = [
     { value: "Orders", label: "Orders" },
     { value: "Sales", label: "Sales" },
