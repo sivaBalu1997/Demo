@@ -31,6 +31,10 @@ interface CustomBarChartProps {
     setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface ColorFunction {
+    (name: string): string;
+  }
+
 interface CustomTooltipProps {
     active?: boolean;
     customTooltip?: boolean;
@@ -41,14 +45,16 @@ interface CustomTooltipProps {
     setShowRelatedTable: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedValueForChartSlice: React.Dispatch<React.SetStateAction<string>>;
     barColor?: string[] | string;
+    getBarColor: ColorFunction; // Add this line
 }
 
-const CustomTooltip = ({ data, customTooltip, active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice, barColor }: CustomTooltipProps) => {
+const CustomTooltip = ({ data, customTooltip, active, payload, tooltipData, showRelatedTable, setShowRelatedTable, setSelectedValueForChartSlice, barColor, getBarColor }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0].payload;
         const tooltipInfo :any= tooltipData[name];
         const index = data.findIndex(item => item.name === name);
-        const currentColor = Array.isArray(barColor) ? barColor[index % barColor.length] : barColor;
+        // const currentColor = Array.isArray(barColor) ? barColor[index % barColor.length] : barColor;
+        const currentColor = getBarColor(name);
 
         if (!tooltipInfo) return null;
 
@@ -96,6 +102,64 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
     const getBarColor = (index: number) => {
         return Array.isArray(barColor) ? barColor[index % barColor.length] : barColor as string;
     };
+    // const getBarColorSpecifically = (name: string) => {
+    //     let color = "#6b7d4a";
+    //     switch(name) {
+    //       case "Delivery":
+    //         color = "#14A789";
+    //         break;
+    //       case "DineIn":
+    //         color = "#E17100";
+    //         break;
+    //       case "Pickup":
+    //         color = "#67833E";
+    //         break;
+    //       case "Grubhub":
+    //         color = "#FF8C00";
+    //         break;
+    //       case "UberEats":
+    //         color = "#06C167";
+    //         break; 
+    //       case "DoorDash":
+    //         color = "#FF0000";
+    //         break;
+    //       default:
+    //         if (Array.isArray(barColor)) {
+    //           const index = data.findIndex(item => item.name === name);
+    //           color = barColor[index % barColor.length];
+    //         } else if (typeof barColor === "string") {
+    //           color = barColor;
+    //         }
+    //     }
+    //     return color;
+    //   };
+    const getBarColorSpecifically = (name: string) => {
+        // Specific color mappings
+        const colorMap: Record<string, string> = {
+            "Delivery": "#14A789",
+            "DineIn": "#E17100",
+            "Pickup": "#67833E",
+            "Grubhub": "#FF8C00",
+            "UberEats": "#06C167",  
+            "DoorDash": "#FF0000",
+            "Swiggy": "#FF6B6B",  
+            "Zomato": "#CB202D"  
+        };
+    
+        // Check if we have a specific color for this name
+        if (colorMap[name]) {
+            return colorMap[name];
+        }
+    
+        // If no specific color, use the barColor array if provided
+        if (Array.isArray(barColor) && barColor.length > 0) {
+            const index = data.findIndex(item => item.name === name);
+            return barColor[index % barColor.length];
+        }
+    
+        // Fallback to default color
+        return typeof barColor === 'string' ? barColor : "#6b7d4a";
+    };
     return (
         <div className="chart-wrapper">
             <div className="custom-chart-container" ref={chartRef2}>
@@ -124,7 +188,8 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                             showRelatedTable={showRelatedTable}
                                             setShowRelatedTable={setShowRelatedTable}
                                             setSelectedValueForChartSlice={setSelectedValueForChartSlice}
-                                            barColor={barColor}
+                                            // barColor={barColor}
+                                            getBarColor={getBarColorSpecifically}
                                         />
                                     }
                 
@@ -168,7 +233,11 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
                                     name="value"
                                 >
                                     {data?.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={getBarColor(index)} />
+                                        <Cell 
+                                            key={`cell-${index}`} 
+                                            // fill={getBarColor(index)}
+                                            fill={getBarColorSpecifically(entry?.name)}    
+                                        />
                                     ))}
                                 </Bar>
                             </BarChart>
