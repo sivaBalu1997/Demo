@@ -1006,7 +1006,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             apiEndPoint="/sales/cancelSummary"
             queryParams={{ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, reason: voidedReason }}
 
-            kpiTitle={`Refunded orders - ${voidedReason}`}
+            kpiTitle={`Refunded orders - `}
+            chartSliceValue={voidedReason}
             searchQuery={searchQuery}
             headerData={voidedTableHeaders}
             tableData={

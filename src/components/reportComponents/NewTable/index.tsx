@@ -69,6 +69,7 @@ const NewTable: React.FC<NewTableProps> = ({
   tableRef=null,
   showRoundedStyleCount = false,
   optionListLoader = false,
+  chartSliceValue="",
 }) => {
 
   const getToTableHeaderRef = useRef<HTMLDivElement>(null)
@@ -327,7 +328,7 @@ const NewTable: React.FC<NewTableProps> = ({
           {" "}
           <div className="table-header" ref={getToTableHeaderRef}>
             <div className="table-title-with-count-container">
-              <h2 className="table-title">{kpiTitle}</h2>
+              <h2 className="table-title">{kpiTitle}{chartSliceValue ? <p className="chart-slice-value-table">{chartSliceValue}</p> : <></>}</h2>
               {showRoundedStyleCount && tableData?.length > 0 && <p className="table-title-count">{totalElements}</p>}
             </div>
             <div className="table-header-position">
@@ -401,7 +402,7 @@ const NewTable: React.FC<NewTableProps> = ({
           <div className="table-header-small-screen">
             <div className="table-name-with-download-container">
               <div className="table-title-with-count-container-small-screen">
-                <h2 className="table-title-small-screen">{kpiTitle}</h2>
+                <h2 className="table-title-small-screen">{kpiTitle}{chartSliceValue ? <p className="chart-slice-value-table-small-screen">{chartSliceValue}</p> : <></>}</h2>
                 {showRoundedStyleCount && tableData?.length > 0 && (
                   <p className="table-title-count-small-screen">{totalElements}</p>
                 )}

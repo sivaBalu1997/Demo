@@ -172,12 +172,13 @@ const ProductAvailability = () => {
           </button>
         </div>
         <NewTable
+          kpiTitle={`Availability Items By Channels - `}
+          chartSliceValue={selectedValueForChartSlice?.name}
           optionList={(availabilityDropdownData && [{ label: "All", value: "" },...availabilityDropdownData?.map((opt: any) => ({ label: opt.categoryName, value: opt.categoryId }))] )}
           optionListLoader={availabilityDropdownLoading}
           selectedOption={selectedCategory?.value}
           setOptions={setSelectedCategory}
           isCustomOption={true}
-          kpiTitle={`Availability Items By Channels - ${selectedValueForChartSlice?.name}`}
           searchQuery={searchQueryForGenericTable}
           headerData={headerData}
           tableData={
