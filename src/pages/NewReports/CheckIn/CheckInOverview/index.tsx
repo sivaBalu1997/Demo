@@ -442,7 +442,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                   isPercent={true}
                   key="total-tips"
                 />
-                <CardWithMiniGraph
+                {(selectedDateFilterType?.value === "Today" || selectedDateFilterType?.value === "Yesterday" || startDate === endDate) ? null : <CardWithMiniGraph
                   cardTitle="Avg check-ins"
                   cardValue={formatNumberByCountry(checkInOverview?.avgCheckins, countryCode, false)}
                   incrementDecrementValue={0}
@@ -451,7 +451,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                   graphType="arrow"
                   isPercent={true}
                   key="gratuity"
-                />
+                />}
                 <CardWithMiniGraph
                   cardTitle="avg guests"
                   cardValue={formatNumberByCountry(checkInOverview?.avgGuests, countryCode, false)}
