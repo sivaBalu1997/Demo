@@ -1,0 +1,71 @@
+.report-staff-overview-container{
+    display: flex;
+    flex-direction: column;
+    gap: 6vh;
+    // background-color: pink;
+    .staff-sales-overview-box-container-parent{
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+        // background-color: lightseagreen;
+        h2{
+            font-weight: 500;
+            font-size: 20px;
+            // background-color: pink;
+        }
+        .select-employee-container{
+            display: flex;
+            justify-content: space-between;
+            gap: 1vw;
+            // background-color: lightcoral;
+            width: 25vw;
+            // background-color: peachpuff;
+            @media(max-width: 600px){
+                // background-color: lightcoral;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                // padding-top: 2vh;
+                padding-bottom: 2vh;
+                gap: 0;
+            }
+            p{
+                // background-color: palegreen;
+                width: 12vw;
+                display: inline-block;
+                color: #6F6F6F;
+                font-weight: 400;
+                @media(max-width: 600px){
+                    width: 100%;
+                }
+            }
+            .select-employee-dropdown{
+                width: 15vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // background-color: lightpink;
+                @media(max-width: 600px){
+                    width: 100%;
+                }
+            }
+        }
+        .staff-overview-sales-overview-box-container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(2, auto); 
+            gap: 16px; 
+            width: 98%;
+            max-width: 1200px; 
+            // margin: auto; 
+            @media (max-width: 1024px) {
+                grid-template-columns: repeat(2, 1fr); 
+                grid-template-rows: repeat(4, auto);    
+            }
+            @media (max-width: 600px) {
+                grid-template-columns: repeat(2, 1fr); 
+                grid-template-rows: repeat(4, auto); 
+            }
+        }
+    }
+}

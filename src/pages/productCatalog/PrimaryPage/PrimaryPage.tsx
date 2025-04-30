@@ -686,7 +686,7 @@ console.log({ItemsPrimaryDetails});
   const [isChecked, setIsChecked] = useState<boolean>(
     ItemsPrimaryDetails?.exclusiveItem || false
   );
-  
+
   useEffect(() => {
     setValue("exclusiveItem", ItemsPrimaryDetails?.exclusiveItem || false);
     setIsChecked(ItemsPrimaryDetails?.exclusiveItem || false);
@@ -1163,53 +1163,53 @@ console.log({ItemsPrimaryDetails});
                   {" "}
                   <LableComponent lable="Item Code" />
                   <div className="Primary-Page-inputfiled-and-tooltip-itemcode">
-                    <div style={{ width: "20.2vw" ,height:"auto"}}>
-                    <Controller
-                      name="itemCode"
-                      control={control}
-                      defaultValue=""
-                      // required: "Item code is required",
-                      rules={{
-                        validate: (value) => {
-                          if (!value) {
-                            return true;
-                          }
-                          return (
-                            value.toString().length >= 4 ||
-                            "Item code must be at least 4 characters"
-                          );
-                        },
-                      }}
-                      render={({ onChange, onBlur, value }) => (
-                        <InputFieldComponent
-                          name="itemCode"
-                          oldValue={ItemsPrimaryDetails?.itemCode}
-                          onChange={(newValue) => {
-                            onChange(newValue);
-                          }}
-                          value={value}
-                          // onBlur={() => {
-                          //   console.log("kkkkk111")
-
-                          // }}
-                          onKeyDown={(e: any) => {
-                            if (
-                              e.key === "e" ||
-                              e.key === "-" ||
-                              e.key === "+" ||
-                              e.key === "."
-                            ) {
-                              e.preventDefault(); // Block these keys
+                    <div style={{ width: "20.2vw", height: "auto" }}>
+                      <Controller
+                        name="itemCode"
+                        control={control}
+                        defaultValue=""
+                        // required: "Item code is required",
+                        rules={{
+                          validate: (value) => {
+                            if (!value) {
+                              return true;
                             }
-                          }}
-                          type="number"
-                          trigger={trigger}
-                          error={errors.itemCode}
-                        />
-                      )}
-                    />
+                            return (
+                              value.toString().length >= 4 ||
+                              "Item code must be at least 4 characters"
+                            );
+                          },
+                        }}
+                        render={({ onChange, onBlur, value }) => (
+                          <InputFieldComponent
+                            name="itemCode"
+                            oldValue={ItemsPrimaryDetails?.itemCode}
+                            onChange={(newValue) => {
+                              onChange(newValue);
+                            }}
+                            value={value}
+                            // onBlur={() => {
+                            //   console.log("kkkkk111")
+
+                            // }}
+                            onKeyDown={(e: any) => {
+                              if (
+                                e.key === "e" ||
+                                e.key === "-" ||
+                                e.key === "+" ||
+                                e.key === "."
+                              ) {
+                                e.preventDefault(); // Block these keys
+                              }
+                            }}
+                            type="number"
+                            trigger={trigger}
+                            error={errors.itemCode}
+                          />
+                        )}
+                      />
                     </div>
-                    
+
                     <div className="tool-tip-item-code">
                       <TooltipMsg
                         message="Enter a unique 4-digit number to identify this food item."

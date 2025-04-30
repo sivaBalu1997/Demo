@@ -1,0 +1,97 @@
+.card-mini-graph-container {
+    display: flex;
+    align-items: center;
+    // justify-content: center;
+    justify-content: space-evenly;
+    border-radius: 8px;
+    width: 100%;
+    // max-width: 18vw;
+    flex-basis: calc(25% - 20px);
+    border: 1px solid #EEEEEE;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    @media(max-width: 600px){
+        flex-basis: calc(52% - 18px);
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .card-title-value-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 8px;
+        border-radius: 6px;
+        width: 100%;
+        gap: 2vh;
+        // background-color: pink;
+        @media(max-width: 600px){
+            // background-color: pink;
+            gap: 1vh;
+        }
+
+        .card-title {
+            color: #6F6F6F;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: -0.2px;
+            text-align: left;
+            width: 100%;
+            text-transform: uppercase;
+            @media(max-width: 600px){
+                font-size: 12px;
+            }
+        }
+
+        .card-value {
+            width: 100%;
+            color: black;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 32px;
+            letter-spacing: -0.4px;
+            text-align: left;
+            @media(max-width: 600px){
+                font-size: 16px;
+            }
+        }
+    }
+
+    .mini-graph-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 6px;
+        width: fit-content;
+        margin-right: 10px;
+        gap: 1.5vh;
+        // background-color: pink;
+        @media(max-width: 600px){
+            // background-color: pink;
+            gap: 3vh;
+        }
+
+        .increment-decrement-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: -0.2px;
+            // background-color: palegreen;
+            @media(max-width: 600px){
+                font-size: 10px;
+                line-height: 12px;
+            }
+        }
+        .increment-mini-graph, .decrement-mini-graph{
+            // background-color: pink;
+            width: 50px;
+            height: 32px;
+        }
+    }
+}

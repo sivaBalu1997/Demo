@@ -1,0 +1,28 @@
+.sales-overview-container{
+    // background-color: pink;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 5vh;
+    padding-top: 6vh;
+    width: 94%;
+    padding-left: 2vw;
+    gap: 4vh;
+
+    &.sales-overview-container-expanded { 
+        width: 80%;
+        // background-color: palegreen;
+    }
+}
+
+.sales-overview-title{
+    font-family: Poppins;
+font-weight: 500;
+font-size: 20px;
+line-height: 24px;
+letter-spacing: -0.25px;
+color: #393939;
+}
+::-webkit-scrollbar{
+    display: none;
+}

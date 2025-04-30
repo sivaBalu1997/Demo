@@ -14,6 +14,11 @@ const Image_API = axios.create({
   timeout: 60000,
 });
 
+const REPORTS_API = axios.create({
+  baseURL: process.env.REACT_APP_API_ENDPOINT_REPORTS,
+  timeout: 60000,
+});
+
 
 API.interceptors.response.use(
   (res) => res,
@@ -47,7 +52,39 @@ API.interceptors.response.use(
   },
 );
 
-export { API, Image_API };
+REPORTS_API.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    // console.log("error response", err, err.response)s
+    if (err?.response) {
+      switch (err?.response?.status) {
+        case 401:
+          showErrorToast("Token expired! Please log in again.");
+          Store.dispatch(signOut());
+          Store?.dispatch(clearMenuData());
+          localStorage.clear();
+          break;
+          //return err?.response;
+        case 403:
+          showErrorToast("You don't have permission");
+          return err?.response;
+        case 409:
+          return err?.response;
+        case 400:
+          return err?.response;
+        case 500:
+          return err?.response;
+        default:
+          break;
+      }
+    } else {
+      console.log('API ERROR:', err);
+    }
+    throw err;
+  },
+);
+
+export { API, Image_API, REPORTS_API };
 
 // const API = axios.create({
 //   baseURL: process.env.REACT_APP_API_ENDPOINT,

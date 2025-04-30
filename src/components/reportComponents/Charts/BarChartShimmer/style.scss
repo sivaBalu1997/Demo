@@ -1,0 +1,54 @@
+.rep-bar-shimmer-wrapper {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .rep-bar-shimmer-header {
+    width: 60%;
+    height: 20px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+  
+  .rep-bar-shimmer-chart {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 80%;
+  }
+  
+  .rep-bar-shimmer-bar {
+    width: 12%;
+    height: 100%;
+    background: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .rep-bar-shimmer-bar-inner {
+    width: 100%;
+    height: 80%;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }

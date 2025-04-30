@@ -9,6 +9,7 @@ import { RootState } from "./redux/rootReducer";
 import Routers from "../src/Routers";
 import { Contextpage } from "pages/productCatalog/contextpage";
 import MainPage from "pages/productCatalog/MainPage/MainPage";
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 interface Credentials {
   accessToken: string;
@@ -73,15 +74,15 @@ const App = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const handleContextMenu = (event: MouseEvent) => {
-      event.preventDefault();
-    };
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleContextMenu = (event: MouseEvent) => {
+  //     event.preventDefault();
+  //   };
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
+  //   };
+  // }, []);
 
   const authState = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const App = () => {
       );
       if (!credentails?.accessToken) {
         dispatch(clearMenuData());
+            dispatch(clearReportData())
         localStorage.clear();
         dispatch(signOut());
         history.replace("/");
@@ -107,7 +109,7 @@ const App = () => {
       <Loader />
       <div className="app">
         <div className="main-section">
-          <ToastContainer autoClose={3000} />
+          <ToastContainer autoClose={3000} limit={1}/>
           <Routers />
         </div>
       </div>

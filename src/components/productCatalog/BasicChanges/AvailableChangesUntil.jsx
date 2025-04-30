@@ -109,6 +109,7 @@ const AvailabilityChangesUntil = ({
     return daysOfWeek[today.getDay()];
   };
   const [filteredsession, setfilteredsession] = useState([]);
+  
   useEffect(() => {
     const todayDay = getTodayDay();
     // const todayDay = "Sunday"; 

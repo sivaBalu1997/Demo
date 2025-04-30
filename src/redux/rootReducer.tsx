@@ -5,9 +5,27 @@ import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
 // import offerReducer from "./offer/offerReducer";
-import productCatalogReducer, { primarypagereducer, itemCustomizationsReducer, PricingDetailReducer, imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer, imageUploadReducer, addMockDataHiddenReducer, getItemCodeReducer, selectedMockDataReducer, getPopularItemReducer, searchforamitemreducer, storeDataReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, {
+  primarypagereducer,
+  itemCustomizationsReducer,
+  PricingDetailReducer,
+  storeMockDataReducer,
+  storeMockDataFilteredReducer,
+  addMockDataReducer,
+  imageUploadReducer,
+  addMockDataHiddenReducer,
+  getItemCodeReducer,
+  selectedMockDataReducer,
+  getPopularItemReducer,
+  searchforamitemreducer,
+  storeDataReducer,
+} from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 import newReportsReducer from "./newReports/newReportsReducer";
+import checkInReportsReducer from "./checkInReports/checkInReportsReducer";
+import productReportsReducer from "./productReports/productReportsReducer";
+import customerInsightsReducer from "./customerInsights/customerInsightsReducer";
+import staffReportsReducer from "./staffReports/staffReportsReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -32,9 +50,12 @@ const rootReducer = combineReducers({
   menuReducer: menuReducer,
   storeDataReducer: storeDataReducer,
   newReports: newReportsReducer,
+  checkInReports: checkInReportsReducer,
+  productReports: productReportsReducer,
+  customerInsights: customerInsightsReducer,
+  staffReports: staffReportsReducer,
 });
 
 export { rootReducer };
 
 export type RootState = ReturnType<typeof rootReducer>;
-

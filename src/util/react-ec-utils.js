@@ -41,6 +41,7 @@ export const handleDecrypt = (dataToDecrypt) => {
 };
 
 export const decryptJson=(json)=> {
+  if(!json) return ;
   const decryptedJson = handleDecrypt(json);
   return JSON.parse(decryptedJson);
 }

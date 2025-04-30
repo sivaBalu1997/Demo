@@ -10,7 +10,7 @@ import dotted from "../../../assets/images/dotted.png";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
 import NotFound from "../../../assets/svg/NotFound copy.svg";
-import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg"
+import deleteIcon from "../../../assets/svg/imagepillcloseIcon.svg";
 
 import plusicon from "../../../assets/svg/plusIcon.svg";
 import minus from "../../../assets/svg/minusIcon.svg";
@@ -92,10 +92,8 @@ const ItemCustomizations: React.FC<any> = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
-  
-  const Check = useSelector(
-    (state: State) => state.itemCustomizationsReducer1
-  );
+
+  const Check = useSelector((state: State) => state.itemCustomizationsReducer1);
 
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
@@ -163,14 +161,15 @@ const ItemCustomizations: React.FC<any> = () => {
   }, [ordertypesdetails]);
 
   useEffect(() => {
-    if(ListOfmodifier?.length>0)
-    {
-    const filtered = ListOfmodifier?.filter((modifier: any) =>
-      modifier?.modifierName?.toLowerCase().startsWith(searchQuery?.toLowerCase())
-    );
+    if (ListOfmodifier?.length > 0) {
+      const filtered = ListOfmodifier?.filter((modifier: any) =>
+        modifier?.modifierName
+          ?.toLowerCase()
+          .startsWith(searchQuery?.toLowerCase())
+      );
 
-    setModifierList(filtered);
-  }
+      setModifierList(filtered);
+    }
   }, [ListOfmodifier, searchQuery]);
 
   const initialModificationValue = [
@@ -183,7 +182,7 @@ const ItemCustomizations: React.FC<any> = () => {
         {
           modifierOptionId: "",
           modifierOptionName: "",
-          cost: '',
+          cost: "",
           isEnabled: true,
           isModifierOptionChanged: false,
         },
@@ -205,7 +204,7 @@ const ItemCustomizations: React.FC<any> = () => {
   );
 
   // console.log({modifications});
-  
+
   const [filteredModifications, setFilteredModifications] = useState<
     Modification[]
   >([]);
@@ -215,28 +214,25 @@ const ItemCustomizations: React.FC<any> = () => {
   //     setFilteredModifications(editData[0]?.modifiers);
   //   }
   // }, [editData]);
-   const selectedBranch = useSelector(
-      (state:any) => state.auth.selectedBranch || null
-    );
+  const selectedBranch = useSelector(
+    (state: any) => state.auth.selectedBranch || null
+  );
 
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
-  useEffect(()=>{
-    if(itemCustomizationData?.length > 0)
-    {
+  useEffect(() => {
+    if (itemCustomizationData?.length > 0) {
       setShowModifiers(!showModifiers);
     }
-
-  },[itemCustomizationData])
+  }, [itemCustomizationData]);
 
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       // setShowModifiers(!showModifiers);
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
-        
         var selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
             const orderType = selectedBranch.orderTypes?.find(
@@ -245,15 +241,15 @@ const ItemCustomizations: React.FC<any> = () => {
             return orderType?.typeName || selectedId;
           }
         );
-        selectedTypeNames=selectedTypeNames.filter((data:any)=>listOfStreams.includes(data))
+        selectedTypeNames = selectedTypeNames.filter((data: any) =>
+          listOfStreams.includes(data)
+        );
         if (item?.options) {
-          
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
             isModifierChanged: false,
             isEnabled: item.isEnabled,
-            
 
             modifierOptions:
               item?.options?.length > 0
@@ -262,20 +258,25 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                      cost:((option?.price!==0)&& Number(option?.price).toFixed(2)) || 0,
+                    cost:
+                      (option?.price !== 0 &&
+                        Number(option?.price).toFixed(2)) ||
+                      0,
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
                 : [{ modifierOptionName: "", cost: 0 }],
             minSelection: item.minCount || 0,
             maxSelection: item.maxCount || 0,
-            freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
+            freeCustomization:
+              (item?.noFreeCustomization
+                ? item?.noFreeCustomization
+                : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item.minCount===0?"Optional":"Mandatory",
+            selectionType: item.minCount === 0 ? "Optional" : "Mandatory",
             // selectionType: item?.selectionType || "Mandatory",
           };
         } else if (item?.modifierOptions) {
-
           // const selectedTypeNames = (item?.orderTypeIds || []).map(
           //   (selectedId: string) => {
           //     const orderType = orderTypes?.find(
@@ -284,9 +285,7 @@ const ItemCustomizations: React.FC<any> = () => {
           //     return orderType?.typeName || selectedId;
           //   }
           // );
-  
-          
-          
+
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
@@ -299,7 +298,7 @@ const ItemCustomizations: React.FC<any> = () => {
                       option?.optionId || option?.modifierOptionId || null,
                     modifierOptionName:
                       option?.name || option?.modifierOptionName || "",
-                    cost:(Number(option?.cost).toFixed(2)) || '',
+                    cost: Number(option?.cost).toFixed(2) || "",
                     isModifierOptionChanged: false,
                     isEnabled: option?.isEnabled,
                   }))
@@ -316,7 +315,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
       setModifications([...mappedModifications]);
     }
-  }, [itemCustomizationData,listOfStreams]);
+  }, [itemCustomizationData, listOfStreams]);
 
   const addModifier = () => {
     const lastSelectedValue = modifications.length > 0 ? modifications[0].selectedValue : ""; // Get last selectedValue
@@ -363,7 +362,7 @@ const ItemCustomizations: React.FC<any> = () => {
       dispatch(deleteModifierRequest(deletedModifierIds));
     }
   }, [deletedModifierIds]);
-  
+
   useEffect(() => {
     if (updatedModifierIds.length > 0) {
       dispatch(updateModifierData(updatedModifierIds));
@@ -413,13 +412,18 @@ const ItemCustomizations: React.FC<any> = () => {
       const currentModifier = updated[modIndex];
       const isCurrentValueEmpty = currentModifier[name] === "";
       // console.log("hh",currentModifier.maxSelection);
-      
 
       updated[modIndex] = {
         ...currentModifier,
         selectionType: selectionType ? selectionType : "Mandatory",
-        minSelection: selectionType === "Optional" ? 0 : prev.minSelection ? prev.minSelection : 1,
-        maxSelection:  currentModifier.maxSelection>1?currentModifier.maxSelection:1,
+        minSelection:
+          selectionType === "Optional"
+            ? 0
+            : prev.minSelection
+            ? prev.minSelection
+            : 1,
+        maxSelection:
+          currentModifier.maxSelection > 1 ? currentModifier.maxSelection : 1,
 
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
@@ -457,10 +461,9 @@ const ItemCustomizations: React.FC<any> = () => {
       return updated;
     });
 
-   
     setcustomizationerrors((prevErrors: any) => {
       const updatedErrors = [...prevErrors];
-      updatedErrors.splice(modIndex, 1); 
+      updatedErrors.splice(modIndex, 1);
       return updatedErrors;
     });
   };
@@ -473,7 +476,7 @@ const ItemCustomizations: React.FC<any> = () => {
             const newOption = {
               modifierOptionName: "",
               isEnabled: true,
-              cost: '',
+              cost: "",
               modifierOptionId: "",
               isModifierOptionChanged: false,
             };
@@ -590,9 +593,18 @@ const ItemCustomizations: React.FC<any> = () => {
   ) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
 
-    const modifierInput = newModifier[index][field] == 0 ? 1 : newModifier[index][field]
+    const modifierInput =
+      newModifier[index][field] == 0 ? 1 : newModifier[index][field];
 
-    if (newModifier[index] && EnableOrnot &&(field=="freeCustomization"?true:modifications[index]?.modifierOptions?.length > 1) && (modifications[index]?.modifierOptions?.length >= newModifier[index][field] + 1)) {
+    if (
+      newModifier[index] &&
+      EnableOrnot &&
+      (field == "freeCustomization"
+        ? true
+        : modifications[index]?.modifierOptions?.length > 1) &&
+      modifications[index]?.modifierOptions?.length >=
+        newModifier[index][field] + 1
+    ) {
       const baseValue = selectionType === "Mandatory" ? 1 : 0;
       newModifier[index][field] =
         (parseInt(
@@ -600,7 +612,7 @@ const ItemCustomizations: React.FC<any> = () => {
           10
         ) || baseValue) + 1;
     }
-    newModifier[index].isModifierChanged=true;
+    newModifier[index].isModifierChanged = true;
     setUpdatedModifierIds((prevIds) => {
       const updatedModifierId = newModifier[index].modifierId;
       if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
@@ -630,15 +642,15 @@ const ItemCustomizations: React.FC<any> = () => {
         newModifier[index][field] = currentValue - 1;
       }
     }
-   newModifier[index].isModifierChanged=true;
-   setUpdatedModifierIds((prevIds) => {
-    const updatedModifierId = newModifier[index].modifierId;
-    if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
-      return [...prevIds, updatedModifierId].filter((id) => id !== "");
-    }
+    newModifier[index].isModifierChanged = true;
+    setUpdatedModifierIds((prevIds) => {
+      const updatedModifierId = newModifier[index].modifierId;
+      if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+        return [...prevIds, updatedModifierId].filter((id) => id !== "");
+      }
 
-    return prevIds.filter((id) => id !== "");
-  });
+      return prevIds.filter((id) => id !== "");
+    });
     setModifications(newModifier);
   };
 
@@ -649,7 +661,7 @@ const ItemCustomizations: React.FC<any> = () => {
           (opt: any, optIdx: any) => optIdx !== optIndex
         );
 
-        const selectionType = modifications[modIndex]?.selectionType
+        const selectionType = modifications[modIndex]?.selectionType;
 
         const isModifierChanged =
           mod.modifierId !== "" &&
@@ -659,9 +671,9 @@ const ItemCustomizations: React.FC<any> = () => {
           ...mod,
           modifierOptions: updatedModifierOptions,
           isModifierChanged: isModifierChanged,
-          maxSelection : 1,
-          minSelection : selectionType === 'Mandatory' ? 1 : 0, 
-          freeCustomization : 0
+          maxSelection: 1,
+          minSelection: selectionType === "Mandatory" ? 1 : 0,
+          freeCustomization: 0,
         };
       }
       return mod;
@@ -731,7 +743,7 @@ const ItemCustomizations: React.FC<any> = () => {
     }
 
     setIsDragging(false);
-  }; 
+  };
   const clearAll = () => {
     setModifications((prevModifications: any) =>
       prevModifications.map((modification: any) => ({
@@ -797,8 +809,6 @@ const ItemCustomizations: React.FC<any> = () => {
     validateSelectedValue(index, values);
   };
 
- 
-
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
       modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
@@ -818,7 +828,7 @@ const ItemCustomizations: React.FC<any> = () => {
       freeCustomization: Modifiers?.noFreeCustomization,
       maxSelection: Modifiers?.maxAllowed,
       minSelection: Modifiers?.minRequired,
-      selectionType: Modifiers?.minRequired===0?"Optional":"Mandatory",
+      selectionType: Modifiers?.minRequired === 0 ? "Optional" : "Mandatory",
       isEnabled: true,
       modifierOptions:
         Modifiers.modifierOptions.length > 0
@@ -847,13 +857,12 @@ const ItemCustomizations: React.FC<any> = () => {
       updatedModifiers,
     ]);
   };
-  const [searchClicked,setSearchClicked]=useState(false);
+  const [searchClicked, setSearchClicked] = useState(false);
 
   const handleSearchChange = () => {
     if (searchQuery.length >= 1) {
       setShowSearchList(true);
       setSearchClicked(true);
-      
     }
   };
 
@@ -865,7 +874,6 @@ const ItemCustomizations: React.FC<any> = () => {
     //     return newIndex;
     //   });
     // }
-
     // if (e.key === "ArrowUp") {
     //   setHighlightedIndex((prevIndex) => {
     //     const newIndex = Math.max(0, prevIndex - 1);
@@ -962,10 +970,10 @@ const ItemCustomizations: React.FC<any> = () => {
     const nameRegex = /^[a-zA-Z0-9\s]+$/;
     if (!inputValue) {
       optionErrors.optionNameError = `Option Name is required`;
-    } 
+    }
     // else if (!nameRegex.test(inputValue)) {
     //   optionErrors.optionNameError = `Option Name must not contain special characters`;
-    // } 
+    // }
     else {
       optionErrors.optionNameError = "";
     }
@@ -1008,7 +1016,7 @@ const ItemCustomizations: React.FC<any> = () => {
       optionPriceError: "",
     };
 
-    if (inputValue <0) {
+    if (inputValue < 0) {
       optionErrors.optionPriceError = `Price field is required`;
     } else {
       optionErrors.optionPriceError = "";
@@ -1021,26 +1029,15 @@ const ItemCustomizations: React.FC<any> = () => {
     setcustomizationerrors(errors);
   };
 
-
-
-  
-
   const validateModifiers = (modifications: any[]) => {
     // Initialize errors array
-    const errors = [customizationerrors];  
+    const errors = [customizationerrors];
     // Perform validation only if showModifiers is true
     if (showModifiers) {
-
-      
       modifications?.forEach((modifier, index) => {
-        const {
-          modifierName,
-          modifierId,
-          modifierOptions,
-          selectedValue,
+        const { modifierName, modifierId, modifierOptions, selectedValue } =
+          modifier;
 
-        } = modifier;
-  
         let modifierErrors: any = {
           modifierNameError: "",
           id: modifierId || "",
@@ -1048,38 +1045,52 @@ const ItemCustomizations: React.FC<any> = () => {
           options: [],
         };
         // Validate Modifier Name
-        if (!modifierName.trim() && showModifiers &&modifier.isEnabled) {
+        if (!modifierName.trim() && showModifiers && modifier.isEnabled) {
           modifierErrors.modifierNameError = `Modifier Name is required`;
         }
-  
+
         // Validate Selected Values
-        if (atleastOnestream && (!selectedValue || selectedValue.length === 0) && showModifiers &&modifier.isEnabled) {
+        if (
+          atleastOnestream &&
+          (!selectedValue || selectedValue.length === 0) &&
+          showModifiers &&
+          modifier.isEnabled
+        ) {
           modifierErrors.errormsgforselectedvalues = `Available service streams required`;
         }
-  
+
         // Validate Modifier Options
         if (Array.isArray(modifierOptions)) {
           modifierOptions.forEach((option: any) => {
             let optionErrors: any = {
-              isEnabled:option.isEnabled,
+              isEnabled: option.isEnabled,
               optionName: option.modifierOptionName || "",
               optionId: option.modifierOptionId || "",
               optionNameError: "",
               optionPrice: option.cost || 0,
               optionPriceError: "",
             };
-  
+
             // Validate Option Name
-            if (!option.modifierOptionName.trim() &&showModifiers &&modifier.isEnabled && option.isEnabled) {
+            if (
+              !option.modifierOptionName.trim() &&
+              showModifiers &&
+              modifier.isEnabled &&
+              option.isEnabled
+            ) {
               optionErrors.optionNameError = `Option Name is required`;
             }
-  
+
             // Validate Option Price
-            if ((isNaN(option.cost) || option.cost < 0) &&showModifiers && modifier.isEnabled && option.isEnabled) {
+            if (
+              (isNaN(option.cost) || option.cost < 0) &&
+              showModifiers &&
+              modifier.isEnabled &&
+              option.isEnabled
+            ) {
               optionErrors.optionPriceError = `Price field is required`;
-             
             }
-  
+
             modifierErrors.options.push(optionErrors);
           });
         } else {
@@ -1087,7 +1098,7 @@ const ItemCustomizations: React.FC<any> = () => {
             optionNameError: `Options must be an array`,
           });
         }
-  
+
         // Add errors if any are present
         if (
           modifierErrors.modifierNameError ||
@@ -1102,10 +1113,10 @@ const ItemCustomizations: React.FC<any> = () => {
         }
       });
     }
-    
+
     // Update customization errors state
     setcustomizationerrors(errors);
-  
+
     // Validate all errors to return final result
     const validateCustomizationErrors = () => {
       return errors?.every((error) => {
@@ -1117,23 +1128,19 @@ const ItemCustomizations: React.FC<any> = () => {
           (option: any) =>
             option.optionNameError === "" && option.optionPriceError === ""
         );
-          
+
         return hasNoTopLevelErrors && hasNoOptionErrors;
       });
     };
-  
-    if(showModifiers)
-    {
+
+    if (showModifiers) {
       return validateCustomizationErrors();
-    }
-    else
-    {
+    } else {
       return true;
     }
     // Return validation result
-   
   };
-  
+
   const handleBlur = (
     e: ChangeEvent<HTMLInputElement>,
     modIndex: number,
@@ -1158,73 +1165,63 @@ const ItemCustomizations: React.FC<any> = () => {
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
-  const handlesearchclear=()=>{
+  const handlesearchclear = () => {
     setSearchQuery("");
     setSearchClicked(false);
-  }
+  };
   const handleWheel = (event: any) => {
     event.target.blur(); // Removes focus to prevent unintended changes
     event.preventDefault();
   };
 
-  const handleRemoveAllmodifiers=()=>{
-
+  const handleRemoveAllmodifiers = () => {
     const hasNonEmptyModifierName = modifications.some(
       (modification: any) => modification.modifierName.trim() !== ""
     );
 
-    if(!showModifiers &&hasNonEmptyModifierName)
-    {
-setModifications((prev: any) => {
-      const updated = [...prev];
-    
-    
-      const allModifierIds = updated
-        .filter((item) => item.modifierId) 
-        .map((item) => item.modifierId);
-    
-    
-      setDeletedModifierIds((prevIds) => {
-        const uniqueIds = new Set([...prevIds, ...allModifierIds]); 
-        return Array.from(uniqueIds);
+    if (!showModifiers && hasNonEmptyModifierName) {
+      setModifications((prev: any) => {
+        const updated = [...prev];
+
+        const allModifierIds = updated
+          .filter((item) => item.modifierId)
+          .map((item) => item.modifierId);
+
+        setDeletedModifierIds((prevIds) => {
+          const uniqueIds = new Set([...prevIds, ...allModifierIds]);
+          return Array.from(uniqueIds);
+        });
+
+        return [];
       });
-    
-      
-      return [];
-    });
-    setModifications([
-     
-      {
-        modifierId: "",
-        modifierName: "",
-        isEnabled: true,
-        isModifierChanged: false,
-        modifierOptions: [
-          {
-            modifierOptionName: "",
-            cost: '',
-            isModifierOptionChanged: false,
-            isEnabled: true,
-          },
-        ],
-        minSelection: 0,
-        maxSelection: 0,
-        freeCustomization: 0,
-        selectedValue: selectedValue,
-        selectionType: "Mandatory",
-      },
-    ]);
+      setModifications([
+        {
+          modifierId: "",
+          modifierName: "",
+          isEnabled: true,
+          isModifierChanged: false,
+          modifierOptions: [
+            {
+              modifierOptionName: "",
+              cost: "",
+              isModifierOptionChanged: false,
+              isEnabled: true,
+            },
+          ],
+          minSelection: 0,
+          maxSelection: 0,
+          freeCustomization: 0,
+          selectedValue: selectedValue,
+          selectionType: "Mandatory",
+        },
+      ]);
     }
-   
-    
-  }
-
-
+  };
 
   return (
     <div
       style={{
-        width:"100%",
+        width: "100%",
         display: "flex",
         height: "99vh",
         overflowY: "hidden",
@@ -1245,7 +1242,6 @@ setModifications((prev: any) => {
           reset={clearAll}
           modifications={showModifiers ? modifications : []}
           validateModifiers={validateModifiers}
-        
         />
         <div
           className={
@@ -1297,19 +1293,19 @@ setModifications((prev: any) => {
                 {
                   !searchClicked?
                   <img
-                  src={Serachicon}
-                  alt=""
-                  className="searchIcon"
-                  onClick={() => handleSearchChange()}
-                />:
-                <img
-                src={deleteIcon}
-                alt=""
-                className="DeleteIcon"
-                onClick={() => handlesearchclear()}
-              />
-                }
-               
+                    src={Serachicon}
+                    alt=""
+                    className="searchIcon"
+                    onClick={() => handleSearchChange()}
+                  />
+                ) : (
+                  <img
+                    src={deleteIcon}
+                    alt=""
+                    className="DeleteIcon"
+                    onClick={() => handlesearchclear()}
+                  />
+                )}
               </div>
             )} */}
             {/* {searchQuery && (
@@ -1433,19 +1429,24 @@ setModifications((prev: any) => {
                                       : "50%",
                                   }}
                                   disabled={!modifications[modIndex]?.isEnabled}
-                                  
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
 
-                                    if ((inputValue === "" || /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(inputValue)) && !inputValue.startsWith(" ") ) {
+                                    if (
+                                      (inputValue === "" ||
+                                        /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(
+                                          inputValue
+                                        )) &&
+                                      !inputValue.startsWith(" ")
+                                    ) {
                                       handleModifierChange(
                                         modIndex,
                                         e,
                                         modifier.selectionType
                                       );
-                                      valiadteModifierName(modIndex, e)
-                                   }
-                                  
+                                      valiadteModifierName(modIndex, e);
+                                    }
+
                                     //valiadteModifierName(modIndex, e);
                                   }}
                                   // onBlur={(e) => handleBlur(e, modIndex)}
@@ -1461,12 +1462,15 @@ setModifications((prev: any) => {
                                 )}
                               </div>
 
-                              <div
-                                className="deleteModiferContainer"
-                               
-                              >
-                                <a  onClick={() => handleDeleteModifier(modIndex)} className="Delete-text">
-                                  <span className="SpanDelete"><img src={minus} alt="" /></span>Delete
+                              <div className="deleteModiferContainer">
+                                <a
+                                  onClick={() => handleDeleteModifier(modIndex)}
+                                  className="Delete-text"
+                                >
+                                  <span className="SpanDelete">
+                                    <img src={minus} alt="" />
+                                  </span>
+                                  Delete
                                 </a>
                               </div>
                             </div>
@@ -1504,7 +1508,6 @@ setModifications((prev: any) => {
                                   checked={
                                     modifier.selectionType === "Optional"
                                   }
-                                  
                                   onChange={(e) =>
                                     handleModifierChangeforradio(
                                       modIndex,
@@ -1535,214 +1538,235 @@ setModifications((prev: any) => {
                                       //   ]?.optionPriceError !== "" ?"5.2rem":"3rem"
                                       // }}
                                     >
-
                                       <div className="input-fields-of-modifiers-options">
-
                                         <div>
-                                        <input
-                                          placeholder="Option (Item)*"
-                                          className="input-option-name-field"
-                                          name="modifierOptionName"
-                                          type="text"
-                                          style={{
-                                            opacity: modifications[modIndex]
-                                              ?.modifierOptions[optIndex]
-                                              ?.isEnabled
-                                              ? "100%"
-                                              : "50%",
-                                          }}
-                                        
-                                          disabled={
-                                            !modifications[modIndex]
-                                              ?.modifierOptions[optIndex]
-                                              ?.isEnabled ||
-                                            !modifications[modIndex]?.isEnabled
-                                          }
-                                          value={
-                                            modifications[modIndex]
-                                              ?.modifierOptions[optIndex]
-                                              ?.modifierOptionName ||
-                                            modifications[modIndex]
-                                              ?.modifierOptions[optIndex]
-                                              ?.modifierName ||
-                                            ""
-                                          }
-                                          onChange={(e) => {
-                                            const value = e.target.value;
-                                            if ((value === "" || /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(value)) && !value.startsWith(" ") ){
-                                              addOptionChange(
-                                                modIndex,
-                                                optIndex,
-                                                e
-                                              );
-                                              valiadteModifierOptions(
-                                                modIndex,
-                                                optIndex,
-                                                e
-                                              );
+                                          <input
+                                            placeholder="Option (Item)*"
+                                            className="input-option-name-field"
+                                            name="modifierOptionName"
+                                            type="text"
+                                            style={{
+                                              opacity: modifications[modIndex]
+                                                ?.modifierOptions[optIndex]
+                                                ?.isEnabled
+                                                ? "100%"
+                                                : "50%",
+                                            }}
+                                            disabled={
+                                              !modifications[modIndex]
+                                                ?.modifierOptions[optIndex]
+                                                ?.isEnabled ||
+                                              !modifications[modIndex]
+                                                ?.isEnabled
                                             }
-                                        
-                                          }}
-                                          // onBlur={(e) => {
-                                          //   handleBlur(e, modIndex, optIndex);
-                                          //   validateModifiers(modifications);
-                                          // }}
-                                        />
+                                            value={
+                                              modifications[modIndex]
+                                                ?.modifierOptions[optIndex]
+                                                ?.modifierOptionName ||
+                                              modifications[modIndex]
+                                                ?.modifierOptions[optIndex]
+                                                ?.modifierName ||
+                                              ""
+                                            }
+                                            onChange={(e) => {
+                                              const value = e.target.value;
+                                              if (
+                                                (value === "" ||
+                                                  /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?/-]*$/.test(
+                                                    value
+                                                  )) &&
+                                                !value.startsWith(" ")
+                                              ) {
+                                                addOptionChange(
+                                                  modIndex,
+                                                  optIndex,
+                                                  e
+                                                );
+                                                valiadteModifierOptions(
+                                                  modIndex,
+                                                  optIndex,
+                                                  e
+                                                );
+                                              }
+                                            }}
+                                            // onBlur={(e) => {
+                                            //   handleBlur(e, modIndex, optIndex);
+                                            //   validateModifiers(modifications);
+                                            // }}
+                                          />
                                         </div>
                                         <div>
-                                        <input
-                                          placeholder="Price*"
-                                          className="input-option-price-field"
-                                          name="cost"
-                                          type="number"
-                                          onWheel={handleWheel}
-                                          style={{
-                                            opacity: modifications[modIndex]
-                                              ?.modifierOptions[optIndex]
-                                              ?.isEnabled
-                                              ? "100%"
-                                              : "50%",
-                                          }}
-                                          disabled={
-                                            !modifications[modIndex]
-                                              ?.modifierOptions[optIndex]
-                                              ?.isEnabled ||
-                                            !modifications[modIndex]?.isEnabled
-                                          }
-                                        
-                                          value={
-                                            modifier.modifierOptions[optIndex]
-                                              .cost >=0 ? modifier.modifierOptions[optIndex]
-                                              .cost :
-                                           modifier.modifierOptions[optIndex]
-                                              .sellPrice >=0 ? modifier.modifierOptions[optIndex]
-                                              .sellPrice:
-                                            ""
-                                          }
-                                          onChange={(e) => {
-                                            const value = e.target.value;
-                                            const [integerPart, decimalPart] = value.split('.')
-                                            // Restrict to 4 digits
-                                            if (integerPart?.length <= 4) {
-                                              addOptionChange(
-                                                modIndex,
-                                                optIndex,
-                                                e
-                                              );
-                                              valiadteModifieroptionsprice(
-                                                modIndex,
-                                                optIndex,
-                                                e
-                                              );
+                                          <input
+                                            placeholder="Price*"
+                                            className="input-option-price-field"
+                                            name="cost"
+                                            type="number"
+                                            onWheel={handleWheel}
+                                            style={{
+                                              opacity: modifications[modIndex]
+                                                ?.modifierOptions[optIndex]
+                                                ?.isEnabled
+                                                ? "100%"
+                                                : "50%",
+                                            }}
+                                            disabled={
+                                              !modifications[modIndex]
+                                                ?.modifierOptions[optIndex]
+                                                ?.isEnabled ||
+                                              !modifications[modIndex]
+                                                ?.isEnabled
                                             }
-                                          }}
-                                          onKeyDown={(
-                                            e: React.KeyboardEvent<HTMLInputElement>
-                                          ) => {
-                                            const input =
-                                              e.target as HTMLInputElement;
-                                            if (
-                                              ["e", "E", "+", "-"].includes(
-                                                e.key
-                                              ) ||
-                                              (e.key === "." &&
-                                                input.value.includes("."))
-                                            ) {
-                                              e.preventDefault();
+                                            value={
+                                              modifier.modifierOptions[optIndex]
+                                                .cost >= 0
+                                                ? modifier.modifierOptions[
+                                                    optIndex
+                                                  ].cost
+                                                : modifier.modifierOptions[
+                                                    optIndex
+                                                  ].sellPrice >= 0
+                                                ? modifier.modifierOptions[
+                                                    optIndex
+                                                  ].sellPrice
+                                                : ""
                                             }
-                                          }}
-                                          // onBlur={(e) => {
-                                          //   handleBlur(e, modIndex, optIndex);
-                                          //   validateModifiers(modifications);
-                                          // }}
-                                        />
-
+                                            onChange={(e) => {
+                                              const value = e.target.value;
+                                              const [integerPart, decimalPart] =
+                                                value.split(".");
+                                              // Restrict to 4 digits
+                                              if (integerPart?.length <= 4) {
+                                                addOptionChange(
+                                                  modIndex,
+                                                  optIndex,
+                                                  e
+                                                );
+                                                valiadteModifieroptionsprice(
+                                                  modIndex,
+                                                  optIndex,
+                                                  e
+                                                );
+                                              }
+                                            }}
+                                            onKeyDown={(
+                                              e: React.KeyboardEvent<HTMLInputElement>
+                                            ) => {
+                                              const input =
+                                                e.target as HTMLInputElement;
+                                              if (
+                                                ["e", "E", "+", "-"].includes(
+                                                  e.key
+                                                ) ||
+                                                (e.key === "." &&
+                                                  input.value.includes("."))
+                                              ) {
+                                                e.preventDefault();
+                                              }
+                                            }}
+                                            // onBlur={(e) => {
+                                            //   handleBlur(e, modIndex, optIndex);
+                                            //   validateModifiers(modifications);
+                                            // }}
+                                          />
                                         </div>
                                         <div>
-                                        <div
-                                        className={
-                                          modifier?.modifierOptions.length -
-                                            1 >=
-                                          1
-                                            ? "btn1"
-                                            : "btn2"
-                                        }
-                                      >
-                                        {optIndex === 0 && (
-                                          <a
+                                          <div
                                             className={
                                               modifier?.modifierOptions.length -
                                                 1 >=
                                               1
-                                                ? "btn-ItemCustomizations"
-                                                : "btn-ItemCustomizations2"
-                                            }
-                                            
-                                          >
-                                            <span
-                                              className={
-                                                modifier?.modifierOptions
-                                                  .length -
-                                                  1 >=
-                                                1
-                                                  ? "spanOption-button2"
-                                                  : "spanOption-button"
-                                              }
-                                            >
-                                             <img src={plusicon} alt="" />
-                                              <span className="spanadd" onClick={() => addOption(modIndex)}>
-                                                Add
-                                              </span>{" "}
-                                            </span>
-                                          </a>
-                                        )}
-                                        {optIndex > 0 && (
-                                          <a
-                                            className="btn-ItemCustomizations-del"
-                                            onClick={() =>
-                                              deleteOption(modIndex, optIndex)
+                                                ? "btn1"
+                                                : "btn2"
                                             }
                                           >
-                                            <img src={minus} alt="" /> Delete
-                                          </a>
-                                        )}
-                                      </div>
+                                            {optIndex === 0 && (
+                                              <a
+                                                className={
+                                                  modifier?.modifierOptions
+                                                    .length -
+                                                    1 >=
+                                                  1
+                                                    ? "btn-ItemCustomizations"
+                                                    : "btn-ItemCustomizations2"
+                                                }
+                                              >
+                                                <span
+                                                  className={
+                                                    modifier?.modifierOptions
+                                                      .length -
+                                                      1 >=
+                                                    1
+                                                      ? "spanOption-button2"
+                                                      : "spanOption-button"
+                                                  }
+                                                >
+                                                  <img src={plusicon} alt="" />
+                                                  <span
+                                                    className="spanadd"
+                                                    onClick={() =>
+                                                      addOption(modIndex)
+                                                    }
+                                                  >
+                                                    Add
+                                                  </span>{" "}
+                                                </span>
+                                              </a>
+                                            )}
+                                            {optIndex > 0 && (
+                                              <a
+                                                className="btn-ItemCustomizations-del"
+                                                onClick={() =>
+                                                  deleteOption(
+                                                    modIndex,
+                                                    optIndex
+                                                  )
+                                                }
+                                              >
+                                                <img src={minus} alt="" />{" "}
+                                                Delete
+                                              </a>
+                                            )}
+                                          </div>
                                         </div>
-
                                       </div>
-                                      
 
                                       <div className="input-fields-errors-of-modifiers-options">
-                                      <div className="optionname-errormgs">
-                                      { customizationerrors &&  customizationerrors[modIndex]&&customizationerrors[modIndex]?.options &&customizationerrors[modIndex]?.options[
-                                          optIndex
-                                        ]?.optionNameError !== "" && (
-                                          <span className="nameErrormsg optionNameErrormsg">
-                                            {
-                                              customizationerrors && customizationerrors[modIndex]&& customizationerrors[modIndex]
-                                                ?.options[optIndex]
-                                                ?.optionNameError
-                                            }
-                                          </span>
-                                        )}
+                                        <div className="optionname-errormgs">
+                                          {customizationerrors &&
+                                            customizationerrors[modIndex] &&
+                                            customizationerrors[modIndex]
+                                              ?.options &&
+                                            customizationerrors[modIndex]
+                                              ?.options[optIndex]
+                                              ?.optionNameError !== "" && (
+                                              <span className="nameErrormsg optionNameErrormsg">
+                                                {customizationerrors &&
+                                                  customizationerrors[
+                                                    modIndex
+                                                  ] &&
+                                                  customizationerrors[modIndex]
+                                                    ?.options[optIndex]
+                                                    ?.optionNameError}
+                                              </span>
+                                            )}
+                                        </div>
+                                        <div className="optionprice-errormgs">
+                                          {customizationerrors &&
+                                            customizationerrors[modIndex] &&
+                                            customizationerrors[modIndex]
+                                              ?.options &&
+                                            customizationerrors[modIndex]
+                                              ?.options[optIndex]
+                                              ?.optionPriceError !== "" && (
+                                              <span className="nameErrormsg optionpriceerrormsg">
+                                                {customizationerrors &&
+                                                  customizationerrors[modIndex]
+                                                    ?.options[optIndex]
+                                                    ?.optionPriceError}
+                                              </span>
+                                            )}
+                                        </div>
                                       </div>
-                                      <div className="optionprice-errormgs">
-                                      {customizationerrors &&customizationerrors[modIndex]&&customizationerrors[modIndex]?.options && customizationerrors[modIndex]?.options[
-                                          optIndex
-                                        ]?.optionPriceError !== "" && (
-                                          <span className="nameErrormsg optionpriceerrormsg">
-                                            {
-                                            customizationerrors &&  customizationerrors[modIndex]
-                                                ?.options[optIndex]
-                                                ?.optionPriceError
-                                            }
-                                          </span>
-                                        )}
-
-                                      </div>
-
-                                      </div>
-
 
                                       {/* <div className="option-name-errormsg">
                                         <input
@@ -1809,7 +1833,7 @@ setModifications((prev: any) => {
 
                                         
                                       </div> */}
-{/* 
+                                      {/* 
                                       <div className="option-price-errormsg">
                                         <input
                                           placeholder="Price*"
@@ -1939,8 +1963,11 @@ setModifications((prev: any) => {
                             </div>
 
                             <div
-                              className={`Spinner-input-ItemCustomizations ${modifications.length - 1 === modIndex?"Spinner-input-ItemCustomization-height":""}`}
-                             
+                              className={`Spinner-input-ItemCustomizations ${
+                                modifications.length - 1 === modIndex
+                                  ? "Spinner-input-ItemCustomization-height"
+                                  : ""
+                              }`}
                             >
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
@@ -1957,7 +1984,9 @@ setModifications((prev: any) => {
                                 <input
                                   type="number"
                                   placeholder=""
-                                  onWheel={(e) => (e.target as HTMLInputElement).blur()}
+                                  onWheel={(e) =>
+                                    (e.target as HTMLInputElement).blur()
+                                  }
                                   className={
                                     modifications[modIndex]?.selectionType ===
                                     "Optional"
@@ -1975,11 +2004,13 @@ setModifications((prev: any) => {
                                   name="minSelection"
                                   onChange={(e) => {
                                     const value = e.target.value;
-                                    if(e.target.value.length<=2 && modifications[modIndex]?.modifierOptions?.length >= e.target.value){
+                                    if (
+                                      e.target.value.length <= 2 &&
+                                      modifications[modIndex]?.modifierOptions
+                                        ?.length >= e.target.value
+                                    ) {
                                       handleModifierChange(modIndex, e);
                                     }
-
-                                    
                                   }}
                                   onKeyDown={(
                                     e: React.KeyboardEvent<HTMLInputElement>
@@ -1999,7 +2030,7 @@ setModifications((prev: any) => {
                                     !modifications[modIndex]?.isEnabled
                                   }
                                 />
-                                
+
                                 <div className="polydiv-ItemCustomizations">
                                   <img
                                     className={
@@ -2059,7 +2090,9 @@ setModifications((prev: any) => {
                                 <input
                                   type="number"
                                   placeholder=""
-                                  onWheel={(e) => (e.target as HTMLInputElement).blur()}
+                                  onWheel={(e) =>
+                                    (e.target as HTMLInputElement).blur()
+                                  }
                                   className="input3ItemCustomizations"
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   value={
@@ -2071,12 +2104,15 @@ setModifications((prev: any) => {
                                       : 1
                                   }
                                   name="maxSelection"
-                                  onChange={(e) =>{
-                                    if(e.target.value?.length<=2 && modifications[modIndex]?.modifierOptions?.length >= e.target.value){
-                                    handleModifierChange(modIndex, e)
+                                  onChange={(e) => {
+                                    if (
+                                      e.target.value?.length <= 2 &&
+                                      modifications[modIndex]?.modifierOptions
+                                        ?.length >= e.target.value
+                                    ) {
+                                      handleModifierChange(modIndex, e);
                                     }
-                                  }
-                                  }
+                                  }}
                                   onKeyDown={(
                                     e: React.KeyboardEvent<HTMLInputElement>
                                   ) => {
@@ -2131,7 +2167,9 @@ setModifications((prev: any) => {
                                   type="number"
                                   className="input3ItemCustomizations-free"
                                   name="freeCustomization"
-                                  onWheel={(e) => (e.target as HTMLInputElement).blur()}
+                                  onWheel={(e) =>
+                                    (e.target as HTMLInputElement).blur()
+                                  }
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   value={
                                     modifications[modIndex]
@@ -2140,12 +2178,15 @@ setModifications((prev: any) => {
                                           ?.freeCustomization
                                       : 0
                                   }
-                                  onChange={(e) =>{
-                                    if(e.target.value.length<=2 && modifications[modIndex]?.modifierOptions?.length >= e.target.value){
-                                    handleModifierChange(modIndex, e)
+                                  onChange={(e) => {
+                                    if (
+                                      e.target.value.length <= 2 &&
+                                      modifications[modIndex]?.modifierOptions
+                                        ?.length >= e.target.value
+                                    ) {
+                                      handleModifierChange(modIndex, e);
                                     }
-                                  }
-                                  }
+                                  }}
                                   onKeyDown={(
                                     e: React.KeyboardEvent<HTMLInputElement>
                                   ) => {

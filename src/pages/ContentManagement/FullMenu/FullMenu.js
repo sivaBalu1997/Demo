@@ -7,7 +7,7 @@ import toolTip from "../../../assets/svg/TipTool.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import FullmenuVideo from '../../../assets/svg/FullMenuVideo.svg';
 import { GetFullMenuVideoRequest, PostFullMenuVideoRequest } from '../../../redux/contentManagement/cmsActions';
-import SidePanel from 'pages/SidePanel';
+import SidePanel from 'pages/SidePanel'
 
 const FullMenu = () => {
   const inputRefsFullMenu = [useRef(null)];

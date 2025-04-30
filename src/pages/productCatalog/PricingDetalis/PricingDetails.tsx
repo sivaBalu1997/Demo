@@ -124,8 +124,6 @@ interface FormState {
   Zomatomealtype?: string;
   Inventory1: string;
   Inventory2: string;
-  
-
 }
 
 type MainFormSpecial = {
@@ -171,7 +169,7 @@ interface Option {
 interface MainForm {
   form: FormState1;
   kitchenstation: string;
-  dataStored:boolean;
+  dataStored: boolean;
   Preparationtime: {
     hours: string;
     minutes: string;
@@ -280,7 +278,6 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  
   const {
     control,
     handleSubmit,
@@ -297,7 +294,7 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
-      dataStored:false,
+      dataStored: false,
       kitchenstation: prizingDetail?.kitchenstation
         ? prizingDetail?.kitchenstation
         : "",
@@ -452,7 +449,7 @@ const PricingDetails = () => {
       Inventory1: "",
       Inventory2: "",
     },
-    dataStored:false,
+    dataStored: false,
 
     kitchenstation: prizingDetail?.kitchenstation
       ? prizingDetail?.kitchenstation
@@ -547,7 +544,7 @@ const PricingDetails = () => {
       {
         DineInId: DineInId,
         DineInPrice: "",
-        Enabled:true
+        Enabled: true,
         // DineInMealType: [],
       },
     ]
@@ -854,7 +851,7 @@ const avialFuction = (data:any)=>{
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
-      <div style={{height:'100%'}}>
+      <div style={{ height: "100%" }}>
         <Navigationpage
           getFormData={getValues}
           seletedpage="Pricing"
@@ -1260,7 +1257,11 @@ const avialFuction = (data:any)=>{
                   Save & next
                 </button>
               </div> */}
-            <div className={isExpanded ? "buttonContainerExpanded" : "buttonContainer"}>
+            <div
+              className={
+                isExpanded ? "buttonContainerExpanded" : "buttonContainer"
+              }
+            >
               <SaveAndNext
                 getFormData={getValues}
                 seletedpage="Pricing"

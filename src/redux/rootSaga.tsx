@@ -5,8 +5,13 @@ import menuSaga from "./menu/manuSaga";
 import subscriptionSaga from "./subscription/subscriptionSaga";
 import paymentSaga from "./payment/paymentSaga";
 import productCatalogSaga from "./productCatalog/productCatalogSaga";
-import offerSaga from "./offer/offerSaga"
+import offerSaga from "./offer/offerSaga";
 import newReportsSagas from "./newReports/newReportsSagas";
+import checkInReportsSaga from "./checkInReports/checkInReportsSagas";
+import productReportsSaga from "./productReports/productReportsSagas";
+import customerInsightsSaga from "./customerInsights/customerInsightsSagas";
+import staffReportsSagas from "./staffReports/staffReportsSagas";
+
 // Redux Saga: Root Saga
 export default function* rootSaga() {
   yield all([
@@ -18,5 +23,9 @@ export default function* rootSaga() {
     fork(productCatalogSaga),
     fork(offerSaga),
     fork(newReportsSagas),
+    fork(checkInReportsSaga),
+    fork(productReportsSaga),
+    fork(customerInsightsSaga),
+    fork(staffReportsSagas)
   ]);
 }

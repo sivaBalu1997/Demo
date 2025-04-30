@@ -1,0 +1,23 @@
+.searchable-dropdown{
+    width: 50%;
+    font-size: 14px;
+
+    @media (max-width:768px) {
+        width: 100%;
+        font-size: 12px;
+        
+    }
+    .select-food-item-dropdown-prefix__menu {
+        z-index: 20;
+
+    }
+    .select-food-item-dropdown .select-food-item-dropdown-prefix__control{
+        flex-direction: row-reverse;
+    }
+    .select-food-item-dropdown-prefix__value-container{
+        padding-left: 0px;
+    }
+    .select-food-item-dropdown-prefix__indicator{
+        padding-right: 5px;
+    }
+}

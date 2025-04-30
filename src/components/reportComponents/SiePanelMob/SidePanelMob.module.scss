@@ -1,0 +1,162 @@
+.sidebarContainer {
+  z-index: 1000;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  left: 0;
+  top: 0;
+  color: #C6C6C6;
+
+  .sidebar {
+    width: 280px;
+    height: 100vh;
+    background: #393939;
+    padding: 20px;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+
+      .logoContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+
+        img {
+          width: 65px;
+          height: 32px;
+          // margin-bottom: 0.5rem;
+
+          // border-radius: 50%;
+        }
+
+        .closeIcon {
+          cursor: pointer;
+          width: 20px;
+          height: 20px;
+          color: #C6C6C6;
+
+        }
+      }
+
+      div {
+
+        h2 {
+          font-family: Poppins;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: -0.25px;
+          color: #FFFFFF;
+
+        }
+
+        span {
+          font-family: Poppins;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          letter-spacing: -0.25px;          
+          color: #FFFFFF;
+          margin: 0;
+
+        }
+      }
+    }
+
+    .nav {
+    
+
+      .menuIcon {
+        color: #EEEEEE;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        .navItem {
+          margin-top: 12px;
+          font-family: Poppins;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: -0.2px;
+          color: #C6C6C6;
+
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px;
+          cursor: pointer;
+          transition: background 0.3s;
+
+          & path {
+            fill: #A8A8A8;
+          }
+
+          &:hover {
+            background: #333;
+          }
+        }
+
+        .activeParemt {
+          font-family: Poppins;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0%;
+          color: #fff;
+
+          & path {
+            fill: #fff !important;
+          }
+        }
+
+        .submenu {
+          font-family: Poppins;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 150%;
+          letter-spacing: 0%;
+          color: #C6C6C6;
+
+
+          padding-left: 40px;
+
+          .activeItem {
+            font-family: Poppins;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            letter-spacing: 0%;
+
+
+            color: #fff;
+          }
+
+          li {
+   
+            padding: 8px 0;
+            font-size: 14px;
+
+
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@media (min-width: 576px) {
+  .sidebarContainer {
+    display: none;
+  }
+}

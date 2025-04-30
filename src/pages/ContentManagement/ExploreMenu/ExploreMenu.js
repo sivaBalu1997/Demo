@@ -7,7 +7,7 @@ import toolTip from "../../../assets/svg/TipTool.svg";
 import UploadVideo from "../uploadVideo/UploadVideo";
 import { useDispatch, useSelector } from 'react-redux';
 import { GetExploreVideoRequest, PostExploreVideoRequest } from '../../../redux/contentManagement/cmsActions';
-import SidePanel from 'pages/SidePanel';
+import SidePanel from 'pages/SidePanel'
 
 const ExploreMenu = () => {
   const inputRefsVideo = [useRef(null)];

@@ -1,0 +1,104 @@
+.todays-report-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+            .todays-report-head {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-right: 2vw;
+            .todays-report-store-name {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+                h4{
+                    font-weight: 500;
+                }
+                h2{
+                    font-weight: 500;
+                }
+            }
+            .todays-report-select-store-refresh-container {
+                display: flex;
+                flex-direction: column;
+                gap: 1vh;
+                h4{
+                    font-weight: 400;
+                    color: #8D8D8D;
+                }
+                .todays-report-store-and-refresh-btn{
+                    display: flex;
+                    gap: 2vw;
+                    p{
+                        width: 8vw;
+                    }
+                    button{
+                        width: 8vw;
+                    }
+                }
+            }
+        }
+        .todays-report-sales-overview-box-container-parent{
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            .sales-overview-box-with-download{
+                display: flex;
+                justify-content: space-between;
+                width: 98%;
+                h2{
+                    font-weight: medium;
+                    font-size: 20px;
+                    line-height: 24px;
+                    letter-spacing: -0.25px;
+                }
+            }
+            .todays-report-sales-overview-box-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                width: 100%;
+                // max-width: 1200px;
+            
+                > * {
+                    flex: 1 1 calc(25% - 16px); // 4 columns
+                    max-width: calc(25% - 16px); 
+                }
+            
+                @media (max-width: 1024px) {
+                    > * {
+                        flex: 1 1 calc(50% - 16px); // 2 columns
+                        max-width: calc(50% - 16px);
+                    }
+                }
+            
+                @media (max-width: 600px) {
+                    > * {
+                        flex: 1 1 calc(50% - 16px); // 2 columns
+                        max-width: calc(50% - 16px);
+                    }
+                }
+            }
+        }
+    //    es-container{
+    //         display: flex;
+    //         flex-direction: column;
+    //         justify-content: center;
+    //         align-items: flex-start;
+    //         width: 100%;
+    //         height: fit-content;
+    //         gap: 5vh;
+    //         background-color: pink;
+    //     }
+}
+
+
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+::-webkit-tap-highlight-color{
+    background: transparent;
+}
