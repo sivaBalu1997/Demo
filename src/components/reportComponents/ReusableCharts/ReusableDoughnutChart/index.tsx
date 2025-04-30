@@ -222,8 +222,8 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
         const other: any = []
         const otherSummary = otherRecords.reduce(
           (acc, item) => {
-
             other.push(item?.[xKey])
+            acc[`${xKey}`] = "Other"
             acc.percent += ((Number(item?.[yKey] || 0) * 100) / totalDisplay)
             acc.value += Number(item?.[yKey] || 0)
             otherKeys?.forEach((key) => {
@@ -233,7 +233,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
             });
             return acc;
           },
-          {
+          {[`${xKey}`]:"Other",
             label: "Other", percent: 0, color: colors[10], items: 0, value: 0, ...otherKeys?.reduce((acc: Record<string, any>, item: string) => {
               acc[item] = 0;
               return acc;

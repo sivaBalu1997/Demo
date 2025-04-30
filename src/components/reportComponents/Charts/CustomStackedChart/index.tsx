@@ -126,7 +126,7 @@ function transformDataTenure(
   let labels: string[];
   if (tenureOrder) {
     // Use custom order, filtering out items not present in data
-    labels = tenureOrder.filter(item => itemTotals[item] !== undefined);
+    labels = tenureOrder.filter(item => !!itemTotals?.[item] );
   } else {
     // Original sorting logic
     const sortedItems = Object.entries(itemTotals)
@@ -181,6 +181,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   valueKey,
   tenureOrder = []
 }) => {
+  
   // Show shimmer if loader is true
   if (loader) {
     return <BarChartShimmer />;

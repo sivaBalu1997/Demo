@@ -176,7 +176,12 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
             datalabels: { display: false },
         },
         scales: {
-            x: { grid: { display: false } },
+            x: { grid: { display: false } ,
+            // ticks: {
+            //     maxRotation: 90,
+            //     minRotation:60
+            //   }
+        },
             y: {
                 beginAtZero: true,
                 ticks: {

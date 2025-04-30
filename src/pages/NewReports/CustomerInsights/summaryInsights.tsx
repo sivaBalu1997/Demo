@@ -162,7 +162,10 @@ const SummaryInsights = () => {
                 valueKey="customerCount"
                 colorList={["#1F77B4","#17BECF","#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
                 toolTipBorderColor="#17BECF"
-                tenureOrder={["1 Month", "6 Month", "12 Month", "3 Years", "3+ Years"]}
+                 tenureOrder ={ [
+                  ...new Set(summaryInsightsCustomerByTenureData?.map((data: any) => data?.timeline))
+                ] as string[]}
+                
               />
             </ErrorHandler>
           </div>
