@@ -80,7 +80,8 @@ export interface NewTableProps {
   totalElements?: number;
   headers?: {key:string;label:string}[];
   tableRef?: React.RefObject<HTMLDivElement>;
-  showRoundedStyleCount?: boolean
+  showRoundedStyleCount?: boolean;
+  chartSliceValue?: string;
 }
 
 export interface SortConfig {

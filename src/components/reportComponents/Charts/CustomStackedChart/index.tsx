@@ -24,6 +24,7 @@ interface DataListItem {
 
 // Props for the StackedBarChart component
 interface StackedBarChartProps {
+  kpiTitle?: string;
   dataList?: any[];
   loader?: boolean;
   colorList?: string[];
@@ -32,15 +33,17 @@ interface StackedBarChartProps {
   xKey: string;
   stackNameKey: string;
   valueKey: string;
+  tenureOrder?: string[];
 }
 
 // Helper function to transform raw dataList into Chart.js data
+
 function transformData(
   dataList: any[],
   colorList: string[],
   xKey: string,
   stackNameKey: string,
-  valueKey: string
+  valueKey: string,
 ): ChartData<"bar"> {
   // Calculate totals for sorting
   const itemTotals: Record<string, number> = {};
@@ -103,6 +106,61 @@ function transformData(
   return { labels, datasets };
 }
 
+function transformDataTenure(
+  dataList: any[],
+  colorList: string[],
+  xKey: string,
+  stackNameKey: string,
+  valueKey: string,
+  tenureOrder?: string[] // Add this parameter
+): ChartData<"bar"> {
+  // Calculate totals for each x-axis category
+  const itemTotals: Record<string, number> = {};
+  dataList.forEach((item) => {
+    const xValue = item[xKey];
+    const value = Number(item[valueKey]) || 0;
+    itemTotals[xValue] = (itemTotals[xValue] || 0) + value;
+  });
+
+  // Determine labels based on whether tenureOrder is provided
+  let labels: string[];
+  if (tenureOrder) {
+    // Use custom order, filtering out items not present in data
+    labels = tenureOrder.filter(item => itemTotals[item] !== undefined);
+  } else {
+    // Original sorting logic
+    const sortedItems = Object.entries(itemTotals)
+      .sort(([, a], [, b]) => b - a)
+      .map(([item]) => item);
+    labels = sortedItems.slice(0, 20);
+  }
+
+  // Rest of the function remains the same
+  const stackNameSet = new Set<string>();
+  dataList.forEach((item) => stackNameSet.add(item[stackNameKey]));
+  const stackNames = Array.from(stackNameSet);
+
+  const datasets = stackNames.map((stackName, index) => {
+    const data: number[] = [];
+    
+    labels.forEach((label) => {
+      const entry = dataList.find(
+        (dataItem) => dataItem[xKey] === label && dataItem[stackNameKey] === stackName
+      );
+      data.push(entry ? Number(entry[valueKey]) || 0 : 0);
+    });
+
+    return {
+      label: stackName,
+      backgroundColor: colorList[index] || defaultColorList[index] || "#AAA",
+      data,
+      stack: "combined",
+    };
+  });
+
+  return { labels, datasets };
+}
+
 const defaultColorList: string[] = [
   "#0294A5", // e.g. Group of 2
   "#F99D2B", // e.g. Group of 4
@@ -112,6 +170,7 @@ const defaultColorList: string[] = [
 ];
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
+  kpiTitle="",
   dataList = [],
   loader,
   colorList = [],
@@ -119,7 +178,8 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   toolTipBorderColor,
   xKey,
   stackNameKey,
-  valueKey
+  valueKey,
+  tenureOrder = []
 }) => {
   // Show shimmer if loader is true
   if (loader) {
@@ -129,12 +189,19 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
   // Predefined color list for each group
 
   // Transform data into Chart.js format
-  const chartData = transformData(
+  const chartData = !kpiTitle ? transformData(
     dataList,
     colorList.length > 0 ? colorList : defaultColorList,
     xKey,
     stackNameKey,
-    valueKey
+    valueKey,
+  ) : transformDataTenure(
+    dataList,
+    colorList.length > 0 ? colorList : defaultColorList,
+    xKey,
+    stackNameKey,
+    valueKey,
+    tenureOrder
   );
 
   // Chart configuration with types
