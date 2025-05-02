@@ -1040,7 +1040,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     rowsPerPage={ordersInfoPageLimit}
                     setRowsPerPage={setOrdersInfoPageLimit}
                     loader={ordersInfoFromAPILoader}
-                    searchPlaceHolder="Search by order number, table name"
+                    searchPlaceHolder="Search by order number, customer name"
                     onSearch={handleSearch}
                     totalElements={ordersInfoFromAPIRedux?.totalElements}
                     showRoundedStyleCount={true}
