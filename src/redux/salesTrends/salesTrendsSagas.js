@@ -1,14 +1,14 @@
 import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
-import { showSuccessToast, showErrorToast } from "util/toastUtils";
-import {  
+import { showErrorToast } from "util/toastUtils";
+import {
   salesTrendsSuccess,
   salesTrendsFailure,
 
   categoriesLevelSalesTrendFailure,
   categoriesLevelSalesTrendSuccess,
 
- itemsLevelSalesTrendSuccess,
- itemsLevelSalesTrendFailure,
+  itemsLevelSalesTrendSuccess,
+  itemsLevelSalesTrendFailure,
 } from "./salesTrendsActions";
 import {
   CATEGORIES_LEVEL_SALES_TREND_REQUEST,
@@ -17,9 +17,9 @@ import {
 
 } from "./salesTrendsConstants";
 import {
-getCategoriesLevelSalesTrend,
-getItemsLevelSalesTrend,
-getSalesTrends
+  getCategoriesLevelSalesTrend,
+  getItemsLevelSalesTrend,
+  getSalesTrends
 } from "./salesTrendsApi";
 import { decryptJson } from "util/react-ec-utils";
 
@@ -30,10 +30,8 @@ export function* salesTrendsSaga(action) {
       action.payload
     );
     const decryptedData = decryptJson(response?.data?.encryptedText);
-    console.log( "summaryInsightsCustomerVolumeSaga",decryptedData)
     if (response.status === 200) {
       yield put(salesTrendsSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(salesTrendsFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -52,7 +50,6 @@ export function* categoriesLevelSalesTrendSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(categoriesLevelSalesTrendSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(categoriesLevelSalesTrendFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -71,7 +68,6 @@ export function* itemsLevelSalesTrendSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(itemsLevelSalesTrendSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(
         itemsLevelSalesTrendFailure(decryptedData?.message)
@@ -85,7 +81,7 @@ export function* itemsLevelSalesTrendSaga(action) {
 
 export default function* watchNewReportRequest() {
   yield takeLatest(
-  SALES_TRENDS_REQUEST,
+    SALES_TRENDS_REQUEST,
     salesTrendsSaga
   );
   yield takeLatest(
@@ -96,6 +92,5 @@ export default function* watchNewReportRequest() {
     ITEMS_LEVEL_SALES_TREND_REQUEST,
     itemsLevelSalesTrendSaga
   );
- 
 
 }

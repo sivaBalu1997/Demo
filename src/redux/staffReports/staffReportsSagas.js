@@ -1,7 +1,5 @@
-import { put, call, takeLatest} from "redux-saga/effects";
-import { showSuccessToast, showErrorToast } from "util/toastUtils";
-
-
+import { put, call, takeLatest } from "redux-saga/effects";
+import { showErrorToast } from "util/toastUtils";
 import { decryptJson } from "util/react-ec-utils";
 
 import {
@@ -10,7 +8,7 @@ import {
     STAFF_OVERVIEW_EMPLOYEE_PERFORMANCE_TABLE_REQUEST,
     STAFF_TREND_SALES_PERFORMANCE_REQUEST,
     STAFF_TREND_REVENUE_IMPACT_PERFORMANCE_REQUEST,
-    STAFF_TREND_ERROR_PERFORMANCE_REQUEST, 
+    STAFF_TREND_ERROR_PERFORMANCE_REQUEST,
 } from './staffReportsConstants';
 
 import {
@@ -26,7 +24,6 @@ import {
     staffTrendRevenueImpactPerformanceFailure,
     staffTrendErrorPerformanceSuccess,
     staffTrendErrorPerformanceFailure,
-  
 } from './staffReportsActions';
 
 import {
@@ -44,7 +41,6 @@ function* staffOverviewEmployeePerformanceSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffOverviewEmployeePerformanceSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(staffOverviewEmployeePerformanceFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -60,7 +56,6 @@ function* staffOverviewActivitiesSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffOverviewActivitiesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(staffOverviewActivitiesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -76,7 +71,6 @@ function* staffOverviewEmployeePerformanceTableSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffOverviewEmployeePerformanceTableSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(staffOverviewEmployeePerformanceTableFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -92,7 +86,6 @@ function* staffTrendSalesPerformanceSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffTrendSalesPerformanceSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(staffTrendSalesPerformanceFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -108,7 +101,6 @@ function* staffTrendRevenueImpactPerformanceSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffTrendRevenueImpactPerformanceSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(staffTrendRevenueImpactPerformanceFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -124,7 +116,6 @@ function* staffTrendErrorPerformanceSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(staffTrendErrorPerformanceSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(staffTrendErrorPerformanceFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);

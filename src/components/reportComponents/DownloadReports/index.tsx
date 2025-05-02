@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 import { ReactComponent as TableDownloadOptionsIcon } from "../../../assets/svg/r-options-table.svg";
 import { ReactComponent as PdfDownloadIconUnselected } from "../../../assets/svg/r-pdf-unselected.svg";
 import { ReactComponent as PdfDownloadIconSelected } from "../../../assets/svg/r-pdf-selected.svg";
@@ -94,50 +96,82 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
     const generateDataOutput = (data: Array<Record<string, any>>, exportType: ExportType) => {
         let transformedData;
         const prefix = exportType === exportFromJSON.types.json ? "" : "=";
-        if (headerData?.length > 0) {
+        if (exportType === "xls") {
+            const fileType =
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
             transformedData = data.map(row => {
                 const newRow: Record<string, any> = {};
                 headerData.forEach(header => {
                     const value = row[header?.key];
-                    // Force Excel to treat numeric-looking strings as text
-                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
                     if (
                         (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
                     ) {
-                        newRow[header?.label] = `${prefix}"${value}"`;
-                    } else if (shouldWrapInFormula) {
-                        newRow[header?.label] = `${prefix}"${value}"`;
+                        newRow[header?.label] = value;
                     } else {
                         newRow[header?.label] = value;
                     }
                 });
                 return newRow;
             });
-        } else {
-            transformedData = data.map(row => {
-                const newRow: Record<string, any> = {};
-                Object.entries(row).forEach(([key, value]) => {
-                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+            const fileExtension = ".xlsx";
 
-                    if (
-                        (key === "customerNumber" || key === "phone") && employeeAccess
-                    ) {
-                        newRow[key] = `${prefix}"${value}"`;
-                    } else if (shouldWrapInFormula) {
-                        newRow[key] = `${prefix}"${value}"`;
-                    } else {
-                        newRow[key] = value;
-                    }
+            const ws = XLSX.utils.json_to_sheet(transformedData);
+
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+
+            const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+            const finalData = new Blob([excelBuffer], { type: fileType });
+
+            FileSaver.saveAs(finalData, kpiTitle + fileExtension);
+
+
+        } else {
+            if (headerData?.length > 0) {
+                transformedData = data.map(row => {
+                    const newRow: Record<string, any> = {};
+                    headerData.forEach(header => {
+                        const value = row[header?.key];
+                        // Force Excel to treat numeric-looking strings as text
+                        const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+                        if (
+                            (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
+                        ) {
+                            newRow[header?.label] = `${prefix}"${value}"`;
+                        } else if (shouldWrapInFormula) {
+                            newRow[header?.label] = `${prefix}"${value}"`;
+                        } else {
+                            newRow[header?.label] = value;
+                        }
+                    });
+                    return newRow;
                 });
-                return newRow;
+            } else {
+                transformedData = data.map(row => {
+                    const newRow: Record<string, any> = {};
+                    Object.entries(row).forEach(([key, value]) => {
+                        const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+
+                        if (
+                            (key === "customerNumber" || key === "phone") && employeeAccess
+                        ) {
+                            newRow[key] = `${prefix}"${value}"`;
+                        } else if (shouldWrapInFormula) {
+                            newRow[key] = `${prefix}"${value}"`;
+                        } else {
+                            newRow[key] = value;
+                        }
+                    });
+                    return newRow;
+                });
+            }
+
+            exportFromJSON({
+                data: transformedData,
+                fileName: kpiTitle,
+                exportType,
             });
         }
-
-        exportFromJSON({
-            data: transformedData,
-            fileName: kpiTitle,
-            exportType,
-        });
     };
 
     // const csvDownloadFn = (data: Array<Record<string, any>>) => {
