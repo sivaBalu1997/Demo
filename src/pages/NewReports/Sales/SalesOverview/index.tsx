@@ -301,12 +301,6 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       alignment: "left",
     },
     {
-      key: "tableName",
-      label: "Table name",
-      isSortable: true,
-      alignment: "left",
-    },
-    {
       key: "customerName",
       label: "Customer name",
       isSortable: true,
@@ -1033,7 +1027,17 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     kpiTitle={`Orders Info (${ordersInfoFromAPIRedux?.totalElements})`}
                     searchQuery={ordersInfoSearchQuery}
                     headerData={ordersInfoTableHeaders}
-                    tableData={ordersInfoFromAPIRedux?.content}
+                    tableData={ordersInfoFromAPIRedux?.content?.map((dataToBemapped: any)=>({
+                      orderNumber: dataToBemapped?.orderNumber,
+                      orderDate: dataToBemapped?.orderDate,
+                      orderTime: dataToBemapped?.orderTime,
+                      customerName: dataToBemapped?.customerName,
+                      customerNumber: dataToBemapped?.customerNumber,
+                      orderChannel: dataToBemapped?.orderChannel,
+                      tableName: dataToBemapped?.tableName,
+                      orderStatus: dataToBemapped?.orderStatus,
+                      orderTotal: Number(dataToBemapped?.orderTotal || 0),
+                    }))}
                     currentPage={currentPageOrdersInfo}
                     totalPages={ordersInfoFromAPIRedux?.totalPages ? ordersInfoFromAPIRedux?.totalPages : 1}
                     onPageChange={setCurrentPageOrdersInfo}
