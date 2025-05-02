@@ -119,15 +119,15 @@ const headerData1 = [
     suffix: "Mins"
   },
   {
-    key: "channel",
-    label: "Channel",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
     key: "status",
     label: "Status",
     alignment: "center",
+    isSortable: true,
+  },
+  {
+    key: "channel",
+    label: "Channel",
+    alignment: "left",
     isSortable: true,
   },
 ];
