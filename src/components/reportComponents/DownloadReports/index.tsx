@@ -108,7 +108,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
                 let value: any;
 
                 if (headerData?.length && 'key' in header) {
-                    key = header.key;
+                    key = header.label;
                     value = row[header.key];
                 } else if (Array.isArray(header)) {
                     key = header[0];
