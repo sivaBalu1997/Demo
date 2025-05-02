@@ -116,8 +116,15 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
                 }
                 // Force Excel to treat numeric-looking strings as text
                 const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-                if (
-                    key && (key === "customerNumber" || key === "phone")) {
+                if (exportType === "xls") {
+                    if (key && (key === "customerNumber" || key === "phone" || key === "email")) {
+                        newRow[key] = employeeAccess ? value : "";
+                    } else {
+                        newRow[key] = value
+                    }
+
+                } else if (
+                    key && (key === "customerNumber" || key === "phone" || key === "email")) {
                     newRow[key] = employeeAccess ? `${prefix}"${value}"` : "";
                 } else if (shouldWrapInFormula) {
                     newRow[key] = `${prefix}"${value}"`;
