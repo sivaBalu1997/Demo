@@ -94,16 +94,13 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
     const generateDataOutput = (data: Array<Record<string, any>>, exportType: ExportType) => {
         let transformedData;
         const prefix = exportType === exportFromJSON.types.json ? "" : "=";
-    
         if (headerData?.length > 0) {
             transformedData = data.map(row => {
                 const newRow: Record<string, any> = {};
                 headerData.forEach(header => {
                     const value = row[header?.key];
-    
                     // Force Excel to treat numeric-looking strings as text
                     const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-    
                     if (
                         (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
                     ) {
@@ -121,7 +118,7 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
                 const newRow: Record<string, any> = {};
                 Object.entries(row).forEach(([key, value]) => {
                     const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-    
+
                     if (
                         (key === "customerNumber" || key === "phone") && employeeAccess
                     ) {
@@ -135,14 +132,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
                 return newRow;
             });
         }
-    
+
         exportFromJSON({
             data: transformedData,
             fileName: kpiTitle,
             exportType,
         });
     };
-    
+
     // const csvDownloadFn = (data: Array<Record<string, any>>) => {
     //     const exportType = exportFromJSON.types.csv;
 
@@ -207,8 +204,8 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
         const doc = new jsPDF();
         doc.text(kpiTitle, 14, 10); // Title at the top
-        let headerData=headers;
-        if(!headerData?.length && data?.length>0){
+        let headerData = headers;
+        if (!headerData?.length && data?.length > 0) {
             headerData = Object.keys(data[0]).map(key => ({
                 key,
                 label: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim()
@@ -216,17 +213,18 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
         }
 
         // Prepare the table data
-        const tableColumnHeaders = headerData && headerData?.map((header) =>{ 
-            if(header?.key==="customerNumber"||header?.key==="email"){
-                if(employeeAccess) return header.label;
-            }else{
-             return    header.label
-            }});
-        const tableRows = data && data?.map(row => headerData?.map(header =>{
-            if(header?.key==="customerNumber"||header?.key==="email"){
-                if(employeeAccess) return row[header.key] || ""
-            }else{
-         return row[header.key] ?? ""
+        const tableColumnHeaders = headerData && headerData?.map((header) => {
+            if (header?.key === "customerNumber" || header?.key === "email") {
+                if (employeeAccess) return header.label;
+            } else {
+                return header.label
+            }
+        });
+        const tableRows = data && data?.map(row => headerData?.map(header => {
+            if (header?.key === "customerNumber" || header?.key === "email") {
+                if (employeeAccess) return row[header.key] || ""
+            } else {
+                return row[header.key] ?? ""
             }
 
         }));
@@ -282,14 +280,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
     return (
         <div className="table-download-options-container">
-          {tableData?.length ?  <TableDownloadOptionsIcon
+            {tableData?.length ? <TableDownloadOptionsIcon
                 className="table-download-options"
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowDownloadables((val) => !val);
                 }}
-            />:null
-}
+            /> : null
+            }
 
             {showDownloadables && (
                 <>
