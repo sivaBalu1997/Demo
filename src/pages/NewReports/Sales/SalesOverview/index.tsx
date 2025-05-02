@@ -1036,7 +1036,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       orderChannel: dataToBemapped?.orderChannel,
                       tableName: dataToBemapped?.tableName,
                       orderStatus: dataToBemapped?.orderStatus,
-                      orderTotal: Number(dataToBemapped?.orderTotal || 0),
+                      orderTotal: Number(dataToBemapped?.orderTotal),
                     }))}
                     currentPage={currentPageOrdersInfo}
                     totalPages={ordersInfoFromAPIRedux?.totalPages ? ordersInfoFromAPIRedux?.totalPages : 1}
