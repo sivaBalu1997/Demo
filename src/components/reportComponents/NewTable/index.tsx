@@ -603,7 +603,7 @@ const NewTable: React.FC<NewTableProps> = ({
                 <div className="results-per-page">
                   <span>Result per page:</span>
                   <div className="options">
-                    {[10, 20, 30]?.map((num) => (
+                    {[10, 20, 30].filter((num) => num <= totalElements + 9).map((num) => (
                       <button
                         key={num}
                         className={`option ${rowsPerPage === num ? "selected" : ""
