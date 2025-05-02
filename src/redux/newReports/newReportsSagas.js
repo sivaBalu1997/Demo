@@ -1361,5 +1361,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_DETAILS_RESTAURANT_REQUEST, getDetailsRestaurantRequestSaga);
     yield takeLatest(GET_DOWNLOADABLE_REPORT_REQUEST, getDownloadableReportRequestSaga);
     yield takeLatest(GET_TENDER_TYPE_REQUEST, getTenderTypeRequestSaga);
-    yield takeLatest(ORDER_INFO_REQUEST, orderInfoRequestSaga);
+    yield debounce(1000, ORDER_INFO_REQUEST, orderInfoRequestSaga);
 }
