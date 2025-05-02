@@ -1022,7 +1022,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       />
                     </ErrorHandler>
                   </div>
-
+                  <div>
                   <NewTable
                     apiEndPoint="/sales/overallOrders"
                     queryParams={{
@@ -1046,6 +1046,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     showRoundedStyleCount={false}
                     rowNoWrap={true}
                   />
+                  </div>  
 
                   <div className="sales-overview-doughnut-chart-container" style={{ display: "flex", justifyContent: "flex-start", marginTop: "10vh", width: "100%" }} ref={offerRef}>
                     {/* commented out for release */}
