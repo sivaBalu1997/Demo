@@ -193,6 +193,7 @@ const CheckInLiveReport = () => {
   const liveCheckInStatus = useSelector(
     (state: any) => state?.checkInReports?.liveCheckinStatusSuccess
   );
+
   const liveCheckInAvgWaitTime = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeSuccess
   );
@@ -462,7 +463,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">By Status- Check-in</h1>
-              <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.map((data: any) => ({
+              <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show")?.map((data: any) => ({
                 status: data.status,
                 checkInCount: Number(data.count),
               }))}/>
@@ -473,7 +474,7 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
               toolTipBorderColor="#225E96"
               xAxisTooltipLabel="Status"
               yAxisTooltipLabel="Check-in Count"
-              dataList={liveCheckInStatus?.map((data: any) => ({
+              dataList={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show")?.map((data: any) => ({
                 xAxisValue: data.status,
                 yAxisValue: Number(data.count),
               }))}
