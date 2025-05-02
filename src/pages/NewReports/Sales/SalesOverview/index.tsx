@@ -617,7 +617,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           offer: offerType
         })
         break;
-      case "Orders Info":
+      case `Orders Info (${ordersInfoFromAPIRedux?.totalElements ?? 0})`:
         setCurrentPageOrdersInfo(1)
         setOrdersInfoSearchQuery(value)
         dispatch(
@@ -1024,7 +1024,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                       startDate: startDate,
                       endDate: endDate,
                     }}
-                    kpiTitle={`Orders Info (${ordersInfoFromAPIRedux?.totalElements})`}
+                    kpiTitle={`Orders Info (${ordersInfoFromAPIRedux?.totalElements ?? 0})`}
                     searchQuery={ordersInfoSearchQuery}
                     headerData={ordersInfoTableHeaders}
                     tableData={ordersInfoFromAPIRedux?.content?.map((dataToBemapped: any)=>({
