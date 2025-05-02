@@ -96,23 +96,40 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
     const generateDataOutput = (data: Array<Record<string, any>>, exportType: ExportType) => {
         let transformedData;
         const prefix = exportType === exportFromJSON.types.json ? "" : "=";
+        let headerDataValue = headerData
+        if (!headerDataValue?.length) {
+
+        }
+
+        transformedData = data.map(row => {
+            const newRow: Record<string, any> = {};
+            (headerData?.length ? headerData : Object.entries(row)).forEach(header => {
+                let key: string = '';
+                let value: any;
+
+                if (headerData?.length && 'key' in header) {
+                    key = header.key;
+                    value = row[header.key];
+                } else if (Array.isArray(header)) {
+                    key = header[0];
+                    value = header[1];
+                }
+                // Force Excel to treat numeric-looking strings as text
+                const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+                if (
+                    key && (key === "customerNumber" || key === "phone")) {
+                    newRow[key] = employeeAccess ? `${prefix}"${value}"` : "";
+                } else if (shouldWrapInFormula) {
+                    newRow[key] = `${prefix}"${value}"`;
+                } else {
+                    newRow[key] = value;
+                }
+            })
+            return newRow;
+        })
         if (exportType === "xls") {
             const fileType =
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-            transformedData = data.map(row => {
-                const newRow: Record<string, any> = {};
-                headerData.forEach(header => {
-                    const value = row[header?.key];
-                    if (
-                        (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
-                    ) {
-                        newRow[header?.label] = value;
-                    } else {
-                        newRow[header?.label] = value;
-                    }
-                });
-                return newRow;
-            });
             const fileExtension = ".xlsx";
 
             const ws = XLSX.utils.json_to_sheet(transformedData);
@@ -124,54 +141,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
             const finalData = new Blob([excelBuffer], { type: fileType });
 
             FileSaver.saveAs(finalData, kpiTitle + fileExtension);
-
-
         } else {
-            if (headerData?.length > 0) {
-                transformedData = data.map(row => {
-                    const newRow: Record<string, any> = {};
-                    headerData.forEach(header => {
-                        const value = row[header?.key];
-                        // Force Excel to treat numeric-looking strings as text
-                        const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-                        if (
-                            (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
-                        ) {
-                            newRow[header?.label] = `${prefix}"${value}"`;
-                        } else if (shouldWrapInFormula) {
-                            newRow[header?.label] = `${prefix}"${value}"`;
-                        } else {
-                            newRow[header?.label] = value;
-                        }
-                    });
-                    return newRow;
-                });
-            } else {
-                transformedData = data.map(row => {
-                    const newRow: Record<string, any> = {};
-                    Object.entries(row).forEach(([key, value]) => {
-                        const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-
-                        if (
-                            (key === "customerNumber" || key === "phone") && employeeAccess
-                        ) {
-                            newRow[key] = `${prefix}"${value}"`;
-                        } else if (shouldWrapInFormula) {
-                            newRow[key] = `${prefix}"${value}"`;
-                        } else {
-                            newRow[key] = value;
-                        }
-                    });
-                    return newRow;
-                });
-            }
-
             exportFromJSON({
                 data: transformedData,
                 fileName: kpiTitle,
                 exportType,
             });
         }
+
     };
 
     // const csvDownloadFn = (data: Array<Record<string, any>>) => {
