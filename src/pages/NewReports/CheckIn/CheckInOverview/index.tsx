@@ -72,7 +72,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: false,
-    prefix:"#"
+    prefix: "#"
   },
   {
     key: "guestName",
@@ -88,16 +88,10 @@ const headerData1 = [
     isPrivate: true
   },
   {
-    key: "channel",
-    label: "Channel",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "tableName",
-    label: "Table",
+    key: "guestSize",
+    label: "Guest size",
     alignment: "center",
-    isSortable: false,
+    isSortable: true,
   },
   {
     key: "checkInTime",
@@ -112,21 +106,27 @@ const headerData1 = [
     isSortable: false,
   },
   {
-    key: "status",
-    label: "Status",
+    key: "tableName",
+    label: "Table",
     alignment: "center",
-    isSortable: true,
+    isSortable: false,
   },
   {
     key: "waitTime",
     label: "Wait time",
     alignment: "center",
     isSortable: true,
-    suffix:"Mins"
+    suffix: "Mins"
   },
   {
-    key: "guestSize",
-    label: "Guest size",
+    key: "channel",
+    label: "Channel",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "status",
+    label: "Status",
     alignment: "center",
     isSortable: true,
   },
@@ -166,12 +166,12 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
 
   const checkInOverviewHourlyTableData = useMemo(() => {
-    return checkInOverviewHourly?.map((dataToBeMapped: any)=>({
+    return checkInOverviewHourly?.map((dataToBeMapped: any) => ({
       channelName: dataToBeMapped?.channelName,
       checkinHour: dataToBeMapped?.checkinHour,
       totalCheckins: dataToBeMapped?.totalCheckins,
     }))
-  },[checkInOverviewHourly])
+  }, [checkInOverviewHourly])
 
   const checkInOverviewGuestsHourly = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewGuestsHourlySuccess
@@ -179,12 +179,12 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
 
   const checkInOverviewGuestsHourlyMapped = useMemo(() => {
-    return checkInOverviewGuestsHourly?.map((dataToBeMapped: any)=>({
+    return checkInOverviewGuestsHourly?.map((dataToBeMapped: any) => ({
       channelName: dataToBeMapped?.channelName,
       checkinHour: dataToBeMapped?.checkinHour,
       totalGuests: dataToBeMapped?.totalGuests,
     }))
-  },[checkInOverviewGuestsHourly])
+  }, [checkInOverviewGuestsHourly])
 
   const checkInOverviewDailyAndGuest = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewDailyAndGuestSuccess
@@ -350,7 +350,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   }));
 
 
-  const checkInOverviewMapped = checkInOverview && [checkInOverview]?.map((dataTobeMapped: any)=>({
+  const checkInOverviewMapped = checkInOverview && [checkInOverview]?.map((dataTobeMapped: any) => ({
     "totalCheckin": dataTobeMapped?.totalCheckin,
     "totalGuests": dataTobeMapped?.totalGuests,
     "totalCencellation": dataTobeMapped?.totalCencellation,

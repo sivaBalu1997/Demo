@@ -66,10 +66,10 @@ const NewTable: React.FC<NewTableProps> = ({
   tableContainerClassName = "",
   totalElements = 0,
   headers = [],
-  tableRef=null,
+  tableRef = null,
   showRoundedStyleCount = false,
   optionListLoader = false,
-  chartSliceValue="",
+  chartSliceValue = "",
 }) => {
 
   const getToTableHeaderRef = useRef<HTMLDivElement>(null)
@@ -118,7 +118,7 @@ const NewTable: React.FC<NewTableProps> = ({
     }
   }, [loader]);
 
-  const handleSort = (key: string, isNum=false) => {
+  const handleSort = (key: string, isNum = false) => {
 
     let direction: SortConfig["direction"] = "asc";
     if (sortConfig?.key === key && sortConfig?.direction === "asc")
@@ -136,15 +136,15 @@ const NewTable: React.FC<NewTableProps> = ({
     return [...tableData].sort((a, b) => {
       const aValue = a?.[sortConfig?.key] ?? "";
       const bValue = b?.[sortConfig?.key] ?? "";
-    
+
       if (typeof aValue === "number" && typeof bValue === "number") {
         return sortConfig?.direction === "asc" ? aValue - bValue : bValue - aValue;
       }
-    
+
       // If not numbers, compare as strings
       const aString = String(aValue).toLowerCase();
       const bString = String(bValue).toLowerCase();
-    
+
       if (aString < bString) return sortConfig?.direction === "asc" ? -1 : 1;
       if (aString > bString) return sortConfig?.direction === "asc" ? 1 : -1;
       return 0;
@@ -176,8 +176,8 @@ const NewTable: React.FC<NewTableProps> = ({
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    const sanitizedValue = value.replace(/[^a-zA-Z0-9\s,'".\-]/g, "");// allow a-z, A-Z space, 0-9, .,'"-
-    onSearch( sanitizedValue, kpiTitle);
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9\s,'"+().\-]/g, "");// allow a-z, A-Z space, 0-9, .,'"-
+    onSearch(sanitizedValue, kpiTitle);
     setSearchFlag(true);
   };
 
@@ -303,11 +303,11 @@ const NewTable: React.FC<NewTableProps> = ({
   const scrollToTableHeader = () => {
     if (getToTableHeaderRef?.current) {
       getToTableHeaderRef?.current?.scrollIntoView
-      ({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
+        ({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        });
     }
   }
 
@@ -320,7 +320,7 @@ const NewTable: React.FC<NewTableProps> = ({
   };
 
   return initialLoader ? (
-    <TableShimmer  ref={tableRef} />
+    <TableShimmer ref={tableRef} />
   ) : (
     <div className={`new-table-container ${tableContainerClassName}`}>
       {showTableHeader && (
@@ -344,8 +344,8 @@ const NewTable: React.FC<NewTableProps> = ({
                       placeholder="Select Option"
                       className="table-date-dropdown"
                       disabled={false}
-                    // controlClassName="dropdown-control"
-                    loader={optionListLoader}
+                      // controlClassName="dropdown-control"
+                      loader={optionListLoader}
                     />
                   ) : (
                     <TableDateDropdown
@@ -499,8 +499,8 @@ const NewTable: React.FC<NewTableProps> = ({
                       {header?.isSortable && (
                         <SortIcon
                           className={`sort-icon ${sortConfig?.key === header?.key
-                              ? sortConfig?.direction
-                              : ""
+                            ? sortConfig?.direction
+                            : ""
                             }`}
                         />
                       )}
@@ -572,9 +572,9 @@ const NewTable: React.FC<NewTableProps> = ({
                                   : maskPhone(row[header?.key])
                                 : header?.isMonetary
                                   ? formatMonetaryValue(row[header?.key])
-                                  : row[header?.key])||"-"
+                                  : row[header?.key]) || "-"
                               }
-                              {header?.suffix ? `${(row[header?.key] || row[header?.key] === 0) ? ` ${header?.suffix}` : ""}` : ""}
+                              {(row[header?.key] && header?.suffix) ? `${(row[header?.key] || row[header?.key] === 0) ? ` ${header?.suffix}` : ""}` : ""}
                             </div>
                           </td>
                         );
@@ -603,12 +603,12 @@ const NewTable: React.FC<NewTableProps> = ({
                 <div className="results-per-page">
                   <span>Result per page:</span>
                   <div className="options">
-                    {[10, 20, 30]?.map((num) => (
+                    {[10, 20, 30].filter((num) => num <= totalElements + 9).map((num) => (
                       <button
                         key={num}
                         className={`option ${rowsPerPage === num ? "selected" : ""
                           }`}
-                        onClick={(e) => handleRecordPerPageLimitChange(e,num)}
+                        onClick={(e) => handleRecordPerPageLimitChange(e, num)}
                       >
                         {num}
                       </button>
@@ -624,14 +624,14 @@ const NewTable: React.FC<NewTableProps> = ({
             )}
             <ReactPaginate
               nextLabel={
-                <button className="pagination-button prev-button" onClick={()=>scrollToTableHeader()}>
+                <button className="pagination-button prev-button" onClick={() => scrollToTableHeader()}>
                   {width > 600 && <span>Next</span>}
                   <ArrowRight className="arrow-icon" />
                 </button>
               }
               pageLabelBuilder={(page: number) => (
                 <button
-                  onClick={()=>scrollToTableHeader()}
+                  onClick={() => scrollToTableHeader()}
                   className={`${page == currentPage ? "active" : ""
                     } pagination-number-button`}
                 >
@@ -643,8 +643,8 @@ const NewTable: React.FC<NewTableProps> = ({
               }}
               pageCount={totalPages}
               previousLabel={
-                <button className="pagination-button prev-button" 
-                onClick={()=>scrollToTableHeader()}
+                <button className="pagination-button prev-button"
+                  onClick={() => scrollToTableHeader()}
                 >
                   <ArrowLeft className="arrow-icon" />
                   {width > 600 && <span>Prev</span>}

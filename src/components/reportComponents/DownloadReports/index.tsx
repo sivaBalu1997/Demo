@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 import { ReactComponent as TableDownloadOptionsIcon } from "../../../assets/svg/r-options-table.svg";
 import { ReactComponent as PdfDownloadIconUnselected } from "../../../assets/svg/r-pdf-unselected.svg";
 import { ReactComponent as PdfDownloadIconSelected } from "../../../assets/svg/r-pdf-selected.svg";
@@ -94,55 +96,84 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
     const generateDataOutput = (data: Array<Record<string, any>>, exportType: ExportType) => {
         let transformedData;
         const prefix = exportType === exportFromJSON.types.json ? "" : "=";
-    
-        if (headerData?.length > 0) {
+        if (exportType === "xls") {
+            const fileType =
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
             transformedData = data.map(row => {
                 const newRow: Record<string, any> = {};
                 headerData.forEach(header => {
                     const value = row[header?.key];
-    
-                    // Force Excel to treat numeric-looking strings as text
-                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-    
                     if (
                         (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
                     ) {
-                        newRow[header?.label] = `${prefix}"${value}"`;
-                    } else if (shouldWrapInFormula) {
-                        newRow[header?.label] = `${prefix}"${value}"`;
+                        newRow[header?.label] = value;
                     } else {
                         newRow[header?.label] = value;
                     }
                 });
                 return newRow;
             });
+            const fileExtension = ".xlsx";
+
+            const ws = XLSX.utils.json_to_sheet(transformedData);
+
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+
+            const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+            const finalData = new Blob([excelBuffer], { type: fileType });
+
+            FileSaver.saveAs(finalData, kpiTitle + fileExtension);
+
+
         } else {
-            transformedData = data.map(row => {
-                const newRow: Record<string, any> = {};
-                Object.entries(row).forEach(([key, value]) => {
-                    const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
-    
-                    if (
-                        (key === "customerNumber" || key === "phone") && employeeAccess
-                    ) {
-                        newRow[key] = `${prefix}"${value}"`;
-                    } else if (shouldWrapInFormula) {
-                        newRow[key] = `${prefix}"${value}"`;
-                    } else {
-                        newRow[key] = value;
-                    }
+            if (headerData?.length > 0) {
+                transformedData = data.map(row => {
+                    const newRow: Record<string, any> = {};
+                    headerData.forEach(header => {
+                        const value = row[header?.key];
+                        // Force Excel to treat numeric-looking strings as text
+                        const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+                        if (
+                            (header?.key === "customerNumber" || header?.key === "phone") && employeeAccess
+                        ) {
+                            newRow[header?.label] = `${prefix}"${value}"`;
+                        } else if (shouldWrapInFormula) {
+                            newRow[header?.label] = `${prefix}"${value}"`;
+                        } else {
+                            newRow[header?.label] = value;
+                        }
+                    });
+                    return newRow;
                 });
-                return newRow;
+            } else {
+                transformedData = data.map(row => {
+                    const newRow: Record<string, any> = {};
+                    Object.entries(row).forEach(([key, value]) => {
+                        const shouldWrapInFormula = typeof value === "string" && /^\d+$/.test(value);
+
+                        if (
+                            (key === "customerNumber" || key === "phone") && employeeAccess
+                        ) {
+                            newRow[key] = `${prefix}"${value}"`;
+                        } else if (shouldWrapInFormula) {
+                            newRow[key] = `${prefix}"${value}"`;
+                        } else {
+                            newRow[key] = value;
+                        }
+                    });
+                    return newRow;
+                });
+            }
+
+            exportFromJSON({
+                data: transformedData,
+                fileName: kpiTitle,
+                exportType,
             });
         }
-    
-        exportFromJSON({
-            data: transformedData,
-            fileName: kpiTitle,
-            exportType,
-        });
     };
-    
+
     // const csvDownloadFn = (data: Array<Record<string, any>>) => {
     //     const exportType = exportFromJSON.types.csv;
 
@@ -207,8 +238,8 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
         const doc = new jsPDF();
         doc.text(kpiTitle, 14, 10); // Title at the top
-        let headerData=headers;
-        if(!headerData?.length && data?.length>0){
+        let headerData = headers;
+        if (!headerData?.length && data?.length > 0) {
             headerData = Object.keys(data[0]).map(key => ({
                 key,
                 label: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim()
@@ -216,17 +247,18 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
         }
 
         // Prepare the table data
-        const tableColumnHeaders = headerData && headerData?.map((header) =>{ 
-            if(header?.key==="customerNumber"||header?.key==="email"){
-                if(employeeAccess) return header.label;
-            }else{
-             return    header.label
-            }});
-        const tableRows = data && data?.map(row => headerData?.map(header =>{
-            if(header?.key==="customerNumber"||header?.key==="email"){
-                if(employeeAccess) return row[header.key] || ""
-            }else{
-         return row[header.key] ?? ""
+        const tableColumnHeaders = headerData && headerData?.map((header) => {
+            if (header?.key === "customerNumber" || header?.key === "email") {
+                if (employeeAccess) return header.label;
+            } else {
+                return header.label
+            }
+        });
+        const tableRows = data && data?.map(row => headerData?.map(header => {
+            if (header?.key === "customerNumber" || header?.key === "email") {
+                if (employeeAccess) return row[header.key] || ""
+            } else {
+                return row[header.key] ?? ""
             }
 
         }));
@@ -282,14 +314,14 @@ const DownloadReport: React.FC<DownloadReportProps> = ({ tableData = [], headerD
 
     return (
         <div className="table-download-options-container">
-          {tableData?.length ?  <TableDownloadOptionsIcon
+            {tableData?.length ? <TableDownloadOptionsIcon
                 className="table-download-options"
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowDownloadables((val) => !val);
                 }}
-            />:null
-}
+            /> : null
+            }
 
             {showDownloadables && (
                 <>

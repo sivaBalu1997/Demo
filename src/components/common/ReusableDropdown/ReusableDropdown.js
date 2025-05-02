@@ -16,57 +16,64 @@ const DropdownIndicator = (props) => {
 const ReusableDropdown = ({
   options = [],
   value = null,
-  onChange = () => {},
+  onChange = () => { },
   placeholder = '',
-  isSearchable = true,  
+  isSearchable = true,
   dropdownContainerClassName = '',
   dropdownClassName = '',
   dropdownPrefix = '',
-  showSearchIcon=false,
-  onInputChange=()=>{},
-  isLoading=false,
-  LoadingIndicator=() => null,
-  loadingMessage="Loading...",
+  showSearchIcon = false,
+  onInputChange = () => { },
+  isLoading = false,
+  LoadingIndicator = () => null,
+  loadingMessage = "Loading...",
   onLoadMore,
   onLoadPrev,
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-// const MenuList=({ options, children, maxHeight, getValue })=>{
-//   const [value] = getValue();
-//   const height =35
-//   const initialOffset = options.indexOf(value) * height;
-//   return(
-//     <List
-//     height={maxHeight}
-//     itemCount={children.length}
-//     itemSize={height}
-//     initialScrollOffset={initialOffset}
-//   >
-//     {({ index, style }) => <div style={style}>{children[index]}</div>}
-//   </List>
-//   )
-// }
+  // const MenuList=({ options, children, maxHeight, getValue })=>{
+  //   const [value] = getValue();
+  //   const height =35
+  //   const initialOffset = options.indexOf(value) * height;
+  //   return(
+  //     <List
+  //     height={maxHeight}
+  //     itemCount={children.length}
+  //     itemSize={height}
+  //     initialScrollOffset={initialOffset}
+  //   >
+  //     {({ index, style }) => <div style={style}>{children[index]}</div>}
+  //   </List>
+  //   )
+  // }
+
+  const handleInputChange = (inputValue, actionMeta) => {
+    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-'"+()]/g, '');
+    onInputChange(sanitizedValue, actionMeta);
+    return sanitizedValue;
+  };
+
   return (
     <div className={dropdownContainerClassName}>
       <Select
         options={options}
         value={value}
         onChange={onChange}
+        onInputChange={handleInputChange}
         placeholder={placeholder}
         isSearchable={isSearchable}
         className={dropdownClassName}
-        classNamePrefix={`${menuIsOpen?"menu-open ":""} ${dropdownPrefix}`}
+        classNamePrefix={`${menuIsOpen ? "menu-open " : ""} ${dropdownPrefix}`}
         menuIsOpen={menuIsOpen}
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
         // components={{ MenuList }}
-        components={showSearchIcon?{ DropdownIndicator, LoadingIndicator: () => null,LoadingMessage: () => <CustomerDropdownShimmer /> }:null}
-        onInputChange={onInputChange}
-    isLoading={isLoading}
-    loadingMessage={() => loadingMessage}
-    onMenuScrollToTop={onLoadPrev}
-    onMenuScrollToBottom={onLoadMore}
+        components={showSearchIcon ? { DropdownIndicator, LoadingIndicator: () => null, LoadingMessage: () => <CustomerDropdownShimmer /> } : null}
+        isLoading={isLoading}
+        loadingMessage={() => loadingMessage}
+        onMenuScrollToTop={onLoadPrev}
+        onMenuScrollToBottom={onLoadMore}
 
         {...props}
       />

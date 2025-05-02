@@ -142,7 +142,7 @@ const ProductInsights = () => {
   const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
     // please dont remove this console log
     // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
-    switch(kpiTitle) {
+    switch (kpiTitle) {
       case "Top 20 popular":
         dispatch(productInsightsTopPopularRequest({
           locationId: selectedLocation?.value,
@@ -186,7 +186,7 @@ const ProductInsights = () => {
     // console.log(`View details for: ${value}`);
   };
 
-  const cancelledItemsDataForDownload = cancelledItemsData?.map((cancelledItems:any)=>({
+  const cancelledItemsDataForDownload = cancelledItemsData?.map((cancelledItems: any) => ({
     itemCount: cancelledItems?.itemCount,
     itemName: cancelledItems?.itemName,
   }))
@@ -298,11 +298,11 @@ const ProductInsights = () => {
             : chartFilterOptionsForProductReportsCharts}
       />
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
-          <div className="doughnut-chart-with-button" >
-                      <div className="doughnut-head-with-download-container">
-          <h2 className="sales-overview-sub-heading ">Top Revenue Streams</h2>
-                        {!salesByRevenueClassLoading && <DownloadReport kpiTitle="Top Revenue Streams" tableData={salesByRevenueClassAPIRedux}  />}
-                      </div>
+        <div className="doughnut-chart-with-button" >
+          <div className="doughnut-head-with-download-container">
+            <h2 className="sales-overview-sub-heading ">Top Revenue Streams</h2>
+            {!salesByRevenueClassLoading && <DownloadReport kpiTitle="Top Revenue Streams" tableData={salesByRevenueClassAPIRedux} />}
+          </div>
           <ErrorHandler data={salesByRevenueClassAPIRedux} isError={salesByRevenueClassError}>
             <DoughnutChart
               xKey="revenueClass"
@@ -318,10 +318,10 @@ const ProductInsights = () => {
           </ErrorHandler>
         </div>
         <div className="doughnut-chart-with-button" >
-        <div className="doughnut-head-with-download-container">
-          <h2 className="sales-overview-sub-heading ">Cancelled Items</h2>
-                        {!cancelledItemsLoading && <DownloadReport kpiTitle="Cancelled Items" headerData={[{key: "itemCount",label:"Item Count"},{key: "itemName",label:"Item Name"}]}tableData={cancelledItemsDataForDownload}  />}
-                      </div>
+          <div className="doughnut-head-with-download-container">
+            <h2 className="sales-overview-sub-heading ">Cancelled Items</h2>
+            {!cancelledItemsLoading && <DownloadReport kpiTitle="Cancelled Items" headerData={[{ key: "itemCount", label: "Item Count" }, { key: "itemName", label: "Item Name" }]} tableData={cancelledItemsDataForDownload} />}
+          </div>
           <ErrorHandler data={cancelledItemsData} isError={cancelledItemsError} >
             <DoughnutChart
               labelKeys={[{ key: "Name", value: "itemName" }, { key: "Items", value: "itemCount" }]}
@@ -341,10 +341,10 @@ const ProductInsights = () => {
       </div>
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
         <div className="doughnut-chart-with-button">
-        <div className="doughnut-head-with-download-container">
-          <h2 className="sales-overview-sub-heading ">Cancelled Reasons</h2>
-                        {!cancelledReasonsLoading && <DownloadReport kpiTitle="Cancelled Reasons" tableData={cancelledReasonsData}  />}
-                      </div>
+          <div className="doughnut-head-with-download-container">
+            <h2 className="sales-overview-sub-heading ">Cancelled Reasons</h2>
+            {!cancelledReasonsLoading && <DownloadReport kpiTitle="Cancelled Reasons" tableData={cancelledReasonsData} />}
+          </div>
           <ErrorHandler data={cancelledReasonsData} isError={cancelledReasonsError}>
             <DoughnutChart
               labelKeys={[{ key: "Reason", value: "voidedReason" }, { key: "Items", value: "voidedItems" }]}
