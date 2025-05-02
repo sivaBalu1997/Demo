@@ -235,7 +235,7 @@ const NewTable: React.FC<NewTableProps> = ({
       } else if (rowvalue === "Order Cancelled") {
         return " bubble bubble-text-pink-red";
       } else if (rowvalue === "Order Served") {
-        return " bubble-text-diff-green";
+        return " bubble bubble-text-diff-green";
       } else {
         return " bubble bubble-text-brown-one";
       }

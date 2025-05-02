@@ -338,7 +338,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       alignment: "left",
     },
     {
-      key: "orderAmount",
+      key: "orderTotal",
       label: `Order amount`,
       isSortable: true,
       alignment: "right",
@@ -1024,13 +1024,13 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   </div>
 
                   <NewTable
-                    apiEndPoint="/sales/live/tables"
+                    apiEndPoint="/sales/overallOrders"
                     queryParams={{
                       locationId: selectedLocation?.value,
                       startDate: startDate,
                       endDate: endDate,
                     }}
-                    kpiTitle={`Orders Info`}
+                    kpiTitle={`Orders Info (${ordersInfoFromAPIRedux?.totalElements})`}
                     searchQuery={ordersInfoSearchQuery}
                     headerData={ordersInfoTableHeaders}
                     tableData={ordersInfoFromAPIRedux?.content}
@@ -1043,7 +1043,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     searchPlaceHolder="Search by order number, customer name"
                     onSearch={handleSearch}
                     totalElements={ordersInfoFromAPIRedux?.totalElements}
-                    showRoundedStyleCount={true}
+                    showRoundedStyleCount={false}
                     rowNoWrap={true}
                   />
 
