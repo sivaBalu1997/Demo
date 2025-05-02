@@ -837,3 +837,15 @@ export const getDownloadableReport = (payload) => {
         }
     });
 }
+
+export const getOrdersInfo = (payload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    const query=generateQueryParams(payload)
+    return REPORTS_API({
+        method: "get",
+        url: `/sales/overallOrders${query}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}

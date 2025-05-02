@@ -329,5 +329,10 @@ export const GET_TENDER_TYPE_REQUEST = "GET_TENDER_TYPE_REQUEST"
 export const GET_TENDER_TYPE_SUCCESS = "GET_TENDER_TYPE_SUCCESS"
 export const GET_TENDER_TYPE_FAILURE = "GET_TENDER_TYPE_FAILURE"
 
+// Order Info :
+export const ORDER_INFO_REQUEST = "ORDER_INFO_REQUEST"
+export const ORDER_INFO_SUCCESS = "ORDER_INFO_SUCCESS"
+export const ORDER_INFO_FAILURE = "ORDER_INFO_FAILURE"
+
 // TODO: remove logout logic to separate file
 export const LOGOUT = 'LOGOUT';

@@ -191,7 +191,10 @@ import {
     PAID_CANCELLED_ORDERS_FAILURE,
     GET_TENDER_TYPE_REQUEST,
     GET_TENDER_TYPE_SUCCESS,
-    GET_TENDER_TYPE_FAILURE
+    GET_TENDER_TYPE_FAILURE,
+    ORDER_INFO_SUCCESS,
+    ORDER_INFO_REQUEST,
+    ORDER_INFO_FAILURE
 } from "./newReportsConstants";
 
 export const salesSummaryRequest = (data) => {
@@ -1439,5 +1442,20 @@ export const getTenderTypeSuccess = (data) => ({
 
 export const getTenderTypeFailure = (error) => ({
     type: GET_TENDER_TYPE_FAILURE,
+    payload: error
+});
+
+export const ordersInfoRequest = (data) => ({
+    type: ORDER_INFO_REQUEST,
+    payload: data
+});
+
+export const ordersInfoSuccess = (data) => ({
+    type: ORDER_INFO_SUCCESS,
+    payload: data
+});
+
+export const ordersInfoFailure = (error) => ({
+    type: ORDER_INFO_FAILURE,
     payload: error
 });

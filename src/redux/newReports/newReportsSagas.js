@@ -123,7 +123,9 @@ import {
     paidCancelledOrdersFailure,
     getTenderTypeRequest,
     getTenderTypeSuccess,
-    getTenderTypeFailure
+    getTenderTypeFailure,
+    ordersInfoSuccess,
+    ordersInfoFailure,
 } from "./newReportsActions";
 import {
     ACTUAL_SALES_REQUEST,
@@ -184,7 +186,8 @@ import {
     PAID_DINE_IN_ORDERS_REQUEST,
     PAID_OFF_PREMISE_ORDERS_REQUEST,
     PAID_CANCELLED_ORDERS_REQUEST,
-    GET_TENDER_TYPE_REQUEST
+    GET_TENDER_TYPE_REQUEST,
+    ORDER_INFO_REQUEST
 } from "./newReportsConstants";
 import {
     getActualSales,
@@ -242,6 +245,7 @@ import {
     getDownloadableReport,
     getPaidCancelledOrders,
     getTenderTypes,
+    getOrdersInfo,
 } from "./newReportsApi";
 import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
@@ -1278,6 +1282,24 @@ export function* getTenderTypeRequestSaga(action) {
     }
 }
 
+//orderInfoRequestSaga
+export function* orderInfoRequestSaga(action) {
+    try {
+        const response = yield call(getOrdersInfo, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
+        // console.log("response of orderInfoRequestSaga", { decryptedData })
+        if (response.status === 200) {
+            yield put(ordersInfoSuccess(decryptedData));
+        } else {
+            yield put(ordersInfoFailure(decryptedData?.message));
+            showErrorToast(decryptedData?.message);
+        }
+    } catch (error) {
+        yield put(ordersInfoFailure(error));
+        showErrorToast(error.message);
+    }
+}
+
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
@@ -1339,4 +1361,5 @@ export default function* watchNewReportRequest() {
     yield takeLatest(GET_DETAILS_RESTAURANT_REQUEST, getDetailsRestaurantRequestSaga);
     yield takeLatest(GET_DOWNLOADABLE_REPORT_REQUEST, getDownloadableReportRequestSaga);
     yield takeLatest(GET_TENDER_TYPE_REQUEST, getTenderTypeRequestSaga);
+    yield takeLatest(ORDER_INFO_REQUEST, orderInfoRequestSaga);
 }

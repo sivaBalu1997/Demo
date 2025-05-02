@@ -5,6 +5,7 @@ import {
   changeLocation,
   discountSummaryRequest,
   offerSummaryRequest,
+  ordersInfoRequest,
   paymentDetailsRequest,
   salesByChannelRequest,
   salesByRevenueClassRequest,
@@ -217,6 +218,11 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState<number>(1);
   const [rows, setRows] = useState(10)
+
+  const [ordersInfoSearchQuery, setOrdersInfoSearchQuery] = useState<string>("");
+  const [currentPageOrdersInfo, setCurrentPageOrdersInfo] = useState<number>(1);
+  const [ordersInfoPageLimit, setOrdersInfoPageLimit] = useState<number>(10);
+
   const [offerType, setOfferType] = useState<string>("");
   const [voidedReason, setVoidedReason] = useState<string>("");
   const [otherOffer, setOtherOffer] = useState<string>("");
@@ -269,6 +275,76 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   const voidedOrderSummaryError = useSelector((state: any) => state?.newReports?.voidedOrderSummaryFailure);
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode, true)), [countryCode]);
+
+  const ordersInfoFromAPIRedux = useSelector((state: any) => state?.newReports?.ordersInfoSuccess);
+  const ordersInfoFromAPILoader = useSelector((state: any) => state?.newReports?.ordersInfoLoading);
+  const ordersInfoFromAPIError = useSelector((state: any) => state?.newReports?.ordersInfoFailure);
+
+  const ordersInfoTableHeaders: NewTableHeader[] = [
+    {
+      key: "orderNumber",
+      label: "Order number",
+      isSortable: true,
+      alignment: "left",
+      prefix: "#",
+    },
+    {
+      key: "orderDate",
+      label: "Order date",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "orderTime",
+      label: "Order time",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "tableName",
+      label: "Table name",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "customerName",
+      label: "Customer name",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "customerNumber",
+      label: "Customer number",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "orderChannel",
+      label: "Channel",
+      isSortable: true,
+      alignment: "center",
+    },
+    {
+      key: "tableName",
+      label: "Table name",
+      isSortable: true,
+      alignment: "left",
+    },
+    {
+      key: "orderStatus",
+      label: "Order Status",
+      isSortable: false,
+      alignment: "left",
+    },
+    {
+      key: "orderAmount",
+      label: `Order amount`,
+      isSortable: true,
+      alignment: "right",
+      isMonetary: true,
+      prefix: currencySymbol,
+    },
+  ];
 
   // useEffect(()=>{
   // console.log({
@@ -453,6 +529,18 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     setLoadingState(false);
   }, [selectedLocation, startDate, endDate]);
 
+  useEffect(()=>{
+    dispatch(
+      ordersInfoRequest({
+        locationid: selectedLocation?.value,
+        tablePageNo: currentPageOrdersInfo,
+        tableRecordLimit: ordersInfoPageLimit,
+        startDate: startDate,
+        endDate: endDate,
+        search: ordersInfoSearchQuery ?? "",
+      })
+    );
+  },[selectedLocation, startDate, endDate, currentPageOrdersInfo, ordersInfoPageLimit, ordersInfoSearchQuery])
 
   useEffect(() => {
     if (viewType === "discountOffer") {
@@ -503,10 +591,52 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
   };
 
   const handleSearch = (value: string, kpiTitle: string) => {
-
-    setPage(1)
-    setSearchQuery(value)
-  };
+    let search = value;
+    if (search?.[0] === "#") search = search.slice(1);
+    switch (kpiTitle) {
+      case "Refunded orders - ":
+        setPage(1)
+        setSearchQuery(value)
+        dispatch(
+          cancellationSummaryRequest({
+            locationid: selectedLocation?.value,
+            startDate: startDate,
+            endDate: endDate,
+            tablePageNo: page,
+            tableRecordLimit: rows,
+            search: searchQuery,
+            reason: voidedReason
+          })
+        );
+        break;
+      case "By discount - ":
+        setPage(1)
+        setSearchQuery(value)
+        discountSummaryRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          tablePageNo: page,
+          tableRecordLimit: rows,
+          search: searchQuery,
+          offer: offerType
+        })
+        break;
+      case "Orders Info":
+        setCurrentPageOrdersInfo(1)
+        setOrdersInfoSearchQuery(value)
+        dispatch(
+          ordersInfoRequest({
+            locationid: selectedLocation?.value,
+            tablePageNo: currentPageOrdersInfo,
+            tableRecordLimit: ordersInfoPageLimit,
+            startDate: startDate,
+            endDate: endDate,
+            search: ordersInfoSearchQuery,
+          })
+        );
+        break;
+  }};
 
   const handleSummaryView = (view: string, data: any) => {
     resetPagination()
@@ -891,6 +1021,30 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     </ErrorHandler>
                   </div>
 
+                  <NewTable
+                    apiEndPoint="/sales/live/tables"
+                    queryParams={{
+                      locationId: selectedLocation?.value,
+                      startDate: startDate,
+                      endDate: endDate,
+                    }}
+                    kpiTitle={`Orders Info`}
+                    searchQuery={ordersInfoSearchQuery}
+                    headerData={ordersInfoTableHeaders}
+                    tableData={ordersInfoFromAPIRedux?.content}
+                    currentPage={currentPageOrdersInfo}
+                    totalPages={ordersInfoFromAPIRedux?.totalPages ? ordersInfoFromAPIRedux?.totalPages : 1}
+                    onPageChange={setCurrentPageOrdersInfo}
+                    rowsPerPage={ordersInfoPageLimit}
+                    setRowsPerPage={setOrdersInfoPageLimit}
+                    loader={ordersInfoFromAPILoader}
+                    searchPlaceHolder="Search by order number, table name"
+                    onSearch={handleSearch}
+                    totalElements={ordersInfoFromAPIRedux?.totalElements}
+                    showRoundedStyleCount={true}
+                    rowNoWrap={true}
+                  />
+
                   <div className="sales-overview-doughnut-chart-container" style={{ display: "flex", justifyContent: "flex-start", marginTop: "10vh", width: "100%" }} ref={offerRef}>
                     {/* commented out for release */}
                     {/* <div className="doughnut-chart-with-button">
@@ -968,7 +1122,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
             {/* <ErrorHandler data={discountSummary} isError={discountSummaryError} */}
             <NewTable
-              kpiTitle={`By discount - ${offerType}`}
+              kpiTitle={`By discount - `}
               apiEndPoint="/sales/discountSummary"
               queryParams={{ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, offer: offerType }}
               searchQuery={searchQuery}
@@ -989,6 +1143,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               totalElements={discountSummaryTotalElements || 0}
             // rowNoWrap={true}
             showRoundedStyleCount={true}
+            chartSliceValue={offerType}
             />
             {/* </ErrorHandler> */}
           </div>

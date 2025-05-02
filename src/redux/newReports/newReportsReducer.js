@@ -186,7 +186,10 @@ import {
     PAID_CANCELLED_ORDERS_FAILURE,
     GET_TENDER_TYPE_REQUEST,
     GET_TENDER_TYPE_SUCCESS,
-    GET_TENDER_TYPE_FAILURE
+    GET_TENDER_TYPE_FAILURE,
+    ORDER_INFO_REQUEST,
+    ORDER_INFO_SUCCESS,
+    ORDER_INFO_FAILURE
 } from "../newReports/newReportsConstants";
 
 const initialNewReportsState = {
@@ -480,6 +483,11 @@ const initialNewReportsState = {
     tenderTypeLoading: false,
     tenderTypeSuccess: [],
     tenderTypeFailure: false,
+
+    //Orders Info 
+    ordersInfoLoading: false,
+    ordersInfoSuccess: [],
+    ordersInfoFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -1483,7 +1491,21 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                     draft.tenderTypeSuccess = [];
                     draft.tenderTypeFailure = true;
                     break;
-
+                case ORDER_INFO_REQUEST:
+                    draft.ordersInfoLoading = true;
+                    draft.ordersInfoSuccess = [];
+                    draft.ordersInfoFailure = false;
+                    break;
+                case ORDER_INFO_SUCCESS:
+                    draft.ordersInfoLoading = false;
+                    draft.ordersInfoSuccess = action.payload;
+                    draft.ordersInfoFailure = false;
+                    break;
+                case ORDER_INFO_FAILURE:
+                    draft.ordersInfoLoading = false;
+                    draft.ordersInfoSuccess = [];
+                    draft.ordersInfoFailure = true;
+                    break;
                 case LOGOUT:
                     return initialNewReportsState;// TODO: set to all initial state
 
