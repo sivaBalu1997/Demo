@@ -55,6 +55,10 @@ const PerformanceTrend = () => {
     (state: RootState) => state.employee.employeeDetails
   );
 
+  const employeeListsLoading = useSelector(
+    (state: RootState) => state.employee.employeeDetailsLoading
+  );
+
   const salesPerformanceAPIRedux = useSelector(
     (state: any) => state?.staffReports?.staffTrendSalesPerformanceSuccess
   )
@@ -226,6 +230,7 @@ const PerformanceTrend = () => {
 
   const handleClearAllForPill = () => {
     setEmployeeTempArray([{ label: "All", value: "All" }, ...employeeDropdownOptions])
+    console.log([employeeTempArray[0]])
     setEmployeeLabelPill([employeeTempArray[0]])
   }
 
@@ -369,6 +374,7 @@ const PerformanceTrend = () => {
     }
   }
 
+  const trueOrFalse = employeeLabelPill?.some((item) => item?.value === "All")
   
 
   const errorPerformanceData = transformToChartAcceptables({
@@ -406,6 +412,7 @@ const PerformanceTrend = () => {
                   selected as { label: string; value: string }
                 )
               }
+              loader={employeeListsLoading}
             />
           </div>
           <p className='pt-select-employee-clear-text' onClick={handleClearAllForPill}>clear</p>
@@ -431,7 +438,7 @@ const PerformanceTrend = () => {
       <div className='perf-trend-chart-container'>
         <MultiLineChart
           kpiLoaderState={salesPerformanceAPIReduxLoader}
-          kpiTitle='Sales Performance'
+          kpiTitle={trueOrFalse === false ? 'Sales Performance Comparision':'Sales Performance'}
           data={getSalesPerformanceData(selectedTypeForPerformance)}
           showDownloadReport={true}
           showChartFilter={true}
@@ -441,7 +448,7 @@ const PerformanceTrend = () => {
         />
         <MultiLineChart
           kpiLoaderState={revenueImpactAPIReduxLoader}
-          kpiTitle='Revenue Impact'
+          kpiTitle={trueOrFalse === false  ? 'Revenue Impact Comparision':'Revenue Impact'}
           data={getRevenueImpactData(selectedTypeForRevenueImpact)}
           showDownloadReport={true}
           showChartFilter={true}
@@ -451,7 +458,7 @@ const PerformanceTrend = () => {
         />
         <MultiLineChart
           kpiLoaderState={errorPerformanceAPIReduxLoader}
-          kpiTitle='Error Performance'
+          kpiTitle={trueOrFalse === false ? 'Error Performance Comparision':'Error Performance'}
           data={errorPerformanceData}
           showDownloadReport={true}
           showChartFilter={true}
