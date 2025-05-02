@@ -1,5 +1,5 @@
 import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
-import { showSuccessToast, showErrorToast } from "util/toastUtils";
+import { showErrorToast } from "util/toastUtils";
 import {
     liveCheckInOverviewSuccess,
     liveCheckInOverviewFailure,
@@ -83,7 +83,6 @@ export function* liveCheckInOverviewSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInOverviewSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInOverviewFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -99,7 +98,6 @@ export function* liveSeaterAvailabilitySaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInSeaterAvailabilitySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInSeaterAvailabilityFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -115,7 +113,6 @@ export function* liveGuestCountSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInGuestCountSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInGuestCountFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -127,11 +124,10 @@ export function* liveGuestCountSaga(action) {
 
 export function* liveCheckInStatusSaga(action) {
     try {
-        const response = yield call(getLiveCheckInStatus, action.payload);        
-        const decryptedData = decryptJson(response?.data?.encryptedText)      
+        const response = yield call(getLiveCheckInStatus, action.payload);
+        const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInStatusSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInStatusFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -147,7 +143,6 @@ export function* liveAvgWaitTimeSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInAvgWaitTimeSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInAvgWaitTimeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -163,7 +158,6 @@ export function* liveGroupAvgWaitTimeSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInGroupAvgWaitTimeSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInGroupAvgWaitTimeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -179,7 +173,6 @@ export function* liveCheckInTableSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInTableSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInTableFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -195,7 +188,6 @@ export function* liveCheckInTodaySaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(liveCheckInTodaySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInTodayFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -212,7 +204,6 @@ export function* checkInOverviewSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -228,7 +219,6 @@ export function* checkInOverviewHourlySaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewHourlySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewHourlyFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -244,7 +234,6 @@ export function* checkInOverviewGuestsHourlySaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewGuestsHourlySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewGuestsHourlyFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -260,7 +249,6 @@ export function* checkInOverviewDailyAndGuestSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewDailyAndGuestSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewDailyAndGuestFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -276,7 +264,6 @@ export function* checkInOverviewDineInGroupSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewDineInGroupSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewDineInGroupFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -292,7 +279,6 @@ export function* checkInOverviewGuestSizeSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewGuestSizeSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewGuestSizeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -308,7 +294,6 @@ export function* checkInOverviewTableDetailsSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewTableDetailsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewTableDetailsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -324,7 +309,6 @@ export function* checkInOverviewTopCustomerSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewTopCustomerSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewTopCustomerFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -340,7 +324,6 @@ export function* checkInOverviewAvgWaitTimeGroupSaga(action) {
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(checkInOverviewAvgWaitTimeGroupSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(checkInOverviewAvgWaitTimeGroupFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);

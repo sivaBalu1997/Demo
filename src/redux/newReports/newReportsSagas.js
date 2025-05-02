@@ -1,5 +1,5 @@
 import { put, call, takeLatest, debounce } from "redux-saga/effects";
-import { showSuccessToast, showErrorToast } from "util/toastUtils";
+import { showErrorToast } from "util/toastUtils";
 import {
     salesSummarySuccess,
     salesSummaryFailure,
@@ -247,13 +247,14 @@ import { decryptJson } from "util/react-ec-utils";
 import throttle from "lodash.throttle";
 import { getRestaurantDetails } from "redux/auth/authAPI";
 
+
 export function* salesSummaryRequestSaga(action) {
     try {
         const response = yield call(getSalesSummary, action.payload);
         const decryptedData = decryptJson(response?.data?.encryptedText)
         if (response.status === 200) {
             yield put(salesSummarySuccess(decryptedData));
-            // showSuccessToast(decryptedData?.message);
+            // 
         } else {
             yield put(salesSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -270,7 +271,6 @@ export function* salesByItemCategoryRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of salesByItemCategoryRequestSaga", { decryptedData })
             yield put(salesByItemCategorySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(salesByItemCategoryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -287,7 +287,6 @@ export function* salesByRevenueClassRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of salesByRevenueClassRequestSaga", { decryptedData })
             yield put(salesByRevenueClassSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(salesByRevenueClassFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -304,7 +303,6 @@ export function* actualSalesRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of actualSalesRequestSaga", { decryptedData })
             yield put(actualSalesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(actualSalesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -321,7 +319,6 @@ export function* actualSalesThirdPartyRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of actualSalesThirdPartyRequestSaga", { decryptedData })
             yield put(actualSalesThirdPartySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(actualSalesThirdPartyFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -339,7 +336,6 @@ export function* hourlySalesRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of hourlySalesRequestSaga", { decryptedData })
             yield put(hourlySalesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(hourlySalesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -356,7 +352,6 @@ export function* liveDiscountRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of liveDiscountRequestSaga", { decryptedData })
             yield put(liveDiscountSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveDiscountFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -374,7 +369,6 @@ export function* liveOpenSalesRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of liveOpenSalesRequestSaga", { decryptedData })
             yield put(liveOpenSalesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveOpenSalesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -393,7 +387,6 @@ export function* liveOrdersRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of liveOrdersRequestSaga", { decryptedData })
             yield put(liveOrdersSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveOrdersFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -411,15 +404,14 @@ export function* paidDineInRequestSaga(action) {
         // console.log("response of paidDineInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(paidDineInOrdersSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(paidDineInOrdersFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
         }
-     } catch (error) {
-            yield put(paidDineInOrdersFailure(error));
-        }
+    } catch (error) {
+        yield put(paidDineInOrdersFailure(error));
     }
+}
 
 
 //liveRefundsRequestSaga
@@ -430,7 +422,6 @@ export function* liveRefundsRequestSaga(action) {
         // console.log("response of liveRefundsRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(liveRefundsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveRefundsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -448,7 +439,6 @@ export function* liveNetSalesRequestSaga(action) {
         // console.log("response of liveNetSalesRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(liveNetSalesSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveNetSalesFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -466,7 +456,6 @@ export function* liveOrderNonDineInRequestSaga(action) {
         // console.log("response of liveOrderNonDineInRequestSaga ONE", { decryptedData })
         if (response.status === 200) {
             yield put(liveOrderNonDineInSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveOrderNonDineInFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -484,7 +473,6 @@ export function* paidOffPremiseRequestSaga(action) {
         // console.log("response of paidOffPremiseRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(paidOffPremiseOrdersSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(paidOffPremiseOrdersFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -502,7 +490,6 @@ export function* paidCancelledOrdersRequestSaga(action) {
         // console.log("response of paidCancelledOrdersRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(paidCancelledOrdersSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(paidCancelledOrdersFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -520,7 +507,6 @@ export function* discountSummaryRequestSaga(action) {
         // console.log("response of discountSummaryRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(discountSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(discountSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -538,7 +524,6 @@ export function* cancellationSummaryRequestSaga(action) {
         // console.log("response of cancellationSummaryRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(cancellationSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(cancellationSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -556,7 +541,6 @@ export function* employeeStaffTipGratuityRequestSaga(action) {
         // console.log("response of employeeStaffTipGratuityRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(employeeStaffTipGratuitySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(employeeStaffTipGratuityFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -574,7 +558,6 @@ export function* employeeStaffDiscountRequestSaga(action) {
         // console.log("response of employeeStaffDiscountRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(employeeStaffDiscountSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(employeeStaffDiscountFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -592,7 +575,6 @@ export function* employeeStaffPerformanceRequestSaga(action) {
         // console.log("response of employeeStaffPerformanceRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(employeeStaffPerformanceSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(employeeStaffPerformanceFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -610,7 +592,6 @@ export function* employeeStaffActivityRequestSaga(action) {
         if (response.status === 200) {
             // console.log("response of employeeStaffActivityRequestSaga", { decryptedData })
             yield put(employeeStaffActivitySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(employeeStaffActivityFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -628,7 +609,6 @@ export function* dayCheckInRequestSaga(action) {
         // console.log("response of dayCheckInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dayCheckInSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dayCheckInFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -646,7 +626,6 @@ export function* dailyCheckInRequestSaga(action) {
         // console.log("response of dailyCheckInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCheckInSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dailyCheckInFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -664,7 +643,6 @@ export function* dailyGuestRequestSaga(action) {
         // console.log("response of dailyGuestRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyGuestSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dailyGuestFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -682,7 +660,6 @@ export function* dailyCancellationRequestSaga(action) {
         // console.log("response of dailyCancellationRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCancellationSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dailyCancellationFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -702,7 +679,6 @@ export function* hourlyGuestsRequestSaga(action) {
         // console.log("response of hourlyGuestsRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(hourlyGuestsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(hourlyGuestsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -720,7 +696,6 @@ export function* dailyHourlyCheckInRequestSaga(action) {
         // console.log("response of dailyHourlyCheckInRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyHourlyCheckInSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dailyHourlyCheckInFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -738,7 +713,6 @@ export function* dayOverDayGuestRequestSaga(action) {
         // console.log("response of dayOverDayGuestRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dayOverDayGuestSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dayOverDayGuestFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -756,7 +730,6 @@ export function* peakSummaryRequestSaga(action) {
         // console.log("response of peakSummaryRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(peakSummarySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(peakSummaryFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -774,7 +747,6 @@ export function* partySizeRequestSaga(action) {
         // console.log("response of partySizeRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(partySizeSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(partySizeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -792,7 +764,6 @@ export function* customerSizeRequestSaga(action) {
         // console.log("response of customerSizeRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(customerSizeSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(customerSizeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -810,7 +781,6 @@ export function* newCustomerSizeRequestSaga(action) {
         // console.log("response of newCustomerSizeRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(newCustomerSizeSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(newCustomerSizeFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -828,7 +798,6 @@ export function* customeDetailsRequestSaga(action) {
         // console.log("response of customeDetailsRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(customerDetailsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(customerDetailsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -846,7 +815,6 @@ export function* liveCheckInStatusRequestSaga(action) {
         // console.log("response of liveCheckInStatusRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(liveCheckInStatusSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(liveCheckInStatusFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -864,7 +832,6 @@ export function* dailyCheckInStatusRequestSaga(action) {
         // console.log("response of dailyCheckInStatusRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(dailyCheckInStatusSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(dailyCheckInStatusFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -1014,7 +981,6 @@ function* locationDetailsRequestSaga(action) {
         // console.log("response of locationDetailsRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(locationDetailsSuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(locationDetailsFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);
@@ -1211,7 +1177,6 @@ export function* getEmployeeActivityRequestSaga(action) {
         // console.log("response of getEmployeeActivityRequestSaga", { decryptedData })
         if (response.status === 200) {
             yield put(getEmployeeActivitySuccess(decryptedData));
-            showSuccessToast(decryptedData?.message);
         } else {
             yield put(getEmployeeActivityFailure(decryptedData?.message));
             showErrorToast(decryptedData?.message);

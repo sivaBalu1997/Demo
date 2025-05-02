@@ -1,5 +1,5 @@
 import { put, call, takeLatest, debounce, fork } from "redux-saga/effects";
-import { showSuccessToast, showErrorToast } from "util/toastUtils";
+import { showErrorToast } from "util/toastUtils";
 import {
   summaryInsightsCustomerVolumeSuccess,
   summaryInsightsCustomerVolumeFailure,
@@ -65,7 +65,6 @@ export function* summaryInsightsCustomerVolumeSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(summaryInsightsCustomerVolumeSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(summaryInsightsCustomerVolumeFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -84,7 +83,6 @@ export function* summaryInsightsCustomerByTenureSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(summaryInsightsCustomerByTenureSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(summaryInsightsCustomerByTenureFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -103,7 +101,6 @@ export function* summaryInsightsCustomerByTotalSpendSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(summaryInsightsCustomerByTotalSpendSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(
         summaryInsightsCustomerByTotalSpendFailure(decryptedData?.message)
@@ -124,7 +121,6 @@ export function* summaryInsightsCustomerByAvgCoverSizeSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(summaryInsightsCustomerByAvgCoverSizeSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(
         summaryInsightsCustomerByAvgCoverSizeFailure(decryptedData?.message)
@@ -145,7 +141,6 @@ export function* summaryInsightsCustomerByLoyaltyLevelSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(summaryInsightsCustomerByLoyaltyLevelsSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(
         summaryInsightsCustomerByLoyaltyLevelsFailure(decryptedData?.message)
@@ -163,7 +158,6 @@ export function* detailedInsightsCustomerDetailsSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsCustomerDetailsSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(detailedInsightsCustomerDetailsFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -180,7 +174,6 @@ export function* detailedInsightsSummarySaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsSummarySuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(detailedInsightsSummaryFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -196,7 +189,6 @@ export function* detailedInsightsDineInSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsDineInSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(detailedInsightsDineInFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -212,7 +204,6 @@ export function* detailedInsightsOffPremSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsOffPremSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(detailedInsightsOffPremFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -231,7 +222,6 @@ export function* detailedInsightsCustomersOrderSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsCustomerOrderSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(detailedInsightsCustomerOrderFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -247,7 +237,6 @@ export function* detailedInsightsLatestOrderSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsLatestOrderSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(detailedInsightsLatestOrderFailure(decryptedData?.message));
       showErrorToast(decryptedData?.message);
@@ -266,7 +255,6 @@ export function* detailedInsightsCustomersTopFavItemsSaga(action) {
     const decryptedData = decryptJson(response?.data?.encryptedText);
     if (response.status === 200) {
       yield put(detailedInsightsCustomerTopFavItemsSuccess(decryptedData));
-      showSuccessToast(decryptedData?.message);
     } else {
       yield put(
         detailedInsightsCustomerTopFavItemsFailure(decryptedData?.message)

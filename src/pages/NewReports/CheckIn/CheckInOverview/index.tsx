@@ -72,7 +72,7 @@ const headerData1 = [
     label: "Check-in",
     alignment: "left",
     isSortable: false,
-    prefix:"#"
+    prefix: "#"
   },
   {
     key: "guestName",
@@ -122,7 +122,7 @@ const headerData1 = [
     label: "Wait time",
     alignment: "center",
     isSortable: true,
-    suffix:"Mins"
+    suffix: "Mins"
   },
   {
     key: "guestSize",
@@ -166,12 +166,12 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
 
   const checkInOverviewHourlyTableData = useMemo(() => {
-    return checkInOverviewHourly?.map((dataToBeMapped: any)=>({
+    return checkInOverviewHourly?.map((dataToBeMapped: any) => ({
       channelName: dataToBeMapped?.channelName,
       checkinHour: dataToBeMapped?.checkinHour,
       totalCheckins: dataToBeMapped?.totalCheckins,
     }))
-  },[checkInOverviewHourly])
+  }, [checkInOverviewHourly])
 
   const checkInOverviewGuestsHourly = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewGuestsHourlySuccess
@@ -179,12 +179,12 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
 
 
   const checkInOverviewGuestsHourlyMapped = useMemo(() => {
-    return checkInOverviewGuestsHourly?.map((dataToBeMapped: any)=>({
+    return checkInOverviewGuestsHourly?.map((dataToBeMapped: any) => ({
       channelName: dataToBeMapped?.channelName,
       checkinHour: dataToBeMapped?.checkinHour,
       totalGuests: dataToBeMapped?.totalGuests,
     }))
-  },[checkInOverviewGuestsHourly])
+  }, [checkInOverviewGuestsHourly])
 
   const checkInOverviewDailyAndGuest = useSelector(
     (state: any) => state?.checkInReports?.checkInOverviewDailyAndGuestSuccess
@@ -350,7 +350,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
   }));
 
 
-  const checkInOverviewMapped = checkInOverview && [checkInOverview]?.map((dataTobeMapped: any)=>({
+  const checkInOverviewMapped = checkInOverview && [checkInOverview]?.map((dataTobeMapped: any) => ({
     "totalCheckin": dataTobeMapped?.totalCheckin,
     "totalGuests": dataTobeMapped?.totalGuests,
     "totalCencellation": dataTobeMapped?.totalCencellation,
