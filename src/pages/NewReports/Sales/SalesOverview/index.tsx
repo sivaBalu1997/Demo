@@ -317,6 +317,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
       label: "Customer number",
       isSortable: true,
       alignment: "left",
+      isPrivate: true
     },
     {
       key: "orderChannel",
@@ -453,7 +454,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
     return tendorGroups;
   }, [tendorTypes]);
-  
+
   useEffect(() => {
     Promise.all([
       dispatch(salesSummaryRequest({
@@ -529,7 +530,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     setLoadingState(false);
   }, [selectedLocation, startDate, endDate]);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(
       ordersInfoRequest({
         locationid: selectedLocation?.value,
@@ -540,7 +541,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
         search: ordersInfoSearchQuery ?? "",
       })
     );
-  },[selectedLocation, startDate, endDate, currentPageOrdersInfo, ordersInfoPageLimit, ordersInfoSearchQuery])
+  }, [selectedLocation, startDate, endDate, currentPageOrdersInfo, ordersInfoPageLimit, ordersInfoSearchQuery])
 
   useEffect(() => {
     if (viewType === "discountOffer") {
@@ -636,7 +637,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           })
         );
         break;
-  }};
+    }
+  };
 
   const handleSummaryView = (view: string, data: any) => {
     resetPagination()
@@ -817,7 +819,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             storeOptions={locations}
             selectedDate={selectedDateFilterType}
             selectedStore={selectedLocation}
-            setSelectedDate={ handleDateChange}
+            setSelectedDate={handleDateChange}
             setSelectedStore={(store) => dispatch(changeLocation(store))}
           />
           {(salesSummary?.status === "204" && selectedDateFilterType?.value === "Today") ?
@@ -1038,7 +1040,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     rowsPerPage={ordersInfoPageLimit}
                     setRowsPerPage={setOrdersInfoPageLimit}
                     loader={ordersInfoFromAPILoader}
-                    searchPlaceHolder="Search by order number, table name"
+                    searchPlaceHolder="Search by order number, customer name"
                     onSearch={handleSearch}
                     totalElements={ordersInfoFromAPIRedux?.totalElements}
                     showRoundedStyleCount={true}
@@ -1141,9 +1143,9 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               searchPlaceHolder="Search By Staff name"
               onSearch={handleSearch}
               totalElements={discountSummaryTotalElements || 0}
-            // rowNoWrap={true}
-            showRoundedStyleCount={true}
-            chartSliceValue={offerType}
+              // rowNoWrap={true}
+              showRoundedStyleCount={true}
+              chartSliceValue={offerType}
             />
             {/* </ErrorHandler> */}
           </div>

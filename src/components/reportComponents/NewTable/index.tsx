@@ -240,8 +240,7 @@ const NewTable: React.FC<NewTableProps> = ({
         return " bubble bubble-text-brown-one";
       }
 
-    } else if (headerValue === "Order Channel") {
-
+    } else if (headerValue === "Order Channel" || headerValue === "Channel") {
       return " rep-order-channel";
     } else if (headerValue === "Status") {
       if (rowvalue === "queue" || rowvalue === "Queue") {
