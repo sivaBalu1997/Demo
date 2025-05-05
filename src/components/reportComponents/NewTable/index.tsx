@@ -564,7 +564,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                   header?.key
                                 )
                                 : ""}
-                              {row[header?.key] ? header?.prefix : ""}
+                              {(row[header?.key] || row[header?.key] == 0) ? header?.prefix : ""}
                               {(header?.isPrivate
                                 ? visibility[header.key]
                                   ? row[header?.key]
@@ -573,7 +573,7 @@ const NewTable: React.FC<NewTableProps> = ({
                                   ? formatMonetaryValue(row[header?.key])
                                   : row[header?.key]) || "-"
                               }
-                              {(row[header?.key] && header?.suffix) ? `${(row[header?.key] || row[header?.key] === 0) ? ` ${header?.suffix}` : ""}` : ""}
+                              {((row[header?.key] || row[header?.key] == 0) && header?.suffix) ? `${(row[header?.key] || row[header?.key] === 0) ? ` ${header?.suffix}` : ""}` : ""}
                             </div>
                           </td>
                         );
