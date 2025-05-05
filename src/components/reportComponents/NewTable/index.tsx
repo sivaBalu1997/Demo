@@ -36,6 +36,7 @@ interface SortConfig {
 }
 
 const NewTable: React.FC<NewTableProps> = ({
+  displayPurposeKpiTitle = "",
   optionList,
   selectedOption,
   setOptions,
@@ -327,7 +328,7 @@ const NewTable: React.FC<NewTableProps> = ({
           {" "}
           <div className="table-header" ref={getToTableHeaderRef}>
             <div className="table-title-with-count-container">
-              <h2 className="table-title">{kpiTitle}{chartSliceValue ? <p className="chart-slice-value-table">{chartSliceValue}</p> : <></>}</h2>
+              <h2 className="table-title">{displayPurposeKpiTitle ? displayPurposeKpiTitle : kpiTitle}{chartSliceValue ? <p className="chart-slice-value-table">{chartSliceValue}</p> : <></>}</h2>
               {showRoundedStyleCount && tableData?.length > 0 && <p className="table-title-count">{totalElements}</p>}
             </div>
             <div className="table-header-position">
@@ -392,7 +393,7 @@ const NewTable: React.FC<NewTableProps> = ({
                     }}
                     tableData={tableData}
                     headerData={headerData}
-                    kpiTitle={kpiTitle}
+                    kpiTitle={displayPurposeKpiTitle ? displayPurposeKpiTitle : kpiTitle}
                   />
                 )}
               </div>
@@ -401,7 +402,7 @@ const NewTable: React.FC<NewTableProps> = ({
           <div className="table-header-small-screen">
             <div className="table-name-with-download-container">
               <div className="table-title-with-count-container-small-screen">
-                <h2 className="table-title-small-screen">{kpiTitle}{chartSliceValue ? <p className="chart-slice-value-table-small-screen">{chartSliceValue}</p> : <></>}</h2>
+                <h2 className="table-title-small-screen">{displayPurposeKpiTitle ? displayPurposeKpiTitle : kpiTitle}{chartSliceValue ? <p className="chart-slice-value-table-small-screen">{chartSliceValue}</p> : <></>}</h2>
                 {showRoundedStyleCount && tableData?.length > 0 && (
                   <p className="table-title-count-small-screen">{totalElements}</p>
                 )}
@@ -429,7 +430,7 @@ const NewTable: React.FC<NewTableProps> = ({
                   }}
                   tableData={tableData}
                   headerData={headerData}
-                  kpiTitle={kpiTitle}
+                  kpiTitle={displayPurposeKpiTitle ? displayPurposeKpiTitle : kpiTitle}
                 />
               )}
             </div>

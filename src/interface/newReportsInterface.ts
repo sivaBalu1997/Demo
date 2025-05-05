@@ -41,6 +41,7 @@ export interface NewTableData {
 }
 
 export interface NewTableProps {
+  displayPurposeKpiTitle?: string;
   optionList?: { label: string; value: string }[];
   optionListLoader?: boolean;
   selectedOption?: { label: string; value: string };

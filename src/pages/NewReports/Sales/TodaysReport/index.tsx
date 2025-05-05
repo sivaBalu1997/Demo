@@ -1129,6 +1129,7 @@ const TodaysReport: React.FC = () => {
             endDate: currentDate,
           }}
           kpiTitle={`Unpaid Dine-in orders`}
+          displayPurposeKpiTitle='Dine-in Orders'
           searchQuery={liveOrdersSearchQuery}
           headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
           tableData={isMobile ? orderedLiveOrdersDataMobile : orderedLiveOrdersData}
@@ -1152,6 +1153,7 @@ const TodaysReport: React.FC = () => {
             type: "Paid",
           }}
           kpiTitle={`Paid Dine-in orders`}
+          displayPurposeKpiTitle='Dine-in Orders'
           searchQuery={paidDineInOrdersSearchQuery}
           headerData={isMobile ? liveOrdersDineInTableHeadersMobile : liveOrdersDineInTableHeaders}
           tableData={isMobile ? paidDineInOrdersAPIReduxMappedMobile : paidDineInOrdersAPIReduxMapped}
@@ -1174,6 +1176,7 @@ const TodaysReport: React.FC = () => {
             endDate: currentDate,
           }}
           kpiTitle={`Unpaid Off-Premise orders`}
+          displayPurposeKpiTitle='Off-Premise Orders'
           searchQuery={liveOrderNonDineInSearchQuery}
           headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
           tableData={isMobile ? orderedLiveNonDineInDataMobile : orderedLiveNonDineInData}
@@ -1200,6 +1203,7 @@ const TodaysReport: React.FC = () => {
             type: "Paid",
           }}
           kpiTitle={`Paid Off-Premise orders`}
+          displayPurposeKpiTitle='Off-Premise Orders'
           searchQuery={paidOffPremiseOrdersSearchQuery}
           headerData={isMobile ? liveOrderNonDineInTableHeadersMobile : liveOrderNonDineInTableHeaders}
           tableData={isMobile ? paidOffPremiseOrdersAPIReduxMappedMobile : paidOffPremiseOrdersAPIReduxMapped}
@@ -1216,6 +1220,7 @@ const TodaysReport: React.FC = () => {
           showRoundedStyleCount={true}
         />}
         {isSwitchActive && <NewTable
+
           apiEndPoint="/sales/live/canceledOrders"
           queryParams={{
             locationId: selectedLocation?.value,
@@ -1224,6 +1229,7 @@ const TodaysReport: React.FC = () => {
             type: "Paid",
           }}
           kpiTitle={`Paid cancelled orders`}
+          displayPurposeKpiTitle='Cancelled Orders'
           searchQuery={paidCancelledOrdersSearchQuery}
           headerData={isMobile ? paidCancelledOrdersHeaders : paidCancelledOrdersHeaders}
           tableData={isMobile ? paidCancelledOrdersAPIRedux?.content : paidCancelledOrdersAPIRedux?.content}
