@@ -42,6 +42,7 @@ export interface NewTableData {
 
 export interface NewTableProps {
   displayPurposeKpiTitle?: string;
+  kpiTitleForDownloadWithChartSlice?: string,
   optionList?: { label: string; value: string }[];
   optionListLoader?: boolean;
   selectedOption?: { label: string; value: string };

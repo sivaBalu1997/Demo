@@ -174,6 +174,7 @@ const ProductAvailability = () => {
         <NewTable
           kpiTitle={`Availability Items By Channels - `}
           chartSliceValue={selectedValueForChartSlice?.name}
+          kpiTitleForDownloadWithChartSlice={`Availability Items By Channels - ${selectedValueForChartSlice?.name}`}
           optionList={(availabilityDropdownData && [{ label: "All", value: "" },...availabilityDropdownData?.map((opt: any) => ({ label: opt.categoryName, value: opt.categoryId }))] )}
           optionListLoader={availabilityDropdownLoading}
           selectedOption={selectedCategory?.value}

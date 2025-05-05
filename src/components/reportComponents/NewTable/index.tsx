@@ -37,6 +37,7 @@ interface SortConfig {
 
 const NewTable: React.FC<NewTableProps> = ({
   displayPurposeKpiTitle = "",
+  kpiTitleForDownloadWithChartSlice = "",
   optionList,
   selectedOption,
   setOptions,
@@ -383,17 +384,23 @@ const NewTable: React.FC<NewTableProps> = ({
                 </div>
                 {(tableData || apiEndPoint) && headerData && (
                   <DownloadReport
-                    employeeAccess={employeeAccess}
-                    apiParams={{
-                      apiEndPoint: apiEndPoint || "",
-                      ...queryParams,
-                      page: 1,
-                      size: totalElements,
-                      search: searchQuery,
-                    }}
-                    tableData={tableData}
-                    headerData={headerData}
-                    kpiTitle={displayPurposeKpiTitle ? displayPurposeKpiTitle : kpiTitle}
+                  employeeAccess={employeeAccess}
+                  apiParams={{
+                    apiEndPoint: apiEndPoint || "",
+                    ...queryParams,
+                    page: 1,
+                    size: totalElements,
+                    search: searchQuery,
+                  }}
+                  tableData={tableData}
+                  headerData={headerData}
+                  kpiTitle={
+                    kpiTitleForDownloadWithChartSlice
+                    ? kpiTitleForDownloadWithChartSlice
+                    : displayPurposeKpiTitle
+                    ? displayPurposeKpiTitle
+                    : kpiTitle
+                  }
                   />
                 )}
               </div>

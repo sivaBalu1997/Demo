@@ -1151,6 +1151,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
               // rowNoWrap={true}
               showRoundedStyleCount={true}
               chartSliceValue={offerType}
+              kpiTitleForDownloadWithChartSlice={`By Discount - ${offerType}`}
             />
             {/* </ErrorHandler> */}
           </div>
@@ -1169,6 +1170,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             queryParams={{ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, reason: voidedReason }}
 
             kpiTitle={`Refunded Reasons - `}
+            kpiTitleForDownloadWithChartSlice={`Refunded Reasons - ${voidedReason}`}
             chartSliceValue={voidedReason}
             searchQuery={searchQuery}
             headerData={voidedTableHeaders}
