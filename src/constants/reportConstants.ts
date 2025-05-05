@@ -94,7 +94,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
       showMiniGraph: true
     },
     {
-      title: "Refunded",
+      title: "Refund",
       value: "cancelledOrders",
       percentage: "cancelledAmtPercentage",
       isMonetary: true,
@@ -153,7 +153,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
       showMiniGraph: true
     },
     {
-      title: "Refunded",
+      title: "Refund",
       value: "cancelledOrders",
       percentage: "cancelledAmtPercentage",
       isMonetary: true,

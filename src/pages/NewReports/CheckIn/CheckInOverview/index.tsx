@@ -539,7 +539,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                 </h2>
                 <DownloadReport
                   kpiTitle="Dine-in Duration By Groups"
-                  tableData={checkInOverviewDineInGroup}
+                  tableData={checkInOverviewDineInGroup?.filter((dataToBefiltered: any)=>dataToBefiltered?.groupSize !== 0 && dataToBefiltered?.avgDineInDuration !== 0)}
                   headerData={
                     [
                       { key: "day", label: "Day" },
@@ -551,7 +551,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
               </span>
               <ErrorHandler isError={checkInOverviewDineInGroupError} data={checkInOverviewDineInGroup}>
                 <DineInDurationChart
-                  dataList={checkInOverviewDineInGroup}
+                  dataList={checkInOverviewDineInGroup?.filter((dataToBefiltered: any)=>dataToBefiltered?.groupSize !== 0 && dataToBefiltered?.avgDineInDuration !== 0)}
                   loader={isCheckInOverviewDineInGroupLoading}
                 />
               </ErrorHandler>
@@ -562,7 +562,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                 <h1 className="reports-page-heading">Group size Distribution</h1>
                 <DownloadReport
                   kpiTitle="Group size Distrbution"
-                  tableData={checkInOverviewGuestSize}
+                  tableData={checkInOverviewGuestSize?.filter((dataToBeFiltered: any)=>dataToBeFiltered?.groupSize !== 0 && dataToBeFiltered?.guestSize !== 0)}
                   headerData={
                     [
                       { key: "groupSize", label: "Group size" },
@@ -578,7 +578,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                   xAxisTooltipLabel="Party"
                   yAxisTooltipLabel="Guest count"
                   yAxisTooltipAppendInBack=""
-                  dataList={checkInOverviewGuestSize?.map((data: any) => ({
+                  dataList={checkInOverviewGuestSize?.filter((dataToBeFiltered: any)=>dataToBeFiltered?.groupSize !== 0 && dataToBeFiltered?.guestSize !== 0)?.map((data: any) => ({
                     xAxisValue: data.groupSize === 10 ? `Group of 8+` : `Group of ${data.groupSize}`,
                     yAxisValue: Number(data.guestSize),
                   }))}
@@ -638,8 +638,8 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             </div>
             <div>
               <div className="reports-page-sub-header-container">
-                <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-                <DownloadReport kpiTitle="Avg Wait Time by groups"
+                <h1 className="reports-page-heading">Avg Wait Time By groups</h1>
+                <DownloadReport kpiTitle="Avg Wait Time By groups"
                   headerData={
                     [
                       { "key": "groupSize", "label": "Group Size" },

@@ -28,6 +28,8 @@ interface MultiLineChartProps {
         labels: string[];
         datasets: Dataset[];
     };
+    tableData?: Array<Record<string, any>>;
+    headerData?: Array<{ key: string; label: string }>;
 }
 
 // interface TickWithPosition {
@@ -41,7 +43,18 @@ interface CustomDashedGridLinesPlugin {
     beforeDraw: (chart: Chart) => void; // Function to execute before drawing the chart
   }
 
-const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFilterOptions,handleChartFilter, showChartFilter,showDownloadReport,kpiLoaderState, onFailureState }) => {
+const MultiLineChart: React.FC<MultiLineChartProps> = ({ 
+    data, 
+    kpiTitle, 
+    chartFilterOptions, 
+    handleChartFilter, 
+    showChartFilter, 
+    showDownloadReport, 
+    kpiLoaderState, 
+    onFailureState, 
+    tableData = [], 
+    headerData = [],
+}) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart | null>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
@@ -270,7 +283,7 @@ const MultiLineChart: React.FC<MultiLineChartProps> = ({ data, kpiTitle, chartFi
                             disabled={false}
                         />
                     )}
-                    {showDownloadReport && data?.datasets?.length > 0 && <DownloadReport kpiTitle={kpiTitle} tableData={data?.datasets} />}
+                    {showDownloadReport && tableData?.length > 0 && headerData?.length > 0 && <DownloadReport kpiTitle={kpiTitle} tableData={tableData} headerData={headerData} />}
                 </div>
             </div>
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
