@@ -197,6 +197,8 @@ const CheckInLiveReport = () => {
   const liveCheckInAvgWaitTime = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInAvgWaitTimeSuccess
   );
+
+
   const liveCheckInGroupAvgWaitTime = useSelector(
     (state: any) => state?.checkInReports?.liveCheckInGroupAvgWaitTimeSuccess
   );
@@ -369,17 +371,30 @@ const filteredLiveCheckInOverviewKeysForDownloadHeader = useMemo<DownloadHeaderI
 
 const liveCheckInOverviewTableDataMapped = useMemo(() => {
   return liveCheckInOverview && [liveCheckInOverview]?.map((dataToBeMapped: any) => ({
-    totalActive: formatNumberByCountry(dataToBeMapped.totalActive),
-    inQueue: formatNumberByCountry(dataToBeMapped.inQueue),
-    assigned: formatNumberByCountry(dataToBeMapped.assigned),
-    lateShow: formatNumberByCountry(dataToBeMapped.lateShow),
+    totalActive: formatNumberByCountry(dataToBeMapped?.totalActive),
+    inQueue: formatNumberByCountry(dataToBeMapped?.inQueue),
+    assigned: formatNumberByCountry(dataToBeMapped?.assigned),
+    lateShow: formatNumberByCountry(dataToBeMapped?.lateShow),
   }));
 }, [liveCheckInOverview]);
 
+  const liveCheckinAvgWaitTimeRounded = useMemo(()=>{
+    return liveCheckInAvgWaitTime?.map((dataToBeMapped: any)=> ({
+      channel: dataToBeMapped?.channel,
+      waitTime: Math.round(Number(dataToBeMapped?.waitTime)),
+    }))
+  },[liveCheckInAvgWaitTime])
 
+  const liveCheckinAvgWaitTimeRoundedZeroFiltered =  useMemo(()=>{
+    return   liveCheckinAvgWaitTimeRounded
+    ?.filter((dataToBeFiltered: any) => dataToBeFiltered?.waitTime !== 0)
+    ?.map((dataToBeMapped: any) => ({
+      xAxisValue: dataToBeMapped?.channel,
+      yAxisValue: dataToBeMapped?.waitTime,
+    }))
+  },[liveCheckinAvgWaitTimeRounded])
 
-
-
+  
 // const liveCheckinStatusMapped = liveCheckInStatus?.map((data: any) => ({
 //   status: data.status,
 //   count: Number(data.count),
@@ -463,18 +478,21 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">By Status- Check-in</h1>
-              <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show")?.map((data: any) => ({
+              <DownloadReport kpiTitle="By Status- Check-in" headerData={[{key:"status",label:"Status"},{key:"checkInCount",label:"Check-in Count"}]} tableData={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show" && dataToBeFiltered?.count !== 0)?.map((data: any) => ({
                 status: data.status,
                 checkInCount: Number(data.count),
               }))}/>
             </div>
-            <ErrorHandler isError={liveCheckInStatusError} data={liveCheckInStatus}  errorType="checkinNotFound">   
+            <ErrorHandler isError={liveCheckInStatusError} data={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show" && dataToBeFiltered?.count !== 0)?.map((data: any) => ({
+                xAxisValue: data.status,
+                yAxisValue: Number(data.count),
+              }))}  errorType="checkinNotFound">   
             <CustomBarChart
               barColor="#225E96"
               toolTipBorderColor="#225E96"
               xAxisTooltipLabel="Status"
               yAxisTooltipLabel="Check-in Count"
-              dataList={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show")?.map((data: any) => ({
+              dataList={liveCheckInStatus?.filter((dataToBeFiltered: any)=> dataToBeFiltered?.status !== "No Show" && dataToBeFiltered?.count !== 0)?.map((data: any) => ({
                 xAxisValue: data.status,
                 yAxisValue: Number(data.count),
               }))}
@@ -489,29 +507,30 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
               <DownloadReport 
                 kpiTitle="Avg wait time" 
                 headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} 
-                tableData={
-                  liveCheckInAvgWaitTime?.map((dataToBeMapped: any)=> ({
-                  channel: dataToBeMapped?.channel,
-                  waitTime: Math.round(Number(dataToBeMapped?.waitTime)),
-                }))
-            }/>
+                tableData={liveCheckinAvgWaitTimeRoundedZeroFiltered}
+              />
             </div>
-            <ErrorHandler isError={liveCheckInAvgWaitTimeError} data={liveCheckInAvgWaitTime}  errorType="checkinNotFound">   
-            <CustomBarChart
-              barColor="#CE9E0F"
-              toolTipBorderColor="#CE9E0F"
-              xAxisTooltipLabel="Channel"
-              yAxisTooltipLabel="Wait time"
-              yAxisTooltipAppendInBack=" mins"
-              dataList={liveCheckInAvgWaitTime?.map((data: any) => ({
-                xAxisValue: data.channel,
-                // yAxisValue: Number(data.waitTime),
-                yAxisValue: Math.round(Number(data.waitTime)),
-              }))}
-              loader={isLiveCheckInAvgWaitTimeLoading}
-              showLabel={false}
-            />
-               </ErrorHandler>
+            <ErrorHandler
+              isError={liveCheckInAvgWaitTimeError}
+              data={liveCheckinAvgWaitTimeRoundedZeroFiltered}
+              errorType="checkinNotFound">
+              <CustomBarChart
+                barColor="#CE9E0F"
+                toolTipBorderColor="#CE9E0F"
+                xAxisTooltipLabel="Channel"
+                yAxisTooltipLabel="Wait time"
+                yAxisTooltipAppendInBack=" mins"
+                // dataList={liveCheckInAvgWaitTime?.map((data: any) => ({
+                //   xAxisValue: data.channel,
+                //   // yAxisValue: Number(data.waitTime),
+                //   yAxisValue: Math.round(Number(data.waitTime)),
+                // }))}
+                // dataList={liveCheckinAvgWaitTimeRounded?.filter((dataToBeFiltered: any)=>dataToBeFiltered?.waitTime !== 0)}
+                dataList={liveCheckinAvgWaitTimeRoundedZeroFiltered}
+                loader={isLiveCheckInAvgWaitTimeLoading}
+                showLabel={false}
+              />
+            </ErrorHandler>
           </div>
           <div>
             <div className="reports-page-sub-header-container">

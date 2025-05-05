@@ -11,6 +11,7 @@ import StoreFilter from 'components/reportComponents/StoreFilter';
 import useDateFilter from 'hooks/useDateFilter';
 import CustomDropdown from "components/common/customDropdown";
 import "./style.scss";
+import { table } from 'console';
 
 
 const PerformanceTrend = () => {
@@ -86,6 +87,8 @@ const PerformanceTrend = () => {
   const revenueImpactAPIRedux = useSelector(
     (state: any) => state?.staffReports?.staffTrendRevenueImpactPerformanceSuccess
   )
+
+  console.log({revenueImpactAPIRedux})
 
   const revenueImpactAPIReduxLoader = useSelector(
     (state: any) => state?.staffReports?.staffTrendRevenueImpactPerformanceLoading
@@ -171,6 +174,10 @@ const PerformanceTrend = () => {
     setEmployeeLabelPill((prevLabels) =>
       prevLabels?.filter((item) => item?.value !== value)
     );
+    if(employeeLabelPill?.length === 1) {
+      setEmployeeLabelPill([employeeTempArray[0]])
+    }
+    setEmployeeTempArray([{ label: "All", value: "All" }, ...employeeDropdownOptions])
   };
 
   useEffect(() => {
@@ -230,7 +237,7 @@ const PerformanceTrend = () => {
 
   const handleClearAllForPill = () => {
     setEmployeeTempArray([{ label: "All", value: "All" }, ...employeeDropdownOptions])
-    console.log([employeeTempArray[0]])
+    // console.log("1111",employeeTempArray)
     setEmployeeLabelPill([employeeTempArray[0]])
   }
 
@@ -436,16 +443,29 @@ const PerformanceTrend = () => {
         </div>
       </div>
       <div className='perf-trend-chart-container'>
-        <MultiLineChart
-          kpiLoaderState={salesPerformanceAPIReduxLoader}
-          kpiTitle={trueOrFalse === false ? 'Sales Performance Comparision':'Sales Performance'}
-          data={getSalesPerformanceData(selectedTypeForPerformance)}
-          showDownloadReport={true}
-          showChartFilter={true}
-          chartFilterOptions={orderFilterOptionsPerformance}
-          handleChartFilter={handleChartFilter}
-          onFailureState={salesPerformanceAPIReduxError}
-        />
+          <MultiLineChart
+            kpiLoaderState={salesPerformanceAPIReduxLoader}
+            kpiTitle={trueOrFalse === false ? 'Sales Performance Comparision' : 'Sales Performance'}
+            data={getSalesPerformanceData(selectedTypeForPerformance)}
+            showDownloadReport={true}
+            showChartFilter={true}
+            chartFilterOptions={orderFilterOptionsPerformance}
+            handleChartFilter={handleChartFilter}
+            onFailureState={salesPerformanceAPIReduxError}
+            headerData={
+              [
+                {"key":"date", "label":"Date"},
+                {"key": "fullName", "label": "Full Name"},
+                {"key": "tip", "label": "Tip"},
+                {"key": "serviceFee", "label": "Service Fee"},
+                {"key": "discount", "label": "Discount"},
+                {"key": "tax", "label": "Tax"},
+                {"key": "total", "label": "Total"},
+                {"key": "orders", "label": "Orders"}
+              ]
+            }
+            tableData={salesPerformanceAPIRedux}
+          />
         <MultiLineChart
           kpiLoaderState={revenueImpactAPIReduxLoader}
           kpiTitle={trueOrFalse === false  ? 'Revenue Impact Comparision':'Revenue Impact'}
@@ -455,6 +475,17 @@ const PerformanceTrend = () => {
           chartFilterOptions={refundsFilterOptionsRevenueImpact}
           handleChartFilter={handleChartFilter}
           onFailureState={revenueImpactAPIReduxError}
+          headerData={
+            [
+              {"key":"date", "label":"Date"},
+              {"key": "steward", "label": "Steward"},
+              {"key": "voidedAmount", "label": "Voided Amount"},
+              {"key": "voidedItems", "label": "Voided Items"},
+              {"key": "voidedReasons", "label": "Voided Reasons"},
+              {"key": "orderCount", "label": "Order Count"},
+            ]
+          }
+          tableData={revenueImpactAPIRedux}
         />
         <MultiLineChart
           kpiLoaderState={errorPerformanceAPIReduxLoader}
@@ -465,6 +496,14 @@ const PerformanceTrend = () => {
           chartFilterOptions={deletedFilterOptionsErrorPerformance}
           handleChartFilter={handleChartFilter}
           onFailureState={errorPerformanceAPIReduxError}
+          headerData={
+            [
+              {"key": "employeeName", "label": "Employee Name"},
+              {"key":"day", "label":"Date"},
+              {"key": "totalQuantity", "label": "Total Quantity"},
+            ]
+          }
+          tableData={errorPerformanceAPIRedux}
         />
       </div>
     </div>
