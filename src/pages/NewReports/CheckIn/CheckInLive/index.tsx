@@ -46,15 +46,9 @@ const headerData = [
     isPrivate:true
   },
   {
-    key: "channel",
-    label: "Channel",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "tableName",
-    label: "Table",
-    alignment: "left",
+    key: "guestSize",
+    label: "Guest size",
+    alignment: "right",
     isSortable: true,
   },
   {
@@ -70,8 +64,8 @@ const headerData = [
     isSortable: true,
   },
   {
-    key: "liveCheckInStatus",
-    label: "Status",
+    key: "tableName",
+    label: "Table",
     alignment: "left",
     isSortable: true,
   },
@@ -83,9 +77,15 @@ const headerData = [
     suffix: "Mins",
   },
   {
-    key: "guestSize",
-    label: "Guest size",
-    alignment: "right",
+    key: "liveCheckInStatus",
+    label: "Status",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "channel",
+    label: "Channel",
+    alignment: "left",
     isSortable: true,
   },
 ];
@@ -112,15 +112,9 @@ const headerData1 = [
     isPrivate:true
   },
   {
-    key: "channel",
-    label: "Channel",
-    alignment: "left",
-    isSortable: true,
-  },
-  {
-    key: "tableName",
-    label: "Table",
-    alignment: "left",
+    key: "guestSize",
+    label: "Guest size",
+    alignment: "right",
     isSortable: true,
   },
   {
@@ -136,8 +130,8 @@ const headerData1 = [
     isSortable: true,
   },
   {
-    key: "todayCheckInStatus",
-    label: "Status",
+    key: "tableName",
+    label: "Table",
     alignment: "left",
     isSortable: true,
   },
@@ -149,9 +143,15 @@ const headerData1 = [
     suffix: "Mins",
   },
   {
-    key: "guestSize",
-    label: "Guest size",
-    alignment: "right",
+    key: "todayCheckInStatus",
+    label: "Status",
+    alignment: "left",
+    isSortable: true,
+  },
+  {
+    key: "channel",
+    label: "Channel",
+    alignment: "left",
     isSortable: true,
   },
 ];
