@@ -643,8 +643,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const optionsselectthird = orderTypes
       ?.filter(
         (item: any) =>
-          item.typeGroup === "T" &&
-          (item.isEnabled === true || item.isEnabled === 1)
+          item.typeGroup === "T"
       )
       .map((item: any) => item.typeName);
     //  const MealType = useSelector(
@@ -2273,7 +2272,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         {/* DineIn Related */}
 
         <div className="pricing-section">
-          {DineInServiceEnabled && (
+          {/* {DineInServiceEnabled === 1 && ( */}
             <div className="DineInRelated">
               <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
               <span
@@ -2291,9 +2290,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 />
               </span>
             </div>
-          )}
+          {/* )} */}
 
-          {DineInServiceEnabled && showDineIn ? (
+          {showDineIn ? (
             <>
               {Array.isArray(dineinfields) &&
                 dineinfields?.map((entry: any, index: any) => {
@@ -2459,7 +2458,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           )}
 
           {/* OnlineRelated */}
-          {(pickUpIdServiceEnabled === 1 || DeliveryServiceEnabled === 1) && (
+          {(
             <div className="OnlineRelatedNormal">
               <h1 className="OnlineRelatedHeadingNormal">Online</h1>
               <div className="toggleIII">
@@ -2473,7 +2472,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               <div className="onlineselected">
                 {/* PickupRelated */}
 
-                {pickUpIdServiceEnabled === 1 && (
+                {(
                   <>
                     {" "}
                     <div className="PickupRelatedNormal">
@@ -2716,7 +2715,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                   </>
                 )}
 
-                {DeliveryServiceEnabled === 1 && (
+                {(
                   <>
                     <div
                       className={`${
