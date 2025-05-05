@@ -638,8 +638,8 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
             </div>
             <div>
               <div className="reports-page-sub-header-container">
-                <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-                <DownloadReport kpiTitle="Avg Wait Time by groups"
+                <h1 className="reports-page-heading">Avg Wait Time By groups</h1>
+                <DownloadReport kpiTitle="Avg Wait Time By groups"
                   headerData={
                     [
                       { "key": "groupSize", "label": "Group Size" },

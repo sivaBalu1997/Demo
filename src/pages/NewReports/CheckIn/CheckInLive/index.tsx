@@ -440,8 +440,8 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           </div>
           <div>
             <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Seater wise Availability</h1>
-              <DownloadReport kpiTitle="Seater wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
+              <h1 className="reports-page-heading">Seater Wise Availability</h1>
+              <DownloadReport kpiTitle="Seater Wise Availability" headerData={[{key:"seaters",label:"Seater"},{key:"available",label:"Available"}]} tableData={liveCheckInSeaterAvailabilityMapped}/>
             </div>
             <ErrorHandler isError={liveCheckInSeaterAvailabilityError} data={liveCheckInSeaterAvailability}  errorType="checkinNotFound">          
             <MiniCard
@@ -503,9 +503,9 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           </div>
           <div>
             <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Avg wait time</h1>
+              <h1 className="reports-page-heading">Avg Wait Time</h1>
               <DownloadReport 
-                kpiTitle="Avg wait time" 
+                kpiTitle="Avg Wait Time" 
                 headerData={[{key:"channel",label:"Channel"},{key:"waitTime",label:"Wait Time"}]} 
                 tableData={liveCheckinAvgWaitTimeRoundedZeroFiltered}
               />
@@ -534,8 +534,8 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           </div>
           <div>
             <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Avg Wait Time by groups</h1>
-              <DownloadReport kpiTitle="Avg Wait Time by groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
+              <h1 className="reports-page-heading">Avg Wait Time By groups</h1>
+              <DownloadReport kpiTitle="Avg Wait Time By groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   
             <StackedBarChart

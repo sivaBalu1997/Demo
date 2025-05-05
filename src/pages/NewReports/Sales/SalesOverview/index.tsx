@@ -589,7 +589,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
     let search = value;
     if (search?.[0] === "#") search = search.slice(1);
     switch (kpiTitle) {
-      case "Refunded orders - ":
+      case "Refunded Reasons - ":
         setPage(1)
         setSearchQuery(value)
         dispatch(
@@ -604,7 +604,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
           })
         );
         break;
-      case "By discount - ":
+      case "By Discount - ":
         setPage(1)
         setSearchQuery(value)
         discountSummaryRequest({
@@ -830,7 +830,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   <div className="todays-report-sales-overview-box-container-parent">
                     <div className="total-sales-heading-container">
                       <div className="total-sales-overview-header-with-download">
-                        <h2>Total sales Overview</h2>
+                        <h2>Total Sales Overview</h2>
                         <div className="total-sales-info-container">
                           <InfoIcon />
                           <div className="total-sales-info-content">
@@ -838,7 +838,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                           </div>
                         </div>
                       </div>
-                      {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total sales Overview" tableData={countryCode === "US" ? salesOverViewBoxForDownloadingUS : salesOverViewBoxForDownloadingIND} headerData={countryCode === "US" ? salesSummaryHeaderDataForDownloadUS : salesSummaryHeaderDataForDownloadIND} />}
+                      {(!salesSummaryLoader && salesOverViewBoxForDownloading && salesSummaryHeaderForDownloading) && <DownloadReport kpiTitle="Total Sales Overview" tableData={countryCode === "US" ? salesOverViewBoxForDownloadingUS : salesOverViewBoxForDownloadingIND} headerData={countryCode === "US" ? salesSummaryHeaderDataForDownloadUS : salesSummaryHeaderDataForDownloadIND} />}
                     </div>
 
                     <ErrorHandler data={salesSummary} isError={salesSummaryError} errorType="reportNotFound" isLoading={loadingState || salesSummaryLoader}>
@@ -993,8 +993,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
 
                   <div className="sales-charts-parent-container">
                     <div className="sales-chart-download-container">
-                      <h2 className="sales-overview-sub-heading ">By Employees</h2>
-                      {(!staffSalesLoading && staffSalesDataForDownloading && staffSalesHeaderForDownloading) && <DownloadReport kpiTitle="By Employees" tableData={staffSalesDataForDownloading} headerData={staffSalesHeaderForDownloading} />}
+                      <h2 className="sales-overview-sub-heading ">By Staff</h2>
+                      {(!staffSalesLoading && staffSalesDataForDownloading && staffSalesHeaderForDownloading) && <DownloadReport kpiTitle="By Staff" tableData={staffSalesDataForDownloading} headerData={staffSalesHeaderForDownloading} />}
                     </div>
                     <ErrorHandler data={staffSalesData} isError={staffSalesError} >
                       <EmployeeSalesChart
@@ -1078,8 +1078,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                     </div> */}
                     <div className="doughnut-chart-with-button" >
                       <div className="doughnut-head-with-download-container">
-                        <h2 className="sales-overview-sub-heading ">Refunded orders</h2>
-                        {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Voided orders" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading} />}
+                        <h2 className="sales-overview-sub-heading ">Refunded Reasons</h2>
+                        {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Refunded Reasons" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading} />}
                       </div>
                       <ErrorHandler data={voidedOrderSummary} isError={voidedOrderSummaryError} >
                         <DoughnutChart
@@ -1101,8 +1101,8 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                   </div>
                   <div className="sales-charts-parent-container">
                     <div className="sales-chart-download-container">
-                      <h2 className="sales-overview-sub-heading ">By Revenue class</h2>
-                      {(!salesByRevenueClassLoading && salesByRevenueClassForDownloading && salesByRevenueClassHeaderForDownloading) && <DownloadReport kpiTitle="By Revenue class" tableData={salesByRevenueClassForDownloading} headerData={salesByRevenueClassHeaderForDownloading} />}
+                      <h2 className="sales-overview-sub-heading ">By Revenue Class</h2>
+                      {(!salesByRevenueClassLoading && salesByRevenueClassForDownloading && salesByRevenueClassHeaderForDownloading) && <DownloadReport kpiTitle="By Revenue Class" tableData={salesByRevenueClassForDownloading} headerData={salesByRevenueClassHeaderForDownloading} />}
                     </div>
                     <ErrorHandler data={salesByRevenueClass} isError={salesByRevenueClassError} >
                       <RevenueClassChart
@@ -1129,7 +1129,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             </div>
             {/* <ErrorHandler data={discountSummary} isError={discountSummaryError} */}
             <NewTable
-              kpiTitle={`By discount - `}
+              kpiTitle={`By Discount - `}
               apiEndPoint="/sales/discountSummary"
               queryParams={{ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, offer: offerType }}
               searchQuery={searchQuery}
@@ -1168,7 +1168,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
             apiEndPoint="/sales/cancelSummary"
             queryParams={{ locationId: selectedLocation?.value, startDate: startDate, endDate: endDate, reason: voidedReason }}
 
-            kpiTitle={`Refunded orders - `}
+            kpiTitle={`Refunded Reasons - `}
             chartSliceValue={voidedReason}
             searchQuery={searchQuery}
             headerData={voidedTableHeaders}
