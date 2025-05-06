@@ -48,7 +48,7 @@ const headerData = [
   {
     key: "guestSize",
     label: "Guest size",
-    alignment: "right",
+    alignment: "center",
     isSortable: true,
   },
   {
@@ -114,7 +114,7 @@ const headerData1 = [
   {
     key: "guestSize",
     label: "Guest size",
-    alignment: "right",
+    alignment: "center",
     isSortable: true,
   },
   {
