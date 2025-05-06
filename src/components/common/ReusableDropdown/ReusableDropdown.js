@@ -3,7 +3,10 @@ import Select, { components } from 'react-select';
 // import { FixedSizeList as List } from "react-window";
 // Import your custom icon (for example, an SVG as a React component)
 import { ReactComponent as CustomIcon } from '../../../assets/svg/search.svg';
+import { ReactComponent as NoResultsFoundStampIcon } from "../../../assets/svg/r-sad-no-results-found-stamp.svg";
 import CustomerDropdownShimmer from "components/Shimmer/CustomerDropdownShimmer";
+import NoOptionsFound from "components/reportComponents/NoOptionsFound";
+import './style.scss';
 
 const DropdownIndicator = (props) => {
   return (
@@ -29,6 +32,8 @@ const ReusableDropdown = ({
   loadingMessage = "Loading...",
   onLoadMore,
   onLoadPrev,
+  noOptionsComponent = () => null,
+  noOptionsMessage = '',
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -69,12 +74,10 @@ const ReusableDropdown = ({
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
         // components={{ MenuList }}
-        components={showSearchIcon ? { DropdownIndicator, LoadingIndicator: () => null, LoadingMessage: () => <CustomerDropdownShimmer /> } : null}
-        isLoading={isLoading}
+        components={showSearchIcon ? { DropdownIndicator, LoadingIndicator: () => null, LoadingMessage: () => <CustomerDropdownShimmer />, NoOptionsMessage: () => <NoOptionsFound noDataFoundIcon={<NoResultsFoundStampIcon />} noDataFoundMesssage={noOptionsMessage} noOptionsFoundContainerClassName="no-options-found-container" /> } : null} isLoading={isLoading}
         loadingMessage={() => loadingMessage}
         onMenuScrollToTop={onLoadPrev}
         onMenuScrollToBottom={onLoadMore}
-
         {...props}
       />
     </div>
