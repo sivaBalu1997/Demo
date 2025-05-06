@@ -381,7 +381,8 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
   const liveCheckinAvgWaitTimeRounded = useMemo(()=>{
     return liveCheckInAvgWaitTime?.map((dataToBeMapped: any)=> ({
       channel: dataToBeMapped?.channel,
-      waitTime: Math.round(Number(dataToBeMapped?.waitTime)),
+      // waitTime: Math.round(Number(dataToBeMapped?.waitTime)),
+      waitTime: dataToBeMapped?.waitTime,
     }))
   },[liveCheckInAvgWaitTime])
 
@@ -534,8 +535,8 @@ const liveCheckInOverviewTableDataMapped = useMemo(() => {
           </div>
           <div>
             <div className="reports-page-sub-header-container">
-              <h1 className="reports-page-heading">Avg Wait Time By groups</h1>
-              <DownloadReport kpiTitle="Avg Wait Time By groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
+              <h1 className="reports-page-heading">Wait Time By groups</h1>
+              <DownloadReport kpiTitle="Wait Time By groups" headerData={[{key:"groupSize",label:"Group Size"},{key:"avgWaitTime",label:"Avg Wait Time"}]} tableData={liveCheckInGroupAvgWaitTime}/>
             </div>
             <ErrorHandler isError={liveCheckInGroupAvgWaitTimeError} data={liveCheckInGroupAvgWaitTime} errorType="checkinNotFound">   
             <StackedBarChart
