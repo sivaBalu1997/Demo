@@ -3,7 +3,10 @@ import Select, { components } from 'react-select';
 // import { FixedSizeList as List } from "react-window";
 // Import your custom icon (for example, an SVG as a React component)
 import { ReactComponent as CustomIcon } from '../../../assets/svg/search.svg';
+import { ReactComponent as NoResultsFoundStampIcon } from "../../../assets/svg/r-sad-no-results-found-stamp.svg";
 import CustomerDropdownShimmer from "components/Shimmer/CustomerDropdownShimmer";
+import NoOptionsFound from "components/reportComponents/NoOptionsFound";
+import './style.scss';
 
 const DropdownIndicator = (props) => {
   return (
@@ -30,6 +33,8 @@ const ReusableDropdown = ({
   onLoadMore=()=>{},
   onLoadPrev=()=>{},
   searchValue="",
+  noOptionsComponent = () => null,
+  noOptionsMessage = '',
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -70,13 +75,27 @@ const ReusableDropdown = ({
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
         // components={{ MenuList }}
-        components={showSearchIcon ? { DropdownIndicator: value ? DropdownIndicator :null, LoadingIndicator: () => null, LoadingMessage: () => <CustomerDropdownShimmer /> } : null}
+        components={{
+          ...(showSearchIcon ? {
+            DropdownIndicator,
+            LoadingIndicator: () => null,
+            LoadingMessage: () => <CustomerDropdownShimmer />,
+          }:{}),
+          ...(searchValue ? {
+            NoOptionsMessage: () => (
+              <NoOptionsFound
+                noDataFoundIcon={<NoResultsFoundStampIcon />}
+                noDataFoundMesssage={noOptionsMessage}
+                noOptionsFoundContainerClassName="no-options-found-container"
+              />
+            ),
+          }:{}),
+        }}
+        noOptionsMessage={() => searchValue ? "No Option" : null} 
         isLoading={isLoading}
         loadingMessage={() => loadingMessage}
         onMenuScrollToTop={onLoadPrev}
         onMenuScrollToBottom={onLoadMore}
-        noOptionsMessage={() => searchValue ?"No Option":null}
-
         {...props}
       />
     </div>

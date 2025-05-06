@@ -561,6 +561,7 @@ const DetailedInsights = () => {
               showSearchIcon={true}
               onChange={handleDropDownOnChange}
               onInputChange={handleDropDownOnsearch}
+              noOptionsMessage={`No results found for "${searchCustomer}"`}
               searchValue={searchCustomer}
             />
           </div>
