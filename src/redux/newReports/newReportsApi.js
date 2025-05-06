@@ -13,6 +13,10 @@ const LIVE_NET_SALES_ENDPOINT = `/sales/live/net-sales?`;
 
 const LIVE_ORDER_NON_DINE_IN_ENDPOINT = `/sales/live/tracking?`;
 
+const OVERALL_ORDER_NON_DINE_IN_ENDPOINT = `/sales/live/overall-tables?`;
+
+const TRACKER_ENDPOINT = `/sales/live/overall-tracking?`;
+
 const EMPLOYEE_STAFF_TIP_GRATUITY_ENDPOINT = `/sales/employee/staffTipAndGratuity?`;
 
 const EMPLOYEE_STAFF_DISCOUNT_ENDPOINT = `/sales/employee/staffDiscount?`;
@@ -132,15 +136,15 @@ const generateQueryParamsForDownload = (payload) => {
 }
 
 export const getPaidCancelledOrders = (paidCancelledOrdersPayload) => {
-    const token = Store.getState()?.auth?.credentials?.accessToken;
-    const query=generateQueryParams(paidCancelledOrdersPayload)
-    return REPORTS_API({
-        method: "get",
-        url: `/sales/live/canceledOrders${query}`,
-        headers: {
-            Authorization: 'bearer ' + token,
-        }
-    });
+    // const token = Store.getState()?.auth?.credentials?.accessToken;
+    // const query=generateQueryParams(paidCancelledOrdersPayload)
+    // return REPORTS_API({
+    //     method: "get",
+    //     url: `/sales/live/canceledOrders${query}`,
+    //     headers: {
+    //         Authorization: 'bearer ' + token,
+    //     }
+    // });
 };
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
@@ -307,6 +311,47 @@ export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     });
 }
 
+export const getOrderTracker = (liveOrderNonDineInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
+    const {
+        locationid,
+        tablePageNo,
+        tableRecordLimit,
+        searchQuery,
+        type, // this may or may not exist
+      } = liveOrderNonDineInPayload;
+      const baseURL = `${TRACKER_ENDPOINT}locationId=${locationid}&page=${tablePageNo}&size=${tableRecordLimit}&search=${searchQuery || ""}`;
+      const typeParam = type ? `&type=${type}` : "";
+    return REPORTS_API({
+        method: "get",
+        url: `${baseURL}${typeParam}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getOverallOrderNonDineIn = (liveOrderNonDineInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    // &search=${liveOrderNonDineInPayload?.searchQuery || ""}
+    const {
+        locationid,
+        tablePageNo,
+        tableRecordLimit,
+        searchQuery,
+        type, // this may or may not exist
+      } = liveOrderNonDineInPayload;
+      const baseURL = `${OVERALL_ORDER_NON_DINE_IN_ENDPOINT}locationId=${locationid}&page=${tablePageNo}&size=${tableRecordLimit}&search=${searchQuery || ""}`;
+      const typeParam = type ? `&type=${type}` : "";
+    return REPORTS_API({
+        method: "get",
+        url: `${baseURL}${typeParam}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
 export const getDiscountSummary = (discountSummaryPayload) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
     const query = generateQueryParams(discountSummaryPayload)

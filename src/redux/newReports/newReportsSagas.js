@@ -215,6 +215,8 @@ import {
     getLiveNetSales,
     getLiveOpenSales,
     getLiveOrderNonDineIn,
+    getOrderTracker,
+    getOverallOrderNonDineIn,
     getLiveOrders,
     getLiveRefunds,
     getNewCustomerSize,

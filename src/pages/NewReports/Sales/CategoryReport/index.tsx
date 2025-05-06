@@ -410,12 +410,14 @@ const CategoryReport = (props: any) => {
               ""
             )}
           </div>
-          <div>
+
+          {/* TODO: uncomment after BE fixes */}
+          {/* <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
                 {activeBtn == "categories" ? "Categories Overview" : ""}
                 {activeBtn == "items" ? "Items overview" : ""}
-              </h1>
+              </h1> 
               {(!categorySalesSummaryDataLoading && categorySalesSummaryDataArrayForDownloading && categorySalesSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle={activeBtn === "categories" ? "Categories Overview" : activeBtn === "items" ? "Items Overview" : ""} tableData={categorySalesSummaryDataArrayForDownloading} headerData={categorySalesSummaryDataHeaderForDownloading} />}
             </div>
           <ErrorHandler data={categorySalesSummaryData} isError={categorySalesSummaryDataError} isLoading={categorySalesSummaryDataLoading}>
@@ -442,7 +444,7 @@ const CategoryReport = (props: any) => {
               loader={categorySalesSummaryDataLoading}
             />
             </ErrorHandler>
-          </div>
+          </div> */}
           <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">

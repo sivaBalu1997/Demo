@@ -55,7 +55,6 @@ const Employees: React.FC = () => {
     (state: any) => state?.newReports?.employeeSalesOverviewFailure
   );
 
-
   const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
 
   const currencySymbol = countryCode === "US" ? "$" : "₹";

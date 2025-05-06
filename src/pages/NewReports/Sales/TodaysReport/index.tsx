@@ -370,12 +370,12 @@ const TodaysReport: React.FC = () => {
       isSortable: true,
       alignment: "left",
     },
-    {
-      key: "orderStatus",
-      label: "Order Status",
-      isSortable: false,
-      alignment: "left",
-    },
+    // {
+    //   key: "orderStatus",
+    //   label: "Order Status",
+    //   isSortable: false,
+    //   alignment: "left",
+    // },
     {
       key: "tableOccupancyDuration",
       label: "Table occupancy duration",
@@ -859,14 +859,14 @@ const TodaysReport: React.FC = () => {
       })
     );
 
-    dispatch(
-      paidCancelledOrdersRequest({
-        locationid: selectedLocation?.value,
-        tablePageNo: 1,
-        tableRecordLimit: 10,
-        search: "",
-      })
-    );
+    // dispatch(
+    //   paidCancelledOrdersRequest({
+    //     locationid: selectedLocation?.value,
+    //     tablePageNo: 1,
+    //     tableRecordLimit: 10,
+    //     search: "",
+    //   })
+    // );
 
   };
 

@@ -73,10 +73,24 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   );
   const availabilityDays = availabilityDay?.length>0 ? availabilityDay?.filter((data:any)=>data!="All") :[]
   const [data, setData] = useState<DataItem[]>([]);
+  const [flag, setFlag] = useState(true)
   const Days = [
     "All Days",
    ...availabilityDays
   ];
+
+  const getDayNumber = (day: string): number => {
+    const dayMap: Record<string, number> = {
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+      Sunday: 7,
+    };
+    return dayMap[day] || 0; 
+  };
 
   const handleCheckboxChange = (day: any) => {
     let days:any=[]
@@ -84,7 +98,8 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     {
       days?.push("All Days")
     Days?.forEach((data:any,index:any)=>{
-      if(disabledays?.includes(index)){
+      const dayNumber = getDayNumber(data)
+      if(disabledays?.includes(dayNumber)){
          days?.push(data)
       }
     })
@@ -110,17 +125,23 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   useEffect(() => {
     if(checkedItems?.length > 0){
-      if(checkedItems.length==1 && checkedItems[0]=="All Days")
+      if(checkedItems.length==1 && checkedItems[0]=="All Days" && flag)
       {
         setCheckedItems([...Days])
+        setFlag(false)
       }
+    }
+  },[])
+
+  useEffect(() => {
+    if(checkedItems?.length > 0){
       AvailableDatsvaliadtion()
     }
   },[checkedItems])
 
   useEffect(() => {
     const daysToCompare = dateShow
-      ? ["All Days", ...Days?.filter((_, index) => disabledays?.includes(index))]: Days;
+      ? ["All Days", ...Days?.filter((data, index) => disabledays?.includes(getDayNumber(data)))]: Days;
       
     const allOtherDays = daysToCompare?.filter((day) => day !== "All Days");
 
@@ -166,12 +187,13 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const AlldaysDisabled = Days.filter((item, index) =>
     disabledays?.includes(index)
   );
-
+  
   return (
     <div className="DaysCheckContainer1">
       {Days.map((elem, index) => {
         const isChecked = checkedItems?.includes(elem);
-        const isEnabled = dateShow ? index==0?true : disabledays?.includes(index) : true;
+        const dayNumber = getDayNumber(elem);
+        const isEnabled = dateShow ? index==0 ? true : disabledays?.includes(dayNumber) : true;
         return (
           <div key={index}>
             <input

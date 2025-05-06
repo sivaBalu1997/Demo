@@ -698,7 +698,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrderNonDineInSuccess = action.payload;
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = false
-                break;
+                break;  
             case LIVE_ORDER_NON_DINE_IN_FAILURE:
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = false;
