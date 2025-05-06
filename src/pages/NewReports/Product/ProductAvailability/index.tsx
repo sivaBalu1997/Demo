@@ -241,7 +241,18 @@ const ProductAvailability = () => {
                 },
                 {}
               )}
-              barColor={["#67823D","#14A789","#E17100","#FF8C00","#06C167","#EE2637"]}
+              barColor={[
+                "#800080",
+                "#4682B4",
+                "#2E8B57",
+                "#A0522D",
+                "#FFD700",
+                "#00CED1",
+                "#DA70D6",
+                "#F08080",
+                "#8FBC8F",
+                "#B0E0E6"
+              ]}
               barStyle={customBarStyle}
               showGrid={true}
               gridColor="#ccc"
