@@ -101,6 +101,22 @@ const SummaryInsights = () => {
     }
   }, [selectedLocation]);
 
+  const tenureOrder = [
+    ...new Set(summaryInsightsCustomerByTenureData?.map((data: any) => data?.timeline))
+  ] as string[]
+
+  // const tenureOrderConverted = tenureOrder?.map((item, index) => {
+  //   if (index === 0) return item;
+  //   if (index === tenureOrder?.length - 1) return item;
+  //   return `${tenureOrder[0]}-${item}`;
+  // })
+
+  const tenureOrderConverted = tenureOrder?.map((item, index) => {
+    if (index === 0 || index === tenureOrder.length - 1) return item;
+    return `1-${item}`;
+  });
+
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div className="reports-page-container">
@@ -162,10 +178,10 @@ const SummaryInsights = () => {
                 valueKey="customerCount"
                 colorList={["#1F77B4","#17BECF","#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
                 toolTipBorderColor="#17BECF"
-                 tenureOrder ={ [
-                  ...new Set(summaryInsightsCustomerByTenureData?.map((data: any) => data?.timeline))
-                ] as string[]}
-                
+                //  tenureOrder ={ [
+                //   ...new Set(summaryInsightsCustomerByTenureData?.map((data: any) => data?.timeline))
+                // ] as string[]}
+                tenureOrder={tenureOrderConverted}
               />
             </ErrorHandler>
           </div>

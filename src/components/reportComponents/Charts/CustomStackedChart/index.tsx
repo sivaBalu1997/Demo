@@ -114,6 +114,25 @@ function transformDataTenure(
   valueKey: string,
   tenureOrder?: string[] // Add this parameter
 ): ChartData<"bar"> {
+
+  if (tenureOrder) {
+    const firstItem = tenureOrder[0];
+    const lastItem = tenureOrder[tenureOrder.length - 1];
+  
+    dataList = dataList.map(item => {
+      const original = item[xKey];
+      if (original === firstItem || original === lastItem) {
+        return item;
+      }
+  
+      // Replace xKey value to match transformed label
+      return {
+        ...item,
+        [xKey]: `1-${original}`
+      };
+    });
+  }
+
   // Calculate totals for each x-axis category
   const itemTotals: Record<string, number> = {};
   dataList.forEach((item) => {
