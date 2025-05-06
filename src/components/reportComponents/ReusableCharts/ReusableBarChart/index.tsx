@@ -181,6 +181,13 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
             //     maxRotation: 90,
             //     minRotation:60
             //   }
+            ticks: {
+                callback: (value: any, index: number, ticks: any) => {
+                  const label = data.labels?.[index] || "";
+                  const maxLength = 15; // customize this length
+                  return label.length > maxLength ? label.slice(0, maxLength) + "..." : label;
+                },
+              }
         },
             y: {
                 beginAtZero: true,
