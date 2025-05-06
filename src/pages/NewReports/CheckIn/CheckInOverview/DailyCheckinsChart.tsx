@@ -40,7 +40,7 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
     datasets: [
       {
         type: 'line' as const,
-        label: "Check-in count",
+        label: "Check-in",
         borderColor: '#F89B29',
         borderWidth: 2,
         fill: false,
@@ -52,7 +52,7 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
       },
       {
         type: 'bar' as const,
-        label: "Guest count",
+        label: "Guest",
         backgroundColor: '#2682D9',
         data: dataList.map((item) => item.totalGuests),
         borderColor: 'white',
@@ -82,10 +82,21 @@ export const  DailyCheckinsChart: React.FC<ReportProps>=({dataList=[], loader=fa
             },
             label: (tooltipItem: any) => {             
               const dataPoint = tooltipItem.raw;
+              
+              const value = tooltipItem?.formattedValue || 0;
+              const label = tooltipItem?.dataset?.label;
+
+              const labelPrefix =
+              label === "Check-in"
+                ? "Check-in count"
+                : label === "Guest"
+                ? "Guest count"
+                : "Count";
+
               return [
                 `Day: ${weekFullForm(tooltipItem?.label)}`,
-                `Channel: ${tooltipItem?.dataset?.label}`,
-                `Count: ${tooltipItem?.formattedValue||0}`,
+                // `Channel: ${tooltipItem?.dataset?.label}`,
+                `${labelPrefix}: ${tooltipItem?.formattedValue||0}`,
               ];
             },
           },
