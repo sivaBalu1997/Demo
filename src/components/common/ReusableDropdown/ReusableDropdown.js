@@ -30,8 +30,9 @@ const ReusableDropdown = ({
   isLoading = false,
   LoadingIndicator = () => null,
   loadingMessage = "Loading...",
-  onLoadMore,
-  onLoadPrev,
+  onLoadMore=()=>{},
+  onLoadPrev=()=>{},
+  searchValue="",
   noOptionsComponent = () => null,
   noOptionsMessage = '',
   ...props
@@ -74,7 +75,8 @@ const ReusableDropdown = ({
         onMenuOpen={() => setMenuIsOpen(true)}
         onMenuClose={() => setMenuIsOpen(false)}
         // components={{ MenuList }}
-        components={showSearchIcon ? { DropdownIndicator, LoadingIndicator: () => null, LoadingMessage: () => <CustomerDropdownShimmer />, NoOptionsMessage: () => <NoOptionsFound noDataFoundIcon={<NoResultsFoundStampIcon />} noDataFoundMesssage={noOptionsMessage} noOptionsFoundContainerClassName="no-options-found-container" /> } : null} isLoading={isLoading}
+        components={showSearchIcon ? { DropdownIndicator, LoadingIndicator: () => null, LoadingMessage: () => <CustomerDropdownShimmer />, NoOptionsMessage: () => <NoOptionsFound noDataFoundIcon={<NoResultsFoundStampIcon />} noDataFoundMesssage={noOptionsMessage} noOptionsFoundContainerClassName="no-options-found-container" /> } : null} 
+        isLoading={isLoading}
         loadingMessage={() => loadingMessage}
         onMenuScrollToTop={onLoadPrev}
         onMenuScrollToBottom={onLoadMore}

@@ -9,6 +9,7 @@ import ReusableDropdown from "components/common/ReusableDropdown/ReusableDropdow
 import NewTable from "components/reportComponents/NewTable";
 import {
   detailedInsightsCustomerDetailsRequest,
+  detailedInsightsCustomerDetailsReset,
   detailedInsightsCustomerOrderRequest,
   detailedInsightsCustomerTopFavItemsRequest,
   detailedInsightsDineInRequest,
@@ -373,16 +374,22 @@ const DetailedInsights = () => {
 
 
   useEffect(() => {
-    dispatch(
-      detailedInsightsCustomerDetailsRequest({
-        locationId: selectedLocation?.value,
-        startDate: startDate,
-        endDate: endDate,
-        search: searchCustomer,
-        page: 1,
-        size: 20
-      })
-    );
+    if (searchCustomer){      
+      dispatch(
+        detailedInsightsCustomerDetailsRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          search: searchCustomer,
+          page: 1,
+          size: 20
+        })
+      );
+    }else{
+      dispatch(
+        detailedInsightsCustomerDetailsReset()
+      );
+    }
   }, [searchCustomer, selectedLocation, startDate, endDate]);
 
   useEffect(() => {
@@ -483,17 +490,17 @@ const DetailedInsights = () => {
   //   detailedInsightsCustomersTopFavItemsData
   // ])
 
-  const handleDropDownOnChange: any = (e: any) => {
+  const handleDropDownOnChange: any = (e: any) => {  
     setSelectedCustomerPhoneNumber(e.value);
   };
 
-  const handleDropDownOnsearch: any = (e: any) => {
+  const handleDropDownOnsearch: any = (e: any) => {   
     setSearchCustomer(e);
   };
 
   const options = useMemo(
     () =>
-      (detailedInsightsCustomerDetailsData?.content || [])?.map((customerData: any) => ({
+      (searchCustomer?(detailedInsightsCustomerDetailsData?.content || []):[])?.map((customerData: any) => ({
         label: `${customerData?.customerName} - ${customerData?.phoneNumber}`,
         value: `${customerData?.phoneNumber}`,
       })) || [],
@@ -501,26 +508,24 @@ const DetailedInsights = () => {
   )
 
 
-  const loadOptions = async (type: string) => {
-    // console.log("Loading", type);
-    // console.log(detailedInsightsCustomerDetailsData);
-    const page = detailedInsightsCustomerDetailsData?.number + 1
-    let pageNumber = page
-    if (type === "prev" && page > 1) {
-      pageNumber -= 1
-    } else if (type === "next" && page < detailedInsightsCustomerDetailsData?.totalPages - 1) {
-      pageNumber += 1
-    }
+  // const loadOptions = async (type: string) => {
+    // const page = detailedInsightsCustomerDetailsData?.number + 1
+    // let pageNumber = page
+    // if (type === "prev" && page > 1) {
+    //   pageNumber -= 1
+    // } else if (type === "next" && page < detailedInsightsCustomerDetailsData?.totalPages - 1) {
+    //   pageNumber += 1
+    // }
 
-    dispatch(detailedInsightsCustomerDetailsRequest({
-      locationId: selectedLocation?.value,
-      startDate: startDate,
-      endDate: endDate,
-      search: searchCustomer,
-      page: pageNumber,
-      size: 20
-    }))
-  }
+    // dispatch(detailedInsightsCustomerDetailsRequest({
+    //   locationId: selectedLocation?.value,
+    //   startDate: startDate,
+    //   endDate: endDate,
+    //   search: searchCustomer,
+    //   page: pageNumber,
+    //   size: 20
+    // }))
+  // }
 
 
 
@@ -545,8 +550,8 @@ const DetailedInsights = () => {
           {/* </div> */}
           <div className="searchable-dropdown">
             <ReusableDropdown
-              onLoadPrev={() => loadOptions("prev")}
-              onLoadMore={() => loadOptions("next")}
+              // onLoadPrev={() => loadOptions("prev")}
+              // onLoadMore={() => loadOptions("next")}
               isLoading={detailedInsightsCustomerDetailsLoading}
               options={options}
               placeholder="Search by customer name, contact number"
@@ -557,6 +562,7 @@ const DetailedInsights = () => {
               onChange={handleDropDownOnChange}
               onInputChange={handleDropDownOnsearch}
               noOptionsMessage={`No results found for "${searchCustomer}"`}
+              searchValue={searchCustomer}
             />
           </div>
           <div>
