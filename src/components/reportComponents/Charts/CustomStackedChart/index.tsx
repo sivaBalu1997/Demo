@@ -215,6 +215,10 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
         ticks: {
           color: "#555",
           font: { size: 14 },
+          // callback: function (value: string | number) {
+          //   const label = this.getLabelForValue(Number(value));
+          //   return label.length > 15 ? label.slice(0, 12) + "..." : label;
+          // },
         },
         grid: { display: false },
       },
