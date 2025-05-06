@@ -69,9 +69,9 @@ const SidePanelMob = ({roles,handleClose }: SidePanelMobProps) => {
       hasAccess:true,
       submenu: [
         { name: "Sales", path: "/sales-reports" },
-        // { name: "Product", path: "/product-reports" },
-        // { name: "Check-in", path: "/check-in-reports" },
-        // { name: "Customer", path: "/customer-reports" },
+        { name: "Product", path: "/product-reports" },
+        { name: "Check-in", path: "/check-in-reports" },
+        { name: "Customer", path: "/customer-reports" },
         { name: "Reports & Insights", path: "/old-reports" },
         // { name: "Chart JS", path: "/live-reports" },
       ],
