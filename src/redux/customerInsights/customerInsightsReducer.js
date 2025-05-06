@@ -36,6 +36,7 @@ import {
   DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST,
   DETAILED_INSIGHTS_CUSTOMER_DETAILS_SUCCESS,
   DETAILED_INSIGHTS_CUSTOMER_DETAILS_FAILURE,
+  DETAILED_INSIGHTS_CUSTOMER_DETAILS_RESET,
 } from "./customerInsightsConstants";
 
 const initialNewReportsState = {
@@ -183,6 +184,11 @@ export default function checkInReportsReducer(
 
       case DETAILED_INSIGHTS_CUSTOMER_DETAILS_REQUEST:
         draft.detailedInsightsCustomerDetailsLoading = true;
+        draft.detailedInsightsCustomerDetailsSuccess = [];
+        draft.detailedInsightsCustomerDetailsFailure = false;
+        break;
+      case DETAILED_INSIGHTS_CUSTOMER_DETAILS_RESET:
+        draft.detailedInsightsCustomerDetailsLoading = false;
         draft.detailedInsightsCustomerDetailsSuccess = [];
         draft.detailedInsightsCustomerDetailsFailure = false;
         break;
