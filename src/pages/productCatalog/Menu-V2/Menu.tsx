@@ -166,7 +166,7 @@ const Menu = () => {
     if((menuDataSuccess || menuDataFailed) && !menuDataLoading){
       setLoading(false)
     }
-  },[menudatalist])
+  },[menudatalist,menuDataLoading])
 
   useEffect(() => {
     if (Array.isArray(editData) && editData?.length > 0) {
@@ -360,8 +360,6 @@ const Menu = () => {
         name:filtesubItems?.subCategoryName,
         id:filtesubItems?.subCategoryId
       }
-     
-      console.log({filtesubItems});
 
 
 
@@ -473,12 +471,12 @@ const Menu = () => {
                         .map((typeName: any) => {
                           return (
                             typeName?.typeGroup !== "I" &&
-                            typeName?.isEnabled == 1 &&
                             typeName?.availabilityEnabled &&
                             typeName?.typeName
                           );
                         })
                         .filter(Boolean);
+                         
 
                       // const filteredOrderTypes = item?.orderTypes?.filter(
                       //   (type: any) => type.typeGroup !== "I"
@@ -486,7 +484,7 @@ const Menu = () => {
                       const filteredOrderTypes =
                         selectedBranch?.orderTypes?.filter(
                           (type: any) =>
-                            type?.typeGroup !== "I" && type?.isEnabled == 1
+                            type?.typeGroup !== "I"
                         );
                       const allChannels =
                         activeOrderTypes?.length === filteredOrderTypes?.length;
@@ -579,18 +577,15 @@ const Menu = () => {
                                 .map((typeName: any) => {
                                   return (
                                     typeName?.typeGroup !== "I" &&
-                                    typeName?.isEnabled == 1 &&
                                     typeName?.availabilityEnabled &&
                                     typeName?.typeName
                                   );
                                 })
                                 .filter(Boolean);
-
                               const filteredOrderTypes =
                                 selectedBranch?.orderTypes?.filter(
                                   (type: any) =>
-                                    type?.typeGroup !== "I" &&
-                                    type?.isEnabled == 1
+                                    type?.typeGroup !== "I"
                                 );
                               const allChannels =
                                 activeOrderTypes?.length ===
