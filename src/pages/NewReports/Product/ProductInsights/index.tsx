@@ -13,26 +13,12 @@ import ErrorHandler from "components/reportComponents/ErrorHandler";
 import DoughnutChart from 'components/reportComponents/ReusableCharts/ReusableDoughnutChart';
 import { getCurrencySymbol } from 'utils';
 import { chartFilterOptionsForProductReportsCharts, chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends, predefinedColors } from 'constants/reportConstants';
-import { ca } from 'date-fns/locale';
-
-
-interface dataList {
-  xAxisData: string;
-  stackName: string;
-  stackValue: number;
-}
-
-const chartFilterOptions: { value: string, label: string }[] = [
-  { value: "Overall", label: "Overall" },
-  { value: "Weekdays", label: "Weekdays" },
-  { value: "Weekends", label: "Weekends" },
-  { value: "Lunch", label: "Lunch" },
-  { value: "Dinner", label: "Dinner" },
-];
 
 const ProductInsights = () => {
   const [isLeastPopularSelected, setIsLeastPopularSelected] = useState(false);
   const [isLeastPopularRevenueSelected, setIsLeastPopularRevenueSelected] = useState(false);
+  const [chartFilterOptions, setChartFilterOptions] = useState(chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends)
+  const [initiateComponentRender, setInitiateComponentRender] = useState(false);
 
   const locations = useSelector((state: any) => state?.newReports?.storeLocationsList);
   const selectedLocation = useSelector((state: any) => state?.newReports?.selectedLocation);
@@ -89,6 +75,18 @@ const ProductInsights = () => {
 
   const { startDate, endDate, selectedDateFilterType, handleDateChange } = useDateFilter();
 
+  useEffect(() => {
+    const today = new Date().toLocaleDateString('en-GB').split('/').reverse().join('-');
+    const yesterday = new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString('en-GB').split('/').reverse().join('-');
+
+    if (selectedDateFilterType === "Yesterday" || selectedDateFilterType === "Today" || (startDate === endDate && (startDate === today || startDate === yesterday))) {
+      setChartFilterOptions(chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends);
+      setInitiateComponentRender((prevData: boolean) => !prevData)
+      handleChartFilter()
+    } else {
+      setChartFilterOptions(chartFilterOptionsForProductReportsCharts)
+    }
+  }, [startDate, endDate, selectedDateFilterType])
   // useEffect(() => {
   //   console.log({
   //     topLeastPopularData,
@@ -134,12 +132,7 @@ const ProductInsights = () => {
   }, [selectedLocation, startDate, endDate])
 
 
-
-  const datepickerApply = (type: string, data1?: any, data2?: any) => {
-    handleDateChange("Custom Date", data1, data2);
-  };
-
-  const handleChartFilter = (selectedValue: string, kpiTitle: string) => {
+  const handleChartFilter = (selectedValue?: string, kpiTitle?: string) => {
     // please dont remove this console log
     // console.log(`Filter changed to ${selectedValue} for kpiTitle : ${kpiTitle}`);
     switch (kpiTitle) {
@@ -172,6 +165,30 @@ const ProductInsights = () => {
         }));
         break;
       default:
+        dispatch(productInsightsTopPopularRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: chartFilterOptions?.[0]?.value,
+        }));
+        dispatch(productInsightsTopLeastPopularRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: chartFilterOptions?.[0]?.value,
+        }));
+        dispatch(productInsightsTopPopularRevenueRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: chartFilterOptions?.[0]?.value,
+        }));
+        dispatch(productInsightsTopLeastPopularRevenueRequest({
+          locationId: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          filter: chartFilterOptions?.[0]?.value,
+        }));
         break;
     }
   };
@@ -203,8 +220,6 @@ const ProductInsights = () => {
         setSelectedDate={handleDateChange}
         setSelectedStore={(store) => dispatch(changeLocation(store))}
       />
-
-
       <ReusableBarChart
         dataList={topRevenueData}
         loader={topRevenueLoading}
@@ -258,10 +273,8 @@ const ProductInsights = () => {
         isYAxisQuantity={true}
         isSwitchActive={isLeastPopularSelected}
         setIsSwitchActive={() => setIsLeastPopularSelected((prev) => !prev)}
-        chartFilterOptions={
-          selectedDateFilterType?.value === "Yesterday" || selectedDateFilterType?.value === "Today"
-            ? chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends
-            : chartFilterOptionsForProductReportsCharts}
+        chartFilterOptions={chartFilterOptions}
+        reRender={initiateComponentRender}
       />
 
       <ReusableBarChart
@@ -292,10 +305,8 @@ const ProductInsights = () => {
         isYAxisQuantity={false}
         isSwitchActive={isLeastPopularRevenueSelected}
         setIsSwitchActive={() => setIsLeastPopularRevenueSelected((prev) => !prev)}
-        chartFilterOptions={
-          selectedDateFilterType?.value === "Yesterday" || selectedDateFilterType?.value === "Today"
-            ? chartFilterOptionsForProductReportsWithoutWeekdaysAndWeekends
-            : chartFilterOptionsForProductReportsCharts}
+        chartFilterOptions={chartFilterOptions}
+        reRender={initiateComponentRender}
       />
       <div className="sales-overview-doughnut-chart-container" style={{ width: "100%" }} >
         <div className="doughnut-chart-with-button" >
