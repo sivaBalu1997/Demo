@@ -1,0 +1,64 @@
+.report-product-charts-container{
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    .report-product-heading-download-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @media (max-width: 600px){
+            display: none!important ;
+        }
+        .title-switchable-box-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2vw;
+            .report-product-chart-heading{
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 24px;
+                letter-spacing: -0.35px;
+                color: #393939;
+            }
+        }
+        .chart-filter-download-report-container{
+            display: flex;
+            align-items: center;
+            width: 14vw;
+            gap: 2vw;
+            .chart-filter-container{
+                width: 16vw;
+            }
+            .chart-filter-download-report-{
+                display: flex;
+            }
+        }
+    }
+    .sm-report-product-heading-download-container{
+        display: none;
+        flex-direction: column;
+        gap: 2vh;
+        @media (max-width: 600px){
+            display: flex;
+        }
+        .sm-title-chart-filter-download-report-container{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .sm-report-product-chart-heading{
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 24px;
+                letter-spacing: -0.35px;
+                color: #393939;
+            }
+            .sm-chart-filter-container{
+                // background-color: palegreen;
+            }
+        }
+        .sm-switchable-box{
+            // background-color: palevioletred;
+        }
+    }
+}

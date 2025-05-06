@@ -11,6 +11,7 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { signOut } from "../../redux/auth/authActions";
 import SidePanel from "../SidePanel";
+import { clearReportData } from "redux/newReports/newReportsActions";
 
 const options = ["City", "City", "City"];
 const optionsTwo = ["State", "State", "State"];
@@ -34,6 +35,7 @@ const Business = () => {
 
   const logoutUser = () => {
     dispatch(clearMenuData());
+    dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");

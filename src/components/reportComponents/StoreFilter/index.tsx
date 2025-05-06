@@ -1,0 +1,218 @@
+import React, { useEffect, useRef, useState } from "react";
+import { DateObject } from "react-multi-date-picker";
+import { ReactComponent as CalendarIcon } from "../../../assets/svg/calendar.svg";
+import moment from "moment";
+import CustomDropdown from "components/common/customDropdown";
+import ReportsRefreshButton from "../ReportsRefreshButton";
+import DateRangeCompareDropdown from "../DateRangeCompareDropdown";
+import CustomDatePicker from "pages/NewReports/Sales/CategoryReport/CustomDatepicker";
+import "./StoreFilter.scss";
+import { set } from "date-fns";
+
+interface StoreFilterProps {
+  startDate?: string;
+  endDate?: string;
+  selectedDate?: StoreOption;
+  setSelectedDate?: (type: string,date1?:string, date2?:string ) => void;
+  selectedStore?: StoreOption;
+  setSelectedStore?: (store: StoreOption) => void;
+  showDate?: boolean;
+  showStore?: boolean;
+  showRefresh?: boolean;
+  handleRefreshClick?: () => void;
+  storeOptions?: StoreOption[];
+  showComparableDateDropdown?: boolean;
+  onFilterChangeForCompare?: (firstDate: { startDate: string; endDate: string }, secondDate: { startDate: string; endDate: string }) => void;
+}
+interface StoreOption {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+}
+
+const dateOptions: StoreOption[] = [
+  { label: "Yesterday", value: "Yesterday" },
+  { label: "Today", value: "Today" },
+  { label: "This week", value: "This week" },
+  { label: "This month", value: "This month" },
+  { label: "This year", value: "This year" },
+  { label: "Custom Date", value: "Custom Date", icon: <CalendarIcon /> },
+];
+
+const StoreFilter = ({
+  startDate,
+  endDate,
+  selectedDate,
+  setSelectedDate = () => {},
+  selectedStore,
+  setSelectedStore = () => {},
+  handleRefreshClick = () => {},
+  showDate = true,
+  showStore = true,
+  showRefresh = false,
+  storeOptions = [],
+  showComparableDateDropdown = false,
+  onFilterChangeForCompare = () => {},
+}: StoreFilterProps) => {
+
+
+  // const restaurantDetails = useSelector(
+  //   (state: any) => state?.auth?.restaurantDetails?.branch
+  // );
+
+  // const mappedIdWithBranchName: StoreOption[] = restaurantDetails?.map(
+  //   (branchWithId: any) => ({
+  //     value: branchWithId?.id,
+  //     label: branchWithId?.locationName,
+  //   })
+  // );
+  // const [selectedDateRange, setSelectedDateRange] = useState<IDateRange>({
+  //   startDate: formatDateToYYYYMMDD(new Date()),
+  //   endDate: formatDateToYYYYMMDD(new Date())
+  // });
+
+  const [firstDateRange,  setFirstDateRange] = useState({ startDate: "", endDate: "" });
+  const [secondDateRange, setSecondDateRange] = useState({ startDate: "", endDate: "" });
+
+  const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
+  const [isDateSelected, setIsDateSelected] = useState(false);
+
+  useEffect(() => {
+    onFilterChangeForCompare(firstDateRange, secondDateRange);
+  }, [firstDateRange, secondDateRange, onFilterChangeForCompare]);
+
+  const closeBtnOnclick = () => {
+    setSelectedDates([new DateObject(startDate||new Date()), new DateObject(endDate||new Date())]);
+    setIsDateSelected(false);
+    calendarRef.current?.closeCalendar();
+  };
+
+  const applyBtnOnclick = () => {
+    if (selectedDates.length === 2) {
+      setIsDateSelected(true);
+      // If the dates are not already DateObject instances, wrap them:
+      const startDate =
+        selectedDates[0] instanceof DateObject
+          ? selectedDates[0]
+          : new DateObject(selectedDates[0]);
+      const endDate =
+        selectedDates[1] instanceof DateObject
+          ? selectedDates[1]
+          : new DateObject(selectedDates[1]);
+      if (setSelectedDate != null && setSelectedDate != undefined) {
+        setSelectedDate(
+          dateOptions[5]?.value,
+          startDate.format("YYYY-MM-DD"),
+          endDate.format("YYYY-MM-DD")
+        );
+      }
+      calendarRef.current?.closeCalendar();
+
+    }
+  };
+  const calendarRef = useRef<any>(null);
+  function formatDateToYYYYMMDD(date: Date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+  useEffect(() => {
+    setSelectedDates([
+      new DateObject(startDate||new Date()),
+      new DateObject(endDate||new Date())  ]);
+  }, [startDate, endDate]);
+  const handleDateDropdownOnSelect = (option: StoreOption) => {  
+    if (option.value == "Custom Date") {
+      const formattedFromDate = formatDateToYYYYMMDD(new Date(startDate|| ""));
+    const formattedToDate = formatDateToYYYYMMDD(new Date(endDate|| ""));  
+    setSelectedDate(option?.value,  formattedFromDate,   formattedToDate);
+      calendarRef.current?.openCalendar();
+    } else {
+      setIsDateSelected(false);
+      setSelectedDate(option?.value);
+
+    }
+  };
+  return (
+    <div className="reports-filters-section">
+      <div className="category-store-name">
+        <span>Store name</span>
+        <h1>{selectedStore?.label || ""}</h1>
+      </div>
+      <div className="category-dropdown-container">
+        {showDate ? (
+          <div className="category-dropdown-sub-container">
+            <span className="category-dropdown-text">Select date</span>
+            <CustomDropdown
+              onSelect={handleDateDropdownOnSelect}
+              options={dateOptions}
+              value={
+                (selectedDate?.value==="Custom Date"&&startDate&&endDate )
+                  ? {
+                      value: "Custom Date",
+                      label: `${
+                      `${moment(startDate).format("MMM DD")} - ${moment(endDate).format("MMM DD")}`
+                      }`,
+                      icon: <CalendarIcon />,
+                    }
+                  : selectedDate
+              }
+              placeholderClass={isDateSelected ? " range-date-selected" : ""}
+              className="category-dropdown"
+            />
+            <CustomDatePicker
+              containerClassName={"category-date-picker-container"}
+              handleOnChange={setSelectedDates}
+              selectedDates={selectedDates}
+              datePickerContainerClassName="category-custom-datepicker-container"
+              ref={calendarRef}
+              applyBtnOnclick={applyBtnOnclick}
+              closeBtnOnclick={closeBtnOnclick}
+              className="category-custom-datepicker"
+              render={<></>}
+              arrowClassName="category-custom-datepicker-arrow"
+              offsetY={-15}
+            />
+            {/* <Dropdown data={[{id:"1",name:"Princeton",option:"Princeton"}]} className={"category-dropdown"}/> */}
+          </div>
+        ) : null}
+        {showComparableDateDropdown && <div className="comparable-dropdowns-container">
+          <div className="comparable-date-container">
+            <span className="comparable-date-label">Select date</span>
+            <DateRangeCompareDropdown onDateChange={(start, end) => setFirstDateRange({ startDate: start, endDate: end })} />
+          </div>
+          <div className="comparable-date-container">
+            <span className="comparable-date-label">Compare to</span>
+            <DateRangeCompareDropdown onDateChange={(start, end) => setSecondDateRange({ startDate: start, endDate: end })} />
+          </div>
+        </div>
+        }
+        {showStore ? (
+          <div className="category-dropdown-sub-container">
+            <span className="category-dropdown-text">Select store</span>
+            <CustomDropdown
+              onSelect={(option: StoreOption) => setSelectedStore(option)}
+              options={storeOptions}
+              value={selectedStore}
+              className="category-dropdown"
+            />
+          </div>
+        ) : null}
+
+        {showRefresh ? (
+          <div className="category-dropdown-sub-container refresh-btn">
+            <span className="category-dropdown-text"> &nbsp;</span>
+            <ReportsRefreshButton
+              loader={false}
+              onRefreshClick={handleRefreshClick}
+            />
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
+export default StoreFilter;

@@ -1,0 +1,82 @@
+$border-color: #e5e7eb;
+ .table-download-options-container {
+    position: relative;
+    // z-index: 12;
+    background: #ffffff;
+    .table-download-options {
+    // background-color: pink;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    }
+
+    .table-download-options-pop-over {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        width: 15rem;
+        height: auto;
+        padding: 1rem 2rem;
+        border: 1px solid $border-color;
+        border-radius: 0.375rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 100%; 
+        right: -40%;
+        z-index: 15;
+        -webkit-tap-highlight-color: transparent; 
+        @media(max-width: 400px){
+            width: 11rem;
+            top: 110%;
+            right: -11%;
+        }
+
+            .pop-over-title {
+            text-align: left;
+            font-weight: 500;
+            color: #595959;
+            width: 110%;
+            // background-color: pink;
+            }
+
+            .formats-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2vw;
+                width: 100%;
+                @media(max-width: 400px){
+                    gap: 4vw;
+                    width: 100%;
+                }
+
+                .download-icon-with-title {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    // background-color: pink;
+                }
+            }
+            .download-btn{
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 1vw;
+                cursor: pointer;
+                border: 1px solid #e52333;
+                background: #e52333;
+                color: #ffffff;
+                padding: 0.5rem;
+                border-radius: 0.5vw;
+                width: 100%;
+                @media(max-width: 400px){
+                    border-radius: 2.5vw;
+                    width: 122%;
+                }
+            }
+        }
+ }

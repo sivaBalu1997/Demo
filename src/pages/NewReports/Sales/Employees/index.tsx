@@ -1,0 +1,864 @@
+//      NewReports/Employee/index.tsx
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeLocation,
+  employeeStaffActivityRequest,
+  employeeSalesOverviewRequest,
+  getEmployeeActivityRequest,
+  getEmployeeChartSliceTableRequest,
+} from "redux/newReports/newReportsActions";
+import { RootState } from "redux/rootReducer";
+import { getEmployees } from "redux/employee/employeeActions";
+import { EmployeeType } from "interface/employeeInterface";
+import { formatNumberByCountry, transformSalesData } from "utils";
+import { ReactComponent as ArrowLeft } from "../../../../assets/svg/r-arrow-left.svg";
+import { NewTableHeader } from "interface/newReportsInterface";
+import { cardDataForEmployees, cardDataForEmployeesWithoutGratuity } from "constants/reportConstants";
+import StoreFilter from "components/reportComponents/StoreFilter";
+import CustomBarChart from "components/reportComponents/ReusableCharts/CustomBarChart";
+import CardWithMiniGraph from "components/reportComponents/CardWithMiniGraph";
+import CustomDropdown from "components/common/customDropdown";
+import NewTable from "components/reportComponents/NewTable";
+import useDateFilter from "hooks/useDateFilter";
+import ErrorHandler from "components/reportComponents/ErrorHandler";
+import DownloadReport from "components/reportComponents/DownloadReports";
+import "./style.scss";
+
+// Custom Bar Style
+const customBarStyle = {
+  borderRadius: "8px",
+};
+
+const Employees: React.FC = () => {
+  const [employeeVoidRecordLimit, setEmployeeVoidRecordLimit] =
+    useState<number>(10);
+
+  const employeeChartRef = useRef<HTMLDivElement>(null);
+
+  const [showAllActivityTable, setShowAllActivityTable] =
+    useState<boolean>(false);
+  const [selectedValueForChartSlice, setSelectedValueForChartSlice] = useState<
+    string | ""
+  >("");
+  const [currentPageEmployeeVoidActivity, setCurrentPageEmployeeVoidActivity] =
+    useState<number>(1);
+
+  const employeeSalesOverViewFromAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewSuccess
+  );
+  const employeeSalesOverViewFromAPIReduxLoader = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewLoading
+  );
+
+  const employeeSalesOverViewFromAPIReduxError = useSelector(
+    (state: any) => state?.newReports?.employeeSalesOverviewFailure
+  );
+
+  const countryCode = useSelector((state: any) => state?.newReports?.getDetailsRestaurantSuccess?.country);
+
+  const currencySymbol = countryCode === "US" ? "$" : "₹";
+
+
+
+  // useSelector for Table states :
+  const getEmployeeChartSliceTableDataFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.content)
+  const getEmployeeChartSliceTableDataFromAPIReduxTotalElements = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalElements)
+  const getEmployeeChartSliceTotalPagesFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableSuccess?.totalPages)
+  const getEmployeeChartSliceTableDataLoaderFromAPIRedux = useSelector((state: any) => state?.newReports?.employeeChartSliceTableLoading)
+
+  // Generic table states :
+  const [genericTableRecordLimit, setGenericTableRecordLimit] = useState<number>(10);
+  const [searchQueryForGenericTable, setSearchQueryForGenericTable] = useState("");
+  const [currentPageGenericTable, setCurrentPageGenericTable] = useState<number>(1);
+
+  const showChart: boolean = false // for later use - once BE preprod deployed
+
+  const { startDate, endDate, selectedDateFilterType, handleDateChange } =
+    useDateFilter();
+  const dispatch = useDispatch();
+
+  const locations = useSelector(
+    (state: any) => state?.newReports?.storeLocationsList
+  );
+  const selectedLocation = useSelector(
+    (state: any) => state?.newReports?.selectedLocation
+  );
+
+  const employeeVoidActivityAPIRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.content
+  );
+  const employeeVoidActivityTotalPagesRedux = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivitySuccess?.totalPages
+  );
+  const employeeVoidActivityLoading = useSelector(
+    (state: any) => state?.newReports?.employeeStaffActivityLoading
+  );
+  const getEmployeeActivityDataFromAPIRedux = useSelector(
+    (state: any) => state?.newReports?.getemployeeActivitySuccess
+  );
+
+  const getEmployeeActivityDataFromAPIReduxFailure = useSelector(
+    (state: any) => state?.newReports?.getemployeeActivityFailure
+  );
+
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(getEmployees(selectedLocation?.value));
+    }
+  }, [selectedLocation?.value]);
+
+  const getChartSliceTableHeaders = (selectedValueForChartSlice: string) => {
+    switch (selectedValueForChartSlice) {
+      case "Remove tax":
+        return [
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
+        ];
+
+      case "Apply discount":
+        return [
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+        ];
+
+      case "Order edited":
+        return [
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
+        ];
+
+      case "Order cancelled":
+        return [
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
+        ];
+
+      case "Void payment":
+        return [
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
+        ];
+
+      case "Remove tip":
+        return [
+          {
+            key: "orderNumber",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "dateAndTime",
+            label: `Date & Time`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "amount",
+            label: `Amount (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "staffName",
+            label: `Staff name`,
+            isSortable: true,
+            alignment: "left",
+          },
+        ];
+
+      case "Remove service tax":
+        return [
+          {
+            key: "orderNumber",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "dateAndTime",
+            label: `Date& Time`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "amount",
+            label: `Amount (${currencySymbol})`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "staffName",
+            label: `Staff name`,
+            isSortable: true,
+            alignment: "left",
+          },
+        ];
+
+      case "Others":
+        return [
+          {
+            key: "orderNo",
+            label: "Order number",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "staffId",
+            label: `Staff Id`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "createdTime",
+            label: "Created time",
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "actionType",
+            label: `Action Type`,
+            isSortable: true,
+            alignment: "left",
+          },
+          {
+            key: "fromDetails",
+            label: `From details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "toDetails",
+            label: `To details`,
+            isSortable: true,
+            alignment: "right",
+          },
+          {
+            key: "staffName",
+            label: `Staff Name`,
+            isSortable: true,
+            alignment: "left",
+          },
+        ];
+
+      default:
+        return [];
+    }
+  };
+
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        employeeStaffActivityRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: employeeVoidRecordLimit,
+        })
+      );
+    }
+  }, [
+    selectedLocation,
+    startDate,
+    endDate,
+    currentPageEmployeeVoidActivity,
+    employeeVoidRecordLimit,
+  ]);
+
+  const datepickerApply = (data1: any, data2: any) => {
+    handleDateChange("Custom Date", data1, data2);
+  };
+
+  const newTableHeaders: NewTableHeader[] = [
+    { key: "steward", label: `Steward`, isSortable: true, alignment: "left" },
+    {
+      key: "voidedAmount",
+      label: `Voided amount (${currencySymbol})`,
+      isSortable: true,
+      alignment: "right",
+    },
+    {
+      key: "voidedItems",
+      label: `Voided items`,
+      isSortable: false,
+      alignment: "left",
+    },
+    {
+      key: "voidedReasons",
+      label: `Voided reasons`,
+      isSortable: false,
+      alignment: "left",
+    },
+  ];
+
+  const handleSearch = (value: string, kpiTitle: string) => {
+    setSearchQueryForGenericTable(value);
+    switch (kpiTitle) {
+      case "Employee Void Activity":
+        if (selectedLocation?.value) {
+          dispatch(
+            employeeStaffActivityRequest({
+              locationid: selectedLocation?.value,
+              startDate: startDate,
+              endDate: endDate,
+              tablePageNo: currentPageEmployeeVoidActivity,
+              tableRecordLimit: employeeVoidRecordLimit,
+            })
+          );
+        }
+        break;
+
+      default:
+        console.warn(`Unknown KPI title: ${kpiTitle}`);
+    }
+  };
+
+  const chartDataFromAPIRedux = getEmployeeActivityDataFromAPIRedux?.map(
+    (data: any) => ({ name: data?.actionType, value: data?.extractedValue })
+  );
+
+  const chartDataFromAPIReduxOthers =
+    getEmployeeActivityDataFromAPIRedux?.reduce((acc: any[], data: any) => {
+      if (
+        data.actionType === "Order edited" ||
+        data.actionType === "Order cancelled"
+      ) {
+        const existingOthers = acc.find((item) => item.name === "Others");
+        if (existingOthers) {
+          existingOthers.value += data.extractedValue;
+        } else {
+          acc.push({ name: "Others", value: data.extractedValue });
+        }
+      } else {
+        acc.push({ name: data.actionType, value: data.extractedValue });
+      }
+      return acc;
+    }, []);
+
+  // console.log("RRR",{chartDataFromAPIReduxOthers})
+
+  const tooltipDataFromAPI = getEmployeeActivityDataFromAPIRedux?.reduce(
+    (acc: any, data: any) => {
+      acc[data.actionType] = {
+        tooltipContent: `Value: ${data.extractedValue}`,
+      };
+      return acc;
+    },
+    {}
+  );
+
+  const tooltipDataFromAPIOthers = getEmployeeActivityDataFromAPIRedux?.reduce(
+    (acc: any, data: any) => {
+      if (
+        data.actionType === "Order edited" ||
+        data.actionType === "Order cancelled"
+      ) {
+        if (acc["Others"]) {
+          acc["Others"].tooltipContent = `Value: ${parseFloat(acc["Others"].tooltipContent.split(": ")[1]) +
+            data.extractedValue
+            }`;
+        } else {
+          acc["Others"] = { tooltipContent: `Value: ${data.extractedValue}` };
+        }
+      } else {
+        acc[data.actionType] = {
+          tooltipContent: `Value: ${data.extractedValue}`,
+        };
+      }
+      return acc;
+    },
+    {}
+  );
+
+  // console.log("RR",{tooltipDataFromAPIOthers})
+
+  // Chart Data
+  const chartData = [
+    { name: "Add discount", value: 240.5 },
+    { name: "Others", value: 180.0 },
+    { name: "Complementary", value: 320.75 },
+    { name: "Remove Gratuity", value: 200.0 },
+  ];
+
+  // Tooltip Data
+  const tooltipData = {
+    "Add discount": { tooltipContent: "Discount applied successfully!" },
+    Others: { tooltipContent: "Miscellaneous changes recorded." },
+    Complementary: { tooltipContent: "This item was given for free." },
+    "Remove Gratuity": { tooltipContent: "Gratuity charges removed." },
+  };
+
+  // Custom Bar Style
+  const customBarStyle = {
+    borderRadius: "8px",
+  };
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(getEmployees(selectedLocation?.value));
+    }
+  }, [selectedLocation?.value]);
+
+  const employeeLists: EmployeeType[] = useSelector(
+    (state: RootState) => state.employee.employeeDetails
+  );
+
+
+  const employeeLoader = useSelector(
+    (state: RootState) => state.employee.employeeDetailsLoading
+  );
+
+  const activeEmployees = employeeLists && employeeLists?.filter(employee => employee?.isActive);
+
+  // console.log({employeeLists})
+  // console.log({activeEmployees})
+
+  const employeeDropdownOptions =
+    activeEmployees?.map((employee) => ({
+      value: employee?.staffId,
+      label: employee?.lastName ? `${employee?.firstName} ${employee?.lastName}` : employee?.firstName,
+    }));
+
+  const employeeTempArray = [{ label: "All", value: "All" }, ...employeeDropdownOptions]
+
+  const [employeeList, setEmployeeList] = useState(
+    employeeTempArray?.[0]?.value
+  );
+
+  const handleDropdownChangeStore = (selectedValue: any) => {
+    setEmployeeList(selectedValue?.value);
+  };
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      dispatch(
+        employeeStaffActivityRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          tablePageNo: currentPageEmployeeVoidActivity,
+          tableRecordLimit: employeeVoidRecordLimit,
+        })
+      );
+    }
+  }, [
+    selectedLocation,
+    startDate,
+    endDate,
+    currentPageEmployeeVoidActivity,
+    employeeVoidRecordLimit,
+  ]);
+
+  const handleGoBackToChart = () => {
+    setShowAllActivityTable(false);
+    setSelectedValueForChartSlice("");
+    setTimeout(() => {
+      employeeChartRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 0);
+  };
+
+  useEffect(() => {
+    if (selectedLocation?.value) {
+      // Dispatch both actions if conditions are met
+      if (employeeList) {
+        dispatch(
+          employeeSalesOverviewRequest({
+            locationid: selectedLocation?.value,
+            startDate: startDate,
+            endDate: endDate,
+            staffId: employeeList === "All" ? "" : employeeList,
+          })
+        );
+      }
+
+      dispatch(
+        getEmployeeActivityRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          staffId: employeeList === "All" ? "" : employeeList,
+        })
+      );
+    }
+  }, [selectedLocation?.value, startDate, endDate, employeeList]);
+
+  useEffect(() => {
+    if (selectedLocation?.value && selectedValueForChartSlice) {
+      dispatch(
+        getEmployeeChartSliceTableRequest({
+          locationid: selectedLocation?.value,
+          startDate: startDate,
+          endDate: endDate,
+          chartSliceName:
+            selectedValueForChartSlice === "Others"
+              ? "Order cancelled,Order edited"
+              : selectedValueForChartSlice,
+          tablePageNo: currentPageGenericTable,
+          tableRecordLimit: genericTableRecordLimit,
+        })
+      );
+    }
+  }, [
+    selectedLocation?.value,
+    startDate,
+    endDate,
+    selectedValueForChartSlice,
+    currentPageGenericTable,
+    genericTableRecordLimit,
+  ]);
+
+  const employeeSalesOverViewFromAPIReduxArrayForDownloading = [employeeSalesOverViewFromAPIRedux]
+
+
+  // console.log("countryCode",countryCode)
+
+  const employeeSalesOverViewHeaderForDownloadingUS = [{"key": "totalMagilNetSales", "label": "Net Sales"},{"key": "totalMagilTips", "label": "Total Tips"},{"key": "gratuity", "label":"Gratuity"}]
+  const employeeSalesOverviewTableDataToDownload = employeeSalesOverViewFromAPIReduxArrayForDownloading?.map((dataToBeMapped:any)=>({
+    totalMagilNetSales: formatNumberByCountry(dataToBeMapped?.totalMagilNetSales, countryCode, true),
+    totalMagilTips: formatNumberByCountry(dataToBeMapped?.totalMagilTips, countryCode, true),
+    gratuity: formatNumberByCountry(dataToBeMapped?.gratuity, countryCode, true)
+  }))
+  const employeeSalesOverViewHeaderForDownloadingIND = [{"key": "totalMagilNetSales", "label": "Net Sales"},{"key": "totalMagilTips", "label": "Total Tips"},{"key": "gratuity", "label":"Service Charge"}]
+
+
+  return (
+    <div className="report-sales-employee-container">
+      {showAllActivityTable ? (
+        <div
+          className="void-activity-table-container"
+          style={{ marginTop: showAllActivityTable ? "5vh" : "" }}
+        >
+          <div className="void-activity-button-container">
+            <button className="back-to-chart-btn" onClick={handleGoBackToChart}>
+              <ArrowLeft />
+              Back
+            </button>
+          </div>
+          <NewTable
+            apiEndPoint="/sales/employee/activity/actions"
+            queryParams={{
+              locationid: selectedLocation?.value,
+              startDate: startDate,
+              endDate: endDate,
+              chartSliceName:
+                selectedValueForChartSlice === "Others"
+                  ? "Order cancelled,Order edited"
+                  : selectedValueForChartSlice
+            }}
+            kpiTitle={`${selectedValueForChartSlice}`}
+            searchQuery={searchQueryForGenericTable}
+            headerData={getChartSliceTableHeaders(selectedValueForChartSlice)}
+            tableData={
+              getEmployeeChartSliceTableDataFromAPIRedux &&
+              getEmployeeChartSliceTableDataFromAPIRedux?.length > 0 &&
+              getEmployeeChartSliceTableDataFromAPIRedux
+            }
+            currentPage={currentPageGenericTable}
+            totalPages={getEmployeeChartSliceTotalPagesFromAPIRedux}
+            onPageChange={setCurrentPageGenericTable}
+            rowsPerPage={genericTableRecordLimit}
+            setRowsPerPage={setGenericTableRecordLimit}
+            loader={getEmployeeChartSliceTableDataLoaderFromAPIRedux}
+            count={getEmployeeChartSliceTableDataFromAPIRedux?.length}
+            searchPlaceHolder="Search By Steward, Voided reasons"
+            onSearch={handleSearch}
+            totalElements={getEmployeeChartSliceTableDataFromAPIReduxTotalElements || 0}
+          />
+        </div>
+      ) : (
+        <>
+          <StoreFilter
+            startDate={startDate}
+            endDate={endDate}
+            storeOptions={locations}
+            selectedDate={selectedDateFilterType}
+            selectedStore={selectedLocation}
+            setSelectedDate={handleDateChange}
+            setSelectedStore={(store) => dispatch(changeLocation(store))}
+          />
+          <div className="employee-report-sales-overview-box-container-parent">
+            <div className="employee-sales-overview-head-with-download">
+              <h2>Sales Overview</h2>
+              {(!employeeSalesOverViewFromAPIReduxLoader && employeeSalesOverViewFromAPIReduxArrayForDownloading) && <DownloadReport kpiTitle="Employee Sales Overview" tableData={employeeSalesOverviewTableDataToDownload} headerData={countryCode === "US" ? employeeSalesOverViewHeaderForDownloadingUS : employeeSalesOverViewHeaderForDownloadingIND} />}
+            </div>
+            <div className="select-employee-container">
+              <p>Select employee</p>
+              <div className="select-employee-dropdown">
+                <CustomDropdown
+                  options={employeeTempArray}
+                  value={employeeTempArray?.[0]?.label}
+                  className="category-dropdown"
+                  onSelect={(selected: any) =>
+                    handleDropdownChangeStore(
+                      selected as { label: React.ReactNode; value: string }
+                    )
+                  }
+                  loader={employeeLoader}
+                />
+              </div>
+            </div>
+            <ErrorHandler data={employeeSalesOverViewFromAPIRedux} isError={employeeSalesOverViewFromAPIReduxError} isLoading={employeeSalesOverViewFromAPIReduxLoader}>
+              <div className="employee-report-sales-overview-box-container">
+                  {currencySymbol === "$" ?
+                    cardDataForEmployees.map((card) => (
+                      <CardWithMiniGraph
+                        key={card.title}
+                        cardTitle={card.title}
+                        cardValue={formatNumberByCountry(
+                          employeeSalesOverViewFromAPIRedux?.[card.value],
+                          countryCode,
+                          true
+                        )}
+                        isMonetary={true}
+                        loader={employeeSalesOverViewFromAPIReduxLoader}
+                        incrementDecrementValue={
+                          employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                        }
+                        graphType="arrow"
+                        incrementOrDecrement={transformSalesData(
+                          employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                        )}
+                        showMiniGraph={true}
+                      />
+                    ))
+                    :
+                    cardDataForEmployeesWithoutGratuity.map((card) => (
+                      <CardWithMiniGraph
+                        key={card.title}
+                        cardTitle={card.title}
+                        cardValue={formatNumberByCountry(
+                          employeeSalesOverViewFromAPIRedux?.[card.value],
+                          countryCode,
+                          true
+                        )}
+                        isMonetary={true}
+                        loader={employeeSalesOverViewFromAPIReduxLoader}
+                        incrementDecrementValue={
+                          employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                        }
+                        graphType="arrow"
+                        incrementOrDecrement={transformSalesData(
+                          employeeSalesOverViewFromAPIRedux?.[card.percentage]
+                        )}
+                        showMiniGraph={true}
+                      />
+                    ))
+                  }
+              </div>
+            </ErrorHandler>
+          </div>
+          {/* <div ref={employeeChartRef}>
+            <ErrorHandler data={getEmployeeActivityDataFromAPIRedux} isError={getEmployeeActivityDataFromAPIReduxFailure} >
+              <CustomBarChart
+                // data={chartDataFromAPIRedux}
+                data={chartDataFromAPIReduxOthers}
+                // tooltipData={tooltipDataFromAPI}
+                tooltipData={tooltipDataFromAPIOthers}
+                barColor={["#67823D"]}
+                barStyle={customBarStyle}
+                showGrid={true}
+                gridColor="#ccc"
+                gridStrokeWidth={0.5}
+                kpiTitle="All Activity"
+                showRelatedTable={showAllActivityTable}
+                setShowRelatedTable={setShowAllActivityTable}
+                setSelectedValueForChartSlice={setSelectedValueForChartSlice}
+              />
+            </ErrorHandler>
+          </div> */}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Employees;

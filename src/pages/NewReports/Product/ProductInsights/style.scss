@@ -1,0 +1,58 @@
+.report-product-availability{
+    padding-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    gap: 6vh;
+    .items-cancelled-reasons-container{
+        display: flex;
+        flex-direction: column;
+        .items-cancelled-reason-head-download-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .items-cancelled-heading {
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 24px;
+                letter-spacing: -0.35px;
+            }
+        }
+    }
+}
+
+.report-product-charts-container{
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    .report-product-heading-download-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title-switchable-box-container{
+            display: flex;
+            // background-color: pink;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2vw;
+            .report-product-chart-heading{
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 24px;
+                letter-spacing: -0.35px;
+                color: #393939;
+            }
+        }
+        .chart-filter-download-report-container{
+            display: flex;
+            align-items: center;
+            width: 14vw;
+            gap: 2vw;
+            .chart-filter-container{
+                width: 16vw;
+            }
+            .chart-filter-download-report-{
+                display: flex;
+            }
+        }
+    }
+}

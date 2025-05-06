@@ -1,0 +1,26 @@
+import React from "react";
+
+import { ReactComponent as CloseIcon } from "../../../assets/svg/close.svg";
+
+const RoundedPill = ({ data, closeIconOnClick, handeClear ,showSelected=true}) => {
+  return (
+    <>
+      <div className="selected-categories-container">
+        {showSelected?<span className="selected-categories-text">Selected:</span>:""}
+        {data.map((item, index) => (
+          <div className="category-rounded-pill-container" key={index}>
+            <div className="category-rounded-pill">
+              <span className="poppins-fw400-fs16 category-pill-text">
+                {item.label}
+              </span>
+             {item.value!==""?<CloseIcon className="category-pill-close" onClick={() => { closeIconOnClick(item.value) }} />:<span  className="category-pill-close" ></span>}
+            </div>
+          </div>
+        ))}
+        {/* {!data?.[0]?.value?null:<span className="selected-categories-text" style={{ cursor: "pointer", border: "1px solid grey", padding: "0.5rem", borderRadius: "8px" }} onClick={handeClear}>Clear</span>} */}
+      </div>
+    </>
+  );
+};
+
+export default RoundedPill;

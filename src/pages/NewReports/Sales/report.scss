@@ -1,0 +1,52 @@
+.reports-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 70%;
+    width: 100%;
+    max-width: 100%;
+    padding: 60px 30px 60px 35px;
+    @media(max-width: 600px){
+        padding: 60px 13px 60px 13px;
+    }
+    @media (max-width:768px) {
+        padding: 10px 18px 25px 18px;
+        .category-page-cotainer{
+            padding: 0px;
+        }   
+    }
+.sales-overview-doughnut-chart-container{
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+flex-grow: 1;
+@media(max-width: 600px){
+    flex-direction: column;
+}
+}
+    .sales-overview-sub-heading {
+        font-family: Poppins;
+        color: #262626;
+        margin: 20px 0px;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.2px;
+        .total-sales-heading{
+            margin-top: 35px;
+        }
+      }
+       & .title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+
+    // Responsive Design
+    @media (max-width: 480px) {
+
+        & .title {
+            font-size: 1.2rem;
+        }
+    }
+}

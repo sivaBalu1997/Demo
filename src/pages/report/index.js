@@ -20,6 +20,7 @@ import {
 } from "../../shared/constants";
 import { selectBranch } from "../../redux/auth/authActions";
 import SidePanel from "../SidePanel";
+import { clearReportData } from "redux/newReports/newReportsActions";
 const axios = require("axios");
 
 const reportCategory = [{ id: 32, option: "Sales" }];
@@ -152,6 +153,7 @@ const Report = (props) => {
 
   const logoutUser = () => {
     dispatch(clearMenuData());
+        dispatch(clearReportData())
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
