@@ -184,19 +184,41 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
           },
           // Show "Group of 2: 11" etc.
           label: (tooltipItem) => {
-            const idx = tooltipItem.dataIndex;          
+            const idx = tooltipItem.dataIndex;
+            const chartInstance = tooltipItem.chart;      
+           
+           
             const stackValues = chartData.datasets
-              ?.filter((data: any) => !!data?.data?.[idx]) // Ensure value exists
-              ?.sort((a, b) =>
-                groupOrder.indexOf(a?.label || "") - groupOrder.indexOf(b?.label || "")
-              )
-              ?.map((dataset) => {
-                const channel = dataset.label;
-                const value = dataset.data[idx];
-                return `${channel}: ${value}`;
-              });
+            ?.map((dataset, datasetIndex) => {
+              const meta = chartInstance.getDatasetMeta(datasetIndex); // ✅ now accessible
+              if (!meta.hidden && dataset?.data?.[idx] !== undefined) {
+                return {
+                  label: dataset.label,
+                  value: dataset.data[idx],
+                };
+              }
+              return null;
+            })
+            .filter((item): item is { label: string; value: number } => item !== null)
+            .sort((a, b) => groupOrder.indexOf(a.label) - groupOrder.indexOf(b.label))
+            .map(({ label, value }) => `${label}: ${value}`);
+       
+          return stackValues;       
+            
+            
+
+            // const stackValues = chartData.datasets
+            //   ?.filter((data: any) => !!data?.data?.[idx]) // Ensure value exists
+            //   ?.sort((a, b) =>
+            //     groupOrder.indexOf(a?.label || "") - groupOrder.indexOf(b?.label || "")
+            //   )
+            //   ?.map((dataset) => {
+            //     const channel = dataset.label;
+            //     const value = dataset.data[idx];
+            //     return `${channel}: ${value}`;
+            //   });
           
-            return stackValues;
+            // return stackValues;
           }
         },
       },
