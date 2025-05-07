@@ -104,7 +104,7 @@ const DetailedInsights = () => {
     useDateFilter();
   const [selectedCustomerPhoneNumber, setSelectedCustomerPhoneNumber] =
     useState("");
-  const [searchCustomer, setSearchCustomer] = useState("");
+  const [searchCustomer, setSearchCustomer] = useState<string>("");
 
   const detailedInsightsCustomerDetailsData = useSelector(
     (state: any) =>
@@ -490,8 +490,10 @@ const DetailedInsights = () => {
   //   detailedInsightsCustomersTopFavItemsData
   // ])
 
-  const handleDropDownOnChange: any = (e: any) => {  
+  const handleDropDownOnChange: any = (e: any) => {        
     setSelectedCustomerPhoneNumber(e.value);
+    const sanitizedValue = e?.value?.replace(/[^a-zA-Z0-9\s-'"()]/g, '');
+    setSearchCustomer(sanitizedValue);
   };
 
   const handleDropDownOnsearch: any = (e: any) => {   

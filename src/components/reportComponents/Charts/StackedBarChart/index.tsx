@@ -199,26 +199,13 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
               }
               return null;
             })
-            .filter((item): item is { label: string; value: number } => item !== null)
-            .sort((a, b) => groupOrder.indexOf(a.label) - groupOrder.indexOf(b.label))
-            .map(({ label, value }) => `${label}: ${value}`);
+              .filter((item) => !!item?.value)
+            .sort((a:any, b:any) => groupOrder.indexOf(a.label) - groupOrder.indexOf(b.label))
+            .map(({ label, value }:any) => `${label}: ${value}`);
        
           return stackValues;       
             
-            
-
-            // const stackValues = chartData.datasets
-            //   ?.filter((data: any) => !!data?.data?.[idx]) // Ensure value exists
-            //   ?.sort((a, b) =>
-            //     groupOrder.indexOf(a?.label || "") - groupOrder.indexOf(b?.label || "")
-            //   )
-            //   ?.map((dataset) => {
-            //     const channel = dataset.label;
-            //     const value = dataset.data[idx];
-            //     return `${channel}: ${value}`;
-            //   });
-          
-            // return stackValues;
+        
           }
         },
       },

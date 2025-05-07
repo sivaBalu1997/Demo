@@ -178,6 +178,7 @@ const SummaryInsights = () => {
                 valueKey="customerCount"
                 colorList={["#1F77B4","#17BECF","#3FE1C0", "#E17100", "#049E16", "#F89B29",...predefinedColors]}
                 toolTipBorderColor="#17BECF"
+                showLabelInToolTip={false}
                 //  tenureOrder ={ [
                 //   ...new Set(summaryInsightsCustomerByTenureData?.map((data: any) => data?.timeline))
                 // ] as string[]}
@@ -206,6 +207,7 @@ const SummaryInsights = () => {
                 valueKey="customerCount"
                 colorList={["#AA562A","#F89B29","#1F77B4", "#3FE1C0", "#E17100", "#049E16"]}
                 toolTipBorderColor="#F89B29"
+                showLabelInToolTip={false}
               />
             </ErrorHandler>
           </div>
