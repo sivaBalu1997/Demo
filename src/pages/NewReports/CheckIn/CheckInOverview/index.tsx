@@ -549,7 +549,7 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
                   }
                 />
               </span>
-              <ErrorHandler isError={checkInOverviewDineInGroupError} data={checkInOverviewDineInGroup}>
+              <ErrorHandler isError={checkInOverviewDineInGroupError} data={checkInOverviewDineInGroup?.filter((dataToBefiltered: any)=>dataToBefiltered?.groupSize !== 0 && dataToBefiltered?.avgDineInDuration !== 0)}>
                 <DineInDurationChart
                   dataList={checkInOverviewDineInGroup?.filter((dataToBefiltered: any)=>dataToBefiltered?.groupSize !== 0 && dataToBefiltered?.avgDineInDuration !== 0)}
                   loader={isCheckInOverviewDineInGroupLoading}
