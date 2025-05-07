@@ -1076,7 +1076,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                         />
                       </ErrorHandler>
                     </div> */}
-                    {/* <div className="doughnut-chart-with-button" >
+                    <div className="doughnut-chart-with-button" >
                       <div className="doughnut-head-with-download-container">
                         <h2 className="sales-overview-sub-heading ">Refunded Reasons</h2>
                         {(!voidedOrderSummaryLoader && voidedOrderSummaryDataForDownloading && voidedOrderSummaryDataHeaderForDownloading) && <DownloadReport kpiTitle="Refunded Reasons" tableData={voidedOrderSummaryDataForDownloading} headerData={voidedOrderSummaryDataHeaderForDownloading} />}
@@ -1097,7 +1097,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                           loader={voidedOrderSummaryLoader}
                         />
                       </ErrorHandler>
-                    </div> */}
+                    </div>
                   {/* </div> */}
                   <div className="sales-charts-parent-container">
                     <div className="sales-chart-download-container">
