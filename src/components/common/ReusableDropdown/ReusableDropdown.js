@@ -38,6 +38,7 @@ const ReusableDropdown = ({
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   // const MenuList=({ options, children, maxHeight, getValue })=>{
   //   const [value] = getValue();
   //   const height =35
@@ -54,10 +55,21 @@ const ReusableDropdown = ({
   //   )
   // }
 
-  const handleInputChange = (inputValue, actionMeta) => {
-    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-'"+()]/g, '');
-    onInputChange(sanitizedValue, actionMeta);
-    return sanitizedValue;
+  const handleInputChange = (inputValue, actionMeta) => {   
+    console.log(2, { inputValue, actionMeta });
+    
+    if(actionMeta.action === 'input-change') {
+      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-'"()]/g, '');
+      console.log(13, sanitizedValue, );      
+      onInputChange(sanitizedValue);
+      return sanitizedValue;
+    }
+    return ""
+  };
+  const handleChange = (selectedOption) => {     
+    onChange(selectedOption);
+    onInputChange(selectedOption?.label || '');
+
   };
 
   return (
@@ -65,7 +77,8 @@ const ReusableDropdown = ({
       <Select
         options={options}
         value={value}
-        onChange={onChange}
+        inputValue={searchValue}
+        onChange={handleChange}
         onInputChange={handleInputChange}
         placeholder={placeholder}
         isSearchable={isSearchable}
@@ -73,7 +86,9 @@ const ReusableDropdown = ({
         classNamePrefix={`${menuIsOpen ? "menu-open " : ""} ${dropdownPrefix}`}
         menuIsOpen={menuIsOpen}
         onMenuOpen={() => setMenuIsOpen(true)}
-        onMenuClose={() => setMenuIsOpen(false)}
+        onMenuClose={(e) => {             
+          setMenuIsOpen(false)
+        }}
         // components={{ MenuList }}
         components={{
           ...(showSearchIcon ? {
@@ -94,8 +109,8 @@ const ReusableDropdown = ({
         noOptionsMessage={() => searchValue ? "No Option" : null} 
         isLoading={isLoading}
         loadingMessage={() => loadingMessage}
-        onMenuScrollToTop={onLoadPrev}
-        onMenuScrollToBottom={onLoadMore}
+        // onMenuScrollToTop={onLoadPrev}
+        // onMenuScrollToBottom={onLoadMore}
         {...props}
       />
     </div>

@@ -1088,7 +1088,7 @@ const SalesOverview: React.FC<ReportProps> = ({ }) => {
                           labelKeys={[{ key: "Count", value: "orderCount" }, { key: "Refund", value: "voidedAmount", isAmount: true }]}
                           isAmount={true}
                           dataList={voidedOrderSummary}
-                          otherKeys={["voidedAmount", "orderCount"]} //All keys except xkey
+                          otherKeys={["voidedAmount", "orderCount"]} //All keys except xkey 
                           countryCode={countryCode}
                           handleOther={(other: string) => handleOther("voidedOffer", other)}
                           handleClick={(data: any) =>
