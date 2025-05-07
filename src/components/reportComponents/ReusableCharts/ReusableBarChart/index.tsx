@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -68,15 +68,9 @@ interface BarChartProps {
     isSwitchActive?: boolean;
     setIsSwitchActive?: () => void;
     chartFilterOptions?: { value: string, label: string }[]
+    reRender?:boolean;
 }
 
-// const chartFilterOptions: { value: string, label: string }[] = [
-//     { value: "Overall", label: "Overall" },
-//     { value: "Weekdays", label: "Weekdays" },
-//     { value: "Weekends", label: "Weekends" },
-//     // { value: "Lunch", label: "Lunch" },
-//     // { value: "Dinner", label: "Dinner" },
-// ];
 
 const ReusableBarChart: React.FC<BarChartProps> = ({
     kpiTitle,
@@ -115,11 +109,16 @@ const ReusableBarChart: React.FC<BarChartProps> = ({
     isSwitchActive = false,
     setIsSwitchActive = () => { },
     chartFilterOptions = [],
+    reRender =false
 }) => {
 
     const reusableBarChartRef = useRef<HTMLDivElement>(null)
     const [activeTextForSwitchableBox, setActiveTextForSwitchableBox] = useState<string>(switchableTextOne);
     const [selectedFilter, setSelectedFilter] = useState<{ value: string; label: string; icon?: React.ReactNode } | undefined>(chartFilterOptions?.[0]);
+    useEffect(() => {
+        // TODO: handle selectedFilter from Parent
+        setSelectedFilter(chartFilterOptions?.[0])
+    }, [reRender])
 
     const data = {
         labels: dataList?.length ? Array.from(
