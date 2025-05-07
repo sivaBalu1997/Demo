@@ -343,6 +343,7 @@ const DetailedInsights = () => {
       label: "Order number",
       alignment: "left",
       isSortable: true,
+      prefix: "#",
     },
     {
       key: "orderType",
