@@ -161,6 +161,8 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
         },
       },
       tooltip: {
+        mode: "nearest", // ✅ Show only the hovered stack
+        intersect: true, // Ensures it only triggers when the pointer intersects an element
         backgroundColor: "#fff",
         borderColor: "#FF8C00",
         borderWidth: 1,
@@ -184,26 +186,29 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
           },
           // Show "Group of 2: 11" etc.
           label: (tooltipItem) => {
-            const idx = tooltipItem.dataIndex;
-            const chartInstance = tooltipItem.chart;      
+            const label = tooltipItem.dataset.label || "";
+            const value = tooltipItem.raw || 0;
+            return `${label}: ${value}`;
+          //   const idx = tooltipItem.dataIndex;
+          //   const chartInstance = tooltipItem.chart;      
            
            
-            const stackValues = chartData.datasets
-            ?.map((dataset, datasetIndex) => {
-              const meta = chartInstance.getDatasetMeta(datasetIndex); // ✅ now accessible
-              if (!meta.hidden && dataset?.data?.[idx] !== undefined) {
-                return {
-                  label: dataset.label,
-                  value: dataset.data[idx],
-                };
-              }
-              return null;
-            })
-              .filter((item) => !!item?.value)
-            .sort((a:any, b:any) => groupOrder.indexOf(a.label) - groupOrder.indexOf(b.label))
-            .map(({ label, value }:any) => `${label}: ${value}`);
+          //   const stackValues = chartData.datasets
+          //   ?.map((dataset, datasetIndex) => {
+          //     const meta = chartInstance.getDatasetMeta(datasetIndex); // ✅ now accessible
+          //     if (!meta.hidden && dataset?.data?.[idx] !== undefined) {
+          //       return {
+          //         label: dataset.label,
+          //         value: dataset.data[idx],
+          //       };
+          //     }
+          //     return null;
+          //   })
+          //     .filter((item) => !!item?.value)
+          //   .sort((a:any, b:any) => groupOrder.indexOf(a.label) - groupOrder.indexOf(b.label))
+          //   .map(({ label, value }:any) => `${label}: ${value}`);
        
-          return stackValues;       
+          // return stackValues;       
             
         
           }

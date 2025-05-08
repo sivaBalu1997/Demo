@@ -164,7 +164,6 @@ const CheckInOverview: React.FC<ReportProps> = ({ }) => {
     (state: any) => state?.checkInReports?.checkInOverviewHourlySuccess
   );
 
-
   const checkInOverviewHourlyTableData = useMemo(() => {
     return checkInOverviewHourly?.map((dataToBeMapped: any) => ({
       channelName: dataToBeMapped?.channelName,
