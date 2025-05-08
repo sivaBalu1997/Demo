@@ -18,7 +18,7 @@ const DropdownIndicator = (props) => {
 
 const ReusableDropdown = ({
   options = [],
-  value = null,
+  // value = null,
   onChange = () => { },
   placeholder = '',
   isSearchable = true,
@@ -38,7 +38,8 @@ const ReusableDropdown = ({
   ...props
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [value, setValue] = useState();
+  const [inputValue, setInputValue] = useState("");
   // const MenuList=({ options, children, maxHeight, getValue })=>{
   //   const [value] = getValue();
   //   const height =35
@@ -55,21 +56,24 @@ const ReusableDropdown = ({
   //   )
   // }
 
-  const handleInputChange = (inputValue, actionMeta) => {   
-    console.log(2, { inputValue, actionMeta });
-    
-    if(actionMeta.action === 'input-change') {
-      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-'"()]/g, '');
-      console.log(13, sanitizedValue, );      
+  const handleInputChange = (inputValue, { action }) => {     
+    if (
+      action === "menu-close" ||
+      action === "input-blur" ||
+      action === "set-value"
+    ) {
+      return;
+    } else {
+      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-'"()]/g, '')
       onInputChange(sanitizedValue);
-      return sanitizedValue;
-    }
-    return ""
+      setInputValue(sanitizedValue);
+    }  
   };
   const handleChange = (selectedOption) => {     
     onChange(selectedOption);
-    onInputChange(selectedOption?.label || '');
-
+    const sanitizedValue = selectedOption?.value?.replace(/[^a-zA-Z0-9\s-'"()]/g, '');
+    setValue(selectedOption);
+    setInputValue("");
   };
 
   return (
@@ -77,7 +81,7 @@ const ReusableDropdown = ({
       <Select
         options={options}
         value={value}
-        inputValue={searchValue}
+        inputValue={inputValue}
         onChange={handleChange}
         onInputChange={handleInputChange}
         placeholder={placeholder}
