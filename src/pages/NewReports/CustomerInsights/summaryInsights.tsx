@@ -208,7 +208,7 @@ const SummaryInsights = () => {
           <div>
             <div className="reports-page-sub-header-container">
               <h1 className="reports-page-heading">Customers By Total Spend</h1>
-              <DownloadReport kpiTitle="Customers By Total Spend" tableData={summaryInsightsCustomerByTotalSpendData}/>
+              <DownloadReport kpiTitle="Customers By Total Spend" tableData={formattedDataForSummaryInsightsCustomerByTotalSpendData}/>
             </div>
             <ErrorHandler
               data={formattedDataForSummaryInsightsCustomerByTotalSpendData}
