@@ -64,6 +64,7 @@ const SummaryInsights = () => {
     (state: any) =>
       state?.customerInsights?.summaryInsightsCustomerByAvgCoverSizeSuccess
   );
+
   const summaryInsightsCustomerByAvgCoverSizeDataLoading = useSelector(
     (state: any) =>
       state?.customerInsights?.summaryInsightsCustomerByAvgCoverSizeLoading
@@ -134,6 +135,27 @@ const SummaryInsights = () => {
     if (index === 0 || index === tenureOrder.length - 1) return item;
     return `1-${item}`;
   });
+
+ 
+  function convertCurrencySymbol(
+    data: Record<string, any>[],
+    key: string,
+    countryCode: string
+  ): Record<string, any>[] {
+    const fromSymbol = '$';
+    const toSymbol = countryCode === 'IN' ? '₹' : '$';
+  
+    return data.map((item) => {
+      const newItem = { ...item };
+      if (typeof newItem[key] === 'string') {
+        newItem[key] = newItem[key].replaceAll(fromSymbol, toSymbol);
+      }
+      return newItem;
+    });
+  }
+
+  const dynamicCurrencyCustomersByAvgCoverSizeData = convertCurrencySymbol(summaryInsightsCustomerByAvgCoverSizeData, 'orderTotalRange', countryCode);
+  console.log('WWWW',dynamicCurrencyCustomersByAvgCoverSizeData)
 
 
   return (
@@ -235,10 +257,10 @@ const SummaryInsights = () => {
               <h1 className="reports-page-heading">
                 Customers By Avg Cover Size
               </h1>
-              <DownloadReport kpiTitle="Customers By Avg Cover Size" tableData={summaryInsightsCustomerByAvgCoverSizeData}/>
+              <DownloadReport kpiTitle="Customers By Avg Cover Size" tableData={dynamicCurrencyCustomersByAvgCoverSizeData}/>
             </div>
             <ErrorHandler
-              data={summaryInsightsCustomerByAvgCoverSizeData}
+              data={dynamicCurrencyCustomersByAvgCoverSizeData}
               isError={summaryInsightsCustomerByAvgCoverSizeFailure}
               isLoading={summaryInsightsCustomerByAvgCoverSizeDataLoading}
             >
@@ -248,7 +270,7 @@ const SummaryInsights = () => {
                 xAxisTooltipLabel=""
                 yAxisTooltipLabel="Count"
                 dataList={
-                  summaryInsightsCustomerByAvgCoverSizeData?.map(
+                  dynamicCurrencyCustomersByAvgCoverSizeData?.map(
                     (data: any) => ({
                       xAxisValue: `${data?.orderTotalRange?.replaceAll("$", currencySymbol)}`,
                       yAxisValue: Number(data?.customerCount),
