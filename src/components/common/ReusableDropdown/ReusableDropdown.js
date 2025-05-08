@@ -64,14 +64,14 @@ const ReusableDropdown = ({
     ) {
       return;
     } else {
-      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-'"()]/g, '')
+      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\s-]/g, '')
       onInputChange(sanitizedValue);
       setInputValue(sanitizedValue);
     }  
   };
   const handleChange = (selectedOption) => {     
     onChange(selectedOption);
-    const sanitizedValue = selectedOption?.value?.replace(/[^a-zA-Z0-9\s-'"()]/g, '');
+    const sanitizedValue = selectedOption?.value?.replace(/[^a-zA-Z0-9\s-]/g, '');
     setValue(selectedOption);
     setInputValue("");
   };

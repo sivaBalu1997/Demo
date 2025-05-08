@@ -493,7 +493,7 @@ const DetailedInsights = () => {
 
   const handleDropDownOnChange: any = (e: any) => {        
     setSelectedCustomerPhoneNumber(e.value);
-    const sanitizedValue = e?.value?.replace(/[^a-zA-Z0-9\s-'"()]/g, '');
+    const sanitizedValue = e?.value?.replace(/[^a-zA-Z0-9\s-]/g, '');
     setSearchCustomer(sanitizedValue);
   };
 
