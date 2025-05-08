@@ -412,7 +412,10 @@ const CategoryReport = (props: any) => {
           </div>
 
           {/* TODO: uncomment after BE fixes */}
-          {/* <div>
+
+
+          {/* TODO: uncommented for BE fixes */}
+          <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
                 {activeBtn == "categories" ? "Categories Overview" : ""}
@@ -444,7 +447,7 @@ const CategoryReport = (props: any) => {
               loader={categorySalesSummaryDataLoading}
             />
             </ErrorHandler>
-          </div> */}
+          </div>
           <div>
             <div className="categories-graph-header-container">
               <h1 className="categories-overview-heading">
