@@ -67,7 +67,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
     },
     {
       title: "Total Tips",
-      value: "totalMagilTips",
+      value: "totalTip",
       percentage: "totalTipsPercentage", 
       isMonetary: true,
       showMiniGraph: true
@@ -126,7 +126,7 @@ export const tabsForCheckIn = ["Live Check-in Report", "Check-in Overview", ]; /
     },
     {
       title: "Total Tips",
-      value: "totalMagilTips",
+      value: "totalTip",
       percentage: "totalTipsPercentage", 
       isMonetary: true,
       showMiniGraph: true
