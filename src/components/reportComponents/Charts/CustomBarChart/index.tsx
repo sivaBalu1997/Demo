@@ -141,7 +141,14 @@ const CustomBarChart: React.FC<RevenueChartProps> = ({
       },
     },
     scales: {
-      x: { grid: { display: false } },
+      x: {
+        grid: { display: false },
+        ticks: {
+          font: {
+            family: "sans-serif", // 👈 Set font family here
+          },
+        },
+      },
       y: { beginAtZero: true },
     },
   };

@@ -88,6 +88,25 @@ const SummaryInsights = () => {
   const currencySymbol = useMemo(() => (getCurrencySymbol(countryCode)), [countryCode]);
   const dispatch = useDispatch();
 
+  // const summaryInsightsCustomerByTotalSpendDataWithRespectiveCurrency = summaryInsightsCustomerByTotalSpendData?.map((dataToBemapped:any)=>({
+  //   "customerCount": dataToBemapped?.customerCount,
+
+  // }))
+
+  const useFormattedSpendData = (rawData: typeof summaryInsightsCustomerByTotalSpendData) => {
+    const formattedData = useMemo(() => {
+      return rawData?.map((item:any) => {
+        const formattedSpend = item.spendCategory.replace(/\$/g, currencySymbol);
+        return { ...item, spendCategory: formattedSpend };
+      });
+    }, [rawData, currencySymbol]);
+  
+    return formattedData;
+  };
+
+  const formattedDataForSummaryInsightsCustomerByTotalSpendData = useFormattedSpendData(summaryInsightsCustomerByTotalSpendData);
+  // console.log(1111,{formattedData, summaryInsightsCustomerByTotalSpendData, countryCode, currencySymbol})
+
   useEffect(() => {
     if (selectedLocation?.value) {
       let params = {
@@ -192,13 +211,13 @@ const SummaryInsights = () => {
               <DownloadReport kpiTitle="Customers By Total Spend" tableData={summaryInsightsCustomerByTotalSpendData}/>
             </div>
             <ErrorHandler
-              data={summaryInsightsCustomerByTotalSpendData}
+              data={formattedDataForSummaryInsightsCustomerByTotalSpendData}
               isError={summaryInsightsCustomerByTotalSpendFailure}
               isLoading={summaryInsightsCustomerByTotalSpendDataLoading}
             >
               <StackedBarChart
                 loader={summaryInsightsCustomerByTotalSpendDataLoading}
-                dataList={summaryInsightsCustomerByTotalSpendData}
+                dataList={formattedDataForSummaryInsightsCustomerByTotalSpendData}
                 // xKey="spendRange"
                 // stackNameKey="groupSize"
                 // valueKey="count"

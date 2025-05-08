@@ -272,7 +272,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
         stacked: true,
         ticks: {
           color: "#555",
-          font: { size: 14 },
+          font: { size: 14, family: "sans-serif" },
           callback: function (value) {
             const label = this.getLabelForValue(value as number);
             return label.length > 15 ? label.substring(0, 15) + '…' : label;
