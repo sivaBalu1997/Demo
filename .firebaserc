@@ -1,20 +1,20 @@
 {
   "projects": {
-    "default": "customerapp-2d3e1",
-    "staging": "customerapp-2d3e1",
-    "beta": "customerapp-2d3e1"
+    "default": "new-try-34289",
+    "staging": "new-try-34289",
+    "beta": "new-try-34289"
   },
   "targets": {
-    "customerapp-2d3e1": {
+    "new-try-34289": {
       "hosting": {
         "staging": [
-          "merchantportal-staging"
+          "new-try-34289"
         ],
         "dev": [
-          "merchantportal-dev"
+          "new-try-34289"
         ],
         "beta": [
-          "merchantportal-beta"
+          "new-try-34289"
         ]
       }
     }
