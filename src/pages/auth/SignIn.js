@@ -68,7 +68,7 @@ const SignIn = ({ setLogin }) => {
         {/* <span className="magilhub-logo2">Maghil</span> */}
       </div>
       <div className="sign_form">
-        <h4>Sign In To Access</h4>
+        <h4>Log In To Access</h4>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div
             className="login--password"
